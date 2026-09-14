@@ -60,7 +60,8 @@ export function synthesizeQuestionItem(
     'Statement Based',
     'MCQ'
   ];
-  let qType: string = typeCycle[(qIndex + variant) % typeCycle.length];
+  let qType: 'MCQ' | 'Assertion Reason' | 'Statement Based' | 'Match The Following' =
+    typeCycle[(qIndex + variant) % typeCycle.length];
 
   // Determine Difficulty (30% Easy, 50% Medium, 20% Hard)
   const diffCycle: Array<'Easy' | 'Medium' | 'Hard'> = [
@@ -884,7 +885,7 @@ export function synthesizeQuestionItem(
       ];
       correctAnswer = 0;
       explanation = `Statement I accurately reproduces validated principles of ${topic}. Statement II contains an invalid distractor.`;
-      qType = 'statement';
+      qType = 'Statement Based';
       difficulty = 'Medium';
     } else if (cycle === 2) {
       // Negative / Inverse Premise Paradigm
@@ -910,7 +911,7 @@ export function synthesizeQuestionItem(
       ];
       correctAnswer = 0;
       explanation = `Both Assertion and Reason are correct statements and logically substantiate the importance of ${topic}.`;
-      qType = 'assertion_reason';
+      qType = 'Assertion Reason';
       difficulty = 'Hard';
     } else {
       // Advanced Application Context
