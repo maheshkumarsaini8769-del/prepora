@@ -9,7 +9,6 @@ import {
 import Question from '../models/Question.js';
 import AuditLog from '../models/AuditLog.js';
 import { jaccardSimilarity, levenshteinDistance } from '../utils/similarity.js';
-import { PDFParse } from 'pdf-parse';
 import mongoose from 'mongoose';
 import { runBatchedGeneration } from '../services/aiFactoryGenerator.js';
 import { calculateQuestionAllocation } from '../services/topicWeightService.js';
@@ -99,6 +98,10 @@ router.post('/upload-pdf', async (req: Request, res: Response) => {
     // Real PDF text extraction using pdf-parse
     if (fileBase64) {
       try {
+        if (typeof (globalThis as any).DOMMatrix === 'undefined') {
+          (globalThis as any).DOMMatrix = class DOMMatrix {};
+        }
+        const { PDFParse } = await import('pdf-parse');
         const cleanBase64 = fileBase64.replace(/^data:.*?;base64,/, '');
         const pdfBuffer = Buffer.from(cleanBase64, 'base64');
         const parser = new PDFParse({ data: pdfBuffer });

@@ -1,3 +1,10 @@
+if (typeof (globalThis as any).DOMMatrix === 'undefined') {
+  (globalThis as any).DOMMatrix = class DOMMatrix {};
+}
+if (typeof (globalThis as any).Path2D === 'undefined') {
+  (globalThis as any).Path2D = class Path2D {};
+}
+
 let appInstance: any = null;
 
 export default async function handler(req: any, res: any) {
