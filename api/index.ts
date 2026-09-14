@@ -1,3 +1,19 @@
-import app from '../server/index.js';
+let appInstance: any = null;
 
-export default app;
+export default async function handler(req: any, res: any) {
+  try {
+    if (!appInstance) {
+      const serverModule = await import('../server/index.js');
+      appInstance = serverModule.default || serverModule;
+    }
+    return appInstance(req, res);
+  } catch (err: any) {
+    console.error('[API Exception]:', err);
+    return res.status(500).json({
+      error: 'Backend Invocation Error',
+      message: err?.message || String(err),
+      stack: err?.stack
+    });
+  }
+}
+
