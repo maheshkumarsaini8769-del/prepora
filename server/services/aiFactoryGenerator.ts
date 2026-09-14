@@ -60,17 +60,17 @@ export function synthesizeQuestionItem(
     'Statement Based',
     'MCQ'
   ];
-  const qType = typeCycle[(qIndex + variant) % typeCycle.length];
+  let qType: string = typeCycle[(qIndex + variant) % typeCycle.length];
 
   // Determine Difficulty (30% Easy, 50% Medium, 20% Hard)
-  const diffCycle: Array<'Easy' | 'Medium' | 'Medium' | 'Hard' | 'Medium'> = [
+  const diffCycle: Array<'Easy' | 'Medium' | 'Hard'> = [
     'Easy',
     'Medium',
     'Medium',
     'Hard',
     'Medium'
   ];
-  const difficulty = diffCycle[(qIndex + variant) % diffCycle.length];
+  let difficulty: 'Easy' | 'Medium' | 'Hard' = diffCycle[(qIndex + variant) % diffCycle.length];
 
   let questionText = '';
   let options = ['', '', '', ''];
