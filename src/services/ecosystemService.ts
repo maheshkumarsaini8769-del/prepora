@@ -18,12 +18,15 @@ import {
   StudentGoal,
   QuestionReport,
   QuestionReportReason,
-  ResourceItem
+  ResourceItem,
+  TopStudyRecommendation
 } from '../types';
 import { getStorageItem, setStorageItem } from '../utils/storage';
 import { testService } from './testService';
 import { questionService } from './questionService';
 import { userService } from './userService';
+import { progressService } from './progressService';
+import { syncEngine } from './syncEngine';
 
 const DAILY_PLAN_KEY = 'prepora_daily_plan';
 const DOUBTS_KEY = 'prepora_doubts';
@@ -264,6 +267,128 @@ class MockEcosystemService {
       }
     };
   }
+
+  // -------------------------------------------------------------
+  // 4B. "WHAT SHOULD I STUDY NOW?" — PREDICTIVE HIGH-IMPACT ENGINE
+  // Priority:
+  // 1. In-progress / uncompleted session
+  // 2. Critical Weakness (Red status) with high exam weightage
+  // 3. Spaced repetition due today
+  // 4. Daily maintenance
+  // -------------------------------------------------------------
+  public getTopStudyRecommendation(): TopStudyRecommendation {
+    const activePractice = syncEngine.getActivePractice();
+    const weaknesses = progressService.getTopicWeaknesses();
+    const mistakes = userService.getMistakes();
+    const revisionItems = progressService.getRevisionItems();
+    const profile = userService.getProfile();
+
+    // Priority 1: Incomplete Practice Session in progress
+    if (activePractice && activePractice.completedPercentage < 100) {
+      return {
+        type: 'session_continuation',
+        priorityBadge: 'RESUME IN-PROGRESS DRILL',
+        subject: activePractice.subject,
+        chapter: activePractice.chapter,
+        topic: activePractice.chapter,
+        accuracy: 65,
+        mistakeCount: 2,
+        examWeightage: 'Active session saved with full offline recovery',
+        reasons: [
+          `Session is ${activePractice.completedPercentage}% complete (Question ${activePractice.currentQuestionIndex + 1} of ${activePractice.totalQuestions})`,
+          'All your chosen answers are auto-saved and ready to resume immediately',
+          'Finishing will update your mastery index and mistake logs'
+        ],
+        estimatedMinutes: Math.max(5, Math.round((activePractice.totalQuestions - activePractice.currentQuestionIndex) * 1.5)),
+        questionCount: activePractice.totalQuestions - activePractice.currentQuestionIndex,
+        actionUrl: `/practice?chapter=${encodeURIComponent(activePractice.chapter)}`,
+        actionLabel: 'RESUME SESSION NOW',
+        secondaryActionText: 'Start New Session',
+        secondaryActionUrl: '/practice'
+      };
+    }
+
+    // Priority 2: Critical Weakness with high exam weightage (Red Status: <60% accuracy)
+    const redWeakness = weaknesses.find(w => w.status === 'red') || weaknesses[0];
+    if (redWeakness) {
+      const relatedMistakes = mistakes.filter(m => m.topic === redWeakness.topic || m.chapter === redWeakness.chapter).length;
+      return {
+        type: 'critical_weakness',
+        priorityBadge: 'PRIORITY #1 • FIX THIS CRITICAL BOTTLENECK',
+        subject: redWeakness.subject,
+        chapter: redWeakness.chapter,
+        topic: redWeakness.topic,
+        accuracy: redWeakness.accuracy,
+        mistakeCount: Math.max(relatedMistakes, redWeakness.wrongCount || 3),
+        examWeightage: profile.targetExam === 'NEET' 
+          ? 'High weightage: 2-3 questions expected in NEET (8-12 marks)' 
+          : 'High weightage: 2-3 questions guaranteed in JEE Main (8-12 marks)',
+        reasons: [
+          `Current accuracy is ${redWeakness.accuracy}% (well below your 75% target threshold)`,
+          `${Math.max(relatedMistakes, redWeakness.wrongCount || 3)} repeated mistakes logged across recent test & practice sessions`,
+          profile.targetExam === 'NEET' 
+            ? 'Guaranteed high-yield chapter in NEET UG with frequent conceptual traps'
+            : 'High scoring yield in JEE Main (average 8 to 12 marks on this chapter alone)'
+        ],
+        estimatedMinutes: 15,
+        questionCount: 10,
+        actionUrl: `/practice?subject=${redWeakness.subject}&chapter=${encodeURIComponent(redWeakness.chapter)}&topic=${encodeURIComponent(redWeakness.topic)}&count=10`,
+        actionLabel: 'START 15-MIN TARGETED PRACTICE',
+        secondaryActionText: 'Review Formulas First',
+        secondaryActionUrl: '/revision'
+      };
+    }
+
+    // Priority 3: Due for Spaced Repetition today
+    const dueRevision = revisionItems.find(r => r.status === 'due-today');
+    if (dueRevision) {
+      return {
+        type: 'spaced_repetition',
+        priorityBadge: 'SPACED REPETITION • REVIEW BEFORE YOU FORGET',
+        subject: dueRevision.subject,
+        chapter: dueRevision.chapter,
+        topic: dueRevision.topic,
+        accuracy: 68,
+        mistakeCount: 1,
+        examWeightage: 'Leitner Stage Review: optimal memory consolidation window',
+        reasons: [
+          `Scheduled for Interval Day ${dueRevision.intervalStage} retention review today`,
+          'Active recall today prevents the Ebbinghaus forgetting curve drop',
+          'Quick 8-question drill locks this concept into long-term memory'
+        ],
+        estimatedMinutes: 12,
+        questionCount: 8,
+        actionUrl: `/practice?subject=${dueRevision.subject}&chapter=${encodeURIComponent(dueRevision.chapter)}&topic=${encodeURIComponent(dueRevision.topic)}&count=8`,
+        actionLabel: 'REVIEW REPETITION QUEUE',
+        secondaryActionText: 'Open Flashcards',
+        secondaryActionUrl: '/revision'
+      };
+    }
+
+    // Default Priority: Daily Maintenance Practice
+    return {
+      type: 'daily_maintenance',
+      priorityBadge: 'DAILY TARGET • HIGH IMPACT DRILL',
+      subject: 'Physics',
+      chapter: 'Kinematics',
+      topic: '2D Projectile Motion',
+      accuracy: 62,
+      mistakeCount: 3,
+      examWeightage: 'Consistently 2 questions in every JEE & NEET exam',
+      reasons: [
+        'Accuracy at 62% — optimal candidate for an 80%+ mastery leap',
+        'Recent errors around launch angle complementary symmetry',
+        'High yield topic to maintain your daily problem-solving streak'
+      ],
+      estimatedMinutes: 15,
+      questionCount: 10,
+      actionUrl: `/practice?subject=Physics&chapter=Kinematics&topic=2D%20Projectile%20Motion&count=10`,
+      actionLabel: 'START 15-MIN DRILL — 10 QUESTIONS',
+      secondaryActionText: 'Chapter Mastery',
+      secondaryActionUrl: '/chapters/Kinematics'
+    };
+  }
+
 
   // -------------------------------------------------------------
   // 5. EXAM READINESS SCORE

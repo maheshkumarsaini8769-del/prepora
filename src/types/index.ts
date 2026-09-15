@@ -484,3 +484,29 @@ export interface SpeedPracticeConfig {
   questionCount: number;
 }
 
+export type RecommendationPriorityType = 
+  | 'weakness_drill'
+  | 'critical_weakness'
+  | 'spaced_repetition'
+  | 'session_continuation'
+  | 'high_impact_chapter'
+  | 'daily_maintenance';
+
+export interface TopStudyRecommendation {
+  type: RecommendationPriorityType;
+  priorityBadge: string;
+  subject: SubjectName;
+  chapter: string;
+  topic: string;
+  accuracy: number;
+  mistakeCount: number;
+  examWeightage: string;
+  reasons: string[];
+  estimatedMinutes: number;
+  questionCount: number;
+  actionUrl: string;
+  actionLabel: string;
+  secondaryActionText: string;
+  secondaryActionUrl: string;
+}
+

@@ -28,7 +28,9 @@ import {
   ArrowUpRight,
   Activity,
   Layers,
-  Sparkle
+  Sparkle,
+  AlertTriangle,
+  TrendingDown
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
@@ -52,6 +54,7 @@ export const Home: React.FC = () => {
   const [activePractice, setActivePractice] = useState(() => syncEngine.getActivePractice());
 
   const recommendations = ecosystemService.getStudyRecommendations();
+  const topRecommendation = ecosystemService.getTopStudyRecommendation();
   const readiness = ecosystemService.getExamReadiness(user.targetExam);
   const weaknesses = progressService.getTopicWeaknesses().slice(0, 3);
   const leaderboard = ecosystemService.getLeaderboard();
@@ -232,6 +235,118 @@ export const Home: React.FC = () => {
                   style={{ width: `${Math.min(100, Math.round(((user.todayQuestionsCount || 24) / (user.dailyGoalQuestions || 50)) * 100))}%` }}
                 />
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* 2.1 WHAT SHOULD I STUDY NOW? (task2.md Section 1: The Smartest Screen on PREPORA) */}
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-950 to-slate-950 border border-purple-500/40 p-6 sm:p-7 shadow-2xl text-white">
+        {/* Glow ambient background elements */}
+        <div className="absolute top-0 right-0 w-72 h-72 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-64 h-64 bg-brand-600/15 rounded-full blur-3xl pointer-events-none" />
+
+        <div className="relative z-10 space-y-5">
+          {/* Header Tag Strip */}
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
+            <div className="flex items-center gap-2">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-400" />
+              </span>
+              <span className="text-[11px] font-black uppercase tracking-widest text-purple-300">
+                WHAT SHOULD I STUDY NOW?
+              </span>
+              <span className="hidden sm:inline text-slate-500">•</span>
+              <span className="text-[10px] font-extrabold uppercase px-2.5 py-0.5 rounded-full bg-purple-500/20 text-purple-200 border border-purple-400/30">
+                {topRecommendation.priorityBadge}
+              </span>
+            </div>
+
+            <div className="flex items-center gap-3 text-xs text-purple-200/90 font-medium">
+              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                <Clock className="w-3.5 h-3.5 text-amber-300" />
+                <span>{topRecommendation.estimatedMinutes} Mins</span>
+              </span>
+              <span className="flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1 rounded-full">
+                <Target className="w-3.5 h-3.5 text-emerald-400" />
+                <span>{topRecommendation.questionCount} Questions</span>
+              </span>
+            </div>
+          </div>
+
+          {/* Main Focus Area */}
+          <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-xs">
+                <span className="px-2.5 py-0.5 rounded-lg bg-brand-600 text-white font-bold">
+                  {topRecommendation.subject}
+                </span>
+                <span className="text-purple-300 font-semibold">{topRecommendation.chapter}</span>
+              </div>
+              <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                {topRecommendation.topic}
+              </h2>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 shrink-0">
+              <Button
+                variant="primary"
+                size="md"
+                onClick={() => navigate(topRecommendation.actionUrl)}
+                className="font-black text-xs px-5 py-3 bg-white text-purple-950 hover:bg-purple-50 shadow-xl shadow-purple-900/40 transform hover:-translate-y-0.5 transition-all"
+              >
+                <span>{topRecommendation.actionLabel}</span>
+                <ArrowRight className="w-4 h-4 ml-1.5" />
+              </Button>
+
+              <button
+                onClick={() => navigate(topRecommendation.secondaryActionUrl)}
+                className="px-4 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs border border-white/15 transition-all"
+              >
+                {topRecommendation.secondaryActionText}
+              </button>
+
+              <button
+                onClick={() => setShowStudyModal(true)}
+                className="px-3 py-2.5 rounded-xl text-purple-300 hover:text-white font-semibold text-xs transition-colors"
+              >
+                Pick Different Topic
+              </button>
+            </div>
+          </div>
+
+          {/* 3 Diagnostic Pillars */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1">
+              <div className="flex items-center gap-2 text-xs font-bold text-rose-300">
+                <TrendingDown className="w-3.5 h-3.5" />
+                <span>Accuracy Diagnostic</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                {topRecommendation.reasons[0]}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1">
+              <div className="flex items-center gap-2 text-xs font-bold text-amber-300">
+                <AlertTriangle className="w-3.5 h-3.5" />
+                <span>Repeated Mistake Pattern</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                {topRecommendation.reasons[1]}
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-sm space-y-1">
+              <div className="flex items-center gap-2 text-xs font-bold text-emerald-300">
+                <ShieldCheck className="w-3.5 h-3.5" />
+                <span>Exam Yield & Weightage</span>
+              </div>
+              <p className="text-xs text-slate-300 leading-relaxed font-medium">
+                {topRecommendation.reasons[2]}
+              </p>
             </div>
           </div>
         </div>
