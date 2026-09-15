@@ -50,47 +50,26 @@ export const MainLayout: React.FC = () => {
   const unreadNotifs = userService.getNotifications().filter(n => !n.isRead).length;
   const navigate = useNavigate();
 
-  // Simplified, intuitive 5-group student navigation
+  // Clean, intuitive 2-section student navigation: 6 Primary Hubs + Quick Utilities
   const navGroups = [
     {
-      group: 'PRIMARY',
+      group: 'STUDY HUBS',
       items: [
-        { name: 'Dashboard', path: '/', icon: Home, badge: 'Today' },
+        { name: 'Dashboard', path: '/', icon: Home, subtitle: 'Goals & study overview' },
+        { name: 'Chapter Practice', path: '/practice', icon: BookOpen, subtitle: 'Topic-wise question bank' },
+        { name: 'Mock Tests & PYQs', path: '/tests', icon: GraduationCap, subtitle: 'CBT mocks & past papers' },
+        { name: 'AI Doubt Solver', path: '/doubts', icon: HelpCircle, badge: '24/7 AI', subtitle: 'Instant photo & text solutions' },
+        { name: 'Mistake Notebook', path: '/mistakes', icon: AlertCircle, subtitle: 'Review & fix errors' },
+        { name: 'Syllabus Tracker', path: '/syllabus', icon: Layers, subtitle: 'Chapter coverage & progress' },
       ]
     },
     {
-      group: 'LEARN & PRACTICE',
+      group: 'QUICK UTILITIES',
       items: [
-        { name: 'Chapter Practice', path: '/practice', icon: BookOpen },
-        { name: 'Speed Practice Arena', path: '/speed-practice', icon: Zap, badge: 'Drills' },
-        { name: 'Formula Flashcards', path: '/revision', icon: Repeat, badge: 'Deck' },
-        { name: 'Revision Notes', path: '/notes', icon: FileEdit },
-        { name: 'Study Hub & Library', path: '/study-hub', icon: Bookmark },
-      ]
-    },
-    {
-      group: 'TESTS & EXAMS',
-      items: [
-        { name: 'Mock Tests Center', path: '/tests', icon: GraduationCap },
-        { name: 'Build Custom Test', path: '/build-test', icon: Wrench, badge: 'Custom' },
-        { name: 'Past Papers & PYQs', path: '/papers', icon: FileText },
-        { name: 'Syllabus Tracker', path: '/syllabus', icon: Layers },
-      ]
-    },
-    {
-      group: 'MISTAKES & ANALYTICS',
-      items: [
-        { name: 'Performance Analytics', path: '/performance', icon: BarChart2, badge: 'AIR' },
-        { name: 'Mistake Book', path: '/mistakes', icon: AlertCircle },
-        { name: 'Fix My Weakness', path: '/weakness', icon: Target },
-      ]
-    },
-    {
-      group: 'SUPPORT & SCHEDULE',
-      items: [
-        { name: 'AI Doubt Solver', path: '/doubts', icon: HelpCircle, badge: 'AI' },
-        { name: 'Study Planner', path: '/planner', icon: Calendar },
-        { name: 'Goals & Milestones', path: '/goals', icon: Award },
+        { name: 'Speed Practice', path: '/speed-practice', icon: Zap, subtitle: 'Timed rapid question drills' },
+        { name: 'Revision Notes', path: '/notes', icon: FileEdit, subtitle: 'Formulas & high-yield summaries' },
+        { name: 'Fix My Weakness', path: '/weakness', icon: Target, subtitle: 'Target low-accuracy areas' },
+        { name: 'Study Planner', path: '/planner', icon: Calendar, subtitle: 'Daily schedule & timetables' },
       ]
     }
   ];
@@ -121,7 +100,7 @@ export const MainLayout: React.FC = () => {
         </div>
 
         {/* Streak & Target Pill */}
-        <div className="mx-3.5 my-3 p-3 bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-purple-500/10 border border-amber-200/70 rounded-2xl flex items-center justify-between flex-shrink-0 transition-all hover:border-amber-300">
+        <div className="mx-3.5 my-3 p-3 bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-brand-500/10 border border-amber-200/70 rounded-2xl flex items-center justify-between flex-shrink-0 transition-all hover:border-amber-300">
           <div className="flex items-center gap-2">
             <div className="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center text-amber-600">
               <Flame className="w-4 h-4 text-amber-500 fill-amber-500 animate-pulse-subtle" />
@@ -150,23 +129,32 @@ export const MainLayout: React.FC = () => {
                     key={item.path}
                     to={item.path}
                     className={({ isActive }) =>
-                      `flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
+                      `flex items-start justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
                         isActive
-                          ? 'bg-purple-50 text-purple-700 font-bold shadow-xs'
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                          ? 'bg-brand-50 text-brand-700 font-bold shadow-xs border border-brand-200/70'
+                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent'
                       }`
                     }
                   >
                     {({ isActive }) => (
                       <>
-                        <div className="flex items-center gap-2.5">
-                          <Icon className={`w-4 h-4 ${isActive ? 'text-purple-600' : 'text-slate-400'}`} />
-                          <span>{item.name}</span>
+                        <div className="flex items-start gap-2.5 min-w-0">
+                          <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${isActive ? 'text-brand-600' : 'text-slate-400'}`} />
+                          <div className="truncate">
+                            <div className={`truncate leading-snug ${isActive ? 'text-brand-900 font-bold' : 'text-slate-800'}`}>
+                              {item.name}
+                            </div>
+                            {item.subtitle && (
+                              <div className="text-[10px] text-slate-400 font-normal truncate">
+                                {item.subtitle}
+                              </div>
+                            )}
+                          </div>
                         </div>
                         {item.badge && (
-                          <span className={`text-[9px] px-1.5 py-0.2 rounded-md font-bold uppercase tracking-wide ${
+                          <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wide shrink-0 ml-1 ${
                             isActive
-                              ? 'bg-purple-200 text-purple-900'
+                              ? 'bg-brand-200/80 text-brand-900'
                               : 'bg-slate-100 text-slate-500'
                           }`}>
                             {item.badge}
@@ -188,7 +176,7 @@ export const MainLayout: React.FC = () => {
               to="/profile"
               className={({ isActive }) =>
                 `flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isActive ? 'bg-purple-50 text-purple-700 font-bold' : 'text-slate-600 hover:bg-white'
+                  isActive ? 'bg-brand-50 text-brand-700 font-bold border border-brand-200/60' : 'text-slate-600 hover:bg-white'
                 }`
               }
             >
@@ -199,7 +187,7 @@ export const MainLayout: React.FC = () => {
               to="/settings"
               className={({ isActive }) =>
                 `flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isActive ? 'bg-purple-50 text-purple-700 font-bold' : 'text-slate-600 hover:bg-white'
+                  isActive ? 'bg-brand-50 text-brand-700 font-bold border border-brand-200/60' : 'text-slate-600 hover:bg-white'
                 }`
               }
             >
@@ -224,7 +212,7 @@ export const MainLayout: React.FC = () => {
               <Menu className="w-5 h-5" />
             </button>
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-purple-600 flex items-center justify-center text-white font-black text-sm">
+              <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
                 P
               </div>
               <span className="font-black text-base tracking-tight text-slate-900">PREPORA</span>
@@ -254,15 +242,15 @@ export const MainLayout: React.FC = () => {
             <ThemeSelector />
 
             {/* Target Exam Switcher / Tag */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-50 text-purple-700 border border-purple-200/70 text-xs font-bold">
-              <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
+            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-brand-50 text-brand-700 border border-brand-200/70 text-xs font-bold">
+              <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
               <span>Target: {user.targetExam || 'JEE'} {user.targetYear || 2026}</span>
             </div>
 
             {/* Quick Action Button */}
             <button
               onClick={() => setStudySessionOpen(true)}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 text-white text-xs font-bold shadow-sm shadow-purple-500/20 transition-all"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm shadow-brand-500/20 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               <span>Quick Sprint</span>
@@ -286,7 +274,7 @@ export const MainLayout: React.FC = () => {
                   to="/profile"
                   className="flex items-center gap-2 p-1 pr-2 rounded-xl hover:bg-slate-100 transition-colors"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-600 to-emerald-700 text-white font-bold text-xs flex items-center justify-center shadow-xs">
                     {(user.name || 'Student').charAt(0).toUpperCase()}
                   </div>
                   <span className="hidden sm:inline text-xs font-bold text-slate-700 max-w-[100px] truncate">
@@ -308,7 +296,7 @@ export const MainLayout: React.FC = () => {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 text-white hover:bg-purple-700 text-xs font-bold shadow-xs transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-600 text-white hover:bg-brand-700 text-xs font-bold shadow-xs transition-all"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 <span>Sign In</span>
@@ -324,12 +312,12 @@ export const MainLayout: React.FC = () => {
       </div>
 
       {/* Mobile Bottom Navigation Bar (Sticky, App-like, Thumb-Friendly) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 px-3 py-2 flex items-center justify-around shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 px-2 py-2 flex items-center justify-around shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2 rounded-xl transition-all ${
-              isActive ? 'text-purple-600 font-black' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
+              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -339,8 +327,8 @@ export const MainLayout: React.FC = () => {
         <NavLink
           to="/practice"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2 rounded-xl transition-all ${
-              isActive ? 'text-purple-600 font-black' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
+              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -350,8 +338,8 @@ export const MainLayout: React.FC = () => {
         <NavLink
           to="/tests"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2 rounded-xl transition-all ${
-              isActive ? 'text-purple-600 font-black' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
+              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -359,26 +347,26 @@ export const MainLayout: React.FC = () => {
           <span>Tests</span>
         </NavLink>
         <NavLink
-          to="/performance"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2 rounded-xl transition-all ${
-              isActive ? 'text-purple-600 font-black' : 'text-slate-500 hover:text-slate-800'
-            }`
-          }
-        >
-          <BarChart2 className="w-5 h-5" />
-          <span>Analytics</span>
-        </NavLink>
-        <NavLink
           to="/doubts"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2 rounded-xl transition-all ${
-              isActive ? 'text-purple-600 font-black' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
+              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
           <HelpCircle className="w-5 h-5" />
           <span>Doubts</span>
+        </NavLink>
+        <NavLink
+          to="/mistakes"
+          className={({ isActive }) =>
+            `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
+              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
+            }`
+          }
+        >
+          <AlertCircle className="w-5 h-5" />
+          <span>Mistakes</span>
         </NavLink>
       </nav>
 
@@ -393,7 +381,7 @@ export const MainLayout: React.FC = () => {
             {/* Drawer Header */}
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-purple-600 text-white font-black flex items-center justify-center text-sm shadow-md shadow-purple-500/20">
+                <div className="w-8 h-8 rounded-xl bg-brand-600 text-white font-black flex items-center justify-center text-sm shadow-md shadow-brand-500/20">
                   P
                 </div>
                 <span className="font-black text-lg text-slate-900 tracking-tight">PREPORA</span>
@@ -427,19 +415,26 @@ export const MainLayout: React.FC = () => {
                         to={item.path}
                         onClick={() => setMobileMenuOpen(false)}
                         className={({ isActive }) =>
-                          `flex items-center justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                          `flex items-start justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
                             isActive
-                              ? 'bg-purple-50 text-purple-700 font-bold'
-                              : 'text-slate-700 hover:bg-slate-50'
+                              ? 'bg-brand-50 text-brand-700 font-bold border border-brand-200/60'
+                              : 'text-slate-700 hover:bg-slate-50 border border-transparent'
                           }`
                         }
                       >
-                        <div className="flex items-center gap-3">
-                          <Icon className="w-4 h-4 text-purple-600" />
-                          <span>{item.name}</span>
+                        <div className="flex items-start gap-3 min-w-0">
+                          <Icon className="w-4 h-4 text-brand-600 mt-0.5 shrink-0" />
+                          <div className="truncate">
+                            <div className="truncate">{item.name}</div>
+                            {item.subtitle && (
+                              <div className="text-[10px] text-slate-400 font-normal truncate">
+                                {item.subtitle}
+                              </div>
+                            )}
+                          </div>
                         </div>
                         {item.badge && (
-                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-purple-100 text-purple-800 font-bold">
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-brand-100 text-brand-800 font-bold shrink-0 ml-1">
                             {item.badge}
                           </span>
                         )}
@@ -448,13 +443,12 @@ export const MainLayout: React.FC = () => {
                   })}
                 </div>
               ))}
-
             </div>
 
             {/* Drawer Footer */}
             <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-800 font-bold flex items-center justify-center text-xs">
+                <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-800 font-bold flex items-center justify-center text-xs">
                   {(user.name || 'S').charAt(0)}
                 </div>
                 <div className="text-xs">
