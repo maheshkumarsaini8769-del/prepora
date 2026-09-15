@@ -103,7 +103,7 @@ export const MainLayout: React.FC = () => {
         <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100 flex-shrink-0">
           <Link to="/" className="flex items-center gap-2.5 group">
             <div className="relative">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-700 via-brand-600 to-indigo-500 flex items-center justify-center text-white font-black text-lg shadow-md shadow-brand-500/25 group-hover:scale-105 transition-all duration-300">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-700 via-brand-600 to-brand-400 flex items-center justify-center text-white font-black text-lg shadow-md shadow-brand-500/25 group-hover:scale-105 transition-all duration-300">
                 P
               </div>
               <div className="absolute -inset-0.5 bg-brand-500/20 rounded-xl blur-xs -z-10 group-hover:opacity-100 opacity-50 transition-opacity" />

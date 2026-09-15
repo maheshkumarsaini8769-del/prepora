@@ -1,4 +1,4 @@
-export type ThemeKey = 'black' | 'blue' | 'emerald' | 'sunset' | 'ocean' | 'indigo' | 'violet';
+export type ThemeKey = 'emerald' | 'blue' | 'black' | 'sunset' | 'ocean' | 'indigo' | 'violet';
 
 export interface ThemeOption {
   key: ThemeKey;
@@ -10,11 +10,11 @@ export interface ThemeOption {
 
 export const THEME_OPTIONS: ThemeOption[] = [
   {
-    key: 'black',
-    name: 'Obsidian Black',
-    subtitle: 'Ultra-Sleek OLED Black & Neon (Default)',
-    primaryColor: '#090a0f',
-    previewGradient: 'from-zinc-900 to-black',
+    key: 'emerald',
+    name: 'Emerald Mint',
+    subtitle: 'High Calm & Exam Focus • Medical/NEET & JEE (Default)',
+    primaryColor: '#059669',
+    previewGradient: 'from-emerald-600 to-teal-600',
   },
   {
     key: 'blue',
@@ -24,11 +24,11 @@ export const THEME_OPTIONS: ThemeOption[] = [
     previewGradient: 'from-blue-600 to-cyan-600',
   },
   {
-    key: 'emerald',
-    name: 'Emerald Mint',
-    subtitle: 'High Calm & Medical/NEET',
-    primaryColor: '#059669',
-    previewGradient: 'from-emerald-600 to-teal-600',
+    key: 'black',
+    name: 'Carbon Onyx',
+    subtitle: 'Sleek Minimal Charcoal & Black Accent',
+    primaryColor: '#18181b',
+    previewGradient: 'from-zinc-900 to-zinc-700',
   },
   {
     key: 'ocean',
@@ -66,10 +66,10 @@ const STORAGE_KEY = 'prepora_color_theme';
 export function getSavedTheme(): ThemeKey {
   try {
     const v = localStorage.getItem(VERSION_KEY);
-    if (v !== '3.0_black') {
-      localStorage.setItem(VERSION_KEY, '3.0_black');
-      localStorage.setItem(STORAGE_KEY, 'black');
-      return 'black';
+    if (v !== '5.0_emerald') {
+      localStorage.setItem(VERSION_KEY, '5.0_emerald');
+      localStorage.setItem(STORAGE_KEY, 'emerald');
+      return 'emerald';
     }
     const saved = localStorage.getItem(STORAGE_KEY) as ThemeKey;
     if (saved && THEME_OPTIONS.some(t => t.key === saved)) {
@@ -78,7 +78,7 @@ export function getSavedTheme(): ThemeKey {
   } catch (e) {
     // fallback
   }
-  return 'black';
+  return 'emerald';
 }
 
 export function applyTheme(themeKey: ThemeKey) {

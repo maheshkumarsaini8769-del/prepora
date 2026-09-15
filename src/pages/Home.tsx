@@ -123,9 +123,9 @@ export const Home: React.FC = () => {
           <div className="absolute inset-0 bg-dot-pattern-dark pointer-events-none opacity-40" />
 
           {/* Glowing Animated Ambient Orbs */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 bg-blue-500/30 rounded-full blur-3xl pointer-events-none animate-float" />
-          <div className="absolute -bottom-24 -left-20 w-80 h-80 bg-cyan-500/30 rounded-full blur-3xl pointer-events-none animate-float-delayed" />
-          <div className="absolute top-1/2 left-1/3 w-60 h-60 bg-sky-500/20 rounded-full blur-3xl pointer-events-none animate-pulse-subtle" />
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-brand-500/30 rounded-full blur-3xl pointer-events-none animate-float" />
+          <div className="absolute -bottom-24 -left-20 w-80 h-80 bg-emerald-400/25 rounded-full blur-3xl pointer-events-none animate-float-delayed" />
+          <div className="absolute top-1/2 left-1/3 w-60 h-60 bg-teal-400/20 rounded-full blur-3xl pointer-events-none animate-pulse-subtle" />
 
           {/* Card Content */}
           <div className="relative z-10 space-y-3.5">
