@@ -78,33 +78,33 @@ export const AdminLayout: React.FC = () => {
   const navSections: NavSection[] = [
     {
       title: 'CORE OPERATIONS',
-      subtitle: 'क्वेश्चन व टेस्ट मैनेजमेंट',
+      subtitle: 'Question & Test Management',
       items: [
-        { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, desc: 'ओवरव्यू व मुख्य आंकड़े' },
-        { name: 'AI Content Factory', path: '/admin/ai-factory', icon: UploadCloud, badge: 'PDF', desc: 'PDF से सवाल बनाएं' },
-        { name: 'Questions Bank', path: '/admin/questions', icon: HelpCircle, badge: stats.pendingReviews > 0 ? `${stats.pendingReviews}` : undefined, desc: 'सवालों की सूची व समीक्षा' },
-        { name: 'Tests & Mock Papers', path: '/admin/tests', icon: FileCheck2, desc: 'मॉक टेस्ट निर्माण' },
-        { name: 'Previous Year Papers', path: '/admin/papers', icon: FileText, desc: 'PYQs पेपर्स' },
+        { name: 'Dashboard', path: '/admin', icon: LayoutDashboard, desc: 'Overview & key metrics' },
+        { name: 'AI Content Factory', path: '/admin/ai-factory', icon: UploadCloud, badge: 'PDF', desc: 'Generate questions from PDF' },
+        { name: 'Questions Bank', path: '/admin/questions', icon: HelpCircle, badge: stats.pendingReviews > 0 ? `${stats.pendingReviews}` : undefined, desc: 'Question repository & review' },
+        { name: 'Tests & Mock Papers', path: '/admin/tests', icon: FileCheck2, desc: 'Mock test builder & blueprints' },
+        { name: 'Previous Year Papers', path: '/admin/papers', icon: FileText, desc: 'PYQ papers & solutions' },
       ]
     },
     {
       title: 'STUDENTS & QUALITY',
-      subtitle: 'विद्यार्थी व रिपोर्टिंग',
+      subtitle: 'Students & Quality Assurance',
       items: [
-        { name: 'Students Directory', path: '/admin/students', icon: Users, desc: 'छात्र प्रोफाइल व प्रोग्रेस' },
-        { name: 'Reports & Doubts', path: '/admin/reports', icon: AlertTriangle, badge: stats.pendingReports > 0 ? `${stats.pendingReports}` : undefined, badgeColor: 'bg-rose-500', desc: 'शिकायतें व प्रश्न हल' },
-        { name: 'Analytics & Insights', path: '/admin/analytics', icon: BarChart3, desc: 'प्रदर्शन डेटा' },
+        { name: 'Students Directory', path: '/admin/students', icon: Users, desc: 'Student profiles & progress' },
+        { name: 'Reports & Doubts', path: '/admin/reports', icon: AlertTriangle, badge: stats.pendingReports > 0 ? `${stats.pendingReports}` : undefined, badgeColor: 'bg-rose-500', desc: 'Reported disputes & doubts' },
+        { name: 'Analytics & Insights', path: '/admin/analytics', icon: BarChart3, desc: 'Performance & telemetry data' },
       ]
     },
     {
       title: 'SYSTEM & SETTINGS',
-      subtitle: 'सिस्टम व सेटिंग्स',
+      subtitle: 'System & Platform Settings',
       items: [
-        { name: 'Syllabus & Hierarchy', path: '/admin/content', icon: FolderTree, desc: 'सिलेबस संरचना' },
-        { name: 'AI Studio Prompting', path: '/admin/ai', icon: Sparkles, desc: 'AI प्रॉम्प्ट लैब' },
-        { name: 'System Status', path: '/admin/system', icon: Server, desc: 'डेटाबेस व सर्वर' },
-        { name: 'Security & Admins', path: '/admin/security', icon: ShieldCheck, desc: 'सिक्योरिटी रोल्स' },
-        { name: 'Settings', path: '/admin/settings', icon: Settings, desc: 'प्लेटफॉर्म कॉन्फिग' },
+        { name: 'Syllabus & Hierarchy', path: '/admin/content', icon: FolderTree, desc: 'Curriculum & subject tree' },
+        { name: 'AI Studio Prompting', path: '/admin/ai', icon: Sparkles, desc: 'AI prompt engineering studio' },
+        { name: 'System Status', path: '/admin/system', icon: Server, desc: 'Database & server telemetry' },
+        { name: 'Security & Admins', path: '/admin/security', icon: ShieldCheck, desc: 'Admin permissions & RBAC' },
+        { name: 'Settings', path: '/admin/settings', icon: Settings, desc: 'Platform configurations' },
       ]
     }
   ];
@@ -193,7 +193,7 @@ export const AdminLayout: React.FC = () => {
                   ADMIN
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 hidden sm:block">एडमिन कंट्रोल पैनल</p>
+              <p className="text-[10px] text-slate-400 hidden sm:block">Admin Control Center</p>
             </div>
           </Link>
         </div>
@@ -268,7 +268,7 @@ export const AdminLayout: React.FC = () => {
             {notifDropdownOpen && (
               <div className="absolute right-0 mt-2 w-72 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-3 z-50 text-xs animate-in fade-in zoom-in-95">
                 <div className="font-bold text-slate-200 pb-2 border-b border-slate-800 flex justify-between items-center">
-                  <span>सिस्टम अलर्ट (Alerts)</span>
+                  <span>System Alerts</span>
                   <span className="text-[10px] text-brand-400 font-semibold">Live</span>
                 </div>
                 <div className="py-2 space-y-2">
@@ -363,7 +363,7 @@ export const AdminLayout: React.FC = () => {
                   <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">P</div>
                   <div>
                     <span className="font-black text-white text-sm">PREPORA ADMIN</span>
-                    <p className="text-[10px] text-slate-400">एडमिन मेन्यू</p>
+                    <p className="text-[10px] text-slate-400">Admin Navigation</p>
                   </div>
                 </div>
                 <button onClick={() => setMobileOpen(false)} className="p-1 rounded text-slate-400 hover:text-white">

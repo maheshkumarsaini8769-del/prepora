@@ -59,7 +59,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Admin Overview & Control Center</h1>
           <p className="text-sm text-slate-400 mt-1 max-w-2xl">
-            कंट्रोल सेंटर: यहाँ से आप PDF अपलोड करके सवाल बना सकते हैं, टेस्ट मैनेज कर सकते हैं और बच्चों की प्रगति देख सकते हैं।
+            Mission Control: Upload curriculum PDFs to generate questions, manage mock test blueprints, and track student mastery telemetry.
           </p>
         </div>
 
@@ -73,17 +73,17 @@ export const AdminDashboard: React.FC = () => {
         </button>
       </div>
 
-      {/* 3-STEP QUICK START WORKFLOW BANNER (EASY TO UNDERSTAND) */}
+      {/* 3-STEP QUICK START WORKFLOW BANNER */}
       <div className="p-6 rounded-2xl bg-gradient-to-r from-brand-950/60 via-slate-900 to-indigo-950/60 border border-brand-500/30 shadow-xl relative overflow-hidden">
         <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-black uppercase tracking-wider mb-1">
               <Zap className="w-3.5 h-3.5" />
-              आसान वर्कफ़्लो (3 Easy Steps)
+              Admin Workflow (3 Simple Steps)
             </div>
-            <h2 className="text-lg font-black text-white">नया टेस्ट या सवाल कैसे जोड़ें?</h2>
+            <h2 className="text-lg font-black text-white">How to Create Tests & Questions</h2>
           </div>
-          <span className="text-xs text-slate-400">फॉलो करें ये 3 आसान स्टेप्स:</span>
+          <span className="text-xs text-slate-400">Follow these 3 simple steps:</span>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -99,13 +99,13 @@ export const AdminDashboard: React.FC = () => {
                 </span>
                 <UploadCloud className="w-5 h-5 text-brand-400 group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="font-bold text-sm text-white group-hover:text-brand-300 transition">स्टेप 1: PDF अपलोड करें</h3>
+              <h3 className="font-bold text-sm text-white group-hover:text-brand-300 transition">Step 1: Upload Source PDF</h3>
               <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                अपने चैप्टर या नोट्स की PDF अपलोड करें। AI अपने-आप उच्च गुणवत्ता वाले प्रश्न बना देगा।
+                Upload chapter textbook or notes PDF. AI automatically extracts core concepts and generates realistic questions.
               </p>
             </div>
             <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] font-bold text-brand-400 flex items-center gap-1">
-              <span>AI Content Factory खोलें</span>
+              <span>Open AI Content Factory</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
@@ -122,13 +122,13 @@ export const AdminDashboard: React.FC = () => {
                 </span>
                 <ClipboardList className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="font-bold text-sm text-white group-hover:text-indigo-300 transition">स्टेप 2: सवाल रिव्यू व अप्रूव करें</h3>
+              <h3 className="font-bold text-sm text-white group-hover:text-indigo-300 transition">Step 2: Review & Approve Questions</h3>
               <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                बने हुए प्रश्नों को चेक करें, अगर कोई सुधार करना हो तो करें और "Approve / Publish" बटन दबाएं।
+                Inspect synthesized questions, verify 4 distinct options, edit explanations, and 1-click Approve to publish.
               </p>
             </div>
             <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] font-bold text-indigo-400 flex items-center gap-1">
-              <span>Question Bank खोलें</span>
+              <span>Open Question Bank</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
@@ -145,13 +145,13 @@ export const AdminDashboard: React.FC = () => {
                 </span>
                 <PlayCircle className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="font-bold text-sm text-white group-hover:text-emerald-300 transition">स्टेप 3: मॉक टेस्ट बनाएं या पब्लिश करें</h3>
+              <h3 className="font-bold text-sm text-white group-hover:text-emerald-300 transition">Step 3: Create & Publish Mock Tests</h3>
               <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                चैप्टर-वाइज या फुल-लेंथ मॉक टेस्ट बनाएं। छात्र अपनी वेबसाइट पर तुरंत टेस्ट दे सकेंगे।
+                Assemble chapter-wise or full-length mock tests. Students immediately access and attempt them in real-time.
               </p>
             </div>
             <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] font-bold text-emerald-400 flex items-center gap-1">
-              <span>Tests & Mock Papers खोलें</span>
+              <span>Open Tests & Mock Papers</span>
               <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
             </div>
           </Link>
@@ -163,7 +163,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Total Students */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
-            <span>विद्यार्थी (Students)</span>
+            <span>Enrolled Students</span>
             <Users className="w-4 h-4 text-brand-400" />
           </div>
           <div className="mt-3">
@@ -179,7 +179,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Questions */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
-            <span>कुल सवाल (Bank)</span>
+            <span>Question Bank</span>
             <BookOpen className="w-4 h-4 text-indigo-400" />
           </div>
           <div className="mt-3">
@@ -195,7 +195,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Mock Tests */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
-            <span>मॉक टेस्ट (Tests)</span>
+            <span>Mock Tests</span>
             <FileCheck2 className="w-4 h-4 text-amber-400" />
           </div>
           <div className="mt-3">
@@ -211,7 +211,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Test Attempts */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
-            <span>कुल टेस्ट सबमिशन</span>
+            <span>Total Submissions</span>
             <Activity className="w-4 h-4 text-emerald-400" />
           </div>
           <div className="mt-3">
@@ -227,7 +227,7 @@ export const AdminDashboard: React.FC = () => {
         {/* Pending Reports */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
-            <span>डाउट / रिपोर्ट्स</span>
+            <span>Pending Reports</span>
             <AlertTriangle className="w-4 h-4 text-rose-400" />
           </div>
           <div className="mt-3">
@@ -243,7 +243,7 @@ export const AdminDashboard: React.FC = () => {
         {/* System Health */}
         <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
           <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
-            <span>डेटाबेस स्थिति</span>
+            <span>Database Status</span>
             <Server className="w-4 h-4 text-cyan-400" />
           </div>
           <div className="mt-3">
@@ -263,39 +263,39 @@ export const AdminDashboard: React.FC = () => {
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <h2 className="font-bold text-base text-white flex items-center gap-2">
               <BookOpen className="w-4 h-4 text-brand-400" />
-              <span>Question Bank स्थिति (Content Status)</span>
+              <span>Question Bank Status</span>
             </h2>
             <Link to="/admin/questions" className="text-xs font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
-              सवालों का हब <ArrowRight className="w-3.5 h-3.5" />
+              Manage Questions <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">Live (पब्लिश)</div>
+              <div className="text-xs text-slate-400">Live Published</div>
               <div className="text-xl font-bold text-emerald-400 mt-1">{stats?.content?.publishedQuestions ?? 0}</div>
-              <div className="text-[10px] text-slate-500">टेस्ट में सक्रिय</div>
+              <div className="text-[10px] text-slate-500">Active in Tests</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">ड्राफ्ट (Draft)</div>
+              <div className="text-xs text-slate-400">Drafts</div>
               <div className="text-xl font-bold text-amber-400 mt-1">{stats?.content?.draftQuestions ?? 0}</div>
-              <div className="text-[10px] text-slate-500">तैयारी में</div>
+              <div className="text-[10px] text-slate-500">In Preparation</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">रिव्यू बाकी</div>
+              <div className="text-xs text-slate-400">Pending Review</div>
               <div className="text-xl font-bold text-indigo-400 mt-1">{stats?.content?.pendingQuestions ?? 0}</div>
-              <div className="text-[10px] text-slate-500">जांच सूची</div>
+              <div className="text-[10px] text-slate-500">Needs Verification</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">रिपोर्टेड</div>
+              <div className="text-xs text-slate-400">Reported Flag</div>
               <div className="text-xl font-bold text-rose-400 mt-1">{stats?.reports?.totalQuestionReports ?? 0}</div>
-              <div className="text-[10px] text-slate-500">सुधार हेतु</div>
+              <div className="text-[10px] text-slate-500">Needs Attention</div>
             </div>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-750 text-xs text-slate-300 flex items-center justify-between">
-            <span className="font-medium">NEET & JEE विषय वार कवरेज</span>
-            <span className="text-emerald-400 font-bold">100% सत्यापित</span>
+            <span className="font-medium">NEET & JEE Curriculum Coverage</span>
+            <span className="text-emerald-400 font-bold">100% Verified</span>
           </div>
         </div>
 
@@ -304,36 +304,36 @@ export const AdminDashboard: React.FC = () => {
           <div className="flex items-center justify-between border-b border-slate-800 pb-3">
             <h2 className="font-bold text-base text-white flex items-center gap-2">
               <TrendingUp className="w-4 h-4 text-emerald-400" />
-              <span>छात्रों का प्रदर्शन (Student Telemetry)</span>
+              <span>Student Performance Telemetry</span>
             </h2>
             <Link to="/admin/analytics" className="text-xs font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
-              पूरा एनालिटिक्स <ArrowRight className="w-3.5 h-3.5" />
+              View Full Analytics <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750">
-              <div className="text-xs text-slate-400">औसत स्कोर</div>
+              <div className="text-xs text-slate-400">Average Score</div>
               <div className="text-xl font-bold text-white mt-1">{stats?.activity?.avgScore ?? 0}</div>
-              <div className="text-[10px] text-slate-500">सभी टेस्ट्स में</div>
+              <div className="text-[10px] text-slate-500">Across All Tests</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750">
-              <div className="text-xs text-slate-400">औसत एक्यूरेसी</div>
+              <div className="text-xs text-slate-400">Average Accuracy</div>
               <div className="text-xl font-bold text-white mt-1">{stats?.activity?.avgAccuracy ?? 0}%</div>
-              <div className="text-[10px] text-slate-500">सही उत्तर दर</div>
+              <div className="text-[10px] text-slate-500">Correct Answer Rate</div>
             </div>
             <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750">
-              <div className="text-xs text-slate-400">सबमिशन दर</div>
+              <div className="text-xs text-slate-400">Submission Integrity</div>
               <div className="text-xl font-bold text-emerald-400 mt-1">100%</div>
-              <div className="text-[10px] text-slate-500">शून्य विफलता</div>
+              <div className="text-[10px] text-slate-500">Zero Failures</div>
             </div>
           </div>
 
           <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-750 text-xs flex items-center justify-between text-slate-300">
-            <span>ऑफ़लाइन ऑटो-सिंक सुरक्षा</span>
+            <span>Offline Auto-Sync Resilience</span>
             <span className="font-bold text-emerald-400 flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
-              <span>सुरक्षित व सक्रिय</span>
+              <span>Active & Protected</span>
             </span>
           </div>
         </div>
@@ -341,7 +341,7 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Quick Launchpad to Modules */}
       <div>
-        <h3 className="text-sm font-black text-slate-300 mb-3 uppercase tracking-wider">सीधे एक्सेस करें (Direct Shortcuts)</h3>
+        <h3 className="text-sm font-black text-slate-300 mb-3 uppercase tracking-wider">Quick Navigation Shortcuts</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <Link
             to="/admin/ai-factory"
@@ -352,7 +352,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             <h4 className="font-bold text-sm text-white group-hover:text-brand-400 transition">AI Content Factory</h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              PDF से सीधे सवाल और फ़ॉर्मूले एक्सट्रेक्ट करें।
+              Extract authentic questions and formulas directly from source PDFs.
             </p>
           </Link>
 
@@ -365,7 +365,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             <h4 className="font-bold text-sm text-white group-hover:text-indigo-400 transition">Questions Bank</h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              सवालों की लिस्ट, फ़िल्टर, एडिट और अप्रूवल।
+              Comprehensive question browser, filtering, editing, and approval.
             </p>
           </Link>
 
@@ -378,7 +378,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             <h4 className="font-bold text-sm text-white group-hover:text-amber-400 transition">Tests & Blueprints</h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              मॉक टेस्ट, विषय-वार टेस्ट और समय सीमा सेट करें।
+              Configure mock tests, topic-wise assessments, and examination rules.
             </p>
           </Link>
 
@@ -391,7 +391,7 @@ export const AdminDashboard: React.FC = () => {
             </div>
             <h4 className="font-bold text-sm text-white group-hover:text-emerald-400 transition">Students Directory</h4>
             <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-              सभी छात्रों की सूची, स्कोर और एकाउंट स्थिति।
+              Student rosters, attempt histories, score progression, and account statuses.
             </p>
           </Link>
         </div>
