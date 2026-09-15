@@ -15,7 +15,12 @@
     </style>
     <script>
       (function() {
-        var t = localStorage.getItem('prepora_color_theme') || 'blue';
+        var v = localStorage.getItem('prepora_theme_version');
+        if (v !== '3.0_black') {
+          localStorage.setItem('prepora_theme_version', '3.0_black');
+          localStorage.setItem('prepora_color_theme', 'black');
+        }
+        var t = localStorage.getItem('prepora_color_theme') || 'black';
         document.documentElement.setAttribute('data-theme', t);
       })();
     </script>

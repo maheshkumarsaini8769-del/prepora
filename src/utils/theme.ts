@@ -1,4 +1,4 @@
-export type ThemeKey = 'blue' | 'emerald' | 'sunset' | 'ocean' | 'indigo' | 'violet';
+export type ThemeKey = 'black' | 'blue' | 'emerald' | 'sunset' | 'ocean' | 'indigo' | 'violet';
 
 export interface ThemeOption {
   key: ThemeKey;
@@ -10,9 +10,16 @@ export interface ThemeOption {
 
 export const THEME_OPTIONS: ThemeOption[] = [
   {
+    key: 'black',
+    name: 'Obsidian Black',
+    subtitle: 'Ultra-Sleek OLED Black & Neon (Default)',
+    primaryColor: '#090a0f',
+    previewGradient: 'from-zinc-900 to-black',
+  },
+  {
     key: 'blue',
     name: 'Royal Sapphire',
-    subtitle: 'Modern Electric Blue & Trust (Default)',
+    subtitle: 'Modern Electric Blue & Trust',
     primaryColor: '#2563eb',
     previewGradient: 'from-blue-600 to-cyan-600',
   },
@@ -53,10 +60,17 @@ export const THEME_OPTIONS: ThemeOption[] = [
   },
 ];
 
+const VERSION_KEY = 'prepora_theme_version';
 const STORAGE_KEY = 'prepora_color_theme';
 
 export function getSavedTheme(): ThemeKey {
   try {
+    const v = localStorage.getItem(VERSION_KEY);
+    if (v !== '3.0_black') {
+      localStorage.setItem(VERSION_KEY, '3.0_black');
+      localStorage.setItem(STORAGE_KEY, 'black');
+      return 'black';
+    }
     const saved = localStorage.getItem(STORAGE_KEY) as ThemeKey;
     if (saved && THEME_OPTIONS.some(t => t.key === saved)) {
       return saved;
@@ -64,7 +78,7 @@ export function getSavedTheme(): ThemeKey {
   } catch (e) {
     // fallback
   }
-  return 'blue';
+  return 'black';
 }
 
 export function applyTheme(themeKey: ThemeKey) {

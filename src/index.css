@@ -4,6 +4,20 @@
 
 @layer base {
   :root,
+  [data-theme="black"] {
+    --color-brand-50: 15 23 42;
+    --color-brand-100: 30 41 59;
+    --color-brand-200: 51 65 85;
+    --color-brand-300: 71 85 105;
+    --color-brand-400: 96 165 250;
+    --color-brand-500: 59 130 246;
+    --color-brand-600: 37 99 235;
+    --color-brand-700: 29 78 216;
+    --color-brand-800: 30 64 175;
+    --color-brand-900: 30 58 138;
+    --color-brand-950: 10 15 30;
+  }
+
   [data-theme="blue"] {
     --color-brand-50: 239 246 255;
     --color-brand-100: 219 234 254;
@@ -239,4 +253,218 @@
     color: rgb(5, 150, 105);
     border: 1px solid rgba(16, 185, 129, 0.2);
   }
+}
+
+/* ==========================================================================
+   OBSIDIAN BLACK (OLED DARK) THEME ENGINE
+   ========================================================================== */
+html[data-theme="black"] {
+  color-scheme: dark;
+  background-color: #07080c !important;
+}
+
+html[data-theme="black"] body {
+  background-color: #07080c !important;
+  color: #f1f5f9 !important;
+}
+
+/* Background containers and main layout */
+html[data-theme="black"] .bg-slate-50,
+html[data-theme="black"] .bg-gray-50,
+html[data-theme="black"] .bg-slate-50\/70,
+html[data-theme="black"] .min-h-screen {
+  background-color: #07080c !important;
+}
+
+/* Navigations, Sidebars, and Headers */
+html[data-theme="black"] aside,
+html[data-theme="black"] header,
+html[data-theme="black"] nav.bg-white\/95,
+html[data-theme="black"] nav.bg-white {
+  background-color: #0d0f17 !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Cards & Surface Containers */
+html[data-theme="black"] .bg-white:not(button):not(.btn):not([role="button"]):not(.bg-white-keep) {
+  background-color: #11141f !important;
+  color: #f8fafc !important;
+}
+
+html[data-theme="black"] .bg-white\/90,
+html[data-theme="black"] .bg-white\/95,
+html[data-theme="black"] .bg-white\/80 {
+  background-color: rgba(17, 20, 31, 0.95) !important;
+  color: #f8fafc !important;
+}
+
+/* Inner sub-cards, pills, and tiles */
+html[data-theme="black"] .bg-slate-100:not(button):not(.btn):not(.bg-brand-button),
+html[data-theme="black"] .bg-slate-100\/80,
+html[data-theme="black"] .bg-gray-100:not(button):not(.btn) {
+  background-color: #171b28 !important;
+  color: #e2e8f0 !important;
+}
+
+html[data-theme="black"] .bg-slate-200 {
+  background-color: #222738 !important;
+}
+
+/* Borders */
+html[data-theme="black"] .border-slate-100,
+html[data-theme="black"] .border-slate-200,
+html[data-theme="black"] .border-slate-200\/60,
+html[data-theme="black"] .border-slate-200\/70,
+html[data-theme="black"] .border-slate-200\/80,
+html[data-theme="black"] .border-slate-200\/90,
+html[data-theme="black"] .border-slate-300,
+html[data-theme="black"] .border-gray-200,
+html[data-theme="black"] .border-gray-100 {
+  border-color: rgba(255, 255, 255, 0.09) !important;
+}
+
+/* Text Hierarchy */
+html[data-theme="black"] .text-slate-900,
+html[data-theme="black"] .text-slate-800,
+html[data-theme="black"] .text-gray-900,
+html[data-theme="black"] .text-gray-800 {
+  color: #ffffff !important;
+}
+
+html[data-theme="black"] .text-slate-700,
+html[data-theme="black"] .text-slate-600,
+html[data-theme="black"] .text-gray-700,
+html[data-theme="black"] .text-gray-600 {
+  color: #cbd5e1 !important;
+}
+
+html[data-theme="black"] .text-slate-500,
+html[data-theme="black"] .text-slate-400,
+html[data-theme="black"] .text-gray-500,
+html[data-theme="black"] .text-gray-400 {
+  color: #94a3b8 !important;
+}
+
+/* Hover surfaces */
+html[data-theme="black"] .hover\:bg-slate-50:hover,
+html[data-theme="black"] .hover\:bg-slate-100:hover,
+html[data-theme="black"] .hover\:bg-white:hover {
+  background-color: #1a2030 !important;
+}
+
+/* Navigation Active States & Brand Pills */
+html[data-theme="black"] .bg-purple-50,
+html[data-theme="black"] .bg-brand-50,
+html[data-theme="black"] .bg-brand-50\/80 {
+  background-color: rgba(37, 99, 235, 0.18) !important;
+  color: #93c5fd !important;
+}
+
+/* Badges */
+html[data-theme="black"] .bg-emerald-50 {
+  background-color: rgba(16, 185, 129, 0.16) !important;
+  color: #34d399 !important;
+  border-color: rgba(16, 185, 129, 0.28) !important;
+}
+
+html[data-theme="black"] .bg-amber-50,
+html[data-theme="black"] .bg-amber-500\/10 {
+  background-color: rgba(245, 158, 11, 0.16) !important;
+  color: #fbbf24 !important;
+  border-color: rgba(245, 158, 11, 0.28) !important;
+}
+
+html[data-theme="black"] .bg-rose-50,
+html[data-theme="black"] .bg-red-50 {
+  background-color: rgba(244, 63, 94, 0.16) !important;
+  color: #fb7185 !important;
+  border-color: rgba(244, 63, 94, 0.28) !important;
+}
+
+html[data-theme="black"] .bg-sky-50,
+html[data-theme="black"] .bg-blue-50 {
+  background-color: rgba(14, 165, 233, 0.16) !important;
+  color: #38bdf8 !important;
+  border-color: rgba(14, 165, 233, 0.28) !important;
+}
+
+/* Modals & Popups */
+html[data-theme="black"] [role="dialog"],
+html[data-theme="black"] .bg-white.rounded-3xl,
+html[data-theme="black"] .bg-white.rounded-2xl {
+  background-color: #101420 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+/* Dropdown Menus */
+html[data-theme="black"] div[class*="z-50"].bg-white,
+html[data-theme="black"] div[class*="z-50"].bg-white\/95,
+html[data-theme="black"] div[class*="z-40"].bg-white,
+html[data-theme="black"] [role="menu"] {
+  background-color: #121624 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8) !important;
+}
+
+/* Form Controls */
+html[data-theme="black"] input:not([type="checkbox"]):not([type="radio"]):not([type="range"]),
+html[data-theme="black"] select,
+html[data-theme="black"] textarea {
+  background-color: #131724 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+html[data-theme="black"] input::placeholder,
+html[data-theme="black"] textarea::placeholder {
+  color: #64748b !important;
+}
+
+/* Hero & Mesh Background in Black Theme */
+html[data-theme="black"] .bg-mesh-purple,
+html[data-theme="black"] .bg-mesh-brand {
+  background-color: #05060a !important;
+  background-image: 
+    radial-gradient(at 15% 15%, rgba(37, 99, 235, 0.28) 0px, transparent 55%),
+    radial-gradient(at 85% 20%, rgba(99, 102, 241, 0.22) 0px, transparent 50%),
+    radial-gradient(at 50% 85%, rgba(6, 182, 212, 0.18) 0px, transparent 55%),
+    radial-gradient(at 90% 85%, rgba(139, 92, 246, 0.18) 0px, transparent 50%) !important;
+}
+
+/* Hero Action CTA Button keeping contrast */
+html[data-theme="black"] .bg-mesh-purple button.bg-white,
+html[data-theme="black"] .bg-mesh-brand button.bg-white {
+  background-color: #ffffff !important;
+  color: #090a0f !important;
+}
+html[data-theme="black"] .bg-mesh-purple button.bg-white:hover,
+html[data-theme="black"] .bg-mesh-brand button.bg-white:hover {
+  background-color: #f1f5f9 !important;
+}
+
+/* Theme Selector Button inside Header */
+html[data-theme="black"] button[title="Change Theme Color"] {
+  background-color: #141824 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+}
+html[data-theme="black"] button[title="Change Theme Color"]:hover {
+  background-color: #1a2030 !important;
+}
+
+/* Clean glass cards in dark */
+html[data-theme="black"] .glass-card {
+  background: rgba(17, 20, 31, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Custom scrollbars in dark mode */
+html[data-theme="black"] ::-webkit-scrollbar-thumb {
+  background: #272e42;
+}
+html[data-theme="black"] ::-webkit-scrollbar-thumb:hover {
+  background: #394462;
+}
+html[data-theme="black"] .custom-scrollbar {
+  scrollbar-color: #272e42 transparent;
 }
