@@ -50,13 +50,17 @@ export const AdminAIFactory: React.FC = () => {
   const [uploadClass, setUploadClass] = useState('11');
   const [uploadChapter, setUploadChapter] = useState('');
   const [pageCount, setPageCount] = useState(16);
-  const [questionCount, setQuestionCount] = useState(100);
+  const [questionCount, setQuestionCount] = useState(400);
   const [isCustomCount, setIsCustomCount] = useState(false);
   const [customQuestionCount, setCustomQuestionCount] = useState('400');
   const [examTargets, setExamTargets] = useState({ NEET: true, CBSE: true, RBSE: true });
   const [isProcessing, setIsProcessing] = useState(false);
   const [processingStage, setProcessingStage] = useState('');
   const [uploadSuccess, setUploadSuccess] = useState('');
+
+  // Generation Contract State (Section 17)
+  const [showContractModal, setShowContractModal] = useState(false);
+  const [contractData, setContractData] = useState<any>(null);
 
   // Active Job & Batch Engine Tracking
   const [activeJobId, setActiveJobId] = useState<string>('');
@@ -301,11 +305,38 @@ export const AdminAIFactory: React.FC = () => {
     return () => clearInterval(interval);
   }, [jobs, isProcessing, activeJobId, selectedJobId]);
 
-  const handleStartPipeline = async () => {
+  const handleOpenContractModal = () => {
+    const effectiveTarget = isCustomCount ? Math.max(10, Number(customQuestionCount) || 100) : questionCount;
+    const supportedTopics = topicAllocations.filter((a) => a.sourceSupported);
+    const excludedTopics = topicAllocations.filter((a) => !a.sourceSupported).map((a) => a.topic);
+    const coveragePct = topicAllocations.length > 0
+      ? Number(((supportedTopics.length / topicAllocations.length) * 100).toFixed(1))
+      : 100;
+
+    const sourceName = selectedFile?.name || (uploadSubject === 'Biology' ? 'NCERT Biology Class 11' : 'NCERT Class 11 Textbook');
+    const chapterName = uploadChapter || (uploadSubject === 'Biology' ? 'The Living World' : 'Kinematics');
+
+    setContractData({
+      sourceTitle: sourceName,
+      chapter: chapterName,
+      subject: uploadSubject,
+      targetCount: effectiveTarget,
+      sourceCoveragePercentage: coveragePct,
+      difficultyDistribution: { easy: 30, medium: 50, hard: 20 },
+      examSuitability: Object.keys(examTargets).filter((k) => (examTargets as any)[k]),
+      questionTypes: ['MCQ', 'Assertion-Reason', 'Statement Based', 'Match The Following'],
+      excludedTopics,
+      totalAllocatedQuestions: supportedTopics.reduce((sum, a) => sum + (a.targetQuestions || 0), 0)
+    });
+    setShowContractModal(true);
+  };
+
+  const handleConfirmAndStartPipeline = async () => {
+    setShowContractModal(false);
     setIsProcessing(true);
     setProcessingStage('Reading PDF & Extracting Text...');
 
-    const effectiveTarget = isCustomCount ? Math.max(10, Number(customQuestionCount) || 100) : questionCount;
+    const effectiveTarget = contractData?.targetCount || (isCustomCount ? Math.max(10, Number(customQuestionCount) || 100) : questionCount);
 
     try {
       // Step 1: Upload and map chapter
@@ -343,6 +374,7 @@ export const AdminAIFactory: React.FC = () => {
           subject: uploadSubject,
           count: effectiveTarget,
           mode: effectiveTarget >= 400 ? 'chapter_bank' : 'standard',
+          generationContract: contractData,
           topics: topicAllocations.map((a) => ({
             name: a.topic,
             rawWeight: topicWeights[a.topic] ?? a.rawWeight
@@ -998,7 +1030,7 @@ export const AdminAIFactory: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-slate-400 font-semibold mb-1">Questions to Generate (Section 962: 400+ for Chapter Bank)</label>
+              <label className="block text-slate-400 font-semibold mb-1">Target Valid Unique Questions (Section 14: 400 Min Default)</label>
               <select
                 value={isCustomCount ? 'custom' : questionCount}
                 onChange={(e) => {
@@ -1011,11 +1043,12 @@ export const AdminAIFactory: React.FC = () => {
                 }}
                 className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
               >
-                <option value={50}>50 Questions (Quick Review)</option>
+                <option value={400}>400 Questions (🔥 Full Chapter Bank Target - Section 14 Default)</option>
+                <option value={500}>500 Questions (Comprehensive Chapter Bank)</option>
+                <option value={750}>750 Questions (Exhaustive Problem Bank)</option>
+                <option value={1000}>1000 Questions (Master Question Repository)</option>
                 <option value={100}>100 Questions (Standard Chapter Drill)</option>
-                <option value={250}>250 Questions (Comprehensive Practice)</option>
-                <option value={400}>400 Questions (🔥 Full Chapter Bank Target - Section 962)</option>
-                <option value={500}>500 Questions (Maximum Curriculum Coverage)</option>
+                <option value={50}>50 Questions (Quick Review)</option>
                 <option value="custom">Custom Question Count...</option>
               </select>
             </div>
@@ -1372,12 +1405,12 @@ export const AdminAIFactory: React.FC = () => {
 
           <div className="flex justify-end pt-2">
             <button
-              onClick={handleStartPipeline}
+              onClick={handleOpenContractModal}
               disabled={isProcessing}
               className="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white text-xs font-bold shadow-xl shadow-brand-600/30 transition disabled:opacity-50"
             >
               <Sparkles className="w-4 h-4" />
-              <span>{isProcessing ? 'Batched Engine Running...' : `Start Batched Generation (${isCustomCount ? customQuestionCount : questionCount} Target)`}</span>
+              <span>{isProcessing ? 'Batched Engine Running...' : `Review Generation Contract & Launch (${isCustomCount ? customQuestionCount : questionCount} Target)`}</span>
             </button>
           </div>
         </div>
@@ -2007,6 +2040,158 @@ export const AdminAIFactory: React.FC = () => {
                 className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-white font-bold text-xs transition"
               >
                 Close Traceability Modal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Generation Contract Confirmation Modal (Section 17 of task.md) */}
+      {showContractModal && contractData && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-in fade-in">
+          <div className="max-w-2xl w-full p-6 rounded-2xl bg-slate-900 border-2 border-purple-600/60 shadow-2xl shadow-purple-950/80 space-y-5 text-xs">
+            {/* Header */}
+            <div className="flex items-start justify-between pb-3 border-b border-slate-800">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-600 to-indigo-600 text-white flex items-center justify-center shadow-lg shadow-purple-600/30">
+                  <ShieldCheck className="w-6 h-6" />
+                </div>
+                <div>
+                  <div className="inline-block px-2 py-0.5 rounded bg-purple-500/20 text-purple-300 font-mono text-[10px] font-bold uppercase tracking-wider mb-0.5 border border-purple-500/30">
+                    Section 17 Requirement
+                  </div>
+                  <h3 className="font-black text-lg text-white tracking-tight">GENERATION CONTRACT</h3>
+                  <p className="text-[11px] text-slate-400">Pre-generation confirmation & source-grounding commitment</p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowContractModal(false)}
+                className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Contract Specifications Grid */}
+            <div className="space-y-3">
+              {/* Core Source & Target Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Source Document</span>
+                  <div className="text-sm font-bold text-white break-words">{contractData.sourceTitle}</div>
+                  <div className="text-[11px] text-brand-300 font-medium">{contractData.subject} • Class 11</div>
+                </div>
+
+                <div className="p-3.5 rounded-xl bg-slate-800/80 border border-slate-700/80 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Chapter</span>
+                  <div className="text-sm font-bold text-white">{contractData.chapter}</div>
+                  <div className="text-[11px] text-emerald-400 font-medium flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5" /> Source Coverage: {contractData.sourceCoveragePercentage}%
+                  </div>
+                </div>
+              </div>
+
+              {/* Target Highlight */}
+              <div className="p-4 rounded-xl bg-gradient-to-r from-purple-950/70 via-indigo-950/60 to-slate-900 border border-purple-700/60 flex items-center justify-between">
+                <div>
+                  <span className="text-[10px] uppercase font-bold text-purple-300 tracking-wider">Target Objective</span>
+                  <div className="text-xl font-black text-white mt-0.5">
+                    {contractData.targetCount} Valid Unique Questions
+                  </div>
+                  <div className="text-[11px] text-purple-200/80 mt-0.5">
+                    Hard requirement: Duplicates and low-quality drafts are rejected and auto-replaced until target is met.
+                  </div>
+                </div>
+                <div className="px-3 py-1.5 rounded-xl bg-purple-600/30 border border-purple-500/50 text-purple-200 font-mono font-bold text-xs shrink-0">
+                  Target: {contractData.targetCount}
+                </div>
+              </div>
+
+              {/* Blueprint Distributions */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                {/* Difficulty */}
+                <div className="p-3 rounded-xl bg-slate-850 border border-slate-800 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Difficulty Distribution</span>
+                  <div className="space-y-1 pt-1 font-mono text-[11px]">
+                    <div className="flex justify-between text-emerald-300">
+                      <span>Easy:</span> <span className="font-bold">30% (~{Math.round(contractData.targetCount * 0.3)})</span>
+                    </div>
+                    <div className="flex justify-between text-blue-300">
+                      <span>Medium:</span> <span className="font-bold">50% (~{Math.round(contractData.targetCount * 0.5)})</span>
+                    </div>
+                    <div className="flex justify-between text-purple-300">
+                      <span>Hard:</span> <span className="font-bold">20% (~{Math.round(contractData.targetCount * 0.2)})</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Exam Suitability */}
+                <div className="p-3 rounded-xl bg-slate-850 border border-slate-800 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Exam Suitability</span>
+                  <div className="flex flex-wrap gap-1.5 pt-1.5">
+                    {contractData.examSuitability.map((exam: string) => (
+                      <span key={exam} className="px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 font-bold text-[11px] border border-purple-500/30">
+                        {exam}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Question Formats */}
+                <div className="p-3 rounded-xl bg-slate-850 border border-slate-800 space-y-1">
+                  <span className="text-[10px] uppercase font-bold text-slate-400">Question Formats</span>
+                  <div className="space-y-0.5 pt-1 text-[11px] text-slate-300 font-medium">
+                    <div>• Standard 4-Option MCQ</div>
+                    <div>• Assertion & Reason</div>
+                    <div>• Statement Analysis</div>
+                    <div>• Match The Following</div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Excluded Topics Section (Section 21) */}
+              <div className="p-3.5 rounded-xl bg-rose-950/20 border border-rose-900/40 space-y-1.5">
+                <div className="flex items-center gap-1.5 text-rose-400 font-bold text-[11px]">
+                  <AlertTriangle className="w-3.5 h-3.5 shrink-0" />
+                  <span>EXCLUDED TOPICS (SOURCE CONTENT NOT FOUND — 0 Questions):</span>
+                </div>
+                {contractData.excludedTopics?.length > 0 ? (
+                  <ul className="list-disc list-inside space-y-0.5 text-[11px] text-rose-300/90 pl-1">
+                    {contractData.excludedTopics.map((topic: string) => (
+                      <li key={topic}>
+                        <span className="font-semibold">{topic}</span> — <span className="text-slate-400 italic">Target: 0 Qs (No Hallucination)</span>
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  <div className="text-[11px] text-slate-400 italic">
+                    All chapter topics are verified in the uploaded source content.
+                  </div>
+                )}
+                <div className="text-[10px] text-slate-400 leading-relaxed pt-1">
+                  In compliance with Section 21, the AI Content Factory will strictly NOT generate questions for topics absent from the uploaded source.
+                </div>
+              </div>
+            </div>
+
+            {/* Contract Confirmation Actions */}
+            <div className="pt-3 border-t border-slate-800 flex items-center justify-between gap-3">
+              <button
+                type="button"
+                onClick={() => setShowContractModal(false)}
+                className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-bold text-xs transition"
+              >
+                Back to Configuration
+              </button>
+
+              <button
+                type="button"
+                onClick={handleConfirmAndStartPipeline}
+                className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-gradient-to-r from-purple-600 via-brand-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-xl shadow-purple-600/30 transition"
+              >
+                <Sparkles className="w-4 h-4" />
+                <span>Confirm Contract & Start {contractData.targetCount} Generation</span>
               </button>
             </div>
           </div>

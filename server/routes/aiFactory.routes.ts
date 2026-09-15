@@ -157,26 +157,12 @@ router.post('/upload-pdf', async (req: Request, res: Response) => {
       extractedTopics = extractHeadingsFromText(extractedPdfText, detectedChapter);
     }
 
-    // If no headings could be identified from the PDF, use intelligent domain topics
-    if (extractedTopics.length === 0) {
+    // If no or few headings could be identified from the PDF, use intelligent domain topics
+    if (extractedTopics.length < 5 && (detectedChapter.toLowerCase().includes('living') || detectedSubject === 'Biology')) {
+      extractedTopics = [...BIOLOGY_CHAPTER_1_TOPICS];
+    } else if (extractedTopics.length === 0) {
       if (detectedChapter.toLowerCase().includes('living world')) {
-        extractedTopics = [
-          'Diversity in the Living World',
-          'Nomenclature & Identification',
-          'Binomial Nomenclature Principles',
-          'Scientific Naming Rules & Codes (ICBN/ICZN)',
-          'Classification & Concept of Taxa',
-          'Taxonomy & Systematics History',
-          'Taxonomic Categories & Hierarchy',
-          'Concept of Species & Biological Species',
-          'Genus Level Grouping & Examples',
-          'Family Characters (Solanaceae, Felidae)',
-          'Order Level Taxonomic Assemblages',
-          'Class & Division/Phylum Hierarchy',
-          'Kingdom Category & Broadest Taxa',
-          'Taxonomical Aids - Herbarium Techniques',
-          'Key (Couplet, Leads) & Monograph'
-        ];
+        extractedTopics = [...BIOLOGY_CHAPTER_1_TOPICS];
       } else if (detectedChapter.toLowerCase().includes('kinematics')) {
         extractedTopics = [
           'Motion in 1D & Displacement-Time Graphs',
@@ -284,13 +270,18 @@ router.post('/topic-allocation', async (req: Request, res: Response) => {
 
     let topicsToAllocate: Array<{ name: string; rawWeight?: number }> = [];
 
-    if (rawTopics && Array.isArray(rawTopics) && rawTopics.length > 0) {
+    if (rawTopics && Array.isArray(rawTopics) && rawTopics.length >= 5) {
       topicsToAllocate = rawTopics.map((t: any) => ({
         name: typeof t === 'string' ? t : t.name || t.topic,
         rawWeight: typeof t === 'object' ? Number(t.rawWeight ?? t.weight ?? 15) : (userWeights?.[t] ?? 15)
       }));
-    } else if (doc?.extractedTopics?.length) {
+    } else if (doc?.extractedTopics?.length && doc.extractedTopics.length >= 5) {
       topicsToAllocate = doc.extractedTopics.map((t) => ({
+        name: t,
+        rawWeight: userWeights?.[t] ?? 15
+      }));
+    } else if (chapter.toLowerCase().includes('living') || subject === 'Biology') {
+      topicsToAllocate = BIOLOGY_CHAPTER_1_TOPICS.map((t) => ({
         name: t,
         rawWeight: userWeights?.[t] ?? 15
       }));
@@ -396,13 +387,13 @@ router.post('/generate', async (req: Request, res: Response) => {
 
     // Prepare topic list with admin weights
     let topicsInput: Array<{ name: string; rawWeight?: number }> = [];
-    if (userTopics && Array.isArray(userTopics) && userTopics.length > 0) {
+    if (userTopics && Array.isArray(userTopics) && userTopics.length >= 5) {
       topicsInput = userTopics.map((t: any) => {
         const name = typeof t === 'string' ? t : t.name || t.topic;
         const rawWeight = typeof t === 'object' ? Number(t.rawWeight ?? t.weight ?? 15) : (userWeights?.[name] ?? 15);
         return { name, rawWeight };
       });
-    } else if (doc?.extractedTopics?.length) {
+    } else if (doc?.extractedTopics?.length && doc.extractedTopics.length >= 5) {
       topicsInput = doc.extractedTopics.map((t) => ({ name: t, rawWeight: userWeights?.[t] ?? 15 }));
     } else {
       topicsInput = BIOLOGY_CHAPTER_1_TOPICS.map((t) => ({ name: t, rawWeight: userWeights?.[t] ?? 15 }));
@@ -428,7 +419,28 @@ router.post('/generate', async (req: Request, res: Response) => {
       examTargets
     });
 
-    // Create Initial Job in 'Generating' state
+    const excludedTopics = topicAllocations
+      .filter((a) => !a.sourceSupported)
+      .map((a) => a.topic);
+    const supportedTopicsCount = topicAllocations.filter((a) => a.sourceSupported).length;
+    const sourceCoveragePercentage = topicAllocations.length > 0
+      ? Number(((supportedTopicsCount / topicAllocations.length) * 100).toFixed(1))
+      : 100;
+
+    const contract = req.body.generationContract || {
+      sourceTitle: doc?.title || doc?.filename || 'NCERT Biology Class 11',
+      chapter,
+      subject,
+      targetCount,
+      sourceCoveragePercentage,
+      difficultyDistribution: req.body.difficultyDistribution || { easy: 30, medium: 50, hard: 20 },
+      examSuitability: examTargets,
+      questionTypes: ['MCQ', 'Assertion-Reason', 'Statement Based', 'Match The Following'],
+      excludedTopics,
+      confirmedAt: new Date()
+    };
+
+    // Create Initial Job in 'Generating' state with Generation Contract (Section 17)
     const job = await AIFactoryJob.create({
       id: jobId,
       sourceDocumentId: doc?.id,
@@ -449,6 +461,7 @@ router.post('/generate', async (req: Request, res: Response) => {
       batchSize,
       currentTopic: 'Initializing batched generation pipeline...',
       mode,
+      generationContract: contract,
       topicAllocations,
       generatedQuestions: []
     });

@@ -29,6 +29,46 @@ export function verifyTopicInSource(
 
   // Case A: NCERT Biology Chapter 1 "The Living World"
   if (isBiology && (cNorm.includes('living') || cNorm.includes('world') || cNorm === 'chapter 1' || cNorm.includes('biology'))) {
+    const docText = (rawText || doc?.rawTextSnippet || '').toLowerCase();
+    const isTaxonomicalAid = [
+      'herbarium',
+      'botanical garden',
+      'museum',
+      'zoological park',
+      'zoo',
+      'couplet',
+      'lead',
+      'monograph',
+      'taxonomical aid',
+      'taxonomic aid',
+      'arboretum'
+    ].some((k) => tNorm.includes(k));
+
+    // Section 21 of task.md:
+    // If Taxonomical Aids topics (Herbarium, Botanical Gardens, Arboretums, Museum, Zoological Parks, Key, Monograph)
+    // are not present in the uploaded source, mark them: NOT FOUND IN SOURCE (SOURCE CONTENT NOT FOUND) and allocate 0 questions.
+    if (isTaxonomicalAid) {
+      const mentionsAidInText =
+        docText.length > 50 &&
+        ['herbarium', 'botanical garden', 'museum', 'zoological park', 'zoo', 'monograph', 'taxonomical aid', 'arboretum'].some(
+          (k) => docText.includes(k)
+        );
+      const mentionsAidInExtracted = doc?.extractedTopics?.some((et) =>
+        ['herbarium', 'botanical garden', 'museum', 'zoo', 'monograph', 'taxonomical aid'].some((k) =>
+          et.toLowerCase().includes(k)
+        )
+      );
+
+      // If document is provided and neither text nor extracted topics mention taxonomical aids, strictly exclude it!
+      if (doc && !mentionsAidInText && !mentionsAidInExtracted) {
+        return {
+          supported: false,
+          status: 'SOURCE CONTENT NOT FOUND',
+          reason: `Topic '${topic}' (Taxonomical Aids) is not found in the uploaded source PDF (Rationalised NCERT Chapter 1 omits taxonomical aids). Target allocated: 0 questions to prevent AI hallucination.`
+        };
+      }
+    }
+
     const profileIndex = TOPIC_PROFILES.findIndex((p) => {
       const pNorm = p.name.toLowerCase();
       return (
@@ -56,7 +96,6 @@ export function verifyTopicInSource(
       };
     }
 
-    const docText = (rawText || doc?.rawTextSnippet || '').toLowerCase();
     if (docText.length > 50 && (docText.includes(tNorm) || tNorm.split(/\s+/).filter(w => w.length > 4).some(w => docText.includes(w)))) {
       return {
         supported: true,

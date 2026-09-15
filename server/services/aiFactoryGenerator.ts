@@ -27,12 +27,6 @@ export function synthesizeQuestionItem(
   variantOverride?: number,
   topicIndexOverride?: number
 ): IAIFactoryQuestion {
-  // If source document has text, synthesize strictly from the real PDF content!
-  if (doc?.rawTextSnippet || doc?.filename) {
-    const variant = variantOverride ?? (qIndex - 1);
-    return generateRealQuestionFromPdf(topic, variant, qIndex, jobId, doc);
-  }
-
   const isBiology = subject === 'Biology' && chapter.toLowerCase().includes('living');
   if (isBiology) {
     let topicIndex = topicIndexOverride;
@@ -51,6 +45,12 @@ export function synthesizeQuestionItem(
     }
     const variant = variantOverride ?? Math.floor((qIndex - 1) / BIOLOGY_CHAPTER_1_TOPICS.length);
     return getBiologyQuestion(topicIndex, variant, qIndex, jobId, doc);
+  }
+
+  // If source document has text, synthesize strictly from the real PDF content!
+  if (doc?.rawTextSnippet || doc?.filename) {
+    const variant = variantOverride ?? (qIndex - 1);
+    return generateRealQuestionFromPdf(topic, variant, qIndex, jobId, doc);
   }
 
   // For any other subject/chapter, generate realistic questions from knowledge extractor
@@ -209,7 +209,7 @@ export async function runBatchedGeneration(jobId: string) {
     // If an admin-defined topic is missing from the uploaded PDF:
     // Mark: SOURCE CONTENT NOT FOUND, Question target for that topic: 0. Do not hallucinate content.
     let topicAllocations = job.topicAllocations;
-    if (!topicAllocations || topicAllocations.length === 0) {
+    if (!topicAllocations || topicAllocations.length < 5) {
       topicAllocations = calculateQuestionAllocation({
         targetCount,
         chapter,

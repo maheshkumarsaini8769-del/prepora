@@ -142,6 +142,23 @@ export interface ITopicAllocation {
   unsupportedReason?: string;
 }
 
+export interface IGenerationContract {
+  sourceTitle: string;
+  chapter: string;
+  subject: string;
+  targetCount: number;
+  sourceCoveragePercentage: number;
+  difficultyDistribution: {
+    easy: number;
+    medium: number;
+    hard: number;
+  };
+  examSuitability: string[];
+  questionTypes: string[];
+  excludedTopics: string[];
+  confirmedAt?: Date;
+}
+
 export interface IAIFactoryJob extends Document {
   id: string;
   sourceDocumentId?: string;
@@ -172,6 +189,7 @@ export interface IAIFactoryJob extends Document {
   currentTopic?: string;
   mode?: 'quick' | 'standard' | 'deep' | 'chapter_bank';
   error?: string;
+  generationContract?: IGenerationContract;
   topicAllocations?: ITopicAllocation[];
   generatedQuestions: IAIFactoryQuestion[];
   createdAt: Date;
@@ -215,6 +233,22 @@ const AIFactoryJobSchema = new Schema(
     currentTopic: { type: String, default: '' },
     mode: { type: String, default: 'standard' },
     error: { type: String },
+    generationContract: {
+      sourceTitle: { type: String },
+      chapter: { type: String },
+      subject: { type: String },
+      targetCount: { type: Number },
+      sourceCoveragePercentage: { type: Number },
+      difficultyDistribution: {
+        easy: { type: Number, default: 30 },
+        medium: { type: Number, default: 50 },
+        hard: { type: Number, default: 20 }
+      },
+      examSuitability: { type: [String], default: ['NEET', 'CBSE', 'RBSE'] },
+      questionTypes: { type: [String], default: ['MCQ', 'Assertion Reason', 'Statement Based', 'Match The Following'] },
+      excludedTopics: { type: [String], default: [] },
+      confirmedAt: { type: Date, default: Date.now }
+    },
     topicAllocations: { type: [Schema.Types.Mixed], default: [] },
     generatedQuestions: { type: [Schema.Types.Mixed], default: [] }
   },
