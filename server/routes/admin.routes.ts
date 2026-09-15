@@ -953,7 +953,7 @@ router.delete('/papers/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
     const { adminEmail = 'superadmin@prepore.edu' } = req.body || {};
 
-    const paper = await Paper.findOneAndDelete({ id });
+    const paper = await Paper.findOneAndDelete({ id: String(id) });
     if (!paper) {
       return res.status(404).json({ success: false, message: 'Paper not found' });
     }
@@ -964,7 +964,7 @@ router.delete('/papers/:id', async (req: Request, res: Response) => {
       adminEmail,
       action: 'PAPER_DELETED',
       entityType: 'Paper',
-      entityId: id,
+      entityId: String(id),
       metadata: { title: paper.title, exam: paper.exam, year: paper.year }
     });
 
