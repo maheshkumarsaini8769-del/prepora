@@ -1,5 +1,6 @@
 import { Router, Request, Response } from 'express';
 import User from '../models/User.js';
+import Paper from '../models/Paper.js';
 import Question from '../models/Question.js';
 import Test from '../models/Test.js';
 import TestAttempt from '../models/TestAttempt.js';
@@ -26,6 +27,9 @@ router.get('/stats', async (req: Request, res: Response) => {
       pendingQuestions,
       draftQuestions,
       totalTests,
+      totalPapers,
+      publishedPapers,
+      draftPapers,
       totalAttempts,
       inProgressAttempts,
       totalQuestionReports,
@@ -42,6 +46,9 @@ router.get('/stats', async (req: Request, res: Response) => {
       Question.countDocuments({ status: 'Pending' }),
       Question.countDocuments({ status: 'Draft' }),
       Test.countDocuments(),
+      Paper.countDocuments(),
+      Paper.countDocuments({ status: 'Published' }),
+      Paper.countDocuments({ status: 'Draft' }),
       TestAttempt.countDocuments(),
       TestAttempt.countDocuments({ status: 'in-progress' }),
       QuestionReport.countDocuments(),
@@ -90,7 +97,10 @@ router.get('/stats', async (req: Request, res: Response) => {
           publishedQuestions,
           pendingQuestions,
           draftQuestions,
-          totalTests
+          totalTests,
+          totalPapers: totalPapers || 0,
+          publishedPapers: publishedPapers || 0,
+          draftPapers: draftPapers || 0
         },
         activity: {
           totalAttempts,
@@ -698,6 +708,272 @@ router.get('/security/roles', (req: Request, res: Response) => {
 });
 
 // ==========================================
+
+// ==========================================
+// 10. PAPER LIBRARY MANAGEMENT (Section 12 of task1.md)
+// ==========================================
+router.get('/papers', async (req: Request, res: Response) => {
+  try {
+    const { exam, year, paperType, status, search } = req.query;
+    const filter: any = {};
+
+    if (exam && exam !== 'All' && exam !== 'all') filter.exam = exam;
+    if (year && year !== 'All' && year !== 'all') filter.year = Number(year);
+    if (paperType && paperType !== 'All' && paperType !== 'all') filter.paperType = paperType;
+    if (status && status !== 'All' && status !== 'all') filter.status = status;
+
+    if (search && typeof search === 'string') {
+      const regex = new RegExp(search, 'i');
+      filter.$or = [
+        { title: regex },
+        { description: regex },
+        { subject: regex },
+        { shift: regex }
+      ];
+    }
+
+    let papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
+
+    // Auto-seed if completely empty
+    if (papers.length === 0 && Object.keys(filter).length === 0) {
+      const defaults = [
+        {
+          id: 'paper-jee-2024-s1',
+          title: 'JEE Main 2024 Session 1 (Sample Shift)',
+          exam: 'JEE',
+          classLevel: '12',
+          year: 2024,
+          paperType: 'PYQ',
+          durationMinutes: 60,
+          totalQuestions: 15,
+          shift: 'Morning Shift (9 AM - 12 PM)',
+          subject: 'Full Syllabus',
+          source: 'Official',
+          status: 'Published',
+          description: 'Curated official pattern paper modeled on the JEE Main 2024 with single correct MCQ questions.',
+          fileUrl: 'https://jeemain.nta.ac.in',
+          answerKeyUrl: 'https://jeemain.nta.ac.in/answer-keys',
+          downloadsCount: 1420,
+          attemptsCount: 890,
+          questionIds: []
+        },
+        {
+          id: 'paper-neet-2024-model',
+          title: 'NEET 2024 Model Question Paper',
+          exam: 'NEET',
+          classLevel: '12',
+          year: 2024,
+          paperType: 'Model Paper',
+          durationMinutes: 45,
+          totalQuestions: 12,
+          shift: 'Single Shift',
+          subject: 'Full Syllabus',
+          source: 'Curated',
+          status: 'Published',
+          description: 'Standard model paper aligning with latest NTA NEET syllabus across Physics, Chemistry, and Biology.',
+          fileUrl: 'https://neet.nta.nic.in',
+          answerKeyUrl: 'https://neet.nta.nic.in/keys',
+          downloadsCount: 2310,
+          attemptsCount: 1450,
+          questionIds: []
+        },
+        {
+          id: 'paper-cbse-12-phy-2024',
+          title: 'CBSE Class 12 Physics Sample Paper',
+          exam: 'CBSE',
+          classLevel: '12',
+          board: 'CBSE',
+          subject: 'Physics',
+          year: 2024,
+          paperType: 'Sample Paper',
+          durationMinutes: 30,
+          totalQuestions: 8,
+          source: 'Official',
+          status: 'Published',
+          description: 'Official pattern demo questions for CBSE Class 12 Physics Board Examination.',
+          fileUrl: 'https://cbseacademic.nic.in',
+          answerKeyUrl: 'https://cbseacademic.nic.in/solutions',
+          downloadsCount: 980,
+          attemptsCount: 540,
+          questionIds: []
+        },
+        {
+          id: 'paper-rbse-12-chem-2024',
+          title: 'RBSE Class 12 Chemistry Sample Paper',
+          exam: 'RBSE',
+          classLevel: '12',
+          board: 'RBSE',
+          subject: 'Chemistry',
+          year: 2024,
+          paperType: 'Sample Paper',
+          durationMinutes: 30,
+          totalQuestions: 7,
+          source: 'Official',
+          status: 'Published',
+          description: 'Rajasthan Board Class 12 Model Paper for Chemistry theory exam practice.',
+          fileUrl: 'https://rajeduboard.rajasthan.gov.in',
+          answerKeyUrl: 'https://rajeduboard.rajasthan.gov.in/keys',
+          downloadsCount: 650,
+          attemptsCount: 320,
+          questionIds: []
+        }
+      ];
+      await Paper.insertMany(defaults);
+      papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
+    }
+
+    res.json({ success: true, data: papers });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to fetch papers', error: error.message });
+  }
+});
+
+router.post('/papers', async (req: Request, res: Response) => {
+  try {
+    const {
+      title,
+      exam = 'JEE',
+      classLevel = '12',
+      board,
+      subject = 'Full Syllabus',
+      year = 2024,
+      shift = '',
+      paperType = 'PYQ',
+      durationMinutes = 180,
+      totalQuestions = 75,
+      description = '',
+      fileUrl = '',
+      answerKeyUrl = '',
+      source = 'Official',
+      status = 'Published',
+      adminEmail = 'superadmin@prepore.edu'
+    } = req.body;
+
+    if (!title) {
+      return res.status(400).json({ success: false, message: 'Paper title is required' });
+    }
+
+    const newId = 'paper_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6);
+    const newPaper = await Paper.create({
+      id: newId,
+      title: title.trim(),
+      exam,
+      classLevel,
+      board: board || (exam === 'CBSE' || exam === 'RBSE' ? exam : undefined),
+      subject,
+      year: Number(year),
+      shift,
+      paperType,
+      durationMinutes: Number(durationMinutes),
+      totalQuestions: Number(totalQuestions),
+      description,
+      fileUrl,
+      answerKeyUrl,
+      source,
+      status,
+      downloadsCount: 0,
+      attemptsCount: 0,
+      questionIds: []
+    });
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+      adminId: 'admin_sys',
+      adminEmail,
+      action: 'PAPER_CREATED',
+      entityType: 'Paper',
+      entityId: newPaper.id,
+      metadata: { title: newPaper.title, exam: newPaper.exam, year: newPaper.year, paperType: newPaper.paperType }
+    });
+
+    res.status(201).json({ success: true, message: 'Paper created successfully', data: newPaper });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to create paper', error: error.message });
+  }
+});
+
+router.put('/papers/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { adminEmail = 'superadmin@prepore.edu', ...updates } = req.body;
+
+    const paper = await Paper.findOneAndUpdate({ id }, { $set: updates }, { new: true });
+    if (!paper) {
+      return res.status(404).json({ success: false, message: 'Paper not found' });
+    }
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+      adminId: 'admin_sys',
+      adminEmail,
+      action: 'PAPER_METADATA_UPDATED',
+      entityType: 'Paper',
+      entityId: paper.id,
+      metadata: { fieldsUpdated: Object.keys(updates), title: paper.title }
+    });
+
+    res.json({ success: true, message: 'Paper updated successfully', data: paper });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to update paper', error: error.message });
+  }
+});
+
+router.patch('/papers/:id/status', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { status, adminEmail = 'superadmin@prepore.edu' } = req.body;
+
+    if (!['Published', 'Draft', 'Archived'].includes(status)) {
+      return res.status(400).json({ success: false, message: 'Invalid status' });
+    }
+
+    const paper = await Paper.findOneAndUpdate({ id }, { $set: { status } }, { new: true });
+    if (!paper) {
+      return res.status(404).json({ success: false, message: 'Paper not found' });
+    }
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+      adminId: 'admin_sys',
+      adminEmail,
+      action: `PAPER_STATUS_${status.toUpperCase()}`,
+      entityType: 'Paper',
+      entityId: paper.id,
+      metadata: { newStatus: status, title: paper.title }
+    });
+
+    res.json({ success: true, message: `Paper status updated to ${status}`, data: paper });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to change paper status', error: error.message });
+  }
+});
+
+router.delete('/papers/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { adminEmail = 'superadmin@prepore.edu' } = req.body || {};
+
+    const paper = await Paper.findOneAndDelete({ id });
+    if (!paper) {
+      return res.status(404).json({ success: false, message: 'Paper not found' });
+    }
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+      adminId: 'admin_sys',
+      adminEmail,
+      action: 'PAPER_DELETED',
+      entityType: 'Paper',
+      entityId: id,
+      metadata: { title: paper.title, exam: paper.exam, year: paper.year }
+    });
+
+    res.json({ success: true, message: 'Paper deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to delete paper', error: error.message });
+  }
+});
+
 // 12. CLEAR ALL QUESTION & TEST DATA (CLEAN SLATE RESET)
 // ==========================================
 router.post('/clear-data', async (req: Request, res: Response) => {

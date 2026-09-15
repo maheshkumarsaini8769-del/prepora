@@ -13,6 +13,7 @@ import reportRoutes from './routes/report.routes.js';
 import auditRoutes from './routes/audit.routes.js';
 import adminRoutes from './routes/admin.routes.js';
 import aiFactoryRoutes from './routes/aiFactory.routes.js';
+import paperRoutes from './routes/paper.routes.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/ai-factory', aiFactoryRoutes);
+app.use('/api/papers', paperRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/tests', testRoutes);
 app.use('/api/attempts', attemptRoutes);

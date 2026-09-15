@@ -12,13 +12,41 @@ export interface PaperFilters {
 }
 
 class MockPaperService {
+  private cache: Paper[] = [];
+  private hasFetched = false;
+
   private getCustomPapers(): Paper[] {
     return getStorageItem<Paper[]>('prepora_custom_papers', []);
   }
 
   public getAllPapers(): Paper[] {
     const custom = this.getCustomPapers();
+    if (this.cache.length > 0) {
+      // Merge unique
+      const map = new Map<string, Paper>();
+      mockPapers.forEach(p => map.set(p.id, p));
+      custom.forEach(p => map.set(p.id, p));
+      this.cache.forEach(p => map.set(p.id, p));
+      return Array.from(map.values());
+    }
     return [...mockPapers, ...custom];
+  }
+
+  public async syncWithBackend(): Promise<Paper[]> {
+    try {
+      const res = await fetch('/api/papers');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && Array.isArray(data.papers)) {
+          this.cache = data.papers;
+          this.hasFetched = true;
+          return this.getAllPapers();
+        }
+      }
+    } catch {
+      // Offline fallback
+    }
+    return this.getAllPapers();
   }
 
   public getPaperById(id: string): Paper | undefined {
@@ -35,7 +63,7 @@ class MockPaperService {
       if (filters.searchQuery) {
         const query = filters.searchQuery.toLowerCase();
         const matchesTitle = p.title.toLowerCase().includes(query);
-        const matchesDesc = p.description.toLowerCase().includes(query);
+        const matchesDesc = (p.description || '').toLowerCase().includes(query);
         if (!matchesTitle && !matchesDesc) return false;
       }
       return true;
@@ -65,3 +93,5 @@ class MockPaperService {
 }
 
 export const paperService = new MockPaperService();
+paperService.syncWithBackend().catch(() => {});
+
