@@ -223,6 +223,23 @@ export const AdminQuestions: React.FC = () => {
     }
   };
 
+  const handleClearAllQuestions = async () => {
+    if (!window.confirm('Are you sure you want to delete ALL questions from the repository? This resets the question bank to a clean slate.')) return;
+    try {
+      await fetch('/api/admin/clear-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: 'questions' })
+      });
+      localStorage.removeItem('prepora_questions');
+      await questionService.fetchAllQuestionsAsync();
+      setQuestions([]);
+      setSelectedIds([]);
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
   // Version History Flow
   const handleOpenHistory = async (q: Question) => {
     setSelectedHistoryQ(q);
@@ -453,6 +470,16 @@ export const AdminQuestions: React.FC = () => {
             title="Download questions as Excel .xlsx"
           >
             <FileSpreadsheet className="w-3.5 h-3.5 mr-1 text-emerald-600" /> Excel
+          </Button>
+
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={handleClearAllQuestions}
+            className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border-rose-200"
+            title="Reset repository to clean slate (removes all questions)"
+          >
+            <Trash2 className="w-3.5 h-3.5 mr-1 text-rose-600" /> Clear All
           </Button>
 
           <Button

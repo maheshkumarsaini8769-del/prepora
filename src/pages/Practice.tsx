@@ -241,9 +241,13 @@ export const Practice: React.FC = () => {
           <div className="text-xs text-slate-500">
             Available questions in pool matching selection:{' '}
             <span className="font-bold text-slate-900">{matchingPool.length} questions</span>
-            {matchingPool.length === 0 && (
+            {questionService.getAllQuestions().length === 0 ? (
+              <span className="text-amber-700 font-semibold block mt-1 bg-amber-50 p-2 rounded-lg border border-amber-200">
+                📚 No questions in question bank yet. <a href="/admin/ai-factory" className="text-brand-700 underline font-bold">Upload a Chapter PDF in Admin Panel</a> to generate real questions from your material!
+              </span>
+            ) : matchingPool.length === 0 ? (
               <span className="text-rose-600 block mt-0.5">Try choosing "All" chapters/difficulties to broaden scope.</span>
-            )}
+            ) : null}
           </div>
 
           <Button

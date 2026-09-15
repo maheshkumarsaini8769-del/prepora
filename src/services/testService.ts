@@ -45,7 +45,7 @@ class ApiTestService {
     const attempts = this.getAllAttempts();
     const attemptedTestIds = new Set(attempts.map(a => a.testId));
 
-    const sourceTests = this.localTestsCache.length > 0 ? this.localTestsCache : mockTests;
+    const sourceTests = this.localTestsCache;
     return [...custom, ...sourceTests].map(t => ({
       ...t,
       isAttempted: attemptedTestIds.has(t.id),

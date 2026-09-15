@@ -9,6 +9,8 @@ import Question from '../models/Question.js';
 import { jaccardSimilarity } from '../utils/similarity.js';
 import { BIOLOGY_CHAPTER_1_TOPICS, getBiologyQuestion } from './biologyChapter1Bank.js';
 import { calculateQuestionAllocation } from './topicWeightService.js';
+import { generateRealQuestionFromPdf } from './pdfKnowledgeExtractor.js';
+import { generateQuestionsWithGemini } from './geminiService.js';
 
 // =========================================================================
 // 1. QUESTION SYNTHESIZER FOR SOURCE CHAPTERS (SECTION 4, 5, 6, 7, 8, 9, 10)
@@ -25,7 +27,13 @@ export function synthesizeQuestionItem(
   variantOverride?: number,
   topicIndexOverride?: number
 ): IAIFactoryQuestion {
-  const isBiology = subject === 'Biology' || chapter.toLowerCase().includes('living');
+  // If source document has text, synthesize strictly from the real PDF content!
+  if (doc?.rawTextSnippet || doc?.filename) {
+    const variant = variantOverride ?? (qIndex - 1);
+    return generateRealQuestionFromPdf(topic, variant, qIndex, jobId, doc);
+  }
+
+  const isBiology = subject === 'Biology' && chapter.toLowerCase().includes('living');
   if (isBiology) {
     let topicIndex = topicIndexOverride;
     if (topicIndex === undefined || topicIndex === -1) {
@@ -44,6 +52,10 @@ export function synthesizeQuestionItem(
     const variant = variantOverride ?? Math.floor((qIndex - 1) / BIOLOGY_CHAPTER_1_TOPICS.length);
     return getBiologyQuestion(topicIndex, variant, qIndex, jobId, doc);
   }
+
+  // For any other subject/chapter, generate realistic questions from knowledge extractor
+  const variant = variantOverride ?? (qIndex - 1);
+  return generateRealQuestionFromPdf(topic, variant, qIndex, jobId, doc);
 
   const qId = `ai_q_${jobId}_${qIndex}_${Math.random().toString(36).substring(2, 6)}`;
 

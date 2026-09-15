@@ -464,6 +464,43 @@ export const AdminAIFactory: React.FC = () => {
     }
   };
 
+  const handleApproveAll = async (jobId: string) => {
+    if (!window.confirm('Are you sure you want to approve and publish ALL valid questions from this job to the Master Question Bank?')) return;
+    try {
+      const res = await fetch(`/api/ai-factory/jobs/${jobId}/approve-all`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      });
+      const data = await res.json();
+      if (data.success) {
+        setActionFeedback(data.message || 'All valid questions approved and published!');
+        setTimeout(() => setActionFeedback(''), 4000);
+        await fetchStatsAndJobs();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleClearAllData = async () => {
+    if (!window.confirm('Are you sure you want to CLEAR ALL questions, tests, and AI jobs? This resets your system to a clean slate so only questions from your uploaded PDFs will appear.')) return;
+    try {
+      const res = await fetch('/api/admin/clear-data', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ target: 'all' })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setActionFeedback('All data cleared successfully! Clean slate ready for your PDF uploads.');
+        setTimeout(() => setActionFeedback(''), 4500);
+        await fetchStatsAndJobs();
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   const handleRegenerateQuestion = async (jobId: string, questionId: string) => {
     try {
       const res = await fetch(`/api/ai-factory/questions/${questionId}/regenerate`, {
@@ -612,13 +649,23 @@ export const AdminAIFactory: React.FC = () => {
           </p>
         </div>
 
-        <button
-          onClick={() => setActiveTab('upload')}
-          className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white text-xs font-bold shadow-lg shadow-brand-600/30 transition self-start md:self-auto"
-        >
-          <Upload className="w-4 h-4" />
-          <span>Upload Chapter PDF</span>
-        </button>
+        <div className="flex flex-wrap items-center gap-2">
+          <button
+            onClick={handleClearAllData}
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition shadow-sm"
+            title="Reset to clean slate (removes dummy/seeded data)"
+          >
+            <Trash2 className="w-4 h-4 text-rose-400" />
+            <span>Clear All Data (Reset)</span>
+          </button>
+          <button
+            onClick={() => setActiveTab('upload')}
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white text-xs font-bold shadow-lg shadow-brand-600/30 transition"
+          >
+            <Upload className="w-4 h-4" />
+            <span>Upload Chapter PDF</span>
+          </button>
+        </div>
       </div>
 
       {actionFeedback && (
@@ -1487,16 +1534,27 @@ export const AdminAIFactory: React.FC = () => {
                     </div>
                   </div>
 
-                  {/* Generate 50 More Button (Section 17 & 26) */}
-                  <div className="flex items-center gap-2">
+                  {/* Action Buttons: Generate More & Approve All */}
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleApproveAll(activeJob.id)}
+                      disabled={isProcessing || activeJob.status === 'Generating'}
+                      className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/25 transition disabled:opacity-50"
+                      title="Approve all valid unique questions and add to Master Question Bank"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>Approve & Publish All Questions (1-Click)</span>
+                    </button>
+
                     <button
                       type="button"
                       onClick={() => handleGenerateMore(activeJob.id, 50)}
                       disabled={isProcessing || activeJob.status === 'Generating'}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/20 transition disabled:opacity-50"
+                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition disabled:opacity-50"
                     >
-                      <PlusCircle className="w-3.5 h-3.5" />
-                      <span>+ Generate 50 More (New Concepts)</span>
+                      <PlusCircle className="w-3.5 h-3.5 text-brand-400" />
+                      <span>+ Generate 50 More</span>
                     </button>
                   </div>
                 </div>

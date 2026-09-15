@@ -13,6 +13,7 @@ import mongoose from 'mongoose';
 import { runBatchedGeneration } from '../services/aiFactoryGenerator.js';
 import { calculateQuestionAllocation } from '../services/topicWeightService.js';
 import { BIOLOGY_CHAPTER_1_TOPICS } from '../services/biologyChapter1Bank.js';
+import { extractHeadingsFromText } from '../services/pdfKnowledgeExtractor.js';
 
 const router = Router();
 
@@ -149,59 +150,51 @@ router.post('/upload-pdf', async (req: Request, res: Response) => {
       });
     }
 
-    // Default high-yield topics based on chapter and extracted headings
-    let extractedTopics = [
-      'Core Fundamentals & Definitions',
-      'Types & Classification Hierarchy',
-      'Governing Principles & Laws',
-      'Mathematical Relations & Formulas',
-      'Clinical & Real-world Applications',
-      'High-Yield Exam Distractors'
-    ];
+    let extractedTopics: string[] = [];
 
+    // Dynamically extract real sections and topics from the uploaded PDF text!
     if (extractedPdfText && extractedPdfText.length > 50) {
-      const candidateHeadings = extractedPdfText
-        .split('\n')
-        .map((l: string) => l.trim())
-        .filter((l: string) => l.length > 4 && l.length < 60 && !l.includes('Page ') && !l.includes('Copyright'));
-
-      const numbered = candidateHeadings.filter((l: string) => /^[0-9]+(\.[0-9]+)+\s+[A-Z]/.test(l));
-      if (numbered.length >= 3) {
-        extractedTopics = numbered.slice(0, 7);
-      }
+      extractedTopics = extractHeadingsFromText(extractedPdfText, detectedChapter);
     }
 
-    if (detectedChapter.toLowerCase().includes('living world') || detectedSubject === 'Biology') {
-      extractedTopics = [
-        'Diversity in the Living World',
-        'Nomenclature & Identification',
-        'Binomial Nomenclature Principles',
-        'Scientific Naming Rules & Codes (ICBN/ICZN)',
-        'Classification & Concept of Taxa',
-        'Taxonomy & Systematics History',
-        'Taxonomic Categories & Hierarchy',
-        'Concept of Species & Biological Species',
-        'Genus Level Grouping & Examples',
-        'Family Characters (Solanaceae, Felidae)',
-        'Order Level Taxonomic Assemblages',
-        'Class & Division/Phylum Hierarchy',
-        'Kingdom Category & Broadest Taxa',
-        'Taxonomic Hierarchy Dynamics & Rules',
-        'Taxonomical Aids - Herbarium Techniques',
-        'Botanical Gardens & Arboretums',
-        'Museum & Zoological Parks',
-        'Key (Couplet, Leads) & Monograph',
-        'Organism Hierarchy (Man, Housefly, Mango, Wheat)'
-      ];
-    } else if (detectedChapter.toLowerCase().includes('kinematics')) {
-      extractedTopics = [
-        'Motion in 1D & Displacement-Time Graphs',
-        'Uniform Acceleration & Equations of Motion',
-        'Free Fall Under Gravity',
-        'Relative Velocity in 1D & 2D',
-        'Projectile Motion on Horizontal Plane',
-        'Range, Time of Flight & Max Height'
-      ];
+    // If no headings could be identified from the PDF, use intelligent domain topics
+    if (extractedTopics.length === 0) {
+      if (detectedChapter.toLowerCase().includes('living world')) {
+        extractedTopics = [
+          'Diversity in the Living World',
+          'Nomenclature & Identification',
+          'Binomial Nomenclature Principles',
+          'Scientific Naming Rules & Codes (ICBN/ICZN)',
+          'Classification & Concept of Taxa',
+          'Taxonomy & Systematics History',
+          'Taxonomic Categories & Hierarchy',
+          'Concept of Species & Biological Species',
+          'Genus Level Grouping & Examples',
+          'Family Characters (Solanaceae, Felidae)',
+          'Order Level Taxonomic Assemblages',
+          'Class & Division/Phylum Hierarchy',
+          'Kingdom Category & Broadest Taxa',
+          'Taxonomical Aids - Herbarium Techniques',
+          'Key (Couplet, Leads) & Monograph'
+        ];
+      } else if (detectedChapter.toLowerCase().includes('kinematics')) {
+        extractedTopics = [
+          'Motion in 1D & Displacement-Time Graphs',
+          'Uniform Acceleration & Equations of Motion',
+          'Free Fall Under Gravity',
+          'Relative Velocity in 1D & 2D',
+          'Projectile Motion on Horizontal Plane',
+          'Range, Time of Flight & Max Height'
+        ];
+      } else {
+        extractedTopics = [
+          `${detectedChapter} - Core Definitions & Axioms`,
+          `${detectedChapter} - Fundamental Laws & Governing Equations`,
+          `${detectedChapter} - Classification & Functional Properties`,
+          `${detectedChapter} - Conceptual Relationships & Variations`,
+          `${detectedChapter} - Standard High-Yield Exam Applications`
+        ];
+      }
     }
 
     const docId = 'doc_' + Date.now();
@@ -217,7 +210,7 @@ router.post('/upload-pdf', async (req: Request, res: Response) => {
       pageCount: detectedPageCount,
       status: 'Mapped',
       extractedTopics,
-      rawTextSnippet: extractedPdfText ? extractedPdfText.slice(0, 6000) : undefined,
+      rawTextSnippet: extractedPdfText ? extractedPdfText.slice(0, 500000) : undefined,
       documentHash: docHash
     });
 
@@ -699,6 +692,79 @@ router.post('/questions/:id/approve', async (req: Request, res: Response) => {
   } catch (error: any) {
     console.error('[Approve Error]', error);
     res.status(500).json({ success: false, message: 'Failed to approve question', error: error.message });
+  }
+});
+
+// Bulk approve and publish all unique questions from an AI Job into Master Question Bank
+router.post('/jobs/:id/approve-all', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { adminEmail = 'superadmin@prepore.edu' } = req.body;
+
+    const job = await AIFactoryJob.findOne({ id });
+    if (!job) return res.status(404).json({ success: false, message: 'AI Job not found' });
+
+    let approvedNow = 0;
+    const questionsToInsert: any[] = [];
+
+    for (const q of job.generatedQuestions) {
+      if (q.reviewStatus !== 'Approved' && q.duplicateStatus === 'Unique') {
+        q.reviewStatus = 'Approved';
+        approvedNow++;
+
+        const examTags: Array<'JEE' | 'NEET' | 'Board'> = [];
+        if (q.examSuitability?.NEET?.suitable) examTags.push('NEET');
+        if (q.examSuitability?.CBSE?.suitable || q.examSuitability?.RBSE?.suitable) examTags.push('Board');
+        if (examTags.length === 0) examTags.push('JEE');
+
+        questionsToInsert.push({
+          id: 'q_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+          exam: examTags[0],
+          class: q.classLevel === '12' ? '12' : '11',
+          subject: q.subject as any,
+          chapter: q.chapter,
+          topic: q.topic,
+          difficulty: q.difficulty,
+          question: q.question,
+          options: q.options,
+          correctAnswer: q.correctAnswer,
+          explanation: q.explanation,
+          concept: q.concept,
+          importantPoint: q.importantPoint,
+          shortcutTip: q.examTip,
+          source: 'Original',
+          status: 'Approved'
+        });
+      }
+    }
+
+    if (questionsToInsert.length > 0) {
+      await Question.insertMany(questionsToInsert);
+    }
+
+    job.approvedCount = job.generatedQuestions.filter((q: any) => q.reviewStatus === 'Approved').length;
+    job.markModified('generatedQuestions');
+    await job.save();
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now(),
+      adminId: 'admin_sys',
+      adminEmail,
+      action: 'AI_ALL_QUESTIONS_APPROVED_AND_PUBLISHED',
+      entityType: 'Question',
+      entityId: job.id,
+      metadata: { count: approvedNow, chapter: job.chapterTitle }
+    });
+
+    res.json({
+      success: true,
+      message: `Successfully approved and published ${approvedNow} questions to Master Question Bank!`,
+      approvedCount: job.approvedCount,
+      insertedCount: approvedNow
+    });
+  } catch (error: any) {
+    console.error('[Approve All Error]', error);
+    res.status(500).json({ success: false, message: 'Failed to approve all questions', error: error.message });
   }
 });
 

@@ -697,4 +697,59 @@ router.get('/security/roles', (req: Request, res: Response) => {
   res.json({ success: true, data: roles });
 });
 
+// ==========================================
+// 12. CLEAR ALL QUESTION & TEST DATA (CLEAN SLATE RESET)
+// ==========================================
+router.post('/clear-data', async (req: Request, res: Response) => {
+  try {
+    const { target = 'all' } = req.body;
+    const deleted: Record<string, number> = {};
+
+    if (target === 'all' || target === 'questions') {
+      const qRes = await Question.deleteMany({});
+      deleted.questions = qRes.deletedCount;
+      const qRepRes = await QuestionReport.deleteMany({});
+      deleted.questionReports = qRepRes.deletedCount;
+      const misRes = await Mistake.deleteMany({});
+      deleted.mistakes = misRes.deletedCount;
+    }
+
+    if (target === 'all' || target === 'tests') {
+      const tRes = await Test.deleteMany({});
+      deleted.tests = tRes.deletedCount;
+      const aRes = await TestAttempt.deleteMany({});
+      deleted.testAttempts = aRes.deletedCount;
+    }
+
+    if (target === 'all' || target === 'ai-factory') {
+      const { AIFactoryJob, SourceDocument, ChapterKnowledgeMap } = await import('../models/AIFactory.js');
+      const jRes = await AIFactoryJob.deleteMany({});
+      deleted.aiJobs = jRes.deletedCount;
+      const dRes = await SourceDocument.deleteMany({});
+      deleted.sourceDocuments = dRes.deletedCount;
+      const kRes = await ChapterKnowledgeMap.deleteMany({});
+      deleted.knowledgeMaps = kRes.deletedCount;
+    }
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now(),
+      adminId: 'admin_sys',
+      adminEmail: 'superadmin@prepore.edu',
+      action: 'DATA_CLEARED_CLEAN_SLATE',
+      entityType: 'System',
+      entityId: 'all',
+      metadata: { deleted }
+    });
+
+    res.json({
+      success: true,
+      message: 'Question and test data successfully removed. System is ready for fresh PDF uploads.',
+      deleted
+    });
+  } catch (err: any) {
+    console.error('[Clear Data Error]', err);
+    res.status(500).json({ success: false, message: 'Failed to clear data', error: err.message });
+  }
+});
+
 export default router;

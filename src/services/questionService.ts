@@ -1,4 +1,4 @@
-﻿import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../types';
+import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../types';
 import { mockQuestions } from '../data/mockQuestions';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 import { apiRequest } from './apiClient';
@@ -41,11 +41,14 @@ class ApiQuestionService {
   }
 
   public getAllQuestions(): Question[] {
+    if (this.isInitialized) {
+      return this.localQuestionsCache;
+    }
     if (this.localQuestionsCache.length > 0) {
       return this.localQuestionsCache;
     }
     const custom = this.getCustomQuestions();
-    return [...mockQuestions, ...custom].map(q => ({
+    return custom.map(q => ({
       ...q,
       recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
     }));
