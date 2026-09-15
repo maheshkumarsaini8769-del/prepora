@@ -79,6 +79,24 @@ class MockProgressService {
     }
   }
 
+  public addRevisionItem(item: Partial<RevisionItem> & { subject: SubjectName; chapter: string; topic: string }): RevisionItem {
+    const list = this.getRevisionItems();
+    const newItem: RevisionItem = {
+      id: item.id || `rev-${Date.now()}`,
+      questionId: item.questionId || `q-${Date.now()}`,
+      subject: item.subject,
+      chapter: item.chapter,
+      topic: item.topic,
+      intervalStage: 1,
+      nextDueDate: new Date().toISOString().split('T')[0],
+      status: 'due-today',
+      lastPracticedDate: new Date().toISOString().split('T')[0]
+    };
+    list.unshift(newItem);
+    setStorageItem(StorageKeys.REVISION, list);
+    return newItem;
+  }
+
   public getPerformanceMetrics() {
     const profile = userService.getProfile();
     const attempts = testService.getAllAttempts();

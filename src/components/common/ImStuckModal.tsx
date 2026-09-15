@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Lightbulb, Calculator, Footprints, BookOpen, CheckCircle2, ChevronRight, Sparkles } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Lightbulb, Calculator, Footprints, BookOpen, CheckCircle2, Sparkles, BrainCircuit } from 'lucide-react';
 import { Modal, Button, Badge } from './UIComponents';
 import { Question } from '../../types';
+import { aiDoubtSolver, ProgressiveHintsData } from '../../services/aiDoubtSolver';
 
 interface ImStuckModalProps {
   isOpen: boolean;
@@ -17,13 +18,39 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
   question
 }) => {
   const [activeLevel, setActiveLevel] = useState<HelpLevel>('hint');
+  const [aiHints, setAiHints] = useState<ProgressiveHintsData | null>(null);
+  const [isLoadingAi, setIsLoadingAi] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (isOpen && question) {
+      let isMounted = true;
+      setIsLoadingAi(true);
+      aiDoubtSolver.getProgressiveHintsOnline(
+        question.question,
+        question.subject,
+        question.chapter,
+        question.explanation
+      ).then(data => {
+        if (isMounted) {
+          setAiHints(data);
+          setIsLoadingAi(false);
+        }
+      }).catch(() => {
+        if (isMounted) setIsLoadingAi(false);
+      });
+
+      return () => {
+        isMounted = false;
+      };
+    }
+  }, [isOpen, question]);
 
   // Progressive breakdown derivation
-  const hintText = question.shortcutTip || `Identify the primary physical quantities given in the question and check which equation connects them directly.`;
-  const formulaText = question.concept ? `Key Equation: Use standard formula for ${question.topic}. Verify boundary values before substituting.` : `Standard governing relation: ${question.chapter} primary equation.`;
-  const firstStepText = `Step 1: Write down the known values from the problem statement: ${question.question.slice(0, 70)}... Convert all units to standard SI units.`;
-  const conceptText = question.concept || `Core Concept: ${question.topic} in ${question.chapter}. Pay close attention to direction vectors and signs.`;
-  const solutionText = question.explanation;
+  const hintText = aiHints?.hint1 || question.shortcutTip || `Identify the primary physical quantities given in the question and check which equation connects them directly.`;
+  const formulaText = aiHints?.hint2 || (question.concept ? `Key Equation: Standard formula for ${question.topic}. Verify boundary values before substituting.` : `Standard governing relation: ${question.chapter} primary equation.`);
+  const firstStepText = aiHints?.hint3 || `Step 1: Write down the known values from the problem statement: ${question.question.slice(0, 70)}... Convert all units to standard SI units.`;
+  const conceptText = question.concept || (aiHints?.examinerTrap ? `Exam Trap: ${aiHints.examinerTrap}` : `Core Concept: ${question.topic} in ${question.chapter}. Pay close attention to direction vectors and signs.`);
+  const solutionText = aiHints?.fullSolution || question.explanation;
 
   return (
     <Modal
@@ -33,8 +60,9 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
       maxWidth="max-w-xl"
       footer={
         <div className="flex justify-between items-center w-full">
-          <span className="text-[11px] text-slate-500 font-medium">
-            Try solving with just a hint first!
+          <span className="text-[11px] text-slate-500 font-medium flex items-center gap-1">
+            <BrainCircuit className="w-3.5 h-3.5 text-purple-600" />
+            {isLoadingAi ? 'Consulting AI Mentor...' : 'Graduated hints to preserve your problem-solving flow'}
           </span>
           <Button variant="outline" size="sm" onClick={onClose}>
             Close & Continue Attempt
@@ -55,7 +83,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
             }`}
           >
             <Lightbulb className="w-3.5 h-3.5 text-amber-500" />
-            <span>💡 Hint</span>
+            <span>💡 Hint 1</span>
           </button>
 
           <button
@@ -68,7 +96,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
             }`}
           >
             <Calculator className="w-3.5 h-3.5 text-blue-500" />
-            <span>🧮 Formula</span>
+            <span>🧮 Hint 2</span>
           </button>
 
           <button
@@ -81,7 +109,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
             }`}
           >
             <Footprints className="w-3.5 h-3.5 text-emerald-500" />
-            <span>1️⃣ First Step</span>
+            <span>🎯 Hint 3</span>
           </button>
 
           <button
@@ -117,7 +145,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
             <div className="space-y-2 animate-in fade-in duration-150">
               <div className="font-bold text-purple-900 flex items-center gap-1.5">
                 <Lightbulb className="w-4 h-4 text-amber-500" />
-                <span>Level 1: Nudge & Strategic Hint</span>
+                <span>Level 1: Subtle Strategic Clue</span>
               </div>
               <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
                 {hintText}
@@ -129,7 +157,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
             <div className="space-y-2 animate-in fade-in duration-150">
               <div className="font-bold text-purple-900 flex items-center gap-1.5">
                 <Calculator className="w-4 h-4 text-blue-500" />
-                <span>Level 2: Governing Formula</span>
+                <span>Level 2: Governing Concept & Formula</span>
               </div>
               <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-mono">
                 {formulaText}
@@ -141,7 +169,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
             <div className="space-y-2 animate-in fade-in duration-150">
               <div className="font-bold text-purple-900 flex items-center gap-1.5">
                 <Footprints className="w-4 h-4 text-emerald-500" />
-                <span>Level 3: How to Begin Step 1</span>
+                <span>Level 3: Strategic Approach & Setup</span>
               </div>
               <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
                 {firstStepText}
@@ -153,11 +181,18 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
             <div className="space-y-2 animate-in fade-in duration-150">
               <div className="font-bold text-purple-900 flex items-center gap-1.5">
                 <BookOpen className="w-4 h-4 text-purple-500" />
-                <span>Level 4: Core Theory & Concept</span>
+                <span>Level 4: Core Theory & Examiner Traps</span>
               </div>
-              <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
-                {conceptText}
-              </p>
+              <div className="space-y-2">
+                <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
+                  {conceptText}
+                </p>
+                {aiHints?.examinerTrap && (
+                  <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs">
+                    <strong>⚠️ Common Examiner Trap:</strong> {aiHints.examinerTrap}
+                  </div>
+                )}
+              </div>
             </div>
           )}
 

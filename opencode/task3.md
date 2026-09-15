@@ -1,1387 +1,974 @@
-PREPORA — PHASE 1 MAJOR FEATURE EXPANSION
+PREPORA — GEMINI AI COMPLETE INTEGRATION & INTELLIGENT AI SYSTEM
+
+You are a senior full-stack engineer, AI architect, UX designer and education-tech product engineer.
+
+You are working on the EXISTING PREPORA website.
+
+PREPORA
+Practice • Test • Analyze • Improve
 
 IMPORTANT:
-Update the EXISTING PREPORA prototype.
+Do NOT rebuild the website from scratch.
+Do NOT remove existing functionality.
+Do NOT replace working features with mock/static implementations.
+First inspect the existing codebase and understand the current architecture.
 
-DO NOT rebuild the website from scratch.
-DO NOT change the existing overall visual identity.
-DO NOT remove existing functionality.
-
-Keep:
-- Existing navigation
-- Existing responsive design
-- Existing test engine
-- Existing practice engine
-- Existing result system
-- Existing PREPORA branding
-- Existing purple/white premium UI
-
-This is an ADDITIVE UPDATE.
-
-The main objective is:
-
-MAKE PREPORA A COMPLETE STUDENT STUDY ECOSYSTEM.
-
-A student should be able to come to PREPORA and handle most of their daily preparation from one place:
-
-LEARN
-→ REVISE
-→ PRACTICE
-→ ASK DOUBTS
-→ TAKE TEST
-→ ANALYZE
-→ FIND WEAKNESS
-→ FIX WEAKNESS
-→ REVISE MISTAKES
-→ RETEST
-→ TRACK PROGRESS
-
-Do NOT integrate Supabase yet.
-Do NOT integrate real AI APIs yet.
-Do NOT integrate payment.
-Do NOT integrate real ads.
-Do NOT use copyrighted content.
-
-Use realistic mock data and localStorage/local state.
+Your task is to integrate Google Gemini API into PREPORA wherever AI genuinely improves the product.
 
 ==================================================
-1. SMART DAILY PLAN
+1. GEMINI API CONFIGURATION
 ==================================================
 
-Add:
+Use Google Gemini API.
 
-"Today's Plan"
+The admin/developer will provide the Gemini API key.
 
-The student should not have to decide everything manually.
+NEVER expose the API key in frontend/client-side code.
+
+Use environment variables on the server/backend.
 
 Example:
 
-TODAY'S PLAN
-75 minutes
+GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
 
-1. Physics — Kinematics
-20 Questions
-20 min
-Status: Pending
+Never hardcode the key.
 
-2. Chemistry — Chemical Bonding
-15 Questions
-15 min
-Status: Pending
+Never return the key through an API response.
 
-3. Biology — Cell
-20 Questions
-20 min
-Status: Pending
+Never store the key in the database unless there is a secure encrypted configuration system.
 
-4. Mini Test
-20 Questions
-20 min
+Create a centralized server-side Gemini service.
 
-Buttons:
+Example architecture:
 
-Start
-Continue
-Completed
+Frontend
+   ↓
+PREPORA Backend
+   ↓
+Gemini Service
+   ↓
+Gemini API
 
-The plan should be generated using the student's mock:
-
-- Weak topics
-- Pending revision
-- Recent mistakes
-- Upcoming test
-- Selected exam
-- Class
-
-Use rule-based logic in Phase 1.
-
-Do NOT call it AI.
+The frontend must NEVER directly call Gemini using the secret API key.
 
 ==================================================
-2. CHAPTER MASTERY
+2. AI PROVIDER ABSTRACTION
 ==================================================
 
-Every chapter should have a Mastery Score.
+Do not hard-code Gemini calls throughout the application.
+
+Create a reusable AI service layer.
 
 Example:
 
-KINEMATICS
+AIProvider
+ ├── GeminiProvider
+ └── FutureProvider
 
-Mastery:
-64%
-
-Concept:
-72%
-Accuracy:
-68%
-Speed:
-51%
-Hard Questions:
-39%
-
-Topics:
-
-Distance & Displacement — 82% 🟢
-Velocity — 71% 🟡
-Graphs — 43% 🔴
-Relative Motion — 38% 🔴
-
-Buttons:
-
-Practice
-Chapter Test
-Formula Sheet
-Flashcards
-PYQ
-Fix Weak Topics
-
-Calculate mastery using available mock attempt data.
-
-Do NOT hardcode fake student analytics.
+This allows another model/provider to be added later without rewriting the whole application.
 
 ==================================================
-3. REPEATED MISTAKE DETECTION
+3. AI DOUBT SOLVER
 ==================================================
 
-Extend Mistake Book.
+This is the primary student-facing Gemini feature.
 
-If the same topic/question concept has multiple mistakes:
+Student can ask ANY legitimate educational question.
 
-Show:
+The question does NOT have to exist in PREPORA's database.
 
-⚠️ REPEATED MISTAKE
+Examples:
 
-"You made mistakes in this concept 4 times."
+"What is gravity?"
 
-Show:
+"What is force?"
 
+"Explain photosynthesis."
+
+"Solve 2x + 5 = 15."
+
+"Why does current flow?"
+
+"Explain this concept simply."
+
+The AI must answer using:
+
+1. PREPORA content when relevant
+2. General model knowledge when PREPORA content is unavailable
+3. Web/current information only when the application has an approved web-search capability and the question requires current information
+
+Do NOT restrict the AI to the PREPORA database.
+
+==================================================
+4. QUESTION UNDERSTANDING — MANDATORY
+==================================================
+
+Before generating an answer, identify internally:
+
+Intent
+Subject
+Chapter if identifiable
 Topic
-Mistake count
-Last mistake
-Most common mistake reason
-
-Example:
-
-Electrostatics
-4 mistakes
-
-Calculation Error — 2
-Concept Not Clear — 1
-Misread Question — 1
-
-Button:
-
-FIX THIS CONCEPT
-
-Click:
-
-5 Easy Questions
-↓
-5 Medium Questions
-↓
-Mini Retest
-
-==================================================
-4. STEP-BY-STEP SOLUTION SYSTEM
-==================================================
-
-Improve explanations.
-
-Every solved question should support:
-
-Question
-
-Given
-
-Find
-
 Concept
-
-Formula
-
-Why this formula?
-
-Step 1
-Step 2
-Step 3
-
-Final Answer
-
-Common Mistake
-
-Shortcut / Exam Tip
-
-Difficulty
-
-Do not just show the final answer.
-
-For numerical questions especially:
-
-Given:
-...
-
-Formula:
-...
-
-Substitution:
-...
-
-Answer:
-...
-
-Use demo content.
-
-==================================================
-5. RE-ATTEMPT SYSTEM
-==================================================
-
-Mistake Book must support:
-
-"Retry Without Solution"
-
-When retrying:
-
-Hide previous answer.
-Hide previous explanation.
-
-Student solves again.
-
-After submission show:
-
-FIRST ATTEMPT
-Wrong
-Time: 2m 10s
-
-SECOND ATTEMPT
-Correct
-Time: 58s
-
-Improvement:
-
-Accuracy improved
-Time improved
-
-Store attempt history locally.
-
-==================================================
-6. QUESTION DECISION TRAINING
-==================================================
-
-Add a post-test analysis:
-
-"Should you have skipped this question?"
-
-For questions with excessive time:
-
-Show:
-
-🟡 Time Drainer
-
-"You spent 3m 40s on this question."
-
-Recommended:
-1m 20s
-
-Coach:
-
-"This question consumed too much time."
-
-Do NOT say the student definitely should have skipped it.
-
-Use:
-
-"Consider attempting it later in an exam."
-
-Also track:
-
-Correct + Too Slow
-Wrong + Too Much Time
-Wrong + Very Fast
-Unattempted + Time Ran Out
-
-==================================================
-7. UNATTEMPTED REASON
-==================================================
-
-When reviewing an unattempted question:
-
-Ask:
-
-"Why did you leave this question?"
-
-Options:
-
-- Ran out of time
-- Concept not known
-- Question looked difficult
-- Could not understand
-- Wanted to attempt later
-- Other
-
-Save locally.
-
-Analytics:
-
-Unattempted Reasons
-
-Time shortage: 40%
-Concept gap: 30%
-Difficulty: 20%
-Other: 10%
-
-Use actual user-selected data.
-
-==================================================
-8. GUESS DETECTION
-==================================================
-
-Create rule-based "Possible Guess" indicator.
+Question type
+Difficulty/level if identifiable
 
 Example:
 
-Wrong answer
-Very low time spent
+User:
+"What is gravity?"
 
-Show:
+Internal understanding:
 
-⚠️ Possible Guess
-
-Do NOT claim certainty.
-
-Use wording:
-
-"Your answer pattern may indicate guessing."
-
-Track:
-
-Possible Guess count.
-
-==================================================
-9. STUDY SESSION MODE
-==================================================
-
-Add:
-
-"I HAVE 20 MINUTES"
-
-Options:
-
-10 min
-20 min
-30 min
-45 min
-60 min
-
-PREPORA creates a focused study session.
-
-Example:
-
-20 MINUTES
-
-5 min
-Formula Revision
-
-10 min
-Weak Topic Practice
-
-5 min
-Mini Quiz
-
-Button:
-
-START SESSION
-
-After completing:
-
-Session Summary
-
-==================================================
-10. SMART "WHAT SHOULD I STUDY?"
-==================================================
-
-Add prominent dashboard button:
-
-"WHAT SHOULD I STUDY?"
-
-When clicked:
-
-Analyze:
-
-- Weak topics
-- Due revisions
-- Recent mistakes
-- Test performance
-- Upcoming tests
-
-Return:
-
-Priority 1
-Kinematics
-42% mastery
-HIGH PRIORITY
-
-Priority 2
-Chemical Bonding
-55% mastery
-
-Priority 3
-Cell Biology
-61% mastery
-
-Button:
-
-START RECOMMENDED PRACTICE
-
-==================================================
-11. "DON'T STUDY THIS NOW"
-==================================================
-
-If mastery is already high:
-
-Example:
-
-Current topic:
-Units & Measurements
-
-Mastery:
-94%
-
-Show:
-
-🟢 Strong Topic
-
-"Your current performance is strong here."
-
-"Consider spending today's study time on a weaker topic."
-
-Recommended:
-
-Rotational Motion
-43%
-
-Do not prevent the student from studying the strong topic.
-
-==================================================
-12. EXAM READINESS SCORE
-==================================================
-
-Create:
-
-EXAM READINESS
-
-Example:
-
-JEE Readiness
-68 / 100
-
-Breakdown:
-
-Concepts: 74
-Accuracy: 71
-Speed: 58
-Consistency: 76
-Hard Questions: 49
-
-Biggest Improvement Area:
-
-SPEED
-
-Recommended:
-
-Complete:
-3 Speed Practice Sessions
-
-Use mock data and rule-based calculations.
-
-==================================================
-13. FORMULA + QUICK REVISION
-==================================================
-
-Keep the existing Formula Sheet and Flashcards feature.
-
-Add:
-
-"15 MIN QUICK REVISION"
-
-Flow:
-
-Select:
-Subject
-Chapter
-
-Start
-
-Formula Card 1/10
-
-Flip
-Know It
-Need Revision
-
-At end:
-
-Known: 7
-Need Revision: 3
-
-Button:
-
-Review 3 Again
-
-==================================================
-14. NOTES / PERSONAL STUDY NOTES
-==================================================
-
-Improve Notes.
-
-Allow:
-
-Create Note
-Edit
-Delete
-Search
-
-Attach note to:
-
-Subject
-Chapter
-Topic
-
-Example:
-
-Physics
-Kinematics
-"My shortcut for graph questions"
-
-Show notes inside Chapter page.
-
-==================================================
-15. DOUBT CENTER
-==================================================
-
-Add:
-
-"DOUBT CENTER"
-
-The student can:
-
-Type a doubt
-Paste a question
-Select subject
-Select chapter
-
-Example:
+Intent:
+Definition
 
 Subject:
 Physics
 
-Chapter:
-Kinematics
+Topic:
+Gravitation
+
+Concept:
+Gravity
+
+Then generate the answer specifically for that concept.
+
+Do NOT treat every Physics question as a generic Physics question.
+
+==================================================
+5. NO GENERIC TEMPLATE ANSWERS
+==================================================
+
+NEVER generate irrelevant generic text such as:
+
+"Governing physics principles of..."
+
+unless the actual question requires it.
+
+Never insert random formulas.
+
+Example:
 
 Question:
-"I don't understand why velocity becomes negative here."
+"What is gravity?"
 
-Buttons:
+Correct:
 
-ASK DOUBT
+"Gravity is the force of attraction between objects having mass. Near Earth's surface, gravity pulls objects toward the Earth's centre."
 
-In Phase 1:
+Optional relevant relation:
 
-Use predefined demo responses / mock mentor responses.
+W = mg
 
-DO NOT call external AI.
+Do NOT automatically output:
 
-Clearly label demo/mock responses if necessary.
+F = ma
 
-Future Phase 2 can connect AI.
+just because the question is about Physics.
+
+Question:
+
+"What is force?"
+
+Then:
+
+"Force is a push or pull that can change an object's motion or shape."
+
+Relevant formula:
+
+F = ma
+
+The formula should only appear when it actually helps answer the question.
 
 ==================================================
-16. PERSONAL DM / CHAT SYSTEM
+6. ANSWER VERIFICATION
 ==================================================
+
+Every AI answer must pass an answer-quality check before being shown when practical.
+
+Verify:
+
+1. Does the answer directly answer the question?
+2. Is the identified concept correct?
+3. Are formulas relevant?
+4. Are calculations correct?
+5. Are units correct?
+6. Is there contradictory information?
+7. Is the explanation understandable?
+8. Did the AI accidentally answer a different question?
+9. Did it invent a source/reference?
+10. Is the confidence sufficient?
+
+If verification fails:
+
+Regenerate.
+
+Do not show the failed response.
+
+==================================================
+7. SMART ANSWER FORMAT
+==================================================
+
+Do not make every answer unnecessarily long.
+
+Simple question:
+
+Answer
++
+short explanation
++
+example if useful
+
+Complex question:
+
+Answer
+Concept
+Explanation
+Formula if relevant
+Example
+Common mistake
+Related practice
+
+Adapt answer length to the question.
+
+==================================================
+8. STUDENT LEVEL
+==================================================
+
+If the user's class/exam level is known:
+
+Class 11
+Class 12
+JEE
+NEET
+CBSE
+RBSE
+
+adapt the explanation accordingly.
+
+If level is unknown:
+
+Use a clear student-friendly explanation.
+
+Do not unnecessarily use advanced terminology.
+
+==================================================
+9. PROGRESSIVE HINT SYSTEM
+==================================================
+
+For questions that require solving:
+
+HINT 1
+→ small clue
+
+HINT 2
+→ concept
+
+HINT 3
+→ approach
+
+FULL SOLUTION
+→ complete solution
+
+Do not reveal the full solution immediately when the student specifically asks for a hint.
+
+==================================================
+10. IMAGE DOUBT SOLVER
+==================================================
+
+If the student uploads an image containing:
+
+Question
+Diagram
+Graph
+Equation
+Book page
+Handwritten problem
+
+analyze the image and answer the question.
+
+The AI should identify:
+
+visible question
+diagram information
+given values
+options
+required result
+
+If the image is unclear:
+
+say what is unclear instead of inventing missing information.
+
+==================================================
+11. MATH / NUMERICAL VERIFICATION
+==================================================
+
+For numerical questions:
+
+extract values
+identify formula
+calculate
+verify result
+check units
+
+Example:
+
+Given:
+m = 5 kg
+a = 2 m/s²
+
+F = ma
+F = 5 × 2
+F = 10 N
+
+Final:
+10 N
+
+Do not provide an unverified numerical result.
+
+==================================================
+12. PREPORA CONTENT GROUNDING
+==================================================
+
+When the student asks about something covered by PREPORA content:
+
+retrieve relevant approved content first.
+
+Then use Gemini to explain it.
 
 IMPORTANT:
 
-Add a safe communication system.
+PREPORA content is a trusted learning context,
+NOT the only possible source of knowledge.
 
-Do NOT create unrestricted anonymous public chat.
+If relevant PREPORA content is not found:
 
-Create:
+Gemini may answer using general knowledge.
 
-MESSAGES / DM
+Never falsely claim:
 
-Student can see:
+"According to PREPORA..."
 
-Mentor
-Prep Support
-Study Group (future-ready)
+unless PREPORA content was actually retrieved.
 
-For Phase 1 use demo conversations.
+==================================================
+13. CURRENT INFORMATION
+==================================================
 
---------------------------------------------------
-INBOX
---------------------------------------------------
+For questions requiring current information:
 
-Show:
+current events
+current office holders
+latest exam announcements
+current schedules
+current prices
+recent changes
 
-Messages
+Do not rely blindly on model memory.
 
-Prepora Mentor
-"Your Physics test analysis is ready."
+If web search is available in the application:
 
-Study Support
-"Your doubt has been reviewed."
+use it.
 
-Show:
+If web search is unavailable:
 
-Unread count.
+clearly state that current verification is unavailable rather than pretending the information is current.
 
---------------------------------------------------
-CHAT SCREEN
---------------------------------------------------
+==================================================
+14. AI RESPONSE SAFETY
+==================================================
 
-Features:
+For medical, legal, financial or other high-stakes questions:
 
-Message bubbles
-Timestamp
-Read status
-Text input
-Send button
+provide appropriate caution.
 
-Buttons:
+Do not present uncertain information as guaranteed professional advice.
 
-Send
-Attach Question
+For unsafe requests:
 
-The student can send:
+follow appropriate safety policies.
 
-Text
-Question reference
+==================================================
+15. FIX MY WEAKNESS AI
+==================================================
+
+Use Gemini to analyze student performance.
+
+Inputs can include:
+
+accuracy
+mistakes
+question history
+topics
+chapters
+time per question
+mistake types
+test results
+revision history
+
+Gemini should identify:
+
+weak concept
+probable reason
+recommended action
 
 Example:
 
-"I don't understand Question 12."
-
-Attached:
-
-Question #12 — Kinematics
-
-The mentor can reply:
-
-"Let's solve this step by step..."
-
---------------------------------------------------
-IMPORTANT SAFETY / MODERATION ARCHITECTURE
---------------------------------------------------
-
-Even though this is only a prototype, design the system for:
-
-- Report Message
-- Block User
-- Delete Message
-- Admin Moderation
-- Abuse Report
-- Spam Protection
-- Message Rate Limit
-- Privacy Controls
-
-Do NOT create public student-to-student unrestricted messaging in Phase 1.
-
-The future system should support moderated communication.
-
-==================================================
-17. DOUBT → QUESTION LINK
-==================================================
-
-This is important.
-
-From any question:
-
-"Ask Doubt"
-
-Button.
-
-When clicked:
-
-Open Doubt Center.
-
-Automatically attach:
-
-Question
-Subject
-Chapter
-Topic
-Question ID
-
-Example:
-
-Attached Question:
-Physics — Kinematics — Q12
-
-Student types doubt.
-
-This prevents students from having to explain the entire question again.
-
-==================================================
-18. RESOURCE HUB
-==================================================
-
-Create:
-
-"Study Resources"
-
-Inside:
-
-Formula Sheets
-Flashcards
-Chapter Notes
-Practice
-PYQs
-Model Papers
-Tests
-Mistake Book
-Revision
-
-Each chapter should act as a central hub.
-
-Example:
-
-PHYSICS
-↓
-KINEMATICS
-
-Learn
-Practice
-PYQ
-Test
-Formula
-Flashcards
-Notes
-Mistakes
-Revision
-
-The student should not need to leave PREPORA to move between these resources.
-
-==================================================
-19. CHAPTER LEARNING FLOW
-==================================================
-
-Create a consistent chapter page:
-
-Chapter Overview
-
-1. Learn / Notes
-2. Formula Sheet
-3. Flashcards
-4. Basic Practice
-5. Medium Practice
-6. Hard Practice
-7. PYQ
-8. Chapter Test
-9. Mistakes
-10. Revision
-
-This should become the student's central study workspace.
-
-==================================================
-20. FULL STUDY SEARCH
-==================================================
-
-Global search should search:
-
-Questions
-Topics
-Chapters
-Tests
-Papers
-Formula
-Flashcards
-Notes
-Mistakes
-
-Example:
-
-Search:
-"Kinematics"
-
-Results:
-
-Chapter
-Questions
-PYQs
-Tests
-Formula
-Flashcards
-Notes
-
-Filters:
-
-Exam
-Class
-Subject
-Chapter
-Topic
-Difficulty
-Year
-
-==================================================
-21. TEST RESULT — ACTION PLAN
-==================================================
-
-Do not stop at:
-
-"Your score is 142."
-
-After result show:
-
-WHAT TO DO NEXT
-
-1. Fix Kinematics
-42% accuracy
-
-2. Revise Electrostatics formulas
-
-3. Practice 10 calculation questions
-
-4. Retake Physics mini test
-
-Buttons:
-
-Fix Weakness
-Start Revision
-Practice Mistakes
-Retest
-
-==================================================
-22. WEEKLY STUDY REPORT
-==================================================
-
-Create:
-
-Weekly Report
-
-Questions:
-142
-
-Tests:
-5
+Weak Topic:
+Electrostatics
 
 Accuracy:
-72%
+48%
 
-Study Time:
-6h 20m
+Repeated mistake:
+4 times
 
-Strongest:
-Chemistry
+AI analysis:
 
-Weakest:
-Physics
+"Your main issue appears to be applying the electric-field formula in multi-step questions."
 
-Most Common Mistake:
-Calculation Error
+Then:
 
-Biggest Time Problem:
-Maths
+Recommended:
 
-Recommended next week:
+5 concept questions
+5 easy questions
+10 medium questions
+5 timed questions
+retest
 
-Physics:
-+2 sessions
-
-Maths:
-+1 speed session
-
-Use local mock data.
+Do not generate a weakness diagnosis from insufficient data.
 
 ==================================================
-23. LEADERBOARD
+16. AI-GENERATED PRACTICE
 ==================================================
 
-Add leaderboard architecture but keep it secondary.
+When appropriate, Gemini can generate new practice questions.
+
+Every generated question must go through:
+
+Source/knowledge validation
+Answer validation
+Duplicate detection
+Quality validation
+Topic validation
+Difficulty validation
+
+Never directly publish AI-generated questions.
+
+==================================================
+17. 400 QUESTIONS PER CHAPTER
+==================================================
+
+AI Content Factory target:
+
+400 VALID UNIQUE QUESTIONS.
+
+400 generated questions does NOT mean completion.
+
+Only count questions that pass validation.
+
+Use batches:
+
+25–50 questions per batch.
+
+Continue until:
+
+400 valid unique questions
+
+or until the source genuinely cannot support more high-quality unique questions.
+
+Never hallucinate or repeat questions just to reach 400.
+
+==================================================
+18. QUESTION GENERATION PIPELINE
+==================================================
+
+PDF
+↓
+Extract
+↓
+Analyze
+↓
+Identify Topics
+↓
+Build Knowledge Map
+↓
+Build Question Blueprint
+↓
+Generate Batch
+↓
+Validate
+↓
+Check Answer
+↓
+Check Duplicate
+↓
+Check Topic
+↓
+Check Difficulty
+↓
+Accept / Reject
+↓
+Generate Replacement
+↓
+Coverage Check
+↓
+Admin Review
+↓
+Publish
+
+==================================================
+19. SOURCE VERIFICATION
+==================================================
+
+For source-based question generation:
+
+Every question should maintain:
+
+source document
+source version
+chapter
+topic
+section/page reference when available
+concept
+
+Never invent source references.
+
+If the source does not contain the requested topic:
+
+do not pretend that it does.
+
+==================================================
+20. SEMANTIC DUPLICATE DETECTION
+==================================================
+
+Detect:
+
+Exact duplicates
+Near duplicates
+Semantic duplicates
+Same concept with almost identical question structure
+
+Flag them.
+
+Do not automatically delete.
+
+Generate replacement questions.
+
+==================================================
+21. AI CONTENT FACTORY — REAL PROGRESS
+==================================================
+
+Show actual backend job state.
+
+Example:
+
+Generating Questions
+
+286 / 400 Valid
+
+Accepted:
+286
+
+Duplicates:
+31
+
+Rejected:
+18
+
+Remaining:
+114
+
+Current Batch:
+6
+
+Stage:
+Semantic Validation
+
+Never fake progress.
+
+If job is stuck:
+
+show:
+
+Processing delayed
+
+[ Retry ]
+
+[ View Error ]
+
+==================================================
+22. AI USAGE CONTROL
+==================================================
+
+Track:
+
+requests
+successful requests
+failed requests
+tokens if available
+latency
+daily usage
+generation jobs
+errors
+
+Add configurable limits.
+
+Prevent accidental infinite AI loops.
+
+Every background generation job must have:
+
+maximum retries
+timeout
+failure state
+resume capability
+
+==================================================
+23. AI FAILURE HANDLING
+==================================================
+
+If Gemini fails:
+
+Do not break the website.
 
 Show:
 
-Weekly Top 10
+AI SERVICE TEMPORARILY UNAVAILABLE
 
-Rank
-Student
-Score
-Accuracy
+Your previous progress is saved.
 
-Also:
+[ Retry ]
 
-Your Rank
-Topper Average
-Median Score
+For Content Factory:
 
-Avoid exposing unnecessary personal information.
+pause the job safely.
 
-Use demo names.
-
-Make leaderboard optional/configurable.
+Never lose already validated questions.
 
 ==================================================
-24. HOME — NEW PRIORITY LAYOUT
+24. CHAT MEMORY
 ==================================================
 
-Update dashboard hierarchy.
+Within a doubt conversation, remember the recent context.
 
-Top:
+Example:
 
-PREPORA
+Student:
+"What is force?"
 
-Good morning, Student.
+AI answers.
 
-Target:
-JEE 2027
+Student:
+"Give an example."
 
-Then:
+AI should understand that "it" refers to force.
 
-TODAY'S PLAN
-
-Then:
-
-WHAT SHOULD I STUDY?
-
-Then quick actions:
-
-Practice
-Take Test
-Build Test
-PYQ
-Fix Weakness
-Doubt Center
-
-Then:
-
-Continue Learning
-
-Weak Topics
-
-Mistake Pattern
-
-Upcoming Revision
-
-Recent Tests
-
-Do not overload the first screen.
+But do not expose unnecessary personal information to the model.
 
 ==================================================
-25. MOBILE BOTTOM NAVIGATION
+25. FOLLOW-UP QUESTIONS
 ==================================================
 
-Keep:
+Allow:
 
-Home
-Practice
-Tests
-Papers
-Profile
+Explain simpler
+Give example
+Explain step by step
+Give hint
+Why?
+Show formula
+Give similar question
+Test me on this
 
-Inside More/Menu:
-
-Mistakes
-Weakness
-Revision
-Formula
-Flashcards
-Notes
-Doubt Center
-Messages
-Performance
-Settings
-
-Do not put 15 icons in bottom navigation.
+These should use the current conversation context.
 
 ==================================================
-26. DESKTOP SIDEBAR
+26. AI → PRACTICE CONNECTION
 ==================================================
 
-Keep clean grouping:
+After explaining a concept:
 
-LEARN
+Show:
 
-Home
-Practice
-Chapters
-Formula
-Flashcards
+SIMILAR PRACTICE
 
-TEST
+[ Practice 5 Questions ]
 
-Tests
-Build My Test
-Papers
+After a wrong answer:
 
-IMPROVE
+[ Practice Similar ]
 
-Mistakes
-Fix My Weakness
-Revision
-Performance
+After repeated mistakes:
 
-SUPPORT
+[ Fix My Weakness ]
 
-Doubt Center
-Messages
-
-ACCOUNT
-
-Profile
-Settings
+AI should connect explanation directly to PREPORA learning actions.
 
 ==================================================
-27. GLOBAL QUICK ACTION
+27. AI → REVISION CONNECTION
 ==================================================
 
-Add a floating/quick action button where appropriate:
+If a student struggles with a concept:
 
-"WHAT DO YOU WANT TO DO?"
+Allow:
 
-Options:
+[ Add to Revision ]
 
-Practice
-Take Test
-Revise
-Fix Weakness
-Ask Doubt
+Then create a revision item linked to:
 
-Do not make it visually intrusive.
-
-==================================================
-28. LOCAL DATA ARCHITECTURE
-==================================================
-
-Extend local mock data.
-
-Add types:
-
-StudyPlan
-StudySession
-ChapterMastery
-MistakePattern
-Doubt
-Message
-MessageThread
-Flashcard
-Formula
-WeeklyReport
-ExamReadiness
-
-All should be strongly typed.
+subject
+chapter
+topic
+concept
+mistake
 
 ==================================================
-29. STORAGE
+28. AI → MISTAKE BOOK CONNECTION
 ==================================================
 
-Use localStorage through centralized utilities.
+When AI explains a student's wrong answer:
 
-Persist:
+allow:
 
-Test attempts
-Question time
-Mistakes
-Mistake tags
-Mistake notes
-Bookmarks
-Flashcard status
-Notes
-Study sessions
-Daily plan progress
-Doubt drafts
-Messages
-User preferences
+[ Save Explanation ]
+
+The explanation can be attached to the mistake record.
 
 ==================================================
-30. IMPORTANT PRIVACY RULE
+29. ADMIN AI CONTROLS
 ==================================================
 
-Do not expose:
+Admin should be able to configure:
 
-Real personal data
-Phone numbers
-Email addresses
-Private student information
+AI enabled/disabled
+model
+daily request limits
+content-generation limits
+maximum retries
+generation batch size
+verification level
 
-Use demo student profiles.
-
-Future backend should be designed with privacy in mind.
-
-==================================================
-31. PERFORMANCE
-==================================================
-
-Do not load every feature's data on every page.
-
-Use:
-
-Lazy loading where appropriate
-Reusable components
-Efficient state management
-
-Do not create unnecessary dependencies.
+Do not expose API secrets in the UI unnecessarily.
 
 ==================================================
-32. NO FAKE AI
+30. AI LOGGING
 ==================================================
 
-If a feature is not connected to real AI yet:
+Log safe metadata:
 
-Use rule-based logic or demo responses.
+request ID
+timestamp
+feature
+model
+success/failure
+latency
+token usage if available
+error category
 
-Do NOT write:
-
-"AI analyzed your behavior"
-
-unless actual AI is connected.
-
-Instead:
-
-"Based on your recent practice"
-
-or
-
-"Demo recommendation"
+Do not unnecessarily store sensitive student conversations.
 
 ==================================================
-33. NO FAKE EXAM CLAIMS
+31. COST CONTROL
 ==================================================
 
-Do not claim:
+Do not call Gemini multiple times unnecessarily.
 
-"This is exactly the official JEE interface"
+Use intelligent routing.
 
-unless it is verified.
+Simple question:
+one generation + lightweight validation when appropriate.
 
-Use:
+Complex/high-risk/generated content:
+stronger verification.
 
-"Exam-style interface"
+Cache appropriate repeated explanations where safe.
 
-and make exam settings configurable.
+Set rate limits.
 
-==================================================
-34. COMPLETE USER JOURNEY
-==================================================
-
-Test this complete flow:
-
-Student opens PREPORA
-
-↓
-
-Dashboard
-
-↓
-
-Today's Plan
-
-↓
-
-Recommended Topic
-
-↓
-
-Chapter
-
-↓
-
-Formula Revision
-
-↓
-
-Flashcards
-
-↓
-
-Practice
-
-↓
-
-Question
-
-↓
-
-Answer
-
-↓
-
-Detailed Solution
-
-↓
-
-Test
-
-↓
-
-Real Exam Mode
-
-↓
-
-Question Time Analytics
-
-↓
-
-Submit
-
-↓
-
-Result
-
-↓
-
-Time Analysis
-
-↓
-
-Mistake Analysis
-
-↓
-
-Mistake Tag
-
-↓
-
-Mistake Book
-
-↓
-
-Repeated Mistake Detection
-
-↓
-
-Fix Weakness
-
-↓
-
-Targeted Practice
-
-↓
-
-Retest
-
-↓
-
-Performance improves
-
-↓
-
-Weekly Report
-
-Also test:
-
-Question
-↓
-Ask Doubt
-↓
-Doubt Center
-↓
-Attached Question
-↓
-Send Message
-↓
-Inbox
-↓
-Chat
+Prevent abuse.
 
 ==================================================
-35. FINAL PRODUCT PRINCIPLE
+32. UI FOR AI DOUBT SOLVER
 ==================================================
 
-PREPORA should NOT feel like:
+Keep the interface clean.
 
-"Just another question bank."
+Student sees:
 
-It should feel like:
+Ask PREPORA AI
 
-"MY PERSONAL EXAM PREPARATION SYSTEM"
+[ Type your question... ]
 
-The student should be able to:
+[ Upload Image ]
 
-Study
-Practice
-Revise
-Test
-Analyze
-Ask Doubts
-Track Mistakes
-Fix Weakness
-Improve Speed
-Review Formulas
-Make Notes
-Retest
-Track Progress
+Suggested:
 
-all inside PREPORA.
+Explain this concept
+Solve a question
+Give me a hint
+Why is this answer wrong?
+
+AI answer:
+
+Clear answer
+Formula if relevant
+Example if useful
+
+Actions:
+
+Explain simpler
+Give example
+Practice similar
+Save to revision
 
 ==================================================
-36. FINAL QA
+33. DO NOT MAKE AI LOOK LIKE A GENERIC CHATBOT
+==================================================
+
+The AI should feel integrated into PREPORA.
+
+AI should understand:
+
+student performance
+weaknesses
+mistakes
+revision
+practice
+tests
+
+but only use the data required for the current task.
+
+==================================================
+34. FINAL AI QUALITY RULE
+==================================================
+
+Before showing any educational answer, the system should conceptually ask:
+
+"Did I answer exactly what the student asked?"
+
+Examples:
+
+"What is gravity?"
+→ explain gravity.
+
+"What is force?"
+→ explain force.
+
+"Why does gravity act?"
+→ explain gravitational attraction.
+
+"Calculate force when m=5kg and a=2m/s²."
+→ calculate 10N.
+
+Do NOT answer a different question just because it belongs to the same subject.
+
+==================================================
+35. FINAL IMPLEMENTATION
+==================================================
+
+First inspect the existing codebase.
+
+Then implement:
+
+1. Gemini backend service
+2. Secure API key handling
+3. AI provider abstraction
+4. AI Doubt Solver
+5. Question understanding
+6. Answer verification
+7. Progressive hints
+8. Image question support if existing upload infrastructure supports it
+9. PREPORA content retrieval
+10. AI-generated practice
+11. Fix My Weakness AI
+12. AI → Practice connection
+13. AI → Revision connection
+14. AI → Mistake Book connection
+15. 400-question Content Factory integration
+16. Batch generation
+17. Duplicate detection
+18. Replacement generation
+19. Real AI job progress
+20. Usage tracking
+21. Failure/retry handling
+22. Admin controls
+23. Security
+24. Rate limiting
+25. Mobile UI
+
+==================================================
+36. DO NOT BREAK EXISTING PRODUCT
 ==================================================
 
 Before finishing:
 
-Check every button.
+Test:
 
-Check every route.
+Home
+Practice
+Question solving
+Tests
+Custom Test
+Papers
+Analytics
+Mistake Book
+Fix My Weakness
+Revision
+Admin Panel
+AI Content Factory
+PDF processing
+Question generation
+Question review
 
-Check mobile.
-
-Check desktop.
-
-Check test timer.
-
-Check question-level time.
-
-Check result calculations.
-
-Check mistake storage.
-
-Check flashcard storage.
-
-Check notes.
-
-Check search.
-
-Check doubt center.
-
-Check messages.
-
-Check daily plan.
-
-Check chapter mastery.
-
-Check repeated mistakes.
-
-Check weakness flow.
-
-Check responsive layouts.
-
-No dead buttons.
-
-No broken links.
-
-No console errors.
-
-Do not redesign unrelated pages.
+Verify existing functionality still works.
 
 ==================================================
-FINAL OUTPUT
+FINAL PRODUCT GOAL
 ==================================================
 
-Provide:
+PREPORA should not simply have "an AI chatbot".
 
-1. Updated project structure
-2. Components added
-3. Components modified
-4. Routes added
-5. Data types added
-6. Mock data added
-7. Local storage keys
-8. Complete list of working features
-9. Features intentionally reserved for Phase 2
-10. How to run the project
+It should have an intelligent academic assistant integrated throughout the product.
 
-MOST IMPORTANT:
+Student asks ANY educational question:
+→ AI answers.
 
-BUILD THE ACTUAL WORKING PROTOTYPE.
+Student doesn't understand:
+→ Explain simpler.
 
-DO NOT JUST CREATE STATIC UI MOCKUPS.
+Student is stuck:
+→ Give hint.
 
-The goal is to make PREPORA feel like a complete student preparation ecosystem even before the real backend is connected.
+Student makes mistake:
+→ Explain why.
+
+Student repeatedly struggles:
+→ Detect weakness.
+
+Weakness detected:
+→ Create targeted practice.
+
+Practice completed:
+→ Retest.
+
+Improvement:
+→ Show measurable progress.
+
+CORE LOOP:
+
+ASK
+→ UNDERSTAND
+→ EXPLAIN
+→ PRACTICE
+→ ANALYZE
+→ FIX
+→ REVISE
+→ RETEST
+→ IMPROVE
+
+Implement this using Gemini API securely and reliably.
+
+DO NOT CLAIM 100% accuracy.
+Instead, build strong verification, grounding, calculation checking and regeneration mechanisms to minimize incorrect answers.

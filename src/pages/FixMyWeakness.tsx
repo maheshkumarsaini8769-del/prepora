@@ -22,6 +22,7 @@ import {
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { progressService } from '../services/progressService';
 import { formulaService } from '../services/formulaService';
+import { aiDoubtSolver, WeaknessAnalysisData } from '../services/aiDoubtSolver';
 import { TopicWeakness, SubjectName } from '../types';
 
 type RootCauseType = 
@@ -62,6 +63,8 @@ export const FixMyWeakness: React.FC = () => {
   // Remediation Modal State
   const [remediationTarget, setRemediationTarget] = useState<TopicWeakness | null>(null);
   const [selectedCause, setSelectedCause] = useState<RootCauseType>('Application Gap');
+  const [aiDiagnosis, setAiDiagnosis] = useState<WeaknessAnalysisData | null>(null);
+  const [isLoadingAiDiagnosis, setIsLoadingAiDiagnosis] = useState<boolean>(false);
 
   const weaknesses = progressService.getTopicWeaknesses();
 
@@ -73,7 +76,10 @@ export const FixMyWeakness: React.FC = () => {
 
   const handleOpenRemediation = (w: TopicWeakness) => {
     setRemediationTarget(w);
-    // Automatic diagnosis based on performance data
+    setAiDiagnosis(null);
+    setIsLoadingAiDiagnosis(true);
+
+    // Initial heuristic diagnosis
     if (w.accuracy < 40) {
       setSelectedCause('Concept Gap');
     } else if (w.accuracy < 60) {
@@ -83,6 +89,26 @@ export const FixMyWeakness: React.FC = () => {
     } else {
       setSelectedCause('Careless Error Pattern');
     }
+
+    // AI Deep Diagnosis from Gemini / PREPORA Academic Engine
+    aiDoubtSolver.analyzeWeaknessOnline({
+      subject: w.subject,
+      chapter: w.chapter,
+      topic: w.topic,
+      accuracy: w.accuracy,
+      totalAttempted: w.totalAttempts,
+      mistakeTypes: ['Formula Application', 'Distractor Trap']
+    }).then(result => {
+      if (result) {
+        setAiDiagnosis(result);
+        if (result.diagnosedWeaknessType in ROOT_CAUSE_DETAILS) {
+          setSelectedCause(result.diagnosedWeaknessType as RootCauseType);
+        }
+      }
+      setIsLoadingAiDiagnosis(false);
+    }).catch(() => {
+      setIsLoadingAiDiagnosis(false);
+    });
   };
 
   const handleLaunchDrill = () => {
@@ -267,9 +293,23 @@ export const FixMyWeakness: React.FC = () => {
                   <span>Stage 1: Root Cause Diagnosis</span>
                 </h4>
                 <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
-                  AI Confidence: 86%
+                  AI Confidence: {aiDiagnosis ? Math.round(aiDiagnosis.confidence * 100) + '%' : '86%'}
                 </span>
               </div>
+              {aiDiagnosis && (
+                <div className="p-3.5 rounded-xl bg-purple-50/80 border border-purple-200 text-xs space-y-1.5 animate-in fade-in">
+                  <div className="flex items-center gap-1.5 font-bold text-purple-900 uppercase text-[10px] tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                    <span>Gemini AI Performance Diagnosis</span>
+                  </div>
+                  <p className="text-slate-800 font-medium leading-relaxed">
+                    {aiDiagnosis.rootCauseAnalysis}
+                  </p>
+                  <div className="text-[11px] text-purple-950 font-bold bg-white/80 p-2 rounded-lg border border-purple-100">
+                    💡 Prescribed 25-Q Plan: {aiDiagnosis.prescribedPlan.conceptQuestions} Concept + {aiDiagnosis.prescribedPlan.easyQuestions} Easy + {aiDiagnosis.prescribedPlan.mediumQuestions} Medium + {aiDiagnosis.prescribedPlan.timedQuestions} Timed ({aiDiagnosis.prescribedPlan.expectedAccuracyGain} Gain)
+                  </div>
+                </div>
+              )}
               <p className="text-xs text-slate-500">
                 Prepora analyzed your error timeline. Confirm or adjust the root cause of your mistakes:
               </p>

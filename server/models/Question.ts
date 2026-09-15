@@ -1,4 +1,4 @@
-﻿import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IQuestion extends Document {
   id: string;
@@ -56,4 +56,5 @@ const QuestionSchema: Schema = new Schema(
 QuestionSchema.index({ exam: 1, subject: 1, chapter: 1, difficulty: 1 });
 QuestionSchema.index({ question: 'text', chapter: 'text', topic: 'text', concept: 'text' });
 
-export default mongoose.model<IQuestion>('Question', QuestionSchema);
+export const Question = mongoose.model<IQuestion>('Question', QuestionSchema);
+export default Question;
