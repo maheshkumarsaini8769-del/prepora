@@ -1,4 +1,20 @@
 /** @type {import('tailwindcss').Config} */
+const makeColor = (varName) => `rgb(var(${varName}) / <alpha-value>)`;
+
+const themePalette = {
+  50: makeColor('--color-brand-50'),
+  100: makeColor('--color-brand-100'),
+  200: makeColor('--color-brand-200'),
+  300: makeColor('--color-brand-300'),
+  400: makeColor('--color-brand-400'),
+  500: makeColor('--color-brand-500'),
+  600: makeColor('--color-brand-600'),
+  700: makeColor('--color-brand-700'),
+  800: makeColor('--color-brand-800'),
+  900: makeColor('--color-brand-900'),
+  950: makeColor('--color-brand-950'),
+};
+
 export default {
   content: [
     "./index.html",
@@ -7,19 +23,8 @@ export default {
   theme: {
     extend: {
       colors: {
-        brand: {
-          50: '#f5f3ff',
-          100: '#ede9fe',
-          200: '#ddd6fe',
-          300: '#c4b5fd',
-          400: '#a78bfa',
-          500: '#8b5cf6',
-          600: '#7c3aed',
-          700: '#6d28d9',
-          800: '#5b21b6',
-          900: '#4c1d95',
-          950: '#2e1065',
-        },
+        brand: themePalette,
+        purple: themePalette,
       },
       borderRadius: {
         'xl': '1rem',

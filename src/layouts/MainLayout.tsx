@@ -37,6 +37,7 @@ import { useAuth } from '../context/AuthContext';
 import { GlobalQuickActionModal } from '../components/common/GlobalQuickActionModal';
 import { StudySessionModal } from '../components/common/StudySessionModal';
 import { ReportTechnicalProblemModal } from '../components/common/ReportTechnicalProblemModal';
+import { ThemeSelector } from '../components/common/ThemeSelector';
 
 export const MainLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -260,6 +261,9 @@ export const MainLayout: React.FC = () => {
 
           {/* Right Controls: Target Exam, Start Sprint, Notifications, Profile */}
           <div className="flex items-center gap-2 sm:gap-3">
+            {/* Live Theme Color Switcher */}
+            <ThemeSelector />
+
             {/* Target Exam Switcher / Tag */}
             <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-purple-50 text-purple-700 border border-purple-200/70 text-xs font-bold">
               <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
@@ -411,6 +415,12 @@ export const MainLayout: React.FC = () => {
               >
                 <X className="w-5 h-5" />
               </button>
+            </div>
+
+            {/* Mobile Theme Switcher Bar */}
+            <div className="px-4 py-2 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Color Theme</span>
+              <ThemeSelector compact />
             </div>
 
             {/* Mobile Nav Links */}

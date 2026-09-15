@@ -11,15 +11,19 @@ import {
   Smartphone,
   LogOut,
   ShieldCheck,
-  KeyRound
+  KeyRound,
+  Palette,
+  Check
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
 import { ExamType, ClassLevel } from '../types';
+import { THEME_OPTIONS, ThemeKey, getSavedTheme, applyTheme } from '../utils/theme';
 
 export const Settings: React.FC = () => {
   const profile = userService.getProfile();
+  const [activeTheme, setActiveTheme] = useState<ThemeKey>(getSavedTheme());
 
   const [name, setName] = useState(profile.name);
   const [exam, setExam] = useState<ExamType>(profile.targetExam);
@@ -154,6 +158,60 @@ export const Settings: React.FC = () => {
           <Button variant="primary" onClick={handleSave} className="font-bold text-xs px-6">
             <Save className="w-4 h-4" /> Save Preferences
           </Button>
+        </div>
+      </Card>
+
+      {/* Website Appearance & Color Theme */}
+      <Card className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+          <div>
+            <h3 className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+              <Palette className="w-4 h-4 text-brand-600" />
+              <span>Website Theme & Accent Colors</span>
+            </h3>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Choose your preferred visual palette. Updates buttons, badges, navigation, and charts instantly across PREPORA.
+            </p>
+          </div>
+          <Badge variant="brand" size="sm">Active: {THEME_OPTIONS.find(t => t.key === activeTheme)?.name}</Badge>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+          {THEME_OPTIONS.map((theme) => {
+            const isSelected = activeTheme === theme.key;
+            return (
+              <button
+                key={theme.key}
+                type="button"
+                onClick={() => {
+                  applyTheme(theme.key);
+                  setActiveTheme(theme.key);
+                }}
+                className={`p-3 rounded-xl border text-left transition-all flex items-center justify-between ${
+                  isSelected
+                    ? 'border-brand-600 bg-brand-50/80 text-brand-950 ring-2 ring-brand-500/20 shadow-xs font-bold'
+                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700'
+                }`}
+              >
+                <div className="flex items-center gap-2.5">
+                  <span
+                    className="w-6 h-6 rounded-lg shadow-2xs shrink-0 ring-1 ring-black/10 flex items-center justify-center text-white text-xs font-bold"
+                    style={{ backgroundColor: theme.primaryColor }}
+                  >
+                    {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
+                  </span>
+                  <div>
+                    <div className="text-xs font-bold leading-tight">{theme.name}</div>
+                    <div className="text-[10px] text-slate-400 mt-0.5 leading-tight">{theme.subtitle}</div>
+                  </div>
+                </div>
+
+                {isSelected && (
+                  <span className="text-[11px] font-black text-brand-600">Selected</span>
+                )}
+              </button>
+            );
+          })}
         </div>
       </Card>
 
