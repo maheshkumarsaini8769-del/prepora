@@ -5,17 +5,17 @@
 @layer base {
   :root,
   [data-theme="black"] {
-    --color-brand-50: 15 23 42;
+    --color-brand-50: 17 24 39;
     --color-brand-100: 30 41 59;
     --color-brand-200: 51 65 85;
     --color-brand-300: 71 85 105;
     --color-brand-400: 96 165 250;
     --color-brand-500: 59 130 246;
     --color-brand-600: 37 99 235;
-    --color-brand-700: 29 78 216;
-    --color-brand-800: 30 64 175;
-    --color-brand-900: 30 58 138;
-    --color-brand-950: 10 15 30;
+    --color-brand-700: 147 197 253;
+    --color-brand-800: 191 219 254;
+    --color-brand-900: 224 231 255;
+    --color-brand-950: 248 250 252;
   }
 
   [data-theme="blue"] {
@@ -256,7 +256,7 @@
 }
 
 /* ==========================================================================
-   OBSIDIAN BLACK (OLED DARK) THEME ENGINE
+   OBSIDIAN BLACK (OLED DARK) THEME ENGINE — HIGH CONTRAST
    ========================================================================== */
 html[data-theme="black"] {
   color-scheme: dark;
@@ -272,6 +272,7 @@ html[data-theme="black"] body {
 html[data-theme="black"] .bg-slate-50,
 html[data-theme="black"] .bg-gray-50,
 html[data-theme="black"] .bg-slate-50\/70,
+html[data-theme="black"] .bg-slate-50\/50,
 html[data-theme="black"] .min-h-screen {
   background-color: #07080c !important;
 }
@@ -285,29 +286,32 @@ html[data-theme="black"] nav.bg-white {
   border-color: rgba(255, 255, 255, 0.08) !important;
 }
 
-/* Cards & Surface Containers */
-html[data-theme="black"] .bg-white:not(button):not(.btn):not([role="button"]):not(.bg-white-keep) {
+/* All default white surfaces (cards, buttons, containers, panels) become dark surfaces */
+html[data-theme="black"] .bg-white {
   background-color: #11141f !important;
   color: #f8fafc !important;
 }
 
 html[data-theme="black"] .bg-white\/90,
 html[data-theme="black"] .bg-white\/95,
-html[data-theme="black"] .bg-white\/80 {
+html[data-theme="black"] .bg-white\/80,
+html[data-theme="black"] .bg-white\/70 {
   background-color: rgba(17, 20, 31, 0.95) !important;
   color: #f8fafc !important;
 }
 
 /* Inner sub-cards, pills, and tiles */
-html[data-theme="black"] .bg-slate-100:not(button):not(.btn):not(.bg-brand-button),
+html[data-theme="black"] .bg-slate-100,
 html[data-theme="black"] .bg-slate-100\/80,
-html[data-theme="black"] .bg-gray-100:not(button):not(.btn) {
+html[data-theme="black"] .bg-gray-100 {
   background-color: #171b28 !important;
-  color: #e2e8f0 !important;
+  color: #f1f5f9 !important;
 }
 
-html[data-theme="black"] .bg-slate-200 {
+html[data-theme="black"] .bg-slate-200,
+html[data-theme="black"] .bg-gray-200 {
   background-color: #222738 !important;
+  color: #f8fafc !important;
 }
 
 /* Borders */
@@ -323,11 +327,13 @@ html[data-theme="black"] .border-gray-100 {
   border-color: rgba(255, 255, 255, 0.09) !important;
 }
 
-/* Text Hierarchy */
+/* Primary Text Hierarchy */
+html[data-theme="black"] .text-slate-950,
 html[data-theme="black"] .text-slate-900,
 html[data-theme="black"] .text-slate-800,
 html[data-theme="black"] .text-gray-900,
-html[data-theme="black"] .text-gray-800 {
+html[data-theme="black"] .text-gray-800,
+html[data-theme="black"] .text-black {
   color: #ffffff !important;
 }
 
@@ -345,6 +351,71 @@ html[data-theme="black"] .text-gray-400 {
   color: #94a3b8 !important;
 }
 
+html[data-theme="black"] .text-slate-300,
+html[data-theme="black"] .text-gray-300 {
+  color: #64748b !important;
+}
+
+/* High-Contrast Colored Text in Dark Mode */
+html[data-theme="black"] .text-purple-950,
+html[data-theme="black"] .text-purple-900,
+html[data-theme="black"] .text-purple-800,
+html[data-theme="black"] .text-purple-700,
+html[data-theme="black"] .text-brand-950,
+html[data-theme="black"] .text-brand-900,
+html[data-theme="black"] .text-brand-800,
+html[data-theme="black"] .text-brand-700 {
+  color: #93c5fd !important;
+}
+
+html[data-theme="black"] .text-purple-600,
+html[data-theme="black"] .text-brand-600 {
+  color: #60a5fa !important;
+}
+
+html[data-theme="black"] .text-amber-950,
+html[data-theme="black"] .text-amber-900,
+html[data-theme="black"] .text-amber-800,
+html[data-theme="black"] .text-amber-700 {
+  color: #fbbf24 !important;
+}
+
+html[data-theme="black"] .text-emerald-950,
+html[data-theme="black"] .text-emerald-900,
+html[data-theme="black"] .text-emerald-800,
+html[data-theme="black"] .text-emerald-700 {
+  color: #34d399 !important;
+}
+
+html[data-theme="black"] .text-rose-950,
+html[data-theme="black"] .text-rose-900,
+html[data-theme="black"] .text-rose-800,
+html[data-theme="black"] .text-rose-700,
+html[data-theme="black"] .text-red-950,
+html[data-theme="black"] .text-red-900,
+html[data-theme="black"] .text-red-800,
+html[data-theme="black"] .text-red-700 {
+  color: #fb7185 !important;
+}
+
+html[data-theme="black"] .text-blue-950,
+html[data-theme="black"] .text-blue-900,
+html[data-theme="black"] .text-blue-800,
+html[data-theme="black"] .text-blue-700,
+html[data-theme="black"] .text-sky-950,
+html[data-theme="black"] .text-sky-900,
+html[data-theme="black"] .text-sky-800,
+html[data-theme="black"] .text-sky-700 {
+  color: #38bdf8 !important;
+}
+
+html[data-theme="black"] .text-indigo-950,
+html[data-theme="black"] .text-indigo-900,
+html[data-theme="black"] .text-indigo-800,
+html[data-theme="black"] .text-indigo-700 {
+  color: #a5b4fc !important;
+}
+
 /* Hover surfaces */
 html[data-theme="black"] .hover\:bg-slate-50:hover,
 html[data-theme="black"] .hover\:bg-slate-100:hover,
@@ -352,40 +423,64 @@ html[data-theme="black"] .hover\:bg-white:hover {
   background-color: #1a2030 !important;
 }
 
-/* Navigation Active States & Brand Pills */
+/* Navigation Active States, Brand Pills & Subtle Tints */
 html[data-theme="black"] .bg-purple-50,
+html[data-theme="black"] .bg-purple-100,
+html[data-theme="black"] .bg-purple-200,
 html[data-theme="black"] .bg-brand-50,
+html[data-theme="black"] .bg-brand-100,
+html[data-theme="black"] .bg-brand-200,
+html[data-theme="black"] .bg-purple-50\/80,
 html[data-theme="black"] .bg-brand-50\/80 {
-  background-color: rgba(37, 99, 235, 0.18) !important;
+  background-color: rgba(37, 99, 235, 0.16) !important;
   color: #93c5fd !important;
+  border-color: rgba(59, 130, 246, 0.28) !important;
 }
 
-/* Badges */
-html[data-theme="black"] .bg-emerald-50 {
+/* Badges & Alert Chips */
+html[data-theme="black"] .bg-emerald-50,
+html[data-theme="black"] .bg-emerald-100,
+html[data-theme="black"] .bg-emerald-200 {
   background-color: rgba(16, 185, 129, 0.16) !important;
   color: #34d399 !important;
   border-color: rgba(16, 185, 129, 0.28) !important;
 }
 
 html[data-theme="black"] .bg-amber-50,
-html[data-theme="black"] .bg-amber-500\/10 {
+html[data-theme="black"] .bg-amber-100,
+html[data-theme="black"] .bg-amber-200,
+html[data-theme="black"] .bg-amber-500\/10,
+html[data-theme="black"] .bg-amber-50\/50 {
   background-color: rgba(245, 158, 11, 0.16) !important;
   color: #fbbf24 !important;
   border-color: rgba(245, 158, 11, 0.28) !important;
 }
 
 html[data-theme="black"] .bg-rose-50,
-html[data-theme="black"] .bg-red-50 {
+html[data-theme="black"] .bg-rose-100,
+html[data-theme="black"] .bg-rose-200,
+html[data-theme="black"] .bg-rose-50\/20,
+html[data-theme="black"] .bg-red-50,
+html[data-theme="black"] .bg-red-100 {
   background-color: rgba(244, 63, 94, 0.16) !important;
   color: #fb7185 !important;
   border-color: rgba(244, 63, 94, 0.28) !important;
 }
 
 html[data-theme="black"] .bg-sky-50,
-html[data-theme="black"] .bg-blue-50 {
+html[data-theme="black"] .bg-sky-100,
+html[data-theme="black"] .bg-blue-50,
+html[data-theme="black"] .bg-blue-100 {
   background-color: rgba(14, 165, 233, 0.16) !important;
   color: #38bdf8 !important;
   border-color: rgba(14, 165, 233, 0.28) !important;
+}
+
+html[data-theme="black"] .bg-indigo-50,
+html[data-theme="black"] .bg-indigo-100 {
+  background-color: rgba(99, 102, 241, 0.16) !important;
+  color: #a5b4fc !important;
+  border-color: rgba(99, 102, 241, 0.28) !important;
 }
 
 /* Modals & Popups */
@@ -431,10 +526,17 @@ html[data-theme="black"] .bg-mesh-brand {
     radial-gradient(at 90% 85%, rgba(139, 92, 246, 0.18) 0px, transparent 50%) !important;
 }
 
-/* Hero Action CTA Button keeping contrast */
+/* Specific White CTA Buttons (e.g. on dark hero) — ensure jet black text */
 html[data-theme="black"] .bg-mesh-purple button.bg-white,
-html[data-theme="black"] .bg-mesh-brand button.bg-white {
+html[data-theme="black"] .bg-mesh-brand button.bg-white,
+html[data-theme="black"] button.bg-white.text-slate-950,
+html[data-theme="black"] .btn-white-hero {
   background-color: #ffffff !important;
+  color: #090a0f !important;
+}
+html[data-theme="black"] .bg-mesh-purple button.bg-white *,
+html[data-theme="black"] .bg-mesh-brand button.bg-white *,
+html[data-theme="black"] button.bg-white.text-slate-950 * {
   color: #090a0f !important;
 }
 html[data-theme="black"] .bg-mesh-purple button.bg-white:hover,
@@ -452,10 +554,33 @@ html[data-theme="black"] button[title="Change Theme Color"]:hover {
   background-color: #1a2030 !important;
 }
 
+/* Keyboard keys */
+html[data-theme="black"] kbd {
+  background-color: #1e2436 !important;
+  color: #94a3b8 !important;
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
 /* Clean glass cards in dark */
 html[data-theme="black"] .glass-card {
   background: rgba(17, 20, 31, 0.85) !important;
   border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* Tables */
+html[data-theme="black"] table {
+  color: #cbd5e1 !important;
+}
+html[data-theme="black"] th {
+  background-color: #141824 !important;
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+html[data-theme="black"] td {
+  border-color: rgba(255, 255, 255, 0.06) !important;
+}
+html[data-theme="black"] tr:hover {
+  background-color: #161c2b !important;
 }
 
 /* Custom scrollbars in dark mode */
