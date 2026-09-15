@@ -56,6 +56,11 @@ import { AdminReports } from './pages/admin/AdminReports';
 import { AdminSystemSecurity } from './pages/admin/AdminSystemSecurity';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
 
+// Auth Pages & Route Guard
+import { Login } from './pages/Login';
+import { AuthCallback } from './pages/AuthCallback';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+
 import { AuthProvider } from './context/AuthContext';
 import { NetworkBanner } from './components/common/NetworkBanner';
 import { AuthModal } from './components/auth/AuthModal';
@@ -67,13 +72,18 @@ export const App: React.FC = () => {
       <AuthModal />
       <BrowserRouter>
         <Routes>
-          {/* Full-Screen Exam Hall Routes */}
-          <Route element={<ExamLayout />}>
+          {/* Public Authentication Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Login defaultTab="register" />} />
+          <Route path="/auth/callback" element={<AuthCallback />} />
+
+          {/* Full-Screen Exam Hall Routes (Protected) */}
+          <Route element={<ProtectedRoute><ExamLayout /></ProtectedRoute>}>
             <Route path="/tests/:id/start" element={<ExamSession />} />
           </Route>
 
-        {/* Standard Layout Application Routes */}
-        <Route element={<MainLayout />}>
+        {/* Standard Layout Application Routes (Protected: Login Mandated Before Website Access) */}
+        <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
           {/* Core Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/dashboard" element={<Navigate to="/" replace />} />

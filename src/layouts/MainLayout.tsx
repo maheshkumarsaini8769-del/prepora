@@ -28,6 +28,7 @@ import {
   Sparkles,
   Plus,
   LogIn,
+  LogOut,
   Target,
   ChevronRight
 } from 'lucide-react';
@@ -43,7 +44,7 @@ export const MainLayout: React.FC = () => {
   const [studySessionOpen, setStudySessionOpen] = useState(false);
   const [reportTechOpen, setReportTechOpen] = useState(false);
 
-  const { user: authUser, isAuthenticated, setAuthModalOpen, setAuthModalMode } = useAuth();
+  const { user: authUser, isAuthenticated, logout, setAuthModalOpen, setAuthModalMode } = useAuth();
   const user = authUser || userService.getProfile();
   const unreadNotifs = userService.getNotifications().filter(n => !n.isRead).length;
   const navigate = useNavigate();
@@ -287,28 +288,38 @@ export const MainLayout: React.FC = () => {
 
             {/* Profile Avatar / Auth */}
             {isAuthenticated ? (
-              <Link
-                to="/profile"
-                className="flex items-center gap-2 p-1 pr-2.5 rounded-xl hover:bg-slate-100 transition-colors"
-              >
-                <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-center">
-                  {(user.name || 'Student').charAt(0).toUpperCase()}
-                </div>
-                <span className="hidden sm:inline text-xs font-bold text-slate-700 max-w-[100px] truncate">
-                  {user.name || 'Student'}
-                </span>
-              </Link>
+              <div className="flex items-center gap-1.5">
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 p-1 pr-2 rounded-xl hover:bg-slate-100 transition-colors"
+                >
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-bold text-xs flex items-center justify-center shadow-xs">
+                    {(user.name || 'Student').charAt(0).toUpperCase()}
+                  </div>
+                  <span className="hidden sm:inline text-xs font-bold text-slate-700 max-w-[100px] truncate">
+                    {user.name || 'Student'}
+                  </span>
+                </Link>
+                <button
+                  type="button"
+                  onClick={async () => {
+                    await logout();
+                    navigate('/login');
+                  }}
+                  title="Sign Out"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                </button>
+              </div>
             ) : (
-              <button
-                onClick={() => {
-                  setAuthModalMode('login');
-                  setAuthModalOpen(true);
-                }}
+              <Link
+                to="/login"
                 className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 text-white hover:bg-purple-700 text-xs font-bold shadow-xs transition-all"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 <span>Sign In</span>
-              </button>
+              </Link>
             )}
           </div>
         </header>

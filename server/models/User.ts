@@ -18,6 +18,7 @@ export interface IUser extends Document {
   studyTimeMinutes: number;
   otpCode?: string;
   otpExpires?: Date;
+  zenuxsId?: string;
   status: 'active' | 'suspended';
   preferences?: Record<string, any>;
   createdAt: Date;
@@ -30,6 +31,7 @@ const UserSchema: Schema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, index: true },
     passwordHash: { type: String },
+    zenuxsId: { type: String, sparse: true, index: true },
     role: { type: String, enum: ['student', 'admin'], default: 'student', index: true },
     avatar: { type: String },
     targetExam: { type: String, required: true, default: 'JEE' },

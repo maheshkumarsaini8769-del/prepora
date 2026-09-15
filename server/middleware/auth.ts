@@ -73,3 +73,30 @@ export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFu
   }
   next();
 };
+
+export const optionalAuth = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  try {
+    const authHeader = req.headers.authorization || (req.headers['x-auth-token'] as string);
+    if (!authHeader) return next();
+
+    const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7).trim() : authHeader.trim();
+    if (!token) return next();
+
+    let decoded: any;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch {
+      return next();
+    }
+
+    const user = await User.findOne({ id: decoded.id });
+    if (user && user.status !== 'suspended') {
+      req.user = user;
+      req.userId = user.id;
+      req.token = token;
+    }
+    next();
+  } catch {
+    next();
+  }
+};

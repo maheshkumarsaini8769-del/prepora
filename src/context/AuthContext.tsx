@@ -24,6 +24,7 @@ export interface AuthContextType {
   setAuthModalOpen: (open: boolean) => void;
   setAuthModalMode: (mode: 'login' | 'register' | 'otp' | 'forgot') => void;
   login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  loginWithZenuxs: (payload: { sub?: string; email?: string; name?: string; picture?: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   register: (data: { name: string; email: string; password: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   sendOtp: (email: string) => Promise<{ success: boolean; message?: string; debugOtp?: string }>;
   verifyOtp: (email: string, otp: string) => Promise<{ success: boolean; message?: string }>;
@@ -50,6 +51,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register' | 'otp' | 'forgot'>('login');
 
+  const syncStudentUserData = async (studentId: string, authToken: string) => {
+    try {
+      // 1. Fetch remote attempts for this student
+      const attRes = await fetch(`/api/attempts?userId=${studentId}`, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      if (attRes.ok) {
+        const attData = await attRes.json();
+        if (attData.attempts) {
+          localStorage.setItem('prepora_test_attempts', JSON.stringify(attData.attempts));
+        }
+      }
+      // 2. Fetch remote bookmarks
+      const bmRes = await fetch(`/api/entities/bookmarks?userId=${studentId}`, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      if (bmRes.ok) {
+        const bmData = await bmRes.json();
+        if (bmData.bookmarks) {
+          localStorage.setItem('prepora_bookmarks', JSON.stringify(bmData.bookmarks));
+        }
+      }
+      // 3. Fetch remote mistakes
+      const mstRes = await fetch(`/api/entities/mistakes?userId=${studentId}`, {
+        headers: { Authorization: `Bearer ${authToken}` }
+      });
+      if (mstRes.ok) {
+        const mstData = await mstRes.json();
+        if (mstData.mistakes) {
+          localStorage.setItem('prepora_mistakes', JSON.stringify(mstData.mistakes));
+        }
+      }
+    } catch (e) {
+      console.warn('Sync student data failed:', e);
+    }
+  };
+
   // Verify token on mount and fetch current user profile
   useEffect(() => {
     const initAuth = async () => {
@@ -71,6 +109,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             setUser(merged);
             userService.updateProfile(merged);
             fetchSessions(storedToken);
+            syncStudentUserData(data.user.id, storedToken);
           }
         } else if (res.status === 401) {
           // Token expired or session revoked
@@ -114,6 +153,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
+  const loginWithZenuxs = async (payload: {
+    sub?: string;
+    email?: string;
+    name?: string;
+    picture?: string;
+    targetExam?: string;
+    classLevel?: string;
+  }): Promise<{ success: boolean; message?: string }> => {
+    try {
+      const res = await fetch('/api/auth/zenuxs', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        return { success: false, message: data.message || 'Zenuxs login failed.' };
+      }
+
+      setToken(data.token);
+      localStorage.setItem(TOKEN_KEY, data.token);
+
+      const updatedUser: UserProfile = {
+        ...userService.getProfile(),
+        ...data.user,
+        avatarUrl: data.user.avatar || userService.getProfile().avatarUrl
+      };
+      setUser(updatedUser);
+      userService.updateProfile(updatedUser);
+      await syncStudentUserData(data.user.id, data.token);
+      fetchSessions(data.token);
+      setAuthModalOpen(false);
+
+      return { success: true };
+    } catch (err: any) {
+      return { success: false, message: err.message || 'Network error during Zenuxs login.' };
+    }
+  };
+
   const login = async (email: string, password: string): Promise<{ success: boolean; message?: string }> => {
     try {
       const res = await fetch('/api/auth/login', {
@@ -137,6 +216,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setUser(updatedUser);
       userService.updateProfile(updatedUser);
+      await syncStudentUserData(data.user.id, data.token);
       fetchSessions(data.token);
       setAuthModalOpen(false);
 
@@ -169,6 +249,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setUser(updatedUser);
       userService.updateProfile(updatedUser);
+      await syncStudentUserData(data.user.id, data.token);
       fetchSessions(data.token);
       setAuthModalOpen(false);
 
@@ -214,6 +295,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setUser(updatedUser);
       userService.updateProfile(updatedUser);
+      await syncStudentUserData(data.user.id, data.token);
       fetchSessions(data.token);
       setAuthModalOpen(false);
 
@@ -261,10 +343,24 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } finally {
       localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem('prepora_test_attempts');
+      localStorage.removeItem('prepora_bookmarks');
+      localStorage.removeItem('prepora_mistakes');
+      localStorage.removeItem('prepora_user_profile');
       setToken(null);
       setActiveSessions([]);
-      setUser(initialUserProfile);
-      userService.updateProfile(initialUserProfile);
+      const emptyUser: UserProfile = {
+        ...initialUserProfile,
+        id: '',
+        name: 'Student',
+        email: '',
+        streakDays: 0,
+        todayQuestionsCount: 0,
+        overallAccuracy: 0,
+        testsCompletedCount: 0
+      };
+      setUser(emptyUser);
+      userService.updateProfile(emptyUser);
     }
   };
 
@@ -312,13 +408,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       value={{
         user,
         token,
-        isAuthenticated: !!token,
+        isAuthenticated: !!token && !!user.id && user.id !== '',
         activeSessions,
         authModalOpen,
         authModalMode,
         setAuthModalOpen,
         setAuthModalMode,
         login,
+        loginWithZenuxs,
         register,
         sendOtp,
         verifyOtp,

@@ -165,6 +165,83 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+// POST /api/auth/zenuxs - Zenuxs OAuth 2.0 Single Sign-On
+router.post('/zenuxs', async (req: Request, res: Response) => {
+  try {
+    const { sub, email, name, picture, targetExam = 'JEE', classLevel = '12' } = req.body;
+
+    if (!email && !sub) {
+      return res.status(400).json({ success: false, message: 'Zenuxs user identifier or email is required.' });
+    }
+
+    const normalizedEmail = email ? email.toLowerCase().trim() : `zenuxs_${sub}@zenuxs.user`;
+
+    // Find existing user by zenuxsId OR email
+    let user = await User.findOne({
+      $or: [
+        ...(sub ? [{ zenuxsId: sub }] : []),
+        { email: normalizedEmail }
+      ]
+    });
+
+    if (user) {
+      // Existing student: link zenuxsId if missing, update avatar/name if provided
+      if (sub && !user.zenuxsId) user.zenuxsId = sub;
+      if (picture && !user.avatar) user.avatar = picture;
+      if (name && (!user.name || user.name.startsWith('usr-'))) user.name = name;
+      await user.save();
+    } else {
+      // New student: create isolated student profile
+      const id = `usr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+      user = new User({
+        id,
+        name: name ? name.trim() : normalizedEmail.split('@')[0],
+        email: normalizedEmail,
+        zenuxsId: sub,
+        avatar: picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${id}`,
+        role: normalizedEmail.includes('admin') ? 'admin' : 'student',
+        targetExam,
+        classLevel,
+        targetYear: 2026,
+        dreamScore: 280,
+        streakDays: 1,
+        totalQuestionsSolved: 0,
+        overallAccuracy: 0,
+        testsCompleted: 0,
+        studyTimeMinutes: 0
+      });
+      await user.save();
+    }
+
+    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
+    const { device, browser, os, userAgent, ipAddress } = parseDeviceInfo(req);
+
+    const session = new Session({
+      id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      userId: user.id,
+      token,
+      deviceInfo: { device, browser, os },
+      ipAddress,
+      userAgent
+    });
+    await session.save();
+
+    const userObj = user.toObject();
+    delete userObj.passwordHash;
+    delete userObj.otpCode;
+
+    res.json({
+      success: true,
+      token,
+      user: userObj,
+      sessionId: session.id,
+      message: 'Logged in successfully via Zenuxs OAuth.'
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // POST /api/auth/send-otp
 router.post('/send-otp', async (req: Request, res: Response) => {
   try {

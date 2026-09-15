@@ -1,14 +1,15 @@
-﻿import express, { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import { Mistake, Bookmark, Note, Doubt, QuestionReport, Goal } from '../models/Entities.js';
 import Question from '../models/Question.js';
 import User from '../models/User.js';
+import { optionalAuth, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // --- MISTAKES ---
-router.get('/mistakes', async (req: Request, res: Response) => {
+router.get('/mistakes', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.query.userId as string) || 'usr-default';
+    const userId = req.userId || (req.query.userId as string) || 'usr-default';
     const mistakes = await Mistake.find({ userId, resolved: false }).sort({ updatedAt: -1 });
     const qIds = mistakes.map(m => m.questionId);
     const questions = await Question.find({ id: { $in: qIds } });
@@ -48,9 +49,9 @@ router.delete('/mistakes/:id', async (req: Request, res: Response) => {
 });
 
 // --- BOOKMARKS ---
-router.get('/bookmarks', async (req: Request, res: Response) => {
+router.get('/bookmarks', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.query.userId as string) || 'usr-default';
+    const userId = req.userId || (req.query.userId as string) || 'usr-default';
     const bookmarks = await Bookmark.find({ userId }).sort({ createdAt: -1 });
     res.json({ success: true, bookmarks });
   } catch (error: any) {
@@ -58,9 +59,10 @@ router.get('/bookmarks', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/bookmarks', async (req: Request, res: Response) => {
+router.post('/bookmarks', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const { userId = 'usr-default', itemType, itemId } = req.body;
+    const { itemType, itemId } = req.body;
+    const userId = req.userId || req.body.userId || 'usr-default';
     const existing = await Bookmark.findOne({ userId, itemType, itemId });
     if (existing) {
       await Bookmark.deleteOne({ _id: existing._id });
@@ -80,9 +82,9 @@ router.post('/bookmarks', async (req: Request, res: Response) => {
 });
 
 // --- NOTES ---
-router.get('/notes', async (req: Request, res: Response) => {
+router.get('/notes', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.query.userId as string) || 'usr-default';
+    const userId = req.userId || (req.query.userId as string) || 'usr-default';
     const notes = await Note.find({ userId }).sort({ updatedAt: -1 });
     res.json({ success: true, notes });
   } catch (error: any) {
@@ -90,9 +92,10 @@ router.get('/notes', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/notes', async (req: Request, res: Response) => {
+router.post('/notes', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const { userId = 'usr-default', title, content, subject, chapter, topic } = req.body;
+    const { title, content, subject, chapter, topic } = req.body;
+    const userId = req.userId || req.body.userId || 'usr-default';
     const note = new Note({
       id: `note-${Date.now()}`,
       userId,

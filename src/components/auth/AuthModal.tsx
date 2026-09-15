@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
+import { ZenuxOAuth } from 'zenuxs-oauth';
 import { X, Mail, Lock, User, KeyRound, ArrowRight, ShieldCheck, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Button } from '../common/UIComponents';
 
@@ -10,6 +11,7 @@ export const AuthModal: React.FC = () => {
     setAuthModalOpen,
     setAuthModalMode,
     login,
+    loginWithZenuxs,
     register,
     sendOtp,
     verifyOtp,
@@ -23,6 +25,7 @@ export const AuthModal: React.FC = () => {
   const [targetExam, setTargetExam] = useState<'JEE' | 'NEET' | 'Board'>('JEE');
   const [classLevel, setClassLevel] = useState<'11' | '12' | 'Dropper'>('12');
   const [otp, setOtp] = useState('');
+  const [zenuxsLoading, setZenuxsLoading] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
@@ -174,6 +177,46 @@ export const AuthModal: React.FC = () => {
     }
   };
 
+  const handleZenuxsLogin = async () => {
+    setError(null);
+    setZenuxsLoading(true);
+    try {
+      const oauth = new ZenuxOAuth({
+        clientId: '99366ee281c7e424',
+        redirectUri: window.location.origin + '/auth/callback',
+        scopes: 'openid profile email',
+        theme: 'light'
+      });
+
+      let tokens = await oauth.login({ mode: 'popup' }).catch(() => null);
+      if (!tokens) {
+        tokens = oauth.getTokens();
+      }
+
+      const userInfo = await oauth.getUserInfo().catch(() => null);
+      if (userInfo) {
+        const res = await loginWithZenuxs({
+          sub: userInfo.sub || userInfo.id,
+          email: userInfo.email,
+          name: userInfo.name || userInfo.given_name || (userInfo.email ? userInfo.email.split('@')[0] : 'Student'),
+          picture: userInfo.picture || userInfo.avatar
+        });
+        if (res.success) {
+          setSuccessMsg('Logged in successfully!');
+          setTimeout(() => setAuthModalOpen(false), 400);
+        } else {
+          setError(res.message || 'Zenuxs authentication failed on server');
+        }
+      } else {
+        setError('Could not retrieve Zenuxs account information');
+      }
+    } catch (err: any) {
+      setError(err?.message || 'Zenuxs sign in error');
+    } finally {
+      setZenuxsLoading(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
       <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
@@ -266,6 +309,34 @@ export const AuthModal: React.FC = () => {
               <span>{successMsg}</span>
             </div>
           )}
+
+          {/* Zenuxs OAuth Quick Login */}
+          <div className="mb-5 space-y-2">
+            <button
+              type="button"
+              onClick={handleZenuxsLogin}
+              disabled={zenuxsLoading}
+              className="w-full flex items-center justify-center gap-2.5 py-2.5 px-4 rounded-xl bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs shadow-md border border-purple-500/30 transition-all cursor-pointer disabled:opacity-60"
+            >
+              {zenuxsLoading ? (
+                <span>Connecting to Zenuxs...</span>
+              ) : (
+                <>
+                  <div className="w-5 h-5 rounded-md bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-[9px] font-black text-white">
+                    Z
+                  </div>
+                  <span>Continue with Zenuxs</span>
+                  <span className="text-[10px] text-purple-300 font-normal">SSO</span>
+                </>
+              )}
+            </button>
+            <div className="relative my-3">
+              <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-slate-200" /></div>
+              <div className="relative flex justify-center text-[10px] uppercase font-bold text-slate-400">
+                <span className="bg-white px-2">Or with email</span>
+              </div>
+            </div>
+          </div>
 
           {/* 1. PASSWORD LOGIN */}
           {authModalMode === 'login' && (

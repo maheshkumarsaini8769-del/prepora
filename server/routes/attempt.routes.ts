@@ -4,14 +4,16 @@ import Test from '../models/Test.js';
 import Question from '../models/Question.js';
 import User from '../models/User.js';
 import { Mistake } from '../models/Entities.js';
+import { optionalAuth, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
 
 // GET /api/attempts - Get all attempts for user
-router.get('/', async (req: Request, res: Response) => {
+router.get('/', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.query.userId as string) || 'usr-default';
-    const attempts = await TestAttempt.find({ userId }).sort({ createdAt: -1 });
+    const userId = req.userId || (req.query.userId as string);
+    const filter = userId ? { userId } : {};
+    const attempts = await TestAttempt.find(filter).sort({ createdAt: -1 });
     res.json({ success: true, attempts });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -32,7 +34,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // POST /api/attempts/submit - Server authoritative test evaluation with idempotency
-router.post('/submit', async (req: Request, res: Response) => {
+router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
     const {
       testId,
@@ -42,6 +44,8 @@ router.post('/submit', async (req: Request, res: Response) => {
       idempotencyKey,
       clientSyncId
     } = req.body;
+
+    const effectiveUserId = req.userId || userId;
 
     const effectiveKey = idempotencyKey || clientSyncId;
 
@@ -148,7 +152,7 @@ router.post('/submit', async (req: Request, res: Response) => {
           // Prepare mistake entity
           mistakesToSave.push({
             id: `mst-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-            userId,
+            userId: effectiveUserId,
             questionId: q.id,
             mistakeReason: userAns.mistakeReason || 'Concept Not Clear',
             mistakeNote: userAns.mistakeNote || ''
@@ -180,10 +184,10 @@ router.post('/submit', async (req: Request, res: Response) => {
           options: q.options,
           correctAnswer: q.correctAnswer,
           explanation: q.explanation,
-          difficulty: q.difficulty,
           subject: q.subject,
           chapter: q.chapter,
-          topic: q.topic
+          topic: q.topic,
+          difficulty: q.difficulty
         }
       };
     });
@@ -191,8 +195,8 @@ router.post('/submit', async (req: Request, res: Response) => {
     const attemptedCount = correctCount + wrongCount;
     const accuracyPercentage = attemptedCount > 0 ? Math.round((correctCount / attemptedCount) * 100) : 0;
 
-    const subjectBreakdown = Object.entries(subjectStats).map(([subj, stats]) => ({
-      subject: subj,
+    const subjectBreakdown = Object.entries(subjectStats).map(([subject, stats]) => ({
+      subject,
       totalQuestions: stats.total,
       attempted: stats.attempted,
       correct: stats.correct,
@@ -207,7 +211,7 @@ router.post('/submit', async (req: Request, res: Response) => {
     const newAttempt = new TestAttempt({
       id: attemptId,
       idempotencyKey: effectiveKey,
-      userId,
+      userId: effectiveUserId,
       testId: test.id,
       testTitle: test.title,
       timestamp: new Date().toISOString(),
@@ -238,7 +242,7 @@ router.post('/submit', async (req: Request, res: Response) => {
     if (mistakesToSave.length > 0) {
       for (const m of mistakesToSave) {
         await Mistake.findOneAndUpdate(
-          { userId, questionId: m.questionId },
+          { userId: effectiveUserId, questionId: m.questionId },
           {
             $setOnInsert: { id: m.id, createdAt: new Date() },
             $set: { testAttemptId: attemptId, mistakeReason: m.mistakeReason, mistakeNote: m.mistakeNote },
@@ -251,7 +255,7 @@ router.post('/submit', async (req: Request, res: Response) => {
 
     // Synchronize User profile stats asynchronously
     User.findOneAndUpdate(
-      { id: userId },
+      { id: effectiveUserId },
       {
         $inc: {
           testsCompleted: 1,
