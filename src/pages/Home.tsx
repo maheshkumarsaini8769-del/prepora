@@ -123,9 +123,9 @@ export const Home: React.FC = () => {
           <div className="absolute inset-0 bg-dot-pattern-dark pointer-events-none opacity-40" />
 
           {/* Glowing Animated Ambient Orbs */}
-          <div className="absolute -top-24 -right-24 w-80 h-80 bg-purple-500/30 rounded-full blur-3xl pointer-events-none animate-float" />
-          <div className="absolute -bottom-24 -left-20 w-80 h-80 bg-indigo-500/30 rounded-full blur-3xl pointer-events-none animate-float-delayed" />
-          <div className="absolute top-1/2 left-1/3 w-60 h-60 bg-pink-500/20 rounded-full blur-3xl pointer-events-none animate-pulse-subtle" />
+          <div className="absolute -top-24 -right-24 w-80 h-80 bg-blue-500/30 rounded-full blur-3xl pointer-events-none animate-float" />
+          <div className="absolute -bottom-24 -left-20 w-80 h-80 bg-cyan-500/30 rounded-full blur-3xl pointer-events-none animate-float-delayed" />
+          <div className="absolute top-1/2 left-1/3 w-60 h-60 bg-sky-500/20 rounded-full blur-3xl pointer-events-none animate-pulse-subtle" />
 
           {/* Card Content */}
           <div className="relative z-10 space-y-3.5">
@@ -241,20 +241,20 @@ export const Home: React.FC = () => {
       </div>
 
       {/* 2.1 WHAT SHOULD I STUDY NOW? (task2.md Section 1: The Smartest Screen on PREPORA) */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-purple-950 to-slate-950 border border-purple-500/40 p-6 sm:p-7 shadow-2xl text-white">
+      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-slate-900 via-blue-950 to-slate-950 border border-blue-500/40 p-6 sm:p-7 shadow-2xl text-white">
         {/* Glow ambient background elements */}
-        <div className="absolute top-0 right-0 w-72 h-72 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-        <div className="absolute bottom-0 left-10 w-64 h-64 bg-brand-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute top-0 right-0 w-72 h-72 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute bottom-0 left-10 w-64 h-64 bg-cyan-600/15 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 space-y-5">
           {/* Header Tag Strip */}
           <div className="flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4">
             <div className="flex items-center gap-2">
               <span className="relative flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75" />
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-purple-400" />
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-blue-400" />
               </span>
-              <span className="text-[11px] font-black uppercase tracking-widest text-purple-300">
+              <span className="text-[11px] font-black uppercase tracking-widest text-blue-300">
                 WHAT SHOULD I STUDY NOW?
               </span>
               <span className="hidden sm:inline text-slate-500">•</span>

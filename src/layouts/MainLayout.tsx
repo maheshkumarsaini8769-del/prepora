@@ -181,20 +181,9 @@ export const MainLayout: React.FC = () => {
           ))}
         </nav>
 
-        {/* Bottom Profile & Admin Quick Jump */}
-        <div className="p-3 border-t border-slate-100 flex-shrink-0 bg-slate-50/70 space-y-1">
-          <Link
-            to="/admin"
-            className="flex items-center justify-between px-3 py-1.5 rounded-xl text-xs font-bold text-slate-700 bg-white border border-slate-200 hover:border-purple-300 hover:text-purple-700 transition-colors shadow-2xs"
-          >
-            <span className="flex items-center gap-2">
-              <Shield className="w-3.5 h-3.5 text-purple-600" />
-              <span>Admin Console</span>
-            </span>
-            <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
-          </Link>
-
-          <div className="grid grid-cols-2 gap-1 pt-1">
+        {/* Bottom Profile & Settings Quick Jump */}
+        <div className="p-3 border-t border-slate-100 flex-shrink-0 bg-slate-50/70">
+          <div className="grid grid-cols-2 gap-1">
             <NavLink
               to="/profile"
               className={({ isActive }) =>
@@ -460,19 +449,6 @@ export const MainLayout: React.FC = () => {
                 </div>
               ))}
 
-              <div className="pt-2 border-t border-slate-100">
-                <Link
-                  to="/admin"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between px-3 py-2.5 rounded-xl bg-slate-900 text-white font-bold text-xs"
-                >
-                  <span className="flex items-center gap-2">
-                    <Shield className="w-4 h-4 text-purple-400" />
-                    <span>Admin Control Center</span>
-                  </span>
-                  <ChevronRight className="w-4 h-4 text-slate-400" />
-                </Link>
-              </div>
             </div>
 
             {/* Drawer Footer */}

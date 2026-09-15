@@ -1,4 +1,4 @@
-export type ThemeKey = 'indigo' | 'ocean' | 'emerald' | 'sunset' | 'violet';
+export type ThemeKey = 'blue' | 'emerald' | 'sunset' | 'ocean' | 'indigo' | 'violet';
 
 export interface ThemeOption {
   key: ThemeKey;
@@ -10,18 +10,11 @@ export interface ThemeOption {
 
 export const THEME_OPTIONS: ThemeOption[] = [
   {
-    key: 'indigo',
-    name: 'Royal Indigo',
-    subtitle: 'Electric Tech & Focus (Modern)',
-    primaryColor: '#4f46e5',
-    previewGradient: 'from-indigo-600 to-blue-600',
-  },
-  {
-    key: 'ocean',
-    name: 'Oceanic Blue',
-    subtitle: 'Deep Marine & Sky',
-    primaryColor: '#0284c7',
-    previewGradient: 'from-sky-500 to-cyan-600',
+    key: 'blue',
+    name: 'Royal Sapphire',
+    subtitle: 'Modern Electric Blue & Trust (Default)',
+    primaryColor: '#2563eb',
+    previewGradient: 'from-blue-600 to-cyan-600',
   },
   {
     key: 'emerald',
@@ -31,6 +24,13 @@ export const THEME_OPTIONS: ThemeOption[] = [
     previewGradient: 'from-emerald-600 to-teal-600',
   },
   {
+    key: 'ocean',
+    name: 'Oceanic Cyan',
+    subtitle: 'Deep Marine & Sky',
+    primaryColor: '#0284c7',
+    previewGradient: 'from-sky-500 to-cyan-600',
+  },
+  {
     key: 'sunset',
     name: 'Sunset Crimson',
     subtitle: 'Urgency & High Energy',
@@ -38,9 +38,16 @@ export const THEME_OPTIONS: ThemeOption[] = [
     previewGradient: 'from-rose-600 to-amber-600',
   },
   {
+    key: 'indigo',
+    name: 'Tech Indigo',
+    subtitle: 'Deep Tech & Linear style',
+    primaryColor: '#4f46e5',
+    previewGradient: 'from-indigo-600 to-blue-600',
+  },
+  {
     key: 'violet',
     name: 'Cyber Violet',
-    subtitle: 'Classic Signature Prepora',
+    subtitle: 'Classic Purple Prepora',
     primaryColor: '#7c3aed',
     previewGradient: 'from-purple-600 to-fuchsia-600',
   },
@@ -57,7 +64,7 @@ export function getSavedTheme(): ThemeKey {
   } catch (e) {
     // fallback
   }
-  return 'indigo';
+  return 'blue';
 }
 
 export function applyTheme(themeKey: ThemeKey) {

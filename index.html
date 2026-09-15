@@ -13,6 +13,12 @@
         font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
       }
     </style>
+    <script>
+      (function() {
+        var t = localStorage.getItem('prepora_color_theme') || 'blue';
+        document.documentElement.setAttribute('data-theme', t);
+      })();
+    </script>
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
     <div id="root"></div>

@@ -228,16 +228,6 @@ export const Settings: React.FC = () => {
           <RotateCcw className="w-3.5 h-3.5" /> Reset Local Mock Data
         </Button>
       </Card>
-
-      {/* Faculty & Administration Switcher */}
-      <div className="text-center pt-2">
-        <a
-          href="/admin"
-          className="text-xs font-medium text-slate-400 hover:text-brand-600 transition-colors"
-        >
-          Administrator or Faculty? Open Question Management Console →
-        </a>
-      </div>
     </div>
   );
 };
