@@ -1,1088 +1,2074 @@
-PREPORA — PRODUCTION RELIABILITY & ACCOUNT SYSTEM UPGRADE
+You are a senior product engineer, UX architect, education-platform architect, AI content-generation engineer, database architect and QA engineer.
+
+You are working on my existing education platform:
+
+PREPORA
+Practice • Test • Analyze • Improve
 
 IMPORTANT:
-This is an upgrade to the EXISTING PREPORA application.
+Do NOT rebuild the website from scratch.
+Do NOT replace the existing design unnecessarily.
+Do NOT remove existing working features.
+Do NOT change the brand identity.
+Do NOT introduce a completely different UI.
 
-DO NOT redesign the existing website.
+First inspect the existing codebase, routes, components, database models, APIs, authentication, AI generation logic and current UI.
 
-DO NOT change the current PREPORA visual identity, layout, colors, typography, navigation or existing UI unnecessarily.
+Then improve the existing implementation.
 
-DO NOT remove or break any existing feature.
+The website has already been designed and partially implemented for both:
 
-Keep the current PREPORA UI exactly as it is unless a small UI addition is required for one of the features below.
+1. Student-facing platform
+2. Admin Panel
 
-Implement all features as REAL working functionality, not dummy buttons or placeholder screens.
+I reviewed the current website and screen recordings and identified areas that need improvement.
+
+The goal is to make PREPORA feel like a serious, production-quality education platform rather than an AI-generated demo.
 
 ==================================================
-1. 🔐 PROPER LOGIN + ACCOUNT RECOVERY
+1. CORE PRODUCT PHILOSOPHY
 ==================================================
 
-Build a production-ready authentication system.
+PREPORA's core learning loop is:
 
-Support:
+PRACTICE
+↓
+TEST
+↓
+ANALYZE
+↓
+IDENTIFY WEAKNESS
+↓
+TARGETED PRACTICE
+↓
+RETEST
+↓
+IMPROVE
 
-- Email + password login
-- Email OTP verification
-- Forgot password
-- Reset password
-- Logout
-- Multiple-device sessions
-- Session management
-- Profile data synchronization
+The most important differentiator is:
 
-AUTH FLOW:
+FIX MY WEAKNESS
 
-Signup:
+This should not be just another menu item.
 
-Name
-Email
-Password
-Confirm Password
+It should become one of the core product experiences.
+
+The system should identify weak chapters/topics/concepts/question types from actual student performance and generate a targeted action plan.
+
+==================================================
+2. DO NOT DESTROY CURRENT UI
+==================================================
+
+Preserve:
+
+- current PREPORA branding
+- current typography
+- current overall visual language
+- current card style
+- current navigation
+- current responsive structure
+- existing pages
+- existing working functionality
+
+Only make changes where they improve:
+
+- usability
+- visual hierarchy
+- consistency
+- responsiveness
+- information density
+- accessibility
+- professional appearance
+- performance
+- correctness
+
+Avoid:
+
+- excessive gradients
+- excessive glassmorphism
+- neon colors
+- childish/gaming UI
+- unnecessary animations
+- huge decorative elements
+- excessive purple cards
+- AI-looking paragraphs
+- excessive rounded containers everywhere
+
+PREPORA should feel premium, clean, intelligent and trustworthy.
+
+==================================================
+3. STUDENT NAVIGATION
+==================================================
+
+Keep the current navigation but improve information architecture.
+
+Primary navigation should clearly prioritize:
+
+HOME
+PRACTICE
+TESTS
+PAPERS
+PROFILE
+
+Group secondary features logically.
+
+Suggested structure:
+
+MAIN
+- Practice
+- Tests
+- Papers
+
+IMPROVE
+- Fix My Weakness
+- Mistake Book
+- Smart Revision
+- Formula Flashcards
+
+PLAN
+- Study Planner
+- Goals & Milestones
+
+ANALYZE
+- Performance Analytics
+- Readiness
+
+SUPPORT
+- AI Doubt Solver
+- Doubts / Mentorship
+
+Do not force the user to understand every feature before starting study.
+
+The Home page should answer:
+
+"What should I do right now?"
+
+==================================================
+4. HOME DASHBOARD
+==================================================
+
+Keep the existing personalized dashboard concept.
+
+Improve it so the most important information appears first:
+
+1. Today's target
+2. Continue where I left off
+3. Weakness that needs attention
+4. Recommended practice
+5. Test/revision reminder
+6. Performance summary
+
+Example:
+
+TODAY'S TARGET
+30 questions
+Physics • Current Electricity
+
+CONTINUE
+Chapter Practice → 12 questions remaining
+
+FIX THIS WEAKNESS
+Electrostatics
+Accuracy: 48%
+Repeated mistakes: 6
+
+[Fix My Weakness →]
+
+Do not fill the dashboard with too many explanatory paragraphs.
+
+==================================================
+5. PRACTICE EXPERIENCE
+==================================================
+
+Practice should support:
+
+- Subject
+- Chapter
+- Topic
+- Subtopic
+- Difficulty
+- Question count
+- Question type
+- Exam type
+- Custom practice
+- Weakness-based practice
+
+Question screen should support:
+
+- question
+- options
+- timer
+- mark for review
+- skip
+- submit
+- hint
+- solution after submission
+- concept
+- important point
+- common mistake
+- exam tip
+- recommended time
+
+After every answer capture:
+
+- selected option
+- correct/incorrect
+- time spent
+- question difficulty
+- topic
+- concept
+- mistake type
+- confidence if enabled
+
+Do not expose unnecessary analytics during active solving.
+
+==================================================
+6. FIX MY WEAKNESS
+==================================================
+
+Make this a first-class feature.
+
+Input:
+
+- chapter performance
+- topic accuracy
+- concept accuracy
+- repeated mistakes
+- question time
+- skipped questions
+- negative marking
+- difficulty-wise performance
+- recent tests
+- historical performance
+
+Output:
+
+WEAKNESS DETECTED
+
+Topic:
+Electrostatics
+
+Accuracy:
+48%
+
+Confidence:
+Low
+
+Repeated mistake:
+Conceptual confusion
+
+Recommended action:
+
+Step 1
+Review concept
+
+Step 2
+Solve 10 targeted questions
+
+Step 3
+Take 5-question mini test
+
+Step 4
+Retest after revision
+
+Step 5
+Recalculate mastery
+
+The system must not simply show random questions.
+
+Questions must be selected based on the detected weakness.
+
+==================================================
+7. MISTAKE BOOK
+==================================================
+
+Every incorrect question should be capable of entering the mistake system.
+
+Store:
+
+- question
+- question version
+- selected answer
+- correct answer
+- mistake type
+- topic
+- concept
+- time taken
+- attempt number
+- date
+- explanation
+- student's previous attempts
+
+Mistake categories can include:
+
+- Conceptual mistake
+- Calculation mistake
+- Careless mistake
+- Misread question
+- Formula mistake
+- Time-pressure mistake
+- Guessing
+- Knowledge gap
+
+Allow:
+
+Review
+Practice Again
+Fix Weakness
+Mark Resolved
+
+Detect repeated mistakes automatically.
+
+==================================================
+8. SMART REVISION
+==================================================
+
+Support spaced revision.
+
+Revision items can come from:
+
+- mistakes
+- formulas
+- weak concepts
+- flashcards
+- important questions
+- previously incorrect questions
+
+Show:
+
+Due today
+Upcoming
+Mastered
+Needs revision
+
+Do not create fake mastery.
+
+Mastery must be based on actual performance.
+
+==================================================
+9. PERFORMANCE ANALYTICS
+==================================================
+
+Keep the existing analytics concept.
+
+Improve information hierarchy.
+
+Show:
+
+- Accuracy
+- Attempt rate
+- Average time
+- Correct/wrong/skipped
+- Subject performance
+- Chapter performance
+- Topic performance
+- Difficulty performance
+- Question-type performance
+- Negative marking
+- Improvement trend
+- Repeated mistakes
+- Readiness
+
+Avoid long AI-generated paragraphs.
+
+Prefer:
+
+Metric
+↓
+Reason
+↓
+Action
+
+Example:
+
+NEGATIVE MARKING RISK
+
+Physics
+
+Accuracy:
+61%
+
+Incorrect:
+12
+
+Potential avoidable errors:
+5
+
+[Practice Accuracy →]
+
+==================================================
+10. RANK / PERCENTILE PREDICTION
+==================================================
+
+If rank or percentile prediction exists:
+
+Never represent it as an official NTA result.
+
+Use wording such as:
+
+Estimated Rank Range
+
+Based on current performance
+
+Prediction only — not an official examination result.
+
+Predictions must show uncertainty/range.
+
+Do not make false precision claims.
+
+If insufficient data exists:
+
+"Not enough data yet"
+
+instead of inventing a prediction.
+
+==================================================
+11. MOBILE RESPONSIVENESS
+==================================================
+
+The website is primarily important on mobile.
+
+Audit every screen for:
+
+- horizontal overflow
+- clipped text
+- table overflow
+- oversized cards
+- tiny buttons
+- inconsistent padding
+- overlapping elements
+- fixed navigation problems
+- modal overflow
+- long titles
+- chart responsiveness
+
+Desktop tables can remain tables.
+
+On mobile, convert complex tables into responsive cards when necessary.
+
+For example:
+
+JEE MAIN
+2024
+15 Questions
+PYQ
+
+Published
+
+[View]
+
+instead of forcing a wide table.
+
+==================================================
+12. ADMIN PANEL
+==================================================
+
+Preserve the current Admin Panel architecture.
+
+It should support:
+
+Dashboard
+Students
+Questions
+Tests
+Papers
+Subjects
+Chapters
+Topics
+Reports
+AI Content Factory
+Analytics
+Security & Admins
+System Status
+Settings
+Audit Logs
+
+Use role-based access control.
+
+Roles:
+
+- Super Admin
+- Content Admin
+- Test Admin
+- Reviewer
+- Support Admin
+- Analytics Admin
+
+Do not rely only on frontend button hiding.
+
+Every protected API/action must perform server-side authorization.
+
+==================================================
+13. AI CONTENT FACTORY
+==================================================
+
+THIS IS THE MOST IMPORTANT SYSTEM.
+
+The current AI Content Factory must become a REAL production workflow.
+
+Do NOT simulate progress.
+
+Do NOT display fake progress percentages.
+
+Do NOT create fake generated questions.
+
+Do NOT say "generation complete" until the database actually contains the required valid questions.
+
+Workflow:
+
+PDF UPLOAD
+↓
+FILE VALIDATION
+↓
+TEXT EXTRACTION / OCR
+↓
+SOURCE ANALYSIS
+↓
+SUBJECT DETECTION
+↓
+CLASS DETECTION
+↓
+CHAPTER DETECTION
+↓
+SECTION DETECTION
+↓
+TOPIC DETECTION
+↓
+SUBTOPIC DETECTION
+↓
+CONCEPT EXTRACTION
+↓
+KNOWLEDGE MAP
+↓
+SOURCE COVERAGE ANALYSIS
+↓
+QUESTION BLUEPRINT
+↓
+BATCH GENERATION
+↓
+VALIDATION
+↓
+DUPLICATE CHECK
+↓
+SEMANTIC DUPLICATE CHECK
+↓
+QUALITY CHECK
+↓
+SOURCE TRACEABILITY CHECK
+↓
+EXAM CLASSIFICATION
+↓
+DIFFICULTY CLASSIFICATION
+↓
+ACCEPT / REJECT
+↓
+REPLACEMENT GENERATION
+↓
+COVERAGE CHECK
+↓
+ADMIN REVIEW
+↓
+APPROVE
+↓
+PUBLISH
+
+Never auto-publish AI-generated content.
+
+Admin remains the final authority.
+
+==================================================
+14. 400 VALID QUESTIONS — CRITICAL
+==================================================
+
+The target is:
+
+MINIMUM 400 VALID UNIQUE QUESTIONS PER CHAPTER.
+
+Admin options:
+
+400
+500
+750
+1000
+Custom
+
+Default:
+
+400
+
+IMPORTANT:
+
+"400 generated" does NOT mean completion.
+
+Completion means:
+
+400 VALID + UNIQUE + SOURCE-SUPPORTED questions are approved-ready.
+
+Example:
+
+Generated:
+450
+
+Duplicates:
+22
+
+Rejected:
+18
+
+Invalid:
+4
+
+Valid:
+406
 
 Then:
 
-Email verification / OTP
+Target:
+400
 
-Login:
+Status:
+COMPLETE
 
-Email
-Password
+If:
 
-OR
+Generated:
+450
 
-Email OTP
+Valid:
+372
 
-Forgot Password:
+Then:
 
-Enter email
-→ Send OTP / reset verification
-→ Verify
-→ New password
-→ Confirm password
-→ Password updated
+Status:
+INCOMPLETE
 
-SECURITY:
+Remaining:
+28
 
-- Never store plain-text passwords.
-- Hash passwords securely on the backend.
-- Never expose authentication secrets to frontend.
-- Validate all inputs server-side.
-- Rate-limit login and OTP requests.
-- OTP must expire.
-- Prevent OTP brute force.
-- Secure session/token handling.
-- Logout must invalidate the appropriate session.
-- Protect authenticated API routes.
+The system must continue generation.
 
-MULTIPLE DEVICES:
+==================================================
+15. BATCH GENERATION
+==================================================
 
-Create a session/device system.
+Do NOT attempt to generate 400 questions in one AI request.
+
+Use background batch jobs.
 
 Example:
 
-Chrome — Windows
-Active now
+Target = 400
 
-Android Phone
-Active 2 hours ago
-
-Provide:
-
-Manage Devices
-Log out this device
-Log out all other devices
-
-Do not expose sensitive device information.
-
-PROFILE SYNC:
-
-The same account must show the same:
-
-- Tests
-- Attempts
-- Bookmarks
-- Mistakes
-- Notes
-- Revision
-- Study plan
-- Progress
-- Weak topics
-
-across devices.
-
-==================================================
-2. 📶 LOW INTERNET / NETWORK RECOVERY
-==================================================
-
-PREPORA must remain usable during unstable internet.
-
-Especially during tests.
-
-TEST ANSWER SAFETY:
-
-When student selects an answer:
-
-Immediately save it locally.
-
-Do NOT depend on a successful network request before considering the answer safe.
-
-Use local browser storage / IndexedDB for test state.
-
-Store:
-
-- Test ID
-- Attempt ID
-- Question ID
-- Selected answer
-- Mark for review
-- Question status
-- Current question
-- Timer state
-- Relevant timestamps
-
-If internet disappears:
-
-Show:
-
-"Connection lost — your progress is safe."
-
-Do NOT clear answers.
-
-Do NOT restart the test.
-
-Do NOT redirect the student to login.
-
-When internet returns:
-
-"Connection restored — syncing your progress..."
-
-Then automatically sync unsent changes with backend.
-
-IMPORTANT:
-
-Use idempotent sync logic.
-
-The same answer must not be duplicated if the request is retried.
-
-Handle:
-
-Online
-→ Offline
-→ Online
-
-smoothly.
-
-==================================================
-3. 💾 AUTO-SAVE EVERYTHING
-==================================================
-
-The user should almost never need a manual Save button.
-
-Automatically save:
-
-- Test answers
-- Practice progress
-- Bookmarks
-- Notes
-- Mistakes
-- Revision progress
-- Study plan
-- Flashcard progress
-- Test position
-- Question position
-- Relevant user preferences
-
-TEST AUTOSAVE:
-
-Every answer change should be persisted locally immediately.
-
-Backend sync should happen automatically whenever possible.
-
-Also periodically sync active test state.
-
-If the browser closes:
-
-Restore the test safely.
+Batch size:
+25–50 questions
 
 Example:
 
-"Continue Kinematics Test"
+Batch 1 → 50
+Batch 2 → 50
+Batch 3 → 50
+Batch 4 → 50
+...
 
-Q17 / 30
+Continue until 400 VALID UNIQUE questions exist.
 
-Continue Test
+If a batch generates:
 
-Do not lose completed answers.
+50 generated
+7 duplicates
+4 rejected
+39 valid
 
-PRACTICE AUTOSAVE:
+Then:
 
-If student leaves:
+Accepted:
+39
 
-Save:
+Remaining:
+361
 
-Chapter
-Topic
-Current question
-Answered questions
-Progress
+The system automatically schedules another batch.
 
-When returning:
-
-"Continue Practice"
-
-==================================================
-4. 🧹 DUPLICATE QUESTION DETECTION
-==================================================
-
-Build duplicate detection into the question management system.
-
-Before adding a question:
-
-Check exact duplicates.
-
-Then check similar/semantic duplicates.
-
-Compare:
-
-- Question text
-- Options
-- Concept
-- Topic
-- Correct answer
-- Question structure
-
-Use multiple levels:
-
-EXACT DUPLICATE
-
-SIMILAR QUESTION
-
-POSSIBLE DUPLICATE
-
-UNIQUE
-
-ADMIN WARNING:
-
-When creating/importing:
-
-"Possible duplicate detected."
-
-Show:
-
-Existing Question
-New Question
-Similarity score
-Topic
-Source
-
-Admin actions:
-
-Keep New
-Use Existing
-Edit New
-Ignore Warning
-
-IMPORTANT:
-
-Do not automatically delete questions.
-
-Duplicate detection should warn the admin.
-
-For AI-generated questions, duplicate checking must happen BEFORE publishing.
+Do not stop because the original number of generated questions reached 400.
 
 ==================================================
-5. ✅ QUESTION QUALITY CONTROL
+16. REAL-TIME GENERATION STATUS
 ==================================================
 
-Students must be able to report problematic questions.
+Show real generation state.
 
-Add:
+Example:
 
-Report Question
+AI CONTENT FACTORY
 
-Reasons:
+Target:
+400 valid questions
 
-- Wrong Answer
-- Wrong Explanation
-- Ambiguous Question
-- Typo / Spelling
-- Duplicate
-- Incorrect Option
-- Missing Information
-- Other
+Progress:
+138 / 400 valid
 
-Optional:
+Current batch:
+Batch 4
 
-Student comment
+Generating:
+22 / 40
 
-Admin panel:
+Accepted:
+31
 
-Question Reports
+Duplicates:
+6
 
-Each report:
+Rejected:
+3
 
-Question
-Reported by
-Reason
-Comment
-Date
-Status
+Remaining:
+262
+
+Current stage:
+Semantic validation
+
+Last activity:
+10:32:14 AM
+
+Estimated remaining:
+Based only on real job telemetry, otherwise omit estimate.
 
 Statuses:
 
-Pending
-Under Review
-Resolved
-Rejected
+QUEUED
+EXTRACTING
+ANALYZING SOURCE
+BUILDING BLUEPRINT
+GENERATING
+VALIDATING
+CHECKING DUPLICATES
+CHECKING QUALITY
+GENERATING REPLACEMENTS
+FINAL COVERAGE CHECK
+READY FOR REVIEW
+COMPLETE
+FAILED
+PAUSED
+CANCELLED
 
-Admin actions:
+If AI API fails:
 
-Review
-Edit Question
-Change Answer
-Change Explanation
-Reject Report
-Mark Resolved
+show:
 
-IMPORTANT:
+Batch failed
+Reason
+Retry available
 
-Do not automatically change a question based on one student report.
-
-Require admin review.
-
-After correction:
-
-Keep change history.
+Never fake progress.
 
 ==================================================
-6. 📚 CONTENT VERSIONING
+17. GENERATION CONTRACT
 ==================================================
 
-Question and chapter content must be versioned.
-
-IMPORTANT PROBLEM TO SOLVE:
-
-If a question is edited after students have already attempted it, old attempts must remain historically correct.
+Before generation begins, show a confirmation screen.
 
 Example:
 
-Question Version 1
-Student attempted it
-Later admin edits question
+GENERATION CONTRACT
 
-Old attempt must still reference:
+SOURCE
+NCERT Biology Class 11
 
-Question Version 1
+CHAPTER
+The Living World
 
-New tests use:
+TARGET
+400 valid unique questions
 
-Question Version 2
+SOURCE COVERAGE
+73%
+
+DIFFICULTY
+Easy 30%
+Medium 50%
+Hard 20%
+
+EXAM SUITABILITY
+NEET
+CBSE
+RBSE
+
+QUESTION TYPES
+MCQ
+Assertion-Reason
+Statement Based
+Match/other supported formats
+
+EXCLUDED TOPICS
+Topics not supported by source
+
+[START GENERATION]
+
+This contract must be saved with the AI job.
+
+==================================================
+18. TOPIC WEIGHTS
+==================================================
+
+The admin may enter importance weights.
+
+Do NOT interpret 19 topics each having 15% as 285% final allocation.
+
+Weights are importance indicators.
+
+Normalize supported topic weights to 100%.
+
+Display:
+
+Topic
+Admin Weight
+AI Recommended Weight
+Final Weight
+Allocated Questions
+Source Support
+
+Example:
+
+Diversity
+Admin: 15%
+AI: 14.2%
+Final: 14.2%
+Questions: 57
+
+Nomenclature
+Admin: 15%
+AI: 12.8%
+Final: 12.8%
+Questions: 51
+
+Unsupported topic
+Admin: 15%
+AI: 0%
+Final: 0%
+Questions: 0
+
+The final question allocation must total exactly the requested target.
+
+==================================================
+19. SOURCE COVERAGE
+==================================================
+
+This is extremely important.
+
+Do not use only exact phrase matching.
+
+Use semantic source mapping.
+
+For each topic:
+
+SUPPORTED
+PARTIALLY SUPPORTED
+NOT FOUND
+
+Store evidence:
+
+- source document
+- version
+- page
+- section
+- text span/chunk reference
+
+For PARTIALLY SUPPORTED topics:
+
+Only generate questions from supported concepts.
+
+Do not fill unsupported parts using general model knowledge.
+
+==================================================
+20. SOURCE-GROUNDING RULE
+==================================================
+
+The uploaded educational source is the primary source of truth for source-grounded generation.
+
+The AI must not silently invent missing information.
+
+If a topic is absent:
+
+Question target:
+0
+
+Reason:
+Not supported by source.
+
+If the source cannot safely support 400 unique questions:
+
+DO NOT:
+
+- repeat questions
+- create paraphrase duplicates
+- hallucinate facts
+- import unsupported textbook content silently
+
+Instead show:
+
+"Source capacity is insufficient for the requested target."
+
+Example:
+
+Safe unique capacity:
+286
+
+Requested:
+400
+
+Additional source required:
+114
+
+Admin can upload another authorized source.
+
+==================================================
+21. CURRENT THE LIVING WORLD SOURCE
+==================================================
+
+For the currently tested NCERT Biology Class 11 "The Living World" source:
+
+The source supports topics including:
+
+- Diversity / living world
+- Nomenclature
+- Identification
+- Binomial nomenclature
+- Scientific naming rules
+- ICBN / botanical nomenclature
+- ICZN / zoological nomenclature
+- Classification
+- Taxa
+- Taxonomy
+- Systematics
+- Taxonomic categories
+- Species
+- Genus
+- Family
+- Order
+- Class
+- Phylum
+- Taxonomic hierarchy
+- Man
+- Housefly
+- Mango
+- Wheat and related hierarchy examples
+
+The source explicitly explains binomial nomenclature, including genus + specific epithet and naming conventions. :contentReference[oaicite:2]{index=2}
+
+It also explains classification, taxa and taxonomy. :contentReference[oaicite:3]{index=3}
+
+It describes systematics and evolutionary relationships. :contentReference[oaicite:4]{index=4}
+
+It covers species, genus, family, order, class and phylum hierarchy. :contentReference[oaicite:5]{index=5} :contentReference[oaicite:6]{index=6}
+
+IMPORTANT:
+
+If Taxonomical Aids topics such as:
+
+- Herbarium
+- Botanical Gardens
+- Arboretums
+- Museum
+- Zoological Parks
+- Key
+- Monograph
+
+are not present in the uploaded source, mark them:
+
+NOT FOUND IN SOURCE
+
+and allocate:
+
+0 questions.
+
+Do not hallucinate questions for them.
+
+The source's exercises themselves include classification, species, taxon, hierarchy and scientific-name questions, so the generation engine can use those concepts as coverage signals without copying the exercise questions verbatim. :contentReference[oaicite:7]{index=7}
+
+==================================================
+22. QUESTION GENERATION BLUEPRINT
+==================================================
+
+Before generating questions, create a blueprint.
+
+Blueprint dimensions:
+
+Topic
+Subtopic
+Concept
+Difficulty
+Question type
+Exam suitability
+Cognitive level
+Question intent
+
+Example:
+
+Topic:
+Binomial Nomenclature
+
+Concept:
+Genus + specific epithet
+
+Easy:
+definition / recognition
+
+Medium:
+application / error detection
+
+Hard:
+multi-statement reasoning
+
+Avoid generating 50 questions that test the same fact in different wording.
+
+==================================================
+23. QUESTION DIVERSITY
+==================================================
+
+Question diversity is mandatory.
+
+Avoid:
+
+Q1:
+What is X?
+
+Q2:
+Define X.
+
+Q3:
+X means?
+
+Q4:
+Which option defines X?
+
+These may all be semantic duplicates.
+
+Use different cognitive patterns:
+
+- Concept identification
+- Application
+- Comparison
+- Sequence
+- Statement analysis
+- Error detection
+- Classification
+- Example-based reasoning
+- Assertion-Reason
+- Multiple statements
+- Match-style questions where supported
+- Scenario/application questions
+- Exam-style conceptual traps
+
+Do not force unsupported question types.
+
+==================================================
+24. DIFFICULTY
+==================================================
+
+Default:
+
+Easy:
+30%
+
+Medium:
+50%
+
+Hard:
+20%
+
+But difficulty must be based on actual reasoning complexity.
+
+Do not label a simple factual recall question as Hard just to satisfy the percentage.
+
+Admin should be able to change distribution.
+
+==================================================
+25. EXAM CLASSIFICATION
+==================================================
+
+Each question can have multiple suitability tags:
+
+NEET
+CBSE
+RBSE
+
+Do not create separate duplicate copies of the same question.
+
+Use one master question bank.
 
 Store:
 
+examSuitability:
+[
+"NEET",
+"CBSE"
+]
+
+If a question is suitable for multiple exams, reuse the same master question.
+
+==================================================
+26. QUESTION DATA MODEL
+==================================================
+
+Each question should store:
+
 questionId
-versionNumber
-questionSnapshot / immutable attempt snapshot
-
-Track:
-
-Created
-Edited
-Published
-Unpublished
-Archived
-
-QUESTION HISTORY:
-
-Admin should be able to see:
-
-Version 1
-Version 2
-Version 3
-
-For every version:
-
-Question text
-Options
-Correct answer
-Explanation
-Difficulty
-Tags
-Changed by
-Changed at
-
-Do NOT overwrite historical attempt data.
+questionVersion
+subject
+class
+chapter
+topic
+subtopic
+concept
+questionType
+difficulty
+cognitiveLevel
+questionText
+options
+correctAnswer
+explanation
+solution
+conceptExplanation
+importantPoint
+commonMistake
+examTip
+recommendedTime
+marks
+negativeMarks
+examSuitability
+sourceDocumentId
+sourceVersionId
+sourcePage
+sourceSection
+sourceEvidence
+status
+createdAt
+updatedAt
+createdBy
+approvedBy
+approvedAt
 
 ==================================================
-7. 🔄 CONTINUE WHERE YOU LEFT
+27. QUALITY GATES
 ==================================================
 
-Create a universal continuation system.
+Every AI question must pass:
 
-If student leaves:
+1. Valid question structure
+2. Exactly one correct answer unless question type explicitly supports otherwise
+3. Options logically valid
+4. No ambiguous wording
+5. Explanation supports answer
+6. Source evidence exists
+7. No unsupported claims
+8. Difficulty is reasonable
+9. Exam classification is reasonable
+10. No semantic duplicate
+11. No accidental answer leakage
+12. No malformed formatting
+13. No broken math/scientific notation
+14. No placeholder text
+15. No "AI generated" visible to students
 
-Practice
-Test
-Revision
-Study session
+Failed questions go to:
 
-save their last state.
+REJECTED
 
-Dashboard should show:
+and replacement generation is triggered.
 
-CONTINUE WHERE YOU LEFT
+==================================================
+28. DUPLICATE DETECTION
+==================================================
+
+Use multiple layers:
+
+Layer 1:
+Exact text duplicate
+
+Layer 2:
+Normalized text duplicate
+
+Layer 3:
+Option similarity
+
+Layer 4:
+Semantic similarity / embeddings
+
+Layer 5:
+Same concept + same reasoning pattern + same answer pattern
+
+A paraphrased duplicate should still be detected.
 
 Example:
 
-Continue Kinematics Practice
+Question A:
+Which is the genus in Mangifera indica?
 
-Question 17 / 30
+Question B:
+In Mangifera indica, which word represents the genus?
 
-68% completed
+These should be flagged as near duplicates.
 
-[Continue]
+Never automatically delete a question.
 
-For tests:
+Show:
 
-Continue Full Mock Test
+Possible duplicate
+Similarity:
+94%
 
-Question 42 / 75
+[Compare]
+[Keep]
+[Reject]
 
-Time remaining:
-01:24:35
-
-[Continue Test]
-
-For practice:
-
-Continue Physics
-→ Kinematics
-→ Question 17
-
-Restore:
-
-- Current question
-- Selected answers
-- Marked questions
-- Timer where applicable
-- Progress
-- Question state
-
-IMPORTANT:
-
-Never restore an expired/submitted test as active.
+Admin decides.
 
 ==================================================
-8. 📥 ADMIN IMPORT / EXPORT
+29. REPLACEMENT ENGINE
 ==================================================
 
-Build a complete admin bulk content management system.
+If a question is rejected or duplicate:
 
-IMPORT:
+Do not simply paraphrase it.
+
+Generate a replacement from another unused:
+
+- concept
+- subtopic
+- cognitive pattern
+- difficulty
+- exam pattern
+
+Maintain blueprint coverage.
+
+==================================================
+30. COVERAGE CHECK
+==================================================
+
+Before completion calculate:
+
+Target questions
+Valid questions
+Duplicate count
+Rejected count
+Topic coverage
+Concept coverage
+Difficulty distribution
+Question-type distribution
+Exam distribution
+Source coverage
+
+Example:
+
+400 / 400 valid
+
+Topic coverage:
+100%
+
+Concept coverage:
+94%
+
+Easy:
+120
+Medium:
+200
+Hard:
+80
+
+Duplicates rejected:
+43
+
+Rejected for quality:
+21
+
+Status:
+READY FOR REVIEW
+
+==================================================
+31. ADMIN REVIEW
+==================================================
+
+Never auto-publish.
+
+Question states:
+
+DRAFT
+GENERATING
+VALIDATING
+PENDING REVIEW
+APPROVED
+PUBLISHED
+REJECTED
+ARCHIVED
+
+Admin can:
+
+Approve
+Reject
+Edit
+Request Replacement
+Compare Duplicate
+View Source
+View Version
+Publish
+
+Bulk review should be available.
+
+==================================================
+32. QUESTION VERSIONING
+==================================================
+
+If an approved question is edited:
+
+Create a new version.
+
+Old student attempts must remain linked to the old question version.
+
+Never change historical attempt meaning.
+
+Example:
+
+Question ID:
+Q-1001
+
+Version:
+v1
+
+Student attempted v1.
+
+Admin later edits it.
+
+New version:
+v2
+
+Old attempt remains connected to v1.
+
+==================================================
+33. SOURCE VERSIONING
+==================================================
+
+Every uploaded PDF should have:
+
+Source ID
+Version
+File hash
+Upload time
+Uploaded by
+Extraction status
+Analysis status
+
+If the same PDF is uploaded again:
+
+Detect duplicate source.
+
+Allow:
+
+Use existing source
+Create new version
+Cancel
+
+==================================================
+34. AI JOB SYSTEM
+==================================================
+
+AI generation must run as background jobs.
+
+Job fields:
+
+jobId
+sourceId
+sourceVersion
+targetCount
+currentValidCount
+generatedCount
+duplicateCount
+rejectedCount
+remainingCount
+currentBatch
+batchSize
+status
+progress
+startedAt
+updatedAt
+completedAt
+error
+retryCount
+provider
+model
+promptVersion
 
 Support:
 
-CSV
-Excel (.xlsx)
+Pause
+Resume
+Retry failed batch
+Cancel
 
-Admin flow:
+If the browser closes:
 
-Upload file
-→ Validate
-→ Preview
-→ Detect errors
-→ Detect duplicates
-→ Show import summary
-→ Confirm
-→ Import
+The job must continue server-side if infrastructure supports it.
 
-Before import show:
+Opening Admin Panel again should show the current job state.
 
-Total rows
-Valid rows
-Invalid rows
-Duplicate rows
-Warnings
+==================================================
+35. FAILURE RECOVERY
+==================================================
+
+If an AI request fails:
+
+Do not lose previous valid questions.
+
+Save progress after every accepted batch.
+
+Retry only failed batch.
+
+Use exponential backoff where appropriate.
+
+If provider quota is reached:
+
+Pause job.
+
+Show:
+
+AI provider quota reached.
+
+Do NOT silently switch to a paid API.
+
+Do NOT silently charge the admin.
+
+Admin must explicitly choose another configured provider if available.
+
+==================================================
+36. AI PROVIDER ABSTRACTION
+==================================================
+
+Do not hard-code the application around one AI provider.
+
+Create provider abstraction.
 
 Example:
 
-500 rows
+AIProvider
 
-Valid: 472
-Invalid: 18
-Possible duplicates: 10
+generateQuestions()
+analyzeSource()
+validateQuestion()
+generateReplacement()
 
-Admin can download error report.
+Provider configuration must be server-side.
 
-VALIDATION:
+Never expose API keys in frontend.
 
-Check:
+==================================================
+37. AI USAGE DASHBOARD
+==================================================
 
-Required fields
+Admin should see:
+
+Provider
+Model
+Requests today
+Tokens if available
+Successful requests
+Failed requests
+Estimated usage
+Quota status
+Average generation time
+
+Never expose secret API keys.
+
+==================================================
+38. ADMIN DASHBOARD
+==================================================
+
+Show:
+
+Students
+Active users
+Questions
+Published questions
+Pending review
+Tests
+Papers
+AI jobs
+Failed AI jobs
+Reports
+System health
+
+AI Content Factory widget:
+
+Active Jobs
+Completed
+Failed
+Pending Review
+
+Example:
+
+AI JOBS
+
+The Living World
+286 / 400
+Generating
+
+Physics
+400 / 400
+Ready for Review
+
+Chemistry
+400 / 400
+Complete
+
+==================================================
+39. PAPER LIBRARY
+==================================================
+
+Support:
+
+JEE
+NEET
+CBSE
+RBSE
+
+Fields:
+
+Exam
+Year
+Subject
+Paper type
+Question count
+Answer key
+Status
+Source
+Rights/licensing metadata
+
+Do not assume that publicly available papers can automatically be commercially redistributed.
+
+Keep source/licensing information in admin metadata.
+
+==================================================
+40. SEARCH SYSTEM
+==================================================
+
+Admin search should support:
+
+Student
+Question
+Subject
+Chapter
+Topic
+Date
+Exam
+Difficulty
+Status
+Source
+AI job
+Paper
+Question ID
+
+Student search should support relevant:
+
 Subject
 Chapter
 Topic
 Question
-Options
-Correct answer
-Difficulty
-Question type
-
-Prevent invalid data from entering production.
-
-BULK EDIT:
-
-Admin can select multiple questions and change:
-
-Subject
-Chapter
-Topic
-Difficulty
-Tags
-Status
-
-Do not accidentally overwrite question content.
-
-EXPORT:
-
-Export questions.
-
-Export tests.
-
-Export reports.
-
-Export selected data.
-
-Use CSV/XLSX where appropriate.
+Paper
+Formula
+Revision content
 
 ==================================================
-9. 🛠️ ADMIN AUDIT LOG
+41. REPORT SYSTEM
 ==================================================
 
-Create a complete admin audit system.
+Students can report:
 
-Track important admin actions.
-
-Example:
-
-Admin A
-
-Edited Question #1234
-
-14 Sep 2026
-10:42 AM
-
-Changed:
-
-Correct Answer:
-B → C
-
-Explanation:
-Updated
-
-Store:
-
-Admin ID
-Admin role
-Action
-Entity type
-Entity ID
-Before value
-After value
-Timestamp
-Relevant metadata
-
-Actions to track:
-
-Create
-Edit
-Delete/archive
-Publish
-Unpublish
-Approve
-Reject
-Import
-Export
-Change answer
-Change explanation
-Change difficulty
-Change permissions
-Change settings
-
-ADMIN AUDIT PAGE:
-
-Filters:
-
-Admin
-Action
-Entity
-Date range
-
-Search:
-
-Question ID
-Test ID
-Admin
-
-IMPORTANT:
-
-Audit logs should be append-only from normal admin UI.
-
-==================================================
-10. 🚨 SYSTEM STATUS / ERROR REPORTING
-==================================================
-
-Create a technical issue reporting system.
-
-STUDENT:
-
-Add:
-
-Report Technical Problem
-
-Reasons:
-
-Test submission failed
-Page not loading
-Login problem
-Question not loading
-Timer problem
-Payment problem
+Wrong answer
+Wrong explanation
+Ambiguous question
+Typo
+Duplicate
+Technical problem
 Other
 
-Student can add:
+Admin sees:
 
-Description
-Screenshot if supported
-Current page
-Test ID if applicable
-
-Automatically capture safe technical context:
-
-Browser
-Device type
-OS
-App version
-Route/page
-Timestamp
-Relevant request/error ID
-
-Do NOT collect unnecessary personal information.
-
-ADMIN:
-
-Create:
-
-System Reports
-
-Show:
-
-Issue
-Severity
+Report count
+Question
+Reporter
+Reason
 Status
-Affected feature
-Date
-User report
-Error ID
+Action
 
-Statuses:
+Actions:
 
-Open
-Investigating
-Resolved
-Closed
-
-Severity:
-
-Low
-Medium
-High
-Critical
+Review
+Correct
+Reject report
+Archive question
+Create new version
 
 ==================================================
-11. 🚨 TEST SUBMISSION FAILURE TRACKING
+42. TECHNICAL ERROR SYSTEM
 ==================================================
 
-This is especially important.
+Admin should have:
 
-When student clicks:
+System Status
 
-SUBMIT TEST
+Monitor:
 
-Do NOT immediately destroy local test state.
-
-Submission flow:
-
-1. Validate local test state
-2. Save final state locally
-3. Send submission request
-4. Backend validates attempt
-5. Backend calculates/stores result
-6. Confirm successful submission
-7. Mark local attempt submitted
-8. Clear temporary active-test state only AFTER successful confirmation
-
-If submission fails:
+API
+Database
+Authentication
+AI provider
+File processing
+Question generation
+Background jobs
 
 Show:
 
-"Test submission couldn't be completed."
+Operational
+Degraded
+Down
 
-Your answers are safe.
+Also create:
 
-[Retry Submission]
+Technical Reports
+Error logs
+Job failures
+Recent errors
 
-Do not force the student to retake the test.
-
-If internet is unavailable:
-
-"You're offline. Your answers are saved and will be submitted when you're connected."
-
-==================================================
-12. 🔁 RELIABLE SYNC ENGINE
-==================================================
-
-Create a small reusable sync layer.
-
-Each local change should have:
-
-event/change ID
-entity ID
-timestamp
-operation
-sync status
-
-Statuses:
-
-Pending
-Syncing
-Synced
-Failed
-
-If sync fails:
-
-Retry automatically with safe backoff.
-
-Prevent:
-
-Duplicate records
-Duplicate answers
-Duplicate submissions
-
-Use idempotency keys for important backend operations such as:
-
-Test submission
-Answer synchronization
-Bulk import
+Never expose sensitive server information to normal students.
 
 ==================================================
-13. 🌐 NETWORK STATUS UI
+43. AUDIT LOG
 ==================================================
 
-Global network indicator.
+Log important admin actions:
 
-ONLINE:
+Who
+What
+When
+Before
+After
+IP/device metadata only where appropriate and legally justified
 
-Normal state.
+Examples:
 
-OFFLINE:
-
-Show small banner:
-
-"You are offline. Your progress is saved locally."
-
-RECONNECT:
-
-"Back online. Syncing..."
-
-SYNC COMPLETE:
-
-"All changes synced."
-
-Do not constantly show annoying notifications.
+Question approved
+Question published
+Question rejected
+Source uploaded
+AI job started
+AI job cancelled
+Role changed
+Setting changed
 
 ==================================================
-14. 🧠 DATA SAFETY RULE
+44. ADMIN UX IMPROVEMENTS
 ==================================================
 
-The following hierarchy must be followed:
+Use clear hierarchy.
 
-LOCAL SAVE
-↓
-SERVER SYNC
-↓
-SERVER CONFIRMATION
+Avoid giant paragraphs.
 
-Never:
+Replace long descriptions with:
 
-SERVER FAILURE
-↓
-DELETE LOCAL DATA
+Metric
+Status
+Action
 
-Never lose student progress because of:
+Use clear badges:
 
-- network failure
-- browser refresh
-- accidental tab close
-- API timeout
-- temporary server error
+SUCCESS
+WARNING
+ERROR
+PROCESSING
+PENDING
+
+Use confirmation dialogs for destructive actions.
+
+Use toast notifications for successful actions.
+
+Use skeleton loading states.
+
+Use empty states.
+
+Use retry states.
+
+Use proper error messages.
 
 ==================================================
-15. 🗄️ DATABASE REQUIREMENTS
+45. TABLE RESPONSIVENESS
 ==================================================
 
-Use the existing MongoDB architecture.
+On desktop:
 
-Add/update appropriate collections/models for:
+Use tables.
 
-Users
-Sessions
-Questions
-QuestionVersions
-QuestionReports
-TestAttempts
-TestAnswers
-SyncEvents
-AuditLogs
-TechnicalReports
-ImportJobs
-ImportErrors
+On mobile:
 
-Use proper indexes.
+Convert important tables into cards where horizontal scrolling harms usability.
 
-Important indexes should include appropriate combinations for:
+Never allow important information to be clipped.
 
+==================================================
+46. PERFORMANCE
+==================================================
+
+Optimize:
+
+- lazy loading
+- pagination
+- database indexing
+- server-side filtering
+- background jobs
+- caching where appropriate
+- debounced search
+- batch operations
+
+Never load thousands of questions into the browser unnecessarily.
+
+==================================================
+47. SECURITY
+==================================================
+
+Implement/verify:
+
+- server-side RBAC
+- secure authentication
+- secure sessions
+- password hashing
+- protected admin APIs
+- rate limiting
+- input validation
+- file type validation
+- file size limits
+- upload scanning where practical
+- API key protection
+- CSRF protection where applicable
+- secure headers
+- audit logging
+
+Do not trust client-provided:
+
+role
 userId
-attemptId
+permissions
+question status
+approval state
+
+==================================================
+48. DATABASE INTEGRITY
+==================================================
+
+Use proper indexes for:
+
 questionId
-version
+chapterId
+topicId
 status
-createdAt
+examSuitability
+difficulty
+sourceId
+sourceVersion
+AIJob status
 
-Do not create unnecessary indexes.
+Prevent duplicate question IDs.
 
-==================================================
-16. 🔒 SECURITY REQUIREMENTS
-==================================================
+Prevent accidental duplicate publishing.
 
-Backend must be the source of truth for:
-
-Authentication
-Authorization
-Test submission
-Scoring
-Question publishing
-Admin actions
-Import validation
-Audit logging
-
-Never trust:
-
-Frontend score
-Frontend admin role
-Frontend permissions
-Frontend submission status
-
-Admin APIs must verify admin authorization server-side.
-
-Validate all request bodies.
-
-Rate-limit sensitive endpoints.
-
-Do not expose:
-
-JWT secrets
-MongoDB credentials
-API keys
-OTP secrets
-
-to the browser.
+Use transactions where required.
 
 ==================================================
-17. 🧪 EDGE CASE TESTING
+49. FREE AI / API LIMIT HANDLING
 ==================================================
 
-Test these scenarios:
+The application must work with configured free-tier AI providers where available.
 
-A.
-Student answers Q1
-→ Internet disconnects
-→ Student answers Q2
-→ Refresh
-→ Answers remain.
+Do not promise unlimited free AI.
 
-B.
-Student starts test
-→ Browser closes
-→ Reopens website
-→ Continue Test appears.
+Implement:
 
-C.
-Student submits test
-→ Network fails
-→ Retry
-→ Only one final submission created.
+daily request limits
+provider quota detection
+usage tracking
+pause/resume
 
-D.
-Admin imports 500 questions
-→ 20 invalid
-→ 10 duplicates
-→ Valid questions imported
-→ Errors downloadable.
+If quota is exhausted:
 
-E.
-Admin edits a question
-→ Old student attempt remains unchanged.
+show an honest message.
 
-F.
-Two devices open same account
-→ Changes synchronize safely.
-
-G.
-Student reports wrong answer
-→ Admin reviews
-→ Corrects question
-→ Old attempt remains linked to old version.
-
-H.
-Admin changes explanation
-→ Audit log records before/after.
-
-I.
-API temporarily fails
-→ UI doesn't lose local data.
+Do not automatically use a paid provider.
 
 ==================================================
-18. UI ADDITIONS
+50. STUDENT TRUST
 ==================================================
 
-Only add UI where necessary.
+Never fake:
 
-Add:
+- AIR
+- percentile
+- score
+- progress
+- AI generation status
+- mastery
+- question count
+- source verification
 
-Profile
-→ Security
-→ Active Devices
+If data is insufficient:
 
-Dashboard:
+Say:
 
-Continue Where You Left
+"Not enough data yet."
 
-Test:
+If prediction is uncertain:
 
-Connection status
+Show a range.
 
-Practice:
+If AI job is still running:
 
-Autosave status only when useful
+Say:
 
-Question:
+"Generating..."
 
-Report Question
+not:
+
+"Almost complete"
+
+unless actual progress supports it.
+
+==================================================
+51. FINAL QA CHECK
+==================================================
+
+After implementing changes, test:
+
+Student:
+
+- Login
+- Home
+- Practice
+- Questions
+- Tests
+- Papers
+- Mistake Book
+- Fix My Weakness
+- Revision
+- Analytics
+- Profile
 
 Admin:
 
-Question Reports
-Import/Export
-Audit Logs
-System Reports
-Import Jobs
-
-Do NOT redesign the entire website for these features.
-
-==================================================
-19. IMPORTANT UX RULE
-==================================================
-
-The system should feel automatic.
-
-Student should NOT have to think:
-
-"Did my answer save?"
-
-Instead:
-
-Answer selected
-→ automatically saved.
-
-Network lost
-→ progress remains safe.
-
-Network returns
-→ automatically syncs.
-
-Browser closed
-→ Continue Test appears.
-
-Submission failed
-→ Retry without losing answers.
+- Login
+- Dashboard
+- Source upload
+- PDF extraction
+- Topic detection
+- Source coverage
+- Weight normalization
+- Generation Contract
+- 400-question generation
+- Batch processing
+- Duplicate detection
+- Replacement generation
+- Quality validation
+- Review
+- Approval
+- Publishing
+- Versioning
+- Reports
+- Search
+- RBAC
+- System status
+- AI usage
 
 ==================================================
-20. FINAL ACCEPTANCE CRITERIA
+52. CRITICAL ACCEPTANCE TEST
 ==================================================
 
-Do not mark this work complete just because the UI exists.
+Use this exact test scenario.
 
-Each feature must actually work end-to-end.
+Upload:
 
-Verify:
+NCERT Biology Class 11
+Chapter:
+The Living World
 
-[ ] Login works
-[ ] OTP works
-[ ] Forgot password works
-[ ] Multiple-device sessions work
-[ ] Profile sync works
-[ ] Offline answer saving works
-[ ] Reconnection sync works
-[ ] Autosave works
-[ ] Continue where left works
-[ ] Duplicate detection works
-[ ] Question reporting works
-[ ] Admin review works
-[ ] Question versioning works
-[ ] Historical attempts remain correct
-[ ] CSV import works
-[ ] Excel import works
-[ ] Validation works
-[ ] Export works
-[ ] Audit logs work
-[ ] Technical reports work
-[ ] Test submission failure recovery works
-[ ] No duplicate submission occurs
-[ ] Admin authorization is server-side
-[ ] Existing PREPORA features still work
-[ ] Existing PREPORA UI is not unnecessarily changed
-[ ] Mobile responsive behavior works
+Set:
+
+Target:
+400
+
+Difficulty:
+30/50/20
+
+Generate.
+
+The system must:
+
+1. Extract source
+2. Detect supported topics
+3. Mark unsupported topics as NOT FOUND
+4. Normalize weights
+5. Create blueprint
+6. Start background AI job
+7. Generate batches
+8. Validate questions
+9. Detect duplicates
+10. Reject bad questions
+11. Generate replacements
+12. Continue until 400 VALID UNIQUE questions
+13. Run coverage check
+14. Move to READY FOR REVIEW
+15. Allow admin review
+16. Only then allow publish
+
+If the source cannot safely support 400 unique questions:
+
+STOP honestly.
+
+Show safe capacity.
+
+Do not hallucinate.
 
 ==================================================
-FINAL INSTRUCTION
+53. DO NOT FAKE BACKEND FUNCTIONALITY
 ==================================================
 
-First inspect the EXISTING PREPORA codebase and database structure.
+This is extremely important.
 
-Do not blindly create duplicate models, APIs, components or pages.
+Do not create UI that pretends something is implemented when the backend is not actually implemented.
 
-Reuse existing architecture wherever possible.
+Bad:
 
-Before changing anything:
+"400 / 400 generated"
 
-1. Identify existing authentication.
-2. Identify existing MongoDB models.
-3. Identify existing test/attempt system.
-4. Identify existing question system.
-5. Identify existing admin panel.
-6. Identify existing state management.
-7. Identify existing API layer.
-8. Identify existing local storage mechanisms.
+when only demo data exists.
 
-Then implement these features incrementally.
+Bad:
 
-Preserve backward compatibility.
+"Source verified"
 
-Do not break existing data.
+without actual source analysis.
 
-Do not replace working functionality unnecessarily.
+Bad:
 
-The goal is to make PREPORA reliable enough for real students, especially during long tests and unstable Indian mobile networks.
+"Duplicate checked"
 
-BUILD PRODUCTION-READY FUNCTIONALITY, NOT MOCK UI.
+without duplicate detection.
+
+Bad:
+
+"AI generation complete"
+
+without actual AI job completion.
+
+If something is not implemented yet:
+
+Clearly identify it as:
+
+NOT IMPLEMENTED
+
+and create the proper implementation instead of a fake simulation.
+
+==================================================
+54. PRESERVE EXISTING DATA
+==================================================
+
+Before changing database structures:
+
+Inspect current schema.
+
+Do not delete existing data.
+
+Create migrations where needed.
+
+Do not break existing users, questions, tests or attempts.
+
+==================================================
+55. CODE QUALITY
+==================================================
+
+Use:
+
+- reusable components
+- reusable services
+- typed data models
+- clear API boundaries
+- validation schemas
+- error handling
+- logging
+- comments only where useful
+- environment variables for secrets
+- modular architecture
+
+Avoid giant components and duplicated logic.
+
+==================================================
+56. FINAL UI STYLE
+==================================================
+
+PREPORA should feel:
+
+Premium
+Modern
+Academic
+Trustworthy
+Fast
+Intelligent
+Clean
+
+Not:
+
+Childish
+Gaming-focused
+Over-designed
+Neon
+AI-template-looking
+
+Use the existing visual identity as the foundation.
+
+Use purple primarily for important actions/selected states rather than making every card purple.
+
+Maintain strong contrast and accessibility.
+
+==================================================
+57. IMPORTANT IMPLEMENTATION RULE
+==================================================
+
+Before coding:
+
+1. Inspect the existing project.
+2. Identify what is already implemented.
+3. Identify what is simulated.
+4. Identify missing backend functionality.
+5. Identify duplicate functionality.
+6. Identify broken flows.
+7. Create an implementation plan.
+8. Then implement.
+
+Do not blindly overwrite working code.
+
+==================================================
+58. DELIVERABLE
+==================================================
+
+After implementation provide:
+
+1. What was already working
+2. What was fixed
+3. What was newly implemented
+4. Database changes
+5. API changes
+6. AI pipeline changes
+7. Security changes
+8. UI/UX changes
+9. Remaining limitations
+10. Exact test results
+
+Most importantly:
+
+The final system must prioritize correctness over visual simulation.
+
+PREPORA should never claim that 400 questions are ready unless 400 valid, unique and source-supported questions actually exist.

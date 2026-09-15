@@ -6,8 +6,12 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
   const { isAuthenticated, token } = useAuth();
   const location = useLocation();
 
-  // If token is missing, redirect to login page before opening website
+  // If token is missing, check if this is an active OAuth callback
   if (!isAuthenticated && !token) {
+    if (location.search.includes('code=') || location.search.includes('error=')) {
+      // Allow OAuthCallbackWatcher to finish token exchange
+      return null;
+    }
     return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />;
   }
 

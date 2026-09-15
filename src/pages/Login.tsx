@@ -20,6 +20,33 @@ import {
 
 const ZENUXS_CLIENT_ID = '99366ee281c7e424';
 
+const GoogleIcon: React.FC<{ className?: string }> = ({ className = 'w-5 h-5' }) => (
+  <svg className={className} viewBox="0 0 24 24">
+    <path
+      fill="#4285F4"
+      d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+    />
+    <path
+      fill="#34A853"
+      d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+    />
+    <path
+      fill="#FBBC05"
+      d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
+    />
+    <path
+      fill="#EA4335"
+      d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
+    />
+  </svg>
+);
+
+const GitHubIcon: React.FC<{ className?: string }> = ({ className = 'w-4 h-4' }) => (
+  <svg className={`${className} fill-current`} viewBox="0 0 24 24">
+    <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+  </svg>
+);
+
 export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ({ defaultTab = 'login' }) => {
   const { login, register, loginWithZenuxs, sendOtp, verifyOtp, isAuthenticated } = useAuth();
   const navigate = useNavigate();
@@ -38,7 +65,7 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ({
 
   // Feedback states
   const [loading, setLoading] = useState(false);
-  const [zenuxsLoading, setZenuxsLoading] = useState(false);
+  const [socialLoading, setSocialLoading] = useState<'google' | 'github' | 'zenuxs' | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
@@ -53,13 +80,14 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ({
     }
   }, [isAuthenticated, navigate, redirectTo]);
 
-  // Handle Zenuxs OAuth 2.0 Login
-  const handleZenuxsLogin = async () => {
+  // Handle Zenuxs OAuth with Specific Authority (Google, GitHub, or Zenuxs SSO)
+  const handleSocialLogin = async (provider?: 'google' | 'github') => {
     setError(null);
-    setZenuxsLoading(true);
+    setSocialLoading(provider || 'zenuxs');
 
     try {
-      const redirectUri = window.location.origin + '/auth/callback';
+      // Use origin as redirectUri - matches registered client redirect URI in Zenuxs dashboard
+      const redirectUri = window.location.origin;
 
       const oauth = new ZenuxOAuth({
         clientId: ZENUXS_CLIENT_ID,
@@ -69,24 +97,36 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ({
         uiFallbackMode: 'popup'
       });
 
-      // Try popup mode first for seamless in-page login
-      let tokens = null;
-      let userInfo = null;
+      const loginOpts: any = {
+        mode: 'popup',
+        redirectUri
+      };
+
+      if (provider) {
+        loginOpts.provider = provider;
+        loginOpts.extraAuthParams = { provider };
+      }
+
+      // Attempt seamless popup login first
+      let tokens: any = null;
+      let userInfo: any = null;
 
       try {
-        tokens = await oauth.login({ mode: 'popup' });
+        tokens = await oauth.login(loginOpts);
         if (tokens) {
           userInfo = await oauth.getUserInfo().catch(() => null);
         }
-      } catch (popupErr) {
-        console.warn('Zenuxs popup failed, falling back to redirect:', popupErr);
-        // Fallback to full-page redirect flow
-        await oauth.login({ mode: 'redirect' });
+      } catch (popupErr: any) {
+        console.warn('Popup login was interrupted or blocked, redirecting:', popupErr);
+        // Fallback to standard full-page redirect flow
+        await oauth.login({
+          ...loginOpts,
+          mode: 'redirect'
+        });
         return;
       }
 
       if (!tokens && !userInfo) {
-        // Check if tokens were stored
         tokens = oauth.getTokens();
         if (tokens) {
           userInfo = await oauth.getUserInfo().catch(() => null);
@@ -109,16 +149,16 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ({
             navigate(redirectTo, { replace: true });
           }, 400);
         } else {
-          setError(res.message || 'Zenuxs login verification failed on server.');
+          setError(res.message || 'Zenuxs authentication verification failed on server.');
         }
       } else {
-        setError('Could not retrieve Zenuxs account information. Please try again.');
+        setError('Could not retrieve account details from Zenuxs. Please try again.');
       }
     } catch (err: any) {
-      console.error('Zenuxs OAuth error:', err);
-      setError(err?.message || 'Zenuxs authentication encountered an error.');
+      console.error('Social login error:', err);
+      setError(err?.message || 'Authentication encountered an unexpected error.');
     } finally {
-      setZenuxsLoading(false);
+      setSocialLoading(null);
     }
   };
 
@@ -229,33 +269,63 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ({
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md z-10 px-4 sm:px-0">
         <div className="bg-white/95 backdrop-blur-xl py-8 px-6 sm:px-10 shadow-2xl rounded-3xl border border-white/20">
           
-          {/* Zenuxs OAuth 2.0 Single Sign-On Button */}
+          {/* Social / OAuth Authority Section */}
           <div className="space-y-3">
+            {/* Primary: Google Login Authority */}
             <button
               type="button"
-              onClick={handleZenuxsLogin}
-              disabled={zenuxsLoading}
-              className="w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-2xl bg-slate-950 hover:bg-slate-900 text-white font-bold text-sm shadow-lg shadow-purple-950/20 border border-purple-500/30 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 cursor-pointer"
+              onClick={() => handleSocialLogin('google')}
+              disabled={!!socialLoading}
+              className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-800 font-bold text-sm shadow-sm border border-slate-200 transition-all hover:shadow-md hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 cursor-pointer"
             >
-              {zenuxsLoading ? (
+              {socialLoading === 'google' ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Connecting to Zenuxs Auth...</span>
+                  <div className="w-5 h-5 border-2 border-slate-300 border-t-purple-600 rounded-full animate-spin" />
+                  <span>Connecting to Google...</span>
                 </>
               ) : (
                 <>
-                  <div className="w-6 h-6 rounded-lg bg-gradient-to-br from-indigo-500 via-purple-500 to-pink-500 flex items-center justify-center text-[11px] font-black text-white shadow-sm">
-                    Z
-                  </div>
-                  <span>Continue with Zenuxs</span>
-                  <span className="ml-auto text-[10px] font-bold text-purple-300 bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-800/60">
-                    Client: 99366ee281c7e424
-                  </span>
+                  <GoogleIcon />
+                  <span>Continue with Google</span>
                 </>
               )}
             </button>
+
+            {/* Secondary Row: GitHub & Zenuxs SSO */}
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                type="button"
+                onClick={() => handleSocialLogin('github')}
+                disabled={!!socialLoading}
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-slate-950 hover:bg-slate-900 text-white font-bold text-xs shadow-sm transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 cursor-pointer"
+              >
+                {socialLoading === 'github' ? (
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <GitHubIcon />
+                )}
+                <span>GitHub</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleSocialLogin()}
+                disabled={!!socialLoading}
+                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-900 to-indigo-950 hover:from-purple-800 hover:to-indigo-900 text-white font-bold text-xs shadow-sm border border-purple-500/30 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 cursor-pointer"
+              >
+                {socialLoading === 'zenuxs' ? (
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                ) : (
+                  <div className="w-4 h-4 rounded bg-gradient-to-br from-indigo-400 via-purple-400 to-pink-400 flex items-center justify-center text-[8px] font-black text-white">
+                    Z
+                  </div>
+                )}
+                <span>Zenuxs SSO</span>
+              </button>
+            </div>
+
             <p className="text-[11px] text-center text-slate-500 font-medium">
-              ⚡ Instant 1-Click login using your official Zenuxs account
+              ⚡ 1-Click instant sign in via official Google, GitHub, or Zenuxs
             </p>
           </div>
 

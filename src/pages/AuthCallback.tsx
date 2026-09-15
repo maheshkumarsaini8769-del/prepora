@@ -17,7 +17,7 @@ export const AuthCallback: React.FC = () => {
       try {
         const oauth = new ZenuxOAuth({
           clientId: ZENUXS_CLIENT_ID,
-          redirectUri: window.location.origin + '/auth/callback'
+          redirectUri: window.location.origin
         });
 
         // Initialize and handle the redirect callback parameters (code, state)

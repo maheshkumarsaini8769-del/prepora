@@ -60,6 +60,7 @@ import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
 import { Login } from './pages/Login';
 import { AuthCallback } from './pages/AuthCallback';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { OAuthCallbackWatcher } from './components/auth/OAuthCallbackWatcher';
 
 import { AuthProvider } from './context/AuthContext';
 import { NetworkBanner } from './components/common/NetworkBanner';
@@ -71,6 +72,7 @@ export const App: React.FC = () => {
       <NetworkBanner />
       <AuthModal />
       <BrowserRouter>
+        <OAuthCallbackWatcher />
         <Routes>
           {/* Public Authentication Routes */}
           <Route path="/login" element={<Login />} />
