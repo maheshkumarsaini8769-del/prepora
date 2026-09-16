@@ -58,6 +58,36 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  // Pre-login entrance animation state
+  const [animationPhase, setAnimationPhase] = useState<'animating' | 'fading' | 'finished'>('animating');
+  const [loadingProgress, setLoadingProgress] = useState<number>(20);
+
+  useEffect(() => {
+    const p1 = setTimeout(() => setLoadingProgress(55), 250);
+    const p2 = setTimeout(() => setLoadingProgress(85), 600);
+    const p3 = setTimeout(() => setLoadingProgress(100), 950);
+
+    const t1 = setTimeout(() => {
+      setAnimationPhase('fading');
+    }, 1200);
+
+    const t2 = setTimeout(() => {
+      setAnimationPhase('finished');
+    }, 1600);
+
+    return () => {
+      clearTimeout(p1);
+      clearTimeout(p2);
+      clearTimeout(p3);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
+  }, []);
+
+  const handleSkipAnimation = () => {
+    setAnimationPhase('finished');
+  };
+
   const queryParams = new URLSearchParams(location.search);
   const redirectTo = queryParams.get('redirect') || '/';
 
@@ -152,7 +182,83 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
       <div className="absolute -top-40 -left-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Header / Brand Logo */}
+      {/* Intro Splash Animation Overlay */}
+      {animationPhase !== 'finished' && (
+        <div
+          onClick={handleSkipAnimation}
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950 text-white transition-all duration-500 cursor-pointer select-none ${
+            animationPhase === 'fading' ? 'opacity-0 pointer-events-none scale-105' : 'opacity-100 scale-100'
+          }`}
+          title="Click anywhere to enter immediately"
+        >
+          {/* Ambient Glows */}
+          <div className="absolute w-96 h-96 bg-purple-600/25 rounded-full blur-3xl animate-pulse pointer-events-none" />
+          <div className="absolute w-72 h-72 bg-indigo-600/25 rounded-full blur-3xl animate-pulse [animation-delay:500ms] pointer-events-none" />
+
+          {/* Centered Logo & Pulsing Rings */}
+          <div className="relative flex items-center justify-center mb-8">
+            {/* Outer Spinning Ring */}
+            <div className="absolute w-28 h-28 rounded-full border-2 border-dashed border-purple-400/40 animate-spin [animation-duration:8s]" />
+            
+            {/* Glowing Halo */}
+            <div className="absolute w-24 h-24 rounded-full bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 blur-md animate-ping [animation-duration:2s]" />
+
+            {/* Emblem Card */}
+            <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-purple-600 via-brand-600 to-indigo-600 flex items-center justify-center text-white font-black text-3xl shadow-[0_0_45px_rgba(147,51,234,0.6)] border border-white/20 transform transition-transform hover:scale-105">
+              <span>P</span>
+              <Sparkles className="w-4 h-4 text-amber-300 absolute -top-1 -right-1 animate-bounce" />
+            </div>
+          </div>
+
+          {/* Title & Tagline */}
+          <div className="text-center space-y-2 max-w-sm px-4">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-semibold backdrop-blur-md border border-white/10">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              <span>PREPORA Authorization</span>
+            </div>
+
+            <h1 className="text-3xl sm:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-300 bg-clip-text text-transparent">
+              PREPORA
+            </h1>
+
+            <p className="text-xs text-slate-400 font-medium tracking-wide uppercase">
+              Practice • Test • Analyze • Improve
+            </p>
+          </div>
+
+          {/* Progress Bar & Status */}
+          <div className="mt-8 w-64 max-w-xs space-y-2">
+            <div className="h-1.5 w-full bg-slate-800/80 rounded-full overflow-hidden border border-white/10">
+              <div
+                className="h-full bg-gradient-to-r from-purple-500 via-indigo-400 to-purple-400 transition-all duration-300 rounded-full"
+                style={{ width: `${loadingProgress}%` }}
+              />
+            </div>
+            <div className="flex items-center justify-between text-[11px] text-slate-400 font-medium">
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping" />
+                <span>Entering Portal...</span>
+              </span>
+              <span>{loadingProgress}%</span>
+            </div>
+          </div>
+
+          {/* Tap to skip prompt */}
+          <div className="absolute bottom-8 text-[11px] text-slate-500 hover:text-slate-400 transition font-medium">
+            Click anywhere to enter immediately
+          </div>
+        </div>
+      )}
+
+      {/* Main Login Content with Smooth Reveal Animation */}
+      <div className={`transition-all duration-700 ease-out ${
+        animationPhase === 'finished'
+          ? 'opacity-100 translate-y-0'
+          : animationPhase === 'fading'
+            ? 'opacity-70 translate-y-2'
+            : 'opacity-0 translate-y-6 pointer-events-none'
+      }`}>
+        {/* Header / Brand Logo */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center z-10">
         <div className="inline-flex items-center justify-center gap-3 mb-4">
           <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-purple-500/30 border border-purple-400/30">
@@ -314,6 +420,7 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
           </div>
 
         </div>
+      </div>
       </div>
     </div>
   );
