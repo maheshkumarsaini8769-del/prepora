@@ -92,7 +92,13 @@ class ApiQuestionService {
 
   public filterQuestions(filters: QuestionFilters): Question[] {
     return this.getAllQuestions().filter(q => {
-      if (filters.exam && filters.exam !== 'All' && q.exam !== filters.exam) return false;
+      if (filters.exam && filters.exam !== 'All') {
+        if (filters.exam === 'Board') {
+          if (q.exam !== 'Board' && q.exam !== 'CBSE' && q.exam !== 'RBSE') return false;
+        } else if (q.exam !== filters.exam) {
+          return false;
+        }
+      }
       if (filters.classLevel && filters.classLevel !== 'All' && q.class !== filters.classLevel) return false;
       if (filters.subject && filters.subject !== 'All' && q.subject !== filters.subject) return false;
       if (filters.chapter && filters.chapter !== 'All' && q.chapter !== filters.chapter) return false;
@@ -103,31 +109,31 @@ class ApiQuestionService {
         const matchesQ = q.question.toLowerCase().includes(query);
         const matchesChapter = q.chapter.toLowerCase().includes(query);
         const matchesTopic = q.topic.toLowerCase().includes(query);
-        const matchesConcept = q.concept.toLowerCase().includes(query);
+        const matchesConcept = q.concept ? q.concept.toLowerCase().includes(query) : false;
         if (!matchesQ && !matchesChapter && !matchesTopic && !matchesConcept) return false;
       }
       return true;
     });
   }
 
-  public getSubjectsForExam(exam: ExamType): SubjectName[] {
+  public getSubjectsForExam(exam?: ExamType | 'All'): SubjectName[] {
     if (exam === 'NEET') return ['Physics', 'Chemistry', 'Biology'];
     if (exam === 'JEE') return ['Physics', 'Chemistry', 'Mathematics'];
     return ['Physics', 'Chemistry', 'Mathematics', 'Biology'];
   }
 
-  public getChapters(subject?: SubjectName, classLevel?: ClassLevel): string[] {
+  public getChapters(subject?: SubjectName, classLevel?: ClassLevel | 'All'): string[] {
     const questions = this.getAllQuestions().filter(q => {
       if (subject && q.subject !== subject) return false;
-      if (classLevel && q.class !== classLevel) return false;
+      if (classLevel && classLevel !== 'All' && q.class !== classLevel) return false;
       return true;
     });
-    return Array.from(new Set(questions.map(q => q.chapter)));
+    return Array.from(new Set(questions.map(q => q.chapter))).sort();
   }
 
   public getTopics(chapter: string): string[] {
     const questions = this.getAllQuestions().filter(q => q.chapter === chapter);
-    return Array.from(new Set(questions.map(q => q.topic)));
+    return Array.from(new Set(questions.map(q => q.topic))).sort();
   }
 
   // Admin CRUD capabilities sync to MongoDB + local cache

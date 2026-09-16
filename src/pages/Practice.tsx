@@ -11,8 +11,8 @@ export const Practice: React.FC = () => {
   const [searchParams] = useSearchParams();
   const profile = userService.getProfile();
 
-  const [exam, setExam] = useState<ExamType>((searchParams.get('exam') as ExamType) || profile.targetExam);
-  const [classLevel, setClassLevel] = useState<ClassLevel>((searchParams.get('class') as ClassLevel) || profile.classLevel);
+  const [exam, setExam] = useState<ExamType | 'All'>((searchParams.get('exam') as ExamType) || 'All');
+  const [classLevel, setClassLevel] = useState<ClassLevel | 'All'>((searchParams.get('class') as ClassLevel) || 'All');
   const [subject, setSubject] = useState<SubjectName>((searchParams.get('subject') as SubjectName) || 'Physics');
   const [chapter, setChapter] = useState<string>(searchParams.get('chapter') || 'All');
   const [topic, setTopic] = useState<string>('All');
@@ -68,13 +68,13 @@ export const Practice: React.FC = () => {
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
               1. Target Exam
             </label>
-            <div className="grid grid-cols-3 gap-2">
-              {(['JEE', 'NEET', 'Board'] as ExamType[]).map((e) => (
+            <div className="flex flex-wrap gap-2">
+              {(['All', 'JEE', 'NEET', 'RBSE', 'CBSE'] as (ExamType | 'All')[]).map((e) => (
                 <button
                   key={e}
                   type="button"
                   onClick={() => setExam(e)}
-                  className={`py-2.5 px-3 rounded-xl font-bold text-sm border transition-all ${
+                  className={`py-2 px-3 rounded-xl font-bold text-xs border transition-all ${
                     exam === e
                       ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
@@ -90,19 +90,19 @@ export const Practice: React.FC = () => {
             <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
               2. Class Level
             </label>
-            <div className="grid grid-cols-2 gap-2">
-              {(['11', '12'] as ClassLevel[]).map((c) => (
+            <div className="grid grid-cols-3 gap-2">
+              {(['All', '11', '12'] as (ClassLevel | 'All')[]).map((c) => (
                 <button
                   key={c}
                   type="button"
                   onClick={() => setClassLevel(c)}
-                  className={`py-2.5 px-3 rounded-xl font-bold text-sm border transition-all ${
+                  className={`py-2 px-2.5 rounded-xl font-bold text-xs border transition-all ${
                     classLevel === c
                       ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
                       : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
                   }`}
                 >
-                  Class {c}
+                  {c === 'All' ? 'All Classes' : `Class ${c}`}
                 </button>
               ))}
             </div>
