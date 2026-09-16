@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
+import { userService } from '../services/userService';
 import { Question, SubjectName, DifficultyLevel } from '../types';
 
 export const SpeedPracticePage: React.FC = () => {
@@ -94,6 +95,19 @@ export const SpeedPracticePage: React.FC = () => {
         recommendedTime: q.recommendedTimeSeconds || selectedDuration
       }
     ]);
+
+    userService.recordQuestionAnswered({
+      questionId: q.id,
+      subject: q.subject,
+      chapter: q.chapter,
+      topic: q.topic,
+      isCorrect,
+      timeSpentSeconds: timeSpent,
+      selectedAnswer: picked ?? undefined,
+      correctAnswer: q.correctAnswer,
+      exam: q.exam,
+      reason: timeSpent < 15 ? 'Careless Mistake' : 'Time Pressure Slip'
+    });
   };
 
   const handleNextQuestion = () => {

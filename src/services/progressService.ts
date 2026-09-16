@@ -6,64 +6,11 @@ import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 
 class MockProgressService {
   public getTopicWeaknesses(): TopicWeakness[] {
-    const defaultList = getStorageItem<TopicWeakness[]>('prepora_topic_weaknesses', initialWeaknesses);
-    const mistakes = userService.getMistakes();
-    const attempts = testService.getAllAttempts();
-
-    if (attempts.length === 0 && mistakes.length === 0) {
-      return defaultList;
-    }
-
-    return defaultList;
+    return userService.getWeaknesses();
   }
 
   public getRevisionItems(): RevisionItem[] {
-    return getStorageItem<RevisionItem[]>(StorageKeys.REVISION, [
-      {
-        id: 'rev-01',
-        questionId: 'phy-11-006',
-        subject: 'Physics',
-        chapter: 'Work, Energy & Power',
-        topic: 'Conservative Forces',
-        intervalStage: 1,
-        nextDueDate: new Date().toISOString().split('T')[0], // Due today
-        status: 'due-today',
-        lastPracticedDate: '2026-09-12'
-      },
-      {
-        id: 'rev-02',
-        questionId: 'chem-11-003',
-        subject: 'Chemistry',
-        chapter: 'Thermodynamics',
-        topic: 'Spontaneity & Gibbs Energy',
-        intervalStage: 3,
-        nextDueDate: new Date().toISOString().split('T')[0], // Due today
-        status: 'due-today',
-        lastPracticedDate: '2026-09-11'
-      },
-      {
-        id: 'rev-03',
-        questionId: 'math-12-001',
-        subject: 'Mathematics',
-        chapter: 'Limits, Continuity and Differentiability',
-        topic: 'L\'Hopital\'s Rule',
-        intervalStage: 7,
-        nextDueDate: '2026-09-18',
-        status: 'upcoming',
-        lastPracticedDate: '2026-09-11'
-      },
-      {
-        id: 'rev-04',
-        questionId: 'bio-11-002',
-        subject: 'Biology',
-        chapter: 'Plant Physiology',
-        topic: 'Photosynthesis & Light Reaction',
-        intervalStage: 14,
-        nextDueDate: '2026-09-24',
-        status: 'upcoming',
-        lastPracticedDate: '2026-09-10'
-      }
-    ]);
+    return getStorageItem<RevisionItem[]>(StorageKeys.REVISION, []);
   }
 
   public completeRevisionItem(id: string): void {
@@ -139,11 +86,11 @@ class MockProgressService {
 
     const overallAccuracy = (totalCorrectCount + totalWrongCount > 0)
       ? Math.round((totalCorrectCount / (totalCorrectCount + totalWrongCount)) * 100)
-      : (hasRealAttempts ? 0 : profile.overallAccuracy);
+      : (profile.overallAccuracy || 0);
 
     const averageTestScorePct = totalMaxSum > 0 
       ? Math.round((totalScoreSum / totalMaxSum) * 100) 
-      : (hasRealAttempts ? 0 : 75);
+      : 0;
 
     const testsCompleted = attempts.length;
     const studyHours = Math.round((totalTimeSpentSeconds / 3600) * 10) / 10;
@@ -157,7 +104,7 @@ class MockProgressService {
       orderedDays.push(daysOfWeek[dIndex]);
     }
 
-    const accuracyTrend = orderedDays.map((day, idx) => {
+    const accuracyTrend = orderedDays.map((day) => {
       const matching = attempts.filter(a => {
         const d = new Date(a.timestamp);
         return daysOfWeek[d.getDay()] === day;
@@ -170,30 +117,28 @@ class MockProgressService {
         return { day, accuracy: acc };
       }
 
-      // Default baseline when user has not yet taken tests
-      const baseline = [68, 72, 70, 78, 74, 82, overallAccuracy || 75][idx] || 70;
-      return { day, accuracy: hasRealAttempts ? 0 : baseline };
+      return { day, accuracy: 0 };
     });
 
     const subjectMastery = (Object.keys(subjectStats) as SubjectName[]).map(sub => {
       const stats = subjectStats[sub];
       const acc = stats.attempted > 0 
         ? Math.round((stats.correct / stats.attempted) * 100) 
-        : (hasRealAttempts ? 0 : (sub === 'Physics' ? 72 : sub === 'Chemistry' ? 84 : sub === 'Mathematics' ? 66 : 88));
+        : 0;
 
       return {
         subject: sub,
         accuracy: acc,
-        total: stats.attempted > 0 ? stats.attempted : (hasRealAttempts ? 0 : 25)
+        total: stats.attempted
       };
     });
 
     return {
       overallAccuracy,
-      questionsAttempted: totalQuestionsAttempted > 0 ? totalQuestionsAttempted : (hasRealAttempts ? 0 : 45),
-      testsCompleted,
-      studyHours: studyHours > 0 ? studyHours : (hasRealAttempts ? 0 : 1.2),
-      streakDays: profile.streakDays,
+      questionsAttempted: totalQuestionsAttempted > 0 ? totalQuestionsAttempted : (profile.todayQuestionsCount || 0),
+      testsCompleted: testsCompleted > 0 ? testsCompleted : (profile.testsCompletedCount || 0),
+      studyHours,
+      streakDays: profile.streakDays || 0,
       averageTestScorePct,
       unresolvedMistakesCount: mistakes.filter(m => !m.resolved).length,
       accuracyTrend,

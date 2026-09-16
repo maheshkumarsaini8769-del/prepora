@@ -207,48 +207,63 @@ export const FixMyWeakness: React.FC = () => {
       </div>
 
       {/* Topics List */}
-      <div className="space-y-4">
-        {filtered.map((w, idx) => (
-          <Card key={idx} className="space-y-3 hover:border-purple-200 transition-colors">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-              <div className="flex items-center gap-2">
-                <Badge variant={w.status === 'red' ? 'danger' : w.status === 'yellow' ? 'warning' : 'success'}>
-                  {w.status === 'red' ? 'RED • Critical Weakness' : w.status === 'yellow' ? 'YELLOW • Developing' : 'GREEN • Mastered'}
-                </Badge>
-                <span className="font-bold text-sm text-slate-800">{w.subject}</span>
-                <span className="text-slate-400 text-xs">•</span>
-                <span className="text-xs text-slate-500 font-medium">{w.chapter}</span>
-              </div>
+      {filtered.length === 0 ? (
+        <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300">
+          <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-2" />
+          <h3 className="font-bold text-slate-800 text-base">No Critical Weaknesses Detected</h3>
+          <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+            Great job! Solve more questions and take mock tests. Any recurring mistake patterns will appear here with targeted AI remediation drills.
+          </p>
+          <div className="mt-4">
+            <Button size="sm" onClick={() => navigate('/practice')}>
+              Start Practice Session →
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="space-y-4">
+          {filtered.map((w, idx) => (
+            <Card key={idx} className="space-y-3 hover:border-purple-200 transition-colors">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                <div className="flex items-center gap-2">
+                  <Badge variant={w.status === 'red' ? 'danger' : w.status === 'yellow' ? 'warning' : 'success'}>
+                    {w.status === 'red' ? 'RED • Critical Weakness' : w.status === 'yellow' ? 'YELLOW • Developing' : 'GREEN • Mastered'}
+                  </Badge>
+                  <span className="font-bold text-sm text-slate-800">{w.subject}</span>
+                  <span className="text-slate-400 text-xs">•</span>
+                  <span className="text-xs text-slate-500 font-medium">{w.chapter}</span>
+                </div>
 
-              <div className="text-xs font-semibold text-slate-400">
-                Last checked: {w.lastPracticedDate}
-              </div>
-            </div>
-
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-              <div>
-                <h3 className="text-base font-bold text-slate-900">{w.topic}</h3>
-                <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
-                  <span>Accuracy: <strong className={w.accuracy < 60 ? 'text-rose-600 font-black' : 'text-slate-900'}>{w.accuracy}%</strong></span>
-                  <span>•</span>
-                  <span>{w.wrongCount} Errors in {w.totalAttempts} Attempts</span>
+                <div className="text-xs font-semibold text-slate-400">
+                  Last checked: {w.lastPracticedDate}
                 </div>
               </div>
 
-              <Button
-                variant={w.status === 'red' ? 'primary' : 'outline'}
-                size="sm"
-                onClick={() => handleOpenRemediation(w)}
-                className={`font-bold text-xs self-start sm:self-auto ${
-                  w.status === 'red' ? 'bg-brand-600 hover:bg-brand-700 text-white shadow-md' : ''
-                }`}
-              >
-                <Target className="w-3.5 h-3.5 mr-1" /> FIX THIS TOPIC
-              </Button>
-            </div>
-          </Card>
-        ))}
-      </div>
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <h3 className="text-base font-bold text-slate-900">{w.topic}</h3>
+                  <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
+                    <span>Accuracy: <strong className={w.accuracy < 60 ? 'text-rose-600 font-black' : 'text-slate-900'}>{w.accuracy}%</strong></span>
+                    <span>•</span>
+                    <span>{w.wrongCount} Errors in {w.totalAttempts} Attempts</span>
+                  </div>
+                </div>
+
+                <Button
+                  variant={w.status === 'red' ? 'primary' : 'outline'}
+                  size="sm"
+                  onClick={() => handleOpenRemediation(w)}
+                  className={`font-bold text-xs self-start sm:self-auto ${
+                    w.status === 'red' ? 'bg-brand-600 hover:bg-brand-700 text-white shadow-md' : ''
+                  }`}
+                >
+                  <Target className="w-3.5 h-3.5 mr-1" /> FIX THIS TOPIC
+                </Button>
+              </div>
+            </Card>
+          ))}
+        </div>
+      )}
 
       {/* 5-STAGE REMEDIATION WORKFLOW MODAL (task2.md Section 2) */}
       {remediationTarget && (

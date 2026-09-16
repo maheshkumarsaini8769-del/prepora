@@ -50,7 +50,7 @@ export const Home: React.FC = () => {
         <div className="flex items-center gap-2.5 self-stretch sm:self-auto justify-between sm:justify-end">
           <div className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-black shadow-2xs">
             <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
-            <span>{user.streakDays || 1} Day Streak</span>
+            <span>{user.streakDays > 0 ? `${user.streakDays} Day Streak` : '0 Day Streak'}</span>
           </div>
 
           <button

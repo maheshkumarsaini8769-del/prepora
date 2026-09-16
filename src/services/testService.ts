@@ -1,6 +1,7 @@
 import { Test, TestAttempt, TestAnswer, SubjectScoreBreakdown, Question, ExamType, SubjectName, DifficultyLevel, ClassLevel } from '../types';
 import { mockTests } from '../data/mockData';
 import { questionService } from './questionService';
+import { userService } from './userService';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 
 import { apiRequest } from './apiClient';
@@ -358,6 +359,7 @@ class ApiTestService {
     const attempts = this.getAllAttempts();
     attempts.unshift(attempt);
     setStorageItem(StorageKeys.TEST_ATTEMPTS, attempts);
+    userService.recordTestCompleted(attempt);
 
     // Asynchronously submit to MongoDB backend for persistence & server evaluation
     apiRequest('/attempts/submit', {
@@ -382,6 +384,7 @@ class ApiTestService {
       attempts.unshift(attempt);
     }
     setStorageItem(StorageKeys.TEST_ATTEMPTS, attempts);
+    userService.recordTestCompleted(attempt);
   }
 
   public updateMistakeTag(

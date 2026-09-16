@@ -106,8 +106,8 @@ export const MainLayout: React.FC = () => {
               <Flame className="w-4 h-4 text-amber-500 fill-amber-500 animate-pulse-subtle" />
             </div>
             <div>
-              <div className="text-xs font-black text-slate-800">{user.streakDays || 1} Day Streak!</div>
-              <div className="text-[10px] font-semibold text-amber-700">Daily Study Active 🔥</div>
+              <div className="text-xs font-black text-slate-800">{user.streakDays > 0 ? `${user.streakDays} Day Streak!` : 'Start Day 1 Streak'}</div>
+              <div className="text-[10px] font-semibold text-amber-700">{user.streakDays > 0 ? 'Daily Study Active 🔥' : 'Solve a question to begin'}</div>
             </div>
           </div>
           <span className="text-[10px] font-extrabold text-brand-700 bg-brand-50 border border-brand-200/80 px-2 py-0.5 rounded-full shadow-2xs">

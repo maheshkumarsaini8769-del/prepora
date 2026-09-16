@@ -144,43 +144,31 @@ export const PracticeSession: React.FC = () => {
     if (selectedOption === undefined || isChecked) return;
     setCheckedQuestions(prev => ({ ...prev, [currentQ.id]: true }));
 
-    // If incorrect, automatically track in Mistake Book with predicted classification
-    if (selectedOption !== currentQ.correctAnswer) {
-      const elapsedSecs = Math.max(1, Math.round((Date.now() - questionStartTime) / 1000));
-      let predictedTag = 'Calculation Error';
-      if (elapsedSecs < 15) {
-        predictedTag = 'Careless Mistake';
-      } else if (elapsedSecs > 120) {
-        predictedTag = 'Concept Gap';
-      }
-      setMistakeClassifications(prev => ({ ...prev, [currentQ.id]: predictedTag }));
-
-      userService.getMistakes(); // ensure storage is loaded
-      const mistakes = JSON.parse(localStorage.getItem('prepora_mistakes') || '[]');
-      const existing = mistakes.find((m: any) => m.questionId === currentQ.id);
-      if (!existing) {
-        mistakes.unshift({
-          id: `m-${Date.now()}-${currentQ.id}`,
-          questionId: currentQ.id,
-          exam: currentQ.exam,
-          subject: currentQ.subject,
-          chapter: currentQ.chapter,
-          topic: currentQ.topic,
-          lastAttemptedDate: new Date().toISOString().split('T')[0],
-          userWrongAnswer: selectedOption,
-          correctAnswer: currentQ.correctAnswer,
-          mistakeCount: 1,
-          mistakeReason: predictedTag,
-          resolved: false
-        });
-        localStorage.setItem('prepora_mistakes', JSON.stringify(mistakes));
-      } else {
-        existing.mistakeCount = (existing.mistakeCount || 1) + 1;
-        existing.lastAttemptedDate = new Date().toISOString().split('T')[0];
-        existing.mistakeReason = predictedTag;
-        localStorage.setItem('prepora_mistakes', JSON.stringify(mistakes));
-      }
+    const isCorrect = selectedOption === currentQ.correctAnswer;
+    const elapsedSecs = Math.max(1, Math.round((Date.now() - questionStartTime) / 1000));
+    let predictedTag = 'Calculation Error';
+    if (elapsedSecs < 15) {
+      predictedTag = 'Careless Mistake';
+    } else if (elapsedSecs > 120) {
+      predictedTag = 'Concept Gap';
     }
+
+    if (!isCorrect) {
+      setMistakeClassifications(prev => ({ ...prev, [currentQ.id]: predictedTag }));
+    }
+
+    userService.recordQuestionAnswered({
+      questionId: currentQ.id,
+      subject: currentQ.subject,
+      chapter: currentQ.chapter,
+      topic: currentQ.topic,
+      isCorrect,
+      timeSpentSeconds: elapsedSecs,
+      selectedAnswer: selectedOption,
+      correctAnswer: currentQ.correctAnswer,
+      exam: currentQ.exam,
+      reason: predictedTag
+    });
   };
 
   const handleClassifyMistake = (tag: string) => {

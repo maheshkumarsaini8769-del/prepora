@@ -135,19 +135,19 @@ import { realPapers } from './realPapersData';
 export const mockPapers: Paper[] = realPapers;
 
 export const initialUserProfile: UserProfile = {
-  id: "usr-demo-01",
-  name: "Aryan Sharma",
-  email: "aryan.sharma@example.com",
-  avatarUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+  id: "student-fresh",
+  name: "Aspirant",
+  email: "",
+  avatarUrl: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80",
   classLevel: "12",
   targetExam: "JEE",
   targetYear: 2026,
-  streakDays: 14,
-  lastActiveDate: "2026-09-14",
-  dailyGoalQuestions: 25,
-  todayQuestionsCount: 18,
-  overallAccuracy: 74,
-  testsCompletedCount: 12
+  streakDays: 0,
+  lastActiveDate: new Date().toISOString().split('T')[0],
+  dailyGoalQuestions: 20,
+  todayQuestionsCount: 0,
+  overallAccuracy: 0,
+  testsCompletedCount: 0
 };
 
 export const initialNotes: StudyNote[] = [

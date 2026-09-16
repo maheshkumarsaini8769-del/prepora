@@ -1,40 +1,78 @@
-import { UserProfile, Bookmark, StudyNote, NotificationItem, MistakeItem, TopicWeakness } from '../types';
+import { UserProfile, Bookmark, StudyNote, NotificationItem, MistakeItem, TopicWeakness, ExamType, SubjectName, TestAttempt } from '../types';
 import { initialUserProfile, initialNotes, initialNotifications } from '../data/mockData';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
+
+export const createFreshStudentProfile = (): UserProfile => {
+  const uniqueId = `student_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`;
+  return {
+    id: uniqueId,
+    name: 'Aspirant',
+    email: '',
+    avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+    classLevel: '12',
+    targetExam: 'JEE',
+    targetYear: 2026,
+    streakDays: 0,
+    lastActiveDate: new Date().toISOString().split('T')[0],
+    dailyGoalQuestions: 20,
+    todayQuestionsCount: 0,
+    overallAccuracy: 0,
+    testsCompletedCount: 0
+  };
+};
 
 class MockUserService {
   // User Profile
   public getProfile(): UserProfile {
-    return getStorageItem<UserProfile>(StorageKeys.USER_PROFILE, initialUserProfile);
+    let profile = getStorageItem<UserProfile | null>(StorageKeys.USER_PROFILE, null);
+
+    // If no profile exists, or if legacy demo Aryan profile was stored, create a fresh clean student
+    if (!profile || profile.id === 'usr-demo-01' || profile.name === 'Aryan Sharma') {
+      profile = createFreshStudentProfile();
+      setStorageItem(StorageKeys.USER_PROFILE, profile);
+      return profile;
+    }
+
+    // Daily active check & streak rollover
+    const today = new Date().toISOString().split('T')[0];
+    if (profile.lastActiveDate && profile.lastActiveDate !== today) {
+      const last = new Date(profile.lastActiveDate).getTime();
+      const curr = new Date(today).getTime();
+      const diffDays = Math.floor((curr - last) / (1000 * 60 * 60 * 24));
+
+      // Reset today's questions counter for the new day
+      profile.todayQuestionsCount = 0;
+
+      // If more than 1 day missed, streak resets to 0
+      if (diffDays > 1) {
+        profile.streakDays = 0;
+      }
+      setStorageItem(StorageKeys.USER_PROFILE, profile);
+    }
+
+    return profile;
   }
 
   public updateProfile(updates: Partial<UserProfile>): UserProfile {
     const current = this.getProfile();
     const updated = { ...current, ...updates };
     setStorageItem(StorageKeys.USER_PROFILE, updated);
+
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(new CustomEvent('prepora:profile_updated', { detail: updated }));
+    }
     return updated;
   }
 
   // Bookmarks
   public getBookmarks(): Bookmark[] {
-    return getStorageItem<Bookmark[]>(StorageKeys.BOOKMARKS, [
-      {
-        id: 'bm-1',
-        type: 'question',
-        targetId: 'phy-11-003',
-        title: 'Projectile Launch Angle vs Range Formula',
-        subtitle: 'Physics • Kinematics',
-        dateAdded: '2026-09-13'
-      },
-      {
-        id: 'bm-2',
-        type: 'test',
-        targetId: 'test-jee-mock-1',
-        title: 'JEE Main 2025 Full Mock #1',
-        subtitle: '15 Questions • 45 Mins',
-        dateAdded: '2026-09-12'
-      }
-    ]);
+    const list = getStorageItem<Bookmark[]>(StorageKeys.BOOKMARKS, []);
+    // Clean out legacy demo bookmarks if present
+    const cleaned = list.filter(b => b.id !== 'bm-1' && b.id !== 'bm-2');
+    if (cleaned.length !== list.length) {
+      setStorageItem(StorageKeys.BOOKMARKS, cleaned);
+    }
+    return cleaned;
   }
 
   public isBookmarked(type: Bookmark['type'], targetId: string): boolean {
@@ -63,34 +101,13 @@ class MockUserService {
 
   // Mistakes
   public getMistakes(): MistakeItem[] {
-    return getStorageItem<MistakeItem[]>(StorageKeys.MISTAKES, [
-      {
-        id: 'm-demo-1',
-        questionId: 'phy-11-006',
-        exam: 'JEE',
-        subject: 'Physics',
-        chapter: 'Work, Energy & Power',
-        topic: 'Conservative Forces',
-        lastAttemptedDate: '2026-09-12',
-        userWrongAnswer: 1,
-        correctAnswer: 0,
-        mistakeCount: 2,
-        resolved: false
-      },
-      {
-        id: 'm-demo-2',
-        questionId: 'chem-11-003',
-        exam: 'JEE',
-        subject: 'Chemistry',
-        chapter: 'Thermodynamics',
-        topic: 'Spontaneity & Gibbs Energy',
-        lastAttemptedDate: '2026-09-11',
-        userWrongAnswer: 2,
-        correctAnswer: 0,
-        mistakeCount: 1,
-        resolved: false
-      }
-    ]);
+    const list = getStorageItem<MistakeItem[]>(StorageKeys.MISTAKES, []);
+    // Clean out legacy demo mistakes if present
+    const cleaned = list.filter(m => m.id !== 'm-demo-1' && m.id !== 'm-demo-2');
+    if (cleaned.length !== list.length) {
+      setStorageItem(StorageKeys.MISTAKES, cleaned);
+    }
+    return cleaned;
   }
 
   public removeMistake(id: string): void {
@@ -110,29 +127,9 @@ class MockUserService {
   public getWeaknesses(): TopicWeakness[] {
     const mistakes = this.getMistakes();
     if (mistakes.length === 0) {
-      return [
-        {
-          subject: 'Physics',
-          chapter: 'Kinematics',
-          topic: 'Relative Motion in 2D',
-          accuracy: 45,
-          totalAttempts: 12,
-          wrongCount: 6,
-          status: 'red',
-          lastPracticedDate: '2026-09-13'
-        },
-        {
-          subject: 'Chemistry',
-          chapter: 'Thermodynamics',
-          topic: 'Spontaneity & Gibbs Energy',
-          accuracy: 52,
-          totalAttempts: 10,
-          wrongCount: 5,
-          status: 'red',
-          lastPracticedDate: '2026-09-12'
-        }
-      ];
+      return [];
     }
+
     const grouped: Record<string, TopicWeakness> = {};
     mistakes.forEach(m => {
       const key = `${m.chapter}-${m.topic}`;
@@ -141,20 +138,107 @@ class MockUserService {
           subject: m.subject,
           chapter: m.chapter,
           topic: m.topic,
-          accuracy: Math.max(30, 80 - (m.mistakeCount || 1) * 20),
+          accuracy: Math.max(20, Math.min(85, 80 - (m.mistakeCount || 1) * 15)),
           totalAttempts: (m.mistakeCount || 1) + 2,
           wrongCount: m.mistakeCount || 1,
-          status: 'red',
+          status: (m.mistakeCount || 1) >= 2 ? 'red' : 'yellow',
           lastPracticedDate: m.lastAttemptedDate
         };
+      } else {
+        grouped[key].wrongCount += (m.mistakeCount || 1);
+        grouped[key].totalAttempts += (m.mistakeCount || 1);
+        if (grouped[key].wrongCount >= 2) {
+          grouped[key].status = 'red';
+        }
       }
     });
     return Object.values(grouped);
   }
 
+  // Record question practice activity
+  public recordQuestionAnswered(payload: {
+    questionId: string;
+    subject: SubjectName;
+    chapter: string;
+    topic: string;
+    isCorrect: boolean;
+    timeSpentSeconds?: number;
+    selectedAnswer?: number;
+    correctAnswer?: number;
+    exam?: ExamType;
+    reason?: string;
+  }): void {
+    const profile = this.getProfile();
+    const today = new Date().toISOString().split('T')[0];
+
+    profile.lastActiveDate = today;
+    profile.todayQuestionsCount = (profile.todayQuestionsCount || 0) + 1;
+    if (!profile.streakDays || profile.streakDays === 0) {
+      profile.streakDays = 1;
+    }
+
+    // Handle mistake tracking
+    const mistakes = this.getMistakes();
+    const existingIndex = mistakes.findIndex(m => m.questionId === payload.questionId);
+
+    if (!payload.isCorrect) {
+      if (existingIndex !== -1) {
+        mistakes[existingIndex].mistakeCount = (mistakes[existingIndex].mistakeCount || 1) + 1;
+        mistakes[existingIndex].lastAttemptedDate = today;
+        mistakes[existingIndex].userWrongAnswer = payload.selectedAnswer ?? 0;
+        mistakes[existingIndex].resolved = false;
+        if (payload.reason) mistakes[existingIndex].mistakeReason = payload.reason as any;
+      } else {
+        mistakes.unshift({
+          id: `m-${Date.now()}-${payload.questionId}`,
+          questionId: payload.questionId,
+          exam: payload.exam || profile.targetExam || 'JEE',
+          subject: payload.subject,
+          chapter: payload.chapter,
+          topic: payload.topic,
+          lastAttemptedDate: today,
+          userWrongAnswer: payload.selectedAnswer ?? 0,
+          correctAnswer: payload.correctAnswer ?? 0,
+          mistakeCount: 1,
+          mistakeReason: (payload.reason as any) || 'Calculation Error',
+          resolved: false
+        });
+      }
+      setStorageItem(StorageKeys.MISTAKES, mistakes);
+    } else if (existingIndex !== -1) {
+      mistakes[existingIndex].resolved = true;
+      setStorageItem(StorageKeys.MISTAKES, mistakes);
+    }
+
+    this.updateProfile(profile);
+  }
+
+  // Record completed mock test activity
+  public recordTestCompleted(attempt: TestAttempt): void {
+    const profile = this.getProfile();
+    const today = new Date().toISOString().split('T')[0];
+
+    profile.lastActiveDate = today;
+    profile.testsCompletedCount = (profile.testsCompletedCount || 0) + 1;
+    if (!profile.streakDays || profile.streakDays === 0) {
+      profile.streakDays = 1;
+    }
+    profile.todayQuestionsCount = (profile.todayQuestionsCount || 0) + (attempt.totalQuestions || 0);
+
+    const attempts = getStorageItem<TestAttempt[]>(StorageKeys.TEST_ATTEMPTS, []);
+    const totalCorrect = attempts.reduce((sum, a) => sum + (a.correctCount || 0), 0);
+    const totalAttempted = attempts.reduce((sum, a) => sum + ((a.correctCount || 0) + (a.wrongCount || 0)), 0);
+
+    if (totalAttempted > 0) {
+      profile.overallAccuracy = Math.round((totalCorrect / totalAttempted) * 100);
+    }
+
+    this.updateProfile(profile);
+  }
+
   // Notes
   public getNotes(): StudyNote[] {
-    return getStorageItem<StudyNote[]>(StorageKeys.NOTES, initialNotes);
+    return getStorageItem<StudyNote[]>(StorageKeys.NOTES, []);
   }
 
   public saveNote(note: Omit<StudyNote, 'id' | 'updatedAt'> & { id?: string }): StudyNote {
@@ -187,7 +271,18 @@ class MockUserService {
 
   // Notifications
   public getNotifications(): NotificationItem[] {
-    return getStorageItem<NotificationItem[]>(StorageKeys.NOTIFICATIONS, initialNotifications);
+    const welcomeNotifs: NotificationItem[] = [
+      {
+        id: 'notif-welcome',
+        title: 'Welcome to PREPORA!',
+        message: 'Practice verified questions, test yourself with full mocks, and resolve doubts with the AI Quality Engine.',
+        timestamp: 'Just now',
+        isRead: false,
+        type: 'practice',
+        actionUrl: '/practice'
+      }
+    ];
+    return getStorageItem<NotificationItem[]>(StorageKeys.NOTIFICATIONS, welcomeNotifs);
   }
 
   public markNotificationAsRead(id: string): void {

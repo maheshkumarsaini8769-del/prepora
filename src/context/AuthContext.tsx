@@ -124,6 +124,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, []);
 
+  // Listen for real-time local profile updates (practice questions, mock tests, streak updates)
+  useEffect(() => {
+    const handleProfileUpdate = () => {
+      setUser(userService.getProfile());
+    };
+    window.addEventListener('prepora:profile_updated', handleProfileUpdate);
+    return () => window.removeEventListener('prepora:profile_updated', handleProfileUpdate);
+  }, []);
+
   const fetchSessions = async (authToken?: string) => {
     const t = authToken || token;
     if (!t) return;

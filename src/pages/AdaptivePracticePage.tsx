@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
+import { userService } from '../services/userService';
 import { Question, DifficultyLevel } from '../types';
 
 export const AdaptivePracticePage: React.FC = () => {
@@ -47,6 +48,19 @@ export const AdaptivePracticePage: React.FC = () => {
     if (isCorrect) setCorrectCount(prev => prev + 1);
 
     setHistory(prev => [...prev, { diff: currentTier, correct: isCorrect }]);
+
+    userService.recordQuestionAnswered({
+      questionId: currentQ.id,
+      subject: currentQ.subject,
+      chapter: currentQ.chapter,
+      topic: currentQ.topic,
+      isCorrect,
+      timeSpentSeconds: 45,
+      selectedAnswer: idx,
+      correctAnswer: currentQ.correctAnswer,
+      exam: currentQ.exam,
+      reason: currentTier === 'Hard' ? 'Concept Gap' : 'Calculation Error'
+    });
 
     if (isCorrect) {
       const newStreak = streakCorrect + 1;
