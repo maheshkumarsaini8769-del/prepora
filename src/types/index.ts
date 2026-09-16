@@ -2,7 +2,7 @@ export type ExamType = 'JEE' | 'NEET' | 'Board' | 'CBSE' | 'RBSE';
 export type ClassLevel = '11' | '12';
 export type SubjectName = 'Physics' | 'Chemistry' | 'Mathematics' | 'Biology';
 export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard';
-export type QuestionSource = 'Practice' | 'PYQ' | 'Original' | 'Original Demo' | 'Model Paper';
+export type QuestionSource = 'Practice' | 'PYQ' | 'Original' | 'Original Demo' | 'Model Paper' | (string & {});
 export type QuestionType = 'MCQ' | 'Numerical';
 
 export type TimeTag = 'Speed Master' | 'Time Drainer' | 'Negative Trap' | 'Normal' | 'Unattempted';

@@ -90,7 +90,7 @@ export const Papers: React.FC = () => {
 
           <div className="flex items-center gap-1.5">
             <span className="text-xs font-semibold text-slate-400">Year:</span>
-            {(['All', 2025, 2024, 2023, 2022] as (number | 'All')[]).map((y) => (
+            {(['All', 2025, 2024, 2023, 2022, 2021, 2020] as (number | 'All')[]).map((y) => (
               <button
                 key={String(y)}
                 onClick={() => setSelectedYear(y)}

@@ -1,4 +1,4 @@
-import { Question } from "../../types";
+import { Question } from '../../types';
 
 export const biologyBank: Question[] = [
   {
@@ -10261,5 +10261,155 @@ export const biologyBank: Question[] = [
     "source": "PYQ",
     "year": 2024,
     "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "bio-11-celltheu-10",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Biology",
+    "chapter": "Cell: The Unit of Life",
+    "topic": "Fluid Mosaic Model & Membrane Permeability",
+    "difficulty": "Easy",
+    "question": "According to Singer and Nicolson's Fluid Mosaic Model (1972), what is the quasi-fluid nature of the lipid bilayer responsible for?",
+    "questionHi": "सिंगर और निकोलसन के फ्लूइड मोज़ेक मॉडल (1972) के अनुसार लिपिड द्विप परत की अर्ध-तरल प्रकृति किसके लिए उत्तरदायी है?",
+    "options": [
+      "Lateral movement of proteins within the overall bilayer",
+      "Active transport of glucose only",
+      "Complete rigidity of the plasma membrane",
+      "Synthesis of ribosomal RNA"
+    ],
+    "optionsHi": [
+      "द्विपरत के भीतर प्रोटीनों की पार्श्व गति",
+      "केवल ग्लूकोज का सक्रिय परिवहन",
+      "प्लाज्मा झिल्ली की पूर्ण दृढ़ता",
+      "राइबोसोमल आरएनए का संश्लेषण"
+    ],
+    "correctAnswer": 0,
+    "explanation": "The quasi-fluid nature of lipid enables lateral movement of proteins within the overall bilayer. This ability to move within the membrane is measured as its fluidity, which is crucial for cell growth, intercellular junctions, endocytosis, and cell division.",
+    "concept": "Fluidity of biological membranes in NCERT Cell Biology.",
+    "importantPoint": "Fluid Mosaic Model was proposed in 1972 by Singer and Nicolson.",
+    "source": "NEET / CBSE PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 60
+  },
+  {
+    "id": "bio-12-principl-10",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Biology",
+    "chapter": "Principles of Inheritance and Variation",
+    "topic": "Dihybrid Cross & Law of Independent Assortment",
+    "difficulty": "Medium",
+    "question": "In a classical Mendelian dihybrid cross between round yellow (RRYY) and wrinkled green (rryy) pea plants, what proportion of the F₂ progeny will exhibit recombinant (non-parental) phenotypes?",
+    "questionHi": "गोल पीले (RRYY) और झुर्रीदार हरे (rryy) मटर के पौधों के मध्य द्विसंकर क्रॉस में F₂ पीढ़ी में पुनः संयोजित (गैर-जनक) फीनोटाइप का अनुपात क्या होगा?",
+    "options": [
+      "6/16 (37.5%)",
+      "10/16 (62.5%)",
+      "9/16 (56.25%)",
+      "1/16 (6.25%)"
+    ],
+    "optionsHi": [
+      "6/16 (37.5%)",
+      "10/16 (62.5%)",
+      "9/16 (56.25%)",
+      "1/16 (6.25%)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In F₂, the phenotypic ratio is 9 Round Yellow (parental) : 3 Round Green (recombinant) : 3 Wrinkled Yellow (recombinant) : 1 Wrinkled Green (parental). The recombinant phenotypes are 3 + 3 = 6 out of 16 (37.5%).",
+    "concept": "Recombinant versus parental phenotype frequency in Mendel's 9:3:3:1 ratio.",
+    "importantPoint": "Parentals = 9 + 1 = 10/16; Recombinants = 3 + 3 = 6/16.",
+    "source": "NEET / CBSE PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "bio-12-principl-11",
+    "exam": "CBSE",
+    "class": "12",
+    "subject": "Biology",
+    "chapter": "Principles of Inheritance and Variation",
+    "topic": "Mendelian Disorders - Sickle Cell Anemia",
+    "difficulty": "Easy",
+    "question": "In Sickle Cell Anemia, what specific amino acid substitution occurs at the 6th position of the beta-globin polypeptide chain of hemoglobin?",
+    "questionHi": "सिकल सेल एनीमिया में हीमोग्लोबिन की बीटा-ग्लोबिन श्रृंखला के छठे स्थान पर कौन सा अमीनो अम्ल प्रतिस्थापित होता है?",
+    "options": [
+      "Glutamic acid is substituted by Valine (GAG to GUG)",
+      "Valine is substituted by Glutamic acid",
+      "Glycine is substituted by Alanine",
+      "Lysine is substituted by Valine"
+    ],
+    "optionsHi": [
+      "ग्लूटामिक अम्ल का वैलीन द्वारा प्रतिस्थापन (GAG से GUG)",
+      "वैलीन का ग्लूटामिक अम्ल द्वारा प्रतिस्थापन",
+      "ग्लाइसीन का एलानिन द्वारा प्रतिस्थापन",
+      "लाइसिन का वैलीन द्वारा प्रतिस्थापन"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Sickle cell anemia is caused by a point mutation (transversion) in the gene coding for the beta-globin chain: a single base substitution from GAG to GUG results in the replacement of Glutamic acid (hydrophilic) by Valine (hydrophobic) at position 6.",
+    "concept": "Molecular pathology of Sickle Cell Anemia.",
+    "importantPoint": "GAG codes for Glutamic acid; GUG codes for Valine.",
+    "source": "NEET / CBSE PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 60
+  },
+  {
+    "id": "bio-12-molecula-10",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Biology",
+    "chapter": "Molecular Basis of Inheritance",
+    "topic": "Lac Operon Regulation",
+    "difficulty": "Medium",
+    "question": "In the lac operon of E. coli, what substance acts as the natural inducer by binding directly to the repressor protein and preventing it from binding to the operator?",
+    "questionHi": "ई. कोलाई के लैक ओपेरॉन में कौन सा पदार्थ दमनकारी प्रोटीन से जुड़कर प्राकृतिक प्रेरक के रूप में कार्य करता है?",
+    "options": [
+      "Allolactose",
+      "Glucose",
+      "Galactose",
+      "cAMP"
+    ],
+    "optionsHi": [
+      "एलोलैक्टोज़",
+      "ग्लूकोज",
+      "गैलेक्टोज़",
+      "cAMP"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Lactose enters the cell and a small fraction is converted to allolactose by β-galactosidase. Allolactose is the physiological inducer: it binds to the lac repressor, altering its conformation so that it detaches from the operator, allowing RNA polymerase to transcribe the operon.",
+    "concept": "Negative inducible regulation of the Lac Operon.",
+    "importantPoint": "IPTG is a gratuitous (synthetic) inducer, whereas allolactose is natural.",
+    "source": "NEET / CBSE PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "bio-12-biotechn-10",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Biology",
+    "chapter": "Biotechnology: Principles and Processes",
+    "topic": "Restriction Endonucleases - EcoRI Recognition Sequence",
+    "difficulty": "Easy",
+    "question": "The restriction enzyme EcoRI recognizes and cuts which specific palindromic DNA sequence?",
+    "questionHi": "प्रतिबंधन एंजाइम EcoRI किस विशिष्ट पैलिंड्रोमिक डीएनए अनुक्रम की पहचान करता है?",
+    "options": [
+      "5' - GAATTC - 3'",
+      "5' - GGATCC - 3'",
+      "5' - AGCT - 3'",
+      "5' - AAGCTT - 3'"
+    ],
+    "optionsHi": [
+      "5' - GAATTC - 3'",
+      "5' - GGATCC - 3'",
+      "5' - AGCT - 3'",
+      "5' - AAGCTT - 3'"
+    ],
+    "correctAnswer": 0,
+    "explanation": "EcoRI isolates from Escherichia coli RY13 recognizes the 6-base pair palindromic sequence 5'-GAATTC-3' (reading 3'-CTTAAG-5' on complementary strand) and produces sticky overhanging ends.",
+    "concept": "Molecular scissors in recombinant DNA technology.",
+    "importantPoint": "HindIII recognizes AAGCTT; BamHI recognizes GGATCC.",
+    "source": "NEET / CBSE PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 60
   }
 ];
