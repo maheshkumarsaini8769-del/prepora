@@ -1,9 +1,17 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import { createHash } from 'crypto';
 import User, { IUser } from '../models/User.js';
 import Session from '../models/Session.js';
 
-export const JWT_SECRET = process.env.JWT_SECRET || 'prepora-secret-super-secure-jwt-key-2026';
+const _jwtSecret = process.env.JWT_SECRET;
+if (!_jwtSecret) {
+  console.error('[FATAL] JWT_SECRET environment variable is not set. Server cannot start.');
+  process.exit(1);
+}
+export const JWT_SECRET: string = _jwtSecret;
+
+export const hashToken = (token: string): string => createHash('sha256').update(token).digest('hex');
 
 export interface AuthRequest extends Request {
   user?: IUser;
@@ -32,11 +40,12 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(401).json({ success: false, message: 'Invalid or expired token. Please log in again.' });
     }
 
-    // Check if session is revoked
-    const session = await Session.findOne({ token, isRevoked: false });
+    // Check if session is revoked (token is stored as SHA-256 hash)
+    const tokenHash = hashToken(token);
+    const session = await Session.findOne({ token: tokenHash, isRevoked: false });
     if (!session) {
       // If no active session found, check if it was revoked
-      const revokedSession = await Session.findOne({ token, isRevoked: true });
+      const revokedSession = await Session.findOne({ token: tokenHash, isRevoked: true });
       if (revokedSession) {
         return res.status(401).json({ success: false, message: 'Session has been revoked or logged out.' });
       }

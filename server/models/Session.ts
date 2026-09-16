@@ -21,7 +21,7 @@ const SessionSchema: Schema = new Schema(
   {
     id: { type: String, required: true, unique: true, index: true },
     userId: { type: String, required: true, index: true },
-    token: { type: String, required: true, index: true },
+    token: { type: String, required: true, index: true }, // Stored as SHA-256 hash
     deviceInfo: {
       device: { type: String, default: 'Desktop Computer' },
       browser: { type: String, default: 'Web Browser' },

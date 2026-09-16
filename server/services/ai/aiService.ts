@@ -78,7 +78,7 @@ class AIService {
     let rawResult: IDoubtSolveResult;
 
     // Step 3: Provider Execution (Gemini -> Fallback)
-    if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday <= this.dailyRequestLimit) {
+    if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday < this.dailyRequestLimit) {
       try {
         rawResult = await this.primaryProvider.solveDoubt(req, effectiveContext);
       } catch (err: any) {
@@ -95,7 +95,9 @@ class AIService {
   }
 
   public async generateProgressiveHints(req: IProgressiveHintsRequest): Promise<IProgressiveHintsResult> {
-    if (this.isAIEnabled && this.primaryProvider.isConfigured()) {
+    this.checkAndResetQuota();
+    this.requestsToday++;
+    if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday < this.dailyRequestLimit) {
       try {
         return await this.primaryProvider.generateProgressiveHints(req);
       } catch (err) {
@@ -106,7 +108,9 @@ class AIService {
   }
 
   public async analyzeWeakness(req: IWeaknessAnalysisRequest): Promise<IWeaknessAnalysisResult> {
-    if (this.isAIEnabled && this.primaryProvider.isConfigured()) {
+    this.checkAndResetQuota();
+    this.requestsToday++;
+    if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday < this.dailyRequestLimit) {
       try {
         return await this.primaryProvider.analyzeWeakness(req);
       } catch (err) {

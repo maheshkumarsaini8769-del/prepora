@@ -6,6 +6,22 @@ import { compareQuestions } from '../utils/similarity.js';
 
 const router = express.Router();
 
+// Field whitelist for question updates — prevents mass assignment
+const QUESTION_UPDATE_FIELDS = ['question','questionHi','options','optionsHi','correctAnswer','explanation','explanationHi','concept','difficulty','subject','chapter','topic','status','exam','class'];
+
+function pickFields(obj: Record<string, any>, allowed: string[]): Record<string, any> {
+  const result: Record<string, any> = {};
+  for (const key of allowed) {
+    if (obj[key] !== undefined) result[key] = obj[key];
+  }
+  return result;
+}
+
+// Escape regex special characters to prevent ReDoS
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 // Helper to log admin actions
 async function recordAudit(
   adminEmail: string,
@@ -111,7 +127,7 @@ router.get('/', async (req: Request, res: Response) => {
     if (status && status !== 'All') filter.status = status;
 
     if (search && typeof search === 'string') {
-      const qRegex = new RegExp(search, 'i');
+      const qRegex = new RegExp(escapeRegex(search), 'i');
       filter.$or = [
         { question: qRegex },
         { chapter: qRegex },
@@ -220,73 +236,7 @@ router.post('/', async (req: Request, res: Response) => {
   }
 });
 
-// PATCH /api/questions/:id - Update question with versioning & audit trail
-router.patch('/:id', async (req: Request, res: Response) => {
-  try {
-    const existing = await Question.findOne({ id: req.params.id });
-    if (!existing) {
-      return res.status(404).json({ success: false, message: 'Question not found' });
-    }
-
-    // Determine current version count
-    const versionCount = await QuestionVersion.countDocuments({ questionId: existing.id });
-    const nextVersion = versionCount + 1;
-
-    // Snapshot existing state into QuestionVersion before modifying
-    const versionEntry = new QuestionVersion({
-      id: `qv-${existing.id}-v${nextVersion}`,
-      questionId: existing.id,
-      versionNumber: nextVersion,
-      snapshot: {
-        question: existing.question,
-        questionHi: existing.questionHi,
-        options: existing.options,
-        optionsHi: existing.optionsHi,
-        correctAnswer: existing.correctAnswer,
-        explanation: existing.explanation,
-        explanationHi: existing.explanationHi,
-        concept: existing.concept,
-        difficulty: existing.difficulty,
-        subject: existing.subject,
-        chapter: existing.chapter,
-        topic: existing.topic
-      },
-      changedBy: req.body.adminEmail || 'admin@prepora.internal',
-      changeReason: req.body.changeReason || 'Question content modified via Admin portal'
-    });
-    await versionEntry.save();
-
-    // Now update Question document
-    const updated = await Question.findOneAndUpdate(
-      { id: req.params.id },
-      { $set: req.body },
-      { new: true }
-    );
-
-    // Audit log
-    let actionType = 'Edit';
-    if (req.body.correctAnswer !== undefined && req.body.correctAnswer !== existing.correctAnswer) {
-      actionType = 'Change Answer';
-    } else if (req.body.explanation !== undefined && req.body.explanation !== existing.explanation) {
-      actionType = 'Change Explanation';
-    }
-
-    await recordAudit(
-      req.body.adminEmail || 'admin@prepora.internal',
-      actionType,
-      existing.id,
-      existing.toObject(),
-      updated!.toObject(),
-      { changeReason: req.body.changeReason, previousVersion: nextVersion }
-    );
-
-    res.json({ success: true, question: updated, versionArchived: nextVersion });
-  } catch (error: any) {
-    res.status(400).json({ success: false, message: error.message });
-  }
-});
-
-// PATCH /api/questions/bulk-edit - Bulk edit multiple questions
+// PATCH /api/questions/bulk-edit - Bulk edit multiple questions (MUST be before /:id route)
 router.patch('/bulk-edit', async (req: Request, res: Response) => {
   try {
     const { questionIds, updates, adminEmail } = req.body;
@@ -328,6 +278,72 @@ router.patch('/bulk-edit', async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// PATCH /api/questions/:id - Update question with versioning & audit trail
+router.patch('/:id', async (req: Request, res: Response) => {
+  try {
+    const existing = await Question.findOne({ id: req.params.id });
+    if (!existing) {
+      return res.status(404).json({ success: false, message: 'Question not found' });
+    }
+
+    // Determine current version count
+    const versionCount = await QuestionVersion.countDocuments({ questionId: existing.id });
+    const nextVersion = versionCount + 1;
+
+    // Snapshot existing state into QuestionVersion before modifying
+    const versionEntry = new QuestionVersion({
+      id: `qv-${existing.id}-v${nextVersion}`,
+      questionId: existing.id,
+      versionNumber: nextVersion,
+      snapshot: {
+        question: existing.question,
+        questionHi: existing.questionHi,
+        options: existing.options,
+        optionsHi: existing.optionsHi,
+        correctAnswer: existing.correctAnswer,
+        explanation: existing.explanation,
+        explanationHi: existing.explanationHi,
+        concept: existing.concept,
+        difficulty: existing.difficulty,
+        subject: existing.subject,
+        chapter: existing.chapter,
+        topic: existing.topic
+      },
+      changedBy: req.body.adminEmail || 'admin@prepora.internal',
+      changeReason: req.body.changeReason || 'Question content modified via Admin portal'
+    });
+    await versionEntry.save();
+
+    // Now update Question document (with field whitelist to prevent mass assignment)
+    const updated = await Question.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: pickFields(req.body, QUESTION_UPDATE_FIELDS) },
+      { new: true }
+    );
+
+    // Audit log
+    let actionType = 'Edit';
+    if (req.body.correctAnswer !== undefined && req.body.correctAnswer !== existing.correctAnswer) {
+      actionType = 'Change Answer';
+    } else if (req.body.explanation !== undefined && req.body.explanation !== existing.explanation) {
+      actionType = 'Change Explanation';
+    }
+
+    await recordAudit(
+      req.body.adminEmail || 'admin@prepora.internal',
+      actionType,
+      existing.id,
+      existing.toObject(),
+      updated!.toObject(),
+      { changeReason: req.body.changeReason, previousVersion: nextVersion }
+    );
+
+    res.json({ success: true, question: updated, versionArchived: nextVersion });
+  } catch (error: any) {
+    res.status(400).json({ success: false, message: error.message });
   }
 });
 
@@ -385,6 +401,7 @@ router.post('/bulk-import', async (req: Request, res: Response) => {
           matchedId: dupMatch.id,
           matchedQuestion: dupMatch.question
         });
+        return; // Skip duplicate — do NOT add to validRows
       }
 
       validRows.push({

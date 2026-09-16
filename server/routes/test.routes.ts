@@ -83,8 +83,12 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       });
     }
 
-    // Shuffle and pick
-    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+    // Shuffle and pick (Fisher-Yates for uniform distribution)
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
     const selected = shuffled.slice(0, questionCount);
     const questionIds = selected.map(q => q.id);
 

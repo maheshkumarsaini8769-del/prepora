@@ -127,7 +127,7 @@ export const PaperDetail: React.FC = () => {
           className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs border border-slate-200 shadow-2xs transition cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Back to All Papers (वापस पेपर्स सूची पर)</span>
+          <span>Back to All Papers</span>
         </button>
 
         <span className="text-xs font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
@@ -194,7 +194,7 @@ export const PaperDetail: React.FC = () => {
           }`}
         >
           <BookOpen className="w-4 h-4" />
-          <span>📖 Study Mode: Questions with Answers & Solutions (हल सहित देखें)</span>
+          <span>📖 Study Mode: Questions with Solutions</span>
         </button>
 
         <button
@@ -210,7 +210,7 @@ export const PaperDetail: React.FC = () => {
           }`}
         >
           <Play className="w-4 h-4" />
-          <span>⏱️ Timed Test Mode (असली परीक्षा माहौल - टेस्ट दें)</span>
+          <span>⏱️ Timed Exam Mode (Exam Simulation)</span>
         </button>
       </div>
 
@@ -262,7 +262,7 @@ export const PaperDetail: React.FC = () => {
                   onChange={(e) => setShowAllAnswers(e.target.checked)}
                   className="w-4 h-4 rounded text-purple-600 focus:ring-purple-500"
                 />
-                <span>Show All Answers & Solutions Immediately (सभी उत्तर हमेशा दिखाएं)</span>
+                <span>Show All Answers & Solutions Immediately</span>
               </label>
             </div>
           </div>
@@ -271,7 +271,7 @@ export const PaperDetail: React.FC = () => {
           {displayedQuestions.length > 0 && (
             <div className="bg-white p-3 rounded-2xl border border-slate-200/70 shadow-2xs">
               <div className="text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">
-                Quick Jump to Question (प्रश्न संख्या पर जाएं):
+                Quick Jump to Question:
               </div>
               <div className="flex flex-wrap gap-1.5">
                 {displayedQuestions.map((_, idx) => (
@@ -373,7 +373,7 @@ export const PaperDetail: React.FC = () => {
 
                           {isRevealed && isCorrect && (
                             <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-md ml-auto shrink-0">
-                              Correct (सही उत्तर)
+                              Correct Answer
                             </span>
                           )}
                         </button>
@@ -390,7 +390,7 @@ export const PaperDetail: React.FC = () => {
                         className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-bold border border-purple-200 transition cursor-pointer"
                       >
                         <Eye className="w-3.5 h-3.5" />
-                        <span>Show Answer & Detailed Solution (उत्तर व हल देखें)</span>
+                        <span>Show Answer & Detailed Solution</span>
                       </button>
                     </div>
                   )}
@@ -445,7 +445,7 @@ export const PaperDetail: React.FC = () => {
         <Card className="p-6 sm:p-8 space-y-6">
           <div className="space-y-2">
             <h2 className="text-xl font-black text-slate-900">
-              Exam Hall Instructions (परीक्षा दिशा-निर्देश)
+              Exam Hall Instructions
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
               In this mode, you will experience the authentic {paper.exam} test environment. All answers will be recorded under a live countdown timer with instant scoring and question palette navigation.
@@ -482,7 +482,7 @@ export const PaperDetail: React.FC = () => {
               className="w-full sm:w-auto font-black px-8 py-3 text-sm shadow-lg shadow-purple-600/30"
             >
               <Play className="w-4 h-4 mr-2" />
-              Start Timed Examination (परीक्षा शुरू करें)
+              Start Timed Examination
             </Button>
 
             <Button
@@ -494,7 +494,7 @@ export const PaperDetail: React.FC = () => {
               className="w-full sm:w-auto font-bold text-xs"
             >
               <BookOpen className="w-4 h-4 mr-1.5" />
-              Switch to Study Mode (उत्तर व हल देखें)
+              Switch to Study Mode
             </Button>
           </div>
         </Card>

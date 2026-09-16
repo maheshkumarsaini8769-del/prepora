@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Session from '../models/Session.js';
 import { AuthorizedAdmin } from '../models/Admin.js';
-import { JWT_SECRET, authenticateUser, AuthRequest } from '../middleware/auth.js';
+import { JWT_SECRET, authenticateUser, AuthRequest, hashToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -58,8 +58,8 @@ router.post('/register', async (req: Request, res: Response) => {
     const passwordHash = await bcrypt.hash(password, salt);
     const id = `usr-${Date.now()}`;
 
-    // First user or specific test emails can be admins
-    const role = normalizedEmail.includes('admin') ? 'admin' : 'student';
+    // Admin role only via AuthorizedAdmin collection or OAuth owner check — never by email substring
+    const role = 'student';
 
     const newUser = new User({
       id,
@@ -85,9 +85,9 @@ router.post('/register', async (req: Request, res: Response) => {
     const { device, browser, os, userAgent, ipAddress } = parseDeviceInfo(req);
 
     const session = new Session({
-      id: `sess-${Date.now()}`,
+      id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       userId: newUser.id,
-      token,
+      token: hashToken(token),
       deviceInfo: { device, browser, os },
       ipAddress,
       userAgent
@@ -143,7 +143,7 @@ router.post('/login', async (req: Request, res: Response) => {
     const session = new Session({
       id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       userId: user.id,
-      token,
+      token: hashToken(token),
       deviceInfo: { device, browser, os },
       ipAddress,
       userAgent
@@ -173,6 +173,14 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
 
     if (!email && !sub) {
       return res.status(400).json({ success: false, message: 'Zenuxs user identifier or email is required.' });
+    }
+
+    // Basic server-side email validation (Fix 7)
+    if (email) {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(email.trim())) {
+        return res.status(400).json({ success: false, message: 'Invalid email format.' });
+      }
     }
 
     const normalizedEmail = email ? email.toLowerCase().trim() : `zenuxs_${sub}@zenuxs.user`;
@@ -228,7 +236,7 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
     const session = new Session({
       id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       userId: user.id,
-      token,
+      token: hashToken(token),
       deviceInfo: { device, browser, os },
       ipAddress,
       userAgent
@@ -333,7 +341,7 @@ router.post('/verify-otp', async (req: Request, res: Response) => {
     const session = new Session({
       id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
       userId: user.id,
-      token,
+      token: hashToken(token),
       deviceInfo: { device, browser, os },
       ipAddress,
       userAgent
@@ -492,7 +500,7 @@ router.get('/sessions', authenticateUser, async (req: AuthRequest, res: Response
       ipAddress: s.ipAddress,
       lastActive: s.lastActive,
       createdAt: s.createdAt,
-      isCurrent: s.token === req.token
+      isCurrent: s.token === hashToken(req.token!)
     }));
 
     res.json({ success: true, sessions: formattedSessions });
@@ -524,7 +532,7 @@ router.post('/revoke-session', authenticateUser, async (req: AuthRequest, res: R
 router.post('/logout-other-devices', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
     await Session.updateMany(
-      { userId: req.user!.id, token: { $ne: req.token }, isRevoked: false },
+      { userId: req.user!.id, token: { $ne: hashToken(req.token!) }, isRevoked: false },
       { $set: { isRevoked: true } }
     );
 
@@ -538,7 +546,7 @@ router.post('/logout-other-devices', authenticateUser, async (req: AuthRequest, 
 router.post('/logout', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
     if (req.token) {
-      await Session.findOneAndUpdate({ token: req.token }, { $set: { isRevoked: true } });
+      await Session.findOneAndUpdate({ token: hashToken(req.token) }, { $set: { isRevoked: true } });
     }
     res.json({ success: true, message: 'Logged out successfully.' });
   } catch (error: any) {

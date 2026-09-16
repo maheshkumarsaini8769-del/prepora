@@ -523,8 +523,8 @@ export const ExamToolsModal: React.FC<ExamToolsModalProps> = ({
                     }`}
                   >
                     <div className="text-left">
-                      <div className="text-sm font-semibold">हिंदी (Hindi)</div>
-                      <div className="text-[11px] text-slate-500">हिंदी माध्यम प्रश्न एवं विकल्प</div>
+                      <div className="text-sm font-semibold">Hindi Medium</div>
+                      <div className="text-[11px] text-slate-500">Hindi medium questions and options</div>
                     </div>
                     {language === 'hi' && <Check className="w-4 h-4 text-purple-600" />}
                   </button>
@@ -536,7 +536,7 @@ export const ExamToolsModal: React.FC<ExamToolsModalProps> = ({
 
         {/* Modal Footer */}
         <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 flex items-center justify-between text-xs text-slate-500">
-          <span>Active Medium: <strong className="text-slate-700">{language === 'en' ? 'English' : 'हिंदी'}</strong></span>
+          <span>Active Medium: <strong className="text-slate-700">{language === 'en' ? 'English' : 'Hindi'}</strong></span>
           <button
             onClick={onClose}
             className="px-4 py-2 bg-purple-600 hover:bg-purple-700 text-white font-medium rounded-xl transition-colors shadow-sm"

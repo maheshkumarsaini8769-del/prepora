@@ -77,6 +77,9 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
 
     const subjectStats: Record<string, { total: number; attempted: number; correct: number; wrong: number; score: number; timeSpent: number }> = {};
 
+    // Derive marks per correct question from test's maxScore / totalQuestions (default 4)
+    const marksPerCorrect = (test.maxScore && test.totalQuestions) ? test.maxScore / test.totalQuestions : 4;
+
     test.subjects.forEach(sub => {
       subjectStats[sub] = { total: 0, attempted: 0, correct: 0, wrong: 0, score: 0, timeSpent: 0 };
     });
@@ -112,7 +115,7 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
       };
 
       const isAnswered = userAns.selectedAnswer !== null && userAns.selectedAnswer !== undefined;
-      const isCorrect = isAnswered && userAns.selectedAnswer === q.correctAnswer;
+      const isCorrect = isAnswered && Number(userAns.selectedAnswer) === Number(q.correctAnswer);
       const recTime = q.recommendedTimeSeconds || 90;
       const timeSpent = userAns.timeSpentSeconds || 0;
       subjectStats[sub].timeSpent += timeSpent;
@@ -136,10 +139,9 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
         subjectStats[sub].attempted += 1;
         if (isCorrect) {
           correctCount++;
-          const marks = 4;
-          totalScore += marks;
+          totalScore += marksPerCorrect;
           subjectStats[sub].correct += 1;
-          subjectStats[sub].score += marks;
+          subjectStats[sub].score += marksPerCorrect;
           strongTopicsSet.add(q.topic);
         } else {
           wrongCount++;

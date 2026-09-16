@@ -116,13 +116,13 @@ export const Papers: React.FC = () => {
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
             Previous Year Papers & Solutions
             <span className="block text-purple-300 text-lg sm:text-xl font-bold mt-1">
-              (पिछले वर्षों के पेपर्स उत्तर व सम्पूर्ण हल सहित)
+              Authentic Past Papers with Step-by-Step Solutions
             </span>
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-            यहाँ NEET-UG, JEE Main, JEE Advanced, CBSE एवं RBSE (11वीं व 12वीं) के 2020 से 2025 तक के 
-            सभी आधिकारिक पेपर्स उपलब्ध हैं। आप प्रत्येक पेपर के <strong>सभी प्रश्नों के उत्तर व विस्तृत हल (Answers & Step-by-Step Solutions)</strong> सीधे देख सकते हैं या असली परीक्षा की तरह टाइमर के साथ टेस्ट दे सकते हैं।
+            Official question papers from 2020 to 2025 for NEET-UG, JEE Main, JEE Advanced, CBSE, and RBSE (Class 11 & 12).
+            You can view every question with <strong>detailed step-by-step solutions</strong> directly, or take a realistic practice test with a live timer.
           </p>
 
           {/* 3 Quick Step Icons */}
@@ -131,19 +131,19 @@ export const Papers: React.FC = () => {
               <span className="w-6 h-6 rounded-full bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">
                 1
               </span>
-              <span>परीक्षा व वर्ष चुनें (Select Exam & Year)</span>
+              <span>Select Exam & Year</span>
             </div>
             <div className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex items-center gap-2.5 text-xs">
               <span className="w-6 h-6 rounded-full bg-indigo-500 text-white font-black flex items-center justify-center text-xs shrink-0">
                 2
               </span>
-              <span>उत्तर व हल देखें (Check Instant Solutions)</span>
+              <span>Read Instant Solutions</span>
             </div>
             <div className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex items-center gap-2.5 text-xs">
               <span className="w-6 h-6 rounded-full bg-emerald-500 text-white font-black flex items-center justify-center text-xs shrink-0">
                 3
               </span>
-              <span>या टाइमर के साथ टेस्ट दें (Or Take Timed Test)</span>
+              <span>Take Timed Practice Test</span>
             </div>
           </div>
         </div>
@@ -186,16 +186,16 @@ export const Papers: React.FC = () => {
         {/* Filter Row 1: Exam / Board */}
         <div className="space-y-1.5">
           <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-            1. Select Exam / Board (परीक्षा चुनें):
+            1. Select Exam / Board:
           </label>
           <div className="flex flex-wrap gap-2">
             {[
-              { id: 'All', label: '🌟 All Exams (सभी)' },
-              { id: 'NEET', label: '🩺 NEET-UG (मेडिकल)' },
-              { id: 'JEE', label: '🚀 JEE Main (इंजीनियरिंग)' },
-              { id: 'JEE Advanced', label: '🎯 JEE Advanced (आईआईटी)' },
+              { id: 'All', label: '🌟 All Exams' },
+              { id: 'NEET', label: '🩺 NEET-UG (Medical)' },
+              { id: 'JEE', label: '🚀 JEE Main (Engineering)' },
+              { id: 'JEE Advanced', label: '🎯 JEE Advanced (IIT)' },
               { id: 'CBSE', label: '📘 CBSE Board' },
-              { id: 'RBSE', label: '📙 RBSE Board (राजस्थान)' }
+              { id: 'RBSE', label: '📙 RBSE Board (Rajasthan)' }
             ].map((ex) => (
               <button
                 key={ex.id}
@@ -218,13 +218,13 @@ export const Papers: React.FC = () => {
           {/* Class Level */}
           <div className="space-y-1.5">
             <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-              2. Class Level (कक्षा):
+              2. Class Level:
             </label>
             <div className="flex flex-wrap gap-2">
               {[
                 { id: 'All', label: 'All Classes' },
-                { id: '12', label: 'Class 12th (12वीं)' },
-                { id: '11', label: 'Class 11th (11वीं)' }
+                { id: '12', label: 'Class 12th' },
+                { id: '11', label: 'Class 11th' }
               ].map((cls) => (
                 <button
                   key={cls.id}
@@ -245,7 +245,7 @@ export const Papers: React.FC = () => {
           {/* Subject */}
           <div className="space-y-1.5">
             <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-              3. Subject (विषय):
+              3. Subject:
             </label>
             <div className="flex flex-wrap gap-2">
               {[
@@ -275,7 +275,7 @@ export const Papers: React.FC = () => {
         {/* Filter Row 3: Year (2020 – 2025) & Paper Type */}
         <div className="space-y-1.5 pt-1">
           <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-            4. Examination Year (वर्ष चुनें: 2020 – 2025):
+            4. Examination Year (2020 – 2025):
           </label>
           <div className="flex flex-wrap gap-2">
             {[
@@ -313,7 +313,7 @@ export const Papers: React.FC = () => {
             <span className="text-xs font-bold text-slate-400">({filteredPapers.length} results)</span>
           </h2>
           <span className="text-xs text-slate-500 hidden sm:inline">
-            💡 Click <strong>"हल व उत्तर देखें"</strong> to read questions with step-by-step solutions
+            💡 Click <strong>"View Solutions"</strong> to read questions with step-by-step explanations
           </span>
         </div>
 
@@ -400,7 +400,7 @@ export const Papers: React.FC = () => {
                     {/* Solution Included Tag */}
                     <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center gap-2 text-[11px] font-bold text-emerald-800">
                       <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                      <span>विस्तृत हल व उत्तर कुंजी उपलब्ध (Solutions Included)</span>
+                      <span>Detailed Solutions & Answer Key Included</span>
                     </div>
                   </div>
 
@@ -413,7 +413,7 @@ export const Papers: React.FC = () => {
                       className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-md shadow-purple-600/20 transition-all cursor-pointer"
                     >
                       <Eye className="w-4 h-4 text-purple-200" />
-                      <span>हल व उत्तर देखें (View Solutions)</span>
+                      <span>View Solutions</span>
                       <ArrowRight className="w-3.5 h-3.5 ml-auto" />
                     </button>
 
@@ -424,7 +424,7 @@ export const Papers: React.FC = () => {
                       className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-200 transition cursor-pointer"
                     >
                       <Play className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>टाइमर के साथ टेस्ट दें (Take Timed Test)</span>
+                      <span>Take Timed Test</span>
                     </button>
                   </div>
                 </Card>

@@ -196,6 +196,7 @@ export class GeminiProvider implements IAIProvider {
 
     const data: any = await response.json();
     const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!rawText) throw new Error('Gemini returned empty content for progressive hints');
     const parsed = JSON.parse(rawText);
 
     return {
@@ -236,6 +237,7 @@ export class GeminiProvider implements IAIProvider {
 
     const data: any = await response.json();
     const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!rawText) throw new Error('Gemini returned empty content for weakness analysis');
     const parsed = JSON.parse(rawText);
 
     return {

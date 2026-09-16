@@ -6,6 +6,19 @@ import { optionalAuth, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
 
+// Field whitelists to prevent mass assignment vulnerabilities
+const MISTAKE_FIELDS = ['resolved', 'notes'];
+const REPORT_FIELDS = ['status', 'adminNotes', 'resolution'];
+const PROFILE_FIELDS = ['name', 'avatar', 'targetExam', 'classLevel', 'targetYear', 'dreamScore', 'dailyGoalQuestions', 'dailyGoalMinutes'];
+
+function pickFields(obj: Record<string, any>, allowed: string[]): Record<string, any> {
+  const result: Record<string, any> = {};
+  for (const key of allowed) {
+    if (obj[key] !== undefined) result[key] = obj[key];
+  }
+  return result;
+}
+
 // --- MISTAKES ---
 router.get('/mistakes', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
@@ -30,7 +43,7 @@ router.patch('/mistakes/:id', async (req: Request, res: Response) => {
   try {
     const updated = await Mistake.findOneAndUpdate(
       { id: req.params.id },
-      { $set: req.body },
+      { $set: pickFields(req.body, MISTAKE_FIELDS) },
       { new: true }
     );
     res.json({ success: true, mistake: updated });
@@ -182,9 +195,11 @@ router.post('/reports', async (req: Request, res: Response) => {
 
 router.patch('/reports/:id', async (req: Request, res: Response) => {
   try {
+    const allowed = pickFields(req.body, REPORT_FIELDS);
+    if (req.body.status === 'Resolved') allowed.resolvedAt = new Date();
     const report = await QuestionReport.findOneAndUpdate(
       { id: req.params.id },
-      { $set: req.body, resolvedAt: req.body.status === 'Resolved' ? new Date() : undefined },
+      { $set: allowed },
       { new: true }
     );
     res.json({ success: true, report });
@@ -219,9 +234,10 @@ router.get('/user/profile', async (req: Request, res: Response) => {
 router.patch('/user/profile', async (req: Request, res: Response) => {
   try {
     const userId = (req.body.userId as string) || 'usr-default';
+    // Only allow safe profile fields — never role, passwordHash, otpCode, etc.
     const user = await User.findOneAndUpdate(
       { id: userId },
-      { $set: req.body },
+      { $set: pickFields(req.body, PROFILE_FIELDS) },
       { new: true, upsert: true }
     );
     res.json({ success: true, user });

@@ -10,8 +10,13 @@ import AuditLog from '../models/AuditLog.js';
 import { ContentHierarchy, Flashcard, AdminSettings, AIJob, AuthorizedAdmin } from '../models/Admin.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import { authenticateUser, requireAdmin, AuthRequest } from '../middleware/auth.js';
 
 const router = Router();
+
+// CRITICAL: All admin routes require authentication + admin role
+router.use(authenticateUser);
+router.use(requireAdmin);
 
 // ==========================================
 // 1. ADMIN DASHBOARD STATS (Real DB Aggregations)

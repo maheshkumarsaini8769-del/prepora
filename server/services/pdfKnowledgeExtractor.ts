@@ -200,6 +200,7 @@ export function parsePdfKnowledge(text: string, chapter: string, subject: string
   };
 }
 
+const MAX_KNOWLEDGE_CACHE = 50;
 const knowledgeCache = new Map<string, IPdfKnowledge>();
 
 export function getOrExtractKnowledge(doc: any, chapter: string, subject: string): IPdfKnowledge {
@@ -210,6 +211,13 @@ export function getOrExtractKnowledge(doc: any, chapter: string, subject: string
 
   const textToParse = doc?.rawTextSnippet || doc?.filename || `${chapter} in ${subject}`;
   const knowledge = parsePdfKnowledge(textToParse, chapter, subject);
+
+  // Evict oldest entry if cache is full (prevents unbounded memory growth)
+  if (knowledgeCache.size >= MAX_KNOWLEDGE_CACHE) {
+    const firstKey = knowledgeCache.keys().next().value;
+    if (firstKey) knowledgeCache.delete(firstKey);
+  }
+
   knowledgeCache.set(cacheKey, knowledge);
   return knowledge;
 }

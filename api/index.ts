@@ -18,8 +18,7 @@ export default async function handler(req: any, res: any) {
     console.error('[API Exception]:', err);
     return res.status(500).json({
       error: 'Backend Invocation Error',
-      message: err?.message || String(err),
-      stack: err?.stack
+      message: process.env.NODE_ENV === 'production' ? 'Internal server error' : (err?.message || String(err))
     });
   }
 }

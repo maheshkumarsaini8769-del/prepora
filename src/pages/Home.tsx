@@ -35,14 +35,14 @@ export const Home: React.FC = () => {
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
-              नमस्ते, {studentName} 👋
+              Welcome back, {studentName} 👋
             </span>
             <span className="px-2.5 py-0.5 rounded-full bg-purple-100 text-purple-800 text-[11px] font-bold border border-purple-200">
               {targetExam} 2026
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500">
-            कक्षा {classLevel}वीं • अपनी पसंद का विकल्प चुनें और तैयारी शुरू करें।
+            Class {classLevel} • Choose your learning path and start practicing.
           </p>
         </div>
 
@@ -63,15 +63,15 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. THE 3 MAIN GATEWAYS (HERO ACTION CARDS - क्रिस्टल क्लियर) */}
+      {/* 2. THE 3 MAIN GATEWAYS (HERO ACTION CARDS) */}
       <div className="space-y-3">
         <div className="px-1">
           <h2 className="text-base sm:text-lg font-black text-slate-900 flex items-center gap-2">
             <Sparkles className="w-4 h-4 text-purple-600" />
-            <span>यहाँ से शुरू करें (Choose What You Want to Do)</span>
+            <span>Choose What You Want to Do</span>
           </h2>
           <p className="text-xs text-slate-500">
-            तैयारी के 3 मुख्य रास्ते — पेपर्स देखें, चैप्टर अभ्यास करें या मॉक टेस्ट दें
+            3 primary study paths: explore official past papers, practice chapters, or take full mock tests.
           </p>
         </div>
 
@@ -95,18 +95,18 @@ export const Home: React.FC = () => {
                   Previous Year Papers
                 </h3>
                 <p className="text-xs font-bold text-purple-700 mt-0.5">
-                  (हल और उत्तर कुंजी सहित)
+                  (With Solutions & Answer Keys)
                 </p>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                NEET, JEE, RBSE और CBSE के पिछले 5 वर्षों के सभी असली पेपर्स। प्रत्येक सवाल का <strong>सही उत्तर व विस्तृत हल (Step-by-Step Solutions)</strong> सीधे देखें।
+                Official past 5-year exam papers for NEET, JEE, and Board exams. View <strong>verified answers and step-by-step solutions</strong> instantly.
               </p>
             </div>
 
             <div className="pt-4 border-t border-purple-100 flex items-center justify-between">
               <span className="text-xs font-black text-purple-700 flex items-center gap-1">
-                पेपर्स व उत्तर देखें
+                View Papers & Solutions
               </span>
               <div className="w-8 h-8 rounded-full bg-purple-700 text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">
                 <ArrowRight className="w-4 h-4" />
@@ -126,24 +126,24 @@ export const Home: React.FC = () => {
 
               <div>
                 <span className="px-2.5 py-0.5 rounded-md bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-                  18,000+ Questions Pool
+                  33,000+ Questions Pool
                 </span>
                 <h3 className="text-lg font-black text-slate-900 mt-1.5 group-hover:text-emerald-700 transition">
                   Chapter-Wise Practice
                 </h3>
                 <p className="text-xs font-bold text-emerald-700 mt-0.5">
-                  (चैप्टर व टॉपिक अभ्यास)
+                  (Chapter & Topic Drills)
                 </p>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                Physics, Chemistry, Maths और Biology के सभी 106 चैप्टर्स। अपनी पसंद का टॉपिक चुनें, सवाल हल करें और तुरंत सही उत्तर जानें।
+                Practice questions across all chapters in Physics, Chemistry, Mathematics, and Biology. Choose your topic, solve questions, and verify your answers.
               </p>
             </div>
 
             <div className="pt-4 border-t border-emerald-100 flex items-center justify-between">
               <span className="text-xs font-black text-emerald-700 flex items-center gap-1">
-                अभ्यास शुरू करें
+                Start Practice Drill
               </span>
               <div className="w-8 h-8 rounded-full bg-emerald-600 text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">
                 <ArrowRight className="w-4 h-4" />
@@ -169,18 +169,18 @@ export const Home: React.FC = () => {
                   Full Mock Tests
                 </h3>
                 <p className="text-xs font-bold text-indigo-700 mt-0.5">
-                  (टाइमर के साथ ऑनलाइन टेस्ट)
+                  (Timed Online Examination)
                 </p>
               </div>
 
               <p className="text-xs text-slate-600 leading-relaxed">
-                असली परीक्षा माहौल में 3 घंटे का टेस्ट दें। लाइव टाइमर, +4/-1 निगेटिव मार्किंग और टेस्ट सबमिट करते ही पूरी रैंक व स्कोरकार्ड देखें।
+                Simulate real exam conditions with live countdown timers, standard +4/-1 marking, and comprehensive rank & scorecards immediately upon submission.
               </p>
             </div>
 
             <div className="pt-4 border-t border-indigo-100 flex items-center justify-between">
               <span className="text-xs font-black text-indigo-700 flex items-center gap-1">
-                मॉक टेस्ट सेंटर जाएं
+                Go to Mock Test Center
               </span>
               <div className="w-8 h-8 rounded-full bg-indigo-600 text-white flex items-center justify-center group-hover:translate-x-1 transition-transform">
                 <ArrowRight className="w-4 h-4" />
@@ -191,14 +191,14 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* 3. QUICK SUBJECT JUMP (सीधे विषय अनुसार प्रश्न हल करें) */}
+      {/* 3. QUICK SUBJECT JUMP */}
       <div className="space-y-3 pt-2">
         <div className="px-1">
           <h2 className="text-base font-black text-slate-900">
-            Direct Subject Jump (विषय अनुसार प्रश्न)
+            Direct Subject Jump
           </h2>
           <p className="text-xs text-slate-500">
-            जिस विषय की तैयारी करनी है उस पर सीधे क्लिक करें:
+            Select a subject to start practicing immediately:
           </p>
         </div>
 
@@ -216,7 +216,7 @@ export const Home: React.FC = () => {
               Physics
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5">
-              4,529 Questions • 29 Chapters
+              8,250 Questions • 29 Chapters
             </div>
           </button>
 
@@ -233,7 +233,7 @@ export const Home: React.FC = () => {
               Chemistry
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5">
-              4,205 Questions • 28 Chapters
+              8,250 Questions • 28 Chapters
             </div>
           </button>
 
@@ -250,7 +250,7 @@ export const Home: React.FC = () => {
               Mathematics
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5">
-              4,552 Questions • 29 Chapters
+              8,250 Questions • 29 Chapters
             </div>
           </button>
 
@@ -267,17 +267,17 @@ export const Home: React.FC = () => {
               Biology
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5">
-              4,950 Questions • 20 Chapters
+              8,250 Questions • 20 Chapters
             </div>
           </button>
         </div>
       </div>
 
-      {/* 4. ESSENTIAL STUDENT UTILITIES (चार जरूरी टूल्स) */}
+      {/* 4. ESSENTIAL STUDENT UTILITIES */}
       <div className="space-y-3 pt-2">
         <div className="px-1">
           <h2 className="text-base font-black text-slate-900">
-            Quick Tools (जरूरी टूल्स)
+            Quick Tools
           </h2>
         </div>
 
@@ -294,7 +294,7 @@ export const Home: React.FC = () => {
               Mistake Book
             </div>
             <div className="text-[11px] text-slate-400 mt-0.5">
-              गलत सवालों की लिस्ट
+              Review Incorrect Answers
             </div>
           </div>
 
@@ -310,7 +310,7 @@ export const Home: React.FC = () => {
               Weakness Doctor
             </div>
             <div className="text-[11px] text-slate-400 mt-0.5">
-              कमजोर चैप्टर सुधारें
+              Strengthen Weak Topics
             </div>
           </div>
 
@@ -326,7 +326,7 @@ export const Home: React.FC = () => {
               Bookmarks
             </div>
             <div className="text-[11px] text-slate-400 mt-0.5">
-              सेव किए गए प्रश्न
+              Saved Questions & Notes
             </div>
           </div>
 
@@ -342,7 +342,7 @@ export const Home: React.FC = () => {
               My Performance
             </div>
             <div className="text-[11px] text-slate-400 mt-0.5">
-              एक्यूरेसी और स्कोर
+              Accuracy & Score Analytics
             </div>
           </div>
         </div>

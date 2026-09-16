@@ -432,10 +432,10 @@ export const ExamSession: React.FC = () => {
           <button
             onClick={() => setLanguage(l => l === 'en' ? 'hi' : 'en')}
             className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 hover:bg-slate-100 text-xs font-semibold text-slate-700 transition-colors"
-            title="Switch Language (English / हिंदी)"
+            title="Switch Language (English / Hindi)"
           >
             <Globe className="w-3.5 h-3.5 text-purple-600" />
-            <span>{language === 'en' ? 'English' : 'हिंदी'}</span>
+            <span>{language === 'en' ? 'English' : 'Hindi'}</span>
           </button>
 
           {/* Exam Tools Modal Trigger Button */}
