@@ -10,6 +10,9 @@ import {
   IWeaknessAnalysisResult 
 } from './aiTypes.js';
 import { AIProviderConfig } from '../../models/AIFactory.js';
+import { analyzeQuestionUnderstanding } from './quality/questionUnderstanding.js';
+import { searchDatabaseFirst } from './quality/databaseFirstSearch.js';
+import { runCentralQualityPipeline, ValidationReport } from './quality/centralQualityPipeline.js';
 
 class AIService {
   private primaryProvider: GeminiProvider;
@@ -58,21 +61,37 @@ class AIService {
     };
   }
 
-  public async solveDoubt(req: IDoubtSolveRequest, contextSnippet?: string): Promise<IDoubtSolveResult> {
+  public async solveDoubt(
+    req: IDoubtSolveRequest,
+    contextSnippet?: string
+  ): Promise<{ result: IDoubtSolveResult; report: ValidationReport }> {
     this.checkAndResetQuota();
     this.requestsToday++;
 
-    // Primary: Google Gemini API
+    // Step 1: Deep Educational Understanding & Context Mismatch Check
+    const understanding = analyzeQuestionUnderstanding(req.question, req.subject, req.chapter);
+
+    // Step 2: Database-First Search (Section 19: Prioritize verified DB question)
+    const dbMatch = await searchDatabaseFirst(req.question);
+    const effectiveContext = dbMatch.contextForAI || contextSnippet;
+
+    let rawResult: IDoubtSolveResult;
+
+    // Step 3: Provider Execution (Gemini -> Fallback)
     if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday <= this.dailyRequestLimit) {
       try {
-        return await this.primaryProvider.solveDoubt(req, contextSnippet);
+        rawResult = await this.primaryProvider.solveDoubt(req, effectiveContext);
       } catch (err: any) {
         console.warn('[AIService] Gemini call failed, falling back gracefully:', err?.message);
+        rawResult = await this.fallbackProvider.solveDoubt(req, effectiveContext);
       }
+    } else {
+      rawResult = await this.fallbackProvider.solveDoubt(req, effectiveContext);
     }
 
-    // Secondary: High-yield verified Fallback Engine (Section 23: Website never breaks)
-    return await this.fallbackProvider.solveDoubt(req, contextSnippet);
+    // Step 4: Central Quality Pipeline & Verification (Sections 5, 8, 28, 29)
+    const validated = await runCentralQualityPipeline(req, rawResult, understanding, dbMatch);
+    return validated;
   }
 
   public async generateProgressiveHints(req: IProgressiveHintsRequest): Promise<IProgressiveHintsResult> {

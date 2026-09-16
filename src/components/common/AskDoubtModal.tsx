@@ -15,6 +15,7 @@ import { ecosystemService } from '../../services/ecosystemService';
 import { aiDoubtSolver, SolvedDoubtResponse } from '../../services/aiDoubtSolver';
 import { SubjectName, Question } from '../../types';
 import { useNavigate } from 'react-router-dom';
+import { MathRenderer } from './MathRenderer';
 
 interface AskDoubtModalProps {
   isOpen: boolean;
@@ -211,9 +212,14 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
               <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
                 {/* Solved Header */}
                 <div className="flex items-center justify-between border-b border-purple-100 pb-2">
-                  <span className="text-xs font-bold text-purple-900 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-600" /> AI Academic Derivation
-                  </span>
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-bold text-purple-900 flex items-center gap-1">
+                      <Sparkles className="w-3.5 h-3.5 text-purple-600" /> Verified Academic Solution
+                    </span>
+                    <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
+                      Quality Verified
+                    </span>
+                  </div>
                   <div className="flex items-center gap-1.5">
                     <Button
                       onClick={handleSaveToNotes}
@@ -234,30 +240,31 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                   </div>
                 </div>
 
-                {/* Direct Answer */}
+                {/* Direct Answer with MathRenderer */}
                 {aiSolution.answer && (
-                  <div className="p-3 bg-purple-50 rounded-xl border border-purple-100 text-xs text-purple-950 font-medium leading-relaxed">
-                    <strong className="block text-purple-900 mb-0.5">Core Principle:</strong>
-                    {aiSolution.answer}
+                  <div className="p-3 bg-purple-50/70 rounded-xl border border-purple-100 text-xs text-purple-950 font-medium leading-relaxed">
+                    <strong className="block text-purple-900 mb-1">Core Principle:</strong>
+                    <MathRenderer content={aiSolution.answer} />
                   </div>
                 )}
 
-                {/* Key Formula */}
+                {/* Key Formula with MathRenderer */}
                 {aiSolution.keyFormula && (
-                  <div className="p-2.5 bg-slate-900 text-white rounded-xl font-mono text-xs font-bold text-emerald-300">
-                    {aiSolution.keyFormula}
+                  <div className="p-3 bg-slate-900 text-white rounded-xl font-mono text-xs font-bold text-emerald-300">
+                    <span className="text-[10px] uppercase tracking-wider text-slate-400 block mb-1">Governing Formula:</span>
+                    <MathRenderer content={aiSolution.keyFormula} displayMode={true} />
                   </div>
                 )}
 
-                {/* Steps */}
-                {aiSolution.stepByStepSolution && (
+                {/* Steps with MathRenderer */}
+                {aiSolution.stepByStepSolution && aiSolution.stepByStepSolution.length > 0 && (
                   <div className="space-y-1.5">
                     <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
-                      Derivation Steps:
+                      Derivation & Solution Steps:
                     </span>
                     {aiSolution.stepByStepSolution.map((s, i) => (
-                      <div key={i} className="p-2 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-800 font-medium">
-                        {s}
+                      <div key={i} className="p-2.5 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-800 font-medium leading-relaxed">
+                        <MathRenderer content={s} />
                       </div>
                     ))}
                   </div>
@@ -266,7 +273,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                 {/* Trap & Tip */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
                   <div className="p-2.5 bg-amber-50 rounded-xl border border-amber-200 text-amber-900">
-                    <span className="font-bold block text-[10px] uppercase text-amber-800">⚠️ Negative Trap</span>
+                    <span className="font-bold block text-[10px] uppercase text-amber-800">⚠️ Examiner Trap</span>
                     <p className="text-[11px] mt-0.5">{aiSolution.examinerTrap}</p>
                   </div>
                   <div className="p-2.5 bg-emerald-50 rounded-xl border border-emerald-200 text-emerald-900">

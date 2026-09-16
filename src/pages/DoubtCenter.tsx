@@ -29,6 +29,7 @@ import { ecosystemService } from '../services/ecosystemService';
 import { aiDoubtSolver, SolvedDoubtResponse, ProgressiveHintsData } from '../services/aiDoubtSolver';
 import { DoubtItem, SubjectName } from '../types';
 import { useNavigate } from 'react-router-dom';
+import { MathRenderer } from '../components/common/MathRenderer';
 
 export const DoubtCenter: React.FC = () => {
   const navigate = useNavigate();
@@ -506,21 +507,21 @@ export const DoubtCenter: React.FC = () => {
                     <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 uppercase tracking-wide">
                       <Lightbulb className="w-4 h-4 text-purple-600" /> Direct Answer & Principle
                     </div>
-                    <p className="text-xs sm:text-sm text-purple-950 font-medium leading-relaxed">
-                      {currentSolution.answer}
-                    </p>
+                    <div className="text-xs sm:text-sm text-purple-950 font-medium leading-relaxed">
+                      <MathRenderer content={currentSolution.answer} />
+                    </div>
                   </div>
                 )}
 
-                {/* Key Formula (Rendered cleanly without boilerplate) */}
+                {/* Key Formula (Rendered cleanly via MathRenderer) */}
                 {currentSolution.keyFormula && (
                   <div className="p-3.5 rounded-xl bg-slate-900 text-white space-y-1 shadow-xs">
                     <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
                       Mathematical Governing Relation
                     </span>
-                    <code className="text-xs sm:text-sm font-mono text-emerald-300 font-bold block overflow-x-auto py-1">
-                      {currentSolution.keyFormula}
-                    </code>
+                    <div className="text-xs sm:text-sm font-mono text-emerald-300 font-bold block overflow-x-auto py-1">
+                      <MathRenderer content={currentSolution.keyFormula} displayMode={true} />
+                    </div>
                   </div>
                 )}
 
@@ -533,7 +534,7 @@ export const DoubtCenter: React.FC = () => {
                     <div className="space-y-2">
                       {currentSolution.stepByStepSolution.map((step, idx) => (
                         <div key={idx} className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-800 font-medium leading-relaxed">
-                          {step}
+                          <MathRenderer content={step} />
                         </div>
                       ))}
                     </div>

@@ -3,6 +3,7 @@ import { Lightbulb, Calculator, Footprints, BookOpen, CheckCircle2, Sparkles, Br
 import { Modal, Button, Badge } from './UIComponents';
 import { Question } from '../../types';
 import { aiDoubtSolver, ProgressiveHintsData } from '../../services/aiDoubtSolver';
+import { MathRenderer } from './MathRenderer';
 
 interface ImStuckModalProps {
   isOpen: boolean;
@@ -159,9 +160,9 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 <Calculator className="w-4 h-4 text-blue-500" />
                 <span>Level 2: Governing Concept & Formula</span>
               </div>
-              <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-mono">
-                {formulaText}
-              </p>
+              <div className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-mono">
+                <MathRenderer content={formulaText} />
+              </div>
             </div>
           )}
 
@@ -171,9 +172,9 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 <Footprints className="w-4 h-4 text-emerald-500" />
                 <span>Level 3: Strategic Approach & Setup</span>
               </div>
-              <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
-                {firstStepText}
-              </p>
+              <div className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
+                <MathRenderer content={firstStepText} />
+              </div>
             </div>
           )}
 
@@ -184,9 +185,9 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 <span>Level 4: Core Theory & Examiner Traps</span>
               </div>
               <div className="space-y-2">
-                <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
-                  {conceptText}
-                </p>
+                <div className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
+                  <MathRenderer content={conceptText} />
+                </div>
                 {aiHints?.examinerTrap && (
                   <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs">
                     <strong>⚠️ Common Examiner Trap:</strong> {aiHints.examinerTrap}
@@ -205,8 +206,8 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 </span>
                 <Badge variant="brand" size="sm">Answer: Option {['A', 'B', 'C', 'D'][question.correctAnswer]}</Badge>
               </div>
-              <div className="text-slate-700 leading-relaxed bg-white p-3.5 rounded-xl border border-purple-100 font-mono whitespace-pre-line text-xs">
-                {solutionText}
+              <div className="text-slate-700 leading-relaxed bg-white p-3.5 rounded-xl border border-purple-100 font-mono text-xs">
+                <MathRenderer content={solutionText} />
               </div>
             </div>
           )}

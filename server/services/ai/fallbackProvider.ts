@@ -33,18 +33,42 @@ export class FallbackProvider implements IAIProvider {
     let isNumerical = false;
 
     // Direct, accurate educational matching without generic boilerplate (task3.md Sections 4 & 5)
-    if (qLower.includes('gravity') || qLower.includes('gravitation')) {
+    if (qLower.includes('gravity') || qLower.includes('gravitation') || qLower.includes('fall toward earth')) {
       subject = 'Physics';
       chapter = 'Gravitation';
       topic = 'Universal Gravitation & Weight';
       concept = 'Gravity and Gravitational Attraction';
-      answer = "Gravity is the attractive force between any two objects having mass. Near the surface of Earth, gravity pulls objects downward toward Earth's centre with an acceleration of g ≈ 9.8 m/s².";
+      answer = "Gravity is the natural attractive force between any two objects having mass. An object falls toward Earth because Earth's enormous mass exerts a gravitational pull directed inward toward its centre of mass, producing an acceleration due to gravity of g ≈ 9.8 m/s² near the surface.";
       keyFormula = String.raw`W = mg \quad | \quad F = \frac{G m_1 m_2}{r^2}`;
       steps.push("1. Every mass creates a gravitational field in the surrounding space.");
       steps.push("2. Earth's gravitational acceleration at sea level is approximately g = 9.8 m/s² (directed toward the centre).");
       steps.push("3. The weight of an object of mass m is calculated by W = mg.");
-      trap = "Do NOT confuse mass (scalar, constant in kg) with weight (force vector, variable in Newtons).";
+      trap = "Do NOT confuse mass (scalar, constant in kg) with weight (force vector, variable in Newtons). Also, F = ma is a general law of motion, not the specific definition of gravity.";
       tip = "Gravitational acceleration g varies inversely with the square of distance from Earth's centre: g' = g(1 - 2h/R) for small heights.";
+    } else if (qLower.includes('derive equations of motion') || (qLower.includes('equations of motion') && qLower.includes('derive'))) {
+      subject = 'Physics';
+      chapter = 'Kinematics';
+      topic = 'Equations of Motion';
+      concept = 'Kinematic Derivations for Uniform Acceleration';
+      answer = "The three fundamental equations of motion for uniformly accelerated rectilinear motion are derived using calculus from the definitions of instantaneous velocity and acceleration:";
+      keyFormula = String.raw`v = u + at \quad | \quad s = ut + \frac{1}{2}at^2 \quad | \quad v^2 = u^2 + 2as`;
+      steps.push("1. First Equation (v = u + at): From definition a = dv/dt, we separate variables: dv = a dt. Integrating from t = 0 (v = u) to t (v = v): ∫ dv = a ∫ dt ⇒ v - u = at ⇒ v = u + at.");
+      steps.push("2. Second Equation (s = ut + 1/2 at²): From definition v = ds/dt, substitute v = u + at: ds = (u + at)dt. Integrating from t = 0 (s = 0) to t: ∫ ds = ∫ (u + at)dt ⇒ s = ut + (1/2)at².");
+      steps.push("3. Third Equation (v² = u² + 2as): From a = v(dv/ds), we have v dv = a ds. Integrating from u to v: ∫ v dv = a ∫ ds ⇒ (v² - u²)/2 = as ⇒ v² = u² + 2as.");
+      trap = "These three equations are valid ONLY when acceleration 'a' is CONSTANT. For variable acceleration, calculus (integration) must be used directly.";
+      tip = "Always write down known values (u, v, a, s, t) and pick the single equation that contains the unknown variable.";
+    } else if (qLower.includes('kinematics')) {
+      subject = 'Physics';
+      chapter = 'Kinematics';
+      topic = 'Motion in a Straight Line';
+      concept = 'Kinematics Definition and Framework';
+      answer = "Kinematics is the branch of classical mechanics that describes the motion of points, bodies, and systems of bodies without consideration of the forces that cause them to move. It focuses purely on position, displacement, time, velocity, and acceleration.";
+      keyFormula = String.raw`v = \frac{ds}{dt} \quad | \quad a = \frac{dv}{dt} \quad | \quad v = u + at`;
+      steps.push("1. Kinematics describes HOW objects move (displacement, velocity, acceleration, trajectory).");
+      steps.push("2. Dynamics, in contrast, explains WHY objects move by studying forces (Newton's Laws) and energy.");
+      steps.push("3. Core kinematic relations connect initial velocity (u), final velocity (v), acceleration (a), displacement (s), and time (t).");
+      trap = "Do not include forces or Newton's Laws when defining kinematics; forces belong exclusively to Dynamics.";
+      tip = "Remember that displacement and velocity are vector quantities requiring direction specification, unlike scalar distance and speed.";
     } else if (qLower.includes('force') && !qLower.includes('gravitational')) {
       subject = 'Physics';
       chapter = 'Laws of Motion';
@@ -69,19 +93,30 @@ export class FallbackProvider implements IAIProvider {
       steps.push("3. Regeneration: RuBP is regenerated using ATP to continue continuous carbon fixation.");
       trap = "Remember: Oxygen released during photosynthesis originates from WATER (photolysis of H₂O), NOT from carbon dioxide!";
       tip = "RuBisCO is the most abundant protein on Earth, possessing both carboxylase and oxygenase activity depending on CO₂:O₂ ratios.";
-    } else if (qLower.match(/[0-9]+\s*x\s*\+\s*[0-9]+\s*=\s*[0-9]+/i) || qLower.includes('solve')) {
+    } else if (qLower.match(/([0-9]*)\s*x\s*([+\-])\s*([0-9]+)\s*=\s*([0-9]+)/i)) {
       subject = 'Mathematics';
       chapter = 'Linear Equations';
       topic = 'Algebraic Equations in One Variable';
       concept = 'Linear Equation Solution';
       isNumerical = true;
-      answer = "To solve a linear equation, isolate the variable term by performing inverse arithmetic operations on both sides.";
-      steps.push("1. Group all variable terms on one side of the equation and numerical constants on the other.");
-      steps.push("2. Subtract the constant term from both sides to isolate the variable term.");
-      steps.push("3. Divide both sides by the coefficient of the variable.");
-      steps.push("4. Substitute the calculated root back into the original equation to verify.");
-      trap = "Always apply operations to BOTH sides of the equals sign to preserve equation equivalence.";
-      tip = "Double-check arithmetic signs when transposing terms across the equality barrier.";
+      
+      const match = q.match(/([0-9]*)\s*x\s*([+\-])\s*([0-9]+)\s*=\s*([0-9]+)/i)!;
+      const coeffStr = match[1];
+      const coeff = coeffStr === '' ? 1 : Number(coeffStr);
+      const sign = match[2];
+      const constant = Number(match[3]);
+      const rhs = Number(match[4]);
+      const adjustedRhs = sign === '+' ? rhs - constant : rhs + constant;
+      const correctX = adjustedRhs / coeff;
+
+      answer = `To solve the linear equation ${match[0]}, we isolate the variable x. The solution is x = ${correctX}.`;
+      keyFormula = String.raw`ax + b = c \implies x = \frac{c - b}{a}`;
+      steps.push(`1. Given equation: ${coeff}x ${sign} ${constant} = ${rhs}`);
+      steps.push(`2. ${sign === '+' ? 'Subtract' : 'Add'} ${constant} ${sign === '+' ? 'from' : 'to'} both sides: ${coeff}x = ${rhs} ${sign === '+' ? '-' : '+'} ${constant} = ${adjustedRhs}`);
+      steps.push(`3. Divide both sides by ${coeff}: x = ${adjustedRhs} / ${coeff} = ${correctX}`);
+      steps.push(`4. Verification: Substitute x = ${correctX} back: ${coeff}(${correctX}) ${sign} ${constant} = ${coeff * correctX} ${sign} ${constant} = ${rhs} (LHS = RHS).`);
+      trap = "Always apply the inverse operation to BOTH sides of the equation to maintain balance.";
+      tip = "Substitute your calculated root back into the original equation to guarantee 100% accuracy.";
     } else if (qLower.includes('current') || qLower.includes('electric')) {
       subject = 'Physics';
       chapter = 'Current Electricity';

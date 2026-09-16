@@ -21,6 +21,7 @@ import { Card, Badge, Button } from '../components/common/UIComponents';
 import { paperService } from '../services/paperService';
 import { questionService } from '../services/questionService';
 import { Test, Question } from '../types';
+import { MathRenderer } from '../components/common/MathRenderer';
 
 export const PaperDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -330,7 +331,7 @@ export const PaperDetail: React.FC = () => {
 
                   {/* Question Content */}
                   <div className="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
-                    {q.question}
+                    <MathRenderer content={q.question} />
                   </div>
 
                   {/* 4 Options Grid */}
@@ -367,7 +368,7 @@ export const PaperDetail: React.FC = () => {
                           </span>
 
                           <span className="pt-0.5 leading-snug flex-1">
-                            {opt}
+                            <MathRenderer content={opt} />
                           </span>
 
                           {isRevealed && isCorrect && (
@@ -409,7 +410,7 @@ export const PaperDetail: React.FC = () => {
                       </div>
 
                       <div className="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line pl-1 border-l-2 border-emerald-400">
-                        {q.explanation || 'According to official syllabus theory and standard formula, this is the logically derived answer.'}
+                        <MathRenderer content={q.explanation || 'According to official syllabus theory and standard formula, this is the logically derived answer.'} />
                       </div>
 
                       {q.concept && (
