@@ -222,3 +222,26 @@ const AIJobSchema = new Schema(
   { timestamps: true }
 );
 export const AIJob = mongoose.model<IAIJob>('AIJob', AIJobSchema);
+
+// 5. Authorized Admin List (for email-based admin access control)
+export interface IAuthorizedAdmin extends Document {
+  email: string;
+  role: string;
+  addedAt: Date;
+  addedBy: string;
+  isPrimary?: boolean;
+}
+
+const AuthorizedAdminSchema = new Schema(
+  {
+    email: { type: String, required: true, unique: true, index: true, lowercase: true, trim: true },
+    role: { type: String, default: 'SUPER ADMIN' },
+    addedAt: { type: Date, default: Date.now },
+    addedBy: { type: String, default: 'Super Admin' },
+    isPrimary: { type: Boolean, default: false }
+  },
+  { timestamps: true }
+);
+
+export const AuthorizedAdmin = mongoose.model<IAuthorizedAdmin>('AuthorizedAdmin', AuthorizedAdminSchema);
+

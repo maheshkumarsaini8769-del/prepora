@@ -25,7 +25,8 @@ import {
   FileCheck2,
   FolderTree,
   SlidersHorizontal,
-  Compass
+  Compass,
+  KeyRound
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
@@ -102,8 +103,9 @@ export const AdminLayout: React.FC = () => {
       items: [
         { name: 'Syllabus & Hierarchy', path: '/admin/content', icon: FolderTree, desc: 'Curriculum & subject tree' },
         { name: 'AI Studio Prompting', path: '/admin/ai', icon: Sparkles, desc: 'AI prompt engineering studio' },
-        { name: 'System Status', path: '/admin/system', icon: Server, desc: 'Database & server telemetry' },
+        { name: 'Admin Authority', path: '/admin/authority', icon: KeyRound, badge: 'Whitelist', badgeColor: 'bg-purple-600', desc: 'Authorized admin emails & access' },
         { name: 'Security & Admins', path: '/admin/security', icon: ShieldCheck, desc: 'Admin permissions & RBAC' },
+        { name: 'System Status', path: '/admin/system', icon: Server, desc: 'Database & server telemetry' },
         { name: 'Settings', path: '/admin/settings', icon: Settings, desc: 'Platform configurations' },
       ]
     }

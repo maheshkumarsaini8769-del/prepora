@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 import Session from '../models/Session.js';
+import { AuthorizedAdmin } from '../models/Admin.js';
 import { JWT_SECRET, authenticateUser, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -184,14 +185,22 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
       ]
     });
 
+    const isOwner = normalizedEmail === 'maheshkumarsaini8769@gmail.com' || normalizedEmail === 'admin@prepora.com';
+    let hasAdminAuthority = isOwner;
+    if (!hasAdminAuthority) {
+      const authDoc = await AuthorizedAdmin.findOne({ email: normalizedEmail });
+      if (authDoc) hasAdminAuthority = true;
+    }
+
     if (user) {
-      // Existing student: link zenuxsId if missing, update avatar/name if provided
+      // Existing student/admin: link zenuxsId if missing, update avatar/name if provided
       if (sub && !user.zenuxsId) user.zenuxsId = sub;
       if (picture && !user.avatar) user.avatar = picture;
       if (name && (!user.name || user.name.startsWith('usr-'))) user.name = name;
+      if (hasAdminAuthority) user.role = 'admin';
       await user.save();
     } else {
-      // New student: create isolated student profile
+      // New user: create user profile
       const id = `usr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
       user = new User({
         id,
@@ -199,7 +208,7 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
         email: normalizedEmail,
         zenuxsId: sub,
         avatar: picture || `https://api.dicebear.com/7.x/avataaars/svg?seed=${id}`,
-        role: normalizedEmail.includes('admin') ? 'admin' : 'student',
+        role: hasAdminAuthority ? 'admin' : 'student',
         targetExam,
         classLevel,
         targetYear: 2026,

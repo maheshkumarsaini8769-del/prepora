@@ -55,11 +55,13 @@ import { AdminAnalytics } from './pages/admin/AdminAnalytics';
 import { AdminReports } from './pages/admin/AdminReports';
 import { AdminSystemSecurity } from './pages/admin/AdminSystemSecurity';
 import { AdminSettingsPage } from './pages/admin/AdminSettingsPage';
+import { AdminAuthorityPage } from './pages/admin/AdminAuthorityPage';
 
 // Auth Pages & Route Guard
 import { Login } from './pages/Login';
 import { AuthCallback } from './pages/AuthCallback';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { AdminRouteGuard } from './components/auth/AdminRouteGuard';
 import { OAuthCallbackWatcher } from './components/auth/OAuthCallbackWatcher';
 
 import { AuthProvider } from './context/AuthContext';
@@ -137,9 +139,10 @@ export const App: React.FC = () => {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
 
-        {/* Dedicated Admin Control Center Layout */}
-        <Route element={<AdminLayout />}>
+        {/* Dedicated Admin Control Center Layout (Strict Super Admin Whitelist Guard) */}
+        <Route element={<AdminRouteGuard><AdminLayout /></AdminRouteGuard>}>
           <Route path="/admin" element={<AdminDashboard />} />
+          <Route path="/admin/authority" element={<AdminAuthorityPage />} />
           <Route path="/admin/students" element={<AdminStudents />} />
           <Route path="/admin/content" element={<AdminContentHierarchy />} />
           <Route path="/admin/questions" element={<AdminQuestions />} />

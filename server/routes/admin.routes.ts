@@ -7,7 +7,7 @@ import TestAttempt from '../models/TestAttempt.js';
 import { QuestionReport, Mistake } from '../models/Entities.js';
 import TechnicalReport from '../models/TechnicalReport.js';
 import AuditLog from '../models/AuditLog.js';
-import { ContentHierarchy, Flashcard, AdminSettings, AIJob } from '../models/Admin.js';
+import { ContentHierarchy, Flashcard, AdminSettings, AIJob, AuthorizedAdmin } from '../models/Admin.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
@@ -1028,4 +1028,116 @@ router.post('/clear-data', async (req: Request, res: Response) => {
   }
 });
 
+// ==========================================
+// ADMIN AUTHORITIES MANAGEMENT (Whitelist Access Control)
+// ==========================================
+const PRIMARY_ADMIN_EMAILS = [
+  'maheshkumarsaini8769@gmail.com',
+  'admin@prepora.com'
+];
+
+router.get('/authorities', async (req: Request, res: Response) => {
+  try {
+    const dbAuthorities = await AuthorizedAdmin.find().sort({ createdAt: -1 });
+    
+    const map = new Map<string, any>();
+    // Primary permanent admins first
+    PRIMARY_ADMIN_EMAILS.forEach((email) => {
+      const norm = email.toLowerCase().trim();
+      map.set(norm, {
+        email: norm,
+        role: 'SUPER ADMIN',
+        addedAt: '2026-01-01T00:00:00.000Z',
+        addedBy: 'System Primary (Owner)',
+        isPrimary: true
+      });
+    });
+
+    // Merge from DB
+    dbAuthorities.forEach((item) => {
+      const norm = item.email.toLowerCase().trim();
+      map.set(norm, {
+        email: norm,
+        role: item.role,
+        addedAt: item.addedAt || item.createdAt,
+        addedBy: item.addedBy,
+        isPrimary: PRIMARY_ADMIN_EMAILS.includes(norm)
+      });
+    });
+
+    res.json({
+      success: true,
+      authorities: Array.from(map.values())
+    });
+  } catch (err: any) {
+    console.error('[Admin Authorities GET Error]', err);
+    res.status(500).json({ success: false, message: 'Failed to fetch authorized admins', error: err.message });
+  }
+});
+
+router.post('/authorities', async (req: Request, res: Response) => {
+  try {
+    const { email, role = 'SUPER ADMIN', addedBy = 'Super Admin' } = req.body;
+    if (!email || typeof email !== 'string') {
+      return res.status(400).json({ success: false, message: 'Valid email is required.' });
+    }
+
+    const norm = email.toLowerCase().trim();
+    if (!norm.includes('@')) {
+      return res.status(400).json({ success: false, message: 'Invalid email format.' });
+    }
+
+    // Check if already in primary
+    if (PRIMARY_ADMIN_EMAILS.includes(norm)) {
+      return res.json({ success: true, message: `${norm} is already a Primary Super Admin.` });
+    }
+
+    const updated = await AuthorizedAdmin.findOneAndUpdate(
+      { email: norm },
+      { email: norm, role, addedBy, addedAt: new Date() },
+      { upsert: true, new: true }
+    );
+
+    // Also upgrade the User document role to 'admin' if the user already exists in User collection
+    await User.updateMany({ email: norm }, { role: 'admin' });
+
+    res.json({
+      success: true,
+      message: `Granted admin authority to ${norm}`,
+      authority: updated
+    });
+  } catch (err: any) {
+    console.error('[Admin Authorities POST Error]', err);
+    res.status(500).json({ success: false, message: 'Failed to add admin authority', error: err.message });
+  }
+});
+
+router.delete('/authorities', async (req: Request, res: Response) => {
+  try {
+    const email = (req.query.email as string) || (req.body?.email as string);
+    if (!email) {
+      return res.status(400).json({ success: false, message: 'Email query parameter is required.' });
+    }
+
+    const norm = email.toLowerCase().trim();
+    if (PRIMARY_ADMIN_EMAILS.includes(norm)) {
+      return res.status(403).json({ success: false, message: 'Cannot revoke access from the Primary System Owner.' });
+    }
+
+    const result = await AuthorizedAdmin.deleteOne({ email: norm });
+    // Downgrade User document role back to 'student'
+    await User.updateMany({ email: norm }, { role: 'student' });
+
+    res.json({
+      success: true,
+      message: `Admin authority revoked for ${norm}`,
+      deletedCount: result.deletedCount
+    });
+  } catch (err: any) {
+    console.error('[Admin Authorities DELETE Error]', err);
+    res.status(500).json({ success: false, message: 'Failed to revoke admin authority', error: err.message });
+  }
+});
+
 export default router;
+
