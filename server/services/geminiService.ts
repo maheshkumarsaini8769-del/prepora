@@ -8,7 +8,7 @@ export async function generateQuestionsWithGemini(
   classLevel: string,
   count: number,
   apiKey: string,
-  modelName: string = 'gemini-1.5-flash',
+  modelName: string = 'gemini-3.6-flash',
   jobId: string = 'gemini_job',
   docId?: string
 ): Promise<IAIFactoryQuestion[] | null> {

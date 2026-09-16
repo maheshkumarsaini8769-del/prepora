@@ -14,7 +14,7 @@ export class GeminiProvider implements IAIProvider {
   private apiKey: string;
   private modelName: string;
 
-  constructor(apiKey: string, modelName: string = 'gemini-1.5-flash') {
+  constructor(apiKey: string, modelName: string = 'gemini-3.6-flash') {
     this.apiKey = apiKey;
     this.modelName = modelName;
   }

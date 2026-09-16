@@ -21,7 +21,7 @@ class AIService {
 
   constructor() {
     const envKey = process.env.GEMINI_API_KEY || '';
-    this.primaryProvider = new GeminiProvider(envKey, 'gemini-1.5-flash');
+    this.primaryProvider = new GeminiProvider(envKey, 'gemini-3.6-flash');
     this.fallbackProvider = new FallbackProvider();
   }
 
@@ -30,7 +30,7 @@ class AIService {
       const config = await AIProviderConfig.findOne({ key: 'ai_provider_config' });
       if (config) {
         const key = config.apiKey || process.env.GEMINI_API_KEY || '';
-        this.primaryProvider.updateConfig(key, config.modelName || 'gemini-1.5-flash');
+        this.primaryProvider.updateConfig(key, config.modelName || 'gemini-3.6-flash');
         this.dailyRequestLimit = config.dailyGenerationLimit || 500;
       }
     } catch (e) {
