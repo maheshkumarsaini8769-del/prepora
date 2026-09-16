@@ -1059,7 +1059,7 @@ router.get('/authorities', async (req: Request, res: Response) => {
       map.set(norm, {
         email: norm,
         role: item.role,
-        addedAt: item.addedAt || item.createdAt,
+        addedAt: item.addedAt || item.createdAt || new Date(),
         addedBy: item.addedBy,
         isPrimary: PRIMARY_ADMIN_EMAILS.includes(norm)
       });

@@ -188,6 +188,113 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
+      {/* 2.5 QUICK START GUIDANCE FOR STUDENTS (तैयारी यहाँ से शुरू करें - 3 आसान विकल्प) */}
+      <div className="bg-gradient-to-r from-purple-50 via-indigo-50 to-emerald-50 rounded-3xl p-5 sm:p-7 border border-purple-200/80 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-700 text-white text-[11px] font-black uppercase tracking-wider mb-1">
+              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+              <span>Student Guide • शुरू कैसे करें</span>
+            </div>
+            <h2 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">
+              Where would you like to begin today?
+              <span className="text-purple-700 font-bold text-base sm:text-lg block sm:inline sm:ml-2">
+                (तैयारी के 3 मुख्य विकल्प)
+              </span>
+            </h2>
+          </div>
+          <p className="text-xs text-slate-500 max-w-sm">
+            अपनी सुविधा अनुसार पेपर्स चेक करें, चैप्टर वाइज प्रैक्टिस करें, या टाइमर के साथ टेस्ट दें।
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-1">
+          {/* Card 1: Previous Year Papers */}
+          <div
+            onClick={() => navigate('/papers')}
+            className="group p-5 rounded-2xl bg-white border border-purple-200/80 shadow-xs hover:shadow-lg hover:border-purple-400 transition-all cursor-pointer flex flex-col justify-between"
+          >
+            <div className="space-y-2.5">
+              <div className="w-12 h-12 rounded-2xl bg-purple-100 text-purple-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                <FileText className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="px-2 py-0.5 rounded-md bg-purple-50 text-purple-700 text-[10px] font-black uppercase">
+                  2020 – 2025 PYQs
+                </span>
+                <h3 className="text-base font-black text-slate-900 mt-1 group-hover:text-purple-700 transition">
+                  Previous Year Papers (हल सहित)
+                </h3>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                JEE Main, NEET, RBSE, CBSE 11th & 12th के आधिकारिक पेपर्स पूरे उत्तर और स्टेप-बाय-स्टेप हल के साथ चेक करें।
+              </p>
+            </div>
+
+            <div className="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-black text-purple-700">
+              <span>पेपर्स व उत्तर देखें</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card 2: Chapter-wise Practice */}
+          <div
+            onClick={() => navigate('/practice')}
+            className="group p-5 rounded-2xl bg-white border border-emerald-200/80 shadow-xs hover:shadow-lg hover:border-emerald-400 transition-all cursor-pointer flex flex-col justify-between"
+          >
+            <div className="space-y-2.5">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                <Target className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-[10px] font-black uppercase">
+                  18,000+ Questions
+                </span>
+                <h3 className="text-base font-black text-slate-900 mt-1 group-hover:text-emerald-700 transition">
+                  Subject & Chapter Practice
+                </h3>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Physics, Chemistry, Maths, Bio के प्रत्येक चैप्टर और टॉपिक के सवाल फ़िल्टर करके हल करें और तुरंत उत्तर जानें।
+              </p>
+            </div>
+
+            <div className="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-black text-emerald-700">
+              <span>चैप्टर प्रैक्टिस शुरू करें</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+
+          {/* Card 3: Mock Test Center */}
+          <div
+            onClick={() => navigate('/tests')}
+            className="group p-5 rounded-2xl bg-white border border-indigo-200/80 shadow-xs hover:shadow-lg hover:border-indigo-400 transition-all cursor-pointer flex flex-col justify-between"
+          >
+            <div className="space-y-2.5">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center font-bold text-xl group-hover:scale-110 transition-transform">
+                <Clock className="w-6 h-6" />
+              </div>
+              <div>
+                <span className="px-2 py-0.5 rounded-md bg-indigo-50 text-indigo-700 text-[10px] font-black uppercase">
+                  Live Exam Simulation
+                </span>
+                <h3 className="text-base font-black text-slate-900 mt-1 group-hover:text-indigo-700 transition">
+                  Mock Tests (मॉक टेस्ट)
+                </h3>
+              </div>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                टाइमर, नेगेटिव मार्किंग और डिटेल्ड स्कोरकार्ड के साथ फुल सिलेबस या सब्जेक्ट टेस्ट देकर परीक्षा का अभ्यास करें।
+              </p>
+            </div>
+
+            <div className="pt-4 mt-3 border-t border-slate-100 flex items-center justify-between text-xs font-black text-indigo-700">
+              <span>टेस्ट सेंटर जाएं</span>
+              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* 3. RESUME IN-PROGRESS SESSION (Conditional) */}
       {(activeTest || activePractice) && (
         <div className="bg-amber-50/80 border border-amber-200 rounded-2xl p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">

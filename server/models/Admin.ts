@@ -230,6 +230,8 @@ export interface IAuthorizedAdmin extends Document {
   addedAt: Date;
   addedBy: string;
   isPrimary?: boolean;
+  createdAt?: Date;
+  updatedAt?: Date;
 }
 
 const AuthorizedAdminSchema = new Schema(
