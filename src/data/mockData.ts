@@ -129,73 +129,10 @@ export const mockTests: Test[] = [
   }
 ];
 
-export const mockPapers: Paper[] = [
-  {
-    id: "paper-jee-2024-s1",
-    title: "JEE Main 2024 Session 1 (Sample Shift)",
-    exam: "JEE",
-    classLevel: "12",
-    year: 2024,
-    paperType: "PYQ",
-    durationMinutes: 60,
-    totalQuestions: 15,
-    shift: "Morning Shift (9 AM - 12 PM)",
-    description: "Original curated demo paper modeled on the JEE Main 2024 pattern with single correct MCQ questions.",
-    questionIds: [
-      "phy-11-001", "phy-11-003", "phy-12-001", "phy-12-003", "phy-12-005",
-      "chem-11-001", "chem-11-003", "chem-12-001", "chem-12-003", "chem-12-005",
-      "math-11-001", "math-11-003", "math-12-001", "math-12-002", "math-12-004"
-    ]
-  },
-  {
-    id: "paper-neet-2024-model",
-    title: "NEET 2024 Model Question Paper",
-    exam: "NEET",
-    classLevel: "12",
-    year: 2024,
-    paperType: "Model Paper",
-    durationMinutes: 45,
-    totalQuestions: 12,
-    description: "Standard model paper aligning with latest NTA NEET syllabus across Physics, Chemistry, and Biology.",
-    questionIds: [
-      "phy-11-002", "phy-11-005", "phy-12-002", "phy-12-004",
-      "chem-11-002", "chem-11-004", "chem-12-002", "chem-12-004",
-      "bio-11-001", "bio-11-003", "bio-12-001", "bio-12-004"
-    ]
-  },
-  {
-    id: "paper-cbse-12-phy-2024",
-    title: "CBSE Class 12 Physics Sample Paper",
-    exam: "Board",
-    classLevel: "12",
-    board: "CBSE",
-    subject: "Physics",
-    year: 2024,
-    paperType: "Model Paper",
-    durationMinutes: 30,
-    totalQuestions: 8,
-    description: "Official pattern demo questions for CBSE Class 12 Physics Board Examination.",
-    questionIds: [
-      "phy-12-001", "phy-12-002", "phy-12-003", "phy-12-004", "phy-12-005", "phy-12-006", "phy-12-007", "phy-11-001"
-    ]
-  },
-  {
-    id: "paper-rbse-12-chem-2024",
-    title: "RBSE Class 12 Chemistry Sample Paper",
-    exam: "Board",
-    classLevel: "12",
-    board: "RBSE",
-    subject: "Chemistry",
-    year: 2024,
-    paperType: "Model Paper",
-    durationMinutes: 30,
-    totalQuestions: 7,
-    description: "Rajasthan Board Class 12 Model Paper for Chemistry theory exam practice.",
-    questionIds: [
-      "chem-12-001", "chem-12-002", "chem-12-003", "chem-12-004", "chem-12-005", "chem-12-006", "chem-12-007"
-    ]
-  }
-];
+export { realPapers } from './realPapersData';
+import { realPapers } from './realPapersData';
+
+export const mockPapers: Paper[] = realPapers;
 
 export const initialUserProfile: UserProfile = {
   id: "usr-demo-01",

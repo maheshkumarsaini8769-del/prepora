@@ -24,7 +24,13 @@ export const Papers: React.FC = () => {
   const allPapers = paperService.getAllPapers();
 
   const filteredPapers = allPapers.filter((p) => {
-    if (selectedExam !== 'All' && p.exam !== selectedExam) return false;
+    if (selectedExam !== 'All') {
+      if (selectedExam === 'CBSE' && p.board !== 'CBSE' && p.exam !== 'CBSE') return false;
+      if (selectedExam === 'RBSE' && p.board !== 'RBSE' && p.exam !== 'RBSE') return false;
+      if (selectedExam === 'JEE' && p.exam !== 'JEE') return false;
+      if (selectedExam === 'NEET' && p.exam !== 'NEET') return false;
+      if (selectedExam === 'Board' && p.exam !== 'Board' && p.board !== 'CBSE' && p.board !== 'RBSE') return false;
+    }
     if (selectedType !== 'All' && p.paperType !== selectedType) return false;
     if (selectedYear !== 'All' && p.year !== selectedYear) return false;
     return true;
@@ -37,11 +43,11 @@ export const Papers: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 text-xs font-semibold mb-2">
             <FileText className="w-3.5 h-3.5" />
-            <span>Curated Sample Papers</span>
+            <span>Official & Model Papers Library</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Paper Library</h1>
           <p className="text-sm text-slate-500 mt-1">
-            Explore authentic sample papers, model test sets, and previous year mock blueprints.
+            Explore authentic model papers, official board blueprint sets, and previous year papers for JEE, NEET, RBSE, and CBSE.
           </p>
         </div>
       </div>
@@ -49,7 +55,7 @@ export const Papers: React.FC = () => {
       {/* Filter Tabs */}
       <div className="flex flex-wrap items-center justify-between gap-4 pb-3 border-b border-slate-200">
         <div className="flex flex-wrap gap-2">
-          {['All', 'PYQ', 'Model Paper', 'Mock Paper'].map((type) => (
+          {['All', 'Model Paper', 'PYQ', 'Mock Paper'].map((type) => (
             <button
               key={type}
               onClick={() => setSelectedType(type)}
@@ -64,16 +70,16 @@ export const Papers: React.FC = () => {
           ))}
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <div className="flex items-center gap-1.5">
-            <span className="text-xs font-semibold text-slate-400">Exam:</span>
-            {(['All', 'JEE', 'NEET', 'Board'] as (ExamType | 'All')[]).map((e) => (
+            <span className="text-xs font-semibold text-slate-400">Exam / Board:</span>
+            {(['All', 'JEE', 'NEET', 'RBSE', 'CBSE'] as (ExamType | 'All')[]).map((e) => (
               <button
                 key={e}
                 onClick={() => setSelectedExam(e)}
                 className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
                   selectedExam === e
-                    ? 'bg-slate-900 text-white'
+                    ? 'bg-brand-600 text-white shadow-xs'
                     : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
@@ -84,7 +90,7 @@ export const Papers: React.FC = () => {
 
           <div className="flex items-center gap-1.5">
             <span className="text-xs font-semibold text-slate-400">Year:</span>
-            {(['All', 2024, 2023] as (number | 'All')[]).map((y) => (
+            {(['All', 2025, 2024, 2023, 2022] as (number | 'All')[]).map((y) => (
               <button
                 key={String(y)}
                 onClick={() => setSelectedYear(y)}
@@ -107,8 +113,8 @@ export const Papers: React.FC = () => {
           <Card key={paper.id} hoverEffect className="flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between gap-2 mb-3">
-                <Badge variant={paper.exam === 'JEE' ? 'brand' : paper.exam === 'NEET' ? 'success' : 'info'}>
-                  {paper.exam} {paper.board ? `(${paper.board})` : ''}
+                <Badge variant={paper.board === 'RBSE' ? 'warning' : paper.board === 'CBSE' ? 'info' : paper.exam === 'JEE' ? 'brand' : 'success'}>
+                  {paper.board ? `${paper.board} Board` : paper.exam} {paper.subject ? `• ${paper.subject}` : ''}
                 </Badge>
                 <span className="text-xs font-bold text-slate-400">{paper.year}</span>
               </div>

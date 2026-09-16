@@ -23,9 +23,12 @@ class ApiQuestionService {
 
   private async init() {
     try {
-      const { data, error } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=200');
-      if (data && data.success && data.questions) {
-        this.localQuestionsCache = data.questions.map(q => ({
+      const { data, error } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=1000');
+      if (data && data.success && data.questions && data.questions.length > 0) {
+        const map = new Map<string, Question>();
+        mockQuestions.forEach(q => map.set(q.id, q));
+        data.questions.forEach(q => map.set(q.id, q));
+        this.localQuestionsCache = Array.from(map.values()).map(q => ({
           ...q,
           recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
         }));
@@ -41,23 +44,27 @@ class ApiQuestionService {
   }
 
   public getAllQuestions(): Question[] {
-    if (this.isInitialized) {
-      return this.localQuestionsCache;
-    }
-    if (this.localQuestionsCache.length > 0) {
+    if (this.isInitialized && this.localQuestionsCache.length > 0) {
       return this.localQuestionsCache;
     }
     const custom = this.getCustomQuestions();
-    return custom.map(q => ({
+    const map = new Map<string, Question>();
+    mockQuestions.forEach(q => map.set(q.id, q));
+    custom.forEach(q => map.set(q.id, q));
+    this.localQuestionsCache.forEach(q => map.set(q.id, q));
+    return Array.from(map.values()).map(q => ({
       ...q,
       recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
     }));
   }
 
   public async fetchAllQuestionsAsync(): Promise<Question[]> {
-    const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=200');
-    if (data && data.success && data.questions) {
-      this.localQuestionsCache = data.questions.map(q => ({
+    const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=1000');
+    if (data && data.success && data.questions && data.questions.length > 0) {
+      const map = new Map<string, Question>();
+      mockQuestions.forEach(q => map.set(q.id, q));
+      data.questions.forEach(q => map.set(q.id, q));
+      this.localQuestionsCache = Array.from(map.values()).map(q => ({
         ...q,
         recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
       }));

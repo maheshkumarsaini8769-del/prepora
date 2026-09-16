@@ -1,4 +1,4 @@
-export type ExamType = 'JEE' | 'NEET' | 'Board';
+export type ExamType = 'JEE' | 'NEET' | 'Board' | 'CBSE' | 'RBSE';
 export type ClassLevel = '11' | '12';
 export type SubjectName = 'Physics' | 'Chemistry' | 'Mathematics' | 'Biology';
 export type DifficultyLevel = 'Easy' | 'Medium' | 'Hard';
