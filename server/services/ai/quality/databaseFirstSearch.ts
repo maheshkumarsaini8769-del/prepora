@@ -42,7 +42,7 @@ export async function searchDatabaseFirst(searchQuery: string): Promise<Database
       const regexPattern = words.slice(0, 4).join('\\s+.*');
       match = await Question.findOne({
         question: { $regex: new RegExp(regexPattern, 'i') },
-        status: { $in: ['Approved', 'Published'] }
+        status: 'Approved'
       }).select('id question options correctAnswer explanation concept subject chapter topic difficulty');
     }
 
