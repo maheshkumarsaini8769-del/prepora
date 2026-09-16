@@ -23,7 +23,7 @@ class ApiQuestionService {
 
   private async init() {
     try {
-      const { data, error } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=1000');
+      const { data, error } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=15000');
       if (data && data.success && data.questions && data.questions.length > 0) {
         const map = new Map<string, Question>();
         mockQuestions.forEach(q => map.set(q.id, q));
@@ -59,7 +59,7 @@ class ApiQuestionService {
   }
 
   public async fetchAllQuestionsAsync(): Promise<Question[]> {
-    const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=1000');
+    const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=15000');
     if (data && data.success && data.questions && data.questions.length > 0) {
       const map = new Map<string, Question>();
       mockQuestions.forEach(q => map.set(q.id, q));
