@@ -34,9 +34,20 @@ export const PaperDetail: React.FC = () => {
     );
   }
 
-  const questions = questionService.getQuestionsByIds(paper.questionIds);
+  let questions = questionService.getQuestionsByIds(paper.questionIds);
+  if (questions.length < 5) {
+    const pool = questionService.filterQuestions({
+      exam: paper.exam,
+      classLevel: paper.classLevel,
+      subject: paper.subject && (paper.subject as string) !== 'All' ? paper.subject : undefined,
+    });
+    if (pool.length > 0) {
+      questions = pool.slice(0, paper.totalQuestions);
+    }
+  }
 
   const handleStartAsTest = () => {
+    const effectiveQuestionIds = questions.map(q => q.id);
     // Generate or fetch a Test object corresponding to this paper
     const paperTest: Test = {
       id: `test-from-${paper.id}`,
@@ -44,13 +55,13 @@ export const PaperDetail: React.FC = () => {
       exam: paper.exam,
       classLevel: paper.classLevel,
       subjects: paper.subject ? [paper.subject] : ['Physics', 'Chemistry', 'Mathematics'],
-      totalQuestions: paper.totalQuestions,
+      totalQuestions: questions.length || paper.totalQuestions,
       durationMinutes: paper.durationMinutes,
       difficulty: 'Mixed',
-      questionIds: paper.questionIds,
+      questionIds: effectiveQuestionIds.length > 0 ? effectiveQuestionIds : paper.questionIds,
       category: 'PYQ Paper',
       isAttempted: false,
-      maxScore: paper.totalQuestions * 4,
+      maxScore: (questions.length || paper.totalQuestions) * 4,
       negativeMarking: true
     };
 
