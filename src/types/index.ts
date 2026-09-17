@@ -18,6 +18,16 @@ export type MistakeReason =
   | 'Careless Mistake' 
   | 'Other';
 
+export type ContentType = 
+  | 'QUESTION_BANK' 
+  | 'PYQ' 
+  | 'MODEL_PAPER' 
+  | 'SAMPLE_PAPER' 
+  | 'MOCK_TEST' 
+  | 'PRACTICE_SET' 
+  | 'AI_GENERATED' 
+  | 'CUSTOM_TEST';
+
 export interface Question {
   id: string;
   exam: ExamType;
@@ -37,6 +47,11 @@ export interface Question {
   importantPoint?: string;
   shortcutTip?: string;
   source: QuestionSource;
+  contentType?: ContentType;
+  sourceType?: string;
+  sourceName?: string;
+  sourceDocument?: string;
+  sourceYear?: number;
   year?: number;
   recommendedTimeSeconds?: number;
 }

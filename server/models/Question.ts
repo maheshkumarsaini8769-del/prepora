@@ -1,5 +1,15 @@
 import mongoose, { Schema, Document } from 'mongoose';
 
+export type ContentType = 
+  | 'QUESTION_BANK' 
+  | 'PYQ' 
+  | 'MODEL_PAPER' 
+  | 'SAMPLE_PAPER' 
+  | 'MOCK_TEST' 
+  | 'PRACTICE_SET' 
+  | 'AI_GENERATED' 
+  | 'CUSTOM_TEST';
+
 export interface IQuestion extends Document {
   id: string;
   exam: 'JEE' | 'NEET' | 'Board';
@@ -19,6 +29,11 @@ export interface IQuestion extends Document {
   importantPoint?: string;
   shortcutTip?: string;
   source: 'Practice' | 'PYQ' | 'Original' | 'Original Demo' | 'Model Paper';
+  contentType: ContentType;
+  sourceType?: string;
+  sourceName?: string;
+  sourceDocument?: string;
+  sourceYear?: number;
   year?: number;
   recommendedTimeSeconds?: number;
   status: 'Approved' | 'Pending' | 'Draft';
@@ -46,6 +61,16 @@ const QuestionSchema: Schema = new Schema(
     importantPoint: { type: String },
     shortcutTip: { type: String },
     source: { type: String, default: 'Practice', enum: ['Practice', 'PYQ', 'Original', 'Original Demo', 'Model Paper'] },
+    contentType: { 
+      type: String, 
+      default: 'QUESTION_BANK', 
+      enum: ['QUESTION_BANK', 'PYQ', 'MODEL_PAPER', 'SAMPLE_PAPER', 'MOCK_TEST', 'PRACTICE_SET', 'AI_GENERATED', 'CUSTOM_TEST'],
+      index: true 
+    },
+    sourceType: { type: String },
+    sourceName: { type: String },
+    sourceDocument: { type: String },
+    sourceYear: { type: Number },
     year: { type: Number },
     recommendedTimeSeconds: { type: Number, default: 90 },
     status: { type: String, default: 'Approved', enum: ['Approved', 'Pending', 'Draft'], index: true }

@@ -1,4 +1,4 @@
-import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../types';
+import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel, ContentType } from '../types';
 import { mockQuestions } from '../data/mockQuestions';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 import { apiRequest } from './apiClient';
@@ -10,6 +10,9 @@ export interface QuestionFilters {
   chapter?: string | 'All';
   topic?: string | 'All';
   difficulty?: DifficultyLevel | 'All';
+  contentType?: ContentType | 'All';
+  includePYQs?: boolean;
+  includeModelPapers?: boolean;
   searchQuery?: string;
 }
 
@@ -92,6 +95,20 @@ class ApiQuestionService {
 
   public filterQuestions(filters: QuestionFilters): Question[] {
     return this.getAllQuestions().filter(q => {
+      // Content Type Isolation (Task.md section 1, 2, 4, 6)
+      const isModelPaper = q.contentType === 'MODEL_PAPER' || q.source === 'Model Paper';
+      const isPYQ = q.contentType === 'PYQ' || q.source === 'PYQ';
+
+      if (filters.contentType && filters.contentType !== 'All') {
+        const resolvedType = q.contentType || (isModelPaper ? 'MODEL_PAPER' : isPYQ ? 'PYQ' : 'QUESTION_BANK');
+        if (resolvedType !== filters.contentType) return false;
+      } else {
+        // By default: NEVER include Model Papers in normal test/practice pool
+        if (!filters.includeModelPapers && isModelPaper) return false;
+        // By default: Do not mix PYQs unless explicitly enabled
+        if (!filters.includePYQs && isPYQ) return false;
+      }
+
       if (filters.exam && filters.exam !== 'All') {
         if (filters.exam === 'Board') {
           if (q.exam !== 'Board' && q.exam !== 'CBSE' && q.exam !== 'RBSE') return false;
@@ -101,8 +118,11 @@ class ApiQuestionService {
       }
       if (filters.classLevel && filters.classLevel !== 'All' && q.class !== filters.classLevel) return false;
       if (filters.subject && filters.subject !== 'All' && q.subject !== filters.subject) return false;
-      if (filters.chapter && filters.chapter !== 'All' && q.chapter !== filters.chapter) return false;
-      if (filters.topic && filters.topic !== 'All' && q.topic !== filters.topic) return false;
+      if (filters.chapter && filters.chapter !== 'All' && q.chapter.toLowerCase() !== filters.chapter.toLowerCase()) return false;
+      
+      // Exact topic filtering (Task.md section 5, 6, 7)
+      if (filters.topic && filters.topic !== 'All' && q.topic.toLowerCase() !== filters.topic.toLowerCase()) return false;
+      
       if (filters.difficulty && filters.difficulty !== 'All' && q.difficulty !== filters.difficulty) return false;
       if (filters.searchQuery) {
         const query = filters.searchQuery.toLowerCase();
@@ -123,17 +143,58 @@ class ApiQuestionService {
   }
 
   public getChapters(subject?: SubjectName, classLevel?: ClassLevel | 'All'): string[] {
-    const questions = this.getAllQuestions().filter(q => {
-      if (subject && q.subject !== subject) return false;
-      if (classLevel && classLevel !== 'All' && q.class !== classLevel) return false;
-      return true;
+    const chapters = new Set<string>();
+
+    // 1. From stored syllabus
+    try {
+      const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
+      if (Array.isArray(savedSyllabus)) {
+        savedSyllabus.forEach((ch: any) => {
+          if (subject && ch.subject !== subject) return;
+          if (classLevel && classLevel !== 'All' && ch.classLevel !== classLevel) return;
+          if (ch.name) chapters.add(ch.name);
+        });
+      }
+    } catch {
+      // fallback
+    }
+
+    // 2. From all questions
+    this.getAllQuestions().forEach(q => {
+      if (subject && q.subject !== subject) return;
+      if (classLevel && classLevel !== 'All' && q.class !== classLevel) return;
+      if (q.chapter) chapters.add(q.chapter);
     });
-    return Array.from(new Set(questions.map(q => q.chapter))).sort();
+
+    return Array.from(chapters).sort();
   }
 
   public getTopics(chapter: string): string[] {
-    const questions = this.getAllQuestions().filter(q => q.chapter === chapter);
-    return Array.from(new Set(questions.map(q => q.topic))).sort();
+    const topics = new Set<string>();
+
+    // 1. Full syllabus hierarchy topics (Task.md section 5)
+    try {
+      const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
+      if (Array.isArray(savedSyllabus)) {
+        const sylChapter = savedSyllabus.find((c: any) => c.name?.toLowerCase() === chapter.toLowerCase());
+        if (sylChapter && Array.isArray(sylChapter.subtopics)) {
+          sylChapter.subtopics.forEach((st: any) => {
+            if (st?.name) topics.add(st.name);
+          });
+        }
+      }
+    } catch {
+      // fallback
+    }
+
+    // 2. Question bank topics
+    this.getAllQuestions().forEach(q => {
+      if (q.chapter?.toLowerCase() === chapter.toLowerCase() && q.topic) {
+        topics.add(q.topic);
+      }
+    });
+
+    return Array.from(topics).sort();
   }
 
   // Admin CRUD capabilities sync to MongoDB + local cache

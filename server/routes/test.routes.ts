@@ -1,4 +1,4 @@
-﻿import express, { Request, Response } from 'express';
+import express, { Request, Response } from 'express';
 import Test from '../models/Test.js';
 import Question from '../models/Question.js';
 
@@ -49,6 +49,9 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       classLevel,
       subjects,
       chapters,
+      topics,
+      topic,
+      includePYQs = false,
       questionCount = 10,
       difficulty = 'Mixed',
       durationMinutes = 30,
@@ -67,19 +70,38 @@ router.post('/build-custom', async (req: Request, res: Response) => {
     if (difficulty && difficulty !== 'Mixed' && difficulty !== 'All') filter.difficulty = difficulty;
     if (chapters && chapters.length > 0) filter.chapter = { $in: chapters };
 
+    // Exact topic filtering (Task.md section 5, 6, 7)
+    const activeTopics = topics && topics.length > 0 ? topics : (topic && topic !== 'All' ? [topic] : null);
+    if (activeTopics && activeTopics.length > 0) {
+      filter.topic = { $in: activeTopics };
+    }
+
+    // Strict content type isolation: Never include MODEL_PAPER in normal tests! (Task.md section 1, 2, 4)
+    if (includePYQs) {
+      filter.contentType = { $in: ['QUESTION_BANK', 'PYQ', 'PRACTICE_SET', 'AI_GENERATED'] };
+      filter.source = { $ne: 'Model Paper' };
+    } else {
+      filter.contentType = { $in: ['QUESTION_BANK', 'PRACTICE_SET', 'AI_GENERATED'] };
+      filter.source = { $nin: ['Model Paper', 'PYQ'] };
+    }
+
     const pool = await Question.find(filter);
 
     if (pool.length === 0) {
       return res.status(400).json({
         success: false,
-        message: `No questions found matching ${subjects.join(', ')} for ${exam}.`
+        message: `No questions found matching ${subjects.join(', ')}${chapters ? ` (${chapters.join(', ')})` : ''} for ${exam}.`
       });
     }
 
+    // Transparent question count contract: never silently return fewer questions (Task.md section 9, 33)
     if (pool.length < questionCount) {
       return res.status(400).json({
         success: false,
-        message: `Only ${pool.length} suitable questions are available for this combination (requested ${questionCount}). Please reduce the question count or expand topics.`
+        isUnderflow: true,
+        availableCount: pool.length,
+        requestedCount: questionCount,
+        message: `Only ${pool.length} questions available matching this exact combination (requested ${questionCount}).`
       });
     }
 

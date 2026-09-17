@@ -13,6 +13,8 @@ export interface CustomTestOptions {
   subjects: SubjectName[];
   chapters?: string[];
   topics?: string[];
+  topic?: string;
+  includePYQs?: boolean;
   questionCount: number;
   difficulty: DifficultyLevel | 'Mixed';
   durationMinutes: number;
@@ -79,12 +81,27 @@ class ApiTestService {
     return null;
   }
 
-  public buildCustomTest(options: CustomTestOptions): { success: boolean; test?: Test; message?: string } {
+  public buildCustomTest(options: CustomTestOptions): { 
+    success: boolean; 
+    test?: Test; 
+    message?: string;
+    isUnderflow?: boolean;
+    availableCount?: number;
+    requestedCount?: number;
+  } {
     const pool = questionService.filterQuestions({
       exam: options.exam,
       classLevel: options.classLevel,
-      difficulty: options.difficulty === 'Mixed' ? 'All' : options.difficulty
-    }).filter(q => options.subjects.includes(q.subject));
+      difficulty: options.difficulty === 'Mixed' ? 'All' : options.difficulty,
+      includePYQs: options.includePYQs ?? false,
+      includeModelPapers: false, // Model Papers must NEVER accidentally enter normal tests! (Task.md section 1, 2)
+      topic: options.topic && options.topic !== 'All' ? options.topic : undefined
+    }).filter(q => {
+      if (!options.subjects.includes(q.subject)) return false;
+      if (options.chapters && options.chapters.length > 0 && !options.chapters.includes(q.chapter)) return false;
+      if (options.topics && options.topics.length > 0 && !options.topics.includes(q.topic)) return false;
+      return true;
+    });
 
     if (pool.length === 0) {
       return {
@@ -93,29 +110,37 @@ class ApiTestService {
       };
     }
 
+    // Transparent availability reporting: never silently return fewer questions (Task.md section 9, 33)
     if (pool.length < options.questionCount) {
       return {
         success: false,
-        message: `Only ${pool.length} suitable questions are available for this combination (requested ${options.questionCount}). Please reduce the question count or expand topics.`
+        isUnderflow: true,
+        availableCount: pool.length,
+        requestedCount: options.questionCount,
+        message: `Only ${pool.length} questions available for this exact selection (requested ${options.questionCount}).`
       };
     }
 
-    // Shuffle and pick questions
-    const shuffled = [...pool].sort(() => 0.5 - Math.random());
+    // Uniform random selection without duplicate questions (Task.md section 32, 34)
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
     const selected = shuffled.slice(0, options.questionCount);
-    const questionIds = selected.map(q => q.id);
+    const questionIds = Array.from(new Set(selected.map(q => q.id)));
 
-    const markPerQ = options.exam === 'JEE' ? 4 : 4;
-    const maxScore = options.questionCount * markPerQ;
+    const markPerQ = 4;
+    const maxScore = questionIds.length * markPerQ;
 
     const newTest: Test = {
       id: `custom-test-${Date.now()}`,
-      title: options.title || `Custom ${options.exam} Test (${selected.length} Qs)`,
+      title: options.title || `Custom ${options.exam} Test (${questionIds.length} Qs)`,
       exam: options.exam,
       classLevel: options.classLevel,
       subjects: options.subjects,
       chapters: options.chapters,
-      totalQuestions: selected.length,
+      totalQuestions: questionIds.length,
       durationMinutes: options.durationMinutes,
       difficulty: options.difficulty,
       questionIds,
