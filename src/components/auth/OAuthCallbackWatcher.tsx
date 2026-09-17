@@ -41,6 +41,10 @@ export const OAuthCallbackWatcher: React.FC = () => {
 
     const isPopup = typeof window !== 'undefined' && window.opener && window.opener !== window;
 
+    // Mark processing flags so ProtectedRoute shows loading and never bounces to login
+    sessionStorage.setItem('prepora_oauth_processing', 'true');
+    localStorage.setItem('prepora_oauth_processing', 'true');
+
     setProcessing(true);
     setError(null);
 
@@ -48,6 +52,8 @@ export const OAuthCallbackWatcher: React.FC = () => {
     const safetyTimer = setTimeout(() => {
       setProcessing((current) => {
         if (current) {
+          sessionStorage.removeItem('prepora_oauth_processing');
+          localStorage.removeItem('prepora_oauth_processing');
           setError('Authentication server response timed out. Please try signing in again.');
           return false;
         }
@@ -62,14 +68,16 @@ export const OAuthCallbackWatcher: React.FC = () => {
           redirectUri: window.location.origin,
           scopes: 'openid profile email',
           storage: 'localStorage',
-          validateState: false
-        });
+          validateState: false,
+          cleanupUrl: false
+        } as any);
 
-        // Initialize and handle code exchange
+        // Initialize and handle code exchange without stripping URL params prematurely
         const tokens = await oauth.init({
           redirectUri: window.location.origin,
-          allowMissingCallback: true
-        });
+          allowMissingCallback: true,
+          cleanupUrl: false
+        } as any);
 
         let resolvedTokens = tokens;
         if (!resolvedTokens) {
@@ -83,6 +91,8 @@ export const OAuthCallbackWatcher: React.FC = () => {
               window.opener.postMessage(
                 {
                   type: 'zenux_oauth_success',
+                  state: params.get('state'),
+                  clientId: ZENUXS_CLIENT_ID,
                   tokens: resolvedTokens
                 },
                 window.location.origin
@@ -102,12 +112,18 @@ export const OAuthCallbackWatcher: React.FC = () => {
           }, 300);
           setProcessing(false);
           clearTimeout(safetyTimer);
+          sessionStorage.removeItem('prepora_oauth_processing');
+          localStorage.removeItem('prepora_oauth_processing');
           return;
         }
 
         // Running in main application window
         if (resolvedTokens) {
-          // 1. Try standard getUserInfo endpoint
+          // Immediately record token in localStorage so any guard check passes
+          const rawToken = (resolvedTokens as any).access_token || (resolvedTokens as any).id_token || 'zenuxs_verified';
+          localStorage.setItem('prepora_token', rawToken);
+
+          // 1. Try standard getUserInfo endpoint safely
           let userInfo: any = null;
           try {
             userInfo = await oauth.getUserInfo();
@@ -131,21 +147,29 @@ export const OAuthCallbackWatcher: React.FC = () => {
             }
           }
 
+          // Recover saved student preferences
+          const savedExam = localStorage.getItem('prepora_selected_target_exam') || undefined;
+          const savedClass = localStorage.getItem('prepora_selected_class_level') || undefined;
+
           // 3. Complete authentication into application context
           const res = await loginWithZenuxs({
             sub: userInfo?.sub,
             email: userInfo?.email,
             name: userInfo?.name || 'Student',
-            picture: userInfo?.picture
+            picture: userInfo?.picture,
+            targetExam: savedExam,
+            classLevel: savedClass
           });
 
           // Clean up URL parameters cleanly
-          window.history.replaceState({}, document.title, window.location.pathname);
+          window.history.replaceState({}, document.title, '/');
 
           if (res.success) {
             clearTimeout(safetyTimer);
+            sessionStorage.removeItem('prepora_oauth_processing');
+            localStorage.removeItem('prepora_oauth_processing');
             setProcessing(false);
-            navigate('/', { replace: true });
+            window.location.assign('/');
             return;
           } else {
             setError(res.message || 'Server verification failed.');
@@ -158,6 +182,8 @@ export const OAuthCallbackWatcher: React.FC = () => {
         setError(err?.message || 'Authentication error during code verification.');
       } finally {
         clearTimeout(safetyTimer);
+        sessionStorage.removeItem('prepora_oauth_processing');
+        localStorage.removeItem('prepora_oauth_processing');
         setProcessing(false);
       }
     };

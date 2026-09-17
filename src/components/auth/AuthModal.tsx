@@ -21,18 +21,16 @@ export const AuthModal: React.FC = () => {
     setError(null);
     setIsLoggingIn(true);
 
-    const safetyTimer = setTimeout(() => {
-      setIsLoggingIn((current) => {
-        if (current) {
-          setError('Authentication server response timed out. Please try again.');
-          return false;
-        }
-        return false;
-      });
-    }, 8000);
-
     try {
       const redirectUri = window.location.origin;
+
+      // Persist student exam choices to localStorage so callback recovers them
+      localStorage.setItem('prepora_selected_target_exam', targetExam);
+      localStorage.setItem('prepora_selected_class_level', classLevel);
+
+      // Flag OAuth in progress so ProtectedRoute shows loading state instead of bouncing
+      sessionStorage.setItem('prepora_oauth_processing', 'true');
+      localStorage.setItem('prepora_oauth_processing', 'true');
 
       const oauth = new ZenuxOAuth({
         clientId: ZENUXS_CLIENT_ID,
@@ -41,87 +39,20 @@ export const AuthModal: React.FC = () => {
         theme: 'light',
         storage: 'localStorage',
         validateState: false,
-        uiFallbackMode: 'popup'
-      });
+        cleanupUrl: false
+      } as any);
 
-      const loginOpts: any = {
-        mode: 'popup',
+      // Standard, robust OAuth 2.0 PKCE redirect flow
+      await oauth.login({
+        mode: 'redirect',
         redirectUri
-      };
-
-      let tokens: any = null;
-      let userInfo: any = null;
-
-      try {
-        tokens = await oauth.login(loginOpts);
-        if (tokens) {
-          userInfo = await oauth.getUserInfo().catch(() => null);
-        }
-      } catch (popupErr: any) {
-        console.warn('Popup interrupted, redirecting:', popupErr);
-        clearTimeout(safetyTimer);
-        await oauth.login({
-          ...loginOpts,
-          mode: 'redirect'
-        });
-        return;
-      }
-
-      if (!tokens && !userInfo) {
-        tokens = oauth.getTokens();
-        if (tokens) {
-          userInfo = await oauth.getUserInfo().catch(() => null);
-        }
-      }
-
-      // Resilient claim decoding from JWT
-      if (tokens && !userInfo) {
-        const tokenToDecode = (tokens as any).id_token || (tokens as any).access_token;
-        if (tokenToDecode) {
-          const decoded = oauth.decodeJWT(tokenToDecode);
-          if (decoded && (decoded.email || decoded.sub)) {
-            userInfo = {
-              sub: decoded.sub || decoded.id,
-              email: decoded.email,
-              name: decoded.name || decoded.given_name || (decoded.email ? decoded.email.split('@')[0] : 'Student'),
-              picture: decoded.picture || decoded.avatar
-            };
-          }
-        }
-      }
-
-      if (tokens || userInfo) {
-        clearTimeout(safetyTimer);
-        const res = await loginWithZenuxs({
-          sub: userInfo?.sub || (tokens as any)?.sub,
-          email: userInfo?.email,
-          name: userInfo?.name || (userInfo?.email ? userInfo.email.split('@')[0] : 'Student'),
-          picture: userInfo?.picture,
-          targetExam,
-          classLevel
-        });
-
-        if (res.success) {
-          setSuccessMsg('Authenticated! Welcome to PREPORA.');
-          setTimeout(() => {
-            setAuthModalOpen(false);
-          }, 400);
-        } else {
-          setError(res.message || 'Zenuxs authentication verification failed.');
-        }
-      } else {
-        setError('Could not retrieve account details from Zenuxs. Please try again.');
-      }
+      });
     } catch (err: any) {
-      console.error('Zenuxs login modal error:', err);
-      if (err?.code === 'AUTH_CANCELLED' || err?.message?.includes('closed')) {
-        setError('Sign-in was cancelled. Click "#2 — Zenuxs Auth" to try again.');
-      } else {
-        setError(err?.message || 'Authentication encountered an unexpected error.');
-      }
-    } finally {
-      clearTimeout(safetyTimer);
+      console.error('Zenuxs login initiation error:', err);
+      sessionStorage.removeItem('prepora_oauth_processing');
+      localStorage.removeItem('prepora_oauth_processing');
       setIsLoggingIn(false);
+      setError(err?.message || 'Could not initiate Zenuxs authentication. Please try again.');
     }
   };
 
