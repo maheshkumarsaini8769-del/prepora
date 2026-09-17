@@ -297,14 +297,30 @@ export async function runBatchedGeneration(jobId: string) {
         return;
       }
 
+      // Daily generation quota protection (Section 20 & 21: Free-Tier Safety)
+      const providerConfig = await AIProviderConfig.findOne({ key: 'ai_provider_config' });
+      if (
+        providerConfig &&
+        providerConfig.dailyGenerationLimit &&
+        (providerConfig.questionsGeneratedToday || 0) >= providerConfig.dailyGenerationLimit
+      ) {
+        job.status = 'Paused';
+        job.currentTopic = `Daily limit reached (${providerConfig.questionsGeneratedToday}/${providerConfig.dailyGenerationLimit} questions). Job safely paused.`;
+        job.error = 'AI provider daily quota reached. Generation safely paused to protect against quota exhaustion.';
+        await job.save();
+        console.log(`[Batch Engine] Job ${jobId} paused due to daily generation limit.`);
+        return;
+      }
+
       attempts++;
       batchNum++;
       const neededCount = targetCount - validQuestions.length;
       const currentBatchCount = Math.min(batchSize, neededCount);
       const batchTopic = activeTopics[(batchNum - 1) % activeTopics.length];
 
+      job.totalBatches = Math.max(totalBatches, batchNum);
       job.currentBatch = batchNum;
-      job.currentTopic = `Batch ${batchNum}/${totalBatches}: ${batchTopic}`;
+      job.currentTopic = `Batch ${batchNum}/${job.totalBatches}: ${batchTopic}`;
       job.status = 'Generating';
       await job.save();
 
@@ -409,6 +425,9 @@ export async function runBatchedGeneration(jobId: string) {
       // Update state in MongoDB
       const duplicateCount = allGeneratedQuestions.filter((q) => q.duplicateStatus !== 'Unique').length;
       const rejectedCount = allGeneratedQuestions.filter((q) => q.reviewStatus === 'Rejected').length;
+      const coveredTopics = Object.keys(topicValidCounts).filter((t) => (topicValidCounts[t] || 0) > 0).length;
+      const coveredConcepts = new Set(validQuestions.map((q) => q.concept || q.topic)).size;
+      const totalConceptsEstimated = Math.max(coveredConcepts, activeTopics.length * 3);
 
       job.generatedQuestions = allGeneratedQuestions;
       job.topicAllocations = topicAllocations;
@@ -416,6 +435,10 @@ export async function runBatchedGeneration(jobId: string) {
       job.validCount = validQuestions.length;
       job.duplicateCount = duplicateCount;
       job.rejectedCount = rejectedCount;
+      job.topicsCovered = coveredTopics;
+      job.totalTopics = activeTopics.length;
+      job.conceptsCovered = coveredConcepts;
+      job.totalConcepts = totalConceptsEstimated;
       job.progress = Math.min(99, Math.round((validQuestions.length / targetCount) * 100));
       await job.save();
 
@@ -424,9 +447,16 @@ export async function runBatchedGeneration(jobId: string) {
     }
 
     // Finalize Job
+    const finalCoveredTopics = Object.keys(topicValidCounts).filter((t) => (topicValidCounts[t] || 0) > 0).length;
+    const finalCoveredConcepts = new Set(validQuestions.map((q) => q.concept || q.topic)).size;
+
     job.progress = 100;
     job.status = 'ReadyForReview';
     job.validCount = validQuestions.length;
+    job.topicsCovered = finalCoveredTopics;
+    job.totalTopics = activeTopics.length;
+    job.conceptsCovered = finalCoveredConcepts;
+    job.totalConcepts = Math.max(finalCoveredConcepts, activeTopics.length * 3);
     job.currentTopic = 'Batch generation and quality validation complete.';
 
     if (validQuestions.length < targetCount) {

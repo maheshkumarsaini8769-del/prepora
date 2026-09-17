@@ -189,6 +189,10 @@ export interface IAIFactoryJob extends Document {
   currentTopic?: string;
   mode?: 'quick' | 'standard' | 'deep' | 'chapter_bank';
   error?: string;
+  topicsCovered?: number;
+  totalTopics?: number;
+  conceptsCovered?: number;
+  totalConcepts?: number;
   generationContract?: IGenerationContract;
   topicAllocations?: ITopicAllocation[];
   generatedQuestions: IAIFactoryQuestion[];
@@ -233,6 +237,10 @@ const AIFactoryJobSchema = new Schema(
     currentTopic: { type: String, default: '' },
     mode: { type: String, default: 'standard' },
     error: { type: String },
+    topicsCovered: { type: Number, default: 0 },
+    totalTopics: { type: Number, default: 0 },
+    conceptsCovered: { type: Number, default: 0 },
+    totalConcepts: { type: Number, default: 0 },
     generationContract: {
       sourceTitle: { type: String },
       chapter: { type: String },

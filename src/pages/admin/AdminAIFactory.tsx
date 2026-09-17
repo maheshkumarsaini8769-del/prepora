@@ -1029,44 +1029,124 @@ export const AdminAIFactory: React.FC = () => {
               />
             </div>
 
-            <div>
-              <label className="block text-slate-400 font-semibold mb-1">Target Valid Unique Questions (Section 14: 400 Min Default)</label>
-              <select
-                value={isCustomCount ? 'custom' : questionCount}
-                onChange={(e) => {
-                  if (e.target.value === 'custom') {
-                    setIsCustomCount(true);
-                  } else {
+            {/* Generation Modes (Section 25 of task2.md) */}
+            <div className="sm:col-span-2">
+              <label className="block text-slate-400 font-semibold mb-1.5">
+                Generation Mode & Target Capacity (Section 25 & 962)
+              </label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
+                <button
+                  type="button"
+                  onClick={() => {
                     setIsCustomCount(false);
-                    setQuestionCount(Number(e.target.value));
-                  }
-                }}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
-              >
-                <option value={400}>400 Questions (🔥 Full Chapter Bank Target - Section 14 Default)</option>
-                <option value={500}>500 Questions (Comprehensive Chapter Bank)</option>
-                <option value={750}>750 Questions (Exhaustive Problem Bank)</option>
-                <option value={1000}>1000 Questions (Master Question Repository)</option>
-                <option value={100}>100 Questions (Standard Chapter Drill)</option>
-                <option value={50}>50 Questions (Quick Review)</option>
-                <option value="custom">Custom Question Count...</option>
-              </select>
-            </div>
+                    setQuestionCount(25);
+                  }}
+                  className={`p-2.5 rounded-xl border text-left transition ${
+                    !isCustomCount && questionCount === 25
+                      ? 'bg-brand-500/20 border-brand-500 text-white shadow-md'
+                      : 'bg-slate-850 border-slate-750 text-slate-300 hover:border-slate-600'
+                  }`}
+                >
+                  <div className="text-[10px] uppercase font-bold text-brand-400">QUICK MODE</div>
+                  <div className="text-base font-black mt-0.5">25 Qs</div>
+                  <div className="text-[9px] text-slate-400">Fast sample drill</div>
+                </button>
 
-            {isCustomCount && (
-              <div className="sm:col-span-2">
-                <label className="block text-brand-400 font-semibold mb-1">Enter Custom Question Count (10 - 1000):</label>
-                <input
-                  type="number"
-                  min={10}
-                  max={1000}
-                  value={customQuestionCount}
-                  onChange={(e) => setCustomQuestionCount(e.target.value)}
-                  placeholder="e.g. 400"
-                  className="w-full px-3 py-2 bg-slate-800 border border-brand-500 rounded-lg text-white font-mono"
-                />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsCustomCount(false);
+                    setQuestionCount(100);
+                  }}
+                  className={`p-2.5 rounded-xl border text-left transition ${
+                    !isCustomCount && questionCount === 100
+                      ? 'bg-indigo-500/20 border-indigo-500 text-white shadow-md'
+                      : 'bg-slate-850 border-slate-750 text-slate-300 hover:border-slate-600'
+                  }`}
+                >
+                  <div className="text-[10px] uppercase font-bold text-indigo-400">STANDARD MODE</div>
+                  <div className="text-base font-black mt-0.5">100 Qs</div>
+                  <div className="text-[9px] text-slate-400">Balanced coverage</div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsCustomCount(false);
+                    setQuestionCount(400);
+                  }}
+                  className={`p-2.5 rounded-xl border text-left transition ${
+                    !isCustomCount && questionCount === 400
+                      ? 'bg-purple-600/30 border-purple-500 text-white shadow-md'
+                      : 'bg-slate-850 border-slate-750 text-slate-300 hover:border-slate-600'
+                  }`}
+                >
+                  <div className="text-[10px] uppercase font-bold text-purple-300 flex items-center justify-between">
+                    <span>DEEP MODE</span>
+                    <span className="px-1 py-0.2 bg-purple-500/30 text-[8px] font-mono rounded text-purple-200">Default</span>
+                  </div>
+                  <div className="text-base font-black text-purple-200 mt-0.5">400 Qs</div>
+                  <div className="text-[9px] text-slate-400">Complete Chapter Bank</div>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsCustomCount(true)}
+                  className={`p-2.5 rounded-xl border text-left transition ${
+                    isCustomCount
+                      ? 'bg-amber-500/20 border-amber-500 text-white shadow-md'
+                      : 'bg-slate-850 border-slate-750 text-slate-300 hover:border-slate-600'
+                  }`}
+                >
+                  <div className="text-[10px] uppercase font-bold text-amber-400">CUSTOM MODE</div>
+                  <div className="text-base font-black mt-0.5">{isCustomCount ? customQuestionCount : 'Custom'} Qs</div>
+                  <div className="text-[9px] text-slate-400">10 – 1000 questions</div>
+                </button>
               </div>
-            )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] text-slate-400 font-semibold mb-1">Select Preset Target</label>
+                  <select
+                    value={isCustomCount ? 'custom' : questionCount}
+                    onChange={(e) => {
+                      if (e.target.value === 'custom') {
+                        setIsCustomCount(true);
+                      } else {
+                        setIsCustomCount(false);
+                        setQuestionCount(Number(e.target.value));
+                      }
+                    }}
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-750 rounded-lg text-white text-xs"
+                  >
+                    <option value={400}>400 Questions (🔥 Full Chapter Bank Target - Section 962)</option>
+                    <option value={500}>500 Questions (Comprehensive Chapter Bank)</option>
+                    <option value={750}>750 Questions (Exhaustive Problem Bank)</option>
+                    <option value={1000}>1000 Questions (Master Question Repository)</option>
+                    <option value={250}>250 Questions (Deep Conceptual Practice)</option>
+                    <option value={100}>100 Questions (Standard Chapter Drill)</option>
+                    <option value={50}>50 Questions (Mid-Length Review)</option>
+                    <option value={25}>25 Questions (Quick Mode Preview)</option>
+                    <option value="custom">Custom Question Count...</option>
+                  </select>
+                </div>
+
+                {isCustomCount && (
+                  <div>
+                    <label className="block text-[11px] text-brand-400 font-semibold mb-1">Enter Target Question Count (10 - 1000):</label>
+                    <input
+                      type="number"
+                      min={10}
+                      max={1000}
+                      value={customQuestionCount}
+                      onChange={(e) => setCustomQuestionCount(e.target.value)}
+                      placeholder="e.g. 400"
+                      className="w-full px-3 py-2 bg-slate-800 border border-brand-500 rounded-lg text-white font-mono text-xs"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
 
           {/* Exam Classification Target Checkboxes */}
@@ -1288,19 +1368,25 @@ export const AdminAIFactory: React.FC = () => {
           {(() => {
             const currentJob = jobs.find((j) => j.id === (activeJobId || selectedJobId)) || jobs[0];
             const isJobActive = isProcessing || currentJob?.status === 'Generating' || currentJob?.status === 'Paused';
+            const isJobCompleted = currentJob && (currentJob.status === 'ReadyForReview' || currentJob.status === 'Completed');
 
-            if (!isJobActive) return null;
+            if (!isJobActive && !isJobCompleted) return null;
 
             const validCount = currentJob?.validCount || 0;
             const targetCount = currentJob?.requestedCount || (isCustomCount ? Number(customQuestionCount) : questionCount);
-            const progressPct = currentJob?.progress || Math.min(99, Math.round((validCount / targetCount) * 100)) || 5;
-            const remaining = Math.max(0, targetCount - validCount);
+            const progressPct = isJobCompleted ? 100 : (currentJob?.progress || Math.min(99, Math.round((validCount / targetCount) * 100)) || 5);
+            const remaining = isJobCompleted ? 0 : Math.max(0, targetCount - validCount);
 
             return (
               <div className="p-5 rounded-2xl bg-gradient-to-br from-purple-950/50 via-slate-900 to-slate-900 border border-purple-800/60 space-y-4 shadow-xl">
                 <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
                   <div className="flex items-center gap-2">
-                    {currentJob?.status === 'Paused' ? (
+                    {isJobCompleted ? (
+                      <span className="px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/40 flex items-center gap-1.5">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                        <span>Generation Complete ({validCount} Valid Qs Ready)</span>
+                      </span>
+                    ) : currentJob?.status === 'Paused' ? (
                       <span className="px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40 flex items-center gap-1.5">
                         <Pause className="w-3 h-3" /> Job Paused
                       </span>
@@ -1318,6 +1404,19 @@ export const AdminAIFactory: React.FC = () => {
                     <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-mono text-[11px] border border-slate-700">
                       Batch {currentJob?.currentBatch || 1} / {currentJob?.totalBatches || Math.ceil(targetCount / 20)}
                     </span>
+                    {isJobCompleted && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedJobId(currentJob.id);
+                          setActiveTab('review');
+                        }}
+                        className="px-3 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold flex items-center gap-1.5 text-xs shadow-md shadow-emerald-600/20 transition"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Open Review Queue ({validCount})</span>
+                      </button>
+                    )}
                     {currentJob?.status === 'Generating' && (
                       <button
                         type="button"
@@ -1336,13 +1435,15 @@ export const AdminAIFactory: React.FC = () => {
                         <Play className="w-3 h-3" /> Resume
                       </button>
                     )}
-                    <button
-                      type="button"
-                      onClick={() => handleRetryBatch(currentJob?.id || activeJobId)}
-                      className="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-[11px] transition"
-                    >
-                      Retry Batch
-                    </button>
+                    {!isJobCompleted && (
+                      <button
+                        type="button"
+                        onClick={() => handleRetryBatch(currentJob?.id || activeJobId)}
+                        className="px-2 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium text-[11px] transition"
+                      >
+                        Retry Batch
+                      </button>
+                    )}
                   </div>
                 </div>
 
@@ -1553,91 +1654,153 @@ export const AdminAIFactory: React.FC = () => {
 
           {/* Right Column: Question Review Cards */}
           <div className="lg:col-span-2 space-y-4">
-            {/* Chapter Question Counter & Coverage Dashboard (Section 18 & 27) */}
-            {activeJob && (
-              <div className="p-4 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 shadow-lg">
-                <div className="flex flex-wrap items-center justify-between gap-3">
-                  <div>
-                    <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Chapter Question Bank Counter</div>
-                    <div className="text-base font-black text-white flex items-center gap-2 mt-0.5">
-                      <span>{activeJob.chapterTitle}</span>
-                      <span className="text-xs font-semibold text-brand-400 bg-brand-500/10 px-2.5 py-0.5 rounded-full border border-brand-500/20">
-                        {activeJob.validCount || activeJob.generatedCount || 0} / {activeJob.requestedCount} Valid Qs
+            {/* Chapter Question Counter & Coverage Dashboard (Section 18, 26 & 27 of task2.md) */}
+            {activeJob && (() => {
+              const totalGenerated = activeJob.generatedQuestions?.length || 0;
+              const uniqueValid = activeJob.validCount || activeJob.generatedQuestions?.filter((q: any) => q.duplicateStatus === 'Unique').length || 0;
+              const pendingCount = activeJob.generatedQuestions?.filter((q: any) => q.reviewStatus === 'Pending').length || 0;
+              const approvedCount = activeJob.approvedCount || activeJob.generatedQuestions?.filter((q: any) => q.reviewStatus === 'Approved').length || 0;
+              const autoReplaced = (activeJob.duplicateCount || 0) + (activeJob.rejectedCount || 0);
+
+              const distinctTopics = new Set(activeJob.generatedQuestions?.map((q: any) => q.topic).filter(Boolean));
+              const topicsCoveredCount = activeJob.topicsCovered || distinctTopics.size || 0;
+              const totalTopicsCount = activeJob.totalTopics || activeJob.topicAllocations?.length || 27;
+
+              const distinctConcepts = new Set(activeJob.generatedQuestions?.map((q: any) => q.concept || q.topic).filter(Boolean));
+              const conceptsCoveredCount = activeJob.conceptsCovered || distinctConcepts.size || 0;
+              const totalConceptsCount = activeJob.totalConcepts || Math.max(conceptsCoveredCount, totalTopicsCount * 3);
+
+              const neetCount = activeJob.generatedQuestions?.filter((q: any) => q.examSuitability?.NEET?.suitable).length || 0;
+              const cbseCount = activeJob.generatedQuestions?.filter((q: any) => q.examSuitability?.CBSE?.suitable).length || 0;
+              const rbseCount = activeJob.generatedQuestions?.filter((q: any) => q.examSuitability?.RBSE?.suitable).length || 0;
+
+              const easyCount = activeJob.generatedQuestions?.filter((q: any) => q.difficulty === 'Easy').length || 0;
+              const medCount = activeJob.generatedQuestions?.filter((q: any) => q.difficulty === 'Medium').length || 0;
+              const hardCount = activeJob.generatedQuestions?.filter((q: any) => q.difficulty === 'Hard').length || 0;
+
+              return (
+                <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 shadow-xl">
+                  <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
+                    <div>
+                      <div className="text-[10px] text-brand-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
+                        <Sparkles className="w-3.5 h-3.5" />
+                        <span>Chapter Question Bank Dashboard & Coverage</span>
+                      </div>
+                      <div className="text-lg font-black text-white flex items-center gap-2 mt-0.5">
+                        <span>{activeJob.chapterTitle}</span>
+                        <span className="text-xs font-semibold text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-full border border-emerald-500/20 font-mono">
+                          {uniqueValid} / {activeJob.requestedCount} Valid Questions Ready
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Action Buttons: Generate More (25 / 50) & 1-Click Approve All */}
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleGenerateMore(activeJob.id, 25)}
+                        disabled={isProcessing || activeJob.status === 'Generating'}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 text-xs font-bold transition disabled:opacity-50"
+                        title="Analyze existing questions and generate 25 more unique questions"
+                      >
+                        <PlusCircle className="w-3.5 h-3.5 text-brand-400" />
+                        <span>+ 25 More</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleGenerateMore(activeJob.id, 50)}
+                        disabled={isProcessing || activeJob.status === 'Generating'}
+                        className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-200 border border-slate-700 text-xs font-bold transition disabled:opacity-50"
+                        title="Analyze existing questions and generate 50 more unique questions"
+                      >
+                        <PlusCircle className="w-3.5 h-3.5 text-purple-400" />
+                        <span>+ 50 More</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleApproveAll(activeJob.id)}
+                        disabled={isProcessing || activeJob.status === 'Generating' || uniqueValid === 0}
+                        className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/25 transition disabled:opacity-50"
+                        title="Approve all valid unique questions and add to Master Question Bank"
+                      >
+                        <CheckCircle2 className="w-4 h-4" />
+                        <span>Approve & Publish All Questions (1-Click)</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Section 27 Coverage Dashboard Metrics Grid */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2.5 text-center text-xs">
+                    <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-750">
+                      <div className="text-[10px] text-slate-400 font-semibold uppercase">Total Generated</div>
+                      <div className="text-base font-black text-white mt-0.5">{totalGenerated}</div>
+                      <div className="text-[9px] text-slate-500">Gross Synthesized</div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-emerald-950/30 border border-emerald-500/30">
+                      <div className="text-[10px] text-emerald-400 font-semibold uppercase">Unique Valid</div>
+                      <div className="text-base font-black text-emerald-300 mt-0.5">{uniqueValid}</div>
+                      <div className="text-[9px] text-emerald-400/70">Verified Distinct</div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-amber-950/20 border border-amber-500/30">
+                      <div className="text-[10px] text-amber-400 font-semibold uppercase">Pending Review</div>
+                      <div className="text-base font-black text-amber-300 mt-0.5">{pendingCount}</div>
+                      <div className="text-[9px] text-slate-500">Awaiting Sign-off</div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-purple-950/20 border border-purple-800/30">
+                      <div className="text-[10px] text-purple-400 font-semibold uppercase">Topics Covered</div>
+                      <div className="text-sm font-black text-purple-200 mt-0.5 font-mono">{topicsCoveredCount} / {totalTopicsCount}</div>
+                      <div className="text-[9px] text-purple-300/70">Chapter Sections</div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-indigo-950/20 border border-indigo-800/30">
+                      <div className="text-[10px] text-indigo-400 font-semibold uppercase">Concepts Grounded</div>
+                      <div className="text-sm font-black text-indigo-200 mt-0.5 font-mono">{conceptsCoveredCount} / {totalConceptsCount}</div>
+                      <div className="text-[9px] text-indigo-300/70">NCERT Grounded</div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-slate-800/60 border border-slate-750">
+                      <div className="text-[10px] text-slate-300 font-semibold uppercase">Easy / Med / Hard</div>
+                      <div className="text-xs font-bold text-white mt-1 font-mono">{easyCount} / {medCount} / {hardCount}</div>
+                      <div className="text-[9px] text-slate-500">Difficulty Curve</div>
+                    </div>
+
+                    <div className="p-2.5 rounded-xl bg-rose-950/20 border border-rose-800/30">
+                      <div className="text-[10px] text-rose-400 font-semibold uppercase">Auto-Replaced</div>
+                      <div className="text-base font-black text-rose-300 mt-0.5">{autoReplaced}</div>
+                      <div className="text-[9px] text-slate-500">Dups & Rejections</div>
+                    </div>
+                  </div>
+
+                  {/* Multi-Exam Pool Distribution (Section 11) */}
+                  <div className="p-3 rounded-xl bg-slate-850/80 border border-slate-750 flex flex-wrap items-center justify-between gap-3 text-xs">
+                    <div className="flex items-center gap-2 text-slate-300 font-semibold">
+                      <Target className="w-4 h-4 text-brand-400" />
+                      <span>Multi-Exam Suitability Overlap (Single Master Item Serves All):</span>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-2.5 py-1 rounded-lg bg-purple-500/15 border border-purple-500/30 text-purple-300 font-bold font-mono text-[11px]">
+                        NEET Pool: {neetCount} Qs ({uniqueValid > 0 ? Math.round((neetCount / uniqueValid) * 100) : 0}%)
+                      </span>
+                      <span className="px-2.5 py-1 rounded-lg bg-indigo-500/15 border border-indigo-500/30 text-indigo-300 font-bold font-mono text-[11px]">
+                        CBSE Pool: {cbseCount} Qs ({uniqueValid > 0 ? Math.round((cbseCount / uniqueValid) * 100) : 0}%)
+                      </span>
+                      <span className="px-2.5 py-1 rounded-lg bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold font-mono text-[11px]">
+                        RBSE Pool: {rbseCount} Qs ({uniqueValid > 0 ? Math.round((rbseCount / uniqueValid) * 100) : 0}%)
+                      </span>
+                      <span className="px-2.5 py-1 rounded-lg bg-emerald-500/15 border border-emerald-500/30 text-emerald-300 font-bold font-mono text-[11px]">
+                        Live Master Bank: {approvedCount} Qs
                       </span>
                     </div>
                   </div>
-
-                  {/* Action Buttons: Generate More & Approve All */}
-                  <div className="flex flex-wrap items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => handleApproveAll(activeJob.id)}
-                      disabled={isProcessing || activeJob.status === 'Generating'}
-                      className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-bold shadow-lg shadow-emerald-600/25 transition disabled:opacity-50"
-                      title="Approve all valid unique questions and add to Master Question Bank"
-                    >
-                      <CheckCircle2 className="w-4 h-4" />
-                      <span>Approve & Publish All Questions (1-Click)</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleGenerateMore(activeJob.id, 50)}
-                      disabled={isProcessing || activeJob.status === 'Generating'}
-                      className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs font-bold transition disabled:opacity-50"
-                    >
-                      <PlusCircle className="w-3.5 h-3.5 text-brand-400" />
-                      <span>+ Generate 50 More</span>
-                    </button>
-                  </div>
                 </div>
-
-                {/* Detailed Metrics Counter Grid (Section 18) */}
-                <div className="grid grid-cols-3 sm:grid-cols-6 gap-2 text-center text-xs pt-2 border-t border-slate-800">
-                  <div className="p-2 rounded-lg bg-purple-950/20 border border-purple-800/30">
-                    <div className="text-[10px] text-purple-400 font-semibold">NEET Pool</div>
-                    <div className="text-sm font-black text-white mt-0.5">
-                      {activeJob.generatedQuestions.filter((q: any) => q.examSuitability?.NEET?.suitable).length}
-                    </div>
-                  </div>
-
-                  <div className="p-2 rounded-lg bg-indigo-950/20 border border-indigo-800/30">
-                    <div className="text-[10px] text-indigo-400 font-semibold">CBSE Pool</div>
-                    <div className="text-sm font-black text-white mt-0.5">
-                      {activeJob.generatedQuestions.filter((q: any) => q.examSuitability?.CBSE?.suitable).length}
-                    </div>
-                  </div>
-
-                  <div className="p-2 rounded-lg bg-amber-950/20 border border-amber-800/30">
-                    <div className="text-[10px] text-amber-400 font-semibold">RBSE Pool</div>
-                    <div className="text-sm font-black text-white mt-0.5">
-                      {activeJob.generatedQuestions.filter((q: any) => q.examSuitability?.RBSE?.suitable).length}
-                    </div>
-                  </div>
-
-                  <div className="p-2 rounded-lg bg-slate-800/40 border border-slate-750">
-                    <div className="text-[10px] text-slate-300 font-semibold">Easy/Med/Hard</div>
-                    <div className="text-xs font-bold text-white mt-1">
-                      {activeJob.generatedQuestions.filter((q: any) => q.difficulty === 'Easy').length} / {activeJob.generatedQuestions.filter((q: any) => q.difficulty === 'Medium').length} / {activeJob.generatedQuestions.filter((q: any) => q.difficulty === 'Hard').length}
-                    </div>
-                  </div>
-
-                  <div className="p-2 rounded-lg bg-emerald-950/20 border border-emerald-800/30">
-                    <div className="text-[10px] text-emerald-400 font-semibold">Approved Live</div>
-                    <div className="text-sm font-black text-emerald-300 mt-0.5">
-                      {activeJob.approvedCount || 0}
-                    </div>
-                  </div>
-
-                  <div className="p-2 rounded-lg bg-rose-950/20 border border-rose-800/30">
-                    <div className="text-[10px] text-rose-400 font-semibold">Auto-Replaced</div>
-                    <div className="text-sm font-black text-rose-300 mt-0.5">
-                      {(activeJob.duplicateCount || 0) + (activeJob.rejectedCount || 0)}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            )}
+              );
+            })()}
 
             {/* Filter Row */}
             <div className="p-3 rounded-xl bg-slate-900 border border-slate-800 flex flex-wrap items-center justify-between gap-3 text-xs">
