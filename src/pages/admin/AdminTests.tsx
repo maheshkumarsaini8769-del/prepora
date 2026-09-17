@@ -13,15 +13,52 @@ import {
   CheckCircle2,
   RefreshCw,
   X,
-  Play
+  Play,
+  Calendar
 } from 'lucide-react';
 import { testService } from '../../services/testService';
 
 export const AdminTests: React.FC = () => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'tests' | 'blueprint' | 'monitoring'>('tests');
+  const [activeTab, setActiveTab] = useState<'tests' | 'blueprint' | 'monitoring' | 'scheduled'>('tests');
   const [tests, setTests] = useState<any[]>([]);
   const [monitoringData, setMonitoringData] = useState<any>(null);
+
+  // Scheduled Tests State (Section 15 of task1.md)
+  const [scheduledTests, setScheduledTests] = useState<any[]>([
+    {
+      id: 'sched_1',
+      title: 'All-India JEE Main Rank Booster 2026 #1',
+      exam: 'JEE',
+      classLevel: '12',
+      startDateTime: '2026-09-20T09:00',
+      endDateTime: '2026-09-20T12:00',
+      durationMinutes: 180,
+      totalQuestions: 75,
+      targetGroup: 'All Aspirants',
+      status: 'Upcoming'
+    },
+    {
+      id: 'sched_2',
+      title: 'NEET Full Syllabus Speed & Accuracy Sprint',
+      exam: 'NEET',
+      classLevel: '12',
+      startDateTime: '2026-09-22T14:00',
+      endDateTime: '2026-09-22T17:20',
+      durationMinutes: 200,
+      totalQuestions: 200,
+      targetGroup: 'NEET 2026 Aspirants',
+      status: 'Upcoming'
+    }
+  ]);
+  const [newSchedTitle, setNewSchedTitle] = useState('');
+  const [newSchedExam, setNewSchedExam] = useState('JEE');
+  const [newSchedClass, setNewSchedClass] = useState('12');
+  const [newSchedStart, setNewSchedStart] = useState('2026-09-25T10:00');
+  const [newSchedEnd, setNewSchedEnd] = useState('2026-09-25T13:00');
+  const [newSchedDuration, setNewSchedDuration] = useState(180);
+  const [newSchedGroup, setNewSchedGroup] = useState('All Aspirants');
+  const [schedSuccessMsg, setSchedSuccessMsg] = useState('');
 
   // Blueprint Builder State
   const [blueprintExam, setBlueprintExam] = useState('JEE');
@@ -120,6 +157,17 @@ export const AdminTests: React.FC = () => {
         >
           <Sliders className="w-4 h-4" />
           <span>Test Blueprint Builder (Section 14)</span>
+        </button>
+        <button
+          onClick={() => setActiveTab('scheduled')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl font-bold transition ${
+            activeTab === 'scheduled'
+              ? 'bg-brand-500/20 text-brand-400 border border-brand-500/40'
+              : 'text-slate-400 hover:text-white'
+          }`}
+        >
+          <Calendar className="w-4 h-4" />
+          <span>Scheduled Tests (Section 15)</span>
         </button>
         <button
           onClick={() => {
@@ -382,6 +430,185 @@ export const AdminTests: React.FC = () => {
                   </div>
                 ))
               )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Tab 4: Test Scheduling (Section 15 of task1.md) */}
+      {activeTab === 'scheduled' && (
+        <div className="space-y-6">
+          {schedSuccessMsg && (
+            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center gap-2">
+              <CheckCircle2 className="w-4 h-4" />
+              <span>{schedSuccessMsg}</span>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Scheduling Form */}
+            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
+              <h3 className="font-bold text-sm text-white flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-brand-400" />
+                <span>Schedule New Assessment</span>
+              </h3>
+              <p className="text-xs text-slate-400">
+                Configure time-window, eligibility restrictions, and duration for synchronized test sessions.
+              </p>
+
+              <div className="space-y-3 text-xs">
+                <div>
+                  <label className="block text-slate-400 mb-1 font-semibold">Test Title</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. All-India Mock Test #2"
+                    value={newSchedTitle}
+                    onChange={(e) => setNewSchedTitle(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-slate-400 mb-1 font-semibold">Exam</label>
+                    <select
+                      value={newSchedExam}
+                      onChange={(e) => setNewSchedExam(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                    >
+                      <option value="JEE">JEE</option>
+                      <option value="NEET">NEET</option>
+                      <option value="Board">Board</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-slate-400 mb-1 font-semibold">Class</label>
+                    <select
+                      value={newSchedClass}
+                      onChange={(e) => setNewSchedClass(e.target.value)}
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                    >
+                      <option value="11">Class 11</option>
+                      <option value="12">Class 12</option>
+                      <option value="All">All Classes</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-slate-400 mb-1 font-semibold">Start Time</label>
+                    <input
+                      type="datetime-local"
+                      value={newSchedStart}
+                      onChange={(e) => setNewSchedStart(e.target.value)}
+                      className="w-full px-2 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium text-[11px]"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-400 mb-1 font-semibold">End Time</label>
+                    <input
+                      type="datetime-local"
+                      value={newSchedEnd}
+                      onChange={(e) => setNewSchedEnd(e.target.value)}
+                      className="w-full px-2 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium text-[11px]"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block text-slate-400 mb-1 font-semibold">Duration (Minutes)</label>
+                    <input
+                      type="number"
+                      value={newSchedDuration}
+                      onChange={(e) => setNewSchedDuration(Number(e.target.value))}
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-slate-400 mb-1 font-semibold">Target Group</label>
+                    <input
+                      type="text"
+                      value={newSchedGroup}
+                      onChange={(e) => setNewSchedGroup(e.target.value)}
+                      placeholder="e.g. Batch Alpha"
+                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => {
+                    if (!newSchedTitle.trim()) return;
+                    const newEntry = {
+                      id: `sched_${Date.now()}`,
+                      title: newSchedTitle.trim(),
+                      exam: newSchedExam,
+                      classLevel: newSchedClass,
+                      startDateTime: newSchedStart,
+                      endDateTime: newSchedEnd,
+                      durationMinutes: newSchedDuration,
+                      totalQuestions: newSchedExam === 'NEET' ? 200 : 75,
+                      targetGroup: newSchedGroup || 'All Aspirants',
+                      status: 'Upcoming'
+                    };
+                    setScheduledTests((prev) => [newEntry, ...prev]);
+                    setNewSchedTitle('');
+                    setSchedSuccessMsg(`Test "${newEntry.title}" scheduled successfully.`);
+                    setTimeout(() => setSchedSuccessMsg(''), 3500);
+                  }}
+                  className="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold transition shadow-lg shadow-brand-600/30 text-xs mt-3"
+                >
+                  Publish Schedule
+                </button>
+              </div>
+            </div>
+
+            {/* Scheduled Tests List */}
+            <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+              <div className="p-4 bg-slate-850 border-b border-slate-800 flex justify-between items-center text-xs">
+                <span className="font-bold text-slate-200">Upcoming & Active Scheduled Tests</span>
+                <span className="text-[11px] text-slate-400">{scheduledTests.length} Total</span>
+              </div>
+
+              <div className="divide-y divide-slate-800">
+                {scheduledTests.map((st) => (
+                  <div key={st.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs hover:bg-slate-800/40 transition">
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="font-bold text-white text-sm">{st.title}</span>
+                        <span className="px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20 font-bold text-[10px]">
+                          {st.exam}
+                        </span>
+                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold text-[10px]">
+                          Class {st.classLevel}
+                        </span>
+                      </div>
+                      <div className="text-[11px] text-slate-400 flex items-center gap-3">
+                        <span>Window: {st.startDateTime.replace('T', ' ')} to {st.endDateTime.replace('T', ' ')}</span>
+                        <span>•</span>
+                        <span>{st.durationMinutes} Mins</span>
+                        <span>•</span>
+                        <span>Target: {st.targetGroup}</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 self-start sm:self-auto">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                        {st.status}
+                      </span>
+                      <button
+                        onClick={() => setScheduledTests((prev) => prev.filter((item) => item.id !== st.id))}
+                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-rose-900/50 hover:text-rose-300 text-slate-400 font-semibold transition"
+                      >
+                        Cancel
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

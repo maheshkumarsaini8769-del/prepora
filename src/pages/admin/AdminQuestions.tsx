@@ -29,6 +29,14 @@ export const AdminQuestions: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>(() => questionService.getAllQuestions());
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
+  const [selectedExam, setSelectedExam] = useState<ExamType | 'All'>('All');
+  const [selectedDifficulty, setSelectedDifficulty] = useState<DifficultyLevel | 'All'>('All');
+  const [selectedStatus, setSelectedStatus] = useState<string>('All');
+  const [activeView, setActiveView] = useState<'all' | 'review_queue'>('all');
+  const [rejectModalOpen, setRejectModalOpen] = useState(false);
+  const [rejectingQuestion, setRejectingQuestion] = useState<Question | null>(null);
+  const [rejectReason, setRejectReason] = useState<string>('Wrong Answer');
+  const [rejectCustomNotes, setRejectCustomNotes] = useState<string>('');
   const [isEditorOpen, setIsEditorOpen] = useState(false);
   const [activeQuestion, setActiveQuestion] = useState<Question | null>(null);
 
@@ -87,7 +95,11 @@ export const AdminQuestions: React.FC = () => {
   }, []);
 
   const filtered = questions.filter((q) => {
+    if (activeView === 'review_queue' && q.status !== 'Pending') return false;
     if (selectedSubject !== 'All' && q.subject !== selectedSubject) return false;
+    if (selectedExam !== 'All' && q.exam !== selectedExam) return false;
+    if (selectedDifficulty !== 'All' && q.difficulty !== selectedDifficulty) return false;
+    if (selectedStatus !== 'All' && (q.status || 'Approved') !== selectedStatus) return false;
     if (searchQuery) {
       const query = searchQuery.toLowerCase();
       const matchQ = q.question.toLowerCase().includes(query);
@@ -97,6 +109,38 @@ export const AdminQuestions: React.FC = () => {
     }
     return true;
   });
+
+  const handleApproveQuestion = async (q: Question) => {
+    try {
+      await fetch(`/api/questions/${q.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'Approved' })
+      });
+      setQuestions(prev => prev.map(item => item.id === q.id ? { ...item, status: 'Approved' } : item));
+    } catch {
+      setQuestions(prev => prev.map(item => item.id === q.id ? { ...item, status: 'Approved' } : item));
+    }
+  };
+
+  const handleConfirmReject = async () => {
+    if (!rejectingQuestion) return;
+    const reasonText = `${rejectReason}${rejectCustomNotes ? `: ${rejectCustomNotes}` : ''}`;
+    try {
+      await fetch(`/api/questions/${rejectingQuestion.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'Rejected', rejectionReason: reasonText })
+      });
+      setQuestions(prev => prev.map(item => item.id === rejectingQuestion.id ? { ...item, status: 'Rejected', rejectionReason: reasonText } : item));
+    } catch {
+      setQuestions(prev => prev.map(item => item.id === rejectingQuestion.id ? { ...item, status: 'Rejected', rejectionReason: reasonText } : item));
+    } finally {
+      setRejectModalOpen(false);
+      setRejectingQuestion(null);
+      setRejectCustomNotes('');
+    }
+  };
 
   const handleOpenCreate = () => {
     setActiveQuestion(null);
@@ -528,8 +572,32 @@ export const AdminQuestions: React.FC = () => {
         </div>
       )}
 
+      {/* View Switch: All Questions vs Review Queue (Task1.md Section 6) */}
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 text-xs font-bold">
+        <button
+          onClick={() => setActiveView('all')}
+          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl transition ${
+            activeView === 'all'
+              ? 'bg-brand-600 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 bg-white border border-slate-200'
+          }`}
+        >
+          <span>All Questions ({questions.length})</span>
+        </button>
+        <button
+          onClick={() => setActiveView('review_queue')}
+          className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl transition ${
+            activeView === 'review_queue'
+              ? 'bg-amber-600 text-white shadow-sm'
+              : 'text-slate-600 hover:text-slate-900 bg-white border border-slate-200'
+          }`}
+        >
+          <span>Review Queue ({questions.filter(q => q.status === 'Pending').length})</span>
+        </button>
+      </div>
+
       {/* Filter and Search Bar */}
-      <Card className="p-4">
+      <Card className="p-4 space-y-3">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="relative w-full sm:w-80">
             <Search className="w-4 h-4 absolute left-3 top-3 text-slate-400" />
@@ -558,6 +626,67 @@ export const AdminQuestions: React.FC = () => {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Secondary Filters: Exam, Difficulty, Status */}
+        <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100 text-xs">
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-bold text-slate-500 uppercase">Exam:</span>
+            <select
+              value={selectedExam}
+              onChange={(e) => setSelectedExam(e.target.value as any)}
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700"
+            >
+              <option value="All">All Exams</option>
+              <option value="JEE">JEE</option>
+              <option value="NEET">NEET</option>
+              <option value="Board">Board</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-bold text-slate-500 uppercase">Difficulty:</span>
+            <select
+              value={selectedDifficulty}
+              onChange={(e) => setSelectedDifficulty(e.target.value as any)}
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700"
+            >
+              <option value="All">All Difficulties</option>
+              <option value="Easy">Easy</option>
+              <option value="Medium">Medium</option>
+              <option value="Hard">Hard</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-[11px] font-bold text-slate-500 uppercase">Status:</span>
+            <select
+              value={selectedStatus}
+              onChange={(e) => setSelectedStatus(e.target.value)}
+              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700"
+            >
+              <option value="All">All Statuses</option>
+              <option value="Approved">Approved</option>
+              <option value="Pending">Pending Review</option>
+              <option value="Draft">Draft</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+
+          {(selectedExam !== 'All' || selectedDifficulty !== 'All' || selectedStatus !== 'All' || selectedSubject !== 'All' || searchQuery) && (
+            <button
+              onClick={() => {
+                setSelectedExam('All');
+                setSelectedDifficulty('All');
+                setSelectedStatus('All');
+                setSelectedSubject('All');
+                setSearchQuery('');
+              }}
+              className="text-[11px] text-brand-600 hover:text-brand-800 font-bold ml-auto"
+            >
+              Reset Filters
+            </button>
+          )}
         </div>
       </Card>
 
@@ -606,12 +735,49 @@ export const AdminQuestions: React.FC = () => {
                     </Badge>
                   </td>
                   <td className="py-3 px-3">
-                    <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                      Approved
-                    </span>
+                    {q.status === 'Pending' ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                        Pending Review
+                      </span>
+                    ) : q.status === 'Draft' ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                        Draft
+                      </span>
+                    ) : q.status === 'Rejected' ? (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200" title={q.rejectionReason || 'Rejected'}>
+                        Rejected
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                        Approved
+                      </span>
+                    )}
                   </td>
                   <td className="py-3 px-4 text-right">
                     <div className="flex items-center justify-end gap-1">
+                      {q.status === 'Pending' && (
+                        <>
+                          <button
+                            onClick={() => handleApproveQuestion(q)}
+                            className="p-1.5 text-emerald-600 hover:text-emerald-700 rounded-lg hover:bg-emerald-50"
+                            title="Approve and publish question"
+                          >
+                            <Check className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => {
+                              setRejectingQuestion(q);
+                              setRejectReason('Wrong Answer');
+                              setRejectCustomNotes('');
+                              setRejectModalOpen(true);
+                            }}
+                            className="p-1.5 text-rose-600 hover:text-rose-700 rounded-lg hover:bg-rose-50"
+                            title="Reject question with reason"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </>
+                      )}
                       <button
                         onClick={() => handleOpenHistory(q)}
                         className="p-1.5 text-slate-400 hover:text-indigo-600 rounded-lg hover:bg-slate-100"
@@ -1030,6 +1196,58 @@ export const AdminQuestions: React.FC = () => {
               onChange={(e) => setFormExplanation(e.target.value)}
               className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800"
             />
+          </div>
+        </div>
+      </Modal>
+
+      {/* 5. REJECTION REASON MODAL (Task1.md Section 6) */}
+      <Modal
+        isOpen={rejectModalOpen}
+        onClose={() => setRejectModalOpen(false)}
+        title="Reject Question Draft"
+        maxWidth="max-w-md"
+      >
+        <div className="space-y-4 text-xs">
+          <p className="text-slate-600">
+            Select the primary reason for rejecting this question:
+          </p>
+
+          <div>
+            <label className="block font-bold text-slate-700 mb-1">Rejection Category</label>
+            <select
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+            >
+              <option value="Wrong Answer">Wrong Answer</option>
+              <option value="Wrong Explanation">Wrong Explanation</option>
+              <option value="Ambiguous">Ambiguous Question</option>
+              <option value="Duplicate">Duplicate Question</option>
+              <option value="Typo">Typo / Grammatical Error</option>
+              <option value="Incorrect Concept">Incorrect Concept / Out of Syllabus</option>
+              <option value="Poor Quality">Poor Quality Options / Distractors</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block font-bold text-slate-700 mb-1">Reviewer Notes (Optional)</label>
+            <textarea
+              rows={3}
+              value={rejectCustomNotes}
+              onChange={(e) => setRejectCustomNotes(e.target.value)}
+              placeholder="Provide specific guidance to help authors correct the question..."
+              className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+            />
+          </div>
+
+          <div className="flex justify-end gap-2 pt-2">
+            <Button size="sm" variant="outline" onClick={() => setRejectModalOpen(false)}>
+              Cancel
+            </Button>
+            <Button size="sm" variant="danger" onClick={handleConfirmReject}>
+              Confirm Rejection
+            </Button>
           </div>
         </div>
       </Modal>

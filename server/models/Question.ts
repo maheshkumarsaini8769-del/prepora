@@ -36,7 +36,8 @@ export interface IQuestion extends Document {
   sourceYear?: number;
   year?: number;
   recommendedTimeSeconds?: number;
-  status: 'Approved' | 'Pending' | 'Draft';
+  status: 'Approved' | 'Pending' | 'Draft' | 'Rejected' | 'Archived';
+  rejectionReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -73,7 +74,8 @@ const QuestionSchema: Schema = new Schema(
     sourceYear: { type: Number },
     year: { type: Number },
     recommendedTimeSeconds: { type: Number, default: 90 },
-    status: { type: String, default: 'Approved', enum: ['Approved', 'Pending', 'Draft'], index: true }
+    status: { type: String, default: 'Approved', enum: ['Approved', 'Pending', 'Draft', 'Rejected', 'Archived'], index: true },
+    rejectionReason: { type: String }
   },
   { timestamps: true }
 );

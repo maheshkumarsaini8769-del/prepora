@@ -54,6 +54,8 @@ export interface Question {
   sourceYear?: number;
   year?: number;
   recommendedTimeSeconds?: number;
+  status?: 'Approved' | 'Pending' | 'Draft' | 'Rejected' | 'Archived';
+  rejectionReason?: string;
 }
 
 export type QuestionPaletteStatus = 
