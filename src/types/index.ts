@@ -193,6 +193,7 @@ export interface MistakeItem {
   resolved: boolean;
   mistakeReason?: MistakeReason;
   mistakeNote?: string;
+  questionSnippet?: string;
 }
 
 export interface FormulaCard {
@@ -262,7 +263,7 @@ export interface DailyPlanItem {
   chapter: string;
   questionCount: number;
   durationMinutes: number;
-  status: 'pending' | 'in-progress' | 'completed';
+  status: 'pending' | 'in-progress' | 'completed' | 'skipped';
   type: 'practice' | 'test' | 'revision' | 'formula';
   actionUrl: string;
 }

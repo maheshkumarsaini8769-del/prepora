@@ -22,6 +22,7 @@ import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { AskDoubtModal } from '../components/common/AskDoubtModal';
 import { ImStuckModal } from '../components/common/ImStuckModal';
 import { ReportQuestionModal } from '../components/common/ReportQuestionModal';
+import { SimilarQuestionsModal } from '../components/common/SimilarQuestionsModal';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { syncEngine } from '../services/syncEngine';
@@ -60,6 +61,7 @@ export const PracticeSession: React.FC = () => {
   const [showDoubtModal, setShowDoubtModal] = useState<boolean>(false);
   const [showStuckModal, setShowStuckModal] = useState<boolean>(false);
   const [showReportModal, setShowReportModal] = useState<boolean>(false);
+  const [showSimilarModal, setShowSimilarModal] = useState<boolean>(false);
 
   // Time-tracking & Mistake Classification State (task2.md Sections 3 & 4)
   const [questionStartTime, setQuestionStartTime] = useState<number>(Date.now());
@@ -480,6 +482,34 @@ export const PracticeSession: React.FC = () => {
               </div>
             )}
 
+            {/* Task 4 Section 11: Practice Similar Questions Prompt */}
+            {!isCorrect && (
+              <div className="p-4 rounded-2xl bg-gradient-to-r from-indigo-50/90 via-purple-50/80 to-white border border-indigo-200 text-indigo-950 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-2xs">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-indigo-600 text-white flex items-center justify-center font-black text-xs shrink-0 shadow-xs">
+                    5x
+                  </div>
+                  <div>
+                    <h5 className="text-xs font-black text-indigo-950">
+                      Practice Similar Questions ({currentQ.topic})
+                    </h5>
+                    <p className="text-[11px] text-indigo-800">
+                      Reinforce this exact concept immediately with 5 targeted practice questions.
+                    </p>
+                  </div>
+                </div>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={() => setShowSimilarModal(true)}
+                  className="font-black text-xs bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs shrink-0 self-end sm:self-auto py-2 px-4"
+                >
+                  <span>Practice 5 Similar</span>
+                  <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </Button>
+              </div>
+            )}
+
             {/* 1-Click Mistake Classification Chips (task2.md Section 3) */}
             {!isCorrect && (
               <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2.5">
@@ -661,6 +691,13 @@ export const PracticeSession: React.FC = () => {
         onClose={() => setShowReportModal(false)}
         questionId={currentQ?.id || ''}
         questionSnippet={currentQ?.question || ''}
+      />
+
+      {/* Task 4 Section 11: 5 Similar Questions Practice Modal */}
+      <SimilarQuestionsModal
+        isOpen={showSimilarModal}
+        onClose={() => setShowSimilarModal(false)}
+        sourceQuestion={currentQ}
       />
     </div>
   );

@@ -4,6 +4,7 @@ import 'katex/dist/katex.min.css';
 
 interface MathRendererProps {
   content?: string;
+  text?: string;
   className?: string;
   displayMode?: boolean;
 }
@@ -42,10 +43,13 @@ function fallbackLatexToReadable(text: string): string {
  */
 export const MathRenderer: React.FC<MathRendererProps> = ({
   content = '',
+  text = '',
   className = '',
   displayMode = false
 }) => {
-  if (!content) return null;
+  const actualContent = content || text;
+  if (!actualContent) return null;
+  content = actualContent;
 
   // If content is pure math without markdown text surrounding it
   if (

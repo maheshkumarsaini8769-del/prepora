@@ -41,6 +41,10 @@ import { SpeedPracticePage } from './pages/SpeedPracticePage';
 import { AdaptivePracticePage } from './pages/AdaptivePracticePage';
 import { HelpCenter } from './pages/HelpCenter';
 import { StudyHub } from './pages/StudyHub';
+import { DailyPlanPage } from './pages/DailyPlanPage';
+import { ExamReadinessPage } from './pages/ExamReadinessPage';
+import { AITeacherPage } from './pages/AITeacherPage';
+import { MindMapPage } from './pages/MindMapPage';
 
 // Admin Pages
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -113,6 +117,11 @@ export const App: React.FC = () => {
           <Route path="/study-hub" element={<StudyHub />} />
           <Route path="/syllabus" element={<SyllabusTracker />} />
           <Route path="/planner" element={<StudyPlanner />} />
+          <Route path="/daily-plan" element={<DailyPlanPage />} />
+          <Route path="/readiness" element={<ExamReadinessPage />} />
+          <Route path="/tutor" element={<AITeacherPage />} />
+          <Route path="/ai-teacher" element={<AITeacherPage />} />
+          <Route path="/mind-map" element={<MindMapPage />} />
           <Route path="/goals" element={<GoalsPage />} />
           <Route path="/resources" element={<ResourceHub />} />
           <Route path="/help" element={<HelpCenter />} />

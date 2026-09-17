@@ -1476,7 +1476,1533 @@ MOST IMPORTANT:
 DO NOT ONLY DESIGN THESE FEATURES.
 
 IMPLEMENT THEM.
+PREPORA — AI ADAPTIVE LEARNING SYSTEM + AI TEACHER + MIND MAP + SMART STUDY PLANNER
+====================================================================================
 
+PROJECT:
+PREPORA
+
+TAGLINE:
+Practice • Test • Analyze • Improve
+
+IMPORTANT:
+This is an EXISTING production-style education platform.
+
+Do NOT rebuild the website from scratch.
+
+Do NOT remove existing features.
+
+Do NOT break existing business logic.
+
+Do NOT replace working systems unnecessarily.
+
+First inspect the existing codebase and understand the current architecture.
+
+Then integrate the following features into the existing PREPORA system.
+
+The new features MUST connect with the existing:
+
+- 100,000+ question system
+- Question Bank
+- JEE Main
+- JEE Advanced
+- NEET UG
+- CBSE
+- RBSE
+- Real Previous Year Papers
+- Test Builder
+- Easy / Medium / Hard
+- Performance Analytics
+- Mistake Book
+- Repeated Mistake Detection
+- Fix My Weakness
+- Smart Revision
+- Chapter Mastery
+- AI Doubt Solver
+- AI Content Factory
+- Student Dashboard
+- Admin Panel
+- Authentication
+- Search
+- Reports
+- Goals
+
+The new system must NOT become an isolated feature.
+
+Everything should work as ONE connected adaptive preparation engine.
+
+====================================================================================
+1. CORE PRODUCT EXPERIENCE
+====================================================================================
+
+Change the student experience from:
+
+Question → Answer → Done
+
+to:
+
+UNDERSTAND
+→ LEARN
+→ PRACTICE
+→ ANALYZE
+→ DETECT WEAKNESS
+→ TARGETED PRACTICE
+→ TEST
+→ REVISION
+→ RETEST
+→ MASTERY
+
+PREPORA should continuously understand what the student needs to study next.
+
+Main student question:
+
+"What should I study NOW?"
+
+This should become a major dashboard feature.
+
+====================================================================================
+2. AI STUDY PLANNER
+====================================================================================
+
+Create:
+
+"AI Study Planner"
+
+Student enters:
+
+- Exam
+- Exam date
+- Class
+- Subjects
+- Daily available study time
+- Preferred study time
+- Current preparation level
+- Target score if provided
+- Completed chapters
+- Weak chapters
+- Strong chapters
+
+Use actual PREPORA data:
+
+- Performance
+- Accuracy
+- Mistakes
+- Repeated mistakes
+- Chapter mastery
+- Topic mastery
+- Difficulty performance
+- Previous tests
+- Practice history
+- Revision history
+- Remaining syllabus
+- PYQ performance
+
+AI generates a personalized plan.
+
+Example:
+
+TODAY
+
+Physics
+Kinematics
+45 min
+
+Chemistry
+Mole Concept
+40 min
+
+Biology
+Cell
+50 min
+
+Practice
+25 questions
+
+Revision
+15 minutes
+
+Mini Test
+20 questions
+
+IMPORTANT:
+
+The planner must NOT randomly recommend topics.
+
+Recommendations must be based on real student data.
+
+====================================================================================
+3. ADAPTIVE DAILY PLAN
+====================================================================================
+
+The plan must change based on performance.
+
+Example:
+
+Student performs badly in:
+
+Physics → Kinematics → Graphs
+
+Then next plan automatically increases:
+
+- Graph revision
+- Easy/Medium practice
+- Concept explanation
+- Targeted questions
+- Retest
+
+If student masters it:
+
+Reduce repetition.
+
+Move to next weak concept.
+
+The system should continuously adapt.
+
+====================================================================================
+4. AI TEACHER / AI TUTOR
+====================================================================================
+
+Add:
+
+"AI Teacher"
+
+This is NOT just a generic chatbot.
+
+AI Teacher must behave like an interactive tutor.
+
+Modes:
+
+1. Learn
+2. Explain
+3. Example
+4. Practice
+5. Hint
+6. Check Answer
+7. Correct Mistake
+8. Retest
+
+Example:
+
+Student:
+
+"I don't understand Kinematics."
+
+AI Teacher:
+
+STEP 1
+Explain the concept simply.
+
+STEP 2
+Give a real/simple example.
+
+STEP 3
+Ask a basic question.
+
+STEP 4
+Check student's answer.
+
+STEP 5
+Explain mistake if wrong.
+
+STEP 6
+Give Medium question.
+
+STEP 7
+Give Hard question only when ready.
+
+STEP 8
+Create mini test.
+
+The AI must adapt explanation difficulty to the student.
+
+====================================================================================
+5. AI TEACHER CONTEXT
+====================================================================================
+
+AI Teacher should understand:
+
+- Student class
+- Exam
+- Subject
+- Chapter
+- Topic
+- Current mastery
+- Previous mistakes
+- Preferred difficulty
+- Previous conversation context
+
+But never blindly trust UI dropdowns.
+
+If:
+
+Selected Subject = Chemistry
+
+but question is clearly Physics,
+
+detect mismatch.
+
+Show:
+
+"Your selected subject appears inconsistent with the question."
+
+Actions:
+
+[Switch to Physics]
+[Continue Anyway]
+
+Never silently use wrong subject context.
+
+====================================================================================
+6. AI TEACHER + PREPORA CONTENT
+====================================================================================
+
+AI Teacher should use PREPORA content when relevant.
+
+Source states:
+
+PREPORA_GROUNDED
+GENERAL_AI
+WEB_VERIFIED
+MIXED
+
+Only show:
+
+"Grounded in PREPORA"
+
+when PREPORA content was actually retrieved.
+
+If no PREPORA content was retrieved:
+
+Do not claim PREPORA grounding.
+
+====================================================================================
+7. PROGRESSIVE HINT SYSTEM
+====================================================================================
+
+For questions:
+
+Do NOT immediately reveal the full answer.
+
+Provide:
+
+Hint 1:
+Conceptual hint
+
+Hint 2:
+Formula / approach
+
+Hint 3:
+Next step
+
+Then:
+
+Full Solution
+
+Student controls:
+
+[Hint 1]
+[Hint 2]
+[Show Solution]
+
+Track hint usage.
+
+Use hint usage as a learning signal.
+
+If student repeatedly needs hints on a topic:
+
+mark that concept as potentially weak.
+
+====================================================================================
+8. INTERACTIVE MIND MAP
+====================================================================================
+
+Add:
+
+"Mind Map"
+
+for every supported chapter.
+
+Structure:
+
+CHAPTER
+│
+├── TOPIC
+│   ├── SUBTOPIC
+│   │   ├── CONCEPT
+│   │   ├── QUESTIONS
+│   │   ├── MISTAKES
+│   │   └── MASTERY
+│
+└── REVISION
+
+Example:
+
+KINEMATICS
+
+Motion
+├── Distance
+├── Displacement
+├── Speed
+├── Velocity
+└── Acceleration
+
+Graphs
+├── Position-Time
+├── Velocity-Time
+└── Acceleration-Time
+
+Each node should show:
+
+Mastery %
+Questions attempted
+Accuracy
+Mistakes
+Hard questions
+Last practiced
+Next revision
+
+Clicking a node should open:
+
+Concept
+→ Learn
+→ Practice
+→ Questions
+→ Mistakes
+→ Revision
+
+====================================================================================
+9. MIND MAP VISUALIZATION
+====================================================================================
+
+Mind Map should be:
+
+Interactive
+Zoomable
+Scrollable
+Clickable
+Mobile responsive
+
+Use visual states:
+
+Mastered
+Learning
+Weak
+Not Started
+
+Do not use excessive colors.
+
+Keep PREPORA's premium monochrome design.
+
+Semantic status colors can be used minimally.
+
+====================================================================================
+10. CHAPTER LEARNING PAGE
+====================================================================================
+
+Create/upgrade chapter page:
+
+CHAPTER OVERVIEW
+
+Show:
+
+Mastery
+Topics
+Questions
+Accuracy
+Mistakes
+PYQs
+Revision status
+
+Actions:
+
+[Learn]
+[Mind Map]
+[Practice]
+[Test]
+[PYQs]
+[Revise]
+
+Example:
+
+Kinematics
+
+Mastery: 68%
+
+Topics:
+8
+
+Questions:
+146
+
+Accuracy:
+71%
+
+Mistakes:
+23
+
+PYQs:
+42
+
+Next:
+
+"Fix Graph-based Motion questions"
+
+====================================================================================
+11. SMART REVISION PLANNER
+====================================================================================
+
+Integrate with existing Smart Revision.
+
+Revision should consider:
+
+- Last studied time
+- Accuracy
+- Mistakes
+- Repeated mistakes
+- Difficulty
+- Mastery
+- Forgetting/revision schedule
+
+Generate:
+
+Today's Revision
+
+1. Kinematics Graphs
+2. Chemical Bonding
+3. Cell Division
+
+Each item:
+
+Why revise?
+
+Example:
+
+"Kinematics Graphs — accuracy 48% in your last 2 attempts."
+
+Then:
+
+[Revise Now]
+
+====================================================================================
+12. EXAM COUNTDOWN
+====================================================================================
+
+Add:
+
+Exam Countdown
+
+Example:
+
+NEET UG
+
+127 days remaining
+
+JEE Main
+
+94 days remaining
+
+CBSE Physics
+
+61 days remaining
+
+Connect countdown with study planner.
+
+Do not use fake dates.
+
+Use actual configured exam dates.
+
+If exam date is unknown:
+
+ask student to configure it.
+
+====================================================================================
+13. PREPARATION TIMELINE
+====================================================================================
+
+Create:
+
+Preparation Timeline
+
+PHASE 1
+Complete syllabus
+
+PHASE 2
+Concept strengthening
+
+PHASE 3
+Practice
+
+PHASE 4
+PYQs
+
+PHASE 5
+Mock Tests
+
+PHASE 6
+Revision
+
+PHASE 7
+Final preparation
+
+Timeline must adapt to:
+
+Exam date
+Remaining syllabus
+Student mastery
+
+====================================================================================
+14. PERSONALIZED "WHAT SHOULD I STUDY NOW?"
+====================================================================================
+
+Add prominent dashboard component:
+
+"What should I study now?"
+
+Show ONE primary recommendation.
+
+Example:
+
+Study Kinematics — Graphs
+
+Reason:
+
+Accuracy: 48%
+Last attempted: 3 days ago
+Repeated mistakes: 4
+Mastery: 42%
+
+Actions:
+
+[Start 15 Questions]
+[Learn Concept]
+[Revise]
+
+This recommendation must come from deterministic student data.
+
+AI may explain WHY.
+
+====================================================================================
+15. FIX MY WEAKNESS INTEGRATION
+====================================================================================
+
+AI Planner + AI Teacher + Mind Map + Fix My Weakness must be connected.
+
+Flow:
+
+Performance
+↓
+Weakness Detection
+↓
+Weak Topic
+↓
+Mind Map
+↓
+Concept Learning
+↓
+AI Teacher
+↓
+Targeted Practice
+↓
+Mini Test
+↓
+Retest
+↓
+Mastery Update
+
+This is the core PREPORA loop.
+
+====================================================================================
+16. ADAPTIVE QUESTION SELECTION
+====================================================================================
+
+When AI Teacher or Study Planner starts practice:
+
+Use real Question Bank.
+
+Filter by:
+
+Exam
+Subject
+Chapter
+Topic
+Difficulty
+Question Type
+Content Type
+Published status
+
+Never randomly select unrelated questions.
+
+If weakness is:
+
+Kinematics → Velocity-Time Graph
+
+questions must target that concept.
+
+Do NOT just select generic Kinematics questions.
+
+====================================================================================
+17. DIFFICULTY ADAPTATION
+====================================================================================
+
+Start based on student's level.
+
+Example:
+
+Weak student:
+
+Easy
+→ Easy
+→ Medium
+
+Strong student:
+
+Medium
+→ Hard
+
+Do not automatically give Hard questions to everyone.
+
+Difficulty must remain:
+
+EASY
+MEDIUM
+HARD
+
+and must match database values.
+
+Never silently substitute another difficulty.
+
+====================================================================================
+18. AI GENERATED PRACTICE
+====================================================================================
+
+If enough verified questions do not exist:
+
+Show:
+
+"Only 17 verified questions are available."
+
+Option:
+
+[Practice 17]
+
+[Generate More]
+
+If generating:
+
+AI Generated questions must pass:
+
+- Question validation
+- Answer validation
+- Math validation
+- Difficulty validation
+- Topic validation
+- Duplicate detection
+- Semantic duplicate detection
+- Source validation where applicable
+
+Never publish unvalidated AI questions.
+
+====================================================================================
+19. 100K+ QUESTION SYSTEM INTEGRATION
+====================================================================================
+
+The new features must work with the 100,000+ question system.
+
+Never load 100,000 questions into the browser.
+
+Use:
+
+Database filtering
+Indexes
+Pagination
+Efficient API queries
+
+Question recommendation should query only eligible questions.
+
+====================================================================================
+20. REAL PREVIOUS PAPER INTEGRATION
+====================================================================================
+
+AI Study Planner should be able to recommend:
+
+Real Previous Year Papers
+
+Categories:
+
+JEE Main
+JEE Advanced
+NEET UG
+CBSE
+RBSE
+
+PYQs must remain separate from:
+
+AI Generated
+Question Bank
+Model Papers
+
+If recommending a PYQ:
+
+show actual paper metadata.
+
+Example:
+
+JEE Advanced
+2024
+Paper 1
+Physics
+
+[Attempt Paper]
+
+Never label AI-generated questions as PYQs.
+
+====================================================================================
+21. PYQ PERFORMANCE ANALYSIS
+====================================================================================
+
+After a student attempts a previous paper:
+
+Analyze:
+
+- Score
+- Accuracy
+- Time
+- Subject
+- Chapter
+- Topic
+- Difficulty where available
+- Mistakes
+- Weakness
+
+Then feed results into:
+
+Study Planner
+Fix My Weakness
+Revision
+AI Teacher
+
+====================================================================================
+22. AI TEACHER FROM MISTAKES
+====================================================================================
+
+If student makes a mistake:
+
+Show:
+
+"Learn from this mistake"
+
+AI Teacher explains:
+
+1. What student did
+2. Why it was wrong
+3. Correct concept
+4. Correct approach
+5. Similar example
+6. Practice question
+7. Retest
+
+Do NOT shame the student.
+
+====================================================================================
+23. PERFORMANCE INTELLIGENCE
+====================================================================================
+
+AI can interpret real metrics.
+
+Example:
+
+"Your Chemistry accuracy is improving, but Organic Chemistry reaction questions remain a weak area."
+
+The number must come from actual database data.
+
+AI must NOT invent:
+
+scores
+accuracy
+rank
+mastery
+attempts
+
+Deterministic backend calculates metrics.
+
+AI explains them.
+
+====================================================================================
+24. HOME DASHBOARD UPGRADE
+====================================================================================
+
+Student Home should show:
+
+GREETING
+
+Exam Countdown
+
+"What should I study now?"
+
+Today's Plan
+
+Today's Progress
+
+Weakness Alert
+
+Continue Learning
+
+Quick Practice
+
+Upcoming Revision
+
+Recent Test
+
+Performance Snapshot
+
+Do not create too many equal-weight cards.
+
+Use strong visual hierarchy.
+
+====================================================================================
+25. DAILY PLAN UI
+====================================================================================
+
+Example:
+
+TODAY'S PLAN
+
+08:00
+Physics — Kinematics
+45 min
+[Start]
+
+10:00
+Chemistry — Mole Concept
+40 min
+[Start]
+
+14:00
+Biology — Cell
+50 min
+[Start]
+
+18:00
+Revision
+20 min
+[Start]
+
+20:00
+Mini Test
+20 questions
+[Start]
+
+Show completion:
+
+3/5 completed
+
+But values must come from real activity.
+
+====================================================================================
+26. GOALS
+====================================================================================
+
+Add goals:
+
+Daily Questions
+Daily Study Time
+Weekly Tests
+Chapter Completion
+Accuracy Target
+Exam Target
+
+Example:
+
+Daily Target:
+
+50 Questions
+
+Completed:
+
+32 / 50
+
+Progress:
+
+64%
+
+Never use fake progress.
+
+====================================================================================
+27. NOTIFICATION / REMINDER LOGIC
+====================================================================================
+
+Optional reminders:
+
+Revision due
+Daily plan
+Incomplete target
+Scheduled test
+
+Do not spam.
+
+Student can disable reminders.
+
+====================================================================================
+28. MOBILE UX
+====================================================================================
+
+All new features must work at:
+
+360px
+375px
+390px
+412px
+
+Mind Map:
+Use horizontal/vertical scrolling appropriately.
+
+AI Teacher:
+Chat must remain usable.
+
+Study Planner:
+Timeline must stack vertically.
+
+Chapter:
+No horizontal overflow.
+
+Test Builder:
+Filters must remain usable.
+
+Previous Papers:
+Cards instead of wide tables on mobile.
+
+====================================================================================
+29. PREMIUM PREPORA DESIGN
+====================================================================================
+
+Keep existing PREPORA monochrome design direction.
+
+Primary:
+
+Black
+White
+Gray
+
+Use semantic colors only when necessary:
+
+Success
+Warning
+Error
+
+Avoid:
+
+Excessive purple
+Neon
+Gaming style
+Childish illustrations
+Excessive gradients
+Excessive glassmorphism
+Huge shadows
+Card overload
+
+Typography must clearly distinguish:
+
+Primary action
+Main heading
+Section
+Metadata
+Secondary information
+
+====================================================================================
+30. AI SAFETY + ACCURACY
+====================================================================================
+
+Never claim:
+
+100% AI accuracy.
+
+Every educational answer must pass validation where applicable.
+
+For numerical questions:
+
+Independent calculation validation.
+
+For MCQs:
+
+Exactly one correct answer.
+
+For formulas:
+
+Validate mathematical rendering.
+
+Use proper:
+
+KaTeX / MathJax
+
+Never display raw:
+
+\frac
+\sqrt
+^{}
+LaTeX
+
+to students.
+
+====================================================================================
+31. DATA MODEL
+====================================================================================
+
+Create proper models/entities where needed:
+
+StudyPlan
+StudyPlanItem
+LearningSession
+MindMap
+MindMapNode
+RevisionSchedule
+AITutorSession
+TutorMessage
+StudentGoal
+ExamSchedule
+LearningRecommendation
+
+Connect them to:
+
+User
+Question
+Attempt
+Subject
+Chapter
+Topic
+Mistake
+Test
+Paper
+
+Do not duplicate existing entities unnecessarily.
+
+Reuse existing IDs/schema where possible.
+
+====================================================================================
+32. ADMIN CONTROLS
+====================================================================================
+
+Admin should be able to configure:
+
+- Exams
+- Exam dates
+- Study plan rules
+- Revision rules
+- AI Teacher settings
+- Mind Map hierarchy
+- Topic hierarchy
+- Difficulty
+- Question availability
+- AI usage limits
+
+Admin should see:
+
+AI Teacher usage
+Study plan completion
+Most common weak topics
+Most practiced chapters
+Most requested concepts
+Hint usage
+Retest performance
+
+Use real analytics.
+
+====================================================================================
+33. ADMIN LOGIN ACTIVITY
+====================================================================================
+
+Preserve the existing Login Activity requirement.
+
+Admin can see real:
+
+User
+Email
+Role
+Login time
+Last active
+Device
+OS
+Browser
+Session
+IP
+Status
+
+Never expose passwords or authentication secrets.
+
+====================================================================================
+34. FULL END-TO-END TESTING
+====================================================================================
+
+DO NOT just build the UI.
+
+Actually test the features.
+
+Test:
+
+Student Login
+↓
+Dashboard
+↓
+Exam selection
+↓
+Study Planner
+↓
+"What should I study now?"
+↓
+Chapter
+↓
+Mind Map
+↓
+Concept
+↓
+AI Teacher
+↓
+Practice
+↓
+Easy
+↓
+Medium
+↓
+Hard
+↓
+Submit
+↓
+Mistake
+↓
+Fix My Weakness
+↓
+Revision
+↓
+Retest
+↓
+Performance
+
+Also test:
+
+Previous Paper
+↓
+Attempt
+↓
+Analysis
+↓
+Weakness
+↓
+Study Plan update
+
+====================================================================================
+35. FILTER TESTING
+====================================================================================
+
+Test every combination.
+
+Subject
+Chapter
+Topic
+Difficulty
+Exam
+Content Type
+Question Type
+
+Test:
+
+Easy
+Medium
+Hard
+
+Make sure:
+
+Hard NEVER returns Medium/Easy.
+
+Medium NEVER returns Easy/Hard.
+
+Easy NEVER returns Medium/Hard.
+
+Test Builder requested count must match available inventory.
+
+If 50 requested but only 27 available:
+
+show 27.
+
+Never silently change the difficulty.
+
+====================================================================================
+36. REAL DATA TEST
+====================================================================================
+
+Compare:
+
+DATABASE
+↓
+API
+↓
+FRONTEND
+↓
+UI
+
+Example:
+
+Database:
+
+Hard = 83
+
+API:
+
+Hard = 83
+
+UI:
+
+Hard = 83
+
+All must match.
+
+No hardcoded values.
+
+====================================================================================
+37. REGRESSION TESTING
+====================================================================================
+
+After adding all features, verify existing features still work:
+
+- Authentication
+- Dashboard
+- Practice
+- Test Builder
+- Question Bank
+- Previous Papers
+- Model Papers
+- Performance
+- Mistakes
+- Revision
+- Fix My Weakness
+- AI Doubt Solver
+- Search
+- Admin Panel
+- AI Content Factory
+- Login Activity
+
+If any existing feature breaks, fix it before finalizing.
+
+====================================================================================
+38. PERFORMANCE
+====================================================================================
+
+Optimize:
+
+Database queries
+Indexes
+API calls
+AI calls
+Caching
+Pagination
+Mind Map loading
+Large question bank
+Previous Paper loading
+
+Do not make the dashboard perform dozens of unnecessary API calls.
+
+Use efficient aggregated APIs where appropriate.
+
+====================================================================================
+39. FINAL AUDIT REPORT — MANDATORY
+====================================================================================
+
+At the END provide a detailed report.
+
+1. FEATURES ADDED
+
+List every feature actually implemented.
+
+2. FEATURES MODIFIED
+
+List every existing feature changed.
+
+3. BUGS FOUND
+
+List:
+
+Bug
+Root Cause
+Fix
+Test Result
+
+4. QUESTION SYSTEM
+
+Report REAL:
+
+Total questions
+Easy
+Medium
+Hard
+Published
+AI Generated
+PYQ
+Model Paper
+Practice
+
+5. FILTER TEST RESULTS
+
+Report actual:
+
+Easy filter
+Medium filter
+Hard filter
+Subject filter
+Chapter filter
+Topic filter
+Combined filters
+Search filters
+
+6. TEST BUILDER RESULTS
+
+Report actual tests performed:
+
+10 Easy
+10 Medium
+10 Hard
+20 Easy
+20 Medium
+20 Hard
+50 Easy
+50 Medium
+50 Hard
+
+Only report PASS when actually tested.
+
+7. AI TEACHER TESTS
+
+Test:
+
+Theory
+Numerical
+Concept
+Mistake explanation
+Hints
+Retest
+
+8. STUDY PLANNER TEST
+
+Verify plan generation from real student data.
+
+9. MIND MAP TEST
+
+Verify:
+
+Chapter
+Topic
+Subtopic
+Concept
+Mastery
+Mistakes
+Questions
+
+10. FIX MY WEAKNESS TEST
+
+Verify:
+
+Weakness
+→ Targeted Practice
+→ Revision
+→ Retest
+→ Mastery update
+
+11. PREVIOUS PAPERS — MANDATORY
+
+Give EXACT list of papers actually present in database.
+
+Separate:
+
+JEE MAIN
+JEE ADVANCED
+NEET UG
+CBSE
+RBSE
+
+For each:
+
+Exam
+Year
+Session
+Date
+Shift
+Paper
+Subject
+Class
+Set/Code
+Question Count
+Source
+Verification Status
+Rights Status
+
+Also explicitly list:
+
+NOT ADDED
+NOT VERIFIED
+SOURCE ONLY
+RIGHTS REVIEW REQUIRED
+
+Never invent missing papers.
+
+12. ADMIN TEST
+
+Verify:
+
+Dashboard
+Question Bank
+AI Factory
+Previous Papers
+Students
+Analytics
+Login Activity
+Settings
+Security
+
+13. MOBILE TEST
+
+360
+375
+390
+412
+
+14. SECURITY TEST
+
+Authentication
+Authorization
+Admin permissions
+API protection
+Secret protection
+
+15. PERFORMANCE TEST
+
+Page load
+API
+Database
+Question filtering
+Test generation
+AI generation
+
+16. REMAINING ISSUES
+
+Clearly list anything not fixed.
+
+FINAL RULE:
+
+Do not say:
+
+"Everything is fixed"
+
+unless you actually performed the tests.
+
+Do not invent:
+
+Question counts
+Test results
+PYQ papers
+AI accuracy
+Analytics
+Login records
+
+Only report REAL results from the running application/database.
+
+The final report must be honest and traceable.
 ALL PHASE 1 / PHASE 1.5 FEATURES MUST BE FUNCTIONAL USING MOCK DATA.
 
 The final prototype should feel like a complete PREPORA student preparation ecosystem before Supabase and real APIs are connected.

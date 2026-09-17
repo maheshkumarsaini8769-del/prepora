@@ -112,27 +112,57 @@ export const SyllabusTracker: React.FC = () => {
 
       {/* Filter Toolbar */}
       <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-4">
-        {/* Exam & Class select */}
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <div className="flex items-center gap-1 font-bold text-slate-700 mr-1">
-            <Filter className="w-4 h-4 text-purple-600" />
-            <span>Filter:</span>
+        {/* Exam, Class & Subject selectors */}
+        <div className="flex flex-wrap items-center gap-3 text-xs">
+          <div className="flex items-center gap-1.5">
+            <span className="font-bold text-slate-500">Exam:</span>
+            <select
+              value={selectedExam}
+              onChange={e => {
+                const ex = e.target.value as ExamType;
+                setSelectedExam(ex);
+                setSyllabusList(ecosystemService.getSyllabus(ex, selectedClass));
+              }}
+              className="px-2.5 py-1.5 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-800 outline-none cursor-pointer"
+            >
+              <option value="JEE">JEE Main & Adv</option>
+              <option value="NEET">NEET UG</option>
+              <option value="CBSE">CBSE Board</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-1.5">
+            <span className="font-bold text-slate-500">Class:</span>
+            <select
+              value={selectedClass}
+              onChange={e => {
+                const cl = e.target.value as ClassLevel;
+                setSelectedClass(cl);
+                setSyllabusList(ecosystemService.getSyllabus(selectedExam, cl));
+              }}
+              className="px-2.5 py-1.5 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-800 outline-none cursor-pointer"
+            >
+              <option value="11">Class 11</option>
+              <option value="12">Class 12</option>
+            </select>
           </div>
 
           {/* Subject Tabs */}
-          {(['All', 'Physics', 'Chemistry', 'Mathematics'] as const).map(subj => (
-            <button
-              key={subj}
-              onClick={() => setSelectedSubject(subj)}
-              className={`px-3.5 py-1.5 rounded-xl font-bold transition-all ${
-                selectedSubject === subj
-                  ? 'bg-purple-600 text-white shadow-xs'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-              }`}
-            >
-              {subj}
-            </button>
-          ))}
+          <div className="flex flex-wrap items-center gap-1.5">
+            {(['All', 'Physics', 'Chemistry', selectedExam === 'NEET' ? 'Biology' : 'Mathematics'] as const).map(subj => (
+              <button
+                key={subj}
+                onClick={() => setSelectedSubject(subj as any)}
+                className={`px-3 py-1.5 rounded-xl font-bold transition-all cursor-pointer ${
+                  selectedSubject === subj
+                    ? 'bg-purple-600 text-white shadow-xs'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+              >
+                {subj}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Search Input */}
@@ -217,20 +247,20 @@ export const SyllabusTracker: React.FC = () => {
                 </select>
               </div>
 
-              <div className="grid grid-cols-3 gap-1.5 pt-1">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 pt-1">
                 <Button
                   size="sm"
                   variant="outline"
                   onClick={() => navigate(`/chapters/${encodeURIComponent(ch.name)}`)}
-                  className="text-[11px] font-bold py-1 px-2"
+                  className="text-[11px] font-bold py-1 px-1.5"
                 >
-                  Hub
+                  Open Chapter
                 </Button>
                 <Button
                   size="sm"
                   variant="primary"
                   onClick={() => navigate(`/practice?chapter=${encodeURIComponent(ch.name)}`)}
-                  className="text-[11px] font-bold py-1 px-2"
+                  className="text-[11px] font-bold py-1 px-1.5"
                 >
                   Practice
                 </Button>
@@ -238,9 +268,17 @@ export const SyllabusTracker: React.FC = () => {
                   size="sm"
                   variant="secondary"
                   onClick={() => navigate(`/build-test?chapter=${encodeURIComponent(ch.name)}`)}
-                  className="text-[11px] font-bold py-1 px-2"
+                  className="text-[11px] font-bold py-1 px-1.5"
                 >
                   Test
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => navigate(`/revision?chapter=${encodeURIComponent(ch.name)}`)}
+                  className="text-[11px] font-bold py-1 px-1.5"
+                >
+                  Revise
                 </Button>
               </div>
             </div>

@@ -21,13 +21,36 @@ import {
   TrendingUp,
   Activity,
   Target,
-  Award
+  Award,
+  FileText,
+  HelpCircle,
+  FileEdit,
+  XCircle,
+  BrainCircuit
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { formulaService } from '../services/formulaService';
 import { ecosystemService } from '../services/ecosystemService';
-import { FormulaCard } from '../types';
+import { userService } from '../services/userService';
+import { InteractiveMindMap } from '../components/common/InteractiveMindMap';
+import { AskDoubtModal } from '../components/common/AskDoubtModal';
+import { MathRenderer } from '../components/common/MathRenderer';
+import { FormulaCard, Question } from '../types';
+
+export type ChapterTab = 
+  | 'overview' 
+  | 'learn' 
+  | 'notes' 
+  | 'formulas' 
+  | 'flashcards' 
+  | 'basic' 
+  | 'advanced' 
+  | 'pyqs' 
+  | 'test' 
+  | 'mistakes' 
+  | 'drill' 
+  | 'mindmap';
 
 export const ChapterDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -38,7 +61,8 @@ export const ChapterDetail: React.FC = () => {
   const topics = questionService.getTopics(chapterName);
   const sampleQ = questions[0];
 
-  const [activeTab, setActiveTab] = useState<'topics' | 'formulas' | 'flashcards' | 'drill'>('topics');
+  const [activeTab, setActiveTab] = useState<ChapterTab>('overview');
+  const [showDoubtModal, setShowDoubtModal] = useState<boolean>(false);
   const masteryData = ecosystemService.getChapterMastery(chapterName);
 
   const sortedTopics = [...masteryData.topics].sort((a, b) => (a.accuracy ?? a.percentage) - (b.accuracy ?? b.percentage));
@@ -46,13 +70,21 @@ export const ChapterDetail: React.FC = () => {
   const weakestTopicName = biggestProblem ? (biggestProblem.topicName || biggestProblem.topic) : (topics[0] || 'Core Theory');
   const weakestTopicAccuracy = biggestProblem ? (biggestProblem.accuracy ?? biggestProblem.percentage) : 42;
 
+  // Mistakes & Notes for this chapter
+  const chapterMistakes = userService.getMistakes().filter(m => m.chapter.toLowerCase() === chapterName.toLowerCase());
+  const chapterNotes = userService.getNotes().filter(n => n.chapter?.toLowerCase() === chapterName.toLowerCase());
+
+  // Questions categorization
+  const pyqQuestions = questions.filter(q => q.source === 'PYQ' || q.contentType === 'PYQ' || q.year);
+  const basicQuestions = questions.filter(q => q.difficulty === 'Easy');
+  const advancedQuestions = questions.filter(q => q.difficulty === 'Hard' || q.difficulty === 'Medium');
+
   // Formulas state
   const [formulas, setFormulas] = useState<FormulaCard[]>([]);
   useEffect(() => {
     const list = formulaService.getFormulasByChapter(chapterName);
-    // If specific chapter formulas not found, provide top relevant physics/chemistry formulas
     if (list.length === 0) {
-      setFormulas(formulaService.getAllFormulas().slice(0, 6));
+      setFormulas(formulaService.getAllFormulas().slice(0, 8));
     } else {
       setFormulas(list);
     }
@@ -112,13 +144,13 @@ export const ChapterDetail: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300 pb-12">
+    <div className="max-w-5xl mx-auto space-y-6 animate-in fade-in duration-300 pb-16">
       <Button variant="ghost" size="sm" onClick={() => navigate('/practice')}>
         <ArrowLeft className="w-4 h-4" /> Back to Practice
       </Button>
 
       {/* Chapter Banner */}
-      <Card className="bg-gradient-to-r from-purple-800 via-purple-700 to-indigo-900 text-white border-none p-6 sm:p-8 shadow-xl">
+      <Card className="bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white border-none p-6 sm:p-8 shadow-xl">
         <div className="flex flex-wrap items-center gap-2 mb-2">
           {sampleQ && <Badge variant="brand">{sampleQ.subject}</Badge>}
           {sampleQ && <Badge variant="info">Class {sampleQ.class}</Badge>}
@@ -129,7 +161,7 @@ export const ChapterDetail: React.FC = () => {
 
         <h1 className="text-2xl sm:text-3xl font-black">{chapterName}</h1>
 
-        <div className="flex items-center gap-6 mt-6 pt-4 border-t border-white/10 text-xs sm:text-sm text-brand-100">
+        <div className="flex items-center gap-6 mt-5 pt-4 border-t border-white/10 text-xs sm:text-sm text-brand-100 flex-wrap">
           <div>
             <span className="text-white font-bold">{topics.length}</span> Sub-topics
           </div>
@@ -139,8 +171,102 @@ export const ChapterDetail: React.FC = () => {
           <div>
             <span className="text-white font-bold">{formulas.length}</span> Formula Cards
           </div>
+          <div>
+            <span className="text-white font-bold">{pyqQuestions.length}</span> PYQs
+          </div>
+          <div>
+            <span className="text-white font-bold">{masteryData.overallMastery}%</span> Mastery
+          </div>
         </div>
       </Card>
+
+      {/* Chapter Quick Action Bar (task4.md Section 26) */}
+      <div className="bg-white rounded-2xl p-2.5 border border-slate-200/80 shadow-xs flex flex-wrap items-center gap-1.5 overflow-x-auto">
+        <button
+          type="button"
+          onClick={() => setActiveTab('learn')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'learn' ? 'bg-purple-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+        >
+          📖 Learn
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}`)}
+          className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer"
+        >
+          ✍️ Practice
+        </button>
+        <button
+          type="button"
+          onClick={() => navigate(`/build-test?chapter=${encodeURIComponent(chapterName)}`)}
+          className="px-3 py-1.5 rounded-xl text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 transition-all cursor-pointer"
+        >
+          🧪 Test
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('pyqs')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'pyqs' ? 'bg-purple-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+        >
+          📄 PYQ
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('formulas')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'formulas' ? 'bg-purple-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+        >
+          🧮 Formula
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('flashcards')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'flashcards' ? 'bg-purple-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+        >
+          🃏 Flashcards
+        </button>
+        <button
+          type="button"
+          onClick={() => handleStartDrill()}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'drill' ? 'bg-purple-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+        >
+          🔄 Revision
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('mistakes')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'mistakes' ? 'bg-purple-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+        >
+          ❌ Mistakes
+        </button>
+        <button
+          type="button"
+          onClick={() => setActiveTab('mindmap')}
+          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeTab === 'mindmap' ? 'bg-purple-600 text-white shadow-xs' : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
+          }`}
+        >
+          🧠 Mind Map
+        </button>
+        <button
+          type="button"
+          onClick={() => setShowDoubtModal(true)}
+          className="px-3 py-1.5 rounded-xl text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200 hover:bg-purple-100 transition-all cursor-pointer ml-auto"
+        >
+          ❓ Ask Doubt
+        </button>
+      </div>
 
       {/* Advisory Banner: "Don't Study This Now" when mastery >= 85% */}
       {masteryData.overallMastery >= 85 && (
@@ -170,49 +296,79 @@ export const ChapterDetail: React.FC = () => {
         </div>
       )}
 
-      {/* Tab Navigation */}
-      <div className="flex border-b border-slate-200 bg-white rounded-2xl p-1.5 shadow-xs gap-2">
+      {/* 10-Tab Workspace Bar */}
+      <div className="flex border-b border-slate-200 bg-white rounded-2xl p-1.5 shadow-xs gap-1.5 overflow-x-auto text-xs font-bold">
         <button
-          onClick={() => setActiveTab('topics')}
-          className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all ${
-            activeTab === 'topics'
-              ? 'bg-purple-600 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          onClick={() => setActiveTab('overview')}
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'overview' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
           }`}
         >
-          Overview & Topics
+          Overview & Telemetry
+        </button>
+        <button
+          onClick={() => setActiveTab('learn')}
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'learn' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          📖 Learn & Concepts
+        </button>
+        <button
+          onClick={() => setActiveTab('notes')}
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'notes' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          📝 Notes ({chapterNotes.length})
         </button>
         <button
           onClick={() => setActiveTab('formulas')}
-          className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 ${
-            activeTab === 'formulas'
-              ? 'bg-purple-600 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'formulas' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
           }`}
         >
-          <span>Formula Sheet</span>
-          <span className={`px-1.5 py-0.2 rounded-full text-[10px] ${activeTab === 'formulas' ? 'bg-white/20 text-white' : 'bg-purple-100 text-purple-700'}`}>
-            {formulas.length}
-          </span>
+          🧮 Formulas ({formulas.length})
         </button>
         <button
           onClick={() => {
             setActiveTab('flashcards');
             setIsFlipped(false);
           }}
-          className={`flex-1 py-2.5 px-3 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 ${
-            activeTab === 'flashcards'
-              ? 'bg-purple-600 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'flashcards' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
           }`}
         >
-          <span>Flashcards Mode</span>
-          <Sparkles className="w-3.5 h-3.5 text-yellow-500" />
+          🃏 Flashcards
+        </button>
+        <button
+          onClick={() => setActiveTab('pyqs')}
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'pyqs' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          📄 PYQs ({pyqQuestions.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('mistakes')}
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'mistakes' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          ❌ Mistakes ({chapterMistakes.length})
+        </button>
+        <button
+          onClick={() => setActiveTab('mindmap')}
+          className={`py-2 px-3 rounded-xl transition-all shrink-0 cursor-pointer ${
+            activeTab === 'mindmap' ? 'bg-purple-600 text-white shadow-xs' : 'text-slate-600 hover:bg-slate-50'
+          }`}
+        >
+          🧠 Mind Map
         </button>
       </div>
 
-      {/* TAB 1: TOPICS & OVERVIEW */}
-      {activeTab === 'topics' && (
+      {/* TAB 1: OVERVIEW & TELEMETRY */}
+      {activeTab === 'overview' && (
         <div className="space-y-6">
           {/* Chapter Mastery Dashboard Card */}
           <Card className="p-5 sm:p-6 bg-gradient-to-br from-white to-purple-50/40 border border-purple-100 shadow-sm space-y-4">
@@ -281,7 +437,7 @@ export const ChapterDetail: React.FC = () => {
             </div>
           </Card>
 
-          {/* "YOUR BIGGEST PROBLEM IN THIS CHAPTER" (task2.md Section 8.1 #3) */}
+          {/* Biggest Problem In Chapter */}
           {biggestProblem && (
             <div className="p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-rose-500/10 via-purple-500/5 to-slate-900/5 border border-rose-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div className="flex items-start gap-3.5">
@@ -317,495 +473,342 @@ export const ChapterDetail: React.FC = () => {
             </div>
           )}
 
-          {/* EXAM RELEVANCE & PYQ TREND BOX (task2.md Section 8.1 #5) */}
-          <div className="p-5 rounded-3xl bg-white border border-slate-200/80 shadow-xs grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center shrink-0">
-                <Award className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold text-slate-400 uppercase">Exam Weightage</span>
-                <div className="text-sm font-black text-slate-900">2-3 Questions</div>
-                <div className="text-[11px] text-purple-700 font-semibold">8 - 12 Guaranteed Marks</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
-                <TrendingUp className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold text-slate-400 uppercase">PYQ Trend</span>
-                <div className="text-sm font-black text-slate-900">Every Year (7-Yr Streak)</div>
-                <div className="text-[11px] text-emerald-700 font-semibold">100% Exam Occurrence</div>
-              </div>
-            </div>
-
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-sky-50 text-sky-700 flex items-center justify-center shrink-0">
-                <Activity className="w-5 h-5" />
-              </div>
-              <div>
-                <span className="text-[11px] font-bold text-slate-400 uppercase">Difficulty Distribution</span>
-                <div className="text-sm font-black text-slate-900">30% E • 50% M • 20% H</div>
-                <div className="text-[11px] text-sky-700 font-semibold">Balanced Question Mix</div>
-              </div>
-            </div>
-          </div>
-
-          {/* 4 PRACTICE OPTIONS (task2.md Section 8.1 #6) */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-            <button
-              onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}&topic=${encodeURIComponent(weakestTopicName)}`)}
-              className="p-4 rounded-2xl bg-purple-50 hover:bg-purple-100/80 border border-purple-200 text-left transition-all group flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md bg-purple-600 text-white">
-                  Recommended
-                </span>
-                <h4 className="font-bold text-sm text-slate-900 mt-2">Practice Weak Subtopics</h4>
-                <p className="text-[11px] text-slate-500 mt-1">Target only your identified bottleneck topics</p>
-              </div>
-              <span className="text-xs font-bold text-purple-700 mt-3 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                Start Drill →
-              </span>
-            </button>
-
-            <button
-              onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}`)}
-              className="p-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-left transition-all group flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-[10px] font-bold uppercase text-slate-400">Comprehensive</span>
-                <h4 className="font-bold text-sm text-slate-900 mt-2">Full Chapter Practice</h4>
-                <p className="text-[11px] text-slate-500 mt-1">Mixed practice covering all subtopics</p>
-              </div>
-              <span className="text-xs font-bold text-slate-700 mt-3 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                Start All Qs →
-              </span>
-            </button>
-
-            <button
-              onClick={() => navigate(`/tests`)}
-              className="p-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-left transition-all group flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-[10px] font-bold uppercase text-slate-400">Timed Exam</span>
-                <h4 className="font-bold text-sm text-slate-900 mt-2">Chapter Mock Test</h4>
-                <p className="text-[11px] text-slate-500 mt-1">Full exam environment with countdown timer</p>
-              </div>
-              <span className="text-xs font-bold text-slate-700 mt-3 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                Take Test →
-              </span>
-            </button>
-
-            <button
-              onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}&source=PYQ`)}
-              className="p-4 rounded-2xl bg-white hover:bg-slate-50 border border-slate-200 text-left transition-all group flex flex-col justify-between"
-            >
-              <div>
-                <span className="text-[10px] font-bold uppercase text-slate-400">Past Papers</span>
-                <h4 className="font-bold text-sm text-slate-900 mt-2">PYQ Questions Only</h4>
-                <p className="text-[11px] text-slate-500 mt-1">Practice actual previous year questions</p>
-              </div>
-              <span className="text-xs font-bold text-slate-700 mt-3 flex items-center gap-1 group-hover:translate-x-0.5 transition-transform">
-                Solve PYQs →
-              </span>
-            </button>
-          </div>
-
-          {/* Topics Breakdown with Traffic Light Status */}
-          <Card className="space-y-4">
-            <div className="flex items-center justify-between">
-              <h3 className="font-bold text-base text-slate-900">Subtopic Mastery Breakdown ({topics.length})</h3>
-              <div className="flex items-center gap-3 text-[11px] font-semibold text-slate-500">
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-emerald-500" /> Mastered</span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-amber-500" /> Learning</span>
-                <span className="flex items-center gap-1"><span className="w-2 h-2 rounded-full bg-rose-500" /> Weak</span>
-              </div>
-            </div>
-
-            <div className="space-y-2.5">
-              {masteryData.topics.map((t, idx) => {
-                const isMastered = t.status === 'green' || (t.status as string) === 'mastered';
-                const isLearning = t.status === 'yellow' || (t.status as string) === 'learning';
-                const badgeColor = 
-                  isMastered ? 'bg-emerald-100 text-emerald-800' :
-                  isLearning ? 'bg-amber-100 text-amber-800' :
-                  'bg-rose-100 text-rose-800';
-                const label = isMastered ? 'Mastered' : isLearning ? 'Learning' : 'Weak';
-                const topicName = t.topicName || t.topic;
-                const acc = t.accuracy ?? t.percentage;
-                const qCount = t.questionsAttempted ?? (8 + idx * 3);
-
-                return (
-                  <div
-                    key={idx}
-                    className="p-3.5 rounded-2xl bg-white border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 hover:border-purple-200 transition-all shadow-xs"
-                  >
-                    <div className="flex items-start sm:items-center gap-3">
-                      <span className="w-6 h-6 rounded-lg bg-brand-100 text-brand-700 text-xs font-bold flex items-center justify-center shrink-0 mt-0.5 sm:mt-0">
-                        {idx + 1}
-                      </span>
-                      <div>
-                        <div className="flex items-center gap-2">
-                          <span className="text-sm font-bold text-slate-900">{topicName}</span>
-                          <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full capitalize ${badgeColor}`}>
-                            {label}
-                          </span>
-                        </div>
-                        <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
-                          <span>Accuracy: <strong className="text-slate-800">{acc}%</strong></span>
-                          <span>•</span>
-                          <span>{qCount} Qs Attempted</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}&topic=${encodeURIComponent(topicName)}`)}
-                      className="text-xs text-brand-600 hover:text-brand-700 font-semibold shrink-0"
-                    >
-                      Drill Topic →
-                    </Button>
+          {/* Subtopics Checklist */}
+          <div className="space-y-3">
+            <h3 className="text-base font-black text-slate-900">
+              Subtopics in this Chapter
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {topics.map((t, idx) => (
+                <div
+                  key={idx}
+                  className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between hover:border-purple-300 transition"
+                >
+                  <div className="truncate">
+                    <h4 className="text-xs font-bold text-slate-900 truncate">{t}</h4>
+                    <span className="text-[10px] text-slate-400">High exam yield</span>
                   </div>
-                );
-              })}
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}&topic=${encodeURIComponent(t)}`)}
+                    className="text-[11px] font-bold py-1 px-3 shrink-0"
+                  >
+                    Practice
+                  </Button>
+                </div>
+              ))}
             </div>
-          </Card>
+          </div>
         </div>
       )}
 
-      {/* TAB 2: FORMULA SHEET */}
-      {activeTab === 'formulas' && (
-        <div className="space-y-5">
-          {/* Quick Drill Action CTA */}
-          <div className="p-5 bg-gradient-to-r from-purple-50 via-indigo-50 to-purple-100/60 rounded-2xl border border-purple-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* TAB 2: LEARN & CONCEPTS */}
+      {activeTab === 'learn' && (
+        <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 mb-1">
-                <Sparkles className="w-4 h-4 text-purple-600" />
-                <span>Formula Memory Accelerator</span>
-              </div>
-              <h4 className="text-base font-black text-slate-900">15-Minute Quick Revision Drill</h4>
-              <p className="text-xs text-slate-600 mt-0.5">
-                Rapidly drill 10 random high-yield formulas with spaced repetition tracking.
-              </p>
+              <h3 className="text-lg font-black text-slate-900">Chapter Learning Summary</h3>
+              <p className="text-xs text-slate-500">Core theoretical definitions, postulates, and boundary conditions</p>
             </div>
-            <div className="flex items-center gap-2">
-              <Button
-                variant="primary"
-                onClick={handleStartDrill}
-                className="font-bold text-xs shadow-md shadow-purple-500/20"
-              >
-                Start 15-Min Drill
-              </Button>
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setActiveTab('flashcards');
-                  setIsFlipped(false);
-                }}
-                className="font-bold text-xs"
-              >
-                Flashcards Mode
-              </Button>
-            </div>
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={() => navigate(`/tutor?subject=${sampleQ?.subject || 'Physics'}&chapter=${encodeURIComponent(chapterName)}`)}
+              className="text-xs font-bold"
+            >
+              <BrainCircuit className="w-3.5 h-3.5 mr-1" />
+              <span>Ask AI Teacher</span>
+            </Button>
           </div>
 
-          {/* Formulas List */}
-          <div className="space-y-4">
-            {formulas.map((f, i) => (
-              <Card key={f.id} className="p-5 space-y-3 hover:border-purple-300 transition-all">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-2.5">
-                  <div className="flex items-center gap-2">
-                    <span className="w-6 h-6 rounded-lg bg-purple-100 text-purple-700 text-xs font-bold flex items-center justify-center">
-                      {i + 1}
-                    </span>
-                    <h4 className="font-bold text-sm text-slate-900">{f.name}</h4>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    {f.siUnit && (
-                      <span className="text-[11px] font-semibold text-slate-600 bg-slate-100 px-2.5 py-0.5 rounded-md">
-                        SI: {f.siUnit}
-                      </span>
-                    )}
-                    {f.learnedStatus === 'mastered' && (
-                      <span className="text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        ✓ Mastered
-                      </span>
-                    )}
-                    {f.learnedStatus === 'need-revision' && (
-                      <span className="text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
-                        🔄 Need Revision
-                      </span>
-                    )}
-                  </div>
-                </div>
+          <div className="space-y-4 text-xs sm:text-sm text-slate-800 leading-relaxed">
+            <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 space-y-2">
+              <h4 className="font-black text-purple-900 text-sm">Fundamental Framework of {chapterName}</h4>
+              <p>
+                In competitive examination syllabi, {chapterName} forms the foundational bedrock for mechanics and problem solving. Mastery requires conceptual fluency with vector quantities, coordinate frame selection, and continuous calculus derivations.
+              </p>
+            </div>
 
-                {/* Formula Statement */}
-                <div className="p-4 bg-purple-50/60 rounded-xl border border-purple-100/80 font-mono text-sm sm:text-base font-bold text-purple-950 overflow-x-auto">
+            <div className="space-y-3">
+              <h4 className="font-bold text-slate-900 text-xs uppercase tracking-wider">High-Yield Concepts to Retain:</h4>
+              <ul className="list-disc list-inside space-y-2 pl-2">
+                <li><strong>Vector Consistency:</strong> Always establish an origin and positive direction before applying standard algebraic relations.</li>
+                <li><strong>Inflection Points:</strong> On graphs, slope indicates the instantaneous derivative (e.g. slope of $x-t$ gives velocity, slope of $v-t$ gives acceleration).</li>
+                <li><strong>Integration Boundaries:</strong> Area under curves equates to cumulative physical changes (e.g. area under $v-t$ curve equals net displacement).</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* TAB 3: NOTES */}
+      {activeTab === 'notes' && (
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 className="text-base font-black text-slate-900">Chapter Revision Notes</h3>
+              <p className="text-xs text-slate-500">Saved notes and highlights for {chapterName}</p>
+            </div>
+            <Button size="sm" variant="outline" onClick={() => navigate('/notes')} className="text-xs font-bold">
+              Open Notes Hub
+            </Button>
+          </div>
+
+          {chapterNotes.length === 0 ? (
+            <div className="py-10 text-center space-y-2">
+              <FileEdit className="w-8 h-8 text-slate-300 mx-auto" />
+              <p className="text-xs text-slate-500">No student notes saved for this chapter yet.</p>
+              <Button size="sm" variant="primary" onClick={() => navigate('/notes')} className="text-xs font-bold">
+                Create First Note
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {chapterNotes.map(n => (
+                <div key={n.id} className="p-4 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
+                  <h4 className="text-xs font-bold text-slate-900">{n.title}</h4>
+                  <p className="text-xs text-slate-600 whitespace-pre-line">{n.content}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 4: FORMULA SHEET */}
+      {activeTab === 'formulas' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-500">{formulas.length} Core Equations</span>
+            <Button size="sm" variant="primary" onClick={handleStartDrill} className="text-xs font-bold">
+              <Play className="w-3.5 h-3.5 mr-1" />
+              <span>Start 15-Min Formula Sprint</span>
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {formulas.map(f => (
+              <div key={f.id} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold text-purple-700">{f.name}</span>
+                  <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                    f.learnedStatus === 'mastered' ? 'bg-emerald-100 text-emerald-800' : 'bg-amber-100 text-amber-800'
+                  }`}>
+                    {f.learnedStatus === 'mastered' ? 'Mastered' : 'Needs Review'}
+                  </span>
+                </div>
+                <div className="p-3 bg-slate-900 text-amber-300 font-mono text-xs rounded-xl font-bold">
                   {f.formula}
                 </div>
-
-                {/* Variables & Notes */}
-                <div className="text-xs text-slate-600 space-y-1">
-                  <div>
-                    <strong className="text-slate-800">Variables:</strong> {f.variables}
-                  </div>
-                  {f.importantNote && (
-                    <div className="pt-1 text-amber-800">
-                      <strong>Note:</strong> {f.importantNote}
-                    </div>
-                  )}
-                </div>
-              </Card>
+                <p className="text-[11px] text-slate-500">{f.variables}</p>
+              </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* TAB 3: INTERACTIVE FLASHCARDS MODE */}
-      {activeTab === 'flashcards' && activeCard && (
-        <div className="space-y-6">
-          <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
-            <span>Card {currentCardIndex + 1} of {formulas.length}</span>
-            <span>Click card or press flip button to reveal</span>
+      {/* TAB 5: FLASHCARDS */}
+      {activeTab === 'flashcards' && (
+        <Card className="p-6 sm:p-8 max-w-xl mx-auto text-center space-y-6">
+          <div className="flex items-center justify-between text-xs text-slate-500">
+            <span>Flashcard {currentCardIndex + 1} of {formulas.length}</span>
+            <Badge variant="brand">Tap to Flip</Badge>
           </div>
 
-          {/* Flashcard Component */}
           <div
-            onClick={() => setIsFlipped(prev => !prev)}
-            className="cursor-pointer min-h-[260px] sm:min-h-[300px] p-6 sm:p-8 rounded-3xl bg-white border-2 border-purple-200 shadow-lg hover:border-purple-400 transition-all flex flex-col justify-between select-none relative overflow-hidden"
+            onClick={() => setIsFlipped(p => !p)}
+            className="min-h-[220px] p-6 rounded-3xl bg-purple-50/50 border-2 border-dashed border-purple-200 flex flex-col justify-center items-center cursor-pointer select-none"
           >
-            {/* Top Tag */}
-            <div className="flex items-center justify-between text-xs">
-              <span className="font-bold text-purple-600 uppercase tracking-wider">
-                {isFlipped ? 'BACK • FORMULA & EXPLANATION' : 'FRONT • QUESTION PROMPT'}
-              </span>
-              <span className="text-slate-400 flex items-center gap-1">
-                <RotateCw className="w-3.5 h-3.5" /> Tap to flip
-              </span>
-            </div>
-
-            {/* Card Content */}
             {!isFlipped ? (
-              <div className="py-8 text-center space-y-3">
-                <div className="text-xs text-purple-600 font-semibold">{chapterName}</div>
-                <h3 className="text-xl sm:text-2xl font-black text-slate-900 max-w-md mx-auto">
-                  {activeCard.name}
-                </h3>
-                <p className="text-xs text-slate-400">
-                  What is the exact equation, relation, and constraint condition?
-                </p>
+              <div className="space-y-2">
+                <span className="text-xs text-purple-600 font-bold uppercase">{activeCard?.chapterTitle}</span>
+                <h3 className="text-xl font-black text-slate-900">{activeCard?.name}</h3>
+                <p className="text-xs text-slate-400 mt-2">What is the governing equation?</p>
               </div>
             ) : (
-              <div className="py-4 space-y-4 animate-in fade-in duration-200">
-                <div className="p-4 bg-purple-50 rounded-2xl border border-purple-200 font-mono text-base sm:text-lg font-bold text-purple-950 text-center">
-                  {activeCard.formula}
+              <div className="space-y-3 animate-in fade-in">
+                <div className="p-3 bg-slate-900 text-amber-300 font-mono text-base font-bold rounded-2xl">
+                  {activeCard?.formula}
                 </div>
-                <div className="text-xs text-slate-600 space-y-1.5 max-w-lg mx-auto">
-                  <p><strong>Variables:</strong> {activeCard.variables}</p>
-                  {activeCard.siUnit && <p><strong>SI Unit:</strong> {activeCard.siUnit}</p>}
-                  {activeCard.importantNote && (
-                    <p className="text-amber-800"><strong>Note:</strong> {activeCard.importantNote}</p>
-                  )}
-                </div>
+                <p className="text-xs text-slate-600">{activeCard?.variables}</p>
               </div>
             )}
-
-            {/* Card Footer Status */}
-            <div className="flex items-center justify-between pt-4 border-t border-slate-100 text-xs">
-              <span className="text-slate-400">Status: <strong className="text-slate-700 capitalize">{activeCard.learnedStatus || 'Unlearned'}</strong></span>
-              <span className="text-purple-600 font-semibold">Prepora Flashcard Drill</span>
-            </div>
           </div>
 
-          {/* Navigation & Learning Actions */}
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setIsFlipped(false);
-                  setCurrentCardIndex(prev => Math.max(0, prev - 1));
-                }}
-                disabled={currentCardIndex === 0}
-              >
-                <ChevronLeft className="w-4 h-4" /> Prev
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setIsFlipped(false);
-                  setCurrentCardIndex(prev => Math.min(formulas.length - 1, prev + 1));
-                }}
-                disabled={currentCardIndex === formulas.length - 1}
-              >
-                Next <ChevronRight className="w-4 h-4" />
-              </Button>
-            </div>
+          <div className="flex items-center justify-between">
+            <Button
+              variant="outline"
+              size="sm"
+              disabled={currentCardIndex === 0}
+              onClick={() => {
+                setCurrentCardIndex(p => p - 1);
+                setIsFlipped(false);
+              }}
+            >
+              Previous
+            </Button>
 
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handleUpdateStatus(activeCard.id, 'need-revision')}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold transition-all shadow-xs"
-              >
-                <RotateCcw className="w-3.5 h-3.5" /> Need Revision
-              </button>
-              <button
-                onClick={() => handleUpdateStatus(activeCard.id, 'mastered')}
-                className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs"
-              >
-                <Check className="w-3.5 h-3.5" /> Know It!
-              </button>
-            </div>
+            <Button
+              variant="primary"
+              size="sm"
+              disabled={currentCardIndex === formulas.length - 1}
+              onClick={() => {
+                setCurrentCardIndex(p => p + 1);
+                setIsFlipped(false);
+              }}
+            >
+              Next Flashcard
+            </Button>
+          </div>
+        </Card>
+      )}
+
+      {/* TAB 6: PYQS */}
+      {activeTab === 'pyqs' && (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-bold text-slate-500">{pyqQuestions.length} Official Previous Year Questions</span>
+            <Button
+              size="sm"
+              variant="primary"
+              onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}&includePYQs=true`)}
+              className="text-xs font-bold"
+            >
+              Practice All PYQs
+            </Button>
+          </div>
+
+          <div className="space-y-3">
+            {pyqQuestions.slice(0, 5).map((q, idx) => (
+              <div key={q.id} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2 text-xs">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-bold text-[10px]">
+                      {q.exam} {q.year || '2024'}
+                    </span>
+                    <span className="text-slate-500 font-semibold">{q.topic}</span>
+                  </div>
+                  <Badge variant="warning" size="sm">{q.difficulty}</Badge>
+                </div>
+                <div className="font-bold text-slate-900 text-sm">
+                  <MathRenderer text={q.question} />
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
 
-      {/* TAB 4: 15-MINUTE QUICK REVISION DRILL */}
+      {/* TAB 7: MISTAKES */}
+      {activeTab === 'mistakes' && (
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 className="text-base font-black text-slate-900">Chapter Mistake Log</h3>
+              <p className="text-xs text-slate-500">{chapterMistakes.length} errors logged in {chapterName}</p>
+            </div>
+            <Button size="sm" variant="outline" onClick={() => navigate('/mistakes')} className="text-xs font-bold">
+              Full Mistake Book
+            </Button>
+          </div>
+
+          {chapterMistakes.length === 0 ? (
+            <div className="py-10 text-center space-y-2">
+              <CheckCircle2 className="w-8 h-8 text-emerald-500 mx-auto" />
+              <p className="text-xs text-slate-600 font-bold">Zero active mistakes logged for this chapter!</p>
+              <p className="text-[11px] text-slate-400">All previous mistakes have been successfully cleared.</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {chapterMistakes.map(m => (
+                <div key={m.id} className="p-4 rounded-2xl bg-rose-50/50 border border-rose-200 space-y-2 text-xs">
+                  <div className="flex items-center justify-between">
+                    <span className="font-bold text-rose-900">{m.topic}</span>
+                    <Badge variant="danger" size="sm">{m.mistakeReason}</Badge>
+                  </div>
+                  <p className="text-slate-700 font-medium">{m.questionSnippet}</p>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* TAB 8: 15-MINUTE DRILL */}
       {activeTab === 'drill' && (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {!drillCompleted ? (
-            <Card className="p-6 space-y-6">
-              {/* Drill Top Bar */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-rose-500 animate-ping" />
-                  <span className="text-xs font-bold text-slate-800">
-                    Drill Card {drillIndex + 1} of {drillCards.length}
-                  </span>
-                </div>
-
-                <div className="flex items-center gap-2 font-mono text-sm font-bold text-purple-700 bg-purple-50 px-3 py-1 rounded-xl border border-purple-200">
-                  <Clock className="w-4 h-4" />
-                  <span>{formatDrillTime(drillSecondsLeft)}</span>
-                </div>
+            <Card className="p-6 sm:p-8 space-y-5">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-500">Drill {drillIndex + 1} of {drillCards.length}</span>
+                <span className="font-mono font-bold text-rose-600">{formatDrillTime(drillSecondsLeft)}</span>
               </div>
-
-              {/* Progress bar */}
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
-                <div
-                  className="bg-purple-600 h-2 transition-all duration-300"
-                  style={{ width: `${((drillIndex + 1) / drillCards.length) * 100}%` }}
-                />
-              </div>
-
-              {/* Drill Flashcard */}
               <div
-                onClick={() => setDrillFlipped(prev => !prev)}
-                className="cursor-pointer min-h-[220px] p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center flex flex-col justify-center select-none"
+                onClick={() => setDrillFlipped(p => !p)}
+                className="p-6 rounded-3xl bg-slate-50 border border-slate-200 min-h-[200px] flex flex-col justify-center items-center cursor-pointer select-none"
               >
                 {!drillFlipped ? (
-                  <div className="space-y-2">
-                    <span className="text-xs text-purple-600 font-bold uppercase">{activeDrillCard.chapterTitle}</span>
-                    <h3 className="text-lg sm:text-xl font-black text-slate-900">{activeDrillCard.name}</h3>
-                    <p className="text-xs text-slate-400 mt-2">Tap to inspect equation and units</p>
+                  <div className="space-y-2 text-center">
+                    <span className="text-xs text-purple-600 font-bold">{activeDrillCard?.chapterTitle}</span>
+                    <h3 className="text-xl font-black text-slate-900">{activeDrillCard?.name}</h3>
+                    <p className="text-xs text-slate-400">Tap to reveal formula</p>
                   </div>
                 ) : (
-                  <div className="space-y-3 animate-in fade-in">
-                    <div className="p-3 bg-white rounded-xl border border-purple-200 font-mono text-base font-bold text-purple-900">
-                      {activeDrillCard.formula}
+                  <div className="space-y-2 text-center">
+                    <div className="p-3 bg-slate-900 text-amber-300 font-mono text-base font-bold rounded-2xl">
+                      {activeDrillCard?.formula}
                     </div>
-                    <p className="text-xs text-slate-600">{activeDrillCard.variables}</p>
-                    {activeDrillCard.importantNote && (
-                      <p className="text-[11px] text-amber-800 italic">{activeDrillCard.importantNote}</p>
-                    )}
+                    <p className="text-xs text-slate-600">{activeDrillCard?.variables}</p>
                   </div>
                 )}
               </div>
-
-              {/* Drill Action Buttons */}
-              <div className="flex items-center justify-between pt-2">
+              <div className="flex justify-end gap-2">
                 <Button
-                  variant="outline"
                   size="sm"
+                  variant="primary"
                   onClick={() => {
                     if (drillIndex < drillCards.length - 1) {
-                      setDrillIndex(prev => prev + 1);
+                      setDrillIndex(p => p + 1);
                       setDrillFlipped(false);
                     } else {
                       setDrillCompleted(true);
                     }
                   }}
-                  className="text-xs"
                 >
-                  Skip
+                  Next Equation
                 </Button>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => {
-                      setDrillStats(prev => ({ ...prev, needRevision: prev.needRevision + 1 }));
-                      formulaService.updateFormulaStatus(activeDrillCard.id, 'need-revision');
-                      if (drillIndex < drillCards.length - 1) {
-                        setDrillIndex(prev => prev + 1);
-                        setDrillFlipped(false);
-                      } else {
-                        setDrillCompleted(true);
-                      }
-                    }}
-                    className="px-4 py-2 rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-900 text-xs font-bold"
-                  >
-                    Need Revision
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      setDrillStats(prev => ({ ...prev, mastered: prev.mastered + 1 }));
-                      formulaService.updateFormulaStatus(activeDrillCard.id, 'mastered');
-                      if (drillIndex < drillCards.length - 1) {
-                        setDrillIndex(prev => prev + 1);
-                        setDrillFlipped(false);
-                      } else {
-                        setDrillCompleted(true);
-                      }
-                    }}
-                    className="px-4 py-2 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold"
-                  >
-                    Know It!
-                  </button>
-                </div>
               </div>
             </Card>
           ) : (
             <Card className="p-8 text-center space-y-4">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-2xl">
-                🏆
-              </div>
-              <h3 className="text-xl font-black text-slate-900">Quick Revision Drill Complete!</h3>
-              <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                You successfully reviewed {drillCards.length} high-yield formula cards for {chapterName}.
-              </p>
-
-              <div className="grid grid-cols-2 gap-3 max-w-xs mx-auto text-center py-2">
-                <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
-                  <div className="text-2xl font-black text-emerald-700">{drillStats.mastered}</div>
-                  <div className="text-[11px] text-emerald-800 font-bold">Mastered</div>
-                </div>
-                <div className="p-3 bg-amber-50 rounded-xl border border-amber-200">
-                  <div className="text-2xl font-black text-amber-700">{drillStats.needRevision}</div>
-                  <div className="text-[11px] text-amber-800 font-bold">Need Revision</div>
-                </div>
-              </div>
-
-              <div className="pt-2 flex justify-center gap-2">
-                <Button variant="outline" onClick={() => setActiveTab('formulas')}>
-                  Back to Formula Sheet
-                </Button>
-                <Button variant="primary" onClick={handleStartDrill} className="font-bold">
-                  Repeat Drill
-                </Button>
-              </div>
+              <div className="text-3xl">🏆</div>
+              <h3 className="text-xl font-black text-slate-900">Drill Finished!</h3>
+              <Button size="sm" variant="outline" onClick={() => setActiveTab('overview')}>
+                Return to Overview
+              </Button>
             </Card>
           )}
         </div>
       )}
+
+      {/* TAB 9: MIND MAP */}
+      {activeTab === 'mindmap' && (
+        <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs">
+          <InteractiveMindMap
+            chapterName={chapterName}
+            subject={sampleQ?.subject || 'Physics'}
+          />
+        </div>
+      )}
+
+      {/* Ask Doubt Modal */}
+      <AskDoubtModal
+        isOpen={showDoubtModal}
+        onClose={() => setShowDoubtModal(false)}
+        initialSubject={sampleQ?.subject || 'Physics'}
+        questionContext={sampleQ}
+      />
     </div>
   );
 };
-

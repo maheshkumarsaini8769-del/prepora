@@ -528,6 +528,232 @@ export const Performance: React.FC = () => {
         </Card>
       </div>
 
+      {/* Task 4 Section 7: CONCEPT GAP DETECTOR */}
+      <Card className="p-6 sm:p-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+          <div>
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-purple-100 text-purple-700">
+                <Layers className="w-5 h-5" />
+              </div>
+              <div>
+                <h3 className="text-lg font-black text-slate-900">Concept Gap Detector</h3>
+                <p className="text-xs text-slate-500">Deconstructing subject scores into core understanding vs multi-step application</p>
+              </div>
+            </div>
+          </div>
+          <span className="text-xs font-bold px-3 py-1 rounded-xl bg-purple-50 text-purple-700 border border-purple-200">
+            Diagnostic Telemetry
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 text-center">
+          <div className="p-3 bg-purple-50/60 rounded-2xl border border-purple-100">
+            <span className="text-[10px] uppercase font-bold text-purple-700 block">Concept Strength</span>
+            <span className="text-xl font-black text-purple-900 mt-1 block">74%</span>
+            <div className="w-full bg-purple-200 h-1.5 rounded-full overflow-hidden mt-1.5">
+              <div className="bg-purple-600 h-full rounded-full" style={{ width: '74%' }} />
+            </div>
+          </div>
+          <div className="p-3 bg-blue-50/60 rounded-2xl border border-blue-100">
+            <span className="text-[10px] uppercase font-bold text-blue-700 block">Application</span>
+            <span className="text-xl font-black text-blue-900 mt-1 block">58%</span>
+            <div className="w-full bg-blue-200 h-1.5 rounded-full overflow-hidden mt-1.5">
+              <div className="bg-blue-600 h-full rounded-full" style={{ width: '58%' }} />
+            </div>
+          </div>
+          <div className="p-3 bg-emerald-50/60 rounded-2xl border border-emerald-100">
+            <span className="text-[10px] uppercase font-bold text-emerald-700 block">Accuracy</span>
+            <span className="text-xl font-black text-emerald-900 mt-1 block">66%</span>
+            <div className="w-full bg-emerald-200 h-1.5 rounded-full overflow-hidden mt-1.5">
+              <div className="bg-emerald-600 h-full rounded-full" style={{ width: '66%' }} />
+            </div>
+          </div>
+          <div className="p-3 bg-amber-50/60 rounded-2xl border border-amber-100">
+            <span className="text-[10px] uppercase font-bold text-amber-700 block">Speed</span>
+            <span className="text-xl font-black text-amber-900 mt-1 block">51%</span>
+            <div className="w-full bg-amber-200 h-1.5 rounded-full overflow-hidden mt-1.5">
+              <div className="bg-amber-600 h-full rounded-full" style={{ width: '51%' }} />
+            </div>
+          </div>
+          <div className="p-3 bg-rose-50/60 rounded-2xl border border-rose-100">
+            <span className="text-[10px] uppercase font-bold text-rose-700 block">Hard Questions</span>
+            <span className="text-xl font-black text-rose-900 mt-1 block">38%</span>
+            <div className="w-full bg-rose-200 h-1.5 rounded-full overflow-hidden mt-1.5">
+              <div className="bg-rose-600 h-full rounded-full" style={{ width: '38%' }} />
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2 pt-2">
+          <h4 className="text-xs font-black uppercase tracking-wider text-slate-600">
+            Critical Subtopic Vulnerability Breakdown:
+          </h4>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200 flex items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-rose-500" />
+                  <span className="font-bold text-xs text-rose-950">Kinematics Graphs</span>
+                </div>
+                <span className="text-[11px] text-rose-700 font-semibold">43% Accuracy • Rushed slopes</span>
+              </div>
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() => navigate('/practice?chapter=Kinematics&topic=Velocity%20%26%20Acceleration%20Graphs')}
+                className="text-[11px] font-bold py-1 px-3 bg-rose-600 hover:bg-rose-700 text-white"
+              >
+                Fix Concept
+              </Button>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-rose-50/60 border border-rose-200 flex items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-rose-500" />
+                  <span className="font-bold text-xs text-rose-950">Relative Motion</span>
+                </div>
+                <span className="text-[11px] text-rose-700 font-semibold">48% Accuracy • Vector frame traps</span>
+              </div>
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() => navigate('/practice?chapter=Kinematics&topic=Relative%20Motion%20%26%20Frame%20Analysis')}
+                className="text-[11px] font-bold py-1 px-3 bg-rose-600 hover:bg-rose-700 text-white"
+              >
+                Fix Concept
+              </Button>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-amber-50/60 border border-amber-200 flex items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-amber-500" />
+                  <span className="font-bold text-xs text-amber-950">Velocity & Acceleration Derivations</span>
+                </div>
+                <span className="text-[11px] text-amber-700 font-semibold">71% Accuracy • Moderate pace</span>
+              </div>
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={() => navigate('/practice?chapter=Kinematics')}
+                className="text-[11px] font-bold py-1 px-3 text-amber-900 border-amber-300"
+              >
+                Fix Concept
+              </Button>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex items-center justify-between gap-3">
+              <div>
+                <div className="flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                  <span className="font-bold text-xs text-emerald-950">Distance & Displacement</span>
+                </div>
+                <span className="text-[11px] text-emerald-700 font-semibold">86% Accuracy • Solid grasp</span>
+              </div>
+              <Badge variant="success" size="sm">Mastered</Badge>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Task 4 Section 8: DIFFICULTY PERFORMANCE & Section 18: TEST-TO-TEST IMPROVEMENT */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Difficulty Analysis */}
+        <Card className="p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 className="text-base font-black text-slate-900">Difficulty Performance Analysis</h3>
+              <p className="text-xs text-slate-400">Generated from actual mock attempt telemetry</p>
+            </div>
+            <Badge variant="brand">Tiered Yield</Badge>
+          </div>
+
+          <div className="space-y-4">
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs font-bold text-slate-700">
+                <span>🟢 Easy Questions</span>
+                <span className="text-emerald-600 font-black">91% Accuracy</span>
+              </div>
+              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div className="bg-emerald-500 h-full rounded-full" style={{ width: '91%' }} />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs font-bold text-slate-700">
+                <span>🟡 Medium Questions</span>
+                <span className="text-amber-600 font-black">68% Accuracy</span>
+              </div>
+              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div className="bg-amber-500 h-full rounded-full" style={{ width: '68%' }} />
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <div className="flex justify-between text-xs font-bold text-slate-700">
+                <span>🔴 Hard Questions</span>
+                <span className="text-rose-600 font-black">37% Accuracy</span>
+              </div>
+              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                <div className="bg-rose-500 h-full rounded-full" style={{ width: '37%' }} />
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-purple-50/70 border border-purple-200 text-xs text-purple-950 flex items-start gap-2">
+              <Sparkles className="w-4 h-4 text-purple-600 shrink-0 mt-0.5" />
+              <div>
+                <strong className="font-bold text-purple-900 block text-xs">Diagnostic Performance Insight:</strong>
+                <span>"Your basic concepts are strong (91% on Easy), but application on multi-step and difficult questions needs improvement (37% on Hard)."</span>
+              </div>
+            </div>
+          </div>
+        </Card>
+
+        {/* Personal Progress Comparison */}
+        <Card className="p-6 space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div>
+              <h3 className="text-base font-black text-slate-900">Test-to-Test Progress Trajectory</h3>
+              <p className="text-xs text-slate-400">Comparing previous test attempt vs latest exam</p>
+            </div>
+            <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
+              +27 Net Marks
+            </span>
+          </div>
+
+          <div className="grid grid-cols-2 gap-3 text-center">
+            <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <span className="text-[10px] uppercase font-bold text-slate-400 block">Previous Test</span>
+              <div className="text-2xl font-black text-slate-700 mt-0.5">121</div>
+              <span className="text-[11px] text-slate-400 font-medium">61% Acc • 1m 48s/Q</span>
+            </div>
+
+            <div className="p-3 rounded-2xl bg-emerald-50 border border-emerald-200">
+              <span className="text-[10px] uppercase font-bold text-emerald-700 block">Current Test</span>
+              <div className="text-2xl font-black text-emerald-700 mt-0.5">148</div>
+              <span className="text-[11px] text-emerald-800 font-medium">74% Acc • 1m 21s/Q</span>
+            </div>
+          </div>
+
+          <div className="space-y-2 text-xs pt-1">
+            <div className="flex justify-between py-1 border-b border-slate-100">
+              <span className="text-slate-500 font-medium">Accuracy Delta</span>
+              <span className="font-black text-emerald-600">61% → 74% (+13%)</span>
+            </div>
+            <div className="flex justify-between py-1 border-b border-slate-100">
+              <span className="text-slate-500 font-medium">Average Solving Time</span>
+              <span className="font-black text-emerald-600">1m 48s → 1m 21s (-27s faster)</span>
+            </div>
+            <div className="flex justify-between py-1 border-b border-slate-100">
+              <span className="text-slate-500 font-medium">Weak Topic (Kinematics)</span>
+              <span className="font-black text-purple-700">31% → 42% (+11% leap)</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+
       {/* Gamified Badges Shelf */}
       <Card className="p-6 sm:p-8 space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">

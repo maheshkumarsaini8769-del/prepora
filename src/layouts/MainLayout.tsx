@@ -50,7 +50,7 @@ export const MainLayout: React.FC = () => {
   const unreadNotifs = userService.getNotifications().filter(n => !n.isRead).length;
   const navigate = useNavigate();
 
-  // Clean, intuitive 2-section student navigation: 6 Primary Hubs + Quick Utilities
+  // Clean, intuitive student navigation: Primary Hubs + Quick Utilities
   const navGroups = [
     {
       group: 'STUDY HUBS',
@@ -58,6 +58,7 @@ export const MainLayout: React.FC = () => {
         { name: 'Dashboard', path: '/', icon: Home, subtitle: 'Goals & study overview' },
         { name: 'Chapter Practice', path: '/practice', icon: BookOpen, subtitle: 'Topic-wise question bank' },
         { name: 'Mock Tests & PYQs', path: '/tests', icon: GraduationCap, subtitle: 'CBT mocks & past papers' },
+        { name: 'AI Teacher & Tutor', path: '/tutor', icon: Sparkles, badge: 'Tutor', subtitle: '8 adaptive teaching modes' },
         { name: 'AI Doubt Solver', path: '/doubts', icon: HelpCircle, badge: '24/7 AI', subtitle: 'Instant photo & text solutions' },
         { name: 'Mistake Notebook', path: '/mistakes', icon: AlertCircle, subtitle: 'Review & fix errors' },
         { name: 'Syllabus Tracker', path: '/syllabus', icon: Layers, subtitle: 'Chapter coverage & progress' },
@@ -66,10 +67,13 @@ export const MainLayout: React.FC = () => {
     {
       group: 'QUICK UTILITIES',
       items: [
+        { name: 'Daily Study Plan', path: '/daily-plan', icon: Calendar, subtitle: "Today's targeted sequence" },
+        { name: 'Study Planner', path: '/planner', icon: Calendar, subtitle: 'Weekly schedule & timetables' },
+        { name: 'Curriculum Mind Map', path: '/mind-map', icon: Sparkles, subtitle: 'Visual interactive topic graph' },
+        { name: 'Exam Readiness', path: '/readiness', icon: Award, subtitle: 'Readiness score & telemetry' },
         { name: 'Speed Practice', path: '/speed-practice', icon: Zap, subtitle: 'Timed rapid question drills' },
-        { name: 'Revision Notes', path: '/notes', icon: FileEdit, subtitle: 'Formulas & high-yield summaries' },
         { name: 'Fix My Weakness', path: '/weakness', icon: Target, subtitle: 'Target low-accuracy areas' },
-        { name: 'Study Planner', path: '/planner', icon: Calendar, subtitle: 'Daily schedule & timetables' },
+        { name: 'Revision Center', path: '/revision', icon: Repeat, subtitle: 'Spaced repetition queues' },
       ]
     }
   ];
