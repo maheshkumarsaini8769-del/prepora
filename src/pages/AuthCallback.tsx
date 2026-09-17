@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ZenuxOAuth } from 'zenuxs-oauth';
 import { useAuth } from '../context/AuthContext';
@@ -11,45 +11,91 @@ export const AuthCallback: React.FC = () => {
   const { loginWithZenuxs } = useAuth();
   const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
   const [errorMessage, setErrorMessage] = useState('');
+  const hasHandledRef = useRef(false);
 
   useEffect(() => {
+    if (hasHandledRef.current) return;
+    hasHandledRef.current = true;
+
+    // Safety timeout: never allow processing to hang indefinitely
+    const safetyTimer = setTimeout(() => {
+      setStatus((current) => {
+        if (current === 'processing') {
+          setErrorMessage('Authentication response timed out. Please click below to return to login.');
+          return 'error';
+        }
+        return current;
+      });
+    }, 8000);
+
     const completeAuth = async () => {
       try {
         const oauth = new ZenuxOAuth({
           clientId: ZENUXS_CLIENT_ID,
-          redirectUri: window.location.origin
+          redirectUri: window.location.origin,
+          scopes: 'openid profile email',
+          storage: 'localStorage',
+          validateState: false
         });
 
-        // Initialize and handle the redirect callback parameters (code, state)
-        await oauth.init();
+        // Initialize and handle redirect callback parameters
+        const tokens = await oauth.init({
+          redirectUri: window.location.origin,
+          allowMissingCallback: true
+        });
 
-        const tokens = oauth.getTokens();
-        const userInfo = await oauth.getUserInfo().catch(() => null);
+        let resolvedTokens = tokens;
+        if (!resolvedTokens) {
+          resolvedTokens = oauth.getTokens();
+        }
 
-        if (userInfo) {
+        if (resolvedTokens) {
+          let userInfo: any = null;
+          try {
+            userInfo = await oauth.getUserInfo();
+          } catch {
+            // Fallback to token claim decoding
+            const tokenToDecode = (resolvedTokens as any).id_token || (resolvedTokens as any).access_token;
+            if (tokenToDecode) {
+              const decoded = oauth.decodeJWT(tokenToDecode);
+              if (decoded && (decoded.email || decoded.sub)) {
+                userInfo = {
+                  sub: decoded.sub || decoded.id,
+                  email: decoded.email,
+                  name: decoded.name || decoded.given_name || (decoded.email ? decoded.email.split('@')[0] : 'Student'),
+                  picture: decoded.picture || decoded.avatar
+                };
+              }
+            }
+          }
+
           const res = await loginWithZenuxs({
-            sub: userInfo.sub || userInfo.id,
-            email: userInfo.email,
-            name: userInfo.name || userInfo.given_name || (userInfo.email ? userInfo.email.split('@')[0] : 'Student'),
-            picture: userInfo.picture || userInfo.avatar
+            sub: userInfo?.sub,
+            email: userInfo?.email,
+            name: userInfo?.name || 'Student',
+            picture: userInfo?.picture
           });
 
           if (res.success) {
+            clearTimeout(safetyTimer);
             setStatus('success');
             setTimeout(() => {
               navigate('/', { replace: true });
-            }, 500);
+            }, 300);
           } else {
+            clearTimeout(safetyTimer);
             setStatus('error');
             setErrorMessage(res.message || 'Server verification failed.');
           }
         } else {
+          clearTimeout(safetyTimer);
           setStatus('error');
-          setErrorMessage('Could not retrieve user details from Zenuxs.');
+          setErrorMessage('Could not retrieve tokens from Zenuxs authentication.');
         }
       } catch (err: any) {
+        clearTimeout(safetyTimer);
         setStatus('error');
-        setErrorMessage(err?.message || 'OAuth callback failed.');
+        setErrorMessage(err?.message || 'OAuth callback encountered an error.');
       }
     };
 
@@ -62,7 +108,7 @@ export const AuthCallback: React.FC = () => {
         {status === 'processing' && (
           <div className="space-y-4">
             <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto" />
-            <h2 className="text-lg font-bold">Completing Zenuxs Sign In...</h2>
+            <h2 className="text-lg font-bold">Completing #2 Zenuxs Auth Sign In...</h2>
             <p className="text-xs text-slate-400">Verifying security tokens and setting up your personal workspace.</p>
           </div>
         )}

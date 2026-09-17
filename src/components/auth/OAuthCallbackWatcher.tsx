@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { ZenuxOAuth } from 'zenuxs-oauth';
 import { useAuth } from '../../context/AuthContext';
@@ -13,8 +13,12 @@ export const OAuthCallbackWatcher: React.FC = () => {
 
   const [processing, setProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const hasProcessedRef = useRef(false);
 
   useEffect(() => {
+    // If already handled in this component lifecycle, prevent duplicate execution
+    if (hasProcessedRef.current) return;
+
     const search = window.location.search || location.search;
     if (!search) return;
 
@@ -24,77 +28,137 @@ export const OAuthCallbackWatcher: React.FC = () => {
 
     if (!hasCode && !hasError) return;
 
+    // Mark as handled immediately to avoid parallel loops
+    hasProcessedRef.current = true;
+
+    // Direct OAuth error returned in query string
+    if (hasError) {
+      const errDesc = params.get('error_description') || params.get('error') || 'Authentication was denied or cancelled.';
+      setError(errDesc);
+      setProcessing(false);
+      return;
+    }
+
     const isPopup = typeof window !== 'undefined' && window.opener && window.opener !== window;
 
-    const completeCallback = async () => {
-      setProcessing(true);
-      setError(null);
+    setProcessing(true);
+    setError(null);
 
+    // Hard safety timeout: under NO circumstances will the loading screen stay stuck past 8 seconds
+    const safetyTimer = setTimeout(() => {
+      setProcessing((current) => {
+        if (current) {
+          setError('Authentication server response timed out. Please try signing in again.');
+          return false;
+        }
+        return false;
+      });
+    }, 8000);
+
+    const completeCallback = async () => {
       try {
         const oauth = new ZenuxOAuth({
           clientId: ZENUXS_CLIENT_ID,
           redirectUri: window.location.origin,
-          scopes: 'openid profile email'
+          scopes: 'openid profile email',
+          storage: 'localStorage',
+          validateState: false
         });
 
-        // If this is running in a popup window, oauth.init() handles callback,
-        // sends message to window.opener, and triggers popup close.
+        // Initialize and handle code exchange
         const tokens = await oauth.init({
-          redirectUri: window.location.origin
+          redirectUri: window.location.origin,
+          allowMissingCallback: true
         });
+
+        let resolvedTokens = tokens;
+        if (!resolvedTokens) {
+          resolvedTokens = oauth.getTokens();
+        }
 
         if (isPopup) {
-          // Popup will be closed by SDK or parent; provide a fallback close
+          // Send message to parent window if opener exists
+          try {
+            if (window.opener && typeof window.opener.postMessage === 'function') {
+              window.opener.postMessage(
+                {
+                  type: 'zenux_oauth_success',
+                  tokens: resolvedTokens
+                },
+                window.location.origin
+              );
+            }
+          } catch (pmErr) {
+            console.warn('Could not postMessage to opener:', pmErr);
+          }
+
+          // Close popup safely
           setTimeout(() => {
             try {
               window.close();
             } catch {
               // Ignore popup close restriction
             }
-          }, 600);
+          }, 300);
+          setProcessing(false);
+          clearTimeout(safetyTimer);
           return;
         }
 
-        // Running in main window (e.g. from full-page redirect flow)
-        let resolvedTokens = tokens;
-        if (!resolvedTokens) {
-          resolvedTokens = oauth.getTokens();
-        }
-
+        // Running in main application window
         if (resolvedTokens) {
-          const userInfo = await oauth.getUserInfo().catch(() => null);
-          if (userInfo) {
-            const res = await loginWithZenuxs({
-              sub: userInfo.sub || userInfo.id,
-              email: userInfo.email,
-              name: userInfo.name || userInfo.given_name || (userInfo.email ? userInfo.email.split('@')[0] : 'Student'),
-              picture: userInfo.picture || userInfo.avatar
-            });
+          // 1. Try standard getUserInfo endpoint
+          let userInfo: any = null;
+          try {
+            userInfo = await oauth.getUserInfo();
+          } catch (uiErr) {
+            console.warn('Direct userinfo endpoint call skipped/failed, falling back to token decoding:', uiErr);
+          }
 
-            // Clean up the URL query parameters
-            const cleanUrl = window.location.pathname;
-            window.history.replaceState({}, document.title, cleanUrl);
-
-            if (res.success) {
-              setProcessing(false);
-              navigate('/', { replace: true });
-              return;
-            } else {
-              setError(res.message || 'Server verification failed.');
+          // 2. Resilient fallback: decode user claims from ID token or access token
+          if (!userInfo) {
+            const tokenToDecode = (resolvedTokens as any).id_token || (resolvedTokens as any).access_token;
+            if (tokenToDecode) {
+              const decoded = oauth.decodeJWT(tokenToDecode);
+              if (decoded && (decoded.email || decoded.sub)) {
+                userInfo = {
+                  sub: decoded.sub || decoded.id,
+                  email: decoded.email,
+                  name: decoded.name || decoded.given_name || (decoded.email ? decoded.email.split('@')[0] : 'Student'),
+                  picture: decoded.picture || decoded.avatar
+                };
+              }
             }
+          }
+
+          // 3. Complete authentication into application context
+          const res = await loginWithZenuxs({
+            sub: userInfo?.sub,
+            email: userInfo?.email,
+            name: userInfo?.name || 'Student',
+            picture: userInfo?.picture
+          });
+
+          // Clean up URL parameters cleanly
+          window.history.replaceState({}, document.title, window.location.pathname);
+
+          if (res.success) {
+            clearTimeout(safetyTimer);
+            setProcessing(false);
+            navigate('/', { replace: true });
+            return;
           } else {
-            setError('Could not retrieve user account details from Zenuxs.');
+            setError(res.message || 'Server verification failed.');
           }
         } else {
-          setError(params.get('error_description') || params.get('error') || 'OAuth authorization code exchange failed.');
+          setError(params.get('error_description') || params.get('error') || 'OAuth authorization code could not be verified.');
         }
       } catch (err: any) {
         console.error('OAuth callback execution error:', err);
-        setError(err?.message || 'Authentication error during code exchange.');
+        setError(err?.message || 'Authentication error during code verification.');
       } finally {
-        if (!isPopup) {
-          setProcessing(false);
-        }
+        clearTimeout(safetyTimer);
+        setProcessing(false);
       }
     };
 
@@ -111,7 +175,7 @@ export const OAuthCallbackWatcher: React.FC = () => {
             <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto" />
             <h3 className="text-lg font-bold">Signing You In...</h3>
             <p className="text-xs text-slate-400">
-              Verifying credentials with Zenuxs and securing your private student workspace.
+              Verifying credentials with #2 Zenuxs Auth and preparing your student dashboard.
             </p>
           </>
         )}
@@ -123,7 +187,6 @@ export const OAuthCallbackWatcher: React.FC = () => {
             <p className="text-xs text-slate-300">{error}</p>
             <button
               onClick={() => {
-                // Clear error and URL query
                 window.history.replaceState({}, document.title, '/login');
                 navigate('/login', { replace: true });
                 setError(null);

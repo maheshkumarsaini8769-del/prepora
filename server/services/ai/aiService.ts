@@ -1,5 +1,6 @@
 import { IAIProvider } from './aiProvider.interface.js';
 import { GeminiProvider } from './geminiProvider.js';
+import { GroqProvider } from './groqProvider.js';
 import { FallbackProvider } from './fallbackProvider.js';
 import { 
   IDoubtSolveRequest, 
@@ -16,6 +17,7 @@ import { runCentralQualityPipeline, ValidationReport } from './quality/centralQu
 
 class AIService {
   private primaryProvider: GeminiProvider;
+  private groqProvider: GroqProvider;
   private fallbackProvider: FallbackProvider;
   private isAIEnabled: boolean = true;
   private dailyRequestLimit: number = 500;
@@ -24,7 +26,9 @@ class AIService {
 
   constructor() {
     const envKey = process.env.GEMINI_API_KEY || '';
+    const groqKey = process.env.GROQ_API_KEY || '';
     this.primaryProvider = new GeminiProvider(envKey, 'gemini-3.6-flash');
+    this.groqProvider = new GroqProvider(groqKey);
     this.fallbackProvider = new FallbackProvider();
   }
 
@@ -51,14 +55,26 @@ class AIService {
 
   public getStatus() {
     this.checkAndResetQuota();
+    const activeProvider = this.primaryProvider.isConfigured()
+      ? this.primaryProvider.name
+      : this.groqProvider.isConfigured()
+        ? this.groqProvider.name
+        : this.fallbackProvider.name;
     return {
       isAIEnabled: this.isAIEnabled,
       hasGeminiKey: this.primaryProvider.isConfigured(),
-      activeProvider: this.primaryProvider.isConfigured() ? this.primaryProvider.name : this.fallbackProvider.name,
+      hasGroqKey: this.groqProvider.isConfigured(),
+      activeProvider,
       requestsToday: this.requestsToday,
       dailyLimit: this.dailyRequestLimit,
       remainingToday: Math.max(0, this.dailyRequestLimit - this.requestsToday)
     };
+  }
+
+  private getActiveAIProvider(): IAIProvider | null {
+    if (this.primaryProvider.isConfigured()) return this.primaryProvider;
+    if (this.groqProvider.isConfigured()) return this.groqProvider;
+    return null;
   }
 
   public async solveDoubt(
@@ -77,12 +93,13 @@ class AIService {
 
     let rawResult: IDoubtSolveResult;
 
-    // Step 3: Provider Execution (Gemini -> Fallback)
-    if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday < this.dailyRequestLimit) {
+    // Step 3: Provider Execution (Gemini -> Groq -> Fallback)
+    const aiProvider = this.getActiveAIProvider();
+    if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
       try {
-        rawResult = await this.primaryProvider.solveDoubt(req, effectiveContext);
+        rawResult = await aiProvider.solveDoubt(req, effectiveContext);
       } catch (err: any) {
-        console.warn('[AIService] Gemini call failed, falling back gracefully:', err?.message);
+        console.warn(`[AIService] ${aiProvider.name} call failed, trying fallback:`, err?.message);
         rawResult = await this.fallbackProvider.solveDoubt(req, effectiveContext);
       }
     } else {
@@ -97,11 +114,12 @@ class AIService {
   public async generateProgressiveHints(req: IProgressiveHintsRequest): Promise<IProgressiveHintsResult> {
     this.checkAndResetQuota();
     this.requestsToday++;
-    if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday < this.dailyRequestLimit) {
+    const aiProvider = this.getActiveAIProvider();
+    if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
       try {
-        return await this.primaryProvider.generateProgressiveHints(req);
+        return await aiProvider.generateProgressiveHints(req);
       } catch (err) {
-        console.warn('[AIService] Gemini hints failed, using fallback');
+        console.warn(`[AIService] ${aiProvider.name} hints failed, using fallback`);
       }
     }
     return await this.fallbackProvider.generateProgressiveHints(req);
@@ -110,11 +128,12 @@ class AIService {
   public async analyzeWeakness(req: IWeaknessAnalysisRequest): Promise<IWeaknessAnalysisResult> {
     this.checkAndResetQuota();
     this.requestsToday++;
-    if (this.isAIEnabled && this.primaryProvider.isConfigured() && this.requestsToday < this.dailyRequestLimit) {
+    const aiProvider = this.getActiveAIProvider();
+    if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
       try {
-        return await this.primaryProvider.analyzeWeakness(req);
+        return await aiProvider.analyzeWeakness(req);
       } catch (err) {
-        console.warn('[AIService] Gemini weakness analysis failed, using fallback');
+        console.warn(`[AIService] ${aiProvider.name} weakness analysis failed, using fallback`);
       }
     }
     return await this.fallbackProvider.analyzeWeakness(req);
