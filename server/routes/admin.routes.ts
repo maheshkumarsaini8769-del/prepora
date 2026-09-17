@@ -1134,6 +1134,17 @@ router.delete('/authorities', async (req: Request, res: Response) => {
     // Downgrade User document role back to 'student'
     await User.updateMany({ email: norm }, { role: 'student' });
 
+    res.json({
+      success: true,
+      message: `Admin authority revoked for ${norm}`,
+      deletedCount: result.deletedCount
+    });
+  } catch (err: any) {
+    console.error('[Admin Authorities DELETE Error]', err);
+    res.status(500).json({ success: false, message: 'Failed to revoke admin authority', error: err.message });
+  }
+});
+
 // ==========================================
 // 19. LOGIN ACTIVITY & ACTIVE SESSIONS (task3.md Phase 12)
 // ==========================================
