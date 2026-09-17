@@ -63,12 +63,26 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
 
   const queryParams = new URLSearchParams(location.search);
   const redirectTo = queryParams.get('redirect') || '/';
+  const hasErrorParam = queryParams.has('error') || queryParams.has('error_description');
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate(redirectTo, { replace: true });
+      return;
     }
-  }, [isAuthenticated, navigate, redirectTo]);
+
+    // If an error is present in query parameters, do not auto-redirect in loop
+    if (hasErrorParam) {
+      return;
+    }
+
+    // Direct auto-redirect to #2 Zenuxs Auth login page in 1 single step
+    const timer = setTimeout(() => {
+      handleZenuxsLogin();
+    }, 700);
+
+    return () => clearTimeout(timer);
+  }, [isAuthenticated, hasErrorParam, navigate, redirectTo]);
 
   // Handle #2 Zenuxs Auth Authentication
   const handleZenuxsLogin = async () => {
@@ -171,7 +185,7 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
             <div className="flex items-center justify-between text-[11px] text-slate-400 font-medium">
               <span className="flex items-center gap-1.5">
                 <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping" />
-                <span>Entering Portal...</span>
+                <span>Redirecting to Zenuxs Auth...</span>
               </span>
               <span>{loadingProgress}%</span>
             </div>
@@ -179,7 +193,7 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
 
           {/* Tap to skip prompt */}
           <div className="absolute bottom-8 text-[11px] text-slate-500 hover:text-slate-400 transition font-medium">
-            Click anywhere to enter immediately
+            Click anywhere to open Zenuxs Auth immediately
           </div>
         </div>
       )}

@@ -1,0 +1,5 @@
+﻿scratch/
+.zcode/
+*.log
+dist/
+node_modules/
