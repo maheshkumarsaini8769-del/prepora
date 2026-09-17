@@ -959,6 +959,57 @@ class MockEcosystemService {
     return updated;
   }
 
+  public updatePlannerTask(id: string, updates: Partial<Omit<PlannerTask, 'id'>>): PlannerTask[] {
+    const tasks = this.getPlannerTasks();
+    const updated = tasks.map(t => t.id === id ? { ...t, ...updates } : t);
+    setStorageItem(PLANNER_TASKS_KEY as any, updated);
+    return updated;
+  }
+
+  public generateAdaptiveWeeklyPlan(options: {
+    exam?: string;
+    classLevel?: string;
+    dailyMinutes?: number;
+    targetDate?: string;
+  }): PlannerTask[] {
+    const profile = userService.getProfile();
+    const isNeet = (options.exam || profile.targetExam) === 'NEET';
+    const weaknesses = userService.getWeaknesses();
+
+    const pWeak = weaknesses.find(w => w.subject === 'Physics')?.chapter || 'Kinematics';
+    const cWeak = weaknesses.find(w => w.subject === 'Chemistry')?.chapter || 'Chemical Bonding & Molecular Structure';
+    const mWeak = isNeet
+      ? weaknesses.find(w => w.subject === 'Biology')?.chapter || 'Cell: The Unit of Life'
+      : weaknesses.find(w => w.subject === 'Mathematics')?.chapter || 'Quadratic Equations & Complex Numbers';
+
+    const thirdSub = isNeet ? 'Biology' : 'Mathematics';
+    const slotDuration = Math.max(25, Math.min(60, Math.floor((options.dailyMinutes || 120) / 2)));
+
+    const generated: PlannerTask[] = [
+      { id: `pt-${Date.now()}-1`, day: 'Monday', subject: 'Physics', chapter: pWeak, taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Target weak concept problems' },
+      { id: `pt-${Date.now()}-2`, day: 'Monday', subject: 'Chemistry', chapter: cWeak, taskType: 'Concept', durationMinutes: slotDuration, completed: false, notes: 'Formula derivation and notes' },
+      
+      { id: `pt-${Date.now()}-3`, day: 'Tuesday', subject: thirdSub as SubjectName, chapter: mWeak, taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'High-yield numerical drill' },
+      { id: `pt-${Date.now()}-4`, day: 'Tuesday', subject: 'Physics', chapter: 'Laws of Motion', taskType: 'Formula', durationMinutes: Math.min(30, slotDuration), completed: false, notes: 'Speed recall & flashcards' },
+
+      { id: `pt-${Date.now()}-5`, day: 'Wednesday', subject: 'Chemistry', chapter: 'Some Basic Concepts of Chemistry', taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Mole concept & stoichiometry' },
+      { id: `pt-${Date.now()}-6`, day: 'Wednesday', subject: thirdSub as SubjectName, chapter: isNeet ? 'Plant Physiology' : 'Trigonometric Functions', taskType: 'Revision', durationMinutes: slotDuration, completed: false, notes: 'Previous mistakes review' },
+
+      { id: `pt-${Date.now()}-7`, day: 'Thursday', subject: 'Physics', chapter: pWeak, taskType: 'Revision', durationMinutes: slotDuration, completed: false, notes: 'Blind retry of incorrect questions' },
+      { id: `pt-${Date.now()}-8`, day: 'Thursday', subject: 'Chemistry', chapter: cWeak, taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Advanced numerical questions' },
+
+      { id: `pt-${Date.now()}-9`, day: 'Friday', subject: thirdSub as SubjectName, chapter: mWeak, taskType: 'Test', durationMinutes: slotDuration, completed: false, notes: 'Timed concept checkpoint' },
+      { id: `pt-${Date.now()}-10`, day: 'Friday', subject: 'Physics', chapter: 'Work, Energy & Power', taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Conservation theorems' },
+
+      { id: `pt-${Date.now()}-11`, day: 'Saturday', subject: 'Physics', chapter: 'Mixed Revision', taskType: 'Test', durationMinutes: 60, completed: false, notes: 'Full subject mini-mock test' },
+      { id: `pt-${Date.now()}-12`, day: 'Sunday', subject: 'Chemistry', chapter: 'Weekly Mistake Review', taskType: 'Revision', durationMinutes: 45, completed: false, notes: 'Consolidate error log in Mistake Book' }
+    ];
+
+    setStorageItem(PLANNER_TASKS_KEY as any, generated);
+    return generated;
+  }
+
+
   // -------------------------------------------------------------
   // 13. GOALS & MILESTONES
   // -------------------------------------------------------------

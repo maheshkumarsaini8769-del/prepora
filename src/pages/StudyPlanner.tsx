@@ -11,19 +11,56 @@ import {
   BookOpen,
   ArrowRight,
   Flame,
-  Target
+  Target,
+  Edit2,
+  Sliders
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { PlannerTask, SubjectName } from '../types';
 
+interface PlannerConfig {
+  targetExam: string;
+  classLevel: string;
+  targetDate: string;
+  dailyStudyHours: number;
+  prepLevel: 'Beginner' | 'Intermediate' | 'Advanced';
+  targetScore: number;
+}
+
+const PLANNER_CONFIG_KEY = 'prepora_planner_config';
+
 export const StudyPlanner: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
+
+  // Load or initialize planner settings
+  const [config, setConfig] = useState<PlannerConfig>(() => {
+    const saved = localStorage.getItem(PLANNER_CONFIG_KEY);
+    if (saved) {
+      try {
+        return JSON.parse(saved);
+      } catch {
+        // fallback
+      }
+    }
+    return {
+      targetExam: user.targetExam || 'JEE',
+      classLevel: user.classLevel || '12',
+      targetDate: '2026-05-15',
+      dailyStudyHours: 2.5,
+      prepLevel: 'Intermediate',
+      targetScore: user.targetExam === 'NEET' ? 650 : 220
+    };
+  });
+
   const [tasks, setTasks] = useState<PlannerTask[]>(() => ecosystemService.getPlannerTasks());
   const [selectedDay, setSelectedDay] = useState<PlannerTask['day']>('Monday');
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
+  const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
+  const [isGenerating, setIsGenerating] = useState<boolean>(false);
+  const [generateMsg, setGenerateMsg] = useState<string | null>(null);
 
   // Form state
   const [newTaskSubject, setNewTaskSubject] = useState<SubjectName>('Physics');
@@ -42,6 +79,29 @@ export const StudyPlanner: React.FC = () => {
     'Sunday'
   ];
 
+  const handleSaveConfig = (newConfig: Partial<PlannerConfig>) => {
+    const updated = { ...config, ...newConfig };
+    setConfig(updated);
+    localStorage.setItem(PLANNER_CONFIG_KEY, JSON.stringify(updated));
+  };
+
+  const handleGenerateAdaptivePlan = () => {
+    setIsGenerating(true);
+    setGenerateMsg(null);
+    setTimeout(() => {
+      const generated = ecosystemService.generateAdaptiveWeeklyPlan({
+        exam: config.targetExam,
+        classLevel: config.classLevel,
+        dailyMinutes: Math.round(config.dailyStudyHours * 60),
+        targetDate: config.targetDate
+      });
+      setTasks([...generated]);
+      setIsGenerating(false);
+      setGenerateMsg('Weekly plan generated from your real mistake logs and weak areas!');
+      setTimeout(() => setGenerateMsg(null), 4000);
+    }, 600);
+  };
+
   const handleToggleTask = (id: string) => {
     const updated = ecosystemService.togglePlannerTask(id);
     setTasks([...updated]);
@@ -52,19 +112,49 @@ export const StudyPlanner: React.FC = () => {
     setTasks([...updated]);
   };
 
+  const handleOpenAdd = () => {
+    setEditingTaskId(null);
+    setNewTaskSubject('Physics');
+    setNewTaskChapter('');
+    setNewTaskType('Practice');
+    setNewTaskDuration(30);
+    setNewTaskNotes('');
+    setShowAddModal(true);
+  };
+
+  const handleOpenEdit = (t: PlannerTask) => {
+    setEditingTaskId(t.id);
+    setNewTaskSubject(t.subject);
+    setNewTaskChapter(t.chapter);
+    setNewTaskType(t.taskType);
+    setNewTaskDuration(t.durationMinutes);
+    setNewTaskNotes(t.notes || '');
+    setShowAddModal(true);
+  };
+
   const handleAddTask = (e: React.FormEvent) => {
     e.preventDefault();
-    const created = ecosystemService.addPlannerTask({
-      day: selectedDay,
-      subject: newTaskSubject,
-      chapter: newTaskChapter.trim() || 'General Revision',
-      taskType: newTaskType,
-      durationMinutes: newTaskDuration,
-      completed: false,
-      notes: newTaskNotes.trim() || undefined
-    });
-
-    setTasks(prev => [...prev, created]);
+    if (editingTaskId) {
+      const updated = ecosystemService.updatePlannerTask(editingTaskId, {
+        subject: newTaskSubject,
+        chapter: newTaskChapter.trim() || 'General Revision',
+        taskType: newTaskType,
+        durationMinutes: newTaskDuration,
+        notes: newTaskNotes.trim() || undefined
+      });
+      setTasks([...updated]);
+    } else {
+      const created = ecosystemService.addPlannerTask({
+        day: selectedDay,
+        subject: newTaskSubject,
+        chapter: newTaskChapter.trim() || 'General Revision',
+        taskType: newTaskType,
+        durationMinutes: newTaskDuration,
+        completed: false,
+        notes: newTaskNotes.trim() || undefined
+      });
+      setTasks(prev => [...prev, created]);
+    }
     setShowAddModal(false);
     setNewTaskNotes('');
   };
@@ -107,12 +197,125 @@ export const StudyPlanner: React.FC = () => {
           <Button
             size="sm"
             variant="primary"
-            onClick={() => setShowAddModal(true)}
+            onClick={handleOpenAdd}
             className="bg-white text-purple-950 hover:bg-purple-50 font-bold shadow-md shrink-0 text-xs py-2 px-3"
           >
             <Plus className="w-4 h-4 mr-1 text-purple-700" />
             <span>Add Slot</span>
           </Button>
+        </div>
+      </div>
+
+      {/* Task 4 Section 4 & Section 2: Study Planner Config & Adaptive Plan Generator */}
+      <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-3">
+          <div>
+            <h2 className="text-sm font-black text-slate-900 uppercase tracking-wide">
+              Target Exam & Study Parameters
+            </h2>
+            <p className="text-xs text-slate-500">Configure target date, daily allocation, and auto-generate weekly slots</p>
+          </div>
+          <Button
+            size="sm"
+            variant="primary"
+            onClick={handleGenerateAdaptivePlan}
+            disabled={isGenerating}
+            className="bg-purple-600 hover:bg-purple-700 font-bold text-xs"
+          >
+            <Sparkles className="w-3.5 h-3.5 mr-1 text-amber-300" />
+            <span>{isGenerating ? 'Analyzing Weaknesses...' : 'Auto-Schedule Week from My Data'}</span>
+          </Button>
+        </div>
+
+        {generateMsg && (
+          <div className="p-3 bg-emerald-50 text-emerald-800 text-xs font-semibold rounded-xl border border-emerald-200 flex items-center gap-2 animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>{generateMsg}</span>
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 pt-1">
+          {/* Target Exam */}
+          <div>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Target Exam</label>
+            <select
+              value={config.targetExam}
+              onChange={e => handleSaveConfig({ targetExam: e.target.value })}
+              className="w-full text-xs font-bold p-2 bg-slate-50 border border-slate-200 rounded-xl"
+            >
+              <option value="JEE">JEE Main</option>
+              <option value="JEE_ADV">JEE Advanced</option>
+              <option value="NEET">NEET UG</option>
+              <option value="CBSE">CBSE Board</option>
+              <option value="RBSE">RBSE Board</option>
+            </select>
+          </div>
+
+          {/* Class */}
+          <div>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Class Level</label>
+            <select
+              value={config.classLevel}
+              onChange={e => handleSaveConfig({ classLevel: e.target.value })}
+              className="w-full text-xs font-bold p-2 bg-slate-50 border border-slate-200 rounded-xl"
+            >
+              <option value="11">Class 11</option>
+              <option value="12">Class 12</option>
+              <option value="Dropper">Dropper / Repeater</option>
+            </select>
+          </div>
+
+          {/* Target Exam Date */}
+          <div>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Target Date</label>
+            <input
+              type="date"
+              value={config.targetDate}
+              onChange={e => handleSaveConfig({ targetDate: e.target.value })}
+              className="w-full text-xs font-semibold p-2 bg-slate-50 border border-slate-200 rounded-xl"
+            />
+          </div>
+
+          {/* Daily Study Time */}
+          <div>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Daily Study Time</label>
+            <select
+              value={config.dailyStudyHours}
+              onChange={e => handleSaveConfig({ dailyStudyHours: parseFloat(e.target.value) || 2 })}
+              className="w-full text-xs font-bold p-2 bg-slate-50 border border-slate-200 rounded-xl"
+            >
+              <option value="1.5">1.5 Hours / day</option>
+              <option value="2">2.0 Hours / day</option>
+              <option value="2.5">2.5 Hours / day</option>
+              <option value="3">3.0 Hours / day</option>
+              <option value="4">4.0 Hours / day</option>
+            </select>
+          </div>
+
+          {/* Preparation Level */}
+          <div>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Preparation Tier</label>
+            <select
+              value={config.prepLevel}
+              onChange={e => handleSaveConfig({ prepLevel: e.target.value as any })}
+              className="w-full text-xs font-bold p-2 bg-slate-50 border border-slate-200 rounded-xl"
+            >
+              <option value="Beginner">Beginner (Foundations)</option>
+              <option value="Intermediate">Intermediate (Problems)</option>
+              <option value="Advanced">Advanced (Speed & PYQs)</option>
+            </select>
+          </div>
+
+          {/* Target Score */}
+          <div>
+            <label className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">Target Score</label>
+            <input
+              type="number"
+              value={config.targetScore}
+              onChange={e => handleSaveConfig({ targetScore: parseInt(e.target.value, 10) || 100 })}
+              className="w-full text-xs font-bold p-2 bg-slate-50 border border-slate-200 rounded-xl"
+            />
+          </div>
         </div>
       </div>
 
@@ -224,7 +427,7 @@ export const StudyPlanner: React.FC = () => {
                     {t.durationMinutes} mins
                   </span>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-1.5">
                     <Button
                       size="sm"
                       variant="primary"
@@ -234,6 +437,13 @@ export const StudyPlanner: React.FC = () => {
                       Start
                       <ArrowRight className="w-3 h-3 ml-1" />
                     </Button>
+                    <button
+                      onClick={() => handleOpenEdit(t)}
+                      className="p-1.5 rounded-lg text-slate-400 hover:text-purple-600 hover:bg-purple-50 transition-colors"
+                      title="Edit task"
+                    >
+                      <Edit2 className="w-4 h-4" />
+                    </button>
                     <button
                       onClick={() => handleDeleteTask(t.id)}
                       className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors"
@@ -249,18 +459,18 @@ export const StudyPlanner: React.FC = () => {
         )}
       </div>
 
-      {/* Add Task Modal */}
+      {/* Add / Edit Task Modal */}
       <Modal
         isOpen={showAddModal}
         onClose={() => setShowAddModal(false)}
-        title={`Add Task to ${selectedDay}`}
+        title={editingTaskId ? 'Edit Study Task' : `Add Task to ${selectedDay}`}
         footer={
           <div className="flex gap-2 justify-end w-full">
             <Button variant="outline" size="sm" onClick={() => setShowAddModal(false)}>
               Cancel
             </Button>
             <Button variant="primary" size="sm" onClick={handleAddTask}>
-              Add Slot
+              {editingTaskId ? 'Save Changes' : 'Add Slot'}
             </Button>
           </div>
         }
