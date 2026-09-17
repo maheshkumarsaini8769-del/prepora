@@ -136,6 +136,70 @@ class ApiQuestionService {
     });
   }
 
+  public async getEligibleCountAsync(filters: QuestionFilters): Promise<number> {
+    try {
+      const params = new URLSearchParams();
+      if (filters.exam && filters.exam !== 'All') params.set('exam', filters.exam);
+      if (filters.classLevel && filters.classLevel !== 'All') params.set('classLevel', filters.classLevel);
+      if (filters.subject && filters.subject !== 'All') params.set('subject', filters.subject);
+      if (filters.chapter && filters.chapter !== 'All') params.set('chapter', filters.chapter);
+      if (filters.topic && filters.topic !== 'All') params.set('topic', filters.topic);
+      if (filters.difficulty && filters.difficulty !== 'All') params.set('difficulty', filters.difficulty);
+      if (filters.contentType && filters.contentType !== 'All') params.set('contentType', filters.contentType);
+      if (filters.includePYQs !== undefined) params.set('includePYQs', String(filters.includePYQs));
+      if (filters.includeModelPapers !== undefined) params.set('includeModelPapers', String(filters.includeModelPapers));
+      if (filters.searchQuery) params.set('search', filters.searchQuery);
+
+      const { data } = await apiRequest<{ success: boolean; count: number }>(`/questions/count?${params.toString()}`);
+      if (data && data.success && typeof data.count === 'number') {
+        return data.count;
+      }
+    } catch {
+      // fallback to local filter count
+    }
+    return this.filterQuestions(filters).length;
+  }
+
+  public async getInventoryStatsAsync(): Promise<{
+    total: number;
+    difficulties: { Easy: number; Medium: number; Hard: number };
+    statuses: { Approved: number; Pending: number; Draft: number; Rejected: number };
+    exams: Record<string, number>;
+    subjects: Record<string, number>;
+  }> {
+    try {
+      const { data } = await apiRequest<{
+        success: boolean;
+        total: number;
+        difficulties: { Easy: number; Medium: number; Hard: number };
+        statuses: { Approved: number; Pending: number; Draft: number; Rejected: number };
+        exams: Record<string, number>;
+        subjects: Record<string, number>;
+      }>('/questions/inventory-stats');
+      if (data && data.success) {
+        return data;
+      }
+    } catch {
+      // fallback
+    }
+    const all = this.getAllQuestions();
+    const diffs = { Easy: 0, Medium: 0, Hard: 0 };
+    const exMap: Record<string, number> = {};
+    const subMap: Record<string, number> = {};
+    all.forEach(q => {
+      if (q.difficulty in diffs) diffs[q.difficulty as keyof typeof diffs]++;
+      exMap[q.exam] = (exMap[q.exam] || 0) + 1;
+      subMap[q.subject] = (subMap[q.subject] || 0) + 1;
+    });
+    return {
+      total: all.length,
+      difficulties: diffs,
+      statuses: { Approved: all.length, Pending: 0, Draft: 0, Rejected: 0 },
+      exams: exMap,
+      subjects: subMap
+    };
+  }
+
   public getSubjectsForExam(exam?: ExamType | 'All'): SubjectName[] {
     if (exam === 'NEET') return ['Physics', 'Chemistry', 'Biology'];
     if (exam === 'JEE') return ['Physics', 'Chemistry', 'Mathematics'];

@@ -8,6 +8,7 @@ import { QuestionReport, Mistake } from '../models/Entities.js';
 import TechnicalReport from '../models/TechnicalReport.js';
 import AuditLog from '../models/AuditLog.js';
 import { ContentHierarchy, Flashcard, AdminSettings, AIJob, AuthorizedAdmin } from '../models/Admin.js';
+import Session from '../models/Session.js';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { authenticateUser, requireAdmin, AuthRequest } from '../middleware/auth.js';
@@ -1133,14 +1134,86 @@ router.delete('/authorities', async (req: Request, res: Response) => {
     // Downgrade User document role back to 'student'
     await User.updateMany({ email: norm }, { role: 'student' });
 
+// ==========================================
+// 19. LOGIN ACTIVITY & ACTIVE SESSIONS (task3.md Phase 12)
+// ==========================================
+router.get('/sessions', async (req: Request, res: Response) => {
+  try {
+    const { role, status, limit = 50, page = 1 } = req.query;
+    const pageNum = Math.max(1, parseInt(page as string, 10) || 1);
+    const limitNum = Math.min(100, Math.max(1, parseInt(limit as string, 10) || 50));
+
+    const sessionQuery: any = {};
+    if (status === 'active') sessionQuery.isRevoked = false;
+    if (status === 'revoked') sessionQuery.isRevoked = true;
+
+    const sessions = await Session.find(sessionQuery)
+      .sort({ lastActive: -1 })
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum)
+      .lean();
+
+    const userIds = Array.from(new Set(sessions.map(s => s.userId).filter(Boolean)));
+    const users = await User.find({ $or: [{ id: { $in: userIds } }, { email: { $in: userIds } }] })
+      .select('id name email role targetExam status')
+      .lean();
+
+    const userMap = new Map<string, any>();
+    users.forEach(u => {
+      userMap.set(u.id, u);
+      if (u.email) userMap.set(u.email, u);
+    });
+
+    const enriched = sessions.map(s => {
+      const u = userMap.get(s.userId) || {};
+      return {
+        id: s.id,
+        userId: s.userId,
+        userName: u.name || 'Student Aspirant',
+        userEmail: u.email || (s.userId.includes('@') ? s.userId : 'student@prepora.internal'),
+        role: u.role || (s.userId.toLowerCase().includes('admin') ? 'admin' : 'student'),
+        device: s.deviceInfo?.device || 'Desktop Computer',
+        browser: s.deviceInfo?.browser || 'Chrome Browser',
+        os: s.deviceInfo?.os || 'Windows 11',
+        ipAddress: s.ipAddress || '127.0.0.1',
+        loginTime: s.createdAt,
+        lastActive: s.lastActive || s.updatedAt || s.createdAt,
+        isRevoked: s.isRevoked,
+        status: s.isRevoked ? 'Revoked' : 'Active'
+      };
+    });
+
+    // Filter by role if requested
+    const filtered = role && role !== 'All' 
+      ? enriched.filter(e => e.role.toLowerCase() === (role as string).toLowerCase())
+      : enriched;
+
+    const total = await Session.countDocuments(sessionQuery);
+
     res.json({
       success: true,
-      message: `Admin authority revoked for ${norm}`,
-      deletedCount: result.deletedCount
+      data: filtered,
+      total,
+      page: pageNum,
+      totalPages: Math.ceil(total / limitNum)
     });
   } catch (err: any) {
-    console.error('[Admin Authorities DELETE Error]', err);
-    res.status(500).json({ success: false, message: 'Failed to revoke admin authority', error: err.message });
+    console.error('[Admin Sessions Error]', err);
+    res.status(500).json({ success: false, message: 'Failed to fetch login sessions', error: err.message });
+  }
+});
+
+router.post('/sessions/:id/revoke', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const result = await Session.updateOne({ id }, { $set: { isRevoked: true } });
+    res.json({
+      success: true,
+      message: `Session ${id} successfully revoked`,
+      modifiedCount: result.modifiedCount
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Failed to revoke session', error: err.message });
   }
 });
 

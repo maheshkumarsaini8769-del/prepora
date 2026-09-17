@@ -101,6 +101,87 @@ router.post('/check-duplicate', async (req: Request, res: Response) => {
   }
 });
 
+// GET /api/questions/inventory-stats - Real database inventory metrics (task3.md Phase 2, 3, 26)
+router.get('/inventory-stats', async (_req: Request, res: Response) => {
+  try {
+    const total = await Question.countDocuments();
+    const difficulties = await Question.aggregate([{ $group: { _id: '$difficulty', count: { $sum: 1 } } }]);
+    const exams = await Question.aggregate([{ $group: { _id: '$exam', count: { $sum: 1 } } }]);
+    const subjects = await Question.aggregate([{ $group: { _id: '$subject', count: { $sum: 1 } } }]);
+    const statuses = await Question.aggregate([{ $group: { _id: '$status', count: { $sum: 1 } } }]);
+    const contentTypes = await Question.aggregate([{ $group: { _id: '$contentType', count: { $sum: 1 } } }]);
+
+    const diffMap: Record<string, number> = { Easy: 0, Medium: 0, Hard: 0 };
+    difficulties.forEach(d => { if (d._id) diffMap[d._id] = d.count; });
+
+    const statusMap: Record<string, number> = { Approved: 0, Pending: 0, Draft: 0, Rejected: 0 };
+    statuses.forEach(s => { if (s._id) statusMap[s._id] = s.count; });
+
+    res.json({
+      success: true,
+      total,
+      difficulties: diffMap,
+      statuses: statusMap,
+      exams: exams.reduce((acc, curr) => { if (curr._id) acc[curr._id] = curr.count; return acc; }, {} as Record<string, number>),
+      subjects: subjects.reduce((acc, curr) => { if (curr._id) acc[curr._id] = curr.count; return acc; }, {} as Record<string, number>),
+      contentTypes: contentTypes.reduce((acc, curr) => { if (curr._id) acc[curr._id] = curr.count; return acc; }, {} as Record<string, number>)
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// GET /api/questions/count - Fast count for arbitrary filter combinations (task3.md Phase 4, 5, 6)
+router.get('/count', async (req: Request, res: Response) => {
+  try {
+    const {
+      exam,
+      classLevel,
+      subject,
+      chapter,
+      topic,
+      difficulty,
+      status,
+      contentType,
+      includePYQs,
+      includeModelPapers,
+      search
+    } = req.query;
+
+    const filter: any = {};
+    if (exam && exam !== 'All') filter.exam = exam;
+    if (classLevel && classLevel !== 'All') filter.class = classLevel;
+    if (subject && subject !== 'All') filter.subject = subject;
+    if (chapter && chapter !== 'All') filter.chapter = chapter;
+    if (topic && topic !== 'All') filter.topic = topic;
+    if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed') filter.difficulty = difficulty;
+    if (status && status !== 'All') filter.status = status;
+    if (contentType && contentType !== 'All') filter.contentType = contentType;
+
+    if (includeModelPapers === 'false') {
+      filter.source = { $ne: 'Model Paper' };
+    }
+    if (includePYQs === 'false') {
+      filter.source = { $nin: ['Model Paper', 'PYQ', 'Official PYQ'] };
+    }
+
+    if (search && typeof search === 'string' && search.trim()) {
+      const qRegex = new RegExp(escapeRegex(search.trim()), 'i');
+      filter.$or = [
+        { question: qRegex },
+        { chapter: qRegex },
+        { topic: qRegex },
+        { concept: qRegex }
+      ];
+    }
+
+    const count = await Question.countDocuments(filter);
+    res.json({ success: true, count, filter });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // GET /api/questions - List with filters & pagination
 router.get('/', async (req: Request, res: Response) => {
   try {
@@ -112,6 +193,9 @@ router.get('/', async (req: Request, res: Response) => {
       topic,
       difficulty,
       status,
+      contentType,
+      includePYQs,
+      includeModelPapers,
       search,
       page = '1',
       limit = '50'
@@ -123,11 +207,19 @@ router.get('/', async (req: Request, res: Response) => {
     if (subject && subject !== 'All') filter.subject = subject;
     if (chapter && chapter !== 'All') filter.chapter = chapter;
     if (topic && topic !== 'All') filter.topic = topic;
-    if (difficulty && difficulty !== 'All') filter.difficulty = difficulty;
+    if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed') filter.difficulty = difficulty;
     if (status && status !== 'All') filter.status = status;
+    if (contentType && contentType !== 'All') filter.contentType = contentType;
 
-    if (search && typeof search === 'string') {
-      const qRegex = new RegExp(escapeRegex(search), 'i');
+    if (includeModelPapers === 'false') {
+      filter.source = { $ne: 'Model Paper' };
+    }
+    if (includePYQs === 'false') {
+      filter.source = { $nin: ['Model Paper', 'PYQ', 'Official PYQ'] };
+    }
+
+    if (search && typeof search === 'string' && search.trim()) {
+      const qRegex = new RegExp(escapeRegex(search.trim()), 'i');
       filter.$or = [
         { question: qRegex },
         { chapter: qRegex },
@@ -137,7 +229,7 @@ router.get('/', async (req: Request, res: Response) => {
     }
 
     const pageNum = parseInt(page as string, 10) || 1;
-    const limitNum = Math.min(parseInt(limit as string, 10) || 50, 200);
+    const limitNum = Math.min(parseInt(limit as string, 10) || 50, 500);
 
     const questions = await Question.find(filter)
       .skip((pageNum - 1) * limitNum)

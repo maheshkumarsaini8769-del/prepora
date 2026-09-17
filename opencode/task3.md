@@ -1,974 +1,1256 @@
-PREPORA — GEMINI AI COMPLETE INTEGRATION & INTELLIGENT AI SYSTEM
-
-You are a senior full-stack engineer, AI architect, UX designer and education-tech product engineer.
-
-You are working on the EXISTING PREPORA website.
-
-PREPORA
-Practice • Test • Analyze • Improve
+PREPORA — COMPLETE 100K+ QUESTION + FULL WEBSITE QA AUDIT + REAL PREVIOUS PAPER VERIFICATION
+=============================================================================================
 
 IMPORTANT:
-Do NOT rebuild the website from scratch.
-Do NOT remove existing functionality.
-Do NOT replace working features with mock/static implementations.
-First inspect the existing codebase and understand the current architecture.
 
-Your task is to integrate Google Gemini API into PREPORA wherever AI genuinely improves the product.
+You are NOT doing a small UI fix.
 
-==================================================
-1. GEMINI API CONFIGURATION
-==================================================
+You must perform a COMPLETE END-TO-END AUDIT of the existing PREPORA website.
 
-Use Google Gemini API.
+The goal is:
 
-The admin/developer will provide the Gemini API key.
+1. 100,000+ VALID questions system
+2. Correct Easy / Medium / Hard filtering
+3. Correct Test Builder
+4. Correct Practice system
+5. Correct Previous Papers system
+6. Correct Performance/Analytics
+7. Correct Admin Panel
+8. Correct Login Activity
+9. Correct AI Content Factory
+10. Correct mobile + desktop UI
+11. Complete regression testing of the ENTIRE website
 
-NEVER expose the API key in frontend/client-side code.
+DO NOT claim something is fixed unless you actually test it.
 
-Use environment variables on the server/backend.
+DO NOT use fake data.
+
+DO NOT use fake progress.
+
+DO NOT use fake question counts.
+
+DO NOT assume a feature works because the UI exists.
+
+=============================================================================================
+PHASE 1 — COMPLETE CODEBASE AUDIT
+=============================================================================================
+
+First inspect the entire project.
+
+Inspect:
+
+- Frontend
+- Backend
+- APIs
+- Database
+- Database schema
+- Authentication
+- Authorization
+- Admin panel
+- Student panel
+- Question Bank
+- Test Builder
+- Practice
+- Previous Papers
+- Model Papers
+- AI Content Factory
+- AI Doubt Solver
+- Search
+- Filters
+- Performance
+- Analytics
+- Mistake Book
+- Revision
+- Fix My Weakness
+- Dashboard
+- Profile
+- Settings
+- Notifications
+- Reports
+- Doubts
+- Mobile navigation
+- Desktop navigation
+- Loading states
+- Error states
+- Empty states
+- Network recovery
+- Autosave
+- Pagination
+- Sorting
+- Caching
+
+Find ROOT CAUSES.
+
+Do not only patch visible symptoms.
+
+=============================================================================================
+PHASE 2 — 100,000+ QUESTION SYSTEM
+=============================================================================================
+
+PREPORA must support 100,000+ VALID questions platform-wide.
+
+IMPORTANT:
+
+"100,000+" means:
+
+100,000+ VALID + UNIQUE + CORRECT + PUBLISHABLE questions.
+
+Do NOT count:
+
+- Duplicates
+- Invalid questions
+- Broken questions
+- Missing-answer questions
+- Rejected questions
+- Unverified questions
+- Deleted questions
+- Fake placeholder records
+
+Every question must contain valid metadata:
+
+- questionId
+- questionVersion
+- subject
+- class
+- exam
+- chapter
+- topic
+- difficulty
+- questionType
+- contentType
+- questionText
+- options where applicable
+- correctAnswer
+- explanation
+- solution where required
+- source
+- verificationStatus
+- createdAt
+- updatedAt
+
+Use background jobs for large-scale generation/import.
+
+Generation must be resumable.
+
+If generation stops at 62,000:
+
+Resume from 62,001.
+
+Never restart unnecessarily.
+
+=============================================================================================
+PHASE 3 — QUESTION DIFFICULTY
+=============================================================================================
+
+Canonical difficulty values:
+
+EASY
+MEDIUM
+HARD
+
+Normalize all old records.
+
+Never treat:
+
+easy
+Easy
+Easy 
+EASY
+
+as separate values.
+
+Same for Medium and Hard.
+
+Invalid difficulty:
+
+NEEDS_REVIEW
+
+Do not randomly assign difficulty.
+
+Default AI generation target:
+
+30% EASY
+50% MEDIUM
+20% HARD
+
+But count only VALID UNIQUE questions.
+
+Show actual inventory.
 
 Example:
 
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY_HERE
+Total: 100,000
+Easy: 30,200
+Medium: 49,500
+Hard: 20,300
 
-Never hardcode the key.
+Never fake these values.
 
-Never return the key through an API response.
+=============================================================================================
+PHASE 4 — FULL FILTER TESTING
+=============================================================================================
 
-Never store the key in the database unless there is a secure encrypted configuration system.
+TEST EVERY FILTER.
 
-Create a centralized server-side Gemini service.
+Do not just inspect code.
 
-Example architecture:
+Actually execute test cases.
 
-Frontend
-   ↓
-PREPORA Backend
-   ↓
-Gemini Service
-   ↓
-Gemini API
+Test:
 
-The frontend must NEVER directly call Gemini using the secret API key.
+- All Subjects
+- Physics
+- Chemistry
+- Biology
+- Mathematics where applicable
+- All Chapters
+- Individual Chapter
+- All Topics
+- Individual Topic
+- Easy
+- Medium
+- Hard
+- All Difficulties
+- Question Type
+- Exam
+- Class
+- Content Type
+- Published status
+- Search
 
-==================================================
-2. AI PROVIDER ABSTRACTION
-==================================================
+Then test combinations:
 
-Do not hard-code Gemini calls throughout the application.
+Subject + Difficulty
 
-Create a reusable AI service layer.
+Chapter + Difficulty
 
-Example:
+Topic + Difficulty
 
-AIProvider
- ├── GeminiProvider
- └── FutureProvider
+Subject + Chapter
 
-This allows another model/provider to be added later without rewriting the whole application.
+Subject + Chapter + Topic
 
-==================================================
-3. AI DOUBT SOLVER
-==================================================
+Subject + Chapter + Difficulty
 
-This is the primary student-facing Gemini feature.
+Subject + Topic + Difficulty
 
-Student can ask ANY legitimate educational question.
+Search + Difficulty
 
-The question does NOT have to exist in PREPORA's database.
+Search + Subject
 
-Examples:
+Search + Chapter
 
-"What is gravity?"
+Search + Topic
 
-"What is force?"
+Search + Difficulty + Subject + Chapter + Topic
 
-"Explain photosynthesis."
+Every selected filter must apply using correct AND logic.
 
-"Solve 2x + 5 = 15."
+=============================================================================================
+PHASE 5 — HARD / MEDIUM / EASY TEST BUILDER
+=============================================================================================
 
-"Why does current flow?"
+This is CRITICAL.
 
-"Explain this concept simply."
+Open Test Builder and actually create tests.
 
-The AI must answer using:
+Test:
 
-1. PREPORA content when relevant
-2. General model knowledge when PREPORA content is unavailable
-3. Web/current information only when the application has an approved web-search capability and the question requires current information
-
-Do NOT restrict the AI to the PREPORA database.
-
-==================================================
-4. QUESTION UNDERSTANDING — MANDATORY
-==================================================
-
-Before generating an answer, identify internally:
-
-Intent
-Subject
-Chapter if identifiable
-Topic
-Concept
-Question type
-Difficulty/level if identifiable
-
-Example:
-
-User:
-"What is gravity?"
-
-Internal understanding:
-
-Intent:
-Definition
-
-Subject:
-Physics
-
-Topic:
-Gravitation
-
-Concept:
-Gravity
-
-Then generate the answer specifically for that concept.
-
-Do NOT treat every Physics question as a generic Physics question.
-
-==================================================
-5. NO GENERIC TEMPLATE ANSWERS
-==================================================
-
-NEVER generate irrelevant generic text such as:
-
-"Governing physics principles of..."
-
-unless the actual question requires it.
-
-Never insert random formulas.
-
-Example:
-
-Question:
-"What is gravity?"
-
-Correct:
-
-"Gravity is the force of attraction between objects having mass. Near Earth's surface, gravity pulls objects toward the Earth's centre."
-
-Optional relevant relation:
-
-W = mg
-
-Do NOT automatically output:
-
-F = ma
-
-just because the question is about Physics.
-
-Question:
-
-"What is force?"
+10 Easy
+10 Medium
+10 Hard
 
 Then:
 
-"Force is a push or pull that can change an object's motion or shape."
+20 Easy
+20 Medium
+20 Hard
 
-Relevant formula:
+Then:
 
-F = ma
+50 Easy
+50 Medium
+50 Hard
 
-The formula should only appear when it actually helps answer the question.
+Then larger valid quantities based on inventory.
 
-==================================================
-6. ANSWER VERIFICATION
-==================================================
+For every test verify:
 
-Every AI answer must pass an answer-quality check before being shown when practical.
+- Correct number of questions
+- Correct difficulty
+- Correct subject
+- Correct chapter
+- Correct topic
+- Correct exam
+- Correct contentType
+- No duplicate question
+- No wrong difficulty
+- No model paper accidentally included
+- No PYQ accidentally included
+- No random unrelated topic included
 
-Verify:
+Example:
 
-1. Does the answer directly answer the question?
-2. Is the identified concept correct?
-3. Are formulas relevant?
-4. Are calculations correct?
-5. Are units correct?
-6. Is there contradictory information?
-7. Is the explanation understandable?
-8. Did the AI accidentally answer a different question?
-9. Did it invent a source/reference?
-10. Is the confidence sufficient?
+User selects:
 
-If verification fails:
+Physics
+Kinematics
+Hard
+50 Questions
 
-Regenerate.
+System must first calculate:
 
-Do not show the failed response.
+eligibleCount
 
-==================================================
-7. SMART ANSWER FORMAT
-==================================================
+If eligibleCount = 73:
 
-Do not make every answer unnecessarily long.
+Allow 50.
 
-Simple question:
+If eligibleCount = 31:
 
-Answer
-+
-short explanation
-+
-example if useful
+DO NOT silently give 20.
 
-Complex question:
+Show:
 
-Answer
-Concept
-Explanation
-Formula if relevant
-Example
-Common mistake
-Related practice
+"31 Hard questions available."
 
-Adapt answer length to the question.
+Options:
 
-==================================================
-8. STUDENT LEVEL
-==================================================
+[Practice 31]
 
-If the user's class/exam level is known:
+[Generate 19 More]
 
-Class 11
-Class 12
-JEE
+Never change Hard to Medium/Easy automatically.
+
+Never duplicate questions.
+
+=============================================================================================
+PHASE 6 — DATABASE FILTER VS FRONTEND FILTER
+=============================================================================================
+
+Filtering must happen at database/API level.
+
+Correct:
+
+FILTER
+→ COUNT
+→ RANDOMIZE/SORT
+→ SELECT
+→ PAGINATE
+
+NOT:
+
+FETCH RANDOM QUESTIONS
+→ FILTER IN FRONTEND
+→ SHOW WHATEVER REMAINS
+
+Verify API response against database counts.
+
+If database says:
+
+Hard = 82
+
+API must correctly return:
+
+82 eligible questions.
+
+Frontend must display:
+
+82.
+
+Test all three layers.
+
+DATABASE
+↓
+API
+↓
+FRONTEND
+
+=============================================================================================
+PHASE 7 — QUESTION CONTENT TYPE SEPARATION
+=============================================================================================
+
+Strictly separate:
+
+QUESTION_BANK
+PYQ
+MODEL_PAPER
+SAMPLE_PAPER
+MOCK_TEST
+PRACTICE_SET
+AI_GENERATED
+CUSTOM_TEST
+
+TEST THIS.
+
+Normal Practice/Test Builder must NOT accidentally include:
+
+- Model Papers
+- Previous Year Papers
+
+unless explicitly selected.
+
+Previous Papers must remain separate.
+
+Model Papers must remain separate.
+
+AI-generated questions must remain correctly labelled.
+
+=============================================================================================
+PHASE 8 — REAL PREVIOUS YEAR PAPERS
+=============================================================================================
+
+Audit and verify real Previous Year Papers.
+
+Supported categories:
+
+- JEE Main
+- JEE Advanced
+- NEET UG
+- CBSE
+- RBSE
+
+Use REAL papers from authoritative/official sources where available.
+
+Do NOT:
+
+- Invent papers
+- Reconstruct missing papers with AI
+- Generate fake PYQs
+- Label AI questions as PYQ
+- Mix Model Papers with PYQs
+
+For every imported paper store:
+
+paperId
+exam
+year
+session
+date
+shift
+paperNumber
+class
+subject
+language
+setCode
+contentType
+sourceType
+sourceURL
+sourceDocument
+rightsStatus
+verificationStatus
+questionCount
+answerKeyStatus
+createdAt
+
+Before publishing:
+
+Verify source.
+
+Verify document.
+
+Verify year.
+
+Verify exam.
+
+Verify question count.
+
+Verify paper identity.
+
+Verify answer key if available.
+
+=============================================================================================
+PHASE 9 — PREVIOUS PAPER INVENTORY CHECK
+=============================================================================================
+
+After importing Previous Papers, generate an exact inventory.
+
+Example format:
+
+JEE MAIN
+2020:
+- Session 1: ...
+- Session 2: ...
+- Available shifts/papers: ...
+
+2021:
+...
+
+JEE ADVANCED
+2020:
+- Paper 1
+- Paper 2
+
+2021:
+- Paper 1
+- Paper 2
+
+...
+
+NEET
+2020:
+- Set(s) actually imported
+
+...
+
+CBSE
+2020:
+- Class
+- Subject
+- Paper
+
+...
+
+RBSE
+2020:
+- Class
+- Subject
+- Paper
+
+...
+
+IMPORTANT:
+
+Only list papers that ACTUALLY exist in the PREPORA database after verification.
+
+Do NOT say:
+
+"2020–2026 added"
+
+unless the individual papers have actually been imported and verified.
+
+If something is missing, explicitly write:
+
+NOT ADDED / NOT VERIFIED / SOURCE ONLY / RIGHTS REVIEW REQUIRED
+
+=============================================================================================
+PHASE 10 — PREVIOUS PAPER PAGE TEST
+=============================================================================================
+
+Open Previous Papers page.
+
+Test filters:
+
+Exam
+Year
+Session
+Date
+Shift
+Paper
+Subject
+Class
+Language
+Set/Code
+
+Test:
+
+JEE Main
+JEE Advanced
 NEET
 CBSE
 RBSE
 
-adapt the explanation accordingly.
-
-If level is unknown:
-
-Use a clear student-friendly explanation.
-
-Do not unnecessarily use advanced terminology.
-
-==================================================
-9. PROGRESSIVE HINT SYSTEM
-==================================================
-
-For questions that require solving:
-
-HINT 1
-→ small clue
-
-HINT 2
-→ concept
-
-HINT 3
-→ approach
-
-FULL SOLUTION
-→ complete solution
-
-Do not reveal the full solution immediately when the student specifically asks for a hint.
-
-==================================================
-10. IMAGE DOUBT SOLVER
-==================================================
-
-If the student uploads an image containing:
-
-Question
-Diagram
-Graph
-Equation
-Book page
-Handwritten problem
-
-analyze the image and answer the question.
-
-The AI should identify:
-
-visible question
-diagram information
-given values
-options
-required result
-
-If the image is unclear:
-
-say what is unclear instead of inventing missing information.
-
-==================================================
-11. MATH / NUMERICAL VERIFICATION
-==================================================
-
-For numerical questions:
-
-extract values
-identify formula
-calculate
-verify result
-check units
-
-Example:
-
-Given:
-m = 5 kg
-a = 2 m/s²
-
-F = ma
-F = 5 × 2
-F = 10 N
-
-Final:
-10 N
-
-Do not provide an unverified numerical result.
-
-==================================================
-12. PREPORA CONTENT GROUNDING
-==================================================
-
-When the student asks about something covered by PREPORA content:
-
-retrieve relevant approved content first.
-
-Then use Gemini to explain it.
-
-IMPORTANT:
-
-PREPORA content is a trusted learning context,
-NOT the only possible source of knowledge.
-
-If relevant PREPORA content is not found:
-
-Gemini may answer using general knowledge.
-
-Never falsely claim:
-
-"According to PREPORA..."
-
-unless PREPORA content was actually retrieved.
-
-==================================================
-13. CURRENT INFORMATION
-==================================================
-
-For questions requiring current information:
-
-current events
-current office holders
-latest exam announcements
-current schedules
-current prices
-recent changes
-
-Do not rely blindly on model memory.
-
-If web search is available in the application:
-
-use it.
-
-If web search is unavailable:
-
-clearly state that current verification is unavailable rather than pretending the information is current.
-
-==================================================
-14. AI RESPONSE SAFETY
-==================================================
-
-For medical, legal, financial or other high-stakes questions:
-
-provide appropriate caution.
-
-Do not present uncertain information as guaranteed professional advice.
-
-For unsafe requests:
-
-follow appropriate safety policies.
-
-==================================================
-15. FIX MY WEAKNESS AI
-==================================================
-
-Use Gemini to analyze student performance.
-
-Inputs can include:
-
-accuracy
-mistakes
-question history
-topics
-chapters
-time per question
-mistake types
-test results
-revision history
-
-Gemini should identify:
-
-weak concept
-probable reason
-recommended action
-
-Example:
-
-Weak Topic:
-Electrostatics
-
-Accuracy:
-48%
-
-Repeated mistake:
-4 times
-
-AI analysis:
-
-"Your main issue appears to be applying the electric-field formula in multi-step questions."
-
-Then:
-
-Recommended:
-
-5 concept questions
-5 easy questions
-10 medium questions
-5 timed questions
-retest
-
-Do not generate a weakness diagnosis from insufficient data.
-
-==================================================
-16. AI-GENERATED PRACTICE
-==================================================
-
-When appropriate, Gemini can generate new practice questions.
-
-Every generated question must go through:
-
-Source/knowledge validation
-Answer validation
-Duplicate detection
-Quality validation
-Topic validation
-Difficulty validation
-
-Never directly publish AI-generated questions.
-
-==================================================
-17. 400 QUESTIONS PER CHAPTER
-==================================================
-
-AI Content Factory target:
-
-400 VALID UNIQUE QUESTIONS.
-
-400 generated questions does NOT mean completion.
-
-Only count questions that pass validation.
-
-Use batches:
-
-25–50 questions per batch.
-
-Continue until:
-
-400 valid unique questions
-
-or until the source genuinely cannot support more high-quality unique questions.
-
-Never hallucinate or repeat questions just to reach 400.
-
-==================================================
-18. QUESTION GENERATION PIPELINE
-==================================================
-
-PDF
-↓
-Extract
-↓
-Analyze
-↓
-Identify Topics
-↓
-Build Knowledge Map
-↓
-Build Question Blueprint
-↓
-Generate Batch
-↓
-Validate
-↓
-Check Answer
-↓
-Check Duplicate
-↓
-Check Topic
-↓
-Check Difficulty
-↓
-Accept / Reject
-↓
-Generate Replacement
-↓
-Coverage Check
-↓
-Admin Review
-↓
-Publish
-
-==================================================
-19. SOURCE VERIFICATION
-==================================================
-
-For source-based question generation:
-
-Every question should maintain:
-
-source document
-source version
-chapter
-topic
-section/page reference when available
-concept
-
-Never invent source references.
-
-If the source does not contain the requested topic:
-
-do not pretend that it does.
-
-==================================================
-20. SEMANTIC DUPLICATE DETECTION
-==================================================
-
-Detect:
-
-Exact duplicates
-Near duplicates
-Semantic duplicates
-Same concept with almost identical question structure
-
-Flag them.
-
-Do not automatically delete.
-
-Generate replacement questions.
-
-==================================================
-21. AI CONTENT FACTORY — REAL PROGRESS
-==================================================
-
-Show actual backend job state.
-
-Example:
-
-Generating Questions
-
-286 / 400 Valid
-
-Accepted:
-286
-
-Duplicates:
-31
-
-Rejected:
-18
-
-Remaining:
-114
-
-Current Batch:
-6
-
-Stage:
-Semantic Validation
-
-Never fake progress.
-
-If job is stuck:
-
-show:
-
-Processing delayed
-
-[ Retry ]
-
-[ View Error ]
-
-==================================================
-22. AI USAGE CONTROL
-==================================================
-
-Track:
-
-requests
-successful requests
-failed requests
-tokens if available
-latency
-daily usage
-generation jobs
-errors
-
-Add configurable limits.
-
-Prevent accidental infinite AI loops.
-
-Every background generation job must have:
-
-maximum retries
-timeout
-failure state
-resume capability
-
-==================================================
-23. AI FAILURE HANDLING
-==================================================
-
-If Gemini fails:
-
-Do not break the website.
-
-Show:
-
-AI SERVICE TEMPORARILY UNAVAILABLE
-
-Your previous progress is saved.
-
-[ Retry ]
-
-For Content Factory:
-
-pause the job safely.
-
-Never lose already validated questions.
-
-==================================================
-24. CHAT MEMORY
-==================================================
-
-Within a doubt conversation, remember the recent context.
-
-Example:
-
-Student:
-"What is force?"
-
-AI answers.
-
-Student:
-"Give an example."
-
-AI should understand that "it" refers to force.
-
-But do not expose unnecessary personal information to the model.
-
-==================================================
-25. FOLLOW-UP QUESTIONS
-==================================================
-
-Allow:
-
-Explain simpler
-Give example
-Explain step by step
-Give hint
-Why?
-Show formula
-Give similar question
-Test me on this
-
-These should use the current conversation context.
-
-==================================================
-26. AI → PRACTICE CONNECTION
-==================================================
-
-After explaining a concept:
-
-Show:
-
-SIMILAR PRACTICE
-
-[ Practice 5 Questions ]
-
-After a wrong answer:
-
-[ Practice Similar ]
-
-After repeated mistakes:
-
-[ Fix My Weakness ]
-
-AI should connect explanation directly to PREPORA learning actions.
-
-==================================================
-27. AI → REVISION CONNECTION
-==================================================
-
-If a student struggles with a concept:
-
-Allow:
-
-[ Add to Revision ]
-
-Then create a revision item linked to:
-
-subject
-chapter
-topic
-concept
-mistake
-
-==================================================
-28. AI → MISTAKE BOOK CONNECTION
-==================================================
-
-When AI explains a student's wrong answer:
-
-allow:
-
-[ Save Explanation ]
-
-The explanation can be attached to the mistake record.
-
-==================================================
-29. ADMIN AI CONTROLS
-==================================================
-
-Admin should be able to configure:
-
-AI enabled/disabled
-model
-daily request limits
-content-generation limits
-maximum retries
-generation batch size
-verification level
-
-Do not expose API secrets in the UI unnecessarily.
-
-==================================================
-30. AI LOGGING
-==================================================
-
-Log safe metadata:
-
-request ID
-timestamp
-feature
-model
-success/failure
-latency
-token usage if available
-error category
-
-Do not unnecessarily store sensitive student conversations.
-
-==================================================
-31. COST CONTROL
-==================================================
-
-Do not call Gemini multiple times unnecessarily.
-
-Use intelligent routing.
-
-Simple question:
-one generation + lightweight validation when appropriate.
-
-Complex/high-risk/generated content:
-stronger verification.
-
-Cache appropriate repeated explanations where safe.
-
-Set rate limits.
-
-Prevent abuse.
-
-==================================================
-32. UI FOR AI DOUBT SOLVER
-==================================================
-
-Keep the interface clean.
-
-Student sees:
-
-Ask PREPORA AI
-
-[ Type your question... ]
-
-[ Upload Image ]
-
-Suggested:
-
-Explain this concept
-Solve a question
-Give me a hint
-Why is this answer wrong?
-
-AI answer:
-
-Clear answer
-Formula if relevant
-Example if useful
-
-Actions:
-
-Explain simpler
-Give example
-Practice similar
-Save to revision
-
-==================================================
-33. DO NOT MAKE AI LOOK LIKE A GENERIC CHATBOT
-==================================================
-
-The AI should feel integrated into PREPORA.
-
-AI should understand:
-
-student performance
-weaknesses
-mistakes
-revision
-practice
-tests
-
-but only use the data required for the current task.
-
-==================================================
-34. FINAL AI QUALITY RULE
-==================================================
-
-Before showing any educational answer, the system should conceptually ask:
-
-"Did I answer exactly what the student asked?"
-
-Examples:
-
-"What is gravity?"
-→ explain gravity.
-
-"What is force?"
-→ explain force.
-
-"Why does gravity act?"
-→ explain gravitational attraction.
-
-"Calculate force when m=5kg and a=2m/s²."
-→ calculate 10N.
-
-Do NOT answer a different question just because it belongs to the same subject.
-
-==================================================
-35. FINAL IMPLEMENTATION
-==================================================
-
-First inspect the existing codebase.
-
-Then implement:
-
-1. Gemini backend service
-2. Secure API key handling
-3. AI provider abstraction
-4. AI Doubt Solver
-5. Question understanding
-6. Answer verification
-7. Progressive hints
-8. Image question support if existing upload infrastructure supports it
-9. PREPORA content retrieval
-10. AI-generated practice
-11. Fix My Weakness AI
-12. AI → Practice connection
-13. AI → Revision connection
-14. AI → Mistake Book connection
-15. 400-question Content Factory integration
-16. Batch generation
-17. Duplicate detection
-18. Replacement generation
-19. Real AI job progress
-20. Usage tracking
-21. Failure/retry handling
-22. Admin controls
-23. Security
-24. Rate limiting
-25. Mobile UI
-
-==================================================
-36. DO NOT BREAK EXISTING PRODUCT
-==================================================
-
-Before finishing:
+Verify that filtering does not mix papers.
+
+Open several actual papers.
+
+Verify:
+
+- PDF/document opens
+- Questions visible
+- Correct order
+- Options preserved
+- Images preserved
+- Question count correct
+- Answer key mapping correct where available
+- Paper metadata correct
+
+=============================================================================================
+PHASE 11 — ADMIN PANEL AUDIT
+=============================================================================================
+
+Test every Admin Panel section.
+
+Dashboard
+AI Content Factory
+Question Bank
+Test Builder
+Previous Papers
+Model Papers
+Students
+Reports
+Doubts
+Analytics
+Syllabus
+AI Studio
+System Status
+Security
+Admins
+Settings
+
+Every page must:
+
+- Load
+- Filter
+- Search
+- Sort
+- Paginate
+- Save
+- Edit
+- Delete where permitted
+- Show loading state
+- Show error state
+- Show empty state
+
+Do not leave broken buttons.
+
+Do not leave fake counters.
+
+=============================================================================================
+PHASE 12 — ADMIN LOGIN ACTIVITY
+=============================================================================================
+
+Verify Login Activity.
+
+Admin must see real:
+
+- User name
+- Email
+- User ID
+- Role
+- Login time
+- Last active
+- Device
+- OS
+- Browser
+- Session
+- IP
+- Login status
+- Logout where available
+
+Do not expose:
+
+- Passwords
+- API keys
+- Auth tokens
+- Sensitive secrets
 
 Test:
 
-Home
-Practice
-Question solving
-Tests
-Custom Test
-Papers
-Analytics
+Student login
+Admin login
+Failed login
+Logout
+Multiple sessions
+
+Verify records are actually created in database.
+
+=============================================================================================
+PHASE 13 — STUDENT PRACTICE SYSTEM
+=============================================================================================
+
+Actually use the student flow.
+
+Test:
+
+Subject
+→ Chapter
+→ Topic
+→ Difficulty
+→ Number of Questions
+→ Start Practice
+
+Verify every step.
+
+Test:
+
+All Topics
+
+Make sure ALL supported topics appear.
+
+No missing topics.
+
+No duplicate topics.
+
+No unrelated topics.
+
+Test:
+
+Easy
+Medium
+Hard
+
+and verify actual questions match selection.
+
+=============================================================================================
+PHASE 14 — SEARCH
+=============================================================================================
+
+Test question search.
+
+Search:
+
+- Exact question
+- Partial question
+- Keyword
+- Subject
+- Chapter
+- Topic
+- Difficulty
+
+Combine search with filters.
+
+Verify results are actually relevant.
+
+No random unrelated questions.
+
+=============================================================================================
+PHASE 15 — PERFORMANCE PAGE
+=============================================================================================
+
+Actually attempt questions and tests.
+
+Then verify Performance.
+
+Check:
+
+- Attempted
+- Correct
+- Incorrect
+- Skipped
+- Accuracy
+- Average time
+- Subject performance
+- Chapter performance
+- Topic performance
+- Difficulty performance
+- Test history
+- Practice history
+- Mistakes
+- Repeated mistakes
+- Mastery
+- Readiness
+
+Numbers must come from deterministic database calculations.
+
+AI must NOT invent statistics.
+
+Test:
+
+Easy performance
+
+Medium performance
+
+Hard performance
+
+Subject performance
+
+Chapter performance
+
+Topic performance
+
+=============================================================================================
+PHASE 16 — MISTAKE + FIX MY WEAKNESS
+=============================================================================================
+
+Actually answer questions incorrectly.
+
+Verify:
+
 Mistake Book
+
+Repeated Mistake Detection
+
+Weak Topic Detection
+
 Fix My Weakness
-Revision
-Admin Panel
-AI Content Factory
-PDF processing
-Question generation
-Question review
 
-Verify existing functionality still works.
+Recommended Practice
 
-==================================================
-FINAL PRODUCT GOAL
-==================================================
+Retest
 
-PREPORA should not simply have "an AI chatbot".
+The loop must work:
 
-It should have an intelligent academic assistant integrated throughout the product.
-
-Student asks ANY educational question:
-→ AI answers.
-
-Student doesn't understand:
-→ Explain simpler.
-
-Student is stuck:
-→ Give hint.
-
-Student makes mistake:
-→ Explain why.
-
-Student repeatedly struggles:
-→ Detect weakness.
-
-Weakness detected:
-→ Create targeted practice.
-
-Practice completed:
-→ Retest.
-
-Improvement:
-→ Show measurable progress.
-
-CORE LOOP:
-
-ASK
-→ UNDERSTAND
-→ EXPLAIN
-→ PRACTICE
+WRONG
+→ MISTAKE
 → ANALYZE
-→ FIX
-→ REVISE
+→ WEAKNESS
+→ TARGETED PRACTICE
 → RETEST
-→ IMPROVE
 
-Implement this using Gemini API securely and reliably.
+Verify the recommended questions actually match the weakness.
 
-DO NOT CLAIM 100% accuracy.
-Instead, build strong verification, grounding, calculation checking and regeneration mechanisms to minimize incorrect answers.
+=============================================================================================
+PHASE 17 — AI DOUBT SOLVER
+=============================================================================================
+
+Test multiple question types:
+
+- Simple theory
+- Physics numerical
+- Chemistry numerical
+- Biology theory
+- Formula question
+- Derivation
+- Conceptual question
+- Image-based question where supported
+
+Verify:
+
+- Correct subject detection
+- Correct chapter detection
+- Correct answer
+- Correct formula
+- Correct calculation
+- Proper math rendering
+- No raw LaTeX
+- No fake "Grounded in PREPORA"
+- Correct source state
+
+Possible source states:
+
+PREPORA_GROUNDED
+GENERAL_AI
+WEB_VERIFIED
+MIXED
+
+Do not claim PREPORA grounding unless PREPORA content was actually retrieved.
+
+=============================================================================================
+PHASE 18 — AI QUESTION VALIDATION
+=============================================================================================
+
+Every AI-generated question must pass:
+
+Question validation
+Answer validation
+Math validation
+Duplicate detection
+Semantic duplicate detection
+Difficulty validation
+Topic validation
+Source validation
+Formatting validation
+
+MCQ:
+
+Exactly ONE correct answer.
+
+Numerical:
+
+Independent calculation check.
+
+If validation fails:
+
+REJECT
+
+or
+
+REGENERATE.
+
+Never publish blindly.
+
+=============================================================================================
+PHASE 19 — MOBILE TESTING
+=============================================================================================
+
+Test the entire website on:
+
+360px
+375px
+390px
+412px
+
+Check:
+
+- No horizontal overflow
+- No clipped text
+- No broken tables
+- No broken charts
+- No inaccessible buttons
+- No filter overflow
+- Bottom navigation
+- Modals
+- Test Builder
+- Previous Papers
+- Admin pages
+- Performance
+- Question cards
+
+Desktop also:
+
+1024
+1280
+1440+
+
+=============================================================================================
+PHASE 20 — NAVIGATION TEST
+=============================================================================================
+
+Click every important navigation item.
+
+Verify:
+
+No dead links.
+
+No blank pages.
+
+No incorrect route.
+
+No accidental redirect.
+
+No broken back button.
+
+No lost state where state should persist.
+
+=============================================================================================
+PHASE 21 — NETWORK / ERROR TESTING
+=============================================================================================
+
+Test:
+
+Slow network
+Failed API
+Timeout
+Refresh
+Back button
+Double click
+Page reload during generation
+Page reload during test
+Temporary network loss
+
+Verify:
+
+No lost test attempt.
+
+No duplicate submission.
+
+No corrupted question generation job.
+
+Autosave where required.
+
+Retry where appropriate.
+
+=============================================================================================
+PHASE 22 — SECURITY TEST
+=============================================================================================
+
+Test role permissions.
+
+Student cannot access admin APIs.
+
+Reviewer cannot perform Super Admin actions.
+
+Content Admin cannot perform unauthorized security actions.
+
+Do not rely only on frontend hiding.
+
+Authorization must happen server-side.
+
+Check:
+
+- API authorization
+- Admin routes
+- Database access
+- IDOR risks
+- Input validation
+- File upload validation
+- Rate limiting where needed
+- Secret exposure
+
+=============================================================================================
+PHASE 23 — UI QUALITY AUDIT
+=============================================================================================
+
+After functional testing, inspect design.
+
+PREPORA should remain:
+
+Premium
+Clean
+Academic
+Professional
+Fast
+Mobile-first
+
+Use the existing monochrome design direction.
+
+Avoid:
+
+- Excessive purple
+- Excessive gradients
+- Excessive glassmorphism
+- Childish/gaming UI
+- Too many cards
+- Huge empty spaces
+- Inconsistent typography
+
+Fix:
+
+Spacing
+Typography
+Alignment
+Buttons
+Forms
+Tables
+Charts
+Empty states
+Loading states
+Error states
+
+=============================================================================================
+PHASE 24 — PERFORMANCE
+=============================================================================================
+
+Check:
+
+- Page loading
+- API response time
+- Database queries
+- Large question-bank queries
+- Pagination
+- Search
+- Filtering
+- Test generation
+- AI jobs
+- Previous Paper loading
+
+Do not load 100,000 questions into browser memory.
+
+Use:
+
+Server-side filtering
+Pagination
+Indexes
+Efficient queries
+Caching where appropriate
+
+=============================================================================================
+PHASE 25 — FINAL REGRESSION TEST
+=============================================================================================
+
+After all fixes, run the entire flow again.
+
+STUDENT:
+
+Login
+→ Dashboard
+→ Practice
+→ Filter
+→ Test Builder
+→ Start Test
+→ Submit
+→ Analysis
+→ Mistake Book
+→ Fix My Weakness
+→ Revision
+→ Retest
+→ Performance
+→ Previous Papers
+→ Doubt Solver
+→ Search
+
+ADMIN:
+
+Login
+→ Dashboard
+→ Question Inventory
+→ Filters
+→ Question Review
+→ AI Content Factory
+→ Generate
+→ Validate
+→ Approve
+→ Publish
+→ Previous Papers
+→ Model Papers
+→ Students
+→ Login Activity
+→ Analytics
+→ Reports
+→ Settings
+
+Do not skip steps.
+
+=============================================================================================
+PHASE 26 — FINAL REPORT
+=============================================================================================
+
+At the VERY END provide a complete audit report.
+
+SECTION 1 — OVERALL RESULT
+
+- Total issues found
+- Critical issues
+- Major issues
+- Minor issues
+- Fixed issues
+- Remaining issues
+
+SECTION 2 — QUESTION INVENTORY
+
+Give REAL database numbers:
+
+Total valid questions:
+Easy:
+Medium:
+Hard:
+
+Also:
+
+Published:
+Pending:
+Draft:
+Rejected:
+Duplicates:
+
+Breakdown by:
+
+Exam
+Subject
+Chapter
+Topic
+Difficulty
+Content Type
+
+SECTION 3 — TEST BUILDER RESULTS
+
+Report actual tests performed:
+
+Easy tests:
+Medium tests:
+Hard tests:
+Mixed difficulty tests:
+50-question tests:
+Insufficient inventory tests:
+
+For every failed test:
+
+Expected
+Actual
+Root Cause
+Fix
+
+SECTION 4 — FILTER TEST RESULTS
+
+List every filter tested.
+
+Example:
+
+Physics + Hard — PASS
+Chemistry + Medium — PASS
+Biology + Easy — PASS
+Physics + Kinematics + Hard — PASS
+Search + Hard — PASS
+
+Do NOT write PASS unless actually tested.
+
+SECTION 5 — PREVIOUS PAPERS — MANDATORY
+
+This section is extremely important.
+
+Give an EXACT list of Previous Papers that were ACTUALLY ADDED.
+
+For each:
+
+Exam
+Year
+Session
+Date
+Shift
+Paper
+Subject
+Class
+Set/Code
+Question Count
+Source
+Verification Status
+Answer Key Status
+Rights Status
+
+Separate:
+
+JEE MAIN
+JEE ADVANCED
+NEET UG
+CBSE
+RBSE
+
+Also provide:
+
+NOT ADDED
+NOT VERIFIED
+SOURCE ONLY
+RIGHTS REVIEW REQUIRED
+
+Do not hide missing papers.
+
+Do not claim a year is complete unless all intended papers for that year/category were actually verified/imported.
+
+SECTION 6 — ADMIN LOGIN ACTIVITY
+
+Confirm whether:
+
+Login recording works
+Logout recording works
+Failed login recording works
+Device detection works
+Browser detection works
+Admin filtering works
+
+SECTION 7 — PERFORMANCE
+
+Report whether:
+
+Accuracy
+Time
+Mistakes
+Mastery
+Readiness
+Weakness
+Retest
+
+were tested against real attempt data.
+
+SECTION 8 — MOBILE
+
+Report:
+
+360
+375
+390
+412
+
+PASS/FAIL for major flows.
+
+SECTION 9 — SECURITY
+
+Report:
+
+Authentication
+Authorization
+Admin permissions
+API protection
+Secret protection
+
+SECTION 10 — REMAINING ISSUES
+
+Clearly list anything that still needs work.
+
+FINAL RULE:
+
+Never say:
+
+"Everything is fixed"
+
+unless the complete regression test was actually executed.
+
+Never invent test results.
+
+Never invent question counts.
+
+Never invent Previous Papers.
+
+Never invent verification status.
+
+Use REAL database/system data only.
