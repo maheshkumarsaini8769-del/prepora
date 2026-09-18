@@ -1,37 +1,24 @@
 import React, { useState, useMemo } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import {
-  FileText,
-  Calendar,
-  Clock,
-  Layers,
-  Sparkles,
-  ArrowRight,
-  Filter,
   Search,
-  BookOpen,
-  CheckCircle2,
+  Eye,
   Play,
   RotateCcw,
-  GraduationCap,
-  HelpCircle,
-  Eye,
-  Info
+  FileText
 } from 'lucide-react';
-import { Card, Badge, Button } from '../components/common/UIComponents';
+import { Card, Button } from '../components/common/UIComponents';
 import { paperService } from '../services/paperService';
-import { ExamType, Paper } from '../types';
+import { Paper } from '../types';
 
 export const Papers: React.FC = () => {
   const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
 
   // Filter States
   const [selectedExam, setSelectedExam] = useState<string>('All');
   const [selectedClass, setSelectedClass] = useState<string>('All');
   const [selectedSubject, setSelectedSubject] = useState<string>('All');
   const [selectedYear, setSelectedYear] = useState<number | 'All'>('All');
-  const [selectedType, setSelectedType] = useState<string>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const allPapers = useMemo(() => paperService.getAllPapers(), []);
@@ -39,37 +26,28 @@ export const Papers: React.FC = () => {
   // Filter Logic
   const filteredPapers = useMemo(() => {
     return allPapers.filter((p) => {
-      // 1. Exam / Board Filter
       if (selectedExam !== 'All') {
         if (selectedExam === 'NEET' && p.exam !== 'NEET') return false;
         if (selectedExam === 'JEE' && p.exam !== 'JEE') return false;
-        if (selectedExam === 'JEE Advanced' && p.title.toLowerCase().indexOf('advanced') === -1) return false;
+        if (selectedExam === 'JEE Advanced' && !p.title.toLowerCase().includes('advanced')) return false;
         if (selectedExam === 'CBSE' && p.board !== 'CBSE' && p.exam !== 'CBSE') return false;
         if (selectedExam === 'RBSE' && p.board !== 'RBSE' && p.exam !== 'RBSE') return false;
       }
 
-      // 2. Class Level Filter (11 or 12)
       if (selectedClass !== 'All') {
         const cls = String(p.classLevel || (p.title.includes('11') ? '11' : '12'));
         if (cls !== selectedClass) return false;
       }
 
-      // 3. Subject Filter
       if (selectedSubject !== 'All') {
         if (p.subject && p.subject !== selectedSubject) return false;
         if (!p.subject && !p.title.toLowerCase().includes(selectedSubject.toLowerCase())) {
-          // If paper title doesn't mention the subject and it's a single subject paper
           return false;
         }
       }
 
-      // 4. Year Filter (2020 - 2025)
       if (selectedYear !== 'All' && p.year !== selectedYear) return false;
 
-      // 5. Paper Type (PYQ, Model Paper, Mock Paper)
-      if (selectedType !== 'All' && p.paperType !== selectedType) return false;
-
-      // 6. Search Query
       if (searchQuery.trim()) {
         const query = searchQuery.toLowerCase().trim();
         const matchesTitle = p.title.toLowerCase().includes(query);
@@ -81,14 +59,13 @@ export const Papers: React.FC = () => {
 
       return true;
     });
-  }, [allPapers, selectedExam, selectedClass, selectedSubject, selectedYear, selectedType, searchQuery]);
+  }, [allPapers, selectedExam, selectedClass, selectedSubject, selectedYear, searchQuery]);
 
   const clearAllFilters = () => {
     setSelectedExam('All');
     setSelectedClass('All');
     setSelectedSubject('All');
     setSelectedYear('All');
-    setSelectedType('All');
     setSearchQuery('');
   };
 
@@ -97,334 +74,179 @@ export const Papers: React.FC = () => {
     selectedClass !== 'All' ||
     selectedSubject !== 'All' ||
     selectedYear !== 'All' ||
-    selectedType !== 'All' ||
     searchQuery.trim() !== '';
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto pb-16 animate-in fade-in duration-300">
-      
-      {/* 1. HERO & CLEAR EXPLANATION BANNER */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-purple-900 via-indigo-900 to-slate-900 text-white p-6 sm:p-8 shadow-xl border border-purple-500/20">
-        <div className="absolute -right-12 -bottom-12 w-64 h-64 bg-purple-500/20 rounded-full blur-3xl pointer-events-none" />
-        
-        <div className="relative z-10 space-y-4 max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-bold backdrop-blur-md border border-white/10">
-            <BookOpen className="w-3.5 h-3.5 text-purple-300" />
-            <span>2020 – 2025 Original Papers & Model Question Bank</span>
-          </div>
-
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
-            Previous Year Papers & Solutions
-            <span className="block text-purple-300 text-lg sm:text-xl font-bold mt-1">
-              Authentic Past Papers with Step-by-Step Solutions
-            </span>
-          </h1>
-
-          <p className="text-xs sm:text-sm text-slate-200 leading-relaxed">
-            Official question papers from 2020 to 2025 for NEET-UG, JEE Main, JEE Advanced, CBSE, and RBSE (Class 11 & 12).
-            You can view every question with <strong>detailed step-by-step solutions</strong> directly, or take a realistic practice test with a live timer.
+    <div className="space-y-6 max-w-6xl mx-auto pb-16 animate-in fade-in duration-200">
+      {/* 1. Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Previous Papers</h1>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
+            Real past papers from 2020 to 2025 with step-by-step solutions and timed tests.
           </p>
+        </div>
 
-          {/* 3 Quick Step Icons */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
-            <div className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex items-center gap-2.5 text-xs">
-              <span className="w-6 h-6 rounded-full bg-purple-500 text-white font-black flex items-center justify-center text-xs shrink-0">
-                1
-              </span>
-              <span>Select Exam & Year</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex items-center gap-2.5 text-xs">
-              <span className="w-6 h-6 rounded-full bg-indigo-500 text-white font-black flex items-center justify-center text-xs shrink-0">
-                2
-              </span>
-              <span>Read Instant Solutions</span>
-            </div>
-            <div className="bg-white/10 backdrop-blur-md p-3 rounded-2xl border border-white/10 flex items-center gap-2.5 text-xs">
-              <span className="w-6 h-6 rounded-full bg-emerald-500 text-white font-black flex items-center justify-center text-xs shrink-0">
-                3
-              </span>
-              <span>Take Timed Practice Test</span>
-            </div>
+        {hasActiveFilters && (
+          <button
+            type="button"
+            onClick={clearAllFilters}
+            className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900 font-medium self-start sm:self-auto"
+          >
+            <RotateCcw className="w-3.5 h-3.5" />
+            <span>Reset filters</span>
+          </button>
+        )}
+      </div>
+
+      {/* 2. Clean Filters */}
+      <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-3">
+        {/* Search */}
+        <div className="relative">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search paper by name, exam, or keyword..."
+            className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-900"
+          />
+        </div>
+
+        {/* Filter Rows */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Exam</label>
+            <select
+              value={selectedExam}
+              onChange={(e) => setSelectedExam(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-900"
+            >
+              <option value="All">All Exams</option>
+              <option value="JEE">JEE Main</option>
+              <option value="JEE Advanced">JEE Advanced</option>
+              <option value="NEET">NEET-UG</option>
+              <option value="CBSE">CBSE Board</option>
+              <option value="RBSE">RBSE Board</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Year</label>
+            <select
+              value={selectedYear}
+              onChange={(e) => setSelectedYear(e.target.value === 'All' ? 'All' : Number(e.target.value))}
+              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-900"
+            >
+              <option value="All">All Years</option>
+              <option value={2025}>2025</option>
+              <option value={2024}>2024</option>
+              <option value={2023}>2023</option>
+              <option value={2022}>2022</option>
+              <option value={2021}>2021</option>
+              <option value={2020}>2020</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Class</label>
+            <select
+              value={selectedClass}
+              onChange={(e) => setSelectedClass(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-900"
+            >
+              <option value="All">All Classes</option>
+              <option value="12">Class 12</option>
+              <option value="11">Class 11</option>
+            </select>
+          </div>
+
+          <div>
+            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Subject</label>
+            <select
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-slate-900"
+            >
+              <option value="All">All Subjects</option>
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Biology">Biology</option>
+            </select>
           </div>
         </div>
       </div>
 
-      {/* 2. COMPREHENSIVE FILTER CONTROLS */}
-      <div className="bg-white rounded-3xl border border-slate-200/80 p-5 sm:p-6 shadow-sm space-y-5">
-        
-        {/* Top Filter Bar: Search and Reset */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pb-4 border-b border-slate-100">
-          <div className="relative w-full sm:w-96">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search paper by name, exam, or topic..."
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 text-xs focus:outline-hidden focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 bg-slate-50/50"
-            />
-          </div>
-
-          <div className="flex items-center gap-2.5 w-full sm:w-auto justify-between sm:justify-end">
-            <span className="text-xs font-bold text-slate-500">
-              Found: <strong className="text-purple-700 text-sm">{filteredPapers.length}</strong> Papers
-            </span>
-
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={clearAllFilters}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-bold transition cursor-pointer"
-              >
-                <RotateCcw className="w-3.5 h-3.5" />
-                <span>Reset Filters</span>
-              </button>
-            )}
-          </div>
-        </div>
-
-        {/* Filter Row 1: Exam / Board */}
-        <div className="space-y-1.5">
-          <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-            1. Select Exam / Board:
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {[
-              { id: 'All', label: '🌟 All Exams' },
-              { id: 'NEET', label: '🩺 NEET-UG (Medical)' },
-              { id: 'JEE', label: '🚀 JEE Main (Engineering)' },
-              { id: 'JEE Advanced', label: '🎯 JEE Advanced (IIT)' },
-              { id: 'CBSE', label: '📘 CBSE Board' },
-              { id: 'RBSE', label: '📙 RBSE Board (Rajasthan)' }
-            ].map((ex) => (
-              <button
-                key={ex.id}
-                type="button"
-                onClick={() => setSelectedExam(ex.id)}
-                className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  selectedExam === ex.id
-                    ? 'bg-purple-700 text-white shadow-md shadow-purple-600/20 scale-[1.02]'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200/60'
-                }`}
-              >
-                {ex.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Filter Row 2: Class Level & Subject */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-1">
-          {/* Class Level */}
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-              2. Class Level:
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { id: 'All', label: 'All Classes' },
-                { id: '12', label: 'Class 12th' },
-                { id: '11', label: 'Class 11th' }
-              ].map((cls) => (
-                <button
-                  key={cls.id}
-                  type="button"
-                  onClick={() => setSelectedClass(cls.id)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-                    selectedClass === cls.id
-                      ? 'bg-indigo-600 text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  {cls.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Subject */}
-          <div className="space-y-1.5">
-            <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-              3. Subject:
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {[
-                { id: 'All', label: 'All Subjects' },
-                { id: 'Physics', label: '⚛️ Physics' },
-                { id: 'Chemistry', label: '🧪 Chemistry' },
-                { id: 'Mathematics', label: '📐 Math' },
-                { id: 'Biology', label: '🧬 Biology' }
-              ].map((sub) => (
-                <button
-                  key={sub.id}
-                  type="button"
-                  onClick={() => setSelectedSubject(sub.id)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-                    selectedSubject === sub.id
-                      ? 'bg-slate-900 text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                  }`}
-                >
-                  {sub.label}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Filter Row 3: Year (2020 – 2025) & Paper Type */}
-        <div className="space-y-1.5 pt-1">
-          <label className="text-[11px] font-black uppercase tracking-wider text-slate-400">
-            4. Examination Year (2020 – 2025):
-          </label>
-          <div className="flex flex-wrap gap-2">
-            {[
-              { id: 'All', label: 'All Years' },
-              { id: 2025, label: '2025 (Latest)' },
-              { id: 2024, label: '2024' },
-              { id: 2023, label: '2023' },
-              { id: 2022, label: '2022' },
-              { id: 2021, label: '2021' },
-              { id: 2020, label: '2020' }
-            ].map((yr) => (
-              <button
-                key={String(yr.id)}
-                type="button"
-                onClick={() => setSelectedYear(yr.id as any)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer ${
-                  selectedYear === yr.id
-                    ? 'bg-amber-600 text-white shadow-xs'
-                    : 'bg-slate-100 text-slate-700 hover:bg-slate-200'
-                }`}
-              >
-                {yr.label}
-              </button>
-            ))}
-          </div>
-        </div>
-
-      </div>
-
-      {/* 3. PAPERS LISTING GRID */}
+      {/* 3. Paper Listing */}
       <div className="space-y-3">
-        <div className="flex items-center justify-between px-1">
-          <h2 className="text-base font-black text-slate-900 flex items-center gap-2">
-            <span>Available Papers</span>
-            <span className="text-xs font-bold text-slate-400">({filteredPapers.length} results)</span>
-          </h2>
-          <span className="text-xs text-slate-500 hidden sm:inline">
-            💡 Click <strong>"View Solutions"</strong> to read questions with step-by-step explanations
-          </span>
+        <div className="flex items-center justify-between text-xs text-slate-500">
+          <span>Showing <strong>{filteredPapers.length}</strong> papers</span>
         </div>
 
         {filteredPapers.length === 0 ? (
-          <div className="bg-white rounded-3xl border border-slate-200 p-12 text-center space-y-4">
-            <div className="w-16 h-16 rounded-2xl bg-purple-50 text-purple-600 mx-auto flex items-center justify-center">
-              <FileText className="w-8 h-8" />
-            </div>
-            <div className="space-y-1">
-              <h3 className="text-base font-bold text-slate-900">No papers match your selected filters</h3>
-              <p className="text-xs text-slate-500">
-                Try selecting "All Exams" or "All Years" to see all available previous papers.
-              </p>
-            </div>
-            <Button variant="primary" size="sm" onClick={clearAllFilters}>
-              Reset All Filters
+          <div className="bg-white rounded-xl border border-dashed border-slate-200 p-10 text-center space-y-2">
+            <FileText className="w-8 h-8 text-slate-300 mx-auto" />
+            <h3 className="font-semibold text-slate-700 text-sm">No papers match these filters</h3>
+            <p className="text-xs text-slate-400">Try choosing a different exam or resetting your filters.</p>
+            <Button size="sm" variant="outline" onClick={clearAllFilters} className="mt-2 text-xs">
+              Reset Filters
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {filteredPapers.map((paper) => {
               const cls = paper.classLevel || (paper.title.includes('11') ? '11' : '12');
 
               return (
-                <Card
-                  key={paper.id}
-                  hoverEffect
-                  className="flex flex-col justify-between border border-slate-200/80 shadow-xs hover:shadow-lg transition-all"
-                >
-                  <div className="space-y-3">
-                    {/* Top Badges */}
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex flex-wrap gap-1.5">
-                        <span className={`px-2.5 py-0.5 rounded-lg text-[11px] font-black tracking-wide ${
-                          paper.exam === 'NEET'
-                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
-                            : paper.exam === 'JEE'
-                            ? 'bg-purple-50 text-purple-700 border border-purple-200'
-                            : paper.board === 'RBSE'
-                            ? 'bg-amber-50 text-amber-700 border border-amber-200'
-                            : 'bg-sky-50 text-sky-700 border border-sky-200'
-                        }`}>
-                          {paper.board ? `${paper.board} Board` : paper.exam}
+                <Card key={paper.id} className="p-4 flex flex-col justify-between space-y-3">
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between text-xs">
+                      <div className="flex items-center gap-1.5">
+                        <span className="font-bold text-slate-900">
+                          {paper.board ? `${paper.board}` : paper.exam}
                         </span>
-
-                        <span className="px-2 py-0.5 rounded-lg bg-slate-100 text-slate-700 text-[11px] font-bold border border-slate-200">
-                          Class {cls}
-                        </span>
-
+                        <span className="text-slate-300">•</span>
+                        <span className="text-slate-500">Class {cls}</span>
                         {paper.subject && (
-                          <span className="px-2 py-0.5 rounded-lg bg-indigo-50 text-indigo-700 text-[11px] font-bold border border-indigo-200">
-                            {paper.subject}
-                          </span>
+                          <>
+                            <span className="text-slate-300">•</span>
+                            <span className="text-slate-600 font-medium">{paper.subject}</span>
+                          </>
                         )}
                       </div>
-
-                      <span className="px-2.5 py-0.5 rounded-full bg-slate-900 text-white text-[11px] font-black">
+                      <span className="font-bold text-slate-900 bg-slate-100 px-2 py-0.5 rounded text-[11px]">
                         {paper.year}
                       </span>
                     </div>
 
-                    {/* Paper Title */}
-                    <div>
-                      <h3 className="text-sm sm:text-base font-black text-slate-900 leading-snug hover:text-purple-700 transition">
-                        {paper.title}
-                      </h3>
-                      <p className="text-xs text-slate-500 mt-1 line-clamp-2 leading-relaxed">
-                        {paper.description || 'Authentic examination paper with official marking scheme and full answer key.'}
-                      </p>
-                    </div>
+                    <h3 className="text-sm font-bold text-slate-900 leading-snug line-clamp-2">
+                      {paper.title}
+                    </h3>
 
-                    {/* Features list */}
-                    <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600 font-semibold">
-                      <span className="flex items-center gap-1">
-                        <Layers className="w-3.5 h-3.5 text-purple-600" />
-                        {paper.totalQuestions} Questions
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <Clock className="w-3.5 h-3.5 text-indigo-600" />
-                        {paper.durationMinutes} Mins
-                      </span>
-                    </div>
-
-                    {/* Solution Included Tag */}
-                    <div className="p-2 rounded-xl bg-emerald-50 border border-emerald-200/80 flex items-center gap-2 text-[11px] font-bold text-emerald-800">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
-                      <span>Detailed Solutions & Answer Key Included</span>
+                    <div className="text-[11px] text-slate-500">
+                      {paper.totalQuestions} Questions • {paper.durationMinutes} Mins • Solutions Included
                     </div>
                   </div>
 
-                  {/* TWO PROMINENT ACTION BUTTONS */}
-                  <div className="pt-4 mt-4 border-t border-slate-100 space-y-2">
-                    {/* Primary Button: View with Answers and Solutions */}
+                  {/* Clean Action Buttons */}
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
                     <button
                       type="button"
                       onClick={() => navigate(`/papers/${paper.id}?mode=study`)}
-                      className="w-full flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl bg-purple-700 hover:bg-purple-800 text-white font-bold text-xs shadow-md shadow-purple-600/20 transition-all cursor-pointer"
+                      className="py-2 px-3 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                     >
-                      <Eye className="w-4 h-4 text-purple-200" />
-                      <span>View Solutions</span>
-                      <ArrowRight className="w-3.5 h-3.5 ml-auto" />
+                      <Eye className="w-3.5 h-3.5 text-slate-500" />
+                      <span>View Paper</span>
                     </button>
 
-                    {/* Secondary Button: Timed Exam Mode */}
                     <button
                       type="button"
                       onClick={() => navigate(`/papers/${paper.id}?mode=test`)}
-                      className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs border border-slate-200 transition cursor-pointer"
+                      className="py-2 px-3 rounded-lg bg-slate-900 hover:bg-black text-white font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors"
                     >
-                      <Play className="w-3.5 h-3.5 text-indigo-600" />
-                      <span>Take Timed Test</span>
+                      <Play className="w-3.5 h-3.5 text-white" />
+                      <span>Attempt</span>
                     </button>
                   </div>
                 </Card>
@@ -433,7 +255,6 @@ export const Papers: React.FC = () => {
           </div>
         )}
       </div>
-
     </div>
   );
 };

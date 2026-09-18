@@ -1,32 +1,33 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { BookOpen, Sparkles, Filter, CheckCircle2, ArrowRight } from 'lucide-react';
-import { Card, Badge, Button } from '../components/common/UIComponents';
+import { BookOpen, ArrowRight, SlidersHorizontal, ChevronDown, ChevronUp } from 'lucide-react';
+import { Card, Button } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
-import { userService } from '../services/userService';
 import { ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../types';
 
 export const Practice: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const profile = userService.getProfile();
 
-  const [exam, setExam] = useState<ExamType | 'All'>((searchParams.get('exam') as ExamType) || 'All');
-  const [classLevel, setClassLevel] = useState<ClassLevel | 'All'>((searchParams.get('class') as ClassLevel) || 'All');
+  // Primary Selection States
   const [subject, setSubject] = useState<SubjectName>((searchParams.get('subject') as SubjectName) || 'Physics');
   const [chapter, setChapter] = useState<string>(searchParams.get('chapter') || 'All');
   const [topic, setTopic] = useState<string>('All');
   const [difficulty, setDifficulty] = useState<DifficultyLevel | 'All'>('All');
   const [questionCount, setQuestionCount] = useState<number>(10);
 
-  const availableSubjects = questionService.getSubjectsForExam(exam);
-  const chapters = ['All', ...questionService.getChapters(subject, classLevel)];
+  // Advanced Filters Collapsible
+  const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
+  const [exam, setExam] = useState<ExamType | 'All'>((searchParams.get('exam') as ExamType) || 'All');
+  const [classLevel, setClassLevel] = useState<ClassLevel | 'All'>((searchParams.get('class') as ClassLevel) || 'All');
+
+  const chapters = ['All', ...questionService.getChapters(subject, classLevel === 'All' ? undefined : classLevel)];
   const topics = chapter !== 'All' ? ['All', ...questionService.getTopics(chapter)] : ['All'];
 
-  // Check matching questions in pool
+  // Check available question pool
   const matchingPool = questionService.filterQuestions({
-    exam,
-    classLevel,
+    exam: exam === 'All' ? undefined : exam,
+    classLevel: classLevel === 'All' ? undefined : classLevel,
     subject,
     chapter: chapter === 'All' ? undefined : chapter,
     topic: topic === 'All' ? undefined : topic,
@@ -34,7 +35,6 @@ export const Practice: React.FC = () => {
   });
 
   const handleStartPractice = () => {
-    // Navigate with query params to the PracticeSession screen
     const params = new URLSearchParams({
       exam,
       class: classLevel,
@@ -48,74 +48,26 @@ export const Practice: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
-      {/* Header */}
-      <div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-brand-50 text-brand-700 text-xs font-semibold mb-2">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>Interactive Learning Mode</span>
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Practice Zone</h1>
-        <p className="text-sm text-slate-500 mt-1">
-          Customize your practice drill with immediate answer reveals, concepts, and shortcut tips.
+    <div className="max-w-2xl mx-auto space-y-6 pb-20 px-2 sm:px-4 animate-in fade-in duration-200">
+      {/* 1. Page Header */}
+      <div className="border-b border-slate-200 pb-4">
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          Practice
+        </h1>
+        <p className="text-xs sm:text-sm text-slate-500 mt-1">
+          Select your subject, chapter, and difficulty to begin.
         </p>
       </div>
 
-      <Card className="space-y-6">
-        {/* Step 1: Target Exam & Class */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pb-5 border-b border-slate-100">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              1. Target Exam
-            </label>
-            <div className="flex flex-wrap gap-2">
-              {(['All', 'JEE', 'NEET', 'RBSE', 'CBSE'] as (ExamType | 'All')[]).map((e) => (
-                <button
-                  key={e}
-                  type="button"
-                  onClick={() => setExam(e)}
-                  className={`py-2 px-3 rounded-xl font-bold text-xs border transition-all ${
-                    exam === e
-                      ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  {e}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              2. Class Level
-            </label>
-            <div className="grid grid-cols-3 gap-2">
-              {(['All', '11', '12'] as (ClassLevel | 'All')[]).map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => setClassLevel(c)}
-                  className={`py-2 px-2.5 rounded-xl font-bold text-xs border transition-all ${
-                    classLevel === c
-                      ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  {c === 'All' ? 'All Classes' : `Class ${c}`}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Step 2: Subject Selector */}
-        <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-            3. Choose Subject
+      {/* 2. Step-by-Step Clean Selection (task5.md Section 137) */}
+      <Card className="space-y-6 p-6 sm:p-7 border-slate-200 shadow-xs">
+        {/* Step 1: Subject */}
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+            1. Subject
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {availableSubjects.map((sub) => (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
+            {(['Physics', 'Chemistry', 'Mathematics', 'Biology'] as SubjectName[]).map((sub) => (
               <button
                 key={sub}
                 type="button"
@@ -124,130 +76,171 @@ export const Practice: React.FC = () => {
                   setChapter('All');
                   setTopic('All');
                 }}
-                className={`p-3.5 rounded-2xl border text-left transition-all ${
+                className={`py-3 px-3 rounded-xl font-bold text-xs border text-center transition-all ${
                   subject === sub
-                    ? 'bg-brand-600 border-brand-600 text-white shadow-sm'
+                    ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >
-                <div className="text-xs font-medium opacity-80">Subject</div>
-                <div className="text-base font-bold mt-0.5">{sub}</div>
+                {sub}
               </button>
             ))}
           </div>
         </div>
 
-        {/* Step 3: Chapter & Topic Dropdowns */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider">
-                4. Chapter
-              </label>
-              {chapter !== 'All' && (
-                <button
-                  type="button"
-                  onClick={() => navigate(`/chapters/${encodeURIComponent(chapter)}`)}
-                  className="text-[11px] font-bold text-brand-600 hover:text-brand-700"
-                >
-                  View Chapter Page →
-                </button>
-              )}
-            </div>
-            <select
-              value={chapter}
-              onChange={(e) => {
-                setChapter(e.target.value);
-                setTopic('All');
-              }}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
-            >
-              {chapters.map((ch) => (
-                <option key={ch} value={ch}>
-                  {ch}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              5. Specific Topic
+        {/* Step 2: Chapter */}
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+              2. Chapter
             </label>
-            <select
-              value={topic}
-              onChange={(e) => setTopic(e.target.value)}
-              disabled={chapter === 'All'}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2.5 text-sm font-semibold text-slate-800 disabled:bg-slate-50 disabled:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500"
-            >
-              {topics.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+            {chapter !== 'All' && (
+              <button
+                type="button"
+                onClick={() => navigate(`/chapters/${encodeURIComponent(chapter)}`)}
+                className="text-[11px] font-semibold text-slate-500 hover:text-slate-900"
+              >
+                View Chapter Overview →
+              </button>
+            )}
+          </div>
+          <select
+            value={chapter}
+            onChange={(e) => {
+              setChapter(e.target.value);
+              setTopic('All');
+            }}
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900"
+          >
+            {chapters.map((ch) => (
+              <option key={ch} value={ch}>
+                {ch}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Step 3: Topic */}
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+            3. Topic (Optional)
+          </label>
+          <select
+            value={topic}
+            onChange={(e) => setTopic(e.target.value)}
+            disabled={chapter === 'All'}
+            className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 disabled:opacity-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900"
+          >
+            {topics.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
+
+        {/* Step 4: Difficulty */}
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+            4. Difficulty
+          </label>
+          <div className="grid grid-cols-4 gap-2">
+            {(['All', 'Easy', 'Medium', 'Hard'] as (DifficultyLevel | 'All')[]).map((d) => (
+              <button
+                key={d}
+                type="button"
+                onClick={() => setDifficulty(d)}
+                className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                  difficulty === d
+                    ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                {d}
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Step 4: Difficulty & Question Count */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              6. Difficulty Level
-            </label>
-            <div className="grid grid-cols-4 gap-2">
-              {(['All', 'Easy', 'Medium', 'Hard'] as (DifficultyLevel | 'All')[]).map((d) => (
-                <button
-                  key={d}
-                  type="button"
-                  onClick={() => setDifficulty(d)}
-                  className={`py-2 rounded-xl text-xs font-bold border transition-all ${
-                    difficulty === d
-                      ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  {d}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
-              7. Number of Questions
-            </label>
-            <div className="grid grid-cols-4 gap-2">
-              {[10, 20, 30, 50].map((num) => (
-                <button
-                  key={num}
-                  type="button"
-                  onClick={() => setQuestionCount(num)}
-                  className={`py-2 rounded-xl text-xs font-bold border transition-all ${
-                    questionCount === num
-                      ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                  }`}
-                >
-                  {num} Qs
-                </button>
-              ))}
-            </div>
+        {/* Step 5: Question Count */}
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+            5. Number of Questions
+          </label>
+          <div className="grid grid-cols-4 gap-2">
+            {[10, 20, 30, 50].map((num) => (
+              <button
+                key={num}
+                type="button"
+                onClick={() => setQuestionCount(num)}
+                className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                  questionCount === num
+                    ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                }`}
+              >
+                {num} Qs
+              </button>
+            ))}
           </div>
         </div>
 
-        {/* Live Pool Summary & Launch Action */}
-        <div className="pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        {/* Collapsible Advanced Filters (task5.md Section 165) */}
+        <div className="pt-2 border-t border-slate-100">
+          <button
+            type="button"
+            onClick={() => setShowAdvanced(!showAdvanced)}
+            className="flex items-center justify-between w-full text-xs font-bold text-slate-500 hover:text-slate-900 py-1"
+          >
+            <span className="flex items-center gap-1.5">
+              <SlidersHorizontal className="w-3.5 h-3.5" />
+              <span>Advanced Filters</span>
+            </span>
+            {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+          </button>
+
+          {showAdvanced && (
+            <div className="grid grid-cols-2 gap-3 pt-3">
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                  Target Exam
+                </label>
+                <select
+                  value={exam}
+                  onChange={(e) => setExam(e.target.value as any)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-xs font-semibold"
+                >
+                  <option value="All">All Exams</option>
+                  <option value="JEE">JEE Main</option>
+                  <option value="NEET">NEET UG</option>
+                  <option value="CBSE">CBSE Board</option>
+                  <option value="RBSE">RBSE Board</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                  Class Level
+                </label>
+                <select
+                  value={classLevel}
+                  onChange={(e) => setClassLevel(e.target.value as any)}
+                  className="w-full bg-slate-50 border border-slate-200 rounded-xl p-2 text-xs font-semibold"
+                >
+                  <option value="All">All Classes</option>
+                  <option value="11">Class 11</option>
+                  <option value="12">Class 12</option>
+                </select>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 3. Availability & Launch Action */}
+        <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-xs text-slate-500">
-            Available questions in pool matching selection:{' '}
-            <span className="font-bold text-slate-900">{matchingPool.length} questions</span>
-            {questionService.getAllQuestions().length === 0 ? (
-              <span className="text-amber-700 font-semibold block mt-1 bg-amber-50 p-2 rounded-lg border border-amber-200">
-                📚 No questions in question bank yet. <a href="/admin/ai-factory" className="text-brand-700 underline font-bold">Upload a Chapter PDF in Admin Panel</a> to generate real questions from your material!
-              </span>
-            ) : matchingPool.length === 0 ? (
-              <span className="text-rose-600 block mt-0.5">Try choosing "All" chapters/difficulties to broaden scope.</span>
-            ) : null}
+            Available questions matching filters:{' '}
+            <strong className="text-slate-900">{matchingPool.length}</strong>
           </div>
 
           <Button
@@ -255,12 +248,15 @@ export const Practice: React.FC = () => {
             variant="primary"
             onClick={handleStartPractice}
             disabled={matchingPool.length === 0}
-            className="w-full sm:w-auto font-bold"
+            className="w-full sm:w-auto font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 shadow-xs flex items-center justify-center gap-2"
           >
-            START PRACTICE <ArrowRight className="w-5 h-5" />
+            <span>Start Practice</span>
+            <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
       </Card>
     </div>
   );
 };
+
+export default Practice;

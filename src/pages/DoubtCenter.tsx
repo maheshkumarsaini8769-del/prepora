@@ -1,34 +1,22 @@
 import React, { useState, useRef } from 'react';
-import { 
-  HelpCircle, 
-  MessageSquare, 
-  Send, 
-  CheckCircle2, 
-  Clock, 
-  ArrowLeft, 
-  Filter, 
-  Plus, 
-  BookOpen,
-  Sparkles,
-  Zap,
-  AlertTriangle,
-  BookmarkPlus,
+import { useNavigate } from 'react-router-dom';
+import {
+  HelpCircle,
+  MessageSquare,
+  CheckCircle2,
+  Clock,
+  Plus,
   Lightbulb,
-  FileText,
   Image as ImageIcon,
   X,
   Target,
-  RefreshCw,
-  ChevronRight,
-  BrainCircuit,
-  ShieldCheck,
-  Award
+  BookmarkPlus,
+  Send
 } from 'lucide-react';
-import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
+import { Card, Button, Modal } from '../components/common/UIComponents';
 import { ecosystemService } from '../services/ecosystemService';
 import { aiDoubtSolver, SolvedDoubtResponse, ProgressiveHintsData } from '../services/aiDoubtSolver';
 import { DoubtItem, SubjectName } from '../types';
-import { useNavigate } from 'react-router-dom';
 import { MathRenderer } from '../components/common/MathRenderer';
 
 export const DoubtCenter: React.FC = () => {
@@ -42,7 +30,7 @@ export const DoubtCenter: React.FC = () => {
   // AI Solver State
   const [aiQuestion, setAiQuestion] = useState('');
   const [aiSubject, setAiSubject] = useState<SubjectName>('Physics');
-  const [aiChapter, setAiChapter] = useState('Kinematics & Work-Energy');
+  const [aiChapter, setAiChapter] = useState('Kinematics');
   const [isSolving, setIsSolving] = useState(false);
   const [currentSolution, setCurrentSolution] = useState<SolvedDoubtResponse | null>(null);
   const [savedToNotesMsg, setSavedToNotesMsg] = useState(false);
@@ -53,7 +41,6 @@ export const DoubtCenter: React.FC = () => {
   const [solverMode, setSolverMode] = useState<'direct' | 'hints'>('direct');
   const [hintsData, setHintsData] = useState<ProgressiveHintsData | null>(null);
   const [currentHintLevel, setCurrentHintLevel] = useState<number>(1);
-  const [isLoadingHints, setIsLoadingHints] = useState<boolean>(false);
 
   // Ask doubt modal state
   const [showAskModal, setShowAskModal] = useState<boolean>(false);
@@ -61,7 +48,7 @@ export const DoubtCenter: React.FC = () => {
   const [newChapter, setNewChapter] = useState<string>('Kinematics');
   const [newQuestionText, setNewQuestionText] = useState<string>('');
 
-  const filteredDoubts = doubts.filter(d => {
+  const filteredDoubts = doubts.filter((d) => {
     if (selectedSubject !== 'All' && d.subject !== selectedSubject) return false;
     return true;
   });
@@ -92,11 +79,9 @@ export const DoubtCenter: React.FC = () => {
 
     try {
       if (solverMode === 'hints') {
-        setIsLoadingHints(true);
         const hints = await aiDoubtSolver.getProgressiveHintsOnline(query, aiSubject, aiChapter);
         setHintsData(hints);
         setCurrentHintLevel(1);
-        setIsLoadingHints(false);
       }
 
       const solution = await aiDoubtSolver.solveDoubtOnline(query, aiSubject, aiChapter, {
@@ -108,7 +93,6 @@ export const DoubtCenter: React.FC = () => {
       console.error('Error solving doubt:', err);
     } finally {
       setIsSolving(false);
-      setIsLoadingHints(false);
     }
   };
 
@@ -123,8 +107,6 @@ export const DoubtCenter: React.FC = () => {
       followUpQuery = `Provide complete mathematical step-by-step derivation for: ${currentSolution.question}`;
     } else if (action === 'Test me on this') {
       followUpQuery = `Give me a 1-question conceptual challenge test on ${currentSolution.coreConcept}`;
-    } else if (action === 'Why does this happen?') {
-      followUpQuery = `Why does this physical/chemical phenomenon happen fundamentally? ${currentSolution.question}`;
     }
     setAiQuestion(followUpQuery);
     handleSolveWithAI(undefined, followUpQuery, action);
@@ -134,14 +116,14 @@ export const DoubtCenter: React.FC = () => {
     if (!currentSolution) return;
     aiDoubtSolver.saveDoubtToNotes(currentSolution);
     setSavedToNotesMsg(true);
-    setTimeout(() => setSavedToNotesMsg(false), 3500);
+    setTimeout(() => setSavedToNotesMsg(false), 3000);
   };
 
   const handleAddToRevision = () => {
     if (!currentSolution) return;
     aiDoubtSolver.addDoubtToRevision(currentSolution);
     setAddedToRevisionMsg(true);
-    setTimeout(() => setAddedToRevisionMsg(false), 3500);
+    setTimeout(() => setAddedToRevisionMsg(false), 3000);
   };
 
   const handlePostDoubt = (e: React.FormEvent) => {
@@ -156,90 +138,87 @@ export const DoubtCenter: React.FC = () => {
 
   const sampleQuestions = [
     { text: 'What is gravity?', sub: 'Physics' as SubjectName, chap: 'Gravitation' },
-    { text: 'What is force?', sub: 'Physics' as SubjectName, chap: 'Laws of Motion' },
-    { text: 'Explain photosynthesis.', sub: 'Biology' as SubjectName, chap: 'Photosynthesis in Higher Plants' },
-    { text: 'Solve 2x + 5 = 15.', sub: 'Mathematics' as SubjectName, chap: 'Linear Equations' },
-    { text: 'Why does current flow?', sub: 'Physics' as SubjectName, chap: 'Current Electricity' }
+    { text: 'Why does current flow?', sub: 'Physics' as SubjectName, chap: 'Current Electricity' },
+    { text: 'Explain photosynthesis.', sub: 'Biology' as SubjectName, chap: 'Photosynthesis' },
+    { text: 'Solve 2x + 5 = 15.', sub: 'Mathematics' as SubjectName, chap: 'Linear Equations' }
   ];
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300 pb-16">
-      {/* Header */}
+    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200 pb-16">
+      {/* 1. Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-            <span>AI Academic Mentorship & Intelligent Solver</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Doubt Center</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">AI Doubt Solver</h1>
           <p className="text-sm text-slate-500 mt-1">
-            Ask ANY academic question. Get instant step-by-step conceptual derivations, progressive hints, or human faculty clarifications.
+            Ask any academic question for step-by-step derivations or progressive hints.
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-auto">
-          <Button
-            variant={activeMode === 'ai-solver' ? 'primary' : 'outline'}
+          <button
+            type="button"
             onClick={() => setActiveMode('ai-solver')}
-            className="text-xs font-bold"
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              activeMode === 'ai-solver'
+                ? 'bg-slate-900 text-white'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+            }`}
           >
-            <Zap className="w-3.5 h-3.5 mr-1" /> Ask PREPORA AI
-          </Button>
-          <Button
-            variant={activeMode === 'community' ? 'primary' : 'outline'}
+            AI Solver
+          </button>
+          <button
+            type="button"
             onClick={() => setActiveMode('community')}
-            className="text-xs font-bold"
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              activeMode === 'community'
+                ? 'bg-slate-900 text-white'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+            }`}
           >
-            <MessageSquare className="w-3.5 h-3.5 mr-1" /> Faculty Doubts ({doubts.length})
-          </Button>
+            Faculty Questions ({doubts.length})
+          </button>
         </div>
       </div>
 
       {activeMode === 'ai-solver' ? (
         <div className="space-y-6">
-          {/* AI Input Form */}
-          <Card className="p-5 border-purple-200/80 shadow-md shadow-purple-500/5 bg-gradient-to-b from-white to-purple-50/20">
+          {/* Question Input Card */}
+          <Card className="p-5 space-y-4">
             <form onSubmit={handleSolveWithAI} className="space-y-4">
-              <div className="flex items-center justify-between gap-2 border-b border-purple-100/80 pb-3">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <div className="flex items-center gap-2">
                   <button
                     type="button"
                     onClick={() => setSolverMode('direct')}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                       solverMode === 'direct'
-                        ? 'bg-purple-600 text-white shadow-xs'
+                        ? 'bg-slate-900 text-white'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
-                    <CheckCircle2 className="w-3.5 h-3.5" /> Full Solution Mode
+                    Full Solution
                   </button>
                   <button
                     type="button"
                     onClick={() => setSolverMode('hints')}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
+                    className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                       solverMode === 'hints'
-                        ? 'bg-purple-600 text-white shadow-xs'
+                        ? 'bg-slate-900 text-white'
                         : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                     }`}
                   >
-                    <Lightbulb className="w-3.5 h-3.5 text-amber-400" /> Progressive Hints Mode
+                    Progressive Hints
                   </button>
                 </div>
-
-                <span className="text-[11px] font-bold text-slate-400 hidden sm:inline-flex items-center gap-1">
-                  <BrainCircuit className="w-3.5 h-3.5 text-purple-500" /> Grounded & Verified
-                </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                    Subject
-                  </label>
+                  <label className="block font-semibold text-slate-600 mb-1">Subject</label>
                   <select
                     value={aiSubject}
                     onChange={(e) => setAiSubject(e.target.value as SubjectName)}
-                    className="w-full text-xs font-semibold px-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    className="w-full font-medium px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
                   >
                     <option value="Physics">Physics</option>
                     <option value="Chemistry">Chemistry</option>
@@ -249,76 +228,64 @@ export const DoubtCenter: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                    Chapter / Unit
-                  </label>
+                  <label className="block font-semibold text-slate-600 mb-1">Chapter</label>
                   <input
                     type="text"
                     value={aiChapter}
                     onChange={(e) => setAiChapter(e.target.value)}
-                    placeholder="e.g. Kinematics, Gravitation, Thermodynamics..."
-                    className="w-full text-xs font-semibold px-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none"
+                    placeholder="e.g. Kinematics, Thermodynamics..."
+                    className="w-full font-medium px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                  Your Problem Statement or Academic Doubt
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                  Question or Concept Statement
                 </label>
                 <textarea
                   rows={3}
                   value={aiQuestion}
                   onChange={(e) => setAiQuestion(e.target.value)}
-                  placeholder="Ask ANY educational question: e.g. 'What is gravity?', 'Solve 2x + 5 = 15', or describe a formula trap..."
-                  className="w-full text-xs p-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none font-medium leading-relaxed"
+                  placeholder="Type your question here (e.g. 'What is the work-energy theorem?', 'Calculate terminal velocity for a sphere')..."
+                  className="w-full text-xs p-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-900 leading-relaxed resize-none"
                 />
               </div>
 
-              {/* Uploaded Image Preview */}
               {uploadedImage && (
-                <div className="relative inline-block border-2 border-purple-200 rounded-xl p-1 bg-white shadow-xs">
-                  <img
-                    src={uploadedImage}
-                    alt="Uploaded question"
-                    className="h-24 max-w-xs object-cover rounded-lg"
-                  />
+                <div className="relative inline-block border border-slate-200 rounded-lg p-1 bg-white">
+                  <img src={uploadedImage} alt="Uploaded" className="h-20 max-w-xs object-cover rounded" />
                   <button
                     type="button"
                     onClick={() => setUploadedImage(null)}
-                    className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-rose-500 text-white flex items-center justify-center shadow hover:bg-rose-600"
-                    title="Remove image"
+                    className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-slate-800 text-white flex items-center justify-center text-xs"
                   >
-                    <X className="w-3.5 h-3.5" />
+                    <X className="w-3 h-3" />
                   </button>
                 </div>
               )}
 
-              {/* High-Yield Sample Questions */}
-              <div className="space-y-1.5">
-                <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                  <Lightbulb className="w-3 h-3 text-amber-500" /> High-yield student queries:
-                </span>
-                <div className="flex flex-wrap gap-1.5">
-                  {sampleQuestions.map((sq, i) => (
-                    <button
-                      key={i}
-                      type="button"
-                      onClick={() => {
-                        setAiQuestion(sq.text);
-                        setAiSubject(sq.sub);
-                        setAiChapter(sq.chap);
-                      }}
-                      className="text-[11px] px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-purple-100 text-slate-700 hover:text-purple-800 transition-colors text-left"
-                    >
-                      {sq.chap}: {sq.text}
-                    </button>
-                  ))}
-                </div>
+              {/* Sample Questions */}
+              <div className="flex flex-wrap items-center gap-1.5 text-[11px] pt-1">
+                <span className="text-slate-400 font-medium">Examples:</span>
+                {sampleQuestions.map((sq, i) => (
+                  <button
+                    key={i}
+                    type="button"
+                    onClick={() => {
+                      setAiQuestion(sq.text);
+                      setAiSubject(sq.sub);
+                      setAiChapter(sq.chap);
+                    }}
+                    className="px-2 py-0.5 rounded-md bg-slate-100 hover:bg-slate-200 text-slate-700"
+                  >
+                    {sq.text}
+                  </button>
+                ))}
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
-                <div className="flex items-center gap-2 w-full sm:w-auto">
+                <div className="flex items-center gap-2">
                   <input
                     type="file"
                     ref={fileInputRef}
@@ -330,49 +297,40 @@ export const DoubtCenter: React.FC = () => {
                     type="button"
                     variant="outline"
                     onClick={() => fileInputRef.current?.click()}
-                    className="text-xs font-semibold text-slate-600 border-slate-200 hover:bg-slate-50 flex items-center gap-1.5"
+                    className="text-xs font-semibold text-slate-700 border-slate-200 py-1.5 px-3"
                   >
-                    <ImageIcon className="w-3.5 h-3.5 text-purple-600" />
-                    {uploadedImage ? 'Change Image' : 'Upload Question Image'}
+                    <ImageIcon className="w-3.5 h-3.5 mr-1" />
+                    {uploadedImage ? 'Change Image' : 'Upload Image'}
                   </Button>
-                  <p className="text-[11px] text-slate-400 hidden md:block">
-                    NCERT & JEE/NEET aligned
-                  </p>
                 </div>
 
                 <Button
                   type="submit"
                   variant="primary"
                   disabled={isSolving || (!aiQuestion.trim() && !uploadedImage)}
-                  className="bg-purple-600 hover:bg-purple-700 font-bold text-xs flex items-center justify-center gap-1.5 px-6 py-2.5 w-full sm:w-auto"
+                  className="bg-slate-900 hover:bg-black text-white font-semibold text-xs py-2 px-5 rounded-lg"
                 >
-                  <Sparkles className="w-4 h-4" />
-                  {isSolving ? 'Analyzing & Deriving...' : 'Solve with AI'}
+                  {isSolving ? 'Solving...' : 'Solve with AI'}
                 </Button>
               </div>
             </form>
           </Card>
 
-          {/* Progressive Hints Display (If Hints Mode) */}
+          {/* Progressive Hints Mode Box */}
           {solverMode === 'hints' && hintsData && (
-            <Card className="p-5 border-amber-200 bg-amber-50/40 space-y-4">
-              <div className="flex items-center justify-between border-b border-amber-200/80 pb-3">
-                <div className="flex items-center gap-2">
-                  <Lightbulb className="w-4 h-4 text-amber-600" />
-                  <h3 className="text-xs font-bold text-amber-950 uppercase tracking-wider">
-                    Progressive Clues & Approach
-                  </h3>
-                </div>
-                <div className="flex items-center gap-1">
+            <Card className="p-5 space-y-3">
+              <div className="flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
+                <span className="font-semibold text-slate-900">Progressive Hints</span>
+                <div className="flex gap-1">
                   {[1, 2, 3].map((lvl) => (
                     <button
                       key={lvl}
                       type="button"
                       onClick={() => setCurrentHintLevel(lvl)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                      className={`px-2 py-0.5 rounded text-xs font-semibold ${
                         currentHintLevel === lvl
-                          ? 'bg-amber-600 text-white shadow-xs'
-                          : 'bg-white border border-amber-200 text-amber-800'
+                          ? 'bg-slate-900 text-white'
+                          : 'bg-slate-100 text-slate-700'
                       }`}
                     >
                       Hint {lvl}
@@ -381,259 +339,134 @@ export const DoubtCenter: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setCurrentHintLevel(4)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
+                    className={`px-2 py-0.5 rounded text-xs font-semibold ${
                       currentHintLevel === 4
-                        ? 'bg-purple-600 text-white shadow-xs'
-                        : 'bg-white border border-purple-200 text-purple-800'
+                        ? 'bg-slate-900 text-white'
+                        : 'bg-slate-100 text-slate-700'
                     }`}
                   >
-                    Full Solution
+                    Solution
                   </button>
                 </div>
               </div>
 
-              {currentHintLevel === 1 && (
-                <div className="p-4 rounded-xl bg-white border border-amber-200 text-xs text-amber-950 leading-relaxed font-medium">
-                  <span className="font-bold block text-amber-800 mb-1">💡 Hint 1: Problem Clue</span>
-                  {hintsData.hint1}
-                </div>
-              )}
-
-              {currentHintLevel === 2 && (
-                <div className="p-4 rounded-xl bg-white border border-amber-200 text-xs text-amber-950 leading-relaxed font-medium">
-                  <span className="font-bold block text-amber-800 mb-1">📐 Hint 2: Concept & Governing Relation</span>
-                  {hintsData.hint2}
-                </div>
-              )}
-
-              {currentHintLevel === 3 && (
-                <div className="p-4 rounded-xl bg-white border border-amber-200 text-xs text-amber-950 leading-relaxed font-medium">
-                  <span className="font-bold block text-amber-800 mb-1">🎯 Hint 3: Strategic Approach</span>
-                  {hintsData.hint3}
-                </div>
-              )}
-
-              {currentHintLevel === 4 && (
-                <div className="p-4 rounded-xl bg-white border border-purple-200 text-xs text-slate-800 leading-relaxed font-medium space-y-2">
-                  <span className="font-bold block text-purple-800 mb-1">✅ Complete Solution</span>
-                  <p>{hintsData.fullSolution}</p>
-                  {hintsData.examinerTrap && (
-                    <p className="text-amber-800 font-bold text-[11px] pt-1">
-                      ⚠️ Trap: {hintsData.examinerTrap}
-                    </p>
-                  )}
-                </div>
-              )}
+              <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-800 leading-relaxed">
+                {currentHintLevel === 1 && hintsData.hint1}
+                {currentHintLevel === 2 && hintsData.hint2}
+                {currentHintLevel === 3 && hintsData.hint3}
+                {currentHintLevel === 4 && hintsData.fullSolution}
+              </div>
             </Card>
           )}
 
-          {/* AI Solution Presentation */}
+          {/* Solution Presentation */}
           {currentSolution && (
-            <div className="space-y-4 animate-in fade-in slide-in-from-bottom-2 duration-300">
-              <Card className="p-6 border-purple-200 bg-white space-y-5 shadow-sm">
-                {/* Meta & Actions Header */}
-                <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 pb-4 border-b border-slate-100">
-                  <div className="space-y-2">
-                    <div className="flex flex-wrap items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800">
-                        {currentSolution.subject}
-                      </span>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-100 text-slate-600">
-                        {currentSolution.chapter}
-                      </span>
-                      {currentSolution.understanding?.intent && (
-                        <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-100 uppercase">
-                          {currentSolution.understanding.intent}
-                        </span>
-                      )}
-                      {currentSolution.groundedInPrepora && (
-                        <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 flex items-center gap-1">
-                          <ShieldCheck className="w-3 h-3 text-emerald-600" /> Grounded in PREPORA
-                        </span>
-                      )}
-                    </div>
-                    <h2 className="text-base sm:text-lg font-bold text-slate-900 leading-snug">
-                      {currentSolution.question}
-                    </h2>
+            <Card className="p-6 space-y-5">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-slate-100 pb-3">
+                <div>
+                  <div className="text-xs font-semibold text-slate-400">
+                    {currentSolution.subject} • {currentSolution.chapter}
                   </div>
-
-                  <div className="flex items-center gap-2 shrink-0">
-                    <Button
-                      onClick={handleSaveToNotes}
-                      variant="outline"
-                      size="sm"
-                      className="text-xs font-bold text-purple-700 border-purple-200 hover:bg-purple-50"
-                    >
-                      <BookmarkPlus className="w-3.5 h-3.5 mr-1 text-purple-600" />
-                      {savedToNotesMsg ? 'Saved to Notes!' : 'Save to Notes'}
-                    </Button>
-                    <Button
-                      onClick={handleAddToRevision}
-                      variant="outline"
-                      size="sm"
-                      className="text-xs font-bold text-emerald-700 border-emerald-200 hover:bg-emerald-50"
-                    >
-                      <Plus className="w-3.5 h-3.5 mr-1 text-emerald-600" />
-                      {addedToRevisionMsg ? 'Added to Revision!' : 'Add to Revision'}
-                    </Button>
-                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 mt-1">
+                    {currentSolution.question}
+                  </h3>
                 </div>
 
-                {/* Question Understanding Overview */}
-                {currentSolution.understanding && (
-                  <div className="p-3 bg-slate-50 rounded-xl border border-slate-200/80 grid grid-cols-2 sm:grid-cols-4 gap-2 text-xs">
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Intent</span>
-                      <span className="font-semibold text-slate-800 capitalize">{currentSolution.understanding.intent}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Topic</span>
-                      <span className="font-semibold text-slate-800">{currentSolution.understanding.topic || currentSolution.chapter}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Concept</span>
-                      <span className="font-semibold text-slate-800">{currentSolution.understanding.concept || currentSolution.coreConcept}</span>
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Difficulty</span>
-                      <span className="font-semibold text-slate-800">{currentSolution.understanding.difficulty || 'Medium'}</span>
-                    </div>
-                  </div>
-                )}
-
-                {/* Direct Clear Answer */}
-                {currentSolution.answer && (
-                  <div className="p-4 rounded-xl bg-purple-50/70 border border-purple-100 space-y-1">
-                    <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 uppercase tracking-wide">
-                      <Lightbulb className="w-4 h-4 text-purple-600" /> Direct Answer & Principle
-                    </div>
-                    <div className="text-xs sm:text-sm text-purple-950 font-medium leading-relaxed">
-                      <MathRenderer content={currentSolution.answer} />
-                    </div>
-                  </div>
-                )}
-
-                {/* Key Formula (Rendered cleanly via MathRenderer) */}
-                {currentSolution.keyFormula && (
-                  <div className="p-3.5 rounded-xl bg-slate-900 text-white space-y-1 shadow-xs">
-                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                      Mathematical Governing Relation
-                    </span>
-                    <div className="text-xs sm:text-sm font-mono text-emerald-300 font-bold block overflow-x-auto py-1">
-                      <MathRenderer content={currentSolution.keyFormula} displayMode={true} />
-                    </div>
-                  </div>
-                )}
-
-                {/* Step-by-Step Derivation / Solution */}
-                {currentSolution.stepByStepSolution && currentSolution.stepByStepSolution.length > 0 && (
-                  <div className="space-y-2.5">
-                    <h3 className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" /> Step-by-Step Derivation & Explanation
-                    </h3>
-                    <div className="space-y-2">
-                      {currentSolution.stepByStepSolution.map((step, idx) => (
-                        <div key={idx} className="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-800 font-medium leading-relaxed">
-                          <MathRenderer content={step} />
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Examiner Trap & Exam Tip */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                  <div className="p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 space-y-1">
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-amber-800 uppercase tracking-wider">
-                      <AlertTriangle className="w-3.5 h-3.5 text-amber-600" /> Typical Negative Trap
-                    </div>
-                    <p className="text-xs font-medium leading-relaxed">
-                      {currentSolution.examinerTrap}
-                    </p>
-                  </div>
-
-                  <div className="p-3.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 space-y-1">
-                    <div className="flex items-center gap-1 text-[11px] font-bold text-emerald-800 uppercase tracking-wider">
-                      <Zap className="w-3.5 h-3.5 text-emerald-600" /> Exam Scoring Tip
-                    </div>
-                    <p className="text-xs font-medium leading-relaxed">
-                      {currentSolution.examTip}
-                    </p>
-                  </div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <Button
+                    onClick={handleSaveToNotes}
+                    variant="outline"
+                    size="sm"
+                    className="text-xs font-medium py-1 px-2.5"
+                  >
+                    <BookmarkPlus className="w-3.5 h-3.5 mr-1" />
+                    {savedToNotesMsg ? 'Saved!' : 'Save to Notes'}
+                  </Button>
+                  <Button
+                    onClick={handleAddToRevision}
+                    variant="outline"
+                    size="sm"
+                    className="text-xs font-medium py-1 px-2.5"
+                  >
+                    <Plus className="w-3.5 h-3.5 mr-1" />
+                    {addedToRevisionMsg ? 'Added!' : 'Add to Revision'}
+                  </Button>
                 </div>
+              </div>
 
-                {/* Follow-Up Action Chips */}
-                <div className="pt-2 border-t border-slate-100 space-y-2">
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block">
-                    Follow-up Clarifications:
+              {/* Core Concept / Direct Answer */}
+              {currentSolution.answer && (
+                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                  <MathRenderer content={currentSolution.answer} />
+                </div>
+              )}
+
+              {/* Governing Formula */}
+              {currentSolution.keyFormula && (
+                <div className="p-3 rounded-lg bg-slate-900 text-white text-xs space-y-1">
+                  <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">
+                    Governing Relation
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {(currentSolution.suggestedFollowUps || [
-                      'Explain simpler',
-                      'Give real-life example',
-                      'Step-by-step derivation',
-                      'Why does this happen?',
-                      'Test me on this'
-                    ]).map((action, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        onClick={() => handleFollowUpClick(action)}
-                        className="text-xs px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-purple-100 text-slate-700 hover:text-purple-800 font-medium transition-colors"
-                      >
-                        {action} →
-                      </button>
+                  <div className="font-mono text-emerald-300 font-semibold overflow-x-auto">
+                    <MathRenderer content={currentSolution.keyFormula} displayMode={true} />
+                  </div>
+                </div>
+              )}
+
+              {/* Step-by-Step Breakdown */}
+              {currentSolution.stepByStepSolution && currentSolution.stepByStepSolution.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                    Step-by-Step Breakdown
+                  </h4>
+                  <div className="space-y-1.5">
+                    {currentSolution.stepByStepSolution.map((step, idx) => (
+                      <div key={idx} className="p-2.5 rounded-lg bg-slate-50 text-xs text-slate-800 leading-relaxed">
+                        <MathRenderer content={step} />
+                      </div>
                     ))}
                   </div>
                 </div>
+              )}
 
-                {/* Educational Action Connections */}
-                <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-purple-50/40 p-4 rounded-2xl">
-                  <div>
-                    <span className="text-xs font-bold text-purple-950 block">Next Learning Step</span>
-                    <p className="text-[11px] text-slate-500">Practice 5 targeted questions or fix recurring weaknesses on this topic.</p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={() => {
-                        const url = currentSolution.suggestedPractice?.actionUrl ||
-                          `/practice?subject=${encodeURIComponent(currentSolution.subject)}&chapter=${encodeURIComponent(currentSolution.chapter)}&count=5`;
-                        navigate(url);
-                      }}
-                      className="text-xs font-bold flex items-center gap-1.5 bg-purple-600 hover:bg-purple-700"
-                    >
-                      <Target className="w-3.5 h-3.5" /> Practice 5 Similar Questions
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => navigate('/fix-weakness')}
-                      className="text-xs font-bold text-slate-700 border-slate-200"
-                    >
-                      Fix My Weakness
-                    </Button>
-                  </div>
+              {/* Exam Tip */}
+              {currentSolution.examTip && (
+                <div className="p-3 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-xs leading-relaxed">
+                  <strong className="font-semibold block mb-0.5">Exam Tip:</strong>
+                  {currentSolution.examTip}
                 </div>
-              </Card>
-            </div>
+              )}
+
+              {/* Follow-up actions */}
+              <div className="pt-3 border-t border-slate-100 flex flex-wrap items-center gap-1.5 text-xs">
+                <span className="text-slate-400 font-medium mr-1 text-[11px]">Follow-up:</span>
+                {['Explain simpler', 'Give example', 'Step-by-step derivation', 'Test me on this'].map((action) => (
+                  <button
+                    key={action}
+                    type="button"
+                    onClick={() => handleFollowUpClick(action)}
+                    className="px-2.5 py-1 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 font-medium text-xs"
+                  >
+                    {action}
+                  </button>
+                ))}
+              </div>
+            </Card>
           )}
         </div>
       ) : (
-        /* Mentorship & Faculty Doubts */
-        <div className="space-y-6">
+        /* Faculty / Community Doubts List */
+        <div className="space-y-4">
           <div className="flex items-center justify-between">
-            {/* Subject Filter Tabs */}
-            <div className="flex items-center gap-2 overflow-x-auto">
-              {(['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'] as (SubjectName | 'All')[]).map(sub => (
+            <div className="flex items-center gap-1.5 overflow-x-auto">
+              {(['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'] as (SubjectName | 'All')[]).map((sub) => (
                 <button
                   key={sub}
                   onClick={() => setSelectedSubject(sub)}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
                     selectedSubject === sub
-                      ? 'bg-purple-600 text-white shadow-sm'
-                      : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                      ? 'bg-slate-900 text-white'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
                   {sub}
@@ -644,73 +477,41 @@ export const DoubtCenter: React.FC = () => {
             <Button
               variant="primary"
               onClick={() => setShowAskModal(true)}
-              className="font-bold text-xs shadow-md shadow-purple-500/20 flex items-center gap-1.5"
+              className="font-semibold text-xs py-1.5 px-3 bg-slate-900 hover:bg-black text-white"
             >
-              <Plus className="w-4 h-4" /> Ask a Doubt
+              <Plus className="w-3.5 h-3.5 mr-1" /> Ask Question
             </Button>
           </div>
 
           {filteredDoubts.length === 0 ? (
-            <Card className="text-center py-16">
-              <HelpCircle className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-800 text-base">No Doubts Filed</h3>
-              <p className="text-xs text-slate-500 mt-1 mb-4 max-w-sm mx-auto">
-                Have an academic question from your test results or textbooks? Submit it for mentor explanation.
+            <Card className="text-center py-12">
+              <HelpCircle className="w-8 h-8 text-slate-300 mx-auto mb-2" />
+              <h3 className="font-semibold text-slate-800 text-sm">No Questions Filed Yet</h3>
+              <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                Submit an academic question to receive detailed faculty clarification.
               </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowAskModal(true)}
-                className="text-xs font-bold"
-              >
-                Ask First Question
-              </Button>
             </Card>
           ) : (
-            <div className="space-y-4">
-              {filteredDoubts.map(d => (
-                <Card key={d.id} className="p-4 sm:p-5 space-y-3">
-                  <div className="flex items-center justify-between gap-2">
+            <div className="space-y-3">
+              {filteredDoubts.map((d) => (
+                <Card key={d.id} className="p-4 space-y-2 text-xs">
+                  <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700">
-                        {d.subject}
-                      </span>
-                      <span className="text-xs font-bold text-slate-600">
-                        {d.chapter}
-                      </span>
+                      <span className="font-bold text-slate-900">{d.subject}</span>
+                      <span className="text-slate-400">•</span>
+                      <span className="text-slate-600">{d.chapter}</span>
                     </div>
-                    <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full flex items-center gap-1 ${
-                      d.status === 'resolved' 
-                        ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' 
-                        : 'bg-amber-50 text-amber-700 border border-amber-200'
-                    }`}>
-                      {d.status === 'resolved' ? <CheckCircle2 className="w-3 h-3" /> : <Clock className="w-3 h-3" />}
-                      {d.status === 'resolved' ? 'Resolved' : 'Pending'}
-                    </span>
+                    <span className="text-[11px] font-semibold text-slate-500">{d.status}</span>
                   </div>
 
-                  <p className="text-sm font-semibold text-slate-900 leading-snug">
-                    {d.studentQuestion}
-                  </p>
+                  <p className="font-medium text-slate-800 text-xs sm:text-sm">{d.studentQuestion}</p>
 
-                  {d.replies && d.replies.length > 0 ? (
-                    <div className="p-3.5 bg-slate-50 rounded-xl border border-slate-100 text-xs text-slate-700 space-y-1.5">
-                      <span className="font-bold text-purple-700 flex items-center gap-1">
-                        <CheckCircle2 className="w-3.5 h-3.5 text-purple-600" /> Mentor Solution:
-                      </span>
-                      <p className="leading-relaxed font-medium">{d.replies[0].message}</p>
-                    </div>
-                  ) : (
-                    <div className="p-3 bg-amber-50/50 rounded-xl border border-amber-100/60 text-xs text-amber-800 flex items-center justify-between">
-                      <span className="text-[11px]">Academic faculty is drafting an explanation.</span>
-                      <span className="text-[10px] font-bold text-amber-600">Avg response &lt; 2 hrs</span>
+                  {d.replies && d.replies.length > 0 && (
+                    <div className="p-3 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-700 mt-2">
+                      <div className="font-semibold text-slate-900 mb-1">Faculty Solution:</div>
+                      <p>{d.replies[0].message}</p>
                     </div>
                   )}
-
-                  <div className="flex items-center justify-between text-[11px] text-slate-400 pt-1">
-                    <span>Asked on {d.timestamp}</span>
-                    <span>{d.replies?.length || 0} peer discussions</span>
-                  </div>
                 </Card>
               ))}
             </div>
@@ -718,78 +519,59 @@ export const DoubtCenter: React.FC = () => {
         </div>
       )}
 
-      {/* Ask Doubt Modal */}
+      {/* Ask Question Modal */}
       <Modal
         isOpen={showAskModal}
         onClose={() => setShowAskModal(false)}
-        title="Ask an Academic Doubt"
+        title="Ask Faculty a Question"
+        footer={
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setShowAskModal(false)}>
+              Cancel
+            </Button>
+            <Button variant="primary" onClick={handlePostDoubt} className="bg-slate-900 hover:bg-black text-white">
+              Submit
+            </Button>
+          </div>
+        }
       >
-        <form onSubmit={handlePostDoubt} className="space-y-4 pt-2">
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Subject
-              </label>
-              <select
-                value={newSubject}
-                onChange={(e) => setNewSubject(e.target.value as SubjectName)}
-                className="w-full text-xs font-semibold px-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none"
-              >
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="Biology">Biology</option>
-              </select>
-            </div>
-
-            <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-                Chapter
-              </label>
-              <input
-                type="text"
-                value={newChapter}
-                onChange={(e) => setNewChapter(e.target.value)}
-                placeholder="e.g. Thermodynamics"
-                className="w-full text-xs font-semibold px-3 py-2 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none"
-              />
-            </div>
+        <div className="space-y-3 py-1 text-xs">
+          <div>
+            <label className="block font-semibold text-slate-700 mb-1">Subject</label>
+            <select
+              value={newSubject}
+              onChange={(e) => setNewSubject(e.target.value as SubjectName)}
+              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg"
+            >
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Biology">Biology</option>
+            </select>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
-              Question / Doubt Details
-            </label>
+            <label className="block font-semibold text-slate-700 mb-1">Chapter</label>
+            <input
+              type="text"
+              value={newChapter}
+              onChange={(e) => setNewChapter(e.target.value)}
+              placeholder="e.g. Thermodynamics"
+              className="w-full px-3 py-2 border border-slate-200 rounded-lg"
+            />
+          </div>
+
+          <div>
+            <label className="block font-semibold text-slate-700 mb-1">Question Details</label>
             <textarea
               rows={4}
               value={newQuestionText}
               onChange={(e) => setNewQuestionText(e.target.value)}
-              placeholder="Paste problem text or explain what concept you need clarified..."
-              className="w-full text-xs p-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:outline-none font-medium"
+              placeholder="Describe what you find confusing or paste the problem text..."
+              className="w-full p-2.5 border border-slate-200 rounded-lg resize-none"
             />
           </div>
-
-          <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
-            <Button
-              type="button"
-              variant="outline"
-              size="sm"
-              onClick={() => setShowAskModal(false)}
-              className="text-xs"
-            >
-              Cancel
-            </Button>
-            <Button
-              type="submit"
-              variant="primary"
-              size="sm"
-              disabled={!newQuestionText.trim()}
-              className="text-xs bg-purple-600 hover:bg-purple-700 font-bold"
-            >
-              Post Doubt
-            </Button>
-          </div>
-        </form>
+        </div>
       </Modal>
     </div>
   );

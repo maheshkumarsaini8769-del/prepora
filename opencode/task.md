@@ -1,2074 +1,1106 @@
-You are a senior product engineer, UX architect, education-platform architect, AI content-generation engineer, database architect and QA engineer.
-
-You are working on my existing education platform:
-
-PREPORA
-Practice • Test • Analyze • Improve
+PREPORA — APPLY THE CLEAN PREMIUM UI THEME FROM THE PROVIDED DESIGN REFERENCE
+================================================================================
 
 IMPORTANT:
-Do NOT rebuild the website from scratch.
-Do NOT replace the existing design unnecessarily.
-Do NOT remove existing working features.
-Do NOT change the brand identity.
-Do NOT introduce a completely different UI.
 
-First inspect the existing codebase, routes, components, database models, APIs, authentication, AI generation logic and current UI.
+The provided design reference is the NEW visual direction for PREPORA.
 
-Then improve the existing implementation.
+Rebuild the VISUAL DESIGN SYSTEM and PAGE LAYOUT around this reference.
 
-The website has already been designed and partially implemented for both:
+DO NOT rebuild the application from scratch.
 
-1. Student-facing platform
-2. Admin Panel
+DO NOT remove existing functionality.
 
-I reviewed the current website and screen recordings and identified areas that need improvement.
+DO NOT remove existing features.
 
-The goal is to make PREPORA feel like a serious, production-quality education platform rather than an AI-generated demo.
+DO NOT change working backend/business logic unless required for a UI integration bug.
 
-==================================================
-1. CORE PRODUCT PHILOSOPHY
-==================================================
+The goal is to make the existing PREPORA website look and feel like the provided
+clean premium education-product design.
 
-PREPORA's core learning loop is:
+The reference design demonstrates:
 
-PRACTICE
-↓
-TEST
-↓
-ANALYZE
-↓
-IDENTIFY WEAKNESS
-↓
-TARGETED PRACTICE
-↓
-RETEST
-↓
-IMPROVE
+- Clean white/light-gray interface
+- Black primary actions
+- Minimal monochrome visual system
+- Strong typography
+- Generous whitespace
+- Limited and meaningful cards
+- Clear page hierarchy
+- Simple sidebar
+- Clean forms
+- Compact statistics
+- Professional academic appearance
+- Minimal accent colors
+- Responsive mobile layout
 
-The most important differentiator is:
+================================================================================
+1. GLOBAL VISUAL DIRECTION
+================================================================================
 
-FIX MY WEAKNESS
+Replace the current visually heavy appearance with:
 
-This should not be just another menu item.
+CLEAN
+MINIMAL
+PREMIUM
+ACADEMIC
+PROFESSIONAL
+CALM
+MODERN
 
-It should become one of the core product experiences.
+The website should feel:
 
-The system should identify weak chapters/topics/concepts/question types from actual student performance and generate a targeted action plan.
+"Simple on the surface, powerful underneath."
 
-==================================================
-2. DO NOT DESTROY CURRENT UI
-==================================================
+Do NOT make it look empty.
 
-Preserve:
+Do NOT make it look boring.
 
-- current PREPORA branding
-- current typography
-- current overall visual language
-- current card style
-- current navigation
-- current responsive structure
-- existing pages
-- existing working functionality
+Use whitespace intentionally.
 
-Only make changes where they improve:
+================================================================================
+2. COLOR SYSTEM
+================================================================================
 
-- usability
-- visual hierarchy
-- consistency
-- responsiveness
-- information density
-- accessibility
-- professional appearance
-- performance
-- correctness
+Use a monochrome-first design system.
 
-Avoid:
+Primary background:
+#F7F7F7
 
-- excessive gradients
-- excessive glassmorphism
-- neon colors
-- childish/gaming UI
-- unnecessary animations
-- huge decorative elements
-- excessive purple cards
-- AI-looking paragraphs
-- excessive rounded containers everywhere
+Surface:
+#FFFFFF
 
-PREPORA should feel premium, clean, intelligent and trustworthy.
+Primary:
+#111111
 
-==================================================
-3. STUDENT NAVIGATION
-==================================================
+Dark:
+#0A0A0A
 
-Keep the current navigation but improve information architecture.
+Dark Surface:
+#151515
 
-Primary navigation should clearly prioritize:
+Secondary text:
+#333333
 
-HOME
-PRACTICE
-TESTS
-PAPERS
-PROFILE
+Muted text:
+#737373
 
-Group secondary features logically.
+Border:
+#E5E5E5
 
-Suggested structure:
+White:
+#FFFFFF
 
-MAIN
-- Practice
-- Tests
-- Papers
-
-IMPROVE
-- Fix My Weakness
-- Mistake Book
-- Smart Revision
-- Formula Flashcards
-
-PLAN
-- Study Planner
-- Goals & Milestones
+Use semantic colors only where meaningful:
 
-ANALYZE
-- Performance Analytics
-- Readiness
+Success:
+Green
 
-SUPPORT
-- AI Doubt Solver
-- Doubts / Mentorship
-
-Do not force the user to understand every feature before starting study.
-
-The Home page should answer:
-
-"What should I do right now?"
-
-==================================================
-4. HOME DASHBOARD
-==================================================
+Warning:
+Amber/Orange
 
-Keep the existing personalized dashboard concept.
+Error:
+Red
 
-Improve it so the most important information appears first:
+IMPORTANT:
 
-1. Today's target
-2. Continue where I left off
-3. Weakness that needs attention
-4. Recommended practice
-5. Test/revision reminder
-6. Performance summary
+Remove the current excessive purple visual dominance.
 
-Example:
+Do NOT use purple as the primary brand color.
 
-TODAY'S TARGET
-30 questions
-Physics • Current Electricity
+Do NOT use neon gradients.
 
-CONTINUE
-Chapter Practice → 12 questions remaining
+Do NOT use rainbow UI.
 
-FIX THIS WEAKNESS
-Electrostatics
-Accuracy: 48%
-Repeated mistakes: 6
+Do NOT use excessive glassmorphism.
 
-[Fix My Weakness →]
+Do NOT use excessive blur.
 
-Do not fill the dashboard with too many explanatory paragraphs.
+================================================================================
+3. TYPOGRAPHY
+================================================================================
 
-==================================================
-5. PRACTICE EXPERIENCE
-==================================================
+Create a strong typography hierarchy.
 
-Practice should support:
+Page title:
+Large / bold
 
-- Subject
-- Chapter
-- Topic
-- Subtopic
-- Difficulty
-- Question count
-- Question type
-- Exam type
-- Custom practice
-- Weakness-based practice
+Section title:
+Medium / semibold
 
-Question screen should support:
+Primary metric:
+Large / bold
 
-- question
-- options
-- timer
-- mark for review
-- skip
-- submit
-- hint
-- solution after submission
-- concept
-- important point
-- common mistake
-- exam tip
-- recommended time
+Body:
+Readable regular text
 
-After every answer capture:
+Metadata:
+Small / muted
 
-- selected option
-- correct/incorrect
-- time spent
-- question difficulty
-- topic
-- concept
-- mistake type
-- confidence if enabled
+Buttons:
+Medium / semibold
 
-Do not expose unnecessary analytics during active solving.
+Do not make every piece of text bold.
 
-==================================================
-6. FIX MY WEAKNESS
-==================================================
+Do not use huge headings that consume unnecessary space.
 
-Make this a first-class feature.
+Keep typography consistent across every page.
 
-Input:
+================================================================================
+4. SPACING SYSTEM
+================================================================================
 
-- chapter performance
-- topic accuracy
-- concept accuracy
-- repeated mistakes
-- question time
-- skipped questions
-- negative marking
-- difficulty-wise performance
-- recent tests
-- historical performance
+Use consistent spacing:
 
-Output:
+8px
+12px
+16px
+24px
+32px
+48px
 
-WEAKNESS DETECTED
+Avoid cramped layouts.
 
-Topic:
-Electrostatics
+Avoid unnecessarily huge gaps.
 
-Accuracy:
-48%
+Every section should have breathing room.
 
-Confidence:
-Low
+================================================================================
+5. BORDER + RADIUS
+================================================================================
 
-Repeated mistake:
-Conceptual confusion
+Use subtle borders:
 
-Recommended action:
+#E5E5E5
 
-Step 1
-Review concept
+Border radius:
 
-Step 2
-Solve 10 targeted questions
+8px
+10px
+12px
 
-Step 3
-Take 5-question mini test
+Avoid extremely rounded cartoon-like cards.
 
-Step 4
-Retest after revision
+Avoid excessive shadows.
 
-Step 5
-Recalculate mastery
+Use very subtle shadows only where necessary.
 
-The system must not simply show random questions.
+================================================================================
+6. SIDEBAR
+================================================================================
 
-Questions must be selected based on the detected weakness.
+Use a clean PREPORA sidebar similar to the reference.
 
-==================================================
-7. MISTAKE BOOK
-==================================================
+Top:
 
-Every incorrect question should be capable of entering the mistake system.
+PREPORA logo/name
 
-Store:
+Navigation:
 
-- question
-- question version
-- selected answer
-- correct answer
-- mistake type
-- topic
-- concept
-- time taken
-- attempt number
-- date
-- explanation
-- student's previous attempts
-
-Mistake categories can include:
-
-- Conceptual mistake
-- Calculation mistake
-- Careless mistake
-- Misread question
-- Formula mistake
-- Time-pressure mistake
-- Guessing
-- Knowledge gap
-
-Allow:
-
-Review
-Practice Again
-Fix Weakness
-Mark Resolved
-
-Detect repeated mistakes automatically.
-
-==================================================
-8. SMART REVISION
-==================================================
-
-Support spaced revision.
-
-Revision items can come from:
-
-- mistakes
-- formulas
-- weak concepts
-- flashcards
-- important questions
-- previously incorrect questions
-
-Show:
-
-Due today
-Upcoming
-Mastered
-Needs revision
-
-Do not create fake mastery.
-
-Mastery must be based on actual performance.
-
-==================================================
-9. PERFORMANCE ANALYTICS
-==================================================
-
-Keep the existing analytics concept.
-
-Improve information hierarchy.
-
-Show:
-
-- Accuracy
-- Attempt rate
-- Average time
-- Correct/wrong/skipped
-- Subject performance
-- Chapter performance
-- Topic performance
-- Difficulty performance
-- Question-type performance
-- Negative marking
-- Improvement trend
-- Repeated mistakes
-- Readiness
-
-Avoid long AI-generated paragraphs.
-
-Prefer:
-
-Metric
-↓
-Reason
-↓
-Action
-
-Example:
-
-NEGATIVE MARKING RISK
-
-Physics
-
-Accuracy:
-61%
-
-Incorrect:
-12
-
-Potential avoidable errors:
-5
-
-[Practice Accuracy →]
-
-==================================================
-10. RANK / PERCENTILE PREDICTION
-==================================================
-
-If rank or percentile prediction exists:
-
-Never represent it as an official NTA result.
-
-Use wording such as:
-
-Estimated Rank Range
-
-Based on current performance
-
-Prediction only — not an official examination result.
-
-Predictions must show uncertainty/range.
-
-Do not make false precision claims.
-
-If insufficient data exists:
-
-"Not enough data yet"
-
-instead of inventing a prediction.
-
-==================================================
-11. MOBILE RESPONSIVENESS
-==================================================
-
-The website is primarily important on mobile.
-
-Audit every screen for:
-
-- horizontal overflow
-- clipped text
-- table overflow
-- oversized cards
-- tiny buttons
-- inconsistent padding
-- overlapping elements
-- fixed navigation problems
-- modal overflow
-- long titles
-- chart responsiveness
-
-Desktop tables can remain tables.
-
-On mobile, convert complex tables into responsive cards when necessary.
-
-For example:
-
-JEE MAIN
-2024
-15 Questions
-PYQ
-
-Published
-
-[View]
-
-instead of forcing a wide table.
-
-==================================================
-12. ADMIN PANEL
-==================================================
-
-Preserve the current Admin Panel architecture.
-
-It should support:
-
-Dashboard
-Students
-Questions
+Home
+Practice
 Tests
-Papers
-Subjects
-Chapters
-Topics
-Reports
-AI Content Factory
-Analytics
-Security & Admins
-System Status
-Settings
-Audit Logs
+Previous Papers
+AI Teacher
+Mind Map
+Mistakes
+Revision
+Performance
+Study Planner
+Question Bank
+More
 
-Use role-based access control.
+Do not make every item visually heavy.
 
-Roles:
+Active page:
 
-- Super Admin
-- Content Admin
-- Test Admin
-- Reviewer
-- Support Admin
-- Analytics Admin
+Black/dark active state with clear contrast.
 
-Do not rely only on frontend button hiding.
+Inactive:
 
-Every protected API/action must perform server-side authorization.
+Simple muted text/icon.
 
-==================================================
-13. AI CONTENT FACTORY
-==================================================
+Desktop:
 
-THIS IS THE MOST IMPORTANT SYSTEM.
+Fixed/comfortable sidebar.
 
-The current AI Content Factory must become a REAL production workflow.
+Mobile:
 
-Do NOT simulate progress.
+Compact navigation / bottom navigation.
 
-Do NOT display fake progress percentages.
+Do not show 15+ primary items simultaneously on mobile.
 
-Do NOT create fake generated questions.
+================================================================================
+7. HEADER
+================================================================================
 
-Do NOT say "generation complete" until the database actually contains the required valid questions.
+Clean header.
 
-Workflow:
+Include:
 
-PDF UPLOAD
-↓
-FILE VALIDATION
-↓
-TEXT EXTRACTION / OCR
-↓
-SOURCE ANALYSIS
-↓
-SUBJECT DETECTION
-↓
-CLASS DETECTION
-↓
-CHAPTER DETECTION
-↓
-SECTION DETECTION
-↓
-TOPIC DETECTION
-↓
-SUBTOPIC DETECTION
-↓
-CONCEPT EXTRACTION
-↓
-KNOWLEDGE MAP
-↓
-SOURCE COVERAGE ANALYSIS
-↓
-QUESTION BLUEPRINT
-↓
-BATCH GENERATION
-↓
-VALIDATION
-↓
-DUPLICATE CHECK
-↓
-SEMANTIC DUPLICATE CHECK
-↓
-QUALITY CHECK
-↓
-SOURCE TRACEABILITY CHECK
-↓
-EXAM CLASSIFICATION
-↓
-DIFFICULTY CLASSIFICATION
-↓
-ACCEPT / REJECT
-↓
-REPLACEMENT GENERATION
-↓
-COVERAGE CHECK
-↓
-ADMIN REVIEW
-↓
-APPROVE
-↓
-PUBLISH
+Page title/context
+Search
+Notifications
+Profile
 
-Never auto-publish AI-generated content.
+Avoid unnecessary decorative elements.
 
-Admin remains the final authority.
+Keep header height compact.
 
-==================================================
-14. 400 VALID QUESTIONS — CRITICAL
-==================================================
+================================================================================
+8. HOME / DASHBOARD
+================================================================================
 
-The target is:
+Redesign Home according to the reference.
 
-MINIMUM 400 VALID UNIQUE QUESTIONS PER CHAPTER.
+Main focus:
 
-Admin options:
-
-400
-500
-750
-1000
-Custom
-
-Default:
-
-400
-
-IMPORTANT:
-
-"400 generated" does NOT mean completion.
-
-Completion means:
-
-400 VALID + UNIQUE + SOURCE-SUPPORTED questions are approved-ready.
+"What should I study now?"
 
 Example:
 
-Generated:
-450
+WHAT SHOULD I STUDY NOW?
 
-Duplicates:
-22
+Kinematics — Velocity-Time Graph
 
-Rejected:
-18
+Accuracy 48%
+Mastery 42%
+Last practiced 3 days ago
 
-Invalid:
-4
+[Start Practice]
 
-Valid:
-406
+This should be the dominant section.
 
 Then:
 
-Target:
-400
+Today's Progress
 
-Status:
-COMPLETE
+32 / 50 questions
 
-If:
+Today's Plan
 
-Generated:
-450
+3 / 5 completed
 
-Valid:
-372
+Weakness Alert
 
-Then:
+Kinematics Graphs
 
-Status:
-INCOMPLETE
+[Fix My Weakness]
 
-Remaining:
-28
+Recent Activity
 
-The system must continue generation.
+Keep it compact.
 
-==================================================
-15. BATCH GENERATION
-==================================================
+DO NOT place every PREPORA feature on the Home page.
 
-Do NOT attempt to generate 400 questions in one AI request.
+================================================================================
+9. DASHBOARD CARD REDUCTION
+================================================================================
 
-Use background batch jobs.
+Current website feels too card-heavy.
 
-Example:
+Reduce unnecessary cards.
 
-Target = 400
+Do NOT create separate cards for:
 
-Batch size:
-25–50 questions
-
-Example:
-
-Batch 1 → 50
-Batch 2 → 50
-Batch 3 → 50
-Batch 4 → 50
-...
-
-Continue until 400 VALID UNIQUE questions exist.
-
-If a batch generates:
-
-50 generated
-7 duplicates
-4 rejected
-39 valid
-
-Then:
-
-Accepted:
-39
-
-Remaining:
-361
-
-The system automatically schedules another batch.
-
-Do not stop because the original number of generated questions reached 400.
-
-==================================================
-16. REAL-TIME GENERATION STATUS
-==================================================
-
-Show real generation state.
-
-Example:
-
-AI CONTENT FACTORY
-
-Target:
-400 valid questions
-
-Progress:
-138 / 400 valid
-
-Current batch:
-Batch 4
-
-Generating:
-22 / 40
-
-Accepted:
-31
-
-Duplicates:
-6
-
-Rejected:
-3
-
-Remaining:
-262
-
-Current stage:
-Semantic validation
-
-Last activity:
-10:32:14 AM
-
-Estimated remaining:
-Based only on real job telemetry, otherwise omit estimate.
-
-Statuses:
-
-QUEUED
-EXTRACTING
-ANALYZING SOURCE
-BUILDING BLUEPRINT
-GENERATING
-VALIDATING
-CHECKING DUPLICATES
-CHECKING QUALITY
-GENERATING REPLACEMENTS
-FINAL COVERAGE CHECK
-READY FOR REVIEW
-COMPLETE
-FAILED
-PAUSED
-CANCELLED
-
-If AI API fails:
-
-show:
-
-Batch failed
-Reason
-Retry available
-
-Never fake progress.
-
-==================================================
-17. GENERATION CONTRACT
-==================================================
-
-Before generation begins, show a confirmation screen.
-
-Example:
-
-GENERATION CONTRACT
-
-SOURCE
-NCERT Biology Class 11
-
-CHAPTER
-The Living World
-
-TARGET
-400 valid unique questions
-
-SOURCE COVERAGE
-73%
-
-DIFFICULTY
-Easy 30%
-Medium 50%
-Hard 20%
-
-EXAM SUITABILITY
-NEET
-CBSE
-RBSE
-
-QUESTION TYPES
-MCQ
-Assertion-Reason
-Statement Based
-Match/other supported formats
-
-EXCLUDED TOPICS
-Topics not supported by source
-
-[START GENERATION]
-
-This contract must be saved with the AI job.
-
-==================================================
-18. TOPIC WEIGHTS
-==================================================
-
-The admin may enter importance weights.
-
-Do NOT interpret 19 topics each having 15% as 285% final allocation.
-
-Weights are importance indicators.
-
-Normalize supported topic weights to 100%.
-
-Display:
-
-Topic
-Admin Weight
-AI Recommended Weight
-Final Weight
-Allocated Questions
-Source Support
-
-Example:
-
-Diversity
-Admin: 15%
-AI: 14.2%
-Final: 14.2%
-Questions: 57
-
-Nomenclature
-Admin: 15%
-AI: 12.8%
-Final: 12.8%
-Questions: 51
-
-Unsupported topic
-Admin: 15%
-AI: 0%
-Final: 0%
-Questions: 0
-
-The final question allocation must total exactly the requested target.
-
-==================================================
-19. SOURCE COVERAGE
-==================================================
-
-This is extremely important.
-
-Do not use only exact phrase matching.
-
-Use semantic source mapping.
-
-For each topic:
-
-SUPPORTED
-PARTIALLY SUPPORTED
-NOT FOUND
-
-Store evidence:
-
-- source document
-- version
-- page
-- section
-- text span/chunk reference
-
-For PARTIALLY SUPPORTED topics:
-
-Only generate questions from supported concepts.
-
-Do not fill unsupported parts using general model knowledge.
-
-==================================================
-20. SOURCE-GROUNDING RULE
-==================================================
-
-The uploaded educational source is the primary source of truth for source-grounded generation.
-
-The AI must not silently invent missing information.
-
-If a topic is absent:
-
-Question target:
-0
-
-Reason:
-Not supported by source.
-
-If the source cannot safely support 400 unique questions:
-
-DO NOT:
-
-- repeat questions
-- create paraphrase duplicates
-- hallucinate facts
-- import unsupported textbook content silently
-
-Instead show:
-
-"Source capacity is insufficient for the requested target."
-
-Example:
-
-Safe unique capacity:
-286
-
-Requested:
-400
-
-Additional source required:
-114
-
-Admin can upload another authorized source.
-
-==================================================
-21. CURRENT THE LIVING WORLD SOURCE
-==================================================
-
-For the currently tested NCERT Biology Class 11 "The Living World" source:
-
-The source supports topics including:
-
-- Diversity / living world
-- Nomenclature
-- Identification
-- Binomial nomenclature
-- Scientific naming rules
-- ICBN / botanical nomenclature
-- ICZN / zoological nomenclature
-- Classification
-- Taxa
-- Taxonomy
-- Systematics
-- Taxonomic categories
-- Species
-- Genus
-- Family
-- Order
-- Class
-- Phylum
-- Taxonomic hierarchy
-- Man
-- Housefly
-- Mango
-- Wheat and related hierarchy examples
-
-The source explicitly explains binomial nomenclature, including genus + specific epithet and naming conventions. :contentReference[oaicite:2]{index=2}
-
-It also explains classification, taxa and taxonomy. :contentReference[oaicite:3]{index=3}
-
-It describes systematics and evolutionary relationships. :contentReference[oaicite:4]{index=4}
-
-It covers species, genus, family, order, class and phylum hierarchy. :contentReference[oaicite:5]{index=5} :contentReference[oaicite:6]{index=6}
-
-IMPORTANT:
-
-If Taxonomical Aids topics such as:
-
-- Herbarium
-- Botanical Gardens
-- Arboretums
-- Museum
-- Zoological Parks
-- Key
-- Monograph
-
-are not present in the uploaded source, mark them:
-
-NOT FOUND IN SOURCE
-
-and allocate:
-
-0 questions.
-
-Do not hallucinate questions for them.
-
-The source's exercises themselves include classification, species, taxon, hierarchy and scientific-name questions, so the generation engine can use those concepts as coverage signals without copying the exercise questions verbatim. :contentReference[oaicite:7]{index=7}
-
-==================================================
-22. QUESTION GENERATION BLUEPRINT
-==================================================
-
-Before generating questions, create a blueprint.
-
-Blueprint dimensions:
-
-Topic
-Subtopic
-Concept
-Difficulty
-Question type
-Exam suitability
-Cognitive level
-Question intent
-
-Example:
-
-Topic:
-Binomial Nomenclature
-
-Concept:
-Genus + specific epithet
-
-Easy:
-definition / recognition
-
-Medium:
-application / error detection
-
-Hard:
-multi-statement reasoning
-
-Avoid generating 50 questions that test the same fact in different wording.
-
-==================================================
-23. QUESTION DIVERSITY
-==================================================
-
-Question diversity is mandatory.
-
-Avoid:
-
-Q1:
-What is X?
-
-Q2:
-Define X.
-
-Q3:
-X means?
-
-Q4:
-Which option defines X?
-
-These may all be semantic duplicates.
-
-Use different cognitive patterns:
-
-- Concept identification
-- Application
-- Comparison
-- Sequence
-- Statement analysis
-- Error detection
-- Classification
-- Example-based reasoning
-- Assertion-Reason
-- Multiple statements
-- Match-style questions where supported
-- Scenario/application questions
-- Exam-style conceptual traps
-
-Do not force unsupported question types.
-
-==================================================
-24. DIFFICULTY
-==================================================
-
-Default:
-
-Easy:
-30%
-
-Medium:
-50%
-
-Hard:
-20%
-
-But difficulty must be based on actual reasoning complexity.
-
-Do not label a simple factual recall question as Hard just to satisfy the percentage.
-
-Admin should be able to change distribution.
-
-==================================================
-25. EXAM CLASSIFICATION
-==================================================
-
-Each question can have multiple suitability tags:
-
-NEET
-CBSE
-RBSE
-
-Do not create separate duplicate copies of the same question.
-
-Use one master question bank.
-
-Store:
-
-examSuitability:
-[
-"NEET",
-"CBSE"
-]
-
-If a question is suitable for multiple exams, reuse the same master question.
-
-==================================================
-26. QUESTION DATA MODEL
-==================================================
-
-Each question should store:
-
-questionId
-questionVersion
-subject
-class
-chapter
-topic
-subtopic
-concept
-questionType
-difficulty
-cognitiveLevel
-questionText
-options
-correctAnswer
-explanation
-solution
-conceptExplanation
-importantPoint
-commonMistake
-examTip
-recommendedTime
-marks
-negativeMarks
-examSuitability
-sourceDocumentId
-sourceVersionId
-sourcePage
-sourceSection
-sourceEvidence
-status
-createdAt
-updatedAt
-createdBy
-approvedBy
-approvedAt
-
-==================================================
-27. QUALITY GATES
-==================================================
-
-Every AI question must pass:
-
-1. Valid question structure
-2. Exactly one correct answer unless question type explicitly supports otherwise
-3. Options logically valid
-4. No ambiguous wording
-5. Explanation supports answer
-6. Source evidence exists
-7. No unsupported claims
-8. Difficulty is reasonable
-9. Exam classification is reasonable
-10. No semantic duplicate
-11. No accidental answer leakage
-12. No malformed formatting
-13. No broken math/scientific notation
-14. No placeholder text
-15. No "AI generated" visible to students
-
-Failed questions go to:
-
-REJECTED
-
-and replacement generation is triggered.
-
-==================================================
-28. DUPLICATE DETECTION
-==================================================
-
-Use multiple layers:
-
-Layer 1:
-Exact text duplicate
-
-Layer 2:
-Normalized text duplicate
-
-Layer 3:
-Option similarity
-
-Layer 4:
-Semantic similarity / embeddings
-
-Layer 5:
-Same concept + same reasoning pattern + same answer pattern
-
-A paraphrased duplicate should still be detected.
-
-Example:
-
-Question A:
-Which is the genus in Mangifera indica?
-
-Question B:
-In Mangifera indica, which word represents the genus?
-
-These should be flagged as near duplicates.
-
-Never automatically delete a question.
-
-Show:
-
-Possible duplicate
-Similarity:
-94%
-
-[Compare]
-[Keep]
-[Reject]
-
-Admin decides.
-
-==================================================
-29. REPLACEMENT ENGINE
-==================================================
-
-If a question is rejected or duplicate:
-
-Do not simply paraphrase it.
-
-Generate a replacement from another unused:
-
-- concept
-- subtopic
-- cognitive pattern
-- difficulty
-- exam pattern
-
-Maintain blueprint coverage.
-
-==================================================
-30. COVERAGE CHECK
-==================================================
-
-Before completion calculate:
-
-Target questions
-Valid questions
-Duplicate count
-Rejected count
-Topic coverage
-Concept coverage
-Difficulty distribution
-Question-type distribution
-Exam distribution
-Source coverage
-
-Example:
-
-400 / 400 valid
-
-Topic coverage:
-100%
-
-Concept coverage:
-94%
-
-Easy:
-120
-Medium:
-200
-Hard:
-80
-
-Duplicates rejected:
-43
-
-Rejected for quality:
-21
-
-Status:
-READY FOR REVIEW
-
-==================================================
-31. ADMIN REVIEW
-==================================================
-
-Never auto-publish.
-
-Question states:
-
-DRAFT
-GENERATING
-VALIDATING
-PENDING REVIEW
-APPROVED
-PUBLISHED
-REJECTED
-ARCHIVED
-
-Admin can:
-
-Approve
-Reject
-Edit
-Request Replacement
-Compare Duplicate
-View Source
-View Version
-Publish
-
-Bulk review should be available.
-
-==================================================
-32. QUESTION VERSIONING
-==================================================
-
-If an approved question is edited:
-
-Create a new version.
-
-Old student attempts must remain linked to the old question version.
-
-Never change historical attempt meaning.
-
-Example:
-
-Question ID:
-Q-1001
-
-Version:
-v1
-
-Student attempted v1.
-
-Admin later edits it.
-
-New version:
-v2
-
-Old attempt remains connected to v1.
-
-==================================================
-33. SOURCE VERSIONING
-==================================================
-
-Every uploaded PDF should have:
-
-Source ID
-Version
-File hash
-Upload time
-Uploaded by
-Extraction status
-Analysis status
-
-If the same PDF is uploaded again:
-
-Detect duplicate source.
-
-Allow:
-
-Use existing source
-Create new version
-Cancel
-
-==================================================
-34. AI JOB SYSTEM
-==================================================
-
-AI generation must run as background jobs.
-
-Job fields:
-
-jobId
-sourceId
-sourceVersion
-targetCount
-currentValidCount
-generatedCount
-duplicateCount
-rejectedCount
-remainingCount
-currentBatch
-batchSize
-status
-progress
-startedAt
-updatedAt
-completedAt
-error
-retryCount
-provider
-model
-promptVersion
-
-Support:
-
-Pause
-Resume
-Retry failed batch
-Cancel
-
-If the browser closes:
-
-The job must continue server-side if infrastructure supports it.
-
-Opening Admin Panel again should show the current job state.
-
-==================================================
-35. FAILURE RECOVERY
-==================================================
-
-If an AI request fails:
-
-Do not lose previous valid questions.
-
-Save progress after every accepted batch.
-
-Retry only failed batch.
-
-Use exponential backoff where appropriate.
-
-If provider quota is reached:
-
-Pause job.
-
-Show:
-
-AI provider quota reached.
-
-Do NOT silently switch to a paid API.
-
-Do NOT silently charge the admin.
-
-Admin must explicitly choose another configured provider if available.
-
-==================================================
-36. AI PROVIDER ABSTRACTION
-==================================================
-
-Do not hard-code the application around one AI provider.
-
-Create provider abstraction.
-
-Example:
-
-AIProvider
-
-generateQuestions()
-analyzeSource()
-validateQuestion()
-generateReplacement()
-
-Provider configuration must be server-side.
-
-Never expose API keys in frontend.
-
-==================================================
-37. AI USAGE DASHBOARD
-==================================================
-
-Admin should see:
-
-Provider
-Model
-Requests today
-Tokens if available
-Successful requests
-Failed requests
-Estimated usage
-Quota status
-Average generation time
-
-Never expose secret API keys.
-
-==================================================
-38. ADMIN DASHBOARD
-==================================================
-
-Show:
-
-Students
-Active users
+Accuracy
 Questions
-Published questions
-Pending review
-Tests
-Papers
-AI jobs
-Failed AI jobs
-Reports
-System health
+Mastery
+Time
+Mistakes
 
-AI Content Factory widget:
+if they can be grouped into one meaningful section.
 
-Active Jobs
-Completed
-Failed
-Pending Review
+Use sections and typography instead.
 
-Example:
+Each card must have a clear purpose.
 
-AI JOBS
+================================================================================
+10. PRACTICE PAGE
+================================================================================
 
-The Living World
-286 / 400
-Generating
+Make Practice extremely clean.
 
-Physics
-400 / 400
-Ready for Review
+Flow:
 
-Chemistry
-400 / 400
-Complete
+Subject
+→ Chapter
+→ Topic
+→ Difficulty
+→ Number of Questions
 
-==================================================
-39. PAPER LIBRARY
-==================================================
+Use clean dropdowns/selectors.
 
-Support:
+Difficulty:
 
-JEE
-NEET
-CBSE
-RBSE
+Easy
+Medium
+Hard
 
-Fields:
+Show actual availability:
+
+Easy — 120 available
+Medium — 200 available
+Hard — 42 available
+
+If Hard has only 42:
+
+and student requests 50:
+
+Show:
+
+"42 Hard questions available."
+
+[Practice 42]
+[Generate More]
+
+Never silently mix difficulty.
+
+================================================================================
+11. TEST BUILDER
+================================================================================
+
+Use the same clean visual language.
+
+Steps:
 
 Exam
-Year
-Subject
-Paper type
-Question count
-Answer key
-Status
-Source
-Rights/licensing metadata
+→ Subjects
+→ Chapters
+→ Blueprint
+→ Review
 
-Do not assume that publicly available papers can automatically be commercially redistributed.
+Keep advanced settings collapsed.
 
-Keep source/licensing information in admin metadata.
+Main CTA:
 
-==================================================
-40. SEARCH SYSTEM
-==================================================
+CREATE TEST
 
-Admin search should support:
+Black button.
 
-Student
-Question
-Subject
-Chapter
-Topic
-Date
-Exam
-Difficulty
-Status
-Source
-AI job
-Paper
-Question ID
+Question availability should be clearly visible.
 
-Student search should support relevant:
+Example:
 
-Subject
-Chapter
-Topic
-Question
-Paper
-Formula
-Revision content
+Easy 46
+Medium 49
+Hard 29
 
-==================================================
-41. REPORT SYSTEM
-==================================================
+Available:
+124
 
-Students can report:
+No unnecessary explanation blocks.
 
-Wrong answer
-Wrong explanation
-Ambiguous question
-Typo
-Duplicate
-Technical problem
-Other
+================================================================================
+12. AI TEACHER
+================================================================================
 
-Admin sees:
+Make AI Teacher look like a clean professional tutoring interface.
 
-Report count
-Question
-Reporter
-Reason
-Status
-Action
+Large conversation area.
+
+Small context selector:
+
+Physics
+Kinematics
+
+Chat area.
+
+Bottom input.
 
 Actions:
 
-Review
-Correct
-Reject report
-Archive question
-Create new version
+Explain
+Example
+Practice
+Hint
 
-==================================================
-42. TECHNICAL ERROR SYSTEM
-==================================================
+Do not surround AI Teacher with dashboard cards.
 
-Admin should have:
+================================================================================
+13. MIND MAP
+================================================================================
 
-System Status
+Mind Map should be a focused workspace.
 
-Monitor:
+Use most of the screen for the actual map.
 
-API
-Database
-Authentication
-AI provider
-File processing
-Question generation
-Background jobs
+Minimal controls:
+
+Subject
+Chapter
+Search
+Zoom
+Reset
+
+When a node is selected, show a compact information panel:
+
+Mastery
+Questions
+Accuracy
+Mistakes
+
+Actions:
+
+Learn Concept
+Practice Questions
+View Mistakes
+Add to Revision
+
+Do not fill the screen with unrelated cards.
+
+================================================================================
+14. PERFORMANCE
+================================================================================
+
+Clean analytics page.
+
+Top summary:
+
+Score
+Accuracy
+Average Time
+
+Then:
+
+Performance Trend
+
+Then:
+
+Weak Areas
+
+Then:
+
+Recommended Action
+
+Avoid showing 10 charts simultaneously.
+
+Use progressive disclosure.
+
+Detailed analytics can open when requested.
+
+================================================================================
+15. MISTAKES
+================================================================================
+
+Main purpose:
+
+FIX MISTAKES.
 
 Show:
 
-Operational
-Degraded
-Down
+Repeated Mistakes
+Weak Concepts
+Recent Mistakes
 
-Also create:
+Primary CTA:
 
-Technical Reports
-Error logs
-Job failures
-Recent errors
+FIX MY WEAKNESS
 
-Never expose sensitive server information to normal students.
+Use a clean list/table rather than many separate cards.
 
-==================================================
-43. AUDIT LOG
-==================================================
+================================================================================
+16. REVISION
+================================================================================
 
-Log important admin actions:
+Main focus:
 
-Who
-What
-When
-Before
-After
-IP/device metadata only where appropriate and legally justified
+REVISION DUE TODAY
 
-Examples:
+Example:
 
-Question approved
-Question published
-Question rejected
-Source uploaded
-AI job started
-AI job cancelled
-Role changed
-Setting changed
+Kinematics Graphs
+Chemical Bonding
+Cell Division
 
-==================================================
-44. ADMIN UX IMPROVEMENTS
-==================================================
+Each:
 
-Use clear hierarchy.
+Why it is due
+[Revise]
 
-Avoid giant paragraphs.
+Upcoming revision should be secondary.
 
-Replace long descriptions with:
+================================================================================
+17. STUDY PLANNER
+================================================================================
 
-Metric
+Clean timeline.
+
+TODAY'S PLAN
+
+08:00
+Physics — Kinematics
+45 min
+[Start]
+
+10:00
+Chemistry — Mole Concept
+40 min
+[Start]
+
+18:00
+Revision
+20 min
+[Start]
+
+20:00
+Mini Test
+20 questions
+[Start]
+
+Keep it simple.
+
+================================================================================
+18. PREVIOUS PAPERS
+================================================================================
+
+Clean paper library.
+
+Filters:
+
+Exam
+Year
+Session
+Subject
+
+Then simple paper rows/cards.
+
+Example:
+
+JEE Advanced
+2024
+Paper 1
+
+Physics • Chemistry • Mathematics
+
+[View]
+[Attempt]
+
+Do not create huge cards for every paper.
+
+================================================================================
+19. QUESTION BANK
+================================================================================
+
+Use a clean professional table on desktop.
+
+Columns:
+
+Question
+Subject
+Chapter
+Topic
+Difficulty
+Type
 Status
-Action
-
-Use clear badges:
-
-SUCCESS
-WARNING
-ERROR
-PROCESSING
-PENDING
-
-Use confirmation dialogs for destructive actions.
-
-Use toast notifications for successful actions.
-
-Use skeleton loading states.
-
-Use empty states.
-
-Use retry states.
-
-Use proper error messages.
-
-==================================================
-45. TABLE RESPONSIVENESS
-==================================================
-
-On desktop:
-
-Use tables.
+Actions
 
 On mobile:
 
-Convert important tables into cards where horizontal scrolling harms usability.
+Convert rows into compact cards.
 
-Never allow important information to be clipped.
+Filters should remain easy to use.
 
-==================================================
-46. PERFORMANCE
-==================================================
+================================================================================
+20. ADMIN PANEL
+================================================================================
 
-Optimize:
+Admin can remain denser than the student UI.
 
-- lazy loading
-- pagination
-- database indexing
-- server-side filtering
-- background jobs
-- caching where appropriate
-- debounced search
-- batch operations
+But still use the same design system.
 
-Never load thousands of questions into the browser unnecessarily.
+Admin dashboard:
 
-==================================================
-47. SECURITY
-==================================================
+Question Inventory
+AI Jobs
+Pending Review
+Published
+Previous Papers
+Students
+Login Activity
+Reports
 
-Implement/verify:
+Do not create giant decorative cards.
 
-- server-side RBAC
-- secure authentication
-- secure sessions
-- password hashing
-- protected admin APIs
-- rate limiting
-- input validation
-- file type validation
-- file size limits
-- upload scanning where practical
-- API key protection
-- CSRF protection where applicable
-- secure headers
-- audit logging
+Use compact information sections.
 
-Do not trust client-provided:
+================================================================================
+21. ADMIN LOGIN ACTIVITY
+================================================================================
 
-role
-userId
-permissions
-question status
-approval state
+Clean table:
 
-==================================================
-48. DATABASE INTEGRITY
-==================================================
+User
+Email
+Role
+Login Time
+Device
+Browser
+IP
+Status
 
-Use proper indexes for:
+Filters:
 
-questionId
-chapterId
-topicId
-status
-examSuitability
-difficulty
-sourceId
-sourceVersion
-AIJob status
+Date
+User
+Role
+Device
+Status
 
-Prevent duplicate question IDs.
+Mobile:
 
-Prevent accidental duplicate publishing.
+Convert to expandable cards.
 
-Use transactions where required.
+================================================================================
+22. AI CONTENT FACTORY
+================================================================================
 
-==================================================
-49. FREE AI / API LIMIT HANDLING
-==================================================
+Keep the existing workflow:
 
-The application must work with configured free-tier AI providers where available.
+Source
+→ Analyze
+→ Blueprint
+→ Generate
+→ Validate
+→ Review
+→ Publish
 
-Do not promise unlimited free AI.
+Visualize progress simply.
 
-Implement:
+Do NOT use fake progress.
 
-daily request limits
-provider quota detection
-usage tracking
-pause/resume
+Show real:
 
-If quota is exhausted:
+Generated
+Valid
+Duplicate
+Rejected
+Remaining
 
-show an honest message.
+================================================================================
+23. 100K+ QUESTION INVENTORY
+================================================================================
 
-Do not automatically use a paid provider.
+Show real numbers.
 
-==================================================
-50. STUDENT TRUST
-==================================================
+Example:
 
-Never fake:
+100,482
 
-- AIR
-- percentile
-- score
-- progress
-- AI generation status
-- mastery
-- question count
-- source verification
+Easy:
+30,214
 
-If data is insufficient:
-
-Say:
-
-"Not enough data yet."
-
-If prediction is uncertain:
-
-Show a range.
-
-If AI job is still running:
-
-Say:
-
-"Generating..."
+Medium:
+50,132
 
-not:
+Hard:
+20,136
 
-"Almost complete"
+Never hardcode these.
 
-unless actual progress supports it.
+Never show 100K+ until database actually contains that many
+valid questions.
 
-==================================================
-51. FINAL QA CHECK
-==================================================
+================================================================================
+24. FILTER DESIGN
+================================================================================
 
-After implementing changes, test:
-
-Student:
-
-- Login
-- Home
-- Practice
-- Questions
-- Tests
-- Papers
-- Mistake Book
-- Fix My Weakness
-- Revision
-- Analytics
-- Profile
-
-Admin:
-
-- Login
-- Dashboard
-- Source upload
-- PDF extraction
-- Topic detection
-- Source coverage
-- Weight normalization
-- Generation Contract
-- 400-question generation
-- Batch processing
-- Duplicate detection
-- Replacement generation
-- Quality validation
-- Review
-- Approval
-- Publishing
-- Versioning
-- Reports
-- Search
-- RBAC
-- System status
-- AI usage
-
-==================================================
-52. CRITICAL ACCEPTANCE TEST
-==================================================
-
-Use this exact test scenario.
-
-Upload:
-
-NCERT Biology Class 11
-Chapter:
-The Living World
-
-Set:
-
-Target:
-400
-
-Difficulty:
-30/50/20
-
-Generate.
-
-The system must:
-
-1. Extract source
-2. Detect supported topics
-3. Mark unsupported topics as NOT FOUND
-4. Normalize weights
-5. Create blueprint
-6. Start background AI job
-7. Generate batches
-8. Validate questions
-9. Detect duplicates
-10. Reject bad questions
-11. Generate replacements
-12. Continue until 400 VALID UNIQUE questions
-13. Run coverage check
-14. Move to READY FOR REVIEW
-15. Allow admin review
-16. Only then allow publish
-
-If the source cannot safely support 400 unique questions:
-
-STOP honestly.
-
-Show safe capacity.
-
-Do not hallucinate.
-
-==================================================
-53. DO NOT FAKE BACKEND FUNCTIONALITY
-==================================================
-
-This is extremely important.
-
-Do not create UI that pretends something is implemented when the backend is not actually implemented.
-
-Bad:
-
-"400 / 400 generated"
-
-when only demo data exists.
-
-Bad:
-
-"Source verified"
-
-without actual source analysis.
-
-Bad:
-
-"Duplicate checked"
-
-without duplicate detection.
-
-Bad:
-
-"AI generation complete"
-
-without actual AI job completion.
-
-If something is not implemented yet:
-
-Clearly identify it as:
-
-NOT IMPLEMENTED
-
-and create the proper implementation instead of a fake simulation.
-
-==================================================
-54. PRESERVE EXISTING DATA
-==================================================
-
-Before changing database structures:
-
-Inspect current schema.
-
-Do not delete existing data.
-
-Create migrations where needed.
-
-Do not break existing users, questions, tests or attempts.
-
-==================================================
-55. CODE QUALITY
-==================================================
+Filters must be visually simple.
 
 Use:
 
-- reusable components
-- reusable services
-- typed data models
-- clear API boundaries
-- validation schemas
-- error handling
-- logging
-- comments only where useful
-- environment variables for secrets
-- modular architecture
+Dropdown
+Segmented control
+Compact chips
+Search
 
-Avoid giant components and duplicated logic.
+Avoid giant filter panels.
 
-==================================================
-56. FINAL UI STYLE
-==================================================
+When filter changes:
 
-PREPORA should feel:
+Immediately update:
 
-Premium
-Modern
-Academic
-Trustworthy
-Fast
-Intelligent
-Clean
+Count
+Results
+Difficulty inventory
 
-Not:
+Reset pagination.
 
-Childish
-Gaming-focused
-Over-designed
-Neon
-AI-template-looking
+No stale data.
 
-Use the existing visual identity as the foundation.
+================================================================================
+25. MOBILE DESIGN
+================================================================================
 
-Use purple primarily for important actions/selected states rather than making every card purple.
+Mobile must NOT look like compressed desktop.
 
-Maintain strong contrast and accessibility.
+Design specifically for:
 
-==================================================
-57. IMPORTANT IMPLEMENTATION RULE
-==================================================
+360px
+375px
+390px
+412px
 
-Before coding:
+Rules:
 
-1. Inspect the existing project.
-2. Identify what is already implemented.
-3. Identify what is simulated.
-4. Identify missing backend functionality.
-5. Identify duplicate functionality.
-6. Identify broken flows.
-7. Create an implementation plan.
-8. Then implement.
+No horizontal overflow.
 
-Do not blindly overwrite working code.
+No clipped text.
 
-==================================================
-58. DELIVERABLE
-==================================================
+No wide tables.
 
-After implementation provide:
+No tiny buttons.
 
-1. What was already working
-2. What was fixed
-3. What was newly implemented
-4. Database changes
-5. API changes
-6. AI pipeline changes
-7. Security changes
-8. UI/UX changes
-9. Remaining limitations
-10. Exact test results
+No excessive cards.
+
+No huge headers.
+
+Use bottom navigation.
+
+Stack sections naturally.
+
+Mind Map should have its own focused mobile experience.
+
+Test Builder should use a step-by-step mobile flow.
+
+================================================================================
+26. DESKTOP DESIGN
+================================================================================
+
+Test:
+
+1024px
+1280px
+1440px+
+
+Use whitespace.
+
+Do not stretch content unnecessarily.
+
+Recommended:
+
+Sidebar
++
+Main content
++
+optional small secondary panel
+
+Avoid dashboard-wall layouts.
+
+================================================================================
+27. RESPONSIVE BEHAVIOR
+================================================================================
+
+Desktop:
+
+Sidebar + content.
+
+Tablet:
+
+Compact sidebar.
+
+Mobile:
+
+Bottom navigation + compact header.
+
+Cards:
+
+Desktop:
+horizontal/grid
+
+Mobile:
+stacked/compact
+
+Tables:
+
+Desktop:
+table
+
+Mobile:
+cards/expandable rows
+
+================================================================================
+28. ICONS
+================================================================================
+
+Use one consistent icon library.
+
+Do NOT mix multiple visual icon styles.
+
+No unnecessary emojis in the application UI.
+
+Icons should be subtle and functional.
+
+================================================================================
+29. BUTTONS
+================================================================================
+
+Primary:
+
+Black background
+White text
+
+Secondary:
+
+White background
+Black text
+Subtle border
+
+Danger:
+
+Use semantic red.
+
+Buttons must have:
+
+Hover
+Active
+Disabled
+Loading
+
+states.
+
+================================================================================
+30. LOADING / EMPTY / ERROR STATES
+================================================================================
+
+Every major page needs:
+
+Loading state
+Empty state
+Error state
+
+Example:
+
+No Hard questions available for this topic.
+
+[Generate More]
+
+Do not leave blank white screens.
+
+================================================================================
+31. ANIMATION
+================================================================================
+
+Use subtle animation.
+
+150–250ms.
+
+Use motion for:
+
+Page transition
+Hover
+Expand/collapse
+Loading
+Success
+
+Avoid:
+
+Floating everything
+Parallax everywhere
+Continuous animations
+Bouncing cards
+Excessive decorative motion
+
+The website is for studying.
+
+Animation must not distract.
+
+================================================================================
+32. INFORMATION HIERARCHY
+================================================================================
+
+Every page must answer:
+
+1. Where am I?
+2. What is this page for?
+3. What should I do?
+4. What information do I need?
+
+If a component does not help answer one of these,
+consider hiding it or moving it to a secondary area.
+
+================================================================================
+33. PROGRESSIVE DISCLOSURE
+================================================================================
+
+Do NOT show every advanced option immediately.
+
+Use:
+
+Advanced Filters
+More
+View Details
+Show Analysis
+Show Solution
+See More
+
+Advanced features remain available but don't visually overload the page.
+
+================================================================================
+34. IMPORTANT
+================================================================================
+
+DO NOT remove:
+
+- 100K+ Question Bank
+- AI Teacher
+- AI Study Planner
+- Mind Map
+- Fix My Weakness
+- Mistake Book
+- Smart Revision
+- Performance
+- Test Builder
+- Previous Papers
+- PYQs
+- JEE Main
+- JEE Advanced
+- NEET
+- CBSE
+- RBSE
+- AI Doubt Solver
+- Search
+- Admin Panel
+- Login Activity
+- AI Content Factory
+
+Only reorganize how they are presented.
+
+================================================================================
+35. EXISTING FUNCTIONALITY MUST REMAIN
+================================================================================
+
+Before and after the UI changes verify:
+
+- Authentication
+- Practice
+- Filters
+- Easy/Medium/Hard
+- Test Builder
+- Question Bank
+- Previous Papers
+- Model Papers
+- Performance
+- Mistakes
+- Revision
+- Fix My Weakness
+- AI Teacher
+- AI Doubt Solver
+- Study Planner
+- Mind Map
+- Search
+- Admin
+- AI generation
+
+No feature should disappear because of redesign.
+
+================================================================================
+36. FULL PAGE-BY-PAGE AUDIT
+================================================================================
+
+Open every page and ask:
+
+Is this page too crowded?
+
+Is the primary purpose obvious?
+
+Are there duplicate components?
+
+Can two cards become one section?
+
+Can secondary information be hidden?
+
+Are there too many buttons?
+
+Is there enough whitespace?
+
+Is typography clear?
+
+Does it look premium?
+
+Does mobile remain clean?
+
+Audit:
+
+Home
+Practice
+Tests
+Test Builder
+Question Bank
+Previous Papers
+AI Teacher
+AI Doubt Solver
+Mind Map
+Mistakes
+Revision
+Performance
+Study Planner
+Profile
+Admin Dashboard
+AI Content Factory
+Admin Question Bank
+Admin Previous Papers
+Students
+Login Activity
+Analytics
+Settings
+
+================================================================================
+37. FINAL VISUAL TARGET
+================================================================================
+
+The final website should visually follow this principle:
+
+LESS CLUTTER
+MORE HIERARCHY
+MORE WHITESPACE
+FEWER BUT BETTER CARDS
+CLEAR PRIMARY ACTIONS
+MONOCHROME PREMIUM DESIGN
+
+The reference image is the visual direction.
+
+Do NOT copy any copyrighted branding/content from the reference.
+
+Use the reference only for:
+
+Layout inspiration
+Spacing
+Hierarchy
+Color balance
+Card density
+Navigation style
+Overall visual cleanliness
+
+================================================================================
+38. FINAL REPORT
+================================================================================
+
+After implementation report:
+
+1. Pages redesigned
+2. Components redesigned
+3. Components removed/merged
+4. Features preserved
+5. Responsive fixes
+6. Mobile testing
+7. Desktop testing
+8. Filter testing
+9. Test Builder testing
+10. Previous Paper page testing
+11. Admin testing
+12. Performance testing
+13. Remaining visual issues
 
 Most importantly:
 
-The final system must prioritize correctness over visual simulation.
+Do not say "redesign complete"
+until the actual website has been opened and tested.
 
-PREPORA should never claim that 400 questions are ready unless 400 valid, unique and source-supported questions actually exist.
+FINAL GOAL:
+
+PREPORA should have MANY powerful features,
+but the interface should feel SIMPLE.
+
+POWERFUL UNDER THE HOOD.
+SIMPLE ON THE SURFACE.

@@ -50,127 +50,124 @@ export const MainLayout: React.FC = () => {
   const unreadNotifs = userService.getNotifications().filter(n => !n.isRead).length;
   const navigate = useNavigate();
 
-  // Clean, intuitive student navigation: Primary Hubs + Quick Utilities
-  const navGroups = [
-    {
-      group: 'STUDY HUBS',
-      items: [
-        { name: 'Dashboard', path: '/', icon: Home, subtitle: 'Goals & study overview' },
-        { name: 'Chapter Practice', path: '/practice', icon: BookOpen, subtitle: 'Topic-wise question bank' },
-        { name: 'Mock Tests & PYQs', path: '/tests', icon: GraduationCap, subtitle: 'CBT mocks & past papers' },
-        { name: 'AI Teacher & Tutor', path: '/tutor', icon: Sparkles, badge: 'Tutor', subtitle: '8 adaptive teaching modes' },
-        { name: 'AI Doubt Solver', path: '/doubts', icon: HelpCircle, badge: '24/7 AI', subtitle: 'Instant photo & text solutions' },
-        { name: 'Mistake Notebook', path: '/mistakes', icon: AlertCircle, subtitle: 'Review & fix errors' },
-        { name: 'Syllabus Tracker', path: '/syllabus', icon: Layers, subtitle: 'Chapter coverage & progress' },
-      ]
-    },
-    {
-      group: 'QUICK UTILITIES',
-      items: [
-        { name: 'Daily Study Plan', path: '/daily-plan', icon: Calendar, subtitle: "Today's targeted sequence" },
-        { name: 'Study Planner', path: '/planner', icon: Calendar, subtitle: 'Weekly schedule & timetables' },
-        { name: 'Curriculum Mind Map', path: '/mind-map', icon: Sparkles, subtitle: 'Visual interactive topic graph' },
-        { name: 'Exam Readiness', path: '/readiness', icon: Award, subtitle: 'Readiness score & telemetry' },
-        { name: 'Speed Practice', path: '/speed-practice', icon: Zap, subtitle: 'Timed rapid question drills' },
-        { name: 'Fix My Weakness', path: '/weakness', icon: Target, subtitle: 'Target low-accuracy areas' },
-        { name: 'Revision Center', path: '/revision', icon: Repeat, subtitle: 'Spaced repetition queues' },
-      ]
-    }
+  // Task 5 Minimal Navigation Hierarchy: 5 Core Primary + Secondary Tools
+  const primaryNav = [
+    { name: 'Home', path: '/', icon: Home, subtitle: "Today's priority & plan" },
+    { name: 'Practice', path: '/practice', icon: BookOpen, subtitle: 'Topic-wise problem sets' },
+    { name: 'Tests', path: '/tests', icon: GraduationCap, subtitle: 'Mocks & previous papers' },
+    { name: 'Doubts', path: '/doubts', icon: HelpCircle, subtitle: 'AI tutor & mentor answers' },
+    { name: 'Mistakes', path: '/mistakes', icon: AlertCircle, subtitle: 'Error log & blind retries' },
   ];
+
+  const secondaryNav = [
+    { name: 'Performance', path: '/performance', icon: BarChart2 },
+    { name: 'Revision', path: '/revision', icon: Repeat },
+    { name: 'Mind Map', path: '/mind-map', icon: Sparkles },
+    { name: 'Previous Papers', path: '/papers', icon: FileText },
+    { name: 'Study Planner', path: '/planner', icon: Calendar },
+    { name: 'AI Teacher', path: '/tutor', icon: Sparkles },
+    { name: 'Syllabus', path: '/syllabus', icon: Layers },
+    { name: 'Readiness', path: '/readiness', icon: Award }
+  ];
+
+  const [moreOpen, setMoreOpen] = useState(true);
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-800">
-      {/* Desktop Left Sidebar */}
-      <aside className="hidden md:flex flex-col w-64 bg-white/95 backdrop-blur-xl border-r border-slate-200/80 fixed inset-y-0 left-0 z-30 shadow-[1px_0_20px_rgba(0,0,0,0.02)]">
+      {/* Desktop Left Sidebar - Clean Minimal Monochrome */}
+      <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200/90 fixed inset-y-0 left-0 z-30">
         {/* Brand Header */}
         <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100 flex-shrink-0">
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="relative">
-              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-700 via-brand-600 to-brand-400 flex items-center justify-center text-white font-black text-lg shadow-md shadow-brand-500/25 group-hover:scale-105 transition-all duration-300">
-                P
-              </div>
-              <div className="absolute -inset-0.5 bg-brand-500/20 rounded-xl blur-xs -z-10 group-hover:opacity-100 opacity-50 transition-opacity" />
+          <Link to="/" className="flex items-center gap-2.5">
+            <div className="w-8 h-8 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-sm">
+              P
             </div>
             <div>
-              <span className="font-black text-xl tracking-tight text-slate-900 flex items-center gap-1">
+              <span className="font-black text-lg tracking-tight text-slate-900">
                 PREPORA
-                <span className="w-1.5 h-1.5 rounded-full bg-brand-600"></span>
               </span>
-              <span className="block text-[9px] font-bold tracking-widest text-brand-600 uppercase -mt-1">
-                Aspirant Command
+              <span className="block text-[9px] font-bold tracking-widest text-slate-400 uppercase -mt-0.5">
+                Academic Command
               </span>
             </div>
           </Link>
         </div>
 
-        {/* Streak & Target Pill */}
-        <div className="mx-3.5 my-3 p-3 bg-gradient-to-r from-amber-500/10 via-orange-500/5 to-brand-500/10 border border-amber-200/70 rounded-2xl flex items-center justify-between flex-shrink-0 transition-all hover:border-amber-300">
+        {/* Minimal Streak & Target Pill */}
+        <div className="mx-3.5 my-3 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-lg bg-amber-500/15 flex items-center justify-center text-amber-600">
-              <Flame className="w-4 h-4 text-amber-500 fill-amber-500 animate-pulse-subtle" />
-            </div>
-            <div>
-              <div className="text-xs font-black text-slate-800">{user.streakDays > 0 ? `${user.streakDays} Day Streak!` : 'Start Day 1 Streak'}</div>
-              <div className="text-[10px] font-semibold text-amber-700">{user.streakDays > 0 ? 'Daily Study Active 🔥' : 'Solve a question to begin'}</div>
-            </div>
+            <Flame className="w-4 h-4 text-slate-700 fill-slate-700" />
+            <span className="text-xs font-bold text-slate-800">{user.streakDays || 1} Day Streak</span>
           </div>
-          <span className="text-[10px] font-extrabold text-brand-700 bg-brand-50 border border-brand-200/80 px-2 py-0.5 rounded-full shadow-2xs">
+          <span className="text-[10px] font-extrabold text-slate-700 bg-white border border-slate-200 px-2 py-0.5 rounded-md">
             {user.targetExam || 'JEE'}
           </span>
         </div>
 
-        {/* Grouped Sidebar Navigation */}
-        <nav className="flex-1 overflow-y-auto px-3 py-1 space-y-4 text-xs custom-scrollbar">
-          {navGroups.map((g) => (
-            <div key={g.group} className="space-y-1">
-              <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
-                {g.group}
-              </div>
-              {g.items.map((item) => {
-                const Icon = item.icon;
-                return (
-                  <NavLink
-                    key={item.path}
-                    to={item.path}
-                    className={({ isActive }) =>
-                      `flex items-start justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all ${
-                        isActive
-                          ? 'bg-brand-50 text-brand-700 font-bold shadow-xs border border-brand-200/70'
-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900 border border-transparent'
-                      }`
-                    }
-                  >
-                    {({ isActive }) => (
-                      <>
-                        <div className="flex items-start gap-2.5 min-w-0">
-                          <Icon className={`w-4 h-4 mt-0.5 shrink-0 ${isActive ? 'text-brand-600' : 'text-slate-400'}`} />
-                          <div className="truncate">
-                            <div className={`truncate leading-snug ${isActive ? 'text-brand-900 font-bold' : 'text-slate-800'}`}>
-                              {item.name}
-                            </div>
-                            {item.subtitle && (
-                              <div className="text-[10px] text-slate-400 font-normal truncate">
-                                {item.subtitle}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        {item.badge && (
-                          <span className={`text-[9px] px-1.5 py-0.5 rounded-md font-bold uppercase tracking-wide shrink-0 ml-1 ${
-                            isActive
-                              ? 'bg-brand-200/80 text-brand-900'
-                              : 'bg-slate-100 text-slate-500'
-                          }`}>
-                            {item.badge}
-                          </span>
-                        )}
-                      </>
-                    )}
-                  </NavLink>
-                );
-              })}
+        {/* Navigation */}
+        <nav className="flex-1 overflow-y-auto px-3 py-1 space-y-4 text-xs">
+          {/* 5 Core Primary Nav Items */}
+          <div className="space-y-1">
+            <div className="px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400">
+              Primary
             </div>
-          ))}
+            {primaryNav.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                      isActive
+                        ? 'bg-slate-900 text-white font-bold shadow-xs'
+                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                    }`
+                  }
+                >
+                  {({ isActive }) => (
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                      <span className="truncate">{item.name}</span>
+                    </div>
+                  )}
+                </NavLink>
+              );
+            })}
+          </div>
+
+          {/* Secondary Tools Group */}
+          <div className="space-y-1 pt-2 border-t border-slate-100">
+            <button
+              type="button"
+              onClick={() => setMoreOpen(!moreOpen)}
+              className="w-full flex items-center justify-between px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-slate-600"
+            >
+              <span>More Tools</span>
+              <span className="text-[10px] lowercase text-slate-400 font-normal">{moreOpen ? 'hide' : 'show'}</span>
+            </button>
+            {moreOpen && secondaryNav.map((item) => {
+              const Icon = item.icon;
+              return (
+                <NavLink
+                  key={item.path}
+                  to={item.path}
+                  className={({ isActive }) =>
+                    `flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-all ${
+                      isActive
+                        ? 'bg-slate-200/80 text-slate-900 font-bold'
+                        : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                    }`
+                  }
+                >
+                  <div className="flex items-center gap-2.5 min-w-0">
+                    <Icon className="w-3.5 h-3.5 shrink-0 text-slate-400" />
+                    <span className="truncate">{item.name}</span>
+                  </div>
+                </NavLink>
+              );
+            })}
+          </div>
         </nav>
 
         {/* Bottom Profile & Settings Quick Jump */}
@@ -406,47 +403,57 @@ export const MainLayout: React.FC = () => {
 
             {/* Mobile Nav Links */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
-              {navGroups.map(g => (
-                <div key={g.group} className="space-y-1">
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 block">
-                    {g.group}
-                  </span>
-                  {g.items.map(item => {
-                    const Icon = item.icon;
-                    return (
-                      <NavLink
-                        key={item.path}
-                        to={item.path}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className={({ isActive }) =>
-                          `flex items-start justify-between px-3 py-2.5 rounded-xl font-semibold transition-all ${
-                            isActive
-                              ? 'bg-brand-50 text-brand-700 font-bold border border-brand-200/60'
-                              : 'text-slate-700 hover:bg-slate-50 border border-transparent'
-                          }`
-                        }
-                      >
-                        <div className="flex items-start gap-3 min-w-0">
-                          <Icon className="w-4 h-4 text-brand-600 mt-0.5 shrink-0" />
-                          <div className="truncate">
-                            <div className="truncate">{item.name}</div>
-                            {item.subtitle && (
-                              <div className="text-[10px] text-slate-400 font-normal truncate">
-                                {item.subtitle}
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                        {item.badge && (
-                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-brand-100 text-brand-800 font-bold shrink-0 ml-1">
-                            {item.badge}
-                          </span>
-                        )}
-                      </NavLink>
-                    );
-                  })}
-                </div>
-              ))}
+              <div className="space-y-1">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 block">
+                  Primary
+                </span>
+                {primaryNav.map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                          isActive
+                            ? 'bg-slate-900 text-white font-bold'
+                            : 'text-slate-700 hover:bg-slate-100'
+                        }`
+                      }
+                    >
+                      <Icon className="w-4 h-4 shrink-0" />
+                      <span className="truncate">{item.name}</span>
+                    </NavLink>
+                  );
+                })}
+              </div>
+
+              <div className="space-y-1 pt-2 border-t border-slate-100">
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 block">
+                  More Tools
+                </span>
+                {secondaryNav.map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
+                          isActive
+                            ? 'bg-slate-200 text-slate-900 font-bold'
+                            : 'text-slate-600 hover:bg-slate-100'
+                        }`
+                      }
+                    >
+                      <Icon className="w-4 h-4 shrink-0 text-slate-400" />
+                      <span className="truncate">{item.name}</span>
+                    </NavLink>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Drawer Footer */}

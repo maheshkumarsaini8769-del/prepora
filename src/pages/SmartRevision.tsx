@@ -1,23 +1,17 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
-  Repeat,
-  Calendar,
+  RotateCw,
   CheckCircle2,
   Clock,
-  Sparkles,
   ArrowRight,
-  BookOpen,
-  Play,
-  RotateCw,
-  Layers,
-  Award,
-  Filter,
   Check,
-  Zap,
-  Bookmark
+  ChevronDown,
+  ChevronUp,
+  Layers,
+  Repeat
 } from 'lucide-react';
-import { Card, Badge, Button } from '../components/common/UIComponents';
+import { Card, Button } from '../components/common/UIComponents';
 import { progressService } from '../services/progressService';
 import { SubjectName } from '../types';
 
@@ -34,7 +28,6 @@ interface Flashcard {
 }
 
 const INITIAL_FLASHCARDS: Flashcard[] = [
-  // Physics
   {
     id: 'fc-phy-1',
     subject: 'Physics',
@@ -79,8 +72,6 @@ const INITIAL_FLASHCARDS: Flashcard[] = [
     examTip: 'Slope of Stopping Potential (V_0) vs Frequency (ν) graph is ALWAYS constant (h/e), independent of the metal cathode material.',
     examTarget: 'Both'
   },
-
-  // Chemistry
   {
     id: 'fc-chem-1',
     subject: 'Chemistry',
@@ -114,8 +105,6 @@ const INITIAL_FLASHCARDS: Flashcard[] = [
     examTip: 'Half-life for first-order reaction is completely independent of initial reactant concentration [A]_0.',
     examTarget: 'Both'
   },
-
-  // Biology
   {
     id: 'fc-bio-1',
     subject: 'Biology',
@@ -149,8 +138,6 @@ const INITIAL_FLASHCARDS: Flashcard[] = [
     examTip: 'If homozygous recessive percentage is 9%, then q^2 = 0.09 => q = 0.3, p = 0.7, Carrier (2pq) = 2(0.7)(0.3) = 42%.',
     examTarget: 'NEET'
   },
-
-  // Mathematics
   {
     id: 'fc-math-1',
     subject: 'Mathematics',
@@ -177,12 +164,12 @@ const INITIAL_FLASHCARDS: Flashcard[] = [
 
 export const SmartRevision: React.FC = () => {
   const navigate = useNavigate();
-  const [viewMode, setViewMode] = useState<'flashcards' | 'drills'>('flashcards');
-  const [activeTab, setActiveTab] = useState<'due-today' | 'upcoming' | 'completed'>('due-today');
+  const [activeSection, setActiveSection] = useState<'due' | 'flashcards'>('due');
+  const [showUpcoming, setShowUpcoming] = useState<boolean>(false);
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
-  
-  // Flashcard state
-  const [cards, setCards] = useState<Flashcard[]>(INITIAL_FLASHCARDS);
+
+  // Flashcard states
+  const [cards] = useState<Flashcard[]>(INITIAL_FLASHCARDS);
   const [flippedCards, setFlippedCards] = useState<Record<string, boolean>>({});
   const [masteredCards, setMasteredCards] = useState<Record<string, boolean>>(() => {
     try {
@@ -193,102 +180,224 @@ export const SmartRevision: React.FC = () => {
     }
   });
 
+  const [, setDrillRefresh] = useState(0);
   const items = progressService.getRevisionItems();
-  const filteredDrills = items.filter(i => i.status === activeTab);
-  const dueTodayCount = items.filter(i => i.status === 'due-today').length;
+  const dueTodayItems = items.filter((i) => i.status === 'due-today');
+  const upcomingItems = items.filter((i) => i.status === 'upcoming');
+  const completedItems = items.filter((i) => i.status === 'completed');
 
   const toggleFlip = (id: string) => {
-    setFlippedCards(prev => ({ ...prev, [id]: !prev[id] }));
+    setFlippedCards((prev) => ({ ...prev, [id]: !prev[id] }));
   };
 
   const toggleMastered = (id: string, e: React.MouseEvent) => {
     e.stopPropagation();
-    setMasteredCards(prev => {
+    setMasteredCards((prev) => {
       const updated = { ...prev, [id]: !prev[id] };
       localStorage.setItem('prepora_mastered_flashcards', JSON.stringify(updated));
       return updated;
     });
   };
 
-  const filteredCards = cards.filter(c => {
+  const handleMarkComplete = (id: string) => {
+    progressService.completeRevisionItem(id);
+    setDrillRefresh((prev) => prev + 1);
+  };
+
+  const filteredCards = cards.filter((c) => {
     if (selectedSubject !== 'All' && c.subject !== selectedSubject) return false;
     return true;
   });
 
-  const totalFiltered = filteredCards.length;
-  const masteredCount = filteredCards.filter(c => masteredCards[c.id]).length;
-  const masteryPercentage = totalFiltered > 0 ? Math.round((masteredCount / totalFiltered) * 100) : 0;
-
-  const [drillRefresh, setDrillRefresh] = useState(0);
-
-  const handleMarkComplete = (id: string) => {
-    progressService.completeRevisionItem(id);
-    setDrillRefresh(prev => prev + 1);
-  };
-
-  const handleStartRevisionDrill = () => {
-    navigate('/practice/session?count=5');
-  };
+  const masteredCount = filteredCards.filter((c) => masteredCards[c.id]).length;
 
   return (
-    <div className="space-y-6 animate-in fade-in duration-300 pb-16">
-      {/* Header */}
+    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200 pb-16">
+      {/* 1. Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-50 text-violet-700 text-xs font-semibold mb-2">
-            <Repeat className="w-3.5 h-3.5" />
-            <span>Spaced Repetition & High-Yield Flashcards</span>
-          </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Smart Revision</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Revision</h1>
           <p className="text-sm text-slate-500 mt-1">
-            Permanent memory locking using 3D interactive formula flashcards and Ebbinghaus forgetting curve drills.
+            Maintain long-term retention with spaced repetition and high-yield formula review.
           </p>
         </div>
 
-        {/* View Mode Switcher */}
-        <div className="flex items-center gap-2 self-start sm:self-auto">
-          <Button
-            variant={viewMode === 'flashcards' ? 'primary' : 'outline'}
-            onClick={() => setViewMode('flashcards')}
-            className="text-xs font-bold"
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => setActiveSection('due')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              activeSection === 'due'
+                ? 'bg-slate-900 text-white'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+            }`}
           >
-            <Layers className="w-3.5 h-3.5 mr-1" /> Formula Flashcards
-          </Button>
-          <Button
-            variant={viewMode === 'drills' ? 'primary' : 'outline'}
-            onClick={() => setViewMode('drills')}
-            className="text-xs font-bold"
+            Due Today ({dueTodayItems.length})
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveSection('flashcards')}
+            className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              activeSection === 'flashcards'
+                ? 'bg-slate-900 text-white'
+                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+            }`}
           >
-            <Repeat className="w-3.5 h-3.5 mr-1" /> Spaced Drills ({dueTodayCount})
-          </Button>
+            Formula Flashcards
+          </button>
         </div>
       </div>
 
-      {viewMode === 'flashcards' ? (
-        /* Formula Flashcard Deck */
+      {activeSection === 'due' ? (
+        /* Primary Focus: What to Revise Now */
         <div className="space-y-6">
-          {/* Deck Stats & Subject Filters */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-2xl bg-gradient-to-r from-purple-900 to-indigo-900 text-white shadow-lg">
-            <div className="flex items-center gap-3">
-              <div className="p-2.5 rounded-xl bg-white/10 backdrop-blur-md">
-                <Award className="w-5 h-5 text-amber-300" />
-              </div>
+          <Card className="p-6 space-y-4">
+            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <span className="text-[11px] font-bold text-purple-200 uppercase tracking-wider block">Deck Mastery</span>
-                <div className="text-xl font-black">{masteredCount} of {totalFiltered} Cards Mastered ({masteryPercentage}%)</div>
+                <h2 className="text-base font-bold text-slate-900">Due Today</h2>
+                <p className="text-xs text-slate-500">
+                  Topics calculated by your memory curve for review today.
+                </p>
               </div>
+
+              {dueTodayItems.length > 0 && (
+                <Button
+                  size="sm"
+                  variant="primary"
+                  onClick={() => navigate('/practice/session?count=5')}
+                  className="text-xs font-semibold py-1.5 px-3 bg-slate-900 hover:bg-black text-white flex items-center gap-1.5"
+                >
+                  <span>Revise All ({dueTodayItems.length})</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Button>
+              )}
             </div>
 
-            {/* Subject Filters */}
+            {dueTodayItems.length === 0 ? (
+              <div className="text-center py-12">
+                <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
+                <h3 className="font-semibold text-slate-800 text-sm">All Caught Up for Today!</h3>
+                <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
+                  No topics currently pending revision. Continue with fresh practice or review upcoming schedules below.
+                </p>
+              </div>
+            ) : (
+              <div className="space-y-3">
+                {dueTodayItems.map((item, index) => (
+                  <div
+                    key={item.id}
+                    className="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                  >
+                    <div className="space-y-1">
+                      <div className="flex items-center gap-2">
+                        <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-[11px]">
+                          {index + 1}
+                        </span>
+                        <span className="font-bold text-slate-900 text-sm">{item.topic}</span>
+                        <span className="text-slate-400">•</span>
+                        <span className="text-slate-500">{item.subject}</span>
+                      </div>
+                      <div className="text-slate-500 text-[11px] pl-7">
+                        Why due: Interval Stage {item.intervalStage} • Scheduled for {item.nextDueDate}
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 pl-7 sm:pl-0">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleMarkComplete(item.id)}
+                        className="text-xs font-medium py-1 px-2.5 text-slate-700"
+                      >
+                        <Check className="w-3.5 h-3.5 mr-1" /> Mark Done
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="primary"
+                        onClick={() =>
+                          navigate(
+                            `/practice?chapter=${encodeURIComponent(item.chapter)}&topic=${encodeURIComponent(item.topic)}`
+                          )
+                        }
+                        className="text-xs font-semibold py-1 px-3 bg-slate-900 hover:bg-black text-white"
+                      >
+                        Revise
+                      </Button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </Card>
+
+          {/* Progressive Disclosure: Upcoming & Completed Revisions */}
+          <div className="border border-slate-200 rounded-2xl p-4 bg-white space-y-3">
+            <button
+              type="button"
+              onClick={() => setShowUpcoming(!showUpcoming)}
+              className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 hover:text-slate-900"
+            >
+              <span>Upcoming & Completed Revisions ({upcomingItems.length} Upcoming, {completedItems.length} Done)</span>
+              {showUpcoming ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+            </button>
+
+            {showUpcoming && (
+              <div className="pt-3 border-t border-slate-100 space-y-4 text-xs">
+                {upcomingItems.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-slate-600 mb-2 uppercase tracking-wider text-[11px]">Upcoming Queue</h4>
+                    <div className="space-y-2">
+                      {upcomingItems.map((item) => (
+                        <div key={item.id} className="p-3 rounded-lg border border-slate-100 flex items-center justify-between">
+                          <div>
+                            <div className="font-medium text-slate-800">{item.topic}</div>
+                            <div className="text-[11px] text-slate-400">{item.subject} • Scheduled: {item.nextDueDate}</div>
+                          </div>
+                          <span className="text-[11px] font-semibold text-slate-500">Day {item.intervalStage}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {completedItems.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-slate-600 mb-2 uppercase tracking-wider text-[11px]">Recently Completed</h4>
+                    <div className="space-y-2">
+                      {completedItems.map((item) => (
+                        <div key={item.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-between opacity-75">
+                          <div className="font-medium text-slate-700">{item.topic} ({item.subject})</div>
+                          <span className="text-emerald-700 text-[11px] font-semibold flex items-center gap-1">
+                            <Check className="w-3.5 h-3.5" /> Completed
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+      ) : (
+        /* Formula Flashcards Deck */
+        <div className="space-y-6">
+          {/* Controls & Subject Filter */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-slate-200 bg-white">
+            <div className="text-xs">
+              <span className="font-bold text-slate-900">{masteredCount} of {filteredCards.length}</span>
+              <span className="text-slate-500"> formulas mastered</span>
+            </div>
+
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              {(['All', 'Physics', 'Chemistry', 'Biology', 'Mathematics'] as (SubjectName | 'All')[]).map(sub => (
+              {(['All', 'Physics', 'Chemistry', 'Biology', 'Mathematics'] as (SubjectName | 'All')[]).map((sub) => (
                 <button
                   key={sub}
                   onClick={() => setSelectedSubject(sub)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
                     selectedSubject === sub
-                      ? 'bg-white text-purple-950 font-black shadow-sm'
-                      : 'bg-white/10 text-white hover:bg-white/20'
+                      ? 'bg-slate-900 text-white'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
                   {sub}
@@ -297,9 +406,9 @@ export const SmartRevision: React.FC = () => {
             </div>
           </div>
 
-          {/* Flashcards Grid */}
+          {/* Flashcard Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {filteredCards.map(card => {
+            {filteredCards.map((card) => {
               const isFlipped = Boolean(flippedCards[card.id]);
               const isMastered = Boolean(masteredCards[card.id]);
 
@@ -307,87 +416,71 @@ export const SmartRevision: React.FC = () => {
                 <div
                   key={card.id}
                   onClick={() => toggleFlip(card.id)}
-                  className={`relative cursor-pointer rounded-2xl p-5 border transition-all duration-300 select-none shadow-xs hover:shadow-md ${
-                    isMastered
-                      ? 'border-emerald-200 bg-emerald-50/20'
-                      : 'border-slate-200 bg-white hover:border-purple-300'
+                  className={`cursor-pointer rounded-xl p-5 border transition-all select-none ${
+                    isMastered ? 'border-emerald-200 bg-emerald-50/20' : 'border-slate-200 bg-white hover:border-slate-300'
                   }`}
                 >
-                  {/* Top Meta Bar */}
                   <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-100 text-purple-800">
-                        {card.subject}
-                      </span>
-                      <span className="text-xs font-bold text-slate-600">
-                        {card.chapter}
-                      </span>
-                      <span className="text-[10px] font-semibold px-2 py-0.5 rounded-md bg-slate-100 text-slate-500">
-                        {card.examTarget}
-                      </span>
+                    <div className="flex items-center gap-2 text-[11px] font-semibold">
+                      <span className="text-slate-900">{card.subject}</span>
+                      <span className="text-slate-400">•</span>
+                      <span className="text-slate-500">{card.chapter}</span>
                     </div>
 
                     <button
                       type="button"
                       onClick={(e) => toggleMastered(card.id, e)}
-                      className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all flex items-center gap-1 ${
+                      className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-all flex items-center gap-1 ${
                         isMastered
-                          ? 'bg-emerald-100 text-emerald-800 hover:bg-emerald-200'
-                          : 'bg-slate-100 text-slate-600 hover:bg-emerald-50 hover:text-emerald-700'
+                          ? 'bg-emerald-100 text-emerald-800'
+                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                       }`}
                     >
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="w-3 h-3" />
                       <span>{isMastered ? 'Mastered' : 'Mark Mastered'}</span>
                     </button>
                   </div>
 
-                  {/* Card Content (Front vs Back) */}
                   {!isFlipped ? (
-                    /* Front of Card */
-                    <div className="space-y-4 min-h-[140px] flex flex-col justify-between pt-1">
+                    <div className="space-y-3 min-h-[120px] flex flex-col justify-between">
                       <div>
-                        <h3 className="text-base font-bold text-slate-900 mb-2">
-                          {card.title}
-                        </h3>
-                        <p className="text-xs sm:text-sm text-slate-600 font-medium leading-relaxed">
-                          {card.frontPrompt}
-                        </p>
+                        <h3 className="text-sm font-bold text-slate-900 mb-1">{card.title}</h3>
+                        <p className="text-xs text-slate-600 leading-relaxed">{card.frontPrompt}</p>
                       </div>
 
-                      <div className="flex items-center justify-between text-[11px] text-purple-600 font-bold pt-2 border-t border-slate-100">
+                      <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
                         <span className="flex items-center gap-1">
-                          <RotateCw className="w-3.5 h-3.5" /> Click card to reveal formula & derivation
+                          <RotateCw className="w-3 h-3" /> Click to flip
                         </span>
-                        <span className="text-slate-400 font-mono">FRONT</span>
+                        <span className="font-mono uppercase text-[10px]">Front</span>
                       </div>
                     </div>
                   ) : (
-                    /* Back of Card */
-                    <div className="space-y-3.5 min-h-[140px] pt-1">
+                    <div className="space-y-3 min-h-[120px]">
                       <div>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block mb-1">
-                          Governing Mathematical Formulation
+                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
+                          Formula
                         </span>
-                        <div className="p-3 rounded-xl bg-slate-900 text-emerald-300 font-mono text-xs sm:text-sm font-bold shadow-inner">
+                        <div className="p-2.5 rounded-lg bg-slate-900 text-emerald-300 font-mono text-xs font-semibold">
                           {card.formula}
                         </div>
                       </div>
 
-                      <div className="text-xs text-slate-600 space-y-1">
-                        <strong className="text-slate-800 font-semibold block text-[11px]">Variable Definitions:</strong>
-                        <p className="font-medium text-[11px] leading-relaxed text-slate-500">{card.variables}</p>
+                      <div className="text-[11px] text-slate-600">
+                        <span className="font-semibold text-slate-800">Variables: </span>
+                        {card.variables}
                       </div>
 
-                      <div className="p-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-[11px] font-medium leading-relaxed">
-                        <strong className="font-bold text-amber-800 block mb-0.5">⚡ High-Yield Exam Tip:</strong>
+                      <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-[11px]">
+                        <span className="font-semibold text-amber-800">Exam Tip: </span>
                         {card.examTip}
                       </div>
 
-                      <div className="flex items-center justify-between text-[11px] text-purple-600 font-bold pt-2 border-t border-slate-100">
+                      <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
                         <span className="flex items-center gap-1">
-                          <RotateCw className="w-3.5 h-3.5" /> Click to flip back
+                          <RotateCw className="w-3 h-3" /> Click to flip back
                         </span>
-                        <span className="text-slate-400 font-mono">BACK</span>
+                        <span className="font-mono uppercase text-[10px]">Back</span>
                       </div>
                     </div>
                   )}
@@ -395,97 +488,6 @@ export const SmartRevision: React.FC = () => {
               );
             })}
           </div>
-        </div>
-      ) : (
-        /* Spaced Repetition Drills */
-        <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div className="flex gap-2">
-              <Button
-                size="sm"
-                variant={activeTab === 'due-today' ? 'primary' : 'outline'}
-                onClick={() => setActiveTab('due-today')}
-                className="text-xs font-bold"
-              >
-                Due Today ({dueTodayCount})
-              </Button>
-              <Button
-                size="sm"
-                variant={activeTab === 'upcoming' ? 'primary' : 'outline'}
-                onClick={() => setActiveTab('upcoming')}
-                className="text-xs font-bold"
-              >
-                Upcoming
-              </Button>
-              <Button
-                size="sm"
-                variant={activeTab === 'completed' ? 'primary' : 'outline'}
-                onClick={() => setActiveTab('completed')}
-                className="text-xs font-bold"
-              >
-                Completed
-              </Button>
-            </div>
-
-            {dueTodayCount > 0 && (
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={handleStartRevisionDrill}
-                className="font-bold text-xs shadow-md shadow-purple-500/20"
-              >
-                <Play className="w-3.5 h-3.5 mr-1 fill-white" /> Start Due Drill ({dueTodayCount})
-              </Button>
-            )}
-          </div>
-
-          {filteredDrills.length === 0 ? (
-            <Card className="text-center py-16">
-              <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-2" />
-              <h3 className="font-bold text-slate-800 text-base">All Caught Up!</h3>
-              <p className="text-xs text-slate-500 mt-1 mb-4">
-                No mistakes due for review in this queue. Great job staying on top of your memory curve!
-              </p>
-            </Card>
-          ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {filteredDrills.map(item => (
-                <Card key={item.id} className="p-5 flex flex-col justify-between space-y-4">
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-purple-50 text-purple-700">
-                        {item.subject}
-                      </span>
-                      <span className="text-xs text-slate-400 font-medium flex items-center gap-1">
-                        <Clock className="w-3 h-3" /> Interval: Day {item.intervalStage}
-                      </span>
-                    </div>
-
-                    <h3 className="font-bold text-sm text-slate-900 leading-snug">
-                      {item.topic}
-                    </h3>
-                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">
-                      {item.chapter}
-                    </p>
-                  </div>
-
-                  <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                    <span className="text-[11px] font-semibold text-slate-400">
-                      Scheduled: {item.nextDueDate}
-                    </span>
-                    <Button
-                      size="sm"
-                      variant="outline"
-                      onClick={() => handleMarkComplete(item.id)}
-                      className="text-xs font-bold"
-                    >
-                      <Check className="w-3.5 h-3.5 mr-1" /> Mark Mastered
-                    </Button>
-                  </div>
-                </Card>
-              ))}
-            </div>
-          )}
         </div>
       )}
     </div>
