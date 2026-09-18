@@ -4,7 +4,9 @@
 
 @layer base {
   :root,
-  [data-theme="black"] {
+  [data-theme="black"],
+  html[data-theme="black"],
+  body[data-theme="black"] {
     --color-brand-50: 247 247 247;
     --color-brand-100: 229 229 229;
     --color-brand-200: 212 212 216;
@@ -18,7 +20,9 @@
     --color-brand-950: 0 0 0;
   }
 
-  [data-theme="emerald"] {
+  [data-theme="emerald"],
+  html[data-theme="emerald"],
+  body[data-theme="emerald"] {
     --color-brand-50: 236 253 245;
     --color-brand-100: 209 250 229;
     --color-brand-200: 167 243 208;
@@ -32,21 +36,25 @@
     --color-brand-950: 2 44 34;
   }
 
-  [data-theme="indigo"] {
-    --color-brand-50: 238 242 255;
-    --color-brand-100: 224 231 255;
-    --color-brand-200: 199 210 254;
-    --color-brand-300: 165 180 252;
-    --color-brand-400: 129 140 248;
-    --color-brand-500: 99 102 241;
-    --color-brand-600: 79 70 229;
-    --color-brand-700: 67 56 202;
-    --color-brand-800: 55 48 163;
-    --color-brand-900: 49 46 129;
-    --color-brand-950: 30 27 75;
+  [data-theme="blue"],
+  html[data-theme="blue"],
+  body[data-theme="blue"] {
+    --color-brand-50: 239 246 255;
+    --color-brand-100: 219 234 254;
+    --color-brand-200: 191 219 254;
+    --color-brand-300: 147 197 253;
+    --color-brand-400: 96 165 250;
+    --color-brand-500: 59 130 246;
+    --color-brand-600: 37 99 235;
+    --color-brand-700: 29 78 216;
+    --color-brand-800: 30 64 175;
+    --color-brand-900: 30 58 138;
+    --color-brand-950: 23 37 84;
   }
 
-  [data-theme="ocean"] {
+  [data-theme="ocean"],
+  html[data-theme="ocean"],
+  body[data-theme="ocean"] {
     --color-brand-50: 240 249 255;
     --color-brand-100: 224 242 254;
     --color-brand-200: 186 230 253;
@@ -60,21 +68,9 @@
     --color-brand-950: 8 47 73;
   }
 
-  [data-theme="emerald"] {
-    --color-brand-50: 236 253 245;
-    --color-brand-100: 209 250 229;
-    --color-brand-200: 167 243 208;
-    --color-brand-300: 110 231 183;
-    --color-brand-400: 52 211 153;
-    --color-brand-500: 16 185 129;
-    --color-brand-600: 5 150 105;
-    --color-brand-700: 4 120 87;
-    --color-brand-800: 6 95 70;
-    --color-brand-900: 6 78 59;
-    --color-brand-950: 2 44 34;
-  }
-
-  [data-theme="sunset"] {
+  [data-theme="sunset"],
+  html[data-theme="sunset"],
+  body[data-theme="sunset"] {
     --color-brand-50: 255 241 242;
     --color-brand-100: 255 228 230;
     --color-brand-200: 254 205 211;
@@ -86,6 +82,22 @@
     --color-brand-800: 159 18 57;
     --color-brand-900: 136 19 55;
     --color-brand-950: 76 5 25;
+  }
+
+  [data-theme="indigo"],
+  html[data-theme="indigo"],
+  body[data-theme="indigo"] {
+    --color-brand-50: 238 242 255;
+    --color-brand-100: 224 231 255;
+    --color-brand-200: 199 210 254;
+    --color-brand-300: 165 180 252;
+    --color-brand-400: 129 140 248;
+    --color-brand-500: 99 102 241;
+    --color-brand-600: 79 70 229;
+    --color-brand-700: 67 56 202;
+    --color-brand-800: 55 48 163;
+    --color-brand-900: 49 46 129;
+    --color-brand-950: 30 27 75;
   }
 
 

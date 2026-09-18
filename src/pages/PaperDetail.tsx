@@ -15,12 +15,14 @@ import {
   RotateCcw,
   Sparkles,
   Share2,
-  Bookmark
+  Bookmark,
+  ExternalLink,
+  ShieldCheck
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { paperService } from '../services/paperService';
 import { questionService } from '../services/questionService';
-import { Test, Question } from '../types';
+import { Test, Question, SubjectName } from '../types';
 import { MathRenderer } from '../components/common/MathRenderer';
 
 export const PaperDetail: React.FC = () => {
@@ -60,7 +62,7 @@ export const PaperDetail: React.FC = () => {
       const pool = questionService.filterQuestions({
         exam: paper.exam,
         classLevel: paper.classLevel,
-        subject: paper.subject && (paper.subject as string) !== 'All' ? paper.subject : undefined,
+        subject: paper.subject && (paper.subject as string) !== 'All' && (paper.subject as string) !== 'Full Syllabus' ? (paper.subject as SubjectName) : undefined,
       });
       if (pool.length > 0) {
         list = pool.slice(0, Math.min(paper.totalQuestions, 50));
@@ -91,7 +93,9 @@ export const PaperDetail: React.FC = () => {
       title: `${paper.title} (Timed Mode)`,
       exam: paper.exam,
       classLevel: paper.classLevel,
-      subjects: paper.subject ? [paper.subject] : ['Physics', 'Chemistry', 'Mathematics'],
+      subjects: paper.subject && paper.subject !== 'Full Syllabus' && paper.subject !== 'All'
+        ? [paper.subject as SubjectName]
+        : (paper.exam === 'NEET' ? ['Physics', 'Chemistry', 'Biology'] : ['Physics', 'Chemistry', 'Mathematics']),
       totalQuestions: questions.length || paper.totalQuestions,
       durationMinutes: paper.durationMinutes,
       difficulty: 'Mixed',
@@ -141,11 +145,52 @@ export const PaperDetail: React.FC = () => {
           <span className="px-2.5 py-0.5 rounded-lg bg-purple-500/30 text-purple-200 border border-purple-400/30 text-xs font-black">
             {paper.board ? `${paper.board} Board` : paper.exam}
           </span>
-          <span className="px-2.5 py-0.5 rounded-lg bg-white/10 text-white border border-white/20 text-xs font-bold">
-            {paper.paperType}
-          </span>
-          <span className="px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold">
-            Official Answer Key & Solutions
+          
+          {/* Canonical Content Type Badge */}
+          {paper.contentType === 'REAL_PYQ' ? (
+            <span className="px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-400/40 text-xs font-black flex items-center gap-1.5 shadow-xs">
+              <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+              REAL PYQ (OFFICIAL EXAM)
+            </span>
+          ) : paper.contentType === 'MODEL_PAPER' ? (
+            <span className="px-2.5 py-0.5 rounded-lg bg-blue-500/20 text-blue-300 border border-blue-400/40 text-xs font-black flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-blue-400"></span>
+              OFFICIAL MODEL PAPER
+            </span>
+          ) : paper.contentType === 'MOCK_TEST' ? (
+            <span className="px-2.5 py-0.5 rounded-lg bg-purple-500/20 text-purple-300 border border-purple-400/40 text-xs font-black flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-purple-400"></span>
+              FULL MOCK TEST
+            </span>
+          ) : (
+            <span className="px-2.5 py-0.5 rounded-lg bg-slate-500/20 text-slate-300 border border-slate-400/40 text-xs font-black flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-slate-400"></span>
+              SAMPLE PRACTICE PAPER
+            </span>
+          )}
+
+          {/* Answer Key Source Badge */}
+          {paper.answerKeySource === 'Official' && paper.answerKeyVerified ? (
+            <span className="px-2.5 py-0.5 rounded-lg bg-emerald-500/20 text-emerald-300 border border-emerald-400/30 text-xs font-bold flex items-center gap-1.5">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+              Official Examination Answer Key
+            </span>
+          ) : paper.answerKeySource === 'AI_Generated' ? (
+            <span className="px-2.5 py-0.5 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-400/30 text-xs font-bold">
+              AI-Generated Solutions
+            </span>
+          ) : (
+            <span className="px-2.5 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-xs font-bold">
+              PREPORA Verified Pedagogical Solutions
+            </span>
+          )}
+
+          <span className={`px-2 py-0.5 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
+            paper.verificationStatus === 'VERIFIED'
+              ? 'bg-emerald-950/60 text-emerald-300 border border-emerald-500/40'
+              : 'bg-amber-950/60 text-amber-300 border border-amber-500/40'
+          }`}>
+            Audit: {paper.verificationStatus || 'VERIFIED'}
           </span>
         </div>
 
@@ -156,6 +201,48 @@ export const PaperDetail: React.FC = () => {
           <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-3xl leading-relaxed">
             {paper.description || 'Full question paper with step-by-step detailed explanations, formulas, and verified answer keys.'}
           </p>
+        </div>
+
+        {/* Provenance and Verification Metadata Strip */}
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-300">
+            {paper.session && (
+              <div>
+                <span className="text-slate-400">Session:</span>{' '}
+                <strong className="text-white">{paper.session}</strong>
+              </div>
+            )}
+            {paper.date && (
+              <div>
+                <span className="text-slate-400">Exam Date:</span>{' '}
+                <strong className="text-white">{paper.date}</strong>
+              </div>
+            )}
+            {paper.shift && (
+              <div>
+                <span className="text-slate-400">Shift / Slot:</span>{' '}
+                <strong className="text-white">{paper.shift}</strong>
+              </div>
+            )}
+            {paper.sourceType && (
+              <div>
+                <span className="text-slate-400">Authority:</span>{' '}
+                <strong className="text-emerald-400">{paper.sourceType}</strong>
+              </div>
+            )}
+          </div>
+
+          {paper.sourceURL && (
+            <a
+              href={paper.sourceURL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition border border-white/15"
+            >
+              <ExternalLink className="w-3.5 h-3.5 text-purple-300" />
+              <span>Official Document Source</span>
+            </a>
+          )}
         </div>
 
         {/* Paper Quick Stats */}
@@ -301,7 +388,7 @@ export const PaperDetail: React.FC = () => {
                 >
                   {/* Top Metadata Header */}
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <span className="w-7 h-7 rounded-xl bg-purple-700 text-white font-black text-xs flex items-center justify-center">
                         Q{idx + 1}
                       </span>
@@ -313,6 +400,19 @@ export const PaperDetail: React.FC = () => {
                           {q.chapter}
                         </span>
                       )}
+                      <span className={`px-2 py-0.5 rounded-lg text-[10px] font-bold border ${
+                        paper.contentType === 'REAL_PYQ'
+                          ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                          : paper.contentType === 'MODEL_PAPER'
+                          ? 'bg-blue-50 text-blue-700 border-blue-200'
+                          : 'bg-slate-100 text-slate-600 border-slate-200'
+                      }`}>
+                        {paper.contentType === 'REAL_PYQ'
+                          ? `Official PYQ (${paper.exam} ${paper.year})`
+                          : paper.contentType === 'MODEL_PAPER'
+                          ? 'Official Model Paper'
+                          : 'Practice Set'}
+                      </span>
                     </div>
 
                     <div className="flex items-center gap-2">
@@ -405,7 +505,13 @@ export const PaperDetail: React.FC = () => {
                         </div>
                         <span className="text-[11px] font-bold text-purple-700 flex items-center gap-1">
                           <Lightbulb className="w-3.5 h-3.5" />
-                          <span>Step-by-Step Explanation</span>
+                          <span>
+                            {paper?.answerKeySource === 'Official' && paper?.answerKeyVerified
+                              ? 'Official Authority Solution & Rationale'
+                              : paper?.answerKeySource === 'AI_Generated'
+                              ? 'AI-Generated Solution & Formula Walkthrough'
+                              : 'PREPORA Verified Pedagogical Explanation'}
+                          </span>
                         </span>
                       </div>
 

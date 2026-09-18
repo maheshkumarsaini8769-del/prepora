@@ -269,6 +269,23 @@ export const PracticeSession: React.FC = () => {
           >
             {currentQ.difficulty}
           </Badge>
+          {currentQ.contentType === 'REAL_PYQ' || currentQ.source === 'PYQ' || currentQ.source === 'Official PYQ' ? (
+            <Badge variant="success" size="sm">
+              Official PYQ {currentQ.year ? `(${currentQ.year})` : ''}
+            </Badge>
+          ) : currentQ.contentType === 'MODEL_PAPER' || currentQ.source === 'Model Paper' ? (
+            <Badge variant="info" size="sm">
+              Official Model Paper
+            </Badge>
+          ) : currentQ.contentType === 'AI_GENERATED' ? (
+            <Badge variant="warning" size="sm">
+              AI Generated
+            </Badge>
+          ) : (
+            <Badge variant="slate" size="sm">
+              Curated Practice
+            </Badge>
+          )}
           <span className="text-xs text-slate-400 ml-auto hidden sm:inline">{currentQ.topic}</span>
 
           {/* Task 4: I'm Stuck & Report Buttons */}

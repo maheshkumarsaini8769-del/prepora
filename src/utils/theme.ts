@@ -78,6 +78,9 @@ export function applyTheme(themeKey: ThemeKey) {
   try {
     localStorage.setItem(STORAGE_KEY, themeKey);
     document.documentElement.setAttribute('data-theme', themeKey);
+    if (document.body) {
+      document.body.setAttribute('data-theme', themeKey);
+    }
     window.dispatchEvent(new CustomEvent('prepora-theme-change', { detail: themeKey }));
   } catch (e) {
     // fallback
@@ -88,4 +91,11 @@ export function applyTheme(themeKey: ThemeKey) {
 if (typeof document !== 'undefined') {
   const initial = getSavedTheme();
   document.documentElement.setAttribute('data-theme', initial);
+  if (document.body) {
+    document.body.setAttribute('data-theme', initial);
+  } else {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.setAttribute('data-theme', initial);
+    });
+  }
 }

@@ -18,15 +18,20 @@ export type MistakeReason =
   | 'Careless Mistake' 
   | 'Other';
 
-export type ContentType = 
-  | 'QUESTION_BANK' 
-  | 'PYQ' 
+export type CanonicalContentType = 
+  | 'REAL_PYQ' 
   | 'MODEL_PAPER' 
-  | 'SAMPLE_PAPER' 
   | 'MOCK_TEST' 
-  | 'PRACTICE_SET' 
   | 'AI_GENERATED' 
+  | 'QUESTION_BANK' 
+  | 'SAMPLE_PAPER' 
   | 'CUSTOM_TEST';
+
+export type ContentType = CanonicalContentType | 'PYQ' | 'PRACTICE_SET';
+
+export type VerificationStatus = 'VERIFIED' | 'UNVERIFIED' | 'NEEDS_REVIEW' | 'SOURCE_ONLY';
+export type RightsStatus = 'Public Domain' | 'Educational Fair Use' | 'Licensed' | 'Review Required';
+export type AnswerKeySource = 'Official' | 'PREPORA' | 'AI_Generated';
 
 export interface Question {
   id: string;
@@ -144,14 +149,31 @@ export interface Paper {
   exam: ExamType;
   classLevel?: ClassLevel;
   board?: 'CBSE' | 'RBSE';
-  subject?: SubjectName;
+  subject?: SubjectName | 'Full Syllabus' | 'All';
   year: number;
-  paperType: 'PYQ' | 'Model Paper' | 'Mock Paper';
+  contentType: CanonicalContentType;
+  paperType: 'PYQ' | 'Model Paper' | 'Mock Paper' | 'Sample Paper';
   durationMinutes: number;
   totalQuestions: number;
+  session?: string;
+  date?: string;
   shift?: string;
+  paperNumber?: string;
+  setCode?: string;
+  language?: 'English' | 'Hindi' | 'Bilingual';
+  sourceURL?: string;
+  sourceDocument?: string;
+  sourceType?: 'Official NTA' | 'Official JEE Advanced' | 'Official CBSE' | 'Official RBSE' | 'Internal' | 'Curated' | 'AI Generated';
+  sourceDocumentHash?: string;
+  verificationDate?: string;
+  verificationStatus: VerificationStatus;
+  rightsStatus?: RightsStatus;
+  answerKeySource: AnswerKeySource;
+  answerKeyVerified: boolean;
   description: string;
   questionIds: string[];
+  fileUrl?: string;
+  answerKeyUrl?: string;
 }
 
 export interface UserProfile {

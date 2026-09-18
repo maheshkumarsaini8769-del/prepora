@@ -114,12 +114,57 @@ async function ensureSeededPapers() {
   }
 }
 
-// GET /api/papers - Public list for students & search
+// GET /api/papers - List papers with strict contentType filtering
 router.get('/', async (req: Request, res: Response) => {
   try {
     await ensureSeededPapers();
-    const { exam, subject, year, paperType, search } = req.query;
+    const { exam, subject, year, contentType, paperType, session, shift, search } = req.query;
     const filter: any = { status: 'Published' };
+
+    if (contentType && contentType !== 'All') {
+      filter.contentType = contentType;
+      if (contentType === 'REAL_PYQ') {
+        filter.verificationStatus = 'VERIFIED';
+      }
+    }
+
+    if (exam && exam !== 'All') {
+      if (exam === 'Board') {
+        filter.exam = { $in: ['CBSE', 'RBSE', 'Board'] };
+      } else if (exam === 'JEE') {
+        filter.exam = 'JEE';
+      } else {
+        filter.exam = exam;
+      }
+    }
+    if (subject && subject !== 'All') filter.subject = subject;
+    if (year && year !== 'All') filter.year = Number(year);
+    if (paperType && paperType !== 'All') filter.paperType = paperType;
+    if (session && session !== 'All') filter.session = session;
+    if (shift && shift !== 'All') filter.shift = shift;
+
+    if (search && typeof search === 'string') {
+      const regex = new RegExp(search, 'i');
+      filter.$or = [{ title: regex }, { description: regex }, { subject: regex }];
+    }
+
+    const papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
+    res.json({ success: true, count: papers.length, papers });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Failed to fetch papers', error: err.message });
+  }
+});
+
+// GET /api/papers/pyqs - Strictly REAL_PYQ only
+router.get('/pyqs', async (req: Request, res: Response) => {
+  try {
+    await ensureSeededPapers();
+    const { exam, subject, year, session, shift, search } = req.query;
+    const filter: any = { 
+      status: 'Published',
+      contentType: 'REAL_PYQ',
+      verificationStatus: 'VERIFIED'
+    };
 
     if (exam && exam !== 'All') {
       if (exam === 'Board') {
@@ -130,7 +175,8 @@ router.get('/', async (req: Request, res: Response) => {
     }
     if (subject && subject !== 'All') filter.subject = subject;
     if (year && year !== 'All') filter.year = Number(year);
-    if (paperType && paperType !== 'All') filter.paperType = paperType;
+    if (session && session !== 'All') filter.session = session;
+    if (shift && shift !== 'All') filter.shift = shift;
 
     if (search && typeof search === 'string') {
       const regex = new RegExp(search, 'i');
@@ -138,9 +184,77 @@ router.get('/', async (req: Request, res: Response) => {
     }
 
     const papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
-    res.json({ success: true, papers });
+    res.json({ success: true, count: papers.length, papers });
   } catch (err: any) {
-    res.status(500).json({ success: false, message: 'Failed to fetch papers', error: err.message });
+    res.status(500).json({ success: false, message: 'Failed to fetch real PYQs', error: err.message });
+  }
+});
+
+// GET /api/papers/models - Strictly MODEL_PAPER only
+router.get('/models', async (req: Request, res: Response) => {
+  try {
+    await ensureSeededPapers();
+    const filter: any = { status: 'Published', contentType: 'MODEL_PAPER' };
+    const papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
+    res.json({ success: true, count: papers.length, papers });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Failed to fetch model papers', error: err.message });
+  }
+});
+
+// GET /api/papers/mocks - Strictly MOCK_TEST only
+router.get('/mocks', async (req: Request, res: Response) => {
+  try {
+    await ensureSeededPapers();
+    const filter: any = { status: 'Published', contentType: 'MOCK_TEST' };
+    const papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
+    res.json({ success: true, count: papers.length, papers });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Failed to fetch mock tests', error: err.message });
+  }
+});
+
+// GET /api/papers/samples - Strictly SAMPLE_PAPER only
+router.get('/samples', async (req: Request, res: Response) => {
+  try {
+    await ensureSeededPapers();
+    const filter: any = { status: 'Published', contentType: 'SAMPLE_PAPER' };
+    const papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
+    res.json({ success: true, count: papers.length, papers });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Failed to fetch sample papers', error: err.message });
+  }
+});
+
+// GET /api/papers/inventory - Real-time inventory audit report
+router.get('/inventory', async (_req: Request, res: Response) => {
+  try {
+    await ensureSeededPapers();
+    const [total, realPYQs, verifiedPYQs, modelPapers, mockTests, samplePapers] = await Promise.all([
+      Paper.countDocuments(),
+      Paper.countDocuments({ contentType: 'REAL_PYQ' }),
+      Paper.countDocuments({ contentType: 'REAL_PYQ', verificationStatus: 'VERIFIED' }),
+      Paper.countDocuments({ contentType: 'MODEL_PAPER' }),
+      Paper.countDocuments({ contentType: 'MOCK_TEST' }),
+      Paper.countDocuments({ contentType: 'SAMPLE_PAPER' })
+    ]);
+
+    res.json({
+      success: true,
+      inventory: {
+        totalPapers: total,
+        realPYQs: {
+          total: realPYQs,
+          verified: verifiedPYQs,
+          unverified: realPYQs - verifiedPYQs
+        },
+        modelPapers,
+        mockTests,
+        samplePapers
+      }
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Failed to fetch inventory', error: err.message });
   }
 });
 

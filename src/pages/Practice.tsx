@@ -78,7 +78,7 @@ export const Practice: React.FC = () => {
                 }}
                 className={`py-3 px-3 rounded-xl font-bold text-xs border text-center transition-all ${
                   subject === sub
-                    ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
+                    ? 'bg-brand-600 border-brand-600 text-white shadow-xs'
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
                 }`}
               >

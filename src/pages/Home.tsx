@@ -86,7 +86,7 @@ export const Home: React.FC = () => {
       <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-xs space-y-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-slate-900" />
+            <span className="w-2 h-2 rounded-full bg-brand-600" />
             <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
               What Should I Study Now?
             </h2>
@@ -126,7 +126,7 @@ export const Home: React.FC = () => {
             variant="primary"
             size="md"
             onClick={() => navigate(topRecommendation.actionUrl)}
-            className="font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white py-3 px-6 shadow-xs flex items-center justify-center gap-2"
+            className="font-bold text-xs py-3 px-6 shadow-xs flex items-center justify-center gap-2"
           >
             <span>Start Practice</span>
             <ArrowRight className="w-4 h-4" />
@@ -171,7 +171,7 @@ export const Home: React.FC = () => {
                 onClick={() => handleToggleDailyTask(nextPendingTask.id)}
                 className={`w-6 h-6 rounded-lg flex items-center justify-center border transition-colors ${
                   nextPendingTask.status === 'completed'
-                    ? 'bg-slate-900 border-slate-900 text-white'
+                    ? 'bg-brand-600 border-brand-600 text-white'
                     : 'bg-white border-slate-300 hover:border-slate-500'
                 }`}
               >
@@ -189,7 +189,7 @@ export const Home: React.FC = () => {
               size="sm"
               variant="primary"
               onClick={() => navigate(nextPendingTask.actionUrl)}
-              className="bg-slate-900 text-white text-xs font-bold py-1.5 px-3 self-end sm:self-auto"
+              className="text-xs font-bold py-1.5 px-3 self-end sm:self-auto"
             >
               Continue Plan
             </Button>
@@ -242,7 +242,7 @@ export const Home: React.FC = () => {
             size="sm"
             variant="primary"
             onClick={() => navigate(`/practice?chapter=${encodeURIComponent(activePractice.chapter)}`)}
-            className="bg-slate-900 text-white text-xs font-bold py-1.5 px-3 self-end sm:self-auto"
+            className="text-xs font-bold py-1.5 px-3 self-end sm:self-auto"
           >
             Resume Practice
           </Button>

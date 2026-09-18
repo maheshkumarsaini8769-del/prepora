@@ -8,10 +8,25 @@ export interface IPaper extends Document {
   board?: 'CBSE' | 'RBSE' | 'National';
   subject?: string;
   year: number;
-  shift?: string;
+  contentType: 'REAL_PYQ' | 'MODEL_PAPER' | 'MOCK_TEST' | 'AI_GENERATED' | 'QUESTION_BANK' | 'SAMPLE_PAPER' | 'CUSTOM_TEST';
   paperType: 'PYQ' | 'Model Paper' | 'Mock Paper' | 'Sample Paper';
   durationMinutes: number;
   totalQuestions: number;
+  session?: string;
+  date?: string;
+  shift?: string;
+  paperNumber?: string;
+  setCode?: string;
+  language?: 'English' | 'Hindi' | 'Bilingual';
+  sourceURL?: string;
+  sourceDocument?: string;
+  sourceType?: 'Official NTA' | 'Official JEE Advanced' | 'Official CBSE' | 'Official RBSE' | 'Internal' | 'Curated' | 'AI Generated';
+  sourceDocumentHash?: string;
+  verificationDate?: string;
+  verificationStatus: 'VERIFIED' | 'UNVERIFIED' | 'NEEDS_REVIEW' | 'SOURCE_ONLY';
+  rightsStatus?: 'Public Domain' | 'Educational Fair Use' | 'Licensed' | 'Review Required';
+  answerKeySource: 'Official' | 'PREPORA' | 'AI_Generated';
+  answerKeyVerified: boolean;
   description: string;
   questionIds: string[];
   fileUrl?: string;
@@ -38,7 +53,13 @@ const PaperSchema: Schema = new Schema(
     board: { type: String, enum: ['CBSE', 'RBSE', 'National'] },
     subject: { type: String, default: 'Full Syllabus' },
     year: { type: Number, required: true, index: true },
-    shift: { type: String, default: '' },
+    contentType: {
+      type: String,
+      required: true,
+      enum: ['REAL_PYQ', 'MODEL_PAPER', 'MOCK_TEST', 'AI_GENERATED', 'QUESTION_BANK', 'SAMPLE_PAPER', 'CUSTOM_TEST'],
+      default: 'REAL_PYQ',
+      index: true
+    },
     paperType: {
       type: String,
       required: true,
@@ -48,6 +69,38 @@ const PaperSchema: Schema = new Schema(
     },
     durationMinutes: { type: Number, default: 180 },
     totalQuestions: { type: Number, default: 75 },
+    session: { type: String, default: '' },
+    date: { type: String, default: '' },
+    shift: { type: String, default: '' },
+    paperNumber: { type: String, default: '' },
+    setCode: { type: String, default: '' },
+    language: { type: String, enum: ['English', 'Hindi', 'Bilingual'], default: 'English' },
+    sourceURL: { type: String, default: '' },
+    sourceDocument: { type: String, default: '' },
+    sourceType: {
+      type: String,
+      enum: ['Official NTA', 'Official JEE Advanced', 'Official CBSE', 'Official RBSE', 'Internal', 'Curated', 'AI Generated'],
+      default: 'Official NTA'
+    },
+    sourceDocumentHash: { type: String, default: '' },
+    verificationDate: { type: String, default: '' },
+    verificationStatus: {
+      type: String,
+      enum: ['VERIFIED', 'UNVERIFIED', 'NEEDS_REVIEW', 'SOURCE_ONLY'],
+      default: 'VERIFIED',
+      index: true
+    },
+    rightsStatus: {
+      type: String,
+      enum: ['Public Domain', 'Educational Fair Use', 'Licensed', 'Review Required'],
+      default: 'Educational Fair Use'
+    },
+    answerKeySource: {
+      type: String,
+      enum: ['Official', 'PREPORA', 'AI_Generated'],
+      default: 'Official'
+    },
+    answerKeyVerified: { type: Boolean, default: true },
     description: { type: String, default: '' },
     questionIds: { type: [String], default: [] },
     fileUrl: { type: String, default: '' },
@@ -69,6 +122,7 @@ const PaperSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+PaperSchema.index({ contentType: 1, exam: 1, year: -1, status: 1 });
 PaperSchema.index({ exam: 1, year: -1, status: 1 });
 PaperSchema.index({ title: 'text', description: 'text' });
 
