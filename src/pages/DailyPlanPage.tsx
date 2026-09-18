@@ -101,47 +101,47 @@ export const DailyPlanPage: React.FC = () => {
   });
 
   return (
-    <div className="max-w-5xl mx-auto space-y-7 pb-20 animate-slide-up">
-      {/* Top Banner */}
-      <div className="bg-gradient-to-r from-purple-950 via-brand-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-white/10">
+    <div className="max-w-5xl mx-auto space-y-6 pb-20 animate-slide-up">
+      {/* Top Banner - Clean Monochrome Academic Header */}
+      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-semibold backdrop-blur-md">
-            <Calendar className="w-3.5 h-3.5 text-amber-300" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+            <Calendar className="w-3.5 h-3.5 text-slate-700" />
             <span>Targeted Daily Preparation Sequence</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             Smart Daily Study Plan
           </h1>
-          <p className="text-xs sm:text-sm text-purple-200/90 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
             Rule-based sequence calibrated from your weak topics, pending spaced revisions, and mistake logs. Zero guesswork — start task 1 and build momentum.
           </p>
         </div>
 
         {/* Progress Card */}
-        <div className="bg-white/10 backdrop-blur-md p-5 rounded-2xl border border-white/20 text-center min-w-[210px] shrink-0 space-y-2">
-          <span className="text-[10px] uppercase font-bold text-purple-200 tracking-wider block">
+        <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 text-center min-w-[210px] shrink-0 space-y-2">
+          <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
             Today's Execution ({formattedDate})
           </span>
-          <div className="text-3xl font-black text-white">
+          <div className="text-2xl font-black text-slate-900">
             {completedCount} / {totalTasks} Completed
           </div>
-          <div className="w-full bg-white/20 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
             <div
-              className="bg-emerald-400 h-full rounded-full transition-all duration-500"
+              className="bg-slate-900 h-full rounded-full transition-all duration-500"
               style={{ width: `${progressPercent}%` }}
             />
           </div>
-          <span className="text-[11px] text-purple-200 block font-medium">
+          <span className="text-[11px] text-slate-500 block font-medium">
             {dailyPlan.completedMinutes} of {dailyPlan.totalDurationMinutes} minutes finished ({progressPercent}%)
           </span>
         </div>
       </div>
 
       {/* Action Toolbar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <span className="text-xs font-bold text-slate-700 flex items-center gap-1.5">
-            <Clock className="w-4 h-4 text-purple-600" />
+            <Clock className="w-4 h-4 text-slate-700" />
             <span>Planned Commitment: <strong>{dailyPlan.totalDurationMinutes} Minutes</strong></span>
           </span>
           <span className="text-xs text-slate-400">•</span>

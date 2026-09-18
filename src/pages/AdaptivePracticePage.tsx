@@ -99,25 +99,25 @@ export const AdaptivePracticePage: React.FC = () => {
 
   return (
     <div className="max-w-3xl mx-auto space-y-7 pb-20 animate-slide-up">
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-purple-950 via-brand-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+      {/* Header Banner - Clean Monochrome Academic Header */}
+      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-semibold backdrop-blur-md">
-            <TrendingUp className="w-3.5 h-3.5 text-amber-300" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+            <TrendingUp className="w-3.5 h-3.5 text-slate-700" />
             <span>Rule-Based Progressive Difficulty</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             Adaptive Practice Loop
           </h1>
-          <p className="text-xs sm:text-sm text-purple-200/90 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
             Correct answers elevate you to harder questions. Repeated mistakes step you down to rebuild conceptual clarity.
           </p>
         </div>
 
-        <div className="bg-white/10 backdrop-blur-md p-3.5 rounded-2xl border border-white/20 text-center shrink-0">
-          <span className="text-[10px] uppercase font-bold text-purple-200 block">Current Dynamic Tier</span>
-          <span className={`text-base font-black px-3 py-1 rounded-full inline-block mt-1 ${
-            currentTier === 'Hard' ? 'bg-rose-500 text-white' : currentTier === 'Medium' ? 'bg-amber-400 text-slate-900' : 'bg-emerald-400 text-slate-900'
+        <div className="bg-slate-50 p-4 rounded-xl border border-slate-200 text-center shrink-0">
+          <span className="text-[10px] uppercase font-bold text-slate-400 block">Current Dynamic Tier</span>
+          <span className={`text-xs font-extrabold px-3 py-1 rounded-full inline-block mt-1 ${
+            currentTier === 'Hard' ? 'bg-rose-100 text-rose-800' : currentTier === 'Medium' ? 'bg-amber-100 text-amber-800' : 'bg-emerald-100 text-emerald-800'
           }`}>
             {currentTier} Tier
           </span>
@@ -125,7 +125,7 @@ export const AdaptivePracticePage: React.FC = () => {
       </div>
 
       {/* Progress & Tier Gauge */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex items-center justify-between">
+      <div className="bg-white rounded-xl p-4 border border-slate-200 shadow-xs flex items-center justify-between">
         <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
           <span>Session: {attemptCount} Attempted</span>
           <span>•</span>
@@ -136,9 +136,9 @@ export const AdaptivePracticePage: React.FC = () => {
           {(['Easy', 'Medium', 'Hard'] as const).map(tier => (
             <span
               key={tier}
-              className={`px-2.5 py-1 rounded-xl text-xs font-bold transition-all ${
+              className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
                 currentTier === tier
-                  ? 'bg-purple-600 text-white shadow-2xs scale-105'
+                  ? 'bg-slate-900 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-400'
               }`}
             >

@@ -291,8 +291,8 @@ export const AdminSystemSecurity: React.FC = () => {
                           <td className="py-2.5 px-4 whitespace-nowrap">
                             <span className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                               sess.role === 'admin'
-                                ? 'bg-purple-500/10 text-purple-400 border border-purple-500/30'
-                                : 'bg-brand-500/10 text-brand-400 border border-brand-500/30'
+                                ? 'bg-slate-800 text-slate-300 border border-slate-700'
+                                : 'bg-slate-800/60 text-slate-400 border border-slate-700'
                             }`}>
                               {sess.role?.toUpperCase() || 'STUDENT'}
                             </span>

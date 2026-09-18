@@ -4,6 +4,20 @@
 
 @layer base {
   :root,
+  [data-theme="black"] {
+    --color-brand-50: 247 247 247;
+    --color-brand-100: 229 229 229;
+    --color-brand-200: 212 212 216;
+    --color-brand-300: 161 161 170;
+    --color-brand-400: 115 115 115;
+    --color-brand-500: 82 82 91;
+    --color-brand-600: 24 24 27;
+    --color-brand-700: 17 17 17;
+    --color-brand-800: 10 10 10;
+    --color-brand-900: 10 10 10;
+    --color-brand-950: 0 0 0;
+  }
+
   [data-theme="emerald"] {
     --color-brand-50: 236 253 245;
     --color-brand-100: 209 250 229;
@@ -16,34 +30,6 @@
     --color-brand-800: 6 95 70;
     --color-brand-900: 6 78 59;
     --color-brand-950: 2 44 34;
-  }
-
-  [data-theme="blue"] {
-    --color-brand-50: 239 246 255;
-    --color-brand-100: 219 234 254;
-    --color-brand-200: 191 219 254;
-    --color-brand-300: 147 197 253;
-    --color-brand-400: 96 165 250;
-    --color-brand-500: 59 130 246;
-    --color-brand-600: 37 99 235;
-    --color-brand-700: 29 78 216;
-    --color-brand-800: 30 64 175;
-    --color-brand-900: 30 58 138;
-    --color-brand-950: 23 37 84;
-  }
-
-  [data-theme="black"] {
-    --color-brand-50: 244 244 245;
-    --color-brand-100: 228 228 231;
-    --color-brand-200: 212 212 216;
-    --color-brand-300: 161 161 170;
-    --color-brand-400: 113 113 122;
-    --color-brand-500: 63 63 70;
-    --color-brand-600: 24 24 27;
-    --color-brand-700: 9 9 11;
-    --color-brand-800: 9 9 11;
-    --color-brand-900: 9 9 11;
-    --color-brand-950: 0 0 0;
   }
 
   [data-theme="indigo"] {
@@ -102,19 +88,6 @@
     --color-brand-950: 76 5 25;
   }
 
-  [data-theme="violet"] {
-    --color-brand-50: 245 243 255;
-    --color-brand-100: 237 233 254;
-    --color-brand-200: 221 214 254;
-    --color-brand-300: 196 181 253;
-    --color-brand-400: 167 139 250;
-    --color-brand-500: 139 92 246;
-    --color-brand-600: 124 58 237;
-    --color-brand-700: 109 40 217;
-    --color-brand-800: 91 33 182;
-    --color-brand-900: 76 29 149;
-    --color-brand-950: 46 16 101;
-  }
 
   body {
     @apply bg-slate-50 text-slate-900 selection:bg-brand-100 selection:text-brand-900;

@@ -126,10 +126,10 @@ export const TestResult: React.FC = () => {
       </div>
 
       {/* Feature 1 & 5: Time Analytics & Time Coach Overview */}
-      <Card className="space-y-5 border-purple-200/80 bg-gradient-to-br from-white to-purple-50/20">
+      <Card className="space-y-5 border-slate-200 bg-white">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-purple-100 text-purple-700 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold">
               ⏱️
             </div>
             <div>

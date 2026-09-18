@@ -15,12 +15,12 @@
     </style>
     <script>
       (function() {
-        var v = localStorage.getItem('prepora_theme_version');
-        if (v !== '5.0_emerald') {
-          localStorage.setItem('prepora_theme_version', '5.0_emerald');
-          localStorage.setItem('prepora_color_theme', 'emerald');
+        var v = localStorage.getItem('prepora_theme_version_v6');
+        if (v !== '6.0_monochrome') {
+          localStorage.setItem('prepora_theme_version_v6', '6.0_monochrome');
+          localStorage.setItem('prepora_color_theme', 'black');
         }
-        var t = localStorage.getItem('prepora_color_theme') || 'emerald';
+        var t = localStorage.getItem('prepora_color_theme') || 'black';
         document.documentElement.setAttribute('data-theme', t);
       })();
     </script>

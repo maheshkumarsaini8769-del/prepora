@@ -666,11 +666,11 @@ export const AdminAIFactory: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-300">
-      {/* Header Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 border border-purple-800/40 shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Header Banner - Clean Dark Monochrome */}
+      <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold mb-2">
-            <Sparkles className="w-3.5 h-3.5" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-bold mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-slate-400" />
             <span>AI Content Factory (PDF to Question Bank)</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
@@ -684,7 +684,7 @@ export const AdminAIFactory: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleClearAllData}
-            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition shadow-sm"
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition shadow-xs"
             title="Reset to clean slate (removes dummy/seeded data)"
           >
             <Trash2 className="w-4 h-4 text-rose-400" />
@@ -692,7 +692,7 @@ export const AdminAIFactory: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('upload')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white text-xs font-bold shadow-lg shadow-brand-600/30 transition"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 text-xs font-bold shadow-xs transition"
           >
             <Upload className="w-4 h-4" />
             <span>Upload Chapter PDF</span>

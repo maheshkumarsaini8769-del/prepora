@@ -103,7 +103,7 @@ export const AdminLayout: React.FC = () => {
       items: [
         { name: 'Syllabus & Hierarchy', path: '/admin/content', icon: FolderTree, desc: 'Curriculum & subject tree' },
         { name: 'AI Studio Prompting', path: '/admin/ai', icon: Sparkles, desc: 'AI prompt engineering studio' },
-        { name: 'Admin Authority', path: '/admin/authority', icon: KeyRound, badge: 'Whitelist', badgeColor: 'bg-purple-600', desc: 'Authorized admin emails & access' },
+        { name: 'Admin Authority', path: '/admin/authority', icon: KeyRound, badge: 'Whitelist', badgeColor: 'bg-slate-700', desc: 'Authorized admin emails & access' },
         { name: 'Security & Admins', path: '/admin/security', icon: ShieldCheck, desc: 'Admin permissions & RBAC' },
         { name: 'System Status', path: '/admin/system', icon: Server, desc: 'Database & server telemetry' },
         { name: 'Settings', path: '/admin/settings', icon: Settings, desc: 'Platform configurations' },
@@ -113,8 +113,8 @@ export const AdminLayout: React.FC = () => {
 
   const adminRoles = [
     { name: 'SUPER ADMIN', color: 'bg-rose-600' },
-    { name: 'CONTENT ADMIN', color: 'bg-purple-600' },
-    { name: 'TEST ADMIN', color: 'bg-indigo-600' },
+    { name: 'CONTENT ADMIN', color: 'bg-slate-700' },
+    { name: 'TEST ADMIN', color: 'bg-slate-800' },
     { name: 'REVIEWER', color: 'bg-amber-600' },
     { name: 'SUPPORT ADMIN', color: 'bg-emerald-600' },
     { name: 'ANALYTICS ADMIN', color: 'bg-blue-600' }

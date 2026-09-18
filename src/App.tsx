@@ -98,6 +98,8 @@ export const App: React.FC = () => {
           
           {/* Practice Flow */}
           <Route path="/practice" element={<Practice />} />
+          <Route path="/bank" element={<Navigate to="/practice" replace />} />
+          <Route path="/question-bank" element={<Navigate to="/practice" replace />} />
           <Route path="/practice/session" element={<PracticeSession />} />
           <Route path="/practice/:id" element={<PracticeSession />} />
           <Route path="/speed-practice" element={<SpeedPracticePage />} />
@@ -109,6 +111,7 @@ export const App: React.FC = () => {
           <Route path="/tests/:id/result" element={<TestResult />} />
           <Route path="/tests/:id/review" element={<TestReview />} />
           <Route path="/build-test" element={<BuildMyTest />} />
+          <Route path="/builder" element={<Navigate to="/build-test" replace />} />
 
           {/* Papers, Chapters & Syllabus */}
           <Route path="/papers" element={<Papers />} />
@@ -117,6 +120,7 @@ export const App: React.FC = () => {
           <Route path="/study-hub" element={<StudyHub />} />
           <Route path="/syllabus" element={<SyllabusTracker />} />
           <Route path="/planner" element={<StudyPlanner />} />
+          <Route path="/study-planner" element={<Navigate to="/planner" replace />} />
           <Route path="/daily-plan" element={<DailyPlanPage />} />
           <Route path="/readiness" element={<ExamReadinessPage />} />
           <Route path="/tutor" element={<AITeacherPage />} />

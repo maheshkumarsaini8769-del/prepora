@@ -177,7 +177,7 @@ export const MainLayout: React.FC = () => {
               to="/profile"
               className={({ isActive }) =>
                 `flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isActive ? 'bg-brand-50 text-brand-700 font-bold border border-brand-200/60' : 'text-slate-600 hover:bg-white'
+                  isActive ? 'bg-slate-900 text-white font-bold' : 'text-slate-600 hover:bg-white'
                 }`
               }
             >
@@ -188,7 +188,7 @@ export const MainLayout: React.FC = () => {
               to="/settings"
               className={({ isActive }) =>
                 `flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isActive ? 'bg-brand-50 text-brand-700 font-bold border border-brand-200/60' : 'text-slate-600 hover:bg-white'
+                  isActive ? 'bg-slate-900 text-white font-bold' : 'text-slate-600 hover:bg-white'
                 }`
               }
             >
@@ -213,7 +213,7 @@ export const MainLayout: React.FC = () => {
               <Menu className="w-5 h-5" />
             </button>
             <Link to="/" className="flex items-center gap-2">
-              <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
+              <div className="w-7 h-7 rounded-lg bg-slate-900 flex items-center justify-center text-white font-black text-sm shadow-xs">
                 P
               </div>
               <span className="font-black text-base tracking-tight text-slate-900">PREPORA</span>
@@ -318,7 +318,7 @@ export const MainLayout: React.FC = () => {
           to="/"
           className={({ isActive }) =>
             `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
+              isActive ? 'text-slate-900 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -329,7 +329,7 @@ export const MainLayout: React.FC = () => {
           to="/practice"
           className={({ isActive }) =>
             `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
+              isActive ? 'text-slate-900 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -340,7 +340,7 @@ export const MainLayout: React.FC = () => {
           to="/tests"
           className={({ isActive }) =>
             `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
+              isActive ? 'text-slate-900 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -351,7 +351,7 @@ export const MainLayout: React.FC = () => {
           to="/doubts"
           className={({ isActive }) =>
             `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
+              isActive ? 'text-slate-900 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -362,7 +362,7 @@ export const MainLayout: React.FC = () => {
           to="/mistakes"
           className={({ isActive }) =>
             `flex flex-col items-center gap-1 text-[11px] font-bold py-1 px-2.5 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 font-black' : 'text-slate-500 hover:text-slate-800'
+              isActive ? 'text-slate-900 font-black' : 'text-slate-500 hover:text-slate-800'
             }`
           }
         >
@@ -382,7 +382,7 @@ export const MainLayout: React.FC = () => {
             {/* Drawer Header */}
             <div className="p-4 border-b border-slate-100 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-brand-600 text-white font-black flex items-center justify-center text-sm shadow-md shadow-brand-500/20">
+                <div className="w-8 h-8 rounded-xl bg-slate-900 text-white font-black flex items-center justify-center text-sm shadow-xs">
                   P
                 </div>
                 <span className="font-black text-lg text-slate-900 tracking-tight">PREPORA</span>

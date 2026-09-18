@@ -180,7 +180,7 @@ export const AdminReports: React.FC = () => {
           <button
             onClick={() => setActiveTab('questions')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
-              activeTab === 'questions' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'questions' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             Question Reports ({qReports.filter(r => r.status === 'Pending').length})
@@ -188,7 +188,7 @@ export const AdminReports: React.FC = () => {
           <button
             onClick={() => setActiveTab('technical')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
-              activeTab === 'technical' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'technical' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             System Diagnostics ({techReports.filter(r => r.status === 'Open').length})
@@ -196,7 +196,7 @@ export const AdminReports: React.FC = () => {
           <button
             onClick={() => setActiveTab('audit')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
-              activeTab === 'audit' ? 'bg-white text-purple-700 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'audit' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
             }`}
           >
             Admin Audit Logs
@@ -217,7 +217,7 @@ export const AdminReports: React.FC = () => {
                   onClick={() => setQStatusFilter(st)}
                   className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                     qStatusFilter === st
-                      ? 'bg-purple-600 text-white shadow-xs'
+                      ? 'bg-slate-900 text-white shadow-xs'
                       : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                   }`}
                 >
@@ -249,7 +249,7 @@ export const AdminReports: React.FC = () => {
               filteredQReports.map(r => (
                 <div
                   key={r.id}
-                  className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs hover:border-purple-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                  className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
                   <div className="space-y-1.5 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
@@ -270,7 +270,7 @@ export const AdminReports: React.FC = () => {
 
                     {r.message && (
                       <p className="text-xs text-slate-600 bg-slate-50 p-2 rounded-xl border border-slate-200/60">
-                        <strong className="text-purple-700">Student Comment:</strong> {r.message}
+                        <strong className="text-slate-800">Student Comment:</strong> {r.message}
                       </p>
                     )}
                   </div>
@@ -280,7 +280,7 @@ export const AdminReports: React.FC = () => {
                       r.status === 'Resolved'
                         ? 'bg-emerald-100 text-emerald-800'
                         : r.status === 'Under Review'
-                        ? 'bg-purple-100 text-purple-800'
+                        ? 'bg-slate-200 text-slate-800'
                         : r.status === 'Rejected'
                         ? 'bg-slate-200 text-slate-600'
                         : 'bg-amber-100 text-amber-800'
@@ -292,7 +292,7 @@ export const AdminReports: React.FC = () => {
                       size="sm"
                       variant="outline"
                       onClick={() => handleOpenReview(r)}
-                      className="text-xs font-bold py-1.5 px-3 border-purple-300 text-purple-700 hover:bg-purple-50"
+                      className="text-xs font-bold py-1.5 px-3 border-slate-200 text-slate-700 hover:bg-slate-50"
                     >
                       <Edit2 className="w-3.5 h-3.5 mr-1" /> Review & Edit
                     </Button>

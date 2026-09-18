@@ -125,47 +125,35 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950 flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
-      {/* Background Ambient Glows */}
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen bg-[#F7F7F7] flex flex-col justify-center py-12 sm:px-6 lg:px-8 relative overflow-hidden">
+      {/* Subtle Background Glow */}
+      <div className="absolute -top-40 -left-40 w-96 h-96 bg-slate-200/50 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute -bottom-40 -right-40 w-96 h-96 bg-slate-200/50 rounded-full blur-3xl pointer-events-none" />
 
       {/* Intro Splash Animation Overlay */}
       {animationPhase !== 'finished' && (
         <div
           onClick={handleSkipAnimation}
-          className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950 text-white transition-all duration-500 cursor-pointer select-none ${
+          className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-slate-950 text-white transition-all duration-500 cursor-pointer select-none ${
             animationPhase === 'fading' ? 'opacity-0 pointer-events-none scale-105' : 'opacity-100 scale-100'
           }`}
           title="Click anywhere to enter immediately"
         >
-          {/* Ambient Glows */}
-          <div className="absolute w-96 h-96 bg-purple-600/25 rounded-full blur-3xl animate-pulse pointer-events-none" />
-          <div className="absolute w-72 h-72 bg-indigo-600/25 rounded-full blur-3xl animate-pulse [animation-delay:500ms] pointer-events-none" />
-
-          {/* Centered Logo & Pulsing Rings */}
-          <div className="relative flex items-center justify-center mb-8">
-            {/* Outer Spinning Ring */}
-            <div className="absolute w-28 h-28 rounded-full border-2 border-dashed border-purple-400/40 animate-spin [animation-duration:8s]" />
-            
-            {/* Glowing Halo */}
-            <div className="absolute w-24 h-24 rounded-full bg-gradient-to-tr from-purple-500/20 to-indigo-500/20 blur-md animate-ping [animation-duration:2s]" />
-
-            {/* Emblem Card */}
-            <div className="relative w-20 h-20 rounded-3xl bg-gradient-to-tr from-purple-600 via-brand-600 to-indigo-600 flex items-center justify-center text-white font-black text-3xl shadow-[0_0_45px_rgba(147,51,234,0.6)] border border-white/20 transform transition-transform hover:scale-105">
-              <span>P</span>
-              <Sparkles className="w-4 h-4 text-amber-300 absolute -top-1 -right-1 animate-bounce" />
+          {/* Centered Logo */}
+          <div className="relative flex items-center justify-center mb-6">
+            <div className="w-16 h-16 rounded-2xl bg-white text-slate-950 flex items-center justify-center font-black text-2xl shadow-xl border border-white/20">
+              P
             </div>
           </div>
 
           {/* Title & Tagline */}
           <div className="text-center space-y-2 max-w-sm px-4">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-semibold backdrop-blur-md border border-white/10">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 text-slate-300 text-xs font-semibold backdrop-blur-md border border-white/10">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
               <span>PREPORA Authorization</span>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl font-black tracking-tight bg-gradient-to-r from-white via-purple-100 to-purple-300 bg-clip-text text-transparent">
+            <h1 className="text-3xl font-black tracking-tight text-white">
               PREPORA
             </h1>
 
@@ -176,15 +164,15 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
 
           {/* Progress Bar & Status */}
           <div className="mt-8 w-64 max-w-xs space-y-2">
-            <div className="h-1.5 w-full bg-slate-800/80 rounded-full overflow-hidden border border-white/10">
+            <div className="h-1.5 w-full bg-slate-800 rounded-full overflow-hidden border border-white/10">
               <div
-                className="h-full bg-gradient-to-r from-purple-500 via-indigo-400 to-purple-400 transition-all duration-300 rounded-full"
+                className="h-full bg-white transition-all duration-300 rounded-full"
                 style={{ width: `${loadingProgress}%` }}
               />
             </div>
             <div className="flex items-center justify-between text-[11px] text-slate-400 font-medium">
               <span className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-400 animate-ping" />
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
                 <span>Redirecting to Zenuxs Auth...</span>
               </span>
               <span>{loadingProgress}%</span>
@@ -193,7 +181,7 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
 
           {/* Tap to skip prompt */}
           <div className="absolute bottom-8 text-[11px] text-slate-500 hover:text-slate-400 transition font-medium">
-            Click anywhere to open Zenuxs Auth immediately
+            Click anywhere to proceed immediately
           </div>
         </div>
       )}
@@ -208,29 +196,29 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
       }`}>
         {/* Header / Brand Logo */}
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center z-10">
-        <div className="inline-flex items-center justify-center gap-3 mb-4">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-purple-500/30 border border-purple-400/30">
+        <div className="inline-flex items-center justify-center gap-2.5 mb-3">
+          <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center text-white font-black text-lg shadow-sm">
             P
           </div>
-          <span className="text-3xl font-black text-white tracking-tight">PREPORA</span>
+          <span className="text-2xl font-black text-slate-900 tracking-tight">PREPORA</span>
         </div>
-        <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
-          Zenuxs Single Sign-On Portal
+        <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+          Zenuxs Single Sign-On
         </h2>
-        <p className="mt-2 text-xs sm:text-sm text-slate-400">
+        <p className="mt-1 text-xs text-slate-500">
           Fast, secure, one-click authorization powered by Zenuxs OAuth 2.0
         </p>
       </div>
 
       {/* Main Card Container */}
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md z-10 px-4 sm:px-0">
-        <div className="bg-white/95 backdrop-blur-xl py-8 px-6 sm:px-10 shadow-2xl rounded-3xl border border-white/20 space-y-6">
+      <div className="mt-6 sm:mx-auto sm:w-full sm:max-w-md z-10 px-4 sm:px-0">
+        <div className="bg-white py-7 px-6 sm:px-8 shadow-xs rounded-2xl border border-slate-200 space-y-5">
           
           {/* Target Exam & Class Preferences */}
-          <div className="space-y-3 bg-slate-50 p-4 rounded-2xl border border-slate-200/70">
+          <div className="space-y-3 bg-slate-50 p-4 rounded-xl border border-slate-200">
             <div className="flex items-center justify-between text-xs font-bold text-slate-700">
               <span className="flex items-center gap-1.5">
-                <Target className="w-3.5 h-3.5 text-purple-600" />
+                <Target className="w-3.5 h-3.5 text-slate-700" />
                 Select Your Exam:
               </span>
               <div className="flex gap-1">
@@ -241,7 +229,7 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
                     onClick={() => setTargetExam(ex)}
                     className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer ${
                       targetExam === ex
-                        ? 'bg-purple-600 text-white shadow-xs'
+                        ? 'bg-slate-900 text-white shadow-xs'
                         : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
                     }`}
                   >
@@ -251,9 +239,9 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
               </div>
             </div>
 
-            <div className="flex items-center justify-between text-xs font-bold text-slate-700 pt-1 border-t border-slate-200/50">
+            <div className="flex items-center justify-between text-xs font-bold text-slate-700 pt-2 border-t border-slate-200">
               <span className="flex items-center gap-1.5">
-                <GraduationCap className="w-3.5 h-3.5 text-indigo-600" />
+                <GraduationCap className="w-3.5 h-3.5 text-slate-700" />
                 Class Level:
               </span>
               <div className="flex gap-1">
@@ -264,7 +252,7 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
                     onClick={() => setClassLevel(lvl)}
                     className={`px-2.5 py-1 rounded-lg text-[11px] font-bold transition cursor-pointer ${
                       classLevel === lvl
-                        ? 'bg-indigo-600 text-white shadow-xs'
+                        ? 'bg-slate-900 text-white shadow-xs'
                         : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
                     }`}
                   >
@@ -277,14 +265,14 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
 
           {/* Feedback alerts */}
           {error && (
-            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2 animate-in fade-in">
+            <div className="p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
               <span>{error}</span>
             </div>
           )}
 
           {successMsg && (
-            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-start gap-2 animate-in fade-in">
+            <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-start gap-2">
               <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
               <span>{successMsg}</span>
             </div>
@@ -296,19 +284,19 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
               type="button"
               onClick={handleZenuxsLogin}
               disabled={isLoggingIn}
-              className="w-full flex items-center justify-center gap-3 py-4 px-5 rounded-2xl bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-700 text-white font-black text-sm shadow-xl shadow-purple-600/30 transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 cursor-pointer"
+              className="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl bg-slate-900 hover:bg-black text-white font-bold text-xs shadow-xs transition-all disabled:opacity-60 cursor-pointer"
             >
               {isLoggingIn ? (
                 <>
-                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  <span>Verifying #2 Zenuxs Auth...</span>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Authorizing via Zenuxs...</span>
                 </>
               ) : (
                 <>
-                  <div className="w-6 h-6 rounded-xl bg-white/20 flex items-center justify-center text-xs font-black text-white shadow-xs">
+                  <div className="w-5 h-5 rounded-lg bg-white/20 flex items-center justify-center text-xs font-bold text-white">
                     Z
                   </div>
-                  <span className="tracking-wide">#2 — Zenuxs Auth</span>
+                  <span className="tracking-wide">Continue with Zenuxs Auth</span>
                   <ArrowRight className="w-4 h-4 ml-auto" />
                 </>
               )}
@@ -316,19 +304,19 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
           </div>
 
           {/* Security & Admin note */}
-          <div className="pt-2 border-t border-slate-100 text-center space-y-2">
-            <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-500 font-semibold">
+          <div className="pt-3 border-t border-slate-100 text-center space-y-1.5">
+            <div className="flex items-center justify-center gap-1.5 text-[11px] text-slate-600 font-semibold">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
-              <span>Single Sign-On (Zenuxs Verified Security)</span>
+              <span>Verified SSO Security</span>
             </div>
             <p className="text-[10px] text-slate-400">
-              Admin & Super Admin accounts must sign in using their whitelisted email to unlock the administrative console.
+              Admin & Super Admin accounts must sign in using their whitelisted email to access management tools.
             </p>
           </div>
 
         </div>
       </div>
-      </div>
+    </div>
     </div>
   );
 };

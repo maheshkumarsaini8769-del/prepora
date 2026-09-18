@@ -29,11 +29,11 @@ export const ExamReadinessPage: React.FC = () => {
   const attempts = testService.getAllAttempts();
 
   const dimensions = [
-    { label: 'Concept Mastery', value: readiness.concepts, color: 'bg-purple-600', description: 'Grasp of fundamental textbook definitions and principles' },
-    { label: 'Overall Accuracy', value: readiness.accuracy, color: 'bg-emerald-500', description: 'Percentage of correct answers across recent mock drills' },
-    { label: 'Speed & Time Index', value: readiness.speed, color: 'bg-amber-500', description: 'Average solving pace compared to standard exam benchmarks' },
-    { label: 'Attempt Consistency', value: readiness.consistency, color: 'bg-indigo-600', description: 'Variance in scores across sequential test papers' },
-    { label: 'Hard Questions Conquered', value: readiness.hardQuestions, color: 'bg-rose-500', description: 'Success rate on multi-step and advanced level questions' },
+    { label: 'Concept Mastery', value: readiness.concepts, color: 'bg-slate-900', description: 'Grasp of fundamental textbook definitions and principles' },
+    { label: 'Overall Accuracy', value: readiness.accuracy, color: 'bg-emerald-600', description: 'Percentage of correct answers across recent mock drills' },
+    { label: 'Speed & Time Index', value: readiness.speed, color: 'bg-amber-600', description: 'Average solving pace compared to standard exam benchmarks' },
+    { label: 'Attempt Consistency', value: readiness.consistency, color: 'bg-slate-700', description: 'Variance in scores across sequential test papers' },
+    { label: 'Hard Questions Conquered', value: readiness.hardQuestions, color: 'bg-rose-600', description: 'Success rate on multi-step and advanced level questions' },
   ];
 
   const subjectBreakdown = [
@@ -43,33 +43,33 @@ export const ExamReadinessPage: React.FC = () => {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto space-y-7 pb-20 animate-slide-up">
-      {/* Top Banner */}
-      <div className="bg-gradient-to-r from-purple-950 via-brand-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6 border border-white/10">
+    <div className="max-w-5xl mx-auto space-y-6 pb-20 animate-slide-up">
+      {/* Top Banner - Clean Monochrome Academic Card */}
+      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-semibold backdrop-blur-md">
-            <Award className="w-3.5 h-3.5 text-amber-300" />
-            <span>Comprehensive Exam Preparedness Index</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
+            <Award className="w-3.5 h-3.5 text-slate-700" />
+            <span>Preparedness Diagnostic Index</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
             {selectedExam} Readiness Score
           </h1>
-          <p className="text-xs sm:text-sm text-purple-200/90 leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
             Multi-factor evaluation combining accuracy, problem-solving speed, mistake frequency, and hard question handling.
           </p>
         </div>
 
-        {/* Big Overall Score Gauge */}
-        <div className="bg-white/10 backdrop-blur-md p-6 rounded-3xl border border-white/20 text-center min-w-[220px] shrink-0 space-y-1">
-          <span className="text-[10px] uppercase font-bold text-purple-200 tracking-wider block">
+        {/* Overall Score Gauge */}
+        <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 text-center min-w-[200px] shrink-0 space-y-1">
+          <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
             PREPORA READINESS
           </span>
-          <div className="text-5xl font-black text-white">
-            {readiness.score} <span className="text-xl text-purple-300 font-semibold">/ 100</span>
+          <div className="text-4xl font-black text-slate-900">
+            {readiness.score} <span className="text-sm text-slate-400 font-semibold">/ 100</span>
           </div>
           <span className={`inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
-            readiness.score >= 80 ? 'bg-emerald-400/20 text-emerald-300' :
-            readiness.score >= 60 ? 'bg-amber-400/20 text-amber-300' : 'bg-rose-400/20 text-rose-300'
+            readiness.score >= 80 ? 'bg-emerald-100 text-emerald-800' :
+            readiness.score >= 60 ? 'bg-amber-100 text-amber-800' : 'bg-rose-100 text-rose-800'
           }`}>
             {readiness.score >= 80 ? '🟢 Advanced Stage' : readiness.score >= 60 ? '🟡 Intermediate Stage' : '🔴 Early Foundation'}
           </span>

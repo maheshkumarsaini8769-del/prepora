@@ -128,10 +128,10 @@ export const AdminAIStudio: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-300">
-      {/* Header Banner */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-purple-950 via-slate-900 to-indigo-950 border border-purple-800/40 shadow-xl">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 text-purple-300 text-xs font-bold mb-2">
-          <Sparkles className="w-3.5 h-3.5" />
+      {/* Header Banner - Clean Dark Monochrome */}
+      <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-bold mb-2">
+          <Sparkles className="w-3.5 h-3.5 text-slate-400" />
           <span>AI Content Engineering Pipeline</span>
         </div>
         <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">AI Question Studio & Review Queue</h1>
@@ -234,7 +234,7 @@ export const AdminAIStudio: React.FC = () => {
           <button
             onClick={handleGenerate}
             disabled={generating}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white text-xs font-bold transition shadow-lg shadow-brand-600/30 disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 text-xs font-bold transition shadow-xs disabled:opacity-50"
           >
             <Sparkles className={`w-4 h-4 ${generating ? 'animate-spin' : ''}`} />
             <span>{generating ? 'Synthesizing Questions...' : 'Generate AI Draft Batch'}</span>
@@ -263,13 +263,13 @@ export const AdminAIStudio: React.FC = () => {
                   onClick={() => setSelectedJob(job)}
                   className={`w-full text-left p-3 rounded-xl border transition text-xs ${
                     selectedJob?.id === job.id
-                      ? 'bg-purple-950/40 border-purple-500 text-white shadow-md'
+                      ? 'bg-slate-800 border-slate-600 text-white shadow-xs'
                       : 'bg-slate-800/40 border-slate-750 text-slate-400 hover:text-white'
                   }`}
                 >
                   <div className="flex items-center justify-between font-bold">
                     <span>{job.subject} • {job.exam}</span>
-                    <span className="text-[10px] text-purple-400">{job.difficulty}</span>
+                    <span className="text-[10px] text-slate-300">{job.difficulty}</span>
                   </div>
                   <div className="text-[11px] text-slate-400 mt-1 truncate">{job.chapter}</div>
                   <div className="flex items-center justify-between mt-2 text-[10px] text-slate-500">

@@ -534,7 +534,7 @@ export const AdminQuestions: React.FC = () => {
               setImportErrors([]);
               setImportModalOpen(true);
             }}
-            className="text-xs font-bold text-purple-700 bg-purple-50 hover:bg-purple-100 border-purple-200"
+            className="text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border-slate-200"
           >
             <Upload className="w-3.5 h-3.5 mr-1" /> Bulk Import
           </Button>
@@ -547,10 +547,10 @@ export const AdminQuestions: React.FC = () => {
 
       {/* Bulk Action Strip (When questions are selected) */}
       {selectedIds.length > 0 && (
-        <div className="p-3 bg-purple-900 text-white rounded-2xl flex items-center justify-between shadow-lg animate-fadeIn">
+        <div className="p-3 bg-slate-900 text-white rounded-2xl flex items-center justify-between shadow-lg animate-fadeIn">
           <div className="flex items-center gap-2 text-xs font-bold">
             <span className="bg-white/20 px-2 py-0.5 rounded-full">{selectedIds.length} Selected</span>
-            <span className="hidden sm:inline text-purple-200">Questions ready for batch modification</span>
+            <span className="hidden sm:inline text-slate-300">Questions ready for batch modification</span>
           </div>
 
           <div className="flex items-center gap-2">
@@ -558,13 +558,13 @@ export const AdminQuestions: React.FC = () => {
               size="sm"
               variant="outline"
               onClick={() => setBulkEditModalOpen(true)}
-              className="text-xs font-bold bg-white text-purple-900 hover:bg-purple-50"
+              className="text-xs font-bold bg-white text-slate-900 hover:bg-slate-100"
             >
               <Layers className="w-3.5 h-3.5 mr-1" /> Bulk Edit Fields
             </Button>
             <button
               onClick={() => setSelectedIds([])}
-              className="text-purple-300 hover:text-white text-xs px-2 py-1 font-semibold"
+              className="text-slate-300 hover:text-white text-xs px-2 py-1 font-semibold"
             >
               Deselect All
             </button>
@@ -701,7 +701,7 @@ export const AdminQuestions: React.FC = () => {
                     type="checkbox"
                     checked={selectedIds.length > 0 && selectedIds.length === filtered.length}
                     onChange={handleSelectAll}
-                    className="w-4 h-4 text-purple-600 rounded"
+                    className="w-4 h-4 accent-slate-900 rounded"
                   />
                 </th>
                 <th className="py-3 px-3">Subject & Chapter</th>
@@ -719,7 +719,7 @@ export const AdminQuestions: React.FC = () => {
                       type="checkbox"
                       checked={selectedIds.includes(q.id)}
                       onChange={() => handleToggleSelect(q.id)}
-                      className="w-4 h-4 text-purple-600 rounded"
+                      className="w-4 h-4 accent-slate-900 rounded"
                     />
                   </td>
                   <td className="py-3 px-3 font-medium text-slate-800 whitespace-nowrap">
@@ -863,12 +863,12 @@ export const AdminQuestions: React.FC = () => {
               </div>
             </div>
 
-            <div className="p-3 bg-purple-50 rounded-xl border border-purple-200">
-              <div className="font-bold text-purple-700 uppercase tracking-wider text-[10px] mb-1">
+            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+              <div className="font-bold text-slate-700 uppercase tracking-wider text-[10px] mb-1">
                 New Question Being Added
               </div>
-              <p className="text-purple-950 font-medium leading-relaxed">{formQuestion}</p>
-              <div className="mt-2 pt-2 border-t border-purple-200 text-[11px] text-purple-600">
+              <p className="text-slate-900 font-medium leading-relaxed">{formQuestion}</p>
+              <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] text-slate-500">
                 <span>Topic: {formTopic || 'General'}</span>
               </div>
             </div>
@@ -1022,7 +1022,7 @@ export const AdminQuestions: React.FC = () => {
               type="file"
               accept=".csv,.xlsx,.xls"
               onChange={handleFileUpload}
-              className="w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100 border border-slate-200 rounded-xl p-2 cursor-pointer"
+              className="w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-800 hover:file:bg-slate-200 border border-slate-200 rounded-xl p-2 cursor-pointer"
             />
             <p className="text-[11px] text-slate-400 mt-1">
               File must contain columns: Subject, Chapter, Topic, Question, Option_A, Option_B, Option_C, Option_D, CorrectAnswerIndex.
