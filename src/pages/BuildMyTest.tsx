@@ -84,6 +84,31 @@ export const BuildMyTest: React.FC = () => {
       .filter((q) => selectedSubjects.includes(q.subject));
   }, [exam, classLevel, difficulty, includePYQs, selectedChapter, selectedTopic, selectedSubjects]);
 
+  // Section 10: Deterministic Paper Blueprint Calculation
+  const blueprintSubjects = useMemo(() => {
+    const subCount = selectedSubjects.length || 1;
+    const base = Math.floor(questionCount / subCount);
+    const remainder = questionCount % subCount;
+    return selectedSubjects.map((sub, idx) => ({
+      subject: sub,
+      count: base + (idx < remainder ? 1 : 0)
+    }));
+  }, [selectedSubjects, questionCount]);
+
+  const blueprintDifficulty = useMemo(() => {
+    if (difficulty !== 'Mixed') {
+      return {
+        easy: difficulty === 'Easy' ? questionCount : 0,
+        medium: difficulty === 'Medium' ? questionCount : 0,
+        hard: difficulty === 'Hard' ? questionCount : 0
+      };
+    }
+    const easy = Math.round(questionCount * 0.3);
+    const hard = Math.round(questionCount * 0.2);
+    const medium = Math.max(0, questionCount - easy - hard);
+    return { easy, medium, hard };
+  }, [difficulty, questionCount]);
+
   const toggleSubject = (sub: SubjectName) => {
     if (selectedSubjects.includes(sub)) {
       if (selectedSubjects.length > 1) {
@@ -392,6 +417,50 @@ export const BuildMyTest: React.FC = () => {
           <span className="text-slate-400 text-[11px]">
             {questionCount * 4} marks • {durationMinutes} min
           </span>
+        </div>
+
+        {/* Section 10: PAPER BLUEPRINT PREVIEW */}
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-3">
+          <div className="flex items-center justify-between border-b border-slate-200/80 pb-2">
+            <span className="text-xs font-black uppercase tracking-wider text-slate-900">
+              Paper Blueprint
+            </span>
+            <span className="text-[11px] font-semibold text-slate-500">
+              {questionCount} Questions • {durationMinutes} min • {negativeMarking ? '+4 / -1' : '+4 / 0'}
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+            <div className="space-y-1">
+              <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                Subject Breakdown
+              </div>
+              {blueprintSubjects.map((b) => (
+                <div key={b.subject} className="flex items-center justify-between text-slate-700">
+                  <span>{b.subject}</span>
+                  <strong className="text-slate-900 font-bold">{b.count}</strong>
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-1">
+              <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                Difficulty Breakdown
+              </div>
+              <div className="flex items-center justify-between text-slate-700">
+                <span>Easy</span>
+                <strong className="text-slate-900 font-bold">{blueprintDifficulty.easy}</strong>
+              </div>
+              <div className="flex items-center justify-between text-slate-700">
+                <span>Medium</span>
+                <strong className="text-slate-900 font-bold">{blueprintDifficulty.medium}</strong>
+              </div>
+              <div className="flex items-center justify-between text-slate-700">
+                <span>Hard</span>
+                <strong className="text-slate-900 font-bold">{blueprintDifficulty.hard}</strong>
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Primary Action Button */}
