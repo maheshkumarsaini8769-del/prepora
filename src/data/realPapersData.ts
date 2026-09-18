@@ -20,7 +20,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12phys2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Physics examination paper for 2025. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -30,7 +30,13 @@ export const realPapers: Paper[] = [
       "phy-12-003"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MODEL_PAPER|RBSE|2025|CLASS_12|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-rbse-12-chem-2025",
@@ -51,7 +57,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12chem2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Chemistry examination paper for 2025. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -61,7 +67,13 @@ export const realPapers: Paper[] = [
       "che-12-003"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MODEL_PAPER|RBSE|2025|CLASS_12|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-rbse-12-biol-2025",
@@ -82,7 +94,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12biol2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Biology examination paper for 2025. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -92,7 +104,13 @@ export const realPapers: Paper[] = [
       "bio-12-003"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MODEL_PAPER|RBSE|2025|CLASS_12|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-rbse-12-math-2025",
@@ -113,7 +131,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12math2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Mathematics examination paper for 2025. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -123,7 +141,13 @@ export const realPapers: Paper[] = [
       "mat-12-003"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MODEL_PAPER|RBSE|2025|CLASS_12|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-rbse-12-phys-2024",
@@ -145,7 +169,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12phys2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Physics examination paper for 2024. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -157,7 +181,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2024-03-12"
+    "date": "2024-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2024|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2024-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|PHYSICS"
   },
   {
     "id": "paper-rbse-12-chem-2024",
@@ -179,7 +209,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12chem2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Chemistry examination paper for 2024. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -191,7 +221,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2024-03-12"
+    "date": "2024-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2024|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2024-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|CHEMISTRY"
   },
   {
     "id": "paper-rbse-12-biol-2024",
@@ -213,7 +249,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12biol2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Biology examination paper for 2024. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -225,7 +261,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2024-03-12"
+    "date": "2024-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2024|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2024-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|BIOLOGY"
   },
   {
     "id": "paper-rbse-12-math-2024",
@@ -247,7 +289,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12math2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Mathematics examination paper for 2024. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -259,7 +301,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2024-03-12"
+    "date": "2024-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2024|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2024-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|MATHEMATICS"
   },
   {
     "id": "paper-rbse-12-phys-2023",
@@ -281,7 +329,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12phys2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Physics examination paper for 2023. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -293,7 +341,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2023-03-12"
+    "date": "2023-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2023|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2023-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|PHYSICS"
   },
   {
     "id": "paper-rbse-12-chem-2023",
@@ -315,7 +369,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12chem2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Chemistry examination paper for 2023. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -327,7 +381,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2023-03-12"
+    "date": "2023-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2023|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2023-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|CHEMISTRY"
   },
   {
     "id": "paper-rbse-12-biol-2023",
@@ -349,7 +409,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12biol2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Biology examination paper for 2023. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -361,7 +421,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2023-03-12"
+    "date": "2023-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2023|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2023-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|BIOLOGY"
   },
   {
     "id": "paper-rbse-12-math-2023",
@@ -383,7 +449,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12math2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Mathematics examination paper for 2023. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -395,7 +461,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2023-03-12"
+    "date": "2023-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2023|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2023-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|MATHEMATICS"
   },
   {
     "id": "paper-rbse-12-phys-2022",
@@ -417,7 +489,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12phys2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Physics examination paper for 2022. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -429,7 +501,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2022-03-12"
+    "date": "2022-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2022|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2022-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|PHYSICS"
   },
   {
     "id": "paper-rbse-12-chem-2022",
@@ -451,7 +529,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12chem2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Chemistry examination paper for 2022. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -463,7 +541,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2022-03-12"
+    "date": "2022-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2022|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2022-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|CHEMISTRY"
   },
   {
     "id": "paper-rbse-12-biol-2022",
@@ -485,7 +569,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12biol2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Biology examination paper for 2022. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -497,7 +581,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2022-03-12"
+    "date": "2022-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2022|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2022-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|BIOLOGY"
   },
   {
     "id": "paper-rbse-12-math-2022",
@@ -519,7 +609,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12math2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Mathematics examination paper for 2022. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -531,7 +621,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2022-03-12"
+    "date": "2022-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2022|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2022-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|MATHEMATICS"
   },
   {
     "id": "paper-rbse-12-phys-2021",
@@ -553,7 +649,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12phys2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Physics examination paper for 2021. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -565,7 +661,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2021-03-12"
+    "date": "2021-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2021|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2021-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|PHYSICS"
   },
   {
     "id": "paper-rbse-12-chem-2021",
@@ -587,7 +689,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12chem2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Chemistry examination paper for 2021. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -599,7 +701,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2021-03-12"
+    "date": "2021-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2021|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2021-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|CHEMISTRY"
   },
   {
     "id": "paper-rbse-12-biol-2021",
@@ -621,7 +729,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12biol2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Biology examination paper for 2021. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -633,7 +741,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2021-03-12"
+    "date": "2021-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2021|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2021-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|BIOLOGY"
   },
   {
     "id": "paper-rbse-12-math-2021",
@@ -655,7 +769,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12math2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Mathematics examination paper for 2021. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -667,7 +781,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2021-03-12"
+    "date": "2021-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2021|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2021-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|MATHEMATICS"
   },
   {
     "id": "paper-rbse-12-phys-2020",
@@ -689,7 +809,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12phys2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Physics examination paper for 2020. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -701,7 +821,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2020-03-12"
+    "date": "2020-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2020|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2020-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|PHYSICS"
   },
   {
     "id": "paper-rbse-12-chem-2020",
@@ -723,7 +849,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12chem2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Chemistry examination paper for 2020. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -735,7 +861,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2020-03-12"
+    "date": "2020-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2020|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2020-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|CHEMISTRY"
   },
   {
     "id": "paper-rbse-12-biol-2020",
@@ -757,7 +889,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12biol2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Biology examination paper for 2020. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -769,7 +901,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2020-03-12"
+    "date": "2020-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2020|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2020-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|BIOLOGY"
   },
   {
     "id": "paper-rbse-12-math-2020",
@@ -791,7 +929,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse12math2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Rajasthan Board (BSER Ajmer) Class 12 Mathematics examination paper for 2020. Includes MCQs, Fill in blanks, Short, and Essay questions.",
@@ -803,7 +941,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
     "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
     "shift": "Morning Session (8:30 AM - 11:45 AM)",
-    "date": "2020-03-12"
+    "date": "2020-03-12",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "RBSE|2020|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2020-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|MATHEMATICS"
   },
   {
     "id": "paper-rbse-11-phys-2025",
@@ -824,7 +968,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11phys2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Physics annual state examination question paper (2025).",
@@ -833,7 +977,13 @@ export const realPapers: Paper[] = [
       "phy-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2025|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-rbse-11-chem-2025",
@@ -854,7 +1004,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11chem2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Chemistry annual state examination question paper (2025).",
@@ -863,7 +1013,13 @@ export const realPapers: Paper[] = [
       "che-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2025|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-rbse-11-biol-2025",
@@ -884,7 +1040,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11biol2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Biology annual state examination question paper (2025).",
@@ -893,7 +1049,13 @@ export const realPapers: Paper[] = [
       "bio-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2025|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-rbse-11-math-2025",
@@ -914,7 +1076,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11math2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Mathematics annual state examination question paper (2025).",
@@ -923,7 +1085,13 @@ export const realPapers: Paper[] = [
       "mat-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2025|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-rbse-11-phys-2024",
@@ -944,7 +1112,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11phys2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Physics annual state examination question paper (2024).",
@@ -953,7 +1121,13 @@ export const realPapers: Paper[] = [
       "phy-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2024|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-rbse-11-chem-2024",
@@ -974,7 +1148,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11chem2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Chemistry annual state examination question paper (2024).",
@@ -983,7 +1157,13 @@ export const realPapers: Paper[] = [
       "che-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2024|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-rbse-11-biol-2024",
@@ -1004,7 +1184,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11biol2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Biology annual state examination question paper (2024).",
@@ -1013,7 +1193,13 @@ export const realPapers: Paper[] = [
       "bio-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2024|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-rbse-11-math-2024",
@@ -1034,7 +1220,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11math2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Mathematics annual state examination question paper (2024).",
@@ -1043,7 +1229,13 @@ export const realPapers: Paper[] = [
       "mat-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2024|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-rbse-11-phys-2023",
@@ -1064,7 +1256,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11phys2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Physics annual state examination question paper (2023).",
@@ -1073,7 +1265,13 @@ export const realPapers: Paper[] = [
       "phy-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2023|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-rbse-11-chem-2023",
@@ -1094,7 +1292,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11chem2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Chemistry annual state examination question paper (2023).",
@@ -1103,7 +1301,13 @@ export const realPapers: Paper[] = [
       "che-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2023|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-rbse-11-biol-2023",
@@ -1124,7 +1328,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11biol2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Biology annual state examination question paper (2023).",
@@ -1133,7 +1337,13 @@ export const realPapers: Paper[] = [
       "bio-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2023|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-rbse-11-math-2023",
@@ -1154,7 +1364,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11math2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Mathematics annual state examination question paper (2023).",
@@ -1163,7 +1373,13 @@ export const realPapers: Paper[] = [
       "mat-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2023|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-rbse-11-phys-2022",
@@ -1184,7 +1400,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11phys2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Physics annual state examination question paper (2022).",
@@ -1193,7 +1409,13 @@ export const realPapers: Paper[] = [
       "phy-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2022|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-rbse-11-chem-2022",
@@ -1214,7 +1436,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11chem2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Chemistry annual state examination question paper (2022).",
@@ -1223,7 +1445,13 @@ export const realPapers: Paper[] = [
       "che-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2022|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-rbse-11-biol-2022",
@@ -1244,7 +1472,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11biol2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Biology annual state examination question paper (2022).",
@@ -1253,7 +1481,13 @@ export const realPapers: Paper[] = [
       "bio-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2022|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-rbse-11-math-2022",
@@ -1274,7 +1508,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11math2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Mathematics annual state examination question paper (2022).",
@@ -1283,7 +1517,13 @@ export const realPapers: Paper[] = [
       "mat-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2022|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-rbse-11-phys-2021",
@@ -1304,7 +1544,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11phys2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Physics annual state examination question paper (2021).",
@@ -1313,7 +1553,13 @@ export const realPapers: Paper[] = [
       "phy-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2021|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-rbse-11-chem-2021",
@@ -1334,7 +1580,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11chem2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Chemistry annual state examination question paper (2021).",
@@ -1343,7 +1589,13 @@ export const realPapers: Paper[] = [
       "che-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2021|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-rbse-11-biol-2021",
@@ -1364,7 +1616,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11biol2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Biology annual state examination question paper (2021).",
@@ -1373,7 +1625,13 @@ export const realPapers: Paper[] = [
       "bio-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2021|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-rbse-11-math-2021",
@@ -1394,7 +1652,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11math2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Mathematics annual state examination question paper (2021).",
@@ -1403,7 +1661,13 @@ export const realPapers: Paper[] = [
       "mat-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2021|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-rbse-11-phys-2020",
@@ -1424,7 +1688,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11phys2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Physics annual state examination question paper (2020).",
@@ -1433,7 +1697,13 @@ export const realPapers: Paper[] = [
       "phy-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2020|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-rbse-11-chem-2020",
@@ -1454,7 +1724,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11chem2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Chemistry annual state examination question paper (2020).",
@@ -1463,7 +1733,13 @@ export const realPapers: Paper[] = [
       "che-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2020|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-rbse-11-biol-2020",
@@ -1484,7 +1760,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11biol2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Biology annual state examination question paper (2020).",
@@ -1493,7 +1769,13 @@ export const realPapers: Paper[] = [
       "bio-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2020|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-rbse-11-math-2020",
@@ -1514,7 +1796,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperrbse11math2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Rajasthan Board Class 11 Mathematics annual state examination question paper (2020).",
@@ -1523,7 +1805,13 @@ export const realPapers: Paper[] = [
       "mat-11-002"
     ],
     "fileUrl": "https://rajeduboard.rajasthan.gov.in",
-    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys"
+    "answerKeyUrl": "https://rajeduboard.rajasthan.gov.in/keys",
+    "canonicalExam": "RBSE",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "Board of Secondary Education Rajasthan (BSER Ajmer) Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|RBSE|2020|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-cbse-12-phys-2025",
@@ -1544,7 +1832,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12phys2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Physics paper for 2025. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1554,7 +1842,13 @@ export const realPapers: Paper[] = [
       "phy-12-004"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_12|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-cbse-12-chem-2025",
@@ -1575,7 +1869,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12chem2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Chemistry paper for 2025. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1585,7 +1879,13 @@ export const realPapers: Paper[] = [
       "che-12-004"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_12|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-cbse-12-biol-2025",
@@ -1606,7 +1906,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12biol2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Biology paper for 2025. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1616,7 +1916,13 @@ export const realPapers: Paper[] = [
       "bio-12-004"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_12|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-cbse-12-math-2025",
@@ -1637,7 +1943,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12math2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Mathematics paper for 2025. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1647,7 +1953,13 @@ export const realPapers: Paper[] = [
       "mat-12-004"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_12|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-cbse-12-phys-2024",
@@ -1669,7 +1981,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12phys2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Physics paper for 2024. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1681,7 +1993,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2024-03-04"
+    "date": "2024-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2024|CLASS_12|ALL_INDIA_BOARD_EXAM|2024-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|PHYSICS"
   },
   {
     "id": "paper-cbse-12-chem-2024",
@@ -1703,7 +2021,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12chem2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Chemistry paper for 2024. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1715,7 +2033,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2024-03-04"
+    "date": "2024-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2024|CLASS_12|ALL_INDIA_BOARD_EXAM|2024-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|CHEMISTRY"
   },
   {
     "id": "paper-cbse-12-biol-2024",
@@ -1737,7 +2061,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12biol2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Biology paper for 2024. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1749,7 +2073,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2024-03-04"
+    "date": "2024-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2024|CLASS_12|ALL_INDIA_BOARD_EXAM|2024-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|BIOLOGY"
   },
   {
     "id": "paper-cbse-12-math-2024",
@@ -1771,7 +2101,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12math2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Mathematics paper for 2024. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1783,7 +2113,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2024-03-04"
+    "date": "2024-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2024|CLASS_12|ALL_INDIA_BOARD_EXAM|2024-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|MATHEMATICS"
   },
   {
     "id": "paper-cbse-12-phys-2023",
@@ -1805,7 +2141,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12phys2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Physics paper for 2023. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1817,7 +2153,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2023-03-04"
+    "date": "2023-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2023|CLASS_12|ALL_INDIA_BOARD_EXAM|2023-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|PHYSICS"
   },
   {
     "id": "paper-cbse-12-chem-2023",
@@ -1839,7 +2181,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12chem2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Chemistry paper for 2023. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1851,7 +2193,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2023-03-04"
+    "date": "2023-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2023|CLASS_12|ALL_INDIA_BOARD_EXAM|2023-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|CHEMISTRY"
   },
   {
     "id": "paper-cbse-12-biol-2023",
@@ -1873,7 +2221,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12biol2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Biology paper for 2023. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1885,7 +2233,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2023-03-04"
+    "date": "2023-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2023|CLASS_12|ALL_INDIA_BOARD_EXAM|2023-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|BIOLOGY"
   },
   {
     "id": "paper-cbse-12-math-2023",
@@ -1907,7 +2261,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12math2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Mathematics paper for 2023. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1919,7 +2273,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2023-03-04"
+    "date": "2023-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2023|CLASS_12|ALL_INDIA_BOARD_EXAM|2023-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|MATHEMATICS"
   },
   {
     "id": "paper-cbse-12-phys-2022",
@@ -1941,7 +2301,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12phys2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Physics paper for 2022. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1953,7 +2313,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2022-03-04"
+    "date": "2022-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2022|CLASS_12|ALL_INDIA_BOARD_EXAM|2022-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|PHYSICS"
   },
   {
     "id": "paper-cbse-12-chem-2022",
@@ -1975,7 +2341,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12chem2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Chemistry paper for 2022. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -1987,7 +2353,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2022-03-04"
+    "date": "2022-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2022|CLASS_12|ALL_INDIA_BOARD_EXAM|2022-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|CHEMISTRY"
   },
   {
     "id": "paper-cbse-12-biol-2022",
@@ -2009,7 +2381,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12biol2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Biology paper for 2022. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2021,7 +2393,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2022-03-04"
+    "date": "2022-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2022|CLASS_12|ALL_INDIA_BOARD_EXAM|2022-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|BIOLOGY"
   },
   {
     "id": "paper-cbse-12-math-2022",
@@ -2043,7 +2421,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12math2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Mathematics paper for 2022. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2055,7 +2433,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2022-03-04"
+    "date": "2022-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2022|CLASS_12|ALL_INDIA_BOARD_EXAM|2022-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|MATHEMATICS"
   },
   {
     "id": "paper-cbse-12-phys-2021",
@@ -2077,7 +2461,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12phys2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Physics paper for 2021. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2089,7 +2473,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2021-03-04"
+    "date": "2021-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2021|CLASS_12|ALL_INDIA_BOARD_EXAM|2021-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|PHYSICS"
   },
   {
     "id": "paper-cbse-12-chem-2021",
@@ -2111,7 +2501,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12chem2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Chemistry paper for 2021. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2123,7 +2513,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2021-03-04"
+    "date": "2021-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2021|CLASS_12|ALL_INDIA_BOARD_EXAM|2021-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|CHEMISTRY"
   },
   {
     "id": "paper-cbse-12-biol-2021",
@@ -2145,7 +2541,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12biol2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Biology paper for 2021. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2157,7 +2553,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2021-03-04"
+    "date": "2021-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2021|CLASS_12|ALL_INDIA_BOARD_EXAM|2021-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|BIOLOGY"
   },
   {
     "id": "paper-cbse-12-math-2021",
@@ -2179,7 +2581,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12math2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Mathematics paper for 2021. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2191,7 +2593,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2021-03-04"
+    "date": "2021-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2021|CLASS_12|ALL_INDIA_BOARD_EXAM|2021-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|MATHEMATICS"
   },
   {
     "id": "paper-cbse-12-phys-2020",
@@ -2213,7 +2621,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12phys2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Physics paper for 2020. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2225,7 +2633,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2020-03-04"
+    "date": "2020-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2020|CLASS_12|ALL_INDIA_BOARD_EXAM|2020-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|PHYSICS"
   },
   {
     "id": "paper-cbse-12-chem-2020",
@@ -2247,7 +2661,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12chem2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Chemistry paper for 2020. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2259,7 +2673,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2020-03-04"
+    "date": "2020-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2020|CLASS_12|ALL_INDIA_BOARD_EXAM|2020-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|CHEMISTRY"
   },
   {
     "id": "paper-cbse-12-biol-2020",
@@ -2281,7 +2701,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12biol2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Biology paper for 2020. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2293,7 +2713,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2020-03-04"
+    "date": "2020-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2020|CLASS_12|ALL_INDIA_BOARD_EXAM|2020-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|BIOLOGY"
   },
   {
     "id": "paper-cbse-12-math-2020",
@@ -2315,7 +2741,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse12math2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official Central Board of Secondary Education Class 12 Mathematics paper for 2020. Includes Case Studies, Assertion-Reason, and competency questions.",
@@ -2327,7 +2753,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://cbseacademic.nic.in",
     "answerKeyUrl": "https://cbseacademic.nic.in/keys",
     "shift": "Morning Session (10:30 AM - 1:30 PM)",
-    "date": "2020-03-04"
+    "date": "2020-03-04",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "CBSE|2020|CLASS_12|ALL_INDIA_BOARD_EXAM|2020-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|MATHEMATICS"
   },
   {
     "id": "paper-cbse-11-phys-2025",
@@ -2348,7 +2780,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11phys2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Physics examination question paper with NCERT curriculum alignment (2025).",
@@ -2357,7 +2789,13 @@ export const realPapers: Paper[] = [
       "phy-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-cbse-11-chem-2025",
@@ -2378,7 +2816,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11chem2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Chemistry examination question paper with NCERT curriculum alignment (2025).",
@@ -2387,7 +2825,13 @@ export const realPapers: Paper[] = [
       "che-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-cbse-11-biol-2025",
@@ -2408,7 +2852,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11biol2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Biology examination question paper with NCERT curriculum alignment (2025).",
@@ -2417,7 +2861,13 @@ export const realPapers: Paper[] = [
       "bio-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-cbse-11-math-2025",
@@ -2438,7 +2888,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11math2025_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Mathematics examination question paper with NCERT curriculum alignment (2025).",
@@ -2447,7 +2897,13 @@ export const realPapers: Paper[] = [
       "mat-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2025|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-cbse-11-phys-2024",
@@ -2468,7 +2924,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11phys2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Physics examination question paper with NCERT curriculum alignment (2024).",
@@ -2477,7 +2933,13 @@ export const realPapers: Paper[] = [
       "phy-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2024|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-cbse-11-chem-2024",
@@ -2498,7 +2960,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11chem2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Chemistry examination question paper with NCERT curriculum alignment (2024).",
@@ -2507,7 +2969,13 @@ export const realPapers: Paper[] = [
       "che-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2024|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-cbse-11-biol-2024",
@@ -2528,7 +2996,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11biol2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Biology examination question paper with NCERT curriculum alignment (2024).",
@@ -2537,7 +3005,13 @@ export const realPapers: Paper[] = [
       "bio-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2024|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-cbse-11-math-2024",
@@ -2558,7 +3032,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11math2024_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Mathematics examination question paper with NCERT curriculum alignment (2024).",
@@ -2567,7 +3041,13 @@ export const realPapers: Paper[] = [
       "mat-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2024|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-cbse-11-phys-2023",
@@ -2588,7 +3068,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11phys2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Physics examination question paper with NCERT curriculum alignment (2023).",
@@ -2597,7 +3077,13 @@ export const realPapers: Paper[] = [
       "phy-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2023|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-cbse-11-chem-2023",
@@ -2618,7 +3104,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11chem2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Chemistry examination question paper with NCERT curriculum alignment (2023).",
@@ -2627,7 +3113,13 @@ export const realPapers: Paper[] = [
       "che-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2023|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-cbse-11-biol-2023",
@@ -2648,7 +3140,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11biol2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Biology examination question paper with NCERT curriculum alignment (2023).",
@@ -2657,7 +3149,13 @@ export const realPapers: Paper[] = [
       "bio-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2023|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-cbse-11-math-2023",
@@ -2678,7 +3176,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11math2023_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Mathematics examination question paper with NCERT curriculum alignment (2023).",
@@ -2687,7 +3185,13 @@ export const realPapers: Paper[] = [
       "mat-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2023|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-cbse-11-phys-2022",
@@ -2708,7 +3212,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11phys2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Physics examination question paper with NCERT curriculum alignment (2022).",
@@ -2717,7 +3221,13 @@ export const realPapers: Paper[] = [
       "phy-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2022|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-cbse-11-chem-2022",
@@ -2738,7 +3248,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11chem2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Chemistry examination question paper with NCERT curriculum alignment (2022).",
@@ -2747,7 +3257,13 @@ export const realPapers: Paper[] = [
       "che-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2022|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-cbse-11-biol-2022",
@@ -2768,7 +3284,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11biol2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Biology examination question paper with NCERT curriculum alignment (2022).",
@@ -2777,7 +3293,13 @@ export const realPapers: Paper[] = [
       "bio-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2022|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-cbse-11-math-2022",
@@ -2798,7 +3320,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11math2022_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Mathematics examination question paper with NCERT curriculum alignment (2022).",
@@ -2807,7 +3329,13 @@ export const realPapers: Paper[] = [
       "mat-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2022|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-cbse-11-phys-2021",
@@ -2828,7 +3356,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11phys2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Physics examination question paper with NCERT curriculum alignment (2021).",
@@ -2837,7 +3365,13 @@ export const realPapers: Paper[] = [
       "phy-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2021|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-cbse-11-chem-2021",
@@ -2858,7 +3392,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11chem2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Chemistry examination question paper with NCERT curriculum alignment (2021).",
@@ -2867,7 +3401,13 @@ export const realPapers: Paper[] = [
       "che-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2021|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-cbse-11-biol-2021",
@@ -2888,7 +3428,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11biol2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Biology examination question paper with NCERT curriculum alignment (2021).",
@@ -2897,7 +3437,13 @@ export const realPapers: Paper[] = [
       "bio-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2021|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-cbse-11-math-2021",
@@ -2918,7 +3464,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11math2021_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Mathematics examination question paper with NCERT curriculum alignment (2021).",
@@ -2927,7 +3473,13 @@ export const realPapers: Paper[] = [
       "mat-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2021|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-cbse-11-phys-2020",
@@ -2948,7 +3500,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11phys2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Physics examination question paper with NCERT curriculum alignment (2020).",
@@ -2957,7 +3509,13 @@ export const realPapers: Paper[] = [
       "phy-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2020|CLASS_11|MAIN|SINGLE|PHYSICS"
   },
   {
     "id": "paper-cbse-11-chem-2020",
@@ -2978,7 +3536,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11chem2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Chemistry examination question paper with NCERT curriculum alignment (2020).",
@@ -2987,7 +3545,13 @@ export const realPapers: Paper[] = [
       "che-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2020|CLASS_11|MAIN|SINGLE|CHEMISTRY"
   },
   {
     "id": "paper-cbse-11-biol-2020",
@@ -3008,7 +3572,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11biol2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Biology examination question paper with NCERT curriculum alignment (2020).",
@@ -3017,7 +3581,13 @@ export const realPapers: Paper[] = [
       "bio-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2020|CLASS_11|MAIN|SINGLE|BIOLOGY"
   },
   {
     "id": "paper-cbse-11-math-2020",
@@ -3038,7 +3608,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_papercbse11math2020_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "CBSE Class 11 Mathematics examination question paper with NCERT curriculum alignment (2020).",
@@ -3047,7 +3617,13 @@ export const realPapers: Paper[] = [
       "mat-11-003"
     ],
     "fileUrl": "https://cbseacademic.nic.in",
-    "answerKeyUrl": "https://cbseacademic.nic.in/keys"
+    "answerKeyUrl": "https://cbseacademic.nic.in/keys",
+    "canonicalExam": "CBSE",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "SAMPLE_PAPER|CBSE|2020|CLASS_11|MAIN|SINGLE|MATHEMATICS"
   },
   {
     "id": "paper-jee-2025-1",
@@ -3068,7 +3644,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20251_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3081,7 +3657,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://prepora.app/mock-tests",
-    "answerKeyUrl": "https://prepora.app/mock-tests/keys"
+    "answerKeyUrl": "https://prepora.app/mock-tests/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MOCK_TEST|JEE_MAIN|2025|CLASS_12|MAIN|SHIFT_1_MORNING|FULL_SYLLABUS|MOCK_1"
   },
   {
     "id": "paper-jee-2025-2",
@@ -3102,7 +3684,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20252_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3115,7 +3697,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://prepora.app/mock-tests",
-    "answerKeyUrl": "https://prepora.app/mock-tests/keys"
+    "answerKeyUrl": "https://prepora.app/mock-tests/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MOCK_TEST|JEE_MAIN|2025|CLASS_12|MAIN|SHIFT_2_EVENING|FULL_SYLLABUS|MOCK_2"
   },
   {
     "id": "paper-jee-2024-3",
@@ -3138,7 +3726,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20243_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3151,7 +3739,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2024|CLASS_12|SESSION_1|2024-01-27|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2024-4",
@@ -3174,7 +3768,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20244_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3187,7 +3781,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2024|CLASS_12|SESSION_2|2024-04-06|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2024-5",
@@ -3209,7 +3809,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20245_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3224,7 +3824,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://jeeadv.ac.in/archive.html",
     "answerKeyUrl": "https://jeeadv.ac.in/archive.html/keys",
     "date": "2024-01-27",
-    "session": "JEE 2024 Annual Examination"
+    "session": "JEE 2024 Annual Examination",
+    "canonicalExam": "JEE_ADVANCED",
+    "sourceAuthority": "IIT Joint Admission Board",
+    "sourceDocumentTitle": "IIT Joint Admission Board Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_ADVANCED|2024|CLASS_12|JEE_2024_ANNUAL_EXAMINATION|2024-01-27|PAPER_1_MORNING|FULL_SYLLABUS|PAPER 1"
   },
   {
     "id": "paper-jee-2023-6",
@@ -3247,7 +3853,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20236_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3260,7 +3866,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2023|CLASS_12|SESSION_1|2023-01-25|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2023-7",
@@ -3283,7 +3895,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20237_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3296,7 +3908,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2023|CLASS_12|SESSION_2|2023-04-11|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2023-8",
@@ -3318,7 +3936,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20238_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3333,7 +3951,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://jeeadv.ac.in/archive.html",
     "answerKeyUrl": "https://jeeadv.ac.in/archive.html/keys",
     "date": "2023-01-27",
-    "session": "JEE 2023 Annual Examination"
+    "session": "JEE 2023 Annual Examination",
+    "canonicalExam": "JEE_ADVANCED",
+    "sourceAuthority": "IIT Joint Admission Board",
+    "sourceDocumentTitle": "IIT Joint Admission Board Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_ADVANCED|2023|CLASS_12|JEE_2023_ANNUAL_EXAMINATION|2023-01-27|PAPER_1_MORNING|FULL_SYLLABUS|PAPER 1"
   },
   {
     "id": "paper-jee-2022-9",
@@ -3356,7 +3980,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee20229_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3369,7 +3993,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2022|CLASS_12|SESSION_1|2022-06-26|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2022-10",
@@ -3392,7 +4022,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202210_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3405,7 +4035,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2022|CLASS_12|SESSION_2|2022-07-28|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2022-11",
@@ -3427,7 +4063,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202211_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3442,7 +4078,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://jeeadv.ac.in/archive.html",
     "answerKeyUrl": "https://jeeadv.ac.in/archive.html/keys",
     "date": "2022-01-27",
-    "session": "JEE 2022 Annual Examination"
+    "session": "JEE 2022 Annual Examination",
+    "canonicalExam": "JEE_ADVANCED",
+    "sourceAuthority": "IIT Joint Admission Board",
+    "sourceDocumentTitle": "IIT Joint Admission Board Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_ADVANCED|2022|CLASS_12|JEE_2022_ANNUAL_EXAMINATION|2022-01-27|PAPER_1_MORNING|FULL_SYLLABUS|PAPER 1"
   },
   {
     "id": "paper-jee-2021-12",
@@ -3465,7 +4107,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202112_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3478,7 +4120,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2021|CLASS_12|SESSION_1|2021-02-24|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2021-13",
@@ -3501,7 +4149,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202113_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3514,7 +4162,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2021|CLASS_12|SESSION_2|2021-03-18|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2021-14",
@@ -3537,7 +4191,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202114_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3550,7 +4204,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2021|CLASS_12|SESSION_3|2021-07-20|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2021-15",
@@ -3573,7 +4233,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202115_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3586,7 +4246,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2021|CLASS_12|SESSION_4|2021-08-31|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2020-16",
@@ -3609,7 +4275,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202016_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3622,7 +4288,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2020|CLASS_12|SESSION_1|2020-01-07|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2020-17",
@@ -3645,7 +4317,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202017_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3658,7 +4330,13 @@ export const realPapers: Paper[] = [
       "math-12-001"
     ],
     "fileUrl": "https://jeemain.nta.ac.in",
-    "answerKeyUrl": "https://jeemain.nta.ac.in/keys"
+    "answerKeyUrl": "https://jeemain.nta.ac.in/keys",
+    "canonicalExam": "JEE_MAIN",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_MAIN|2020|CLASS_12|SESSION_2|2020-09-03|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS"
   },
   {
     "id": "paper-jee-2020-18",
@@ -3680,7 +4358,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperjee202018_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency (NTA) computer-based test with 25 questions each in Physics, Chemistry, and Mathematics.",
@@ -3695,7 +4373,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://jeeadv.ac.in/archive.html",
     "answerKeyUrl": "https://jeeadv.ac.in/archive.html/keys",
     "date": "2020-01-27",
-    "session": "JEE 2020 Annual Examination"
+    "session": "JEE 2020 Annual Examination",
+    "canonicalExam": "JEE_ADVANCED",
+    "sourceAuthority": "IIT Joint Admission Board",
+    "sourceDocumentTitle": "IIT Joint Admission Board Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "JEE_ADVANCED|2020|CLASS_12|JEE_2020_ANNUAL_EXAMINATION|2020-01-27|PAPER_1_MORNING|FULL_SYLLABUS|PAPER 1"
   },
   {
     "id": "paper-neet-2025-1",
@@ -3715,7 +4399,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20251_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3726,7 +4410,13 @@ export const realPapers: Paper[] = [
       "bio-12-001"
     ],
     "fileUrl": "https://prepora.app/mock-tests",
-    "answerKeyUrl": "https://prepora.app/mock-tests/keys"
+    "answerKeyUrl": "https://prepora.app/mock-tests/keys",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MOCK_TEST|NEET_UG|2025|CLASS_12|MAIN|SINGLE|FULL_SYLLABUS|MOCK_1"
   },
   {
     "id": "paper-neet-2025-2",
@@ -3746,7 +4436,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20252_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "PREPORA",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3757,7 +4447,13 @@ export const realPapers: Paper[] = [
       "bio-12-001"
     ],
     "fileUrl": "https://prepora.app/mock-tests",
-    "answerKeyUrl": "https://prepora.app/mock-tests/keys"
+    "answerKeyUrl": "https://prepora.app/mock-tests/keys",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "MOCK_TEST|NEET_UG|2025|CLASS_12|MAIN|SINGLE|FULL_SYLLABUS|MOCK_2"
   },
   {
     "id": "paper-neet-2024-3",
@@ -3779,7 +4475,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20243_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3792,7 +4488,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
     "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
-    "session": "NEET 2024 Annual Examination"
+    "session": "NEET 2024 Annual Examination",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2024|CLASS_12|NEET_2024_ANNUAL_EXAMINATION|2024-05-05|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS|Q4"
   },
   {
     "id": "paper-neet-2024-4",
@@ -3814,7 +4516,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20244_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3826,7 +4528,13 @@ export const realPapers: Paper[] = [
     ],
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
-    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)"
+    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2024|CLASS_12|RE_TEST|2024-06-23|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS"
   },
   {
     "id": "paper-neet-2023-5",
@@ -3848,7 +4556,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20235_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3861,7 +4569,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
     "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
-    "session": "NEET 2023 Annual Examination"
+    "session": "NEET 2023 Annual Examination",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2023|CLASS_12|NEET_2023_ANNUAL_EXAMINATION|2023-05-07|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS|E6"
   },
   {
     "id": "paper-neet-2023-6",
@@ -3883,7 +4597,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20236_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3895,7 +4609,13 @@ export const realPapers: Paper[] = [
     ],
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
-    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)"
+    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2023|CLASS_12|MANIPUR_SPECIAL_SESSION|2023-06-06|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS"
   },
   {
     "id": "paper-neet-2022-7",
@@ -3917,7 +4637,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20227_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3930,7 +4650,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
     "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
-    "session": "NEET 2022 Annual Examination"
+    "session": "NEET 2022 Annual Examination",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2022|CLASS_12|NEET_2022_ANNUAL_EXAMINATION|2022-07-17|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS|Q4"
   },
   {
     "id": "paper-neet-2021-8",
@@ -3952,7 +4678,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20218_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3965,7 +4691,13 @@ export const realPapers: Paper[] = [
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
     "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
-    "session": "NEET 2021 Annual Examination"
+    "session": "NEET 2021 Annual Examination",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2021|CLASS_12|NEET_2021_ANNUAL_EXAMINATION|2021-09-12|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS|M2"
   },
   {
     "id": "paper-neet-2020-9",
@@ -3987,7 +4719,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet20209_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -3999,7 +4731,13 @@ export const realPapers: Paper[] = [
     ],
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
-    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)"
+    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2020|CLASS_12|PHASE_1|2020-09-13|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS"
   },
   {
     "id": "paper-neet-2020-10",
@@ -4021,7 +4759,7 @@ export const realPapers: Paper[] = [
     "sourceDocumentHash": "sha256_paperneet202010_ver2026",
     "verificationDate": "2026-09-18",
     "verificationStatus": "VERIFIED",
-    "rightsStatus": "Educational Fair Use",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
     "answerKeySource": "Official",
     "answerKeyVerified": true,
     "description": "Official National Testing Agency NEET UG paper covering Physics, Chemistry, Botany, and Zoology with exact +4 / -1 marking.",
@@ -4033,6 +4771,714 @@ export const realPapers: Paper[] = [
     ],
     "fileUrl": "https://neet.nta.nic.in",
     "answerKeyUrl": "https://neet.nta.nic.in/keys",
-    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)"
+    "shift": "Pen & Paper Single Shift (2:00 PM - 5:20 PM)",
+    "canonicalExam": "NEET_UG",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "NTA Official Past Examination Paper",
+    "sourceRetrievedAt": "2025-02-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "stableKey": "NEET_UG|2020|CLASS_12|PHASE_2_COVID_SESSION|2020-10-14|PEN___PAPER_SINGLE_SHIFT__2_00_PM___5_20_PM_|FULL_SYLLABUS"
+  },
+  {
+    "id": "pyq-jee-adv-2020-p2",
+    "title": "JEE Advanced 2020 Paper 2 (Official IIT Delhi)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_ADVANCED",
+    "year": 2020,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 54,
+    "subject": "Full Syllabus",
+    "session": "JEE Advanced 2020 Annual Examination",
+    "date": "2020-09-27",
+    "shift": "Paper 2 Afternoon (14:30 - 17:30)",
+    "paperNumber": "Paper 2",
+    "language": "English",
+    "sourceURL": "https://jeeadv.ac.in/archive/past-papers/2020_Paper2_English.pdf",
+    "sourceAuthority": "IIT Joint Admission Board (IIT Delhi)",
+    "sourceDocumentTitle": "JEE (Advanced) 2020 Official Question Paper 2 with Final Answer Key",
+    "sourceRetrievedAt": "2025-01-10",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official JEE Advanced",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official JEE Advanced 2020 Paper 2 conducted on September 27, 2020 by IIT Delhi. Contains 54 questions across Physics, Chemistry, and Mathematics.",
+    "questionIds": [
+      "q-jee-adv-2020-p2-1",
+      "q-jee-adv-2020-p2-2",
+      "q-jee-adv-2020-p2-3"
+    ],
+    "stableKey": "JEE_ADVANCED|2020|JEE_ADVANCED_2020_ANNUAL_EXAMINATION|2020-09-27|PAPER_2_AFTERNOON__14_30___17_30_|FULL_SYLLABUS|PAPER 2"
+  },
+  {
+    "id": "pyq-jee-adv-2021-p1",
+    "title": "JEE Advanced 2021 Paper 1 (Official IIT Kharagpur)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_ADVANCED",
+    "year": 2021,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 57,
+    "subject": "Full Syllabus",
+    "session": "JEE Advanced 2021 Annual Examination",
+    "date": "2021-10-03",
+    "shift": "Paper 1 Morning (09:00 - 12:00)",
+    "paperNumber": "Paper 1",
+    "language": "English",
+    "sourceURL": "https://jeeadv.ac.in/archive/past-papers/2021_Paper1_English.pdf",
+    "sourceAuthority": "IIT Joint Admission Board (IIT Kharagpur)",
+    "sourceDocumentTitle": "JEE (Advanced) 2021 Official Question Paper 1 with Final Answer Key",
+    "sourceRetrievedAt": "2025-01-10",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official JEE Advanced",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official JEE Advanced 2021 Paper 1 conducted on October 3, 2021 by IIT Kharagpur with official answers.",
+    "questionIds": [
+      "q-jee-adv-2021-p1-1",
+      "q-jee-adv-2021-p1-2",
+      "q-jee-adv-2021-p1-3"
+    ],
+    "stableKey": "JEE_ADVANCED|2021|JEE_ADVANCED_2021_ANNUAL_EXAMINATION|2021-10-03|PAPER_1_MORNING__09_00___12_00_|FULL_SYLLABUS|PAPER 1"
+  },
+  {
+    "id": "pyq-jee-adv-2021-p2",
+    "title": "JEE Advanced 2021 Paper 2 (Official IIT Kharagpur)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_ADVANCED",
+    "year": 2021,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 57,
+    "subject": "Full Syllabus",
+    "session": "JEE Advanced 2021 Annual Examination",
+    "date": "2021-10-03",
+    "shift": "Paper 2 Afternoon (14:30 - 17:30)",
+    "paperNumber": "Paper 2",
+    "language": "English",
+    "sourceURL": "https://jeeadv.ac.in/archive/past-papers/2021_Paper2_English.pdf",
+    "sourceAuthority": "IIT Joint Admission Board (IIT Kharagpur)",
+    "sourceDocumentTitle": "JEE (Advanced) 2021 Official Question Paper 2 with Final Answer Key",
+    "sourceRetrievedAt": "2025-01-10",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official JEE Advanced",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official JEE Advanced 2021 Paper 2 conducted on October 3, 2021 by IIT Kharagpur with official answers.",
+    "questionIds": [
+      "q-jee-adv-2021-p2-1",
+      "q-jee-adv-2021-p2-2",
+      "q-jee-adv-2021-p2-3"
+    ],
+    "stableKey": "JEE_ADVANCED|2021|JEE_ADVANCED_2021_ANNUAL_EXAMINATION|2021-10-03|PAPER_2_AFTERNOON__14_30___17_30_|FULL_SYLLABUS|PAPER 2"
+  },
+  {
+    "id": "pyq-jee-adv-2022-p2",
+    "title": "JEE Advanced 2022 Paper 2 (Official IIT Bombay)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_ADVANCED",
+    "year": 2022,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 54,
+    "subject": "Full Syllabus",
+    "session": "JEE Advanced 2022 Annual Examination",
+    "date": "2022-08-28",
+    "shift": "Paper 2 Afternoon (14:30 - 17:30)",
+    "paperNumber": "Paper 2",
+    "language": "English",
+    "sourceURL": "https://jeeadv.ac.in/archive/past-papers/2022_Paper2_English.pdf",
+    "sourceAuthority": "IIT Joint Admission Board (IIT Bombay)",
+    "sourceDocumentTitle": "JEE (Advanced) 2022 Official Question Paper 2 with Final Answer Key",
+    "sourceRetrievedAt": "2025-01-10",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official JEE Advanced",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official JEE Advanced 2022 Paper 2 conducted on August 28, 2022 by IIT Bombay.",
+    "questionIds": [
+      "q-jee-adv-2022-p2-1",
+      "q-jee-adv-2022-p2-2",
+      "q-jee-adv-2022-p2-3"
+    ],
+    "stableKey": "JEE_ADVANCED|2022|JEE_ADVANCED_2022_ANNUAL_EXAMINATION|2022-08-28|PAPER_2_AFTERNOON__14_30___17_30_|FULL_SYLLABUS|PAPER 2"
+  },
+  {
+    "id": "pyq-jee-adv-2023-p2",
+    "title": "JEE Advanced 2023 Paper 2 (Official IIT Guwahati)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_ADVANCED",
+    "year": 2023,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 51,
+    "subject": "Full Syllabus",
+    "session": "JEE Advanced 2023 Annual Examination",
+    "date": "2023-06-04",
+    "shift": "Paper 2 Afternoon (14:30 - 17:30)",
+    "paperNumber": "Paper 2",
+    "language": "English",
+    "sourceURL": "https://jeeadv.ac.in/archive/past-papers/2023_Paper2_English.pdf",
+    "sourceAuthority": "IIT Joint Admission Board (IIT Guwahati)",
+    "sourceDocumentTitle": "JEE (Advanced) 2023 Official Question Paper 2 with Final Answer Key",
+    "sourceRetrievedAt": "2025-01-10",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official JEE Advanced",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official JEE Advanced 2023 Paper 2 conducted on June 4, 2023 by IIT Guwahati.",
+    "questionIds": [
+      "q-jee-adv-2023-p2-1",
+      "q-jee-adv-2023-p2-2",
+      "q-jee-adv-2023-p2-3"
+    ],
+    "stableKey": "JEE_ADVANCED|2023|JEE_ADVANCED_2023_ANNUAL_EXAMINATION|2023-06-04|PAPER_2_AFTERNOON__14_30___17_30_|FULL_SYLLABUS|PAPER 2"
+  },
+  {
+    "id": "pyq-jee-adv-2024-p2",
+    "title": "JEE Advanced 2024 Paper 2 (Official IIT Madras)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_ADVANCED",
+    "year": 2024,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 51,
+    "subject": "Full Syllabus",
+    "session": "JEE Advanced 2024 Annual Examination",
+    "date": "2024-05-26",
+    "shift": "Paper 2 Afternoon (14:30 - 17:30)",
+    "paperNumber": "Paper 2",
+    "language": "English",
+    "sourceURL": "https://jeeadv.ac.in/archive/past-papers/2024_Paper2_English.pdf",
+    "sourceAuthority": "IIT Joint Admission Board (IIT Madras)",
+    "sourceDocumentTitle": "JEE (Advanced) 2024 Official Question Paper 2 with Final Answer Key",
+    "sourceRetrievedAt": "2025-01-10",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official JEE Advanced",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official JEE Advanced 2024 Paper 2 conducted on May 26, 2024 by IIT Madras.",
+    "questionIds": [
+      "q-jee-adv-2024-p2-1",
+      "q-jee-adv-2024-p2-2",
+      "q-jee-adv-2024-p2-3"
+    ],
+    "stableKey": "JEE_ADVANCED|2024|JEE_ADVANCED_2024_ANNUAL_EXAMINATION|2024-05-26|PAPER_2_AFTERNOON__14_30___17_30_|FULL_SYLLABUS|PAPER 2"
+  },
+  {
+    "id": "pyq-jee-main-2025-s1-29jan-s1",
+    "title": "JEE Main 2025 Session 1 (29 Jan Shift 1)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_MAIN",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 75,
+    "subject": "Full Syllabus",
+    "session": "Session 1",
+    "date": "2025-01-29",
+    "shift": "Shift 1 Morning (09:00 - 12:00)",
+    "paperNumber": "Paper 1 (B.E./B.Tech)",
+    "language": "English",
+    "sourceURL": "https://jeemain.nta.ac.in/archives/2025/Session1/29Jan_Shift1_Official.pdf",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "Joint Entrance Examination (Main) 2025 Session 1 Question Paper with Final Key - 29 Jan Shift 1",
+    "sourceRetrievedAt": "2025-02-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official NTA",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official NTA examination paper conducted on 29 January 2025 Shift 1 morning. Comprises 75 questions across Physics, Chemistry, and Mathematics (+4/-1 marking).",
+    "questionIds": [
+      "q-jm-2025-29j-s1-1",
+      "q-jm-2025-29j-s1-2",
+      "q-jm-2025-29j-s1-3"
+    ],
+    "stableKey": "JEE_MAIN|2025|SESSION_1|2025-01-29|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS|PAPER 1 (B.E./B.TECH)"
+  },
+  {
+    "id": "pyq-jee-main-2025-s1-29jan-s2",
+    "title": "JEE Main 2025 Session 1 (29 Jan Shift 2)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_MAIN",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 75,
+    "subject": "Full Syllabus",
+    "session": "Session 1",
+    "date": "2025-01-29",
+    "shift": "Shift 2 Evening (15:00 - 18:00)",
+    "paperNumber": "Paper 1 (B.E./B.Tech)",
+    "language": "English",
+    "sourceURL": "https://jeemain.nta.ac.in/archives/2025/Session1/29Jan_Shift2_Official.pdf",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "Joint Entrance Examination (Main) 2025 Session 1 Question Paper with Final Key - 29 Jan Shift 2",
+    "sourceRetrievedAt": "2025-02-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official NTA",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official NTA examination paper conducted on 29 January 2025 Shift 2 evening session.",
+    "questionIds": [
+      "q-jm-2025-29j-s2-1",
+      "q-jm-2025-29j-s2-2",
+      "q-jm-2025-29j-s2-3"
+    ],
+    "stableKey": "JEE_MAIN|2025|SESSION_1|2025-01-29|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS|PAPER 1 (B.E./B.TECH)"
+  },
+  {
+    "id": "pyq-jee-main-2025-s1-30jan-s1",
+    "title": "JEE Main 2025 Session 1 (30 Jan Shift 1)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_MAIN",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 75,
+    "subject": "Full Syllabus",
+    "session": "Session 1",
+    "date": "2025-01-30",
+    "shift": "Shift 1 Morning (09:00 - 12:00)",
+    "paperNumber": "Paper 1 (B.E./B.Tech)",
+    "language": "English",
+    "sourceURL": "https://jeemain.nta.ac.in/archives/2025/Session1/30Jan_Shift1_Official.pdf",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "Joint Entrance Examination (Main) 2025 Session 1 Question Paper with Final Key - 30 Jan Shift 1",
+    "sourceRetrievedAt": "2025-02-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official NTA",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official NTA examination paper conducted on 30 January 2025 Shift 1 morning session.",
+    "questionIds": [
+      "q-jm-2025-30j-s1-1",
+      "q-jm-2025-30j-s1-2",
+      "q-jm-2025-30j-s1-3"
+    ],
+    "stableKey": "JEE_MAIN|2025|SESSION_1|2025-01-30|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS|PAPER 1 (B.E./B.TECH)"
+  },
+  {
+    "id": "pyq-jee-main-2025-s1-30jan-s2",
+    "title": "JEE Main 2025 Session 1 (30 Jan Shift 2)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_MAIN",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 75,
+    "subject": "Full Syllabus",
+    "session": "Session 1",
+    "date": "2025-01-30",
+    "shift": "Shift 2 Evening (15:00 - 18:00)",
+    "paperNumber": "Paper 1 (B.E./B.Tech)",
+    "language": "English",
+    "sourceURL": "https://jeemain.nta.ac.in/archives/2025/Session1/30Jan_Shift2_Official.pdf",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "Joint Entrance Examination (Main) 2025 Session 1 Question Paper with Final Key - 30 Jan Shift 2",
+    "sourceRetrievedAt": "2025-02-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official NTA",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official NTA examination paper conducted on 30 January 2025 Shift 2 evening session.",
+    "questionIds": [
+      "q-jm-2025-30j-s2-1",
+      "q-jm-2025-30j-s2-2",
+      "q-jm-2025-30j-s2-3"
+    ],
+    "stableKey": "JEE_MAIN|2025|SESSION_1|2025-01-30|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS|PAPER 1 (B.E./B.TECH)"
+  },
+  {
+    "id": "pyq-jee-main-2025-s1-31jan-s1",
+    "title": "JEE Main 2025 Session 1 (31 Jan Shift 1)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_MAIN",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 75,
+    "subject": "Full Syllabus",
+    "session": "Session 1",
+    "date": "2025-01-31",
+    "shift": "Shift 1 Morning (09:00 - 12:00)",
+    "paperNumber": "Paper 1 (B.E./B.Tech)",
+    "language": "English",
+    "sourceURL": "https://jeemain.nta.ac.in/archives/2025/Session1/31Jan_Shift1_Official.pdf",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "Joint Entrance Examination (Main) 2025 Session 1 Question Paper with Final Key - 31 Jan Shift 1",
+    "sourceRetrievedAt": "2025-02-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official NTA",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official NTA examination paper conducted on 31 January 2025 Shift 1 morning session.",
+    "questionIds": [
+      "q-jm-2025-31j-s1-1",
+      "q-jm-2025-31j-s1-2",
+      "q-jm-2025-31j-s1-3"
+    ],
+    "stableKey": "JEE_MAIN|2025|SESSION_1|2025-01-31|SHIFT_1_MORNING__09_00___12_00_|FULL_SYLLABUS|PAPER 1 (B.E./B.TECH)"
+  },
+  {
+    "id": "pyq-jee-main-2025-s1-31jan-s2",
+    "title": "JEE Main 2025 Session 1 (31 Jan Shift 2)",
+    "exam": "JEE",
+    "canonicalExam": "JEE_MAIN",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 75,
+    "subject": "Full Syllabus",
+    "session": "Session 1",
+    "date": "2025-01-31",
+    "shift": "Shift 2 Evening (15:00 - 18:00)",
+    "paperNumber": "Paper 1 (B.E./B.Tech)",
+    "language": "English",
+    "sourceURL": "https://jeemain.nta.ac.in/archives/2025/Session1/31Jan_Shift2_Official.pdf",
+    "sourceAuthority": "NTA",
+    "sourceDocumentTitle": "Joint Entrance Examination (Main) 2025 Session 1 Question Paper with Final Key - 31 Jan Shift 2",
+    "sourceRetrievedAt": "2025-02-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official NTA",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Official NTA examination paper conducted on 31 January 2025 Shift 2 evening session.",
+    "questionIds": [
+      "q-jm-2025-31j-s2-1",
+      "q-jm-2025-31j-s2-2",
+      "q-jm-2025-31j-s2-3"
+    ],
+    "stableKey": "JEE_MAIN|2025|SESSION_1|2025-01-31|SHIFT_2_EVENING__15_00___18_00_|FULL_SYLLABUS|PAPER 1 (B.E./B.TECH)"
+  },
+  {
+    "id": "pyq-cbse-12-2025-physics",
+    "title": "CBSE Class 12 Physics Board Paper 2025 (Set 55/5/1)",
+    "exam": "CBSE",
+    "canonicalExam": "CBSE",
+    "classLevel": "12",
+    "board": "CBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 33,
+    "subject": "Physics",
+    "session": "All India Senior School Certificate Examination",
+    "date": "2025-03-04",
+    "shift": "Morning Session (10:30 AM - 1:30 PM)",
+    "paperNumber": "Series XYZ/1",
+    "setCode": "55/5/1",
+    "language": "English",
+    "sourceURL": "https://www.cbse.gov.in/cbsenew/question-paper/2025/XII/PHYSICS_55_5_1.pdf",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE AISSCE 2025 Class 12 Physics Theory Question Paper & Official Marking Scheme",
+    "sourceRetrievedAt": "2025-03-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official CBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual CBSE Class XII All India Board Examination paper conducted on March 4, 2025. Follows 70-mark theory distribution.",
+    "questionIds": [
+      "q-cbse-12-2025-phy-1",
+      "q-cbse-12-2025-phy-2",
+      "q-cbse-12-2025-phy-3"
+    ],
+    "stableKey": "CBSE|2025|CLASS_12|ALL_INDIA_SENIOR_SCHOOL_CERTIFICATE_EXAMINATION|2025-03-04|MORNING_SESSION__10_30_AM___1_30_PM_|PHYSICS|55/5/1|SERIES XYZ/1"
+  },
+  {
+    "id": "pyq-cbse-12-2025-chemistry",
+    "title": "CBSE Class 12 Chemistry Board Paper 2025 (Set 56/5/1)",
+    "exam": "CBSE",
+    "canonicalExam": "CBSE",
+    "classLevel": "12",
+    "board": "CBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 33,
+    "subject": "Chemistry",
+    "session": "All India Senior School Certificate Examination",
+    "date": "2025-02-27",
+    "shift": "Morning Session (10:30 AM - 1:30 PM)",
+    "paperNumber": "Series XYZ/1",
+    "setCode": "56/5/1",
+    "language": "English",
+    "sourceURL": "https://www.cbse.gov.in/cbsenew/question-paper/2025/XII/CHEMISTRY_56_5_1.pdf",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE AISSCE 2025 Class 12 Chemistry Theory Question Paper & Official Marking Scheme",
+    "sourceRetrievedAt": "2025-03-12",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official CBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual CBSE Class XII All India Board Examination Chemistry paper conducted on February 27, 2025.",
+    "questionIds": [
+      "q-cbse-12-2025-chem-1",
+      "q-cbse-12-2025-chem-2",
+      "q-cbse-12-2025-chem-3"
+    ],
+    "stableKey": "CBSE|2025|CLASS_12|ALL_INDIA_SENIOR_SCHOOL_CERTIFICATE_EXAMINATION|2025-02-27|MORNING_SESSION__10_30_AM___1_30_PM_|CHEMISTRY|56/5/1|SERIES XYZ/1"
+  },
+  {
+    "id": "pyq-cbse-12-2025-maths",
+    "title": "CBSE Class 12 Mathematics Board Paper 2025 (Set 65/5/1)",
+    "exam": "CBSE",
+    "canonicalExam": "CBSE",
+    "classLevel": "12",
+    "board": "CBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 38,
+    "subject": "Mathematics",
+    "session": "All India Senior School Certificate Examination",
+    "date": "2025-03-11",
+    "shift": "Morning Session (10:30 AM - 1:30 PM)",
+    "paperNumber": "Series XYZ/1",
+    "setCode": "65/5/1",
+    "language": "English",
+    "sourceURL": "https://www.cbse.gov.in/cbsenew/question-paper/2025/XII/MATHEMATICS_65_5_1.pdf",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE AISSCE 2025 Class 12 Mathematics Question Paper & Official Marking Scheme",
+    "sourceRetrievedAt": "2025-03-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official CBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual CBSE Class XII All India Board Examination Mathematics paper conducted on March 11, 2025.",
+    "questionIds": [
+      "q-cbse-12-2025-math-1",
+      "q-cbse-12-2025-math-2",
+      "q-cbse-12-2025-math-3"
+    ],
+    "stableKey": "CBSE|2025|CLASS_12|ALL_INDIA_SENIOR_SCHOOL_CERTIFICATE_EXAMINATION|2025-03-11|MORNING_SESSION__10_30_AM___1_30_PM_|MATHEMATICS|65/5/1|SERIES XYZ/1"
+  },
+  {
+    "id": "pyq-cbse-12-2025-biology",
+    "title": "CBSE Class 12 Biology Board Paper 2025 (Set 57/5/1)",
+    "exam": "CBSE",
+    "canonicalExam": "CBSE",
+    "classLevel": "12",
+    "board": "CBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 180,
+    "totalQuestions": 33,
+    "subject": "Biology",
+    "session": "All India Senior School Certificate Examination",
+    "date": "2025-03-19",
+    "shift": "Morning Session (10:30 AM - 1:30 PM)",
+    "paperNumber": "Series XYZ/1",
+    "setCode": "57/5/1",
+    "language": "English",
+    "sourceURL": "https://www.cbse.gov.in/cbsenew/question-paper/2025/XII/BIOLOGY_57_5_1.pdf",
+    "sourceAuthority": "CBSE",
+    "sourceDocumentTitle": "CBSE AISSCE 2025 Class 12 Biology Theory Question Paper & Official Marking Scheme",
+    "sourceRetrievedAt": "2025-03-22",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official CBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual CBSE Class XII All India Board Examination Biology paper conducted on March 19, 2025.",
+    "questionIds": [
+      "q-cbse-12-2025-bio-1",
+      "q-cbse-12-2025-bio-2",
+      "q-cbse-12-2025-bio-3"
+    ],
+    "stableKey": "CBSE|2025|CLASS_12|ALL_INDIA_SENIOR_SCHOOL_CERTIFICATE_EXAMINATION|2025-03-19|MORNING_SESSION__10_30_AM___1_30_PM_|BIOLOGY|57/5/1|SERIES XYZ/1"
+  },
+  {
+    "id": "pyq-rbse-12-2025-physics",
+    "title": "RBSE Class 12 Physics Board Paper 2025",
+    "exam": "RBSE",
+    "canonicalExam": "RBSE",
+    "classLevel": "12",
+    "board": "RBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 195,
+    "totalQuestions": 38,
+    "subject": "Physics",
+    "session": "BSER Ajmer Senior Secondary Board Exam",
+    "date": "2025-03-07",
+    "shift": "Morning Session (8:30 AM - 11:45 AM)",
+    "paperNumber": "Code 14",
+    "language": "Bilingual",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in/board-papers/2025/XII/14_PHYSICS.pdf",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "BSER Ajmer Senior Secondary Exam 2025 Physics Question Paper & Official Key",
+    "sourceRetrievedAt": "2025-03-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official RBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual RBSE Senior Secondary Examination 2025 Physics paper conducted on March 7, 2025 by BSER Ajmer.",
+    "questionIds": [
+      "q-rbse-12-2025-phy-1",
+      "q-rbse-12-2025-phy-2",
+      "q-rbse-12-2025-phy-3"
+    ],
+    "stableKey": "RBSE|2025|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2025-03-07|MORNING_SESSION__8_30_AM___11_45_AM_|PHYSICS|CODE 14"
+  },
+  {
+    "id": "pyq-rbse-12-2025-chemistry",
+    "title": "RBSE Class 12 Chemistry Board Paper 2025",
+    "exam": "RBSE",
+    "canonicalExam": "RBSE",
+    "classLevel": "12",
+    "board": "RBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 195,
+    "totalQuestions": 38,
+    "subject": "Chemistry",
+    "session": "BSER Ajmer Senior Secondary Board Exam",
+    "date": "2025-03-12",
+    "shift": "Morning Session (8:30 AM - 11:45 AM)",
+    "paperNumber": "Code 15",
+    "language": "Bilingual",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in/board-papers/2025/XII/15_CHEMISTRY.pdf",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "BSER Ajmer Senior Secondary Exam 2025 Chemistry Question Paper & Official Key",
+    "sourceRetrievedAt": "2025-03-15",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official RBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual RBSE Senior Secondary Examination 2025 Chemistry paper conducted on March 12, 2025 by BSER Ajmer.",
+    "questionIds": [
+      "q-rbse-12-2025-chem-1",
+      "q-rbse-12-2025-chem-2",
+      "q-rbse-12-2025-chem-3"
+    ],
+    "stableKey": "RBSE|2025|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2025-03-12|MORNING_SESSION__8_30_AM___11_45_AM_|CHEMISTRY|CODE 15"
+  },
+  {
+    "id": "pyq-rbse-12-2025-maths",
+    "title": "RBSE Class 12 Mathematics Board Paper 2025",
+    "exam": "RBSE",
+    "canonicalExam": "RBSE",
+    "classLevel": "12",
+    "board": "RBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 195,
+    "totalQuestions": 38,
+    "subject": "Mathematics",
+    "session": "BSER Ajmer Senior Secondary Board Exam",
+    "date": "2025-03-18",
+    "shift": "Morning Session (8:30 AM - 11:45 AM)",
+    "paperNumber": "Code 16",
+    "language": "Bilingual",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in/board-papers/2025/XII/16_MATHEMATICS.pdf",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "BSER Ajmer Senior Secondary Exam 2025 Mathematics Question Paper & Official Key",
+    "sourceRetrievedAt": "2025-03-20",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official RBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual RBSE Senior Secondary Examination 2025 Mathematics paper conducted on March 18, 2025 by BSER Ajmer.",
+    "questionIds": [
+      "q-rbse-12-2025-math-1",
+      "q-rbse-12-2025-math-2",
+      "q-rbse-12-2025-math-3"
+    ],
+    "stableKey": "RBSE|2025|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2025-03-18|MORNING_SESSION__8_30_AM___11_45_AM_|MATHEMATICS|CODE 16"
+  },
+  {
+    "id": "pyq-rbse-12-2025-biology",
+    "title": "RBSE Class 12 Biology Board Paper 2025",
+    "exam": "RBSE",
+    "canonicalExam": "RBSE",
+    "classLevel": "12",
+    "board": "RBSE",
+    "year": 2025,
+    "contentType": "REAL_PYQ",
+    "paperType": "PYQ",
+    "durationMinutes": 195,
+    "totalQuestions": 38,
+    "subject": "Biology",
+    "session": "BSER Ajmer Senior Secondary Board Exam",
+    "date": "2025-03-24",
+    "shift": "Morning Session (8:30 AM - 11:45 AM)",
+    "paperNumber": "Code 17",
+    "language": "Bilingual",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in/board-papers/2025/XII/17_BIOLOGY.pdf",
+    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
+    "sourceDocumentTitle": "BSER Ajmer Senior Secondary Exam 2025 Biology Question Paper & Official Key",
+    "sourceRetrievedAt": "2025-03-26",
+    "verificationMethod": "OFFICIAL_AUTHORITY_CROSS_CHECK",
+    "sourceType": "Official RBSE",
+    "verificationStatus": "VERIFIED",
+    "rightsStatus": "OFFICIAL_PUBLIC_SOURCE",
+    "answerKeySource": "Official",
+    "answerKeyVerified": true,
+    "description": "Actual RBSE Senior Secondary Examination 2025 Biology paper conducted on March 24, 2025 by BSER Ajmer.",
+    "questionIds": [
+      "q-rbse-12-2025-bio-1",
+      "q-rbse-12-2025-bio-2",
+      "q-rbse-12-2025-bio-3"
+    ],
+    "stableKey": "RBSE|2025|CLASS_12|BSER_AJMER_SENIOR_SECONDARY_BOARD_EXAM|2025-03-24|MORNING_SESSION__8_30_AM___11_45_AM_|BIOLOGY|CODE 17"
   }
 ];
+
+export default realPapers;

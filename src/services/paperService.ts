@@ -1,9 +1,13 @@
-import { Paper, ExamType, SubjectName, CanonicalContentType } from '../types';
+import { Paper, ExamType, SubjectName, CanonicalContentType, CanonicalExam } from '../types';
 import { mockPapers } from '../data/mockData';
 import { getStorageItem, setStorageItem } from '../utils/storage';
+import manifestData from '../data/realPapersImportManifest.json';
+import missingPapersData from '../data/missingRealPapers.json';
+import verificationReportData from '../data/realPapersVerificationReport.json';
 
 export interface PaperFilters {
   exam?: ExamType | 'All' | string;
+  canonicalExam?: CanonicalExam | 'All' | string;
   board?: string | 'All';
   subject?: SubjectName | 'All' | string;
   year?: number | 'All';
@@ -106,17 +110,34 @@ class MockPaperService {
       if (filters.contentType && filters.contentType !== 'All') {
         if (p.contentType !== filters.contentType) return false;
       }
-      if (filters.exam && filters.exam !== 'All') {
-        if (filters.exam === 'JEE') {
-          if (p.exam !== 'JEE' || p.title.toLowerCase().includes('advanced')) return false;
-        } else if (filters.exam === 'JEE Advanced') {
-          if (!p.title.toLowerCase().includes('advanced')) return false;
-        } else if (filters.exam === 'Board') {
-          if (p.exam !== 'Board' && p.exam !== 'CBSE' && p.exam !== 'RBSE') return false;
-        } else if (p.exam !== filters.exam && p.board !== filters.exam) {
+      
+      // Canonical Exam / Exam Filter with robust alias matching
+      const examFilter = filters.canonicalExam || filters.exam;
+      if (examFilter && examFilter !== 'All') {
+        const ef = String(examFilter).toUpperCase();
+        if (ef === 'JEE_MAIN' || ef === 'JEE MAIN' || ef === 'JEE') {
+          const isJeeMain = p.canonicalExam === 'JEE_MAIN' || (p.exam === 'JEE' && !p.title.toLowerCase().includes('advanced'));
+          if (!isJeeMain) return false;
+        } else if (ef === 'JEE_ADVANCED' || ef === 'JEE ADVANCED') {
+          const isJeeAdv = p.canonicalExam === 'JEE_ADVANCED' || p.title.toLowerCase().includes('advanced');
+          if (!isJeeAdv) return false;
+        } else if (ef === 'NEET_UG' || ef === 'NEET' || ef === 'NEET-UG' || ef === 'NEET UG') {
+          const isNeet = p.canonicalExam === 'NEET_UG' || p.exam === 'NEET';
+          if (!isNeet) return false;
+        } else if (ef === 'CBSE') {
+          const isCbse = p.canonicalExam === 'CBSE' || p.exam === 'CBSE' || p.board === 'CBSE';
+          if (!isCbse) return false;
+        } else if (ef === 'RBSE') {
+          const isRbse = p.canonicalExam === 'RBSE' || p.exam === 'RBSE' || p.board === 'RBSE';
+          if (!isRbse) return false;
+        } else if (ef === 'BOARD') {
+          const isBoard = p.canonicalExam === 'CBSE' || p.canonicalExam === 'RBSE' || p.exam === 'Board' || p.exam === 'CBSE' || p.exam === 'RBSE';
+          if (!isBoard) return false;
+        } else if (p.exam !== examFilter && p.board !== examFilter && p.canonicalExam !== examFilter) {
           return false;
         }
       }
+
       if (filters.board && filters.board !== 'All' && p.board !== filters.board) return false;
       if (filters.subject && filters.subject !== 'All') {
         if (p.subject && p.subject !== 'Full Syllabus' && p.subject !== 'All' && p.subject !== filters.subject) {
@@ -159,7 +180,13 @@ class MockPaperService {
 
     papers.forEach(p => {
       let examKey = 'JEE Main';
-      if (p.exam === 'JEE') {
+      if (p.canonicalExam) {
+        if (p.canonicalExam === 'JEE_MAIN') examKey = 'JEE Main';
+        else if (p.canonicalExam === 'JEE_ADVANCED') examKey = 'JEE Advanced';
+        else if (p.canonicalExam === 'NEET_UG') examKey = 'NEET UG';
+        else if (p.canonicalExam === 'CBSE') examKey = 'CBSE';
+        else if (p.canonicalExam === 'RBSE') examKey = 'RBSE';
+      } else if (p.exam === 'JEE') {
         examKey = p.title.toLowerCase().includes('advanced') ? 'JEE Advanced' : 'JEE Main';
       } else if (p.exam === 'NEET') {
         examKey = 'NEET UG';
@@ -221,6 +248,18 @@ class MockPaperService {
     custom.unshift(newPaper);
     setStorageItem('prepora_custom_papers', custom);
     return newPaper;
+  }
+
+  public getImportManifest() {
+    return manifestData;
+  }
+
+  public getMissingPapers() {
+    return missingPapersData;
+  }
+
+  public getVerificationReport() {
+    return verificationReportData;
   }
 
   public deletePaper(id: string): boolean {

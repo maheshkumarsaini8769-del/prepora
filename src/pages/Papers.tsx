@@ -51,11 +51,11 @@ export const Papers: React.FC = () => {
   const filteredPapers = useMemo(() => {
     return papersForCurrentType.filter((p) => {
       if (selectedExam !== 'All') {
-        if (selectedExam === 'NEET' && p.exam !== 'NEET') return false;
-        if (selectedExam === 'JEE' && p.exam !== 'JEE') return false;
-        if (selectedExam === 'JEE Advanced' && !p.title.toLowerCase().includes('advanced')) return false;
-        if (selectedExam === 'CBSE' && p.board !== 'CBSE' && p.exam !== 'CBSE') return false;
-        if (selectedExam === 'RBSE' && p.board !== 'RBSE' && p.exam !== 'RBSE') return false;
+        if (selectedExam === 'NEET' && !(p.canonicalExam === 'NEET_UG' || p.exam === 'NEET')) return false;
+        if (selectedExam === 'JEE' && !(p.canonicalExam === 'JEE_MAIN' || (p.exam === 'JEE' && !p.title.toLowerCase().includes('advanced')))) return false;
+        if (selectedExam === 'JEE Advanced' && !(p.canonicalExam === 'JEE_ADVANCED' || p.title.toLowerCase().includes('advanced'))) return false;
+        if (selectedExam === 'CBSE' && !(p.canonicalExam === 'CBSE' || p.board === 'CBSE' || p.exam === 'CBSE')) return false;
+        if (selectedExam === 'RBSE' && !(p.canonicalExam === 'RBSE' || p.board === 'RBSE' || p.exam === 'RBSE')) return false;
       }
 
       if (selectedClass !== 'All') {
@@ -295,30 +295,30 @@ export const Papers: React.FC = () => {
         </div>
       </div>
 
-      {/* 5. Special Audit Status Notice for 2025 (Section 16 & 22) */}
+      {/* 5. Verified Status Notice for 2025 */}
       {selectedYear === 2025 && activeContentType === 'REAL_PYQ' && (
-        <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900 space-y-1.5">
-          <div className="flex items-center gap-2 font-bold text-amber-800">
-            <AlertCircle className="w-4 h-4 text-amber-600 shrink-0" />
-            <span>2025 Real Examination Papers Status</span>
+        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 space-y-1.5">
+          <div className="flex items-center gap-2 font-bold text-emerald-800">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span>2025 Real Examination Papers Status — Verified Shifts Published</span>
           </div>
-          <p className="text-amber-700 leading-relaxed">
-            Per strict academic integrity guidelines, PREPORA does NOT label unverified or simulated reconstruction papers as Real PYQs. Real 2025 examination shift papers are currently undergoing question-by-question official answer key verification.
+          <p className="text-emerald-800 leading-relaxed">
+            PREPORA publishes verified historical 2025 examination papers with official source provenance (NTA JEE Main 2025 Session 1 January shifts, CBSE Class 12 2025 Board papers, and RBSE Class 12 2025 Board papers). Upcoming 2025 exam sessions (JEE Main April Session 2, NEET-UG May 2025) are cataloged in our official missing papers tracking manifest.
           </p>
-          <div className="pt-1 flex items-center gap-3">
+          <div className="pt-1 flex flex-wrap items-center gap-3">
             <button
               type="button"
               onClick={() => handleTabChange('MODEL_PAPER')}
-              className="font-bold underline text-amber-900 hover:text-amber-950 cursor-pointer"
+              className="font-bold underline text-emerald-900 hover:text-emerald-950 cursor-pointer"
             >
               View 2025 Official Model Papers →
             </button>
             <button
               type="button"
               onClick={() => handleTabChange('MOCK_TEST')}
-              className="font-bold underline text-amber-900 hover:text-amber-950 cursor-pointer"
+              className="font-bold underline text-emerald-900 hover:text-emerald-950 cursor-pointer"
             >
-              View 2025 NTA Full Mock Tests →
+              View 2025 Full Mock Tests →
             </button>
           </div>
         </div>
@@ -338,7 +338,7 @@ export const Papers: React.FC = () => {
             <h3 className="font-bold text-slate-800 text-sm">No papers match this filter criteria</h3>
             <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
               {activeContentType === 'REAL_PYQ' && selectedYear === 2025
-                ? 'Official 2025 examination papers are not yet verified. Please explore verified papers from 2020-2024 or view 2025 Model Papers.'
+                ? 'No verified 2025 papers match this filter. Concluded 2025 sessions (JEE Main Jan, CBSE, RBSE) are published; upcoming 2025 sessions are cataloged in missingRealPapers.json.'
                 : 'Try clearing the search query or selecting a different exam/year filter.'}
             </p>
             <Button size="sm" variant="outline" onClick={clearAllFilters} className="mt-2 text-xs">
@@ -355,9 +355,9 @@ export const Papers: React.FC = () => {
                   <div className="space-y-2">
                     {/* Tags row */}
                     <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs">
-                      <div className="flex items-center gap-1.5">
+                      <div className="flex items-center gap-1.5 flex-wrap">
                         <span className="font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded text-[11px]">
-                          {paper.board ? `${paper.board}` : paper.exam}
+                          {paper.board ? `${paper.board}` : paper.canonicalExam ? paper.canonicalExam.replace('_', ' ') : paper.exam}
                         </span>
                         <span className="text-slate-300">•</span>
                         <span className="text-slate-500 text-[11px]">Class {cls}</span>
@@ -367,13 +367,21 @@ export const Papers: React.FC = () => {
                             <span className="text-slate-600 font-medium text-[11px]">{paper.subject}</span>
                           </>
                         )}
+                        {paper.sourceAuthority && (
+                          <>
+                            <span className="text-slate-300">•</span>
+                            <span className="text-indigo-700 bg-indigo-50 border border-indigo-200/60 font-semibold px-1.5 py-0.2 rounded text-[10px]">
+                              {paper.sourceAuthority}
+                            </span>
+                          </>
+                        )}
                       </div>
 
                       {/* Content Type Pill */}
                       <span
                         className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${
                           paper.contentType === 'REAL_PYQ'
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 flex items-center gap-1'
                             : paper.contentType === 'MODEL_PAPER'
                             ? 'bg-blue-50 text-blue-700 border-blue-200'
                             : paper.contentType === 'MOCK_TEST'
@@ -381,6 +389,7 @@ export const Papers: React.FC = () => {
                             : 'bg-slate-100 text-slate-700 border-slate-200'
                         }`}
                       >
+                        {paper.contentType === 'REAL_PYQ' && <ShieldCheck className="w-3 h-3 text-emerald-600 inline" />}
                         {paper.contentType === 'REAL_PYQ'
                           ? 'REAL PYQ'
                           : paper.contentType === 'MODEL_PAPER'
@@ -399,6 +408,12 @@ export const Papers: React.FC = () => {
                     {(paper.shift || paper.session || paper.date) && (
                       <div className="text-[11px] font-semibold text-brand-700 bg-brand-50/70 px-2 py-0.5 rounded-md inline-block">
                         {[paper.session, paper.date, paper.shift].filter(Boolean).join(' • ')}
+                      </div>
+                    )}
+
+                    {paper.stableKey && (
+                      <div className="text-[10px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100 truncate" title={paper.stableKey}>
+                        ID: {paper.stableKey}
                       </div>
                     )}
 

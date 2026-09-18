@@ -4,6 +4,8 @@ export interface IPaper extends Document {
   id: string;
   title: string;
   exam: 'JEE' | 'NEET' | 'CBSE' | 'RBSE' | 'Board';
+  canonicalExam?: 'JEE_MAIN' | 'JEE_ADVANCED' | 'NEET_UG' | 'CBSE' | 'RBSE';
+  stableKey?: string;
   classLevel?: '10' | '11' | '12';
   board?: 'CBSE' | 'RBSE' | 'National';
   subject?: string;
@@ -19,12 +21,16 @@ export interface IPaper extends Document {
   setCode?: string;
   language?: 'English' | 'Hindi' | 'Bilingual';
   sourceURL?: string;
+  sourceAuthority?: string;
+  sourceDocumentTitle?: string;
   sourceDocument?: string;
-  sourceType?: 'Official NTA' | 'Official JEE Advanced' | 'Official CBSE' | 'Official RBSE' | 'Internal' | 'Curated' | 'AI Generated';
+  sourceRetrievedAt?: string;
+  sourceType?: 'Official NTA' | 'Official JEE Advanced' | 'Official CBSE' | 'Official RBSE' | 'Internal' | 'Curated' | 'AI Generated' | 'OFFICIAL' | 'ARCHIVED_OFFICIAL' | 'SECONDARY';
   sourceDocumentHash?: string;
   verificationDate?: string;
+  verificationMethod?: string;
   verificationStatus: 'VERIFIED' | 'UNVERIFIED' | 'NEEDS_REVIEW' | 'SOURCE_ONLY';
-  rightsStatus?: 'Public Domain' | 'Educational Fair Use' | 'Licensed' | 'Review Required';
+  rightsStatus?: 'OFFICIAL_PUBLIC_SOURCE' | 'LICENSE_REQUIRED' | 'PERMISSION_REQUIRED' | 'LINK_ONLY' | 'REVIEW_REQUIRED' | 'UNKNOWN' | 'Public Domain' | 'Educational Fair Use' | 'Licensed';
   answerKeySource: 'Official' | 'PREPORA' | 'AI_Generated';
   answerKeyVerified: boolean;
   description: string;
@@ -49,6 +55,12 @@ const PaperSchema: Schema = new Schema(
       enum: ['JEE', 'NEET', 'CBSE', 'RBSE', 'Board'],
       index: true
     },
+    canonicalExam: {
+      type: String,
+      enum: ['JEE_MAIN', 'JEE_ADVANCED', 'NEET_UG', 'CBSE', 'RBSE'],
+      index: true
+    },
+    stableKey: { type: String, index: true },
     classLevel: { type: String, default: '12' },
     board: { type: String, enum: ['CBSE', 'RBSE', 'National'] },
     subject: { type: String, default: 'Full Syllabus' },
@@ -76,14 +88,18 @@ const PaperSchema: Schema = new Schema(
     setCode: { type: String, default: '' },
     language: { type: String, enum: ['English', 'Hindi', 'Bilingual'], default: 'English' },
     sourceURL: { type: String, default: '' },
+    sourceAuthority: { type: String, default: '' },
+    sourceDocumentTitle: { type: String, default: '' },
     sourceDocument: { type: String, default: '' },
+    sourceRetrievedAt: { type: String, default: '' },
     sourceType: {
       type: String,
-      enum: ['Official NTA', 'Official JEE Advanced', 'Official CBSE', 'Official RBSE', 'Internal', 'Curated', 'AI Generated'],
+      enum: ['Official NTA', 'Official JEE Advanced', 'Official CBSE', 'Official RBSE', 'Internal', 'Curated', 'AI Generated', 'OFFICIAL', 'ARCHIVED_OFFICIAL', 'SECONDARY'],
       default: 'Official NTA'
     },
     sourceDocumentHash: { type: String, default: '' },
     verificationDate: { type: String, default: '' },
+    verificationMethod: { type: String, default: '' },
     verificationStatus: {
       type: String,
       enum: ['VERIFIED', 'UNVERIFIED', 'NEEDS_REVIEW', 'SOURCE_ONLY'],
@@ -92,8 +108,8 @@ const PaperSchema: Schema = new Schema(
     },
     rightsStatus: {
       type: String,
-      enum: ['Public Domain', 'Educational Fair Use', 'Licensed', 'Review Required'],
-      default: 'Educational Fair Use'
+      enum: ['OFFICIAL_PUBLIC_SOURCE', 'LICENSE_REQUIRED', 'PERMISSION_REQUIRED', 'LINK_ONLY', 'REVIEW_REQUIRED', 'UNKNOWN', 'Public Domain', 'Educational Fair Use', 'Licensed'],
+      default: 'OFFICIAL_PUBLIC_SOURCE'
     },
     answerKeySource: {
       type: String,
@@ -122,7 +138,9 @@ const PaperSchema: Schema = new Schema(
   { timestamps: true }
 );
 
+PaperSchema.index({ contentType: 1, canonicalExam: 1, year: -1, status: 1 });
 PaperSchema.index({ contentType: 1, exam: 1, year: -1, status: 1 });
+PaperSchema.index({ canonicalExam: 1, year: -1, status: 1 });
 PaperSchema.index({ exam: 1, year: -1, status: 1 });
 PaperSchema.index({ title: 'text', description: 'text' });
 

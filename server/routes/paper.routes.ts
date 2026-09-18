@@ -128,13 +128,23 @@ router.get('/', async (req: Request, res: Response) => {
       }
     }
 
-    if (exam && exam !== 'All') {
-      if (exam === 'Board') {
-        filter.exam = { $in: ['CBSE', 'RBSE', 'Board'] };
-      } else if (exam === 'JEE') {
-        filter.exam = 'JEE';
+    const examQuery = req.query.canonicalExam || req.query.exam;
+    if (examQuery && examQuery !== 'All') {
+      const eq = String(examQuery).toUpperCase();
+      if (eq === 'JEE_MAIN' || eq === 'JEE MAIN') {
+        filter.$or = [{ canonicalExam: 'JEE_MAIN' }, { exam: 'JEE', title: { $not: /advanced/i } }];
+      } else if (eq === 'JEE_ADVANCED' || eq === 'JEE ADVANCED') {
+        filter.$or = [{ canonicalExam: 'JEE_ADVANCED' }, { exam: 'JEE', title: /advanced/i }];
+      } else if (eq === 'NEET_UG' || eq === 'NEET' || eq === 'NEET-UG') {
+        filter.$or = [{ canonicalExam: 'NEET_UG' }, { exam: 'NEET' }];
+      } else if (eq === 'CBSE') {
+        filter.$or = [{ canonicalExam: 'CBSE' }, { exam: 'CBSE' }, { board: 'CBSE' }];
+      } else if (eq === 'RBSE') {
+        filter.$or = [{ canonicalExam: 'RBSE' }, { exam: 'RBSE' }, { board: 'RBSE' }];
+      } else if (eq === 'BOARD') {
+        filter.$or = [{ canonicalExam: { $in: ['CBSE', 'RBSE'] } }, { exam: { $in: ['CBSE', 'RBSE', 'Board'] } }, { board: { $in: ['CBSE', 'RBSE'] } }];
       } else {
-        filter.exam = exam;
+        filter.exam = examQuery;
       }
     }
     if (subject && subject !== 'All') filter.subject = subject;

@@ -1,0 +1,62 @@
+[
+  {
+    "exam": "JEE Main",
+    "canonicalExam": "JEE_MAIN",
+    "year": 2025,
+    "session": "Session 2 (April 2025)",
+    "date": "2025-04-03 to 2025-04-09",
+    "shift": "All Shifts (Shift 1 & Shift 2)",
+    "subject": "Full Syllabus",
+    "expectedSource": "https://jeemain.nta.ac.in",
+    "reasonMissing": "PAPER_NOT_PUBLICLY_AVAILABLE",
+    "recommendedAction": "Awaiting NTA official publication of final recorded responses and question paper PDF archives after April examination window."
+  },
+  {
+    "exam": "JEE Advanced",
+    "canonicalExam": "JEE_ADVANCED",
+    "year": 2025,
+    "session": "JEE Advanced 2025 Annual Examination",
+    "date": "2025-05-18",
+    "shift": "Paper 1 & Paper 2",
+    "subject": "Full Syllabus",
+    "expectedSource": "https://jeeadv.ac.in (Organizing Institute: IIT Kanpur)",
+    "reasonMissing": "PAPER_NOT_PUBLICLY_AVAILABLE",
+    "recommendedAction": "JEE Advanced 2025 examination is scheduled for May 2025. Official papers will be ingested immediately upon IIT Kanpur portal release."
+  },
+  {
+    "exam": "NEET-UG",
+    "canonicalExam": "NEET_UG",
+    "year": 2025,
+    "session": "NEET (UG) 2025 Annual Examination",
+    "date": "2025-05-04",
+    "shift": "Single Pen & Paper Shift (14:00 - 17:20)",
+    "subject": "Full Syllabus",
+    "expectedSource": "https://neet.nta.nic.in",
+    "reasonMissing": "PAPER_NOT_PUBLICLY_AVAILABLE",
+    "recommendedAction": "NEET-UG 2025 examination is scheduled for May 2025. Official papers and master keys will be imported following NTA release."
+  },
+  {
+    "exam": "CBSE",
+    "canonicalExam": "CBSE",
+    "year": 2020,
+    "session": "Compartment Examination July 2020",
+    "date": "2020-09-22",
+    "shift": "Morning Session",
+    "subject": "Physics, Chemistry, Mathematics, Biology",
+    "expectedSource": "https://www.cbse.gov.in/cbsenew/question-paper.html",
+    "reasonMissing": "SOURCE_ARCHIVED",
+    "recommendedAction": "Main board papers verified; compartment sets require physical board gazette verification before classifying as REAL_PYQ."
+  },
+  {
+    "exam": "RBSE",
+    "canonicalExam": "RBSE",
+    "year": 2021,
+    "session": "Supplementary Examination 2021",
+    "date": "2021-08-12",
+    "shift": "Morning Session",
+    "subject": "Physics, Chemistry, Mathematics, Biology",
+    "expectedSource": "https://rajeduboard.rajasthan.gov.in",
+    "reasonMissing": "SOURCE_ARCHIVED",
+    "recommendedAction": "Main senior secondary board papers verified; supplementary sets archived by BSER Ajmer."
+  }
+]

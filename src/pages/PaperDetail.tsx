@@ -204,44 +204,72 @@ export const PaperDetail: React.FC = () => {
         </div>
 
         {/* Provenance and Verification Metadata Strip */}
-        <div className="rounded-2xl bg-white/5 border border-white/10 p-3.5 flex flex-wrap items-center justify-between gap-3 text-xs">
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-300">
-            {paper.session && (
-              <div>
-                <span className="text-slate-400">Session:</span>{' '}
-                <strong className="text-white">{paper.session}</strong>
-              </div>
-            )}
-            {paper.date && (
-              <div>
-                <span className="text-slate-400">Exam Date:</span>{' '}
-                <strong className="text-white">{paper.date}</strong>
-              </div>
-            )}
-            {paper.shift && (
-              <div>
-                <span className="text-slate-400">Shift / Slot:</span>{' '}
-                <strong className="text-white">{paper.shift}</strong>
-              </div>
-            )}
-            {paper.sourceType && (
-              <div>
-                <span className="text-slate-400">Authority:</span>{' '}
-                <strong className="text-emerald-400">{paper.sourceType}</strong>
-              </div>
+        <div className="rounded-2xl bg-white/5 border border-white/10 p-3.5 space-y-2 text-xs">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-slate-300">
+              {paper.canonicalExam && (
+                <div>
+                  <span className="text-slate-400">Canonical Exam:</span>{' '}
+                  <strong className="text-white">{paper.canonicalExam.replace('_', ' ')}</strong>
+                </div>
+              )}
+              {paper.session && (
+                <div>
+                  <span className="text-slate-400">Session:</span>{' '}
+                  <strong className="text-white">{paper.session}</strong>
+                </div>
+              )}
+              {paper.date && (
+                <div>
+                  <span className="text-slate-400">Exam Date:</span>{' '}
+                  <strong className="text-white">{paper.date}</strong>
+                </div>
+              )}
+              {paper.shift && (
+                <div>
+                  <span className="text-slate-400">Shift / Slot:</span>{' '}
+                  <strong className="text-white">{paper.shift}</strong>
+                </div>
+              )}
+              {(paper.sourceAuthority || paper.sourceType) && (
+                <div>
+                  <span className="text-slate-400">Source Authority:</span>{' '}
+                  <strong className="text-emerald-400">{paper.sourceAuthority || paper.sourceType}</strong>
+                </div>
+              )}
+              {paper.rightsStatus && (
+                <div>
+                  <span className="text-slate-400">Rights:</span>{' '}
+                  <strong className="text-purple-300">{paper.rightsStatus.replace(/_/g, ' ')}</strong>
+                </div>
+              )}
+            </div>
+
+            {paper.sourceURL && (
+              <a
+                href={paper.sourceURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition border border-white/15"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-purple-300" />
+                <span>Official Document Source</span>
+              </a>
             )}
           </div>
 
-          {paper.sourceURL && (
-            <a
-              href={paper.sourceURL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition border border-white/15"
-            >
-              <ExternalLink className="w-3.5 h-3.5 text-purple-300" />
-              <span>Official Document Source</span>
-            </a>
+          {paper.stableKey && (
+            <div className="pt-2 border-t border-white/5 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+              <div>
+                <span>Canonical Identity Key:</span>{' '}
+                <code className="text-slate-300 font-mono bg-black/30 px-2 py-0.5 rounded">{paper.stableKey}</code>
+              </div>
+              {paper.verificationMethod && (
+                <div className="text-slate-400">
+                  Method: <span className="text-slate-300">{paper.verificationMethod}</span>
+                </div>
+              )}
+            </div>
           )}
         </div>
 

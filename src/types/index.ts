@@ -27,10 +27,22 @@ export type CanonicalContentType =
   | 'SAMPLE_PAPER' 
   | 'CUSTOM_TEST';
 
+export type CanonicalExam = 'JEE_MAIN' | 'JEE_ADVANCED' | 'NEET_UG' | 'CBSE' | 'RBSE';
+
 export type ContentType = CanonicalContentType | 'PYQ' | 'PRACTICE_SET';
 
 export type VerificationStatus = 'VERIFIED' | 'UNVERIFIED' | 'NEEDS_REVIEW' | 'SOURCE_ONLY';
-export type RightsStatus = 'Public Domain' | 'Educational Fair Use' | 'Licensed' | 'Review Required';
+export type CanonicalRightsStatus = 
+  | 'OFFICIAL_PUBLIC_SOURCE' 
+  | 'LICENSE_REQUIRED' 
+  | 'PERMISSION_REQUIRED' 
+  | 'LINK_ONLY' 
+  | 'REVIEW_REQUIRED' 
+  | 'UNKNOWN' 
+  | 'Public Domain' 
+  | 'Educational Fair Use' 
+  | 'Licensed';
+export type RightsStatus = CanonicalRightsStatus;
 export type AnswerKeySource = 'Official' | 'PREPORA' | 'AI_Generated';
 
 export interface Question {
@@ -147,6 +159,8 @@ export interface Paper {
   id: string;
   title: string;
   exam: ExamType;
+  canonicalExam?: CanonicalExam;
+  stableKey?: string;
   classLevel?: ClassLevel;
   board?: 'CBSE' | 'RBSE';
   subject?: SubjectName | 'Full Syllabus' | 'All';
@@ -162,12 +176,16 @@ export interface Paper {
   setCode?: string;
   language?: 'English' | 'Hindi' | 'Bilingual';
   sourceURL?: string;
+  sourceAuthority?: string;
+  sourceDocumentTitle?: string;
   sourceDocument?: string;
-  sourceType?: 'Official NTA' | 'Official JEE Advanced' | 'Official CBSE' | 'Official RBSE' | 'Internal' | 'Curated' | 'AI Generated';
+  sourceRetrievedAt?: string;
+  sourceType?: 'Official NTA' | 'Official JEE Advanced' | 'Official CBSE' | 'Official RBSE' | 'Internal' | 'Curated' | 'AI Generated' | 'OFFICIAL' | 'ARCHIVED_OFFICIAL' | 'SECONDARY';
   sourceDocumentHash?: string;
   verificationDate?: string;
+  verificationMethod?: string;
   verificationStatus: VerificationStatus;
-  rightsStatus?: RightsStatus;
+  rightsStatus?: CanonicalRightsStatus;
   answerKeySource: AnswerKeySource;
   answerKeyVerified: boolean;
   description: string;
