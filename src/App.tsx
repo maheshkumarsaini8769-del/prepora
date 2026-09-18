@@ -64,6 +64,7 @@ import { AdminAuthorityPage } from './pages/admin/AdminAuthorityPage';
 // Auth Pages & Route Guard
 import { Login } from './pages/Login';
 import { AuthCallback } from './pages/AuthCallback';
+import { Onboarding } from './pages/Onboarding';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AdminRouteGuard } from './components/auth/AdminRouteGuard';
 import { OAuthCallbackWatcher } from './components/auth/OAuthCallbackWatcher';
@@ -84,6 +85,9 @@ export const App: React.FC = () => {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Login defaultTab="register" />} />
           <Route path="/auth/callback" element={<AuthCallback />} />
+
+          {/* First Login Preparation Setup (Protected) */}
+          <Route path="/onboarding" element={<ProtectedRoute><Onboarding /></ProtectedRoute>} />
 
           {/* Full-Screen Exam Hall Routes (Protected) */}
           <Route element={<ProtectedRoute><ExamLayout /></ProtectedRoute>}>

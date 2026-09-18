@@ -16,6 +16,7 @@ import { Card, Button } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { formulaService } from '../services/formulaService';
 import { ecosystemService } from '../services/ecosystemService';
+import { syllabusService } from '../services/syllabusService';
 import { userService } from '../services/userService';
 import { InteractiveMindMap } from '../components/common/InteractiveMindMap';
 import { AskDoubtModal } from '../components/common/AskDoubtModal';
@@ -27,9 +28,13 @@ export const ChapterDetail: React.FC = () => {
   const navigate = useNavigate();
 
   const chapterName = decodeURIComponent(id || 'Kinematics');
+  const canonicalChapter = syllabusService.getChapter(chapterName);
   const questions = questionService.filterQuestions({ chapter: chapterName });
-  const topics = questionService.getTopics(chapterName);
+  const canonicalTopics = canonicalChapter?.topics?.map(t => t.name) || [];
+  const topics = canonicalTopics.length > 0 ? canonicalTopics : questionService.getTopics(chapterName);
   const sampleQ = questions[0];
+  const subjectName = canonicalChapter?.subjectName || sampleQ?.subject || 'Physics';
+  const classNum = canonicalChapter?.classLevel || sampleQ?.class || '12';
 
   const masteryData = ecosystemService.getChapterMastery(chapterName);
   const chapterMistakes = userService.getMistakes().filter(
@@ -79,9 +84,9 @@ export const ChapterDetail: React.FC = () => {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <div className="flex items-center gap-2 text-xs font-semibold text-slate-500">
-              <span>{sampleQ?.subject || 'Physics'}</span>
+              <span>{subjectName}</span>
               <span>•</span>
-              <span>Class {sampleQ?.class || '12'}</span>
+              <span>Class {classNum}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
               {chapterName}

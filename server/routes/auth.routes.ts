@@ -456,6 +456,7 @@ router.put('/me', authenticateUser, async (req: AuthRequest, res: Response) => {
       'classLevel',
       'targetYear',
       'dreamScore',
+      'preparationProfile',
       'preferences',
       'streakDays',
       'totalQuestionsSolved',

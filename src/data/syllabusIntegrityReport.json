@@ -1,0 +1,36 @@
+{
+  "totalChapters": 439,
+  "totalExams": 5,
+  "exams": [
+    "JEE_MAIN",
+    "JEE_ADVANCED",
+    "NEET_UG",
+    "CBSE",
+    "RBSE"
+  ],
+  "subjects": [
+    "PHYSICS",
+    "CHEMISTRY",
+    "MATHEMATICS",
+    "BIOLOGY"
+  ],
+  "duplicateIdsCount": 0,
+  "duplicateIds": [],
+  "orphanTopicsCount": 0,
+  "orphanTopics": [],
+  "byExam": {
+    "JEE_MAIN": 74,
+    "JEE_ADVANCED": 74,
+    "NEET_UG": 79,
+    "CBSE": 106,
+    "RBSE": 106
+  },
+  "bySubject": {
+    "PHYSICS": 140,
+    "CHEMISTRY": 95,
+    "MATHEMATICS": 108,
+    "BIOLOGY": 96
+  },
+  "status": "PASSED_CLEAN",
+  "timestamp": "2026-09-18T04:44:05.142Z"
+}

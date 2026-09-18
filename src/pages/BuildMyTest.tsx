@@ -273,8 +273,8 @@ export const BuildMyTest: React.FC = () => {
           <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
             1. Target Exam
           </label>
-          <div className="grid grid-cols-3 gap-2">
-            {(['JEE', 'NEET', 'Board'] as ExamType[]).map((e) => (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {(['JEE', 'NEET', 'CBSE', 'RBSE'] as ExamType[]).map((e) => (
               <button
                 key={e}
                 type="button"

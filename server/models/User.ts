@@ -20,6 +20,15 @@ export interface IUser extends Document {
   otpExpires?: Date;
   zenuxsId?: string;
   status: 'active' | 'suspended';
+  preparationProfile?: {
+    preparationType: string;
+    exam: string;
+    classLevel: string;
+    subjects: string[];
+    onboardingCompleted: boolean;
+    targetYear?: number;
+    updatedAt?: Date;
+  };
   preferences?: Record<string, any>;
   createdAt: Date;
   updatedAt: Date;
@@ -46,6 +55,15 @@ const UserSchema: Schema = new Schema(
     otpCode: { type: String },
     otpExpires: { type: Date },
     status: { type: String, enum: ['active', 'suspended'], default: 'active' },
+    preparationProfile: {
+      preparationType: { type: String, enum: ['JEE', 'NEET', 'CBSE', 'RBSE', 'UNDECIDED'] },
+      exam: { type: String },
+      classLevel: { type: String },
+      subjects: [{ type: String }],
+      onboardingCompleted: { type: Boolean, default: false },
+      targetYear: { type: Number },
+      updatedAt: { type: Date, default: Date.now }
+    },
     preferences: { type: Schema.Types.Mixed, default: {} }
   },
   { timestamps: true }

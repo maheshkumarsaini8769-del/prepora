@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
   Sparkles,
@@ -23,7 +23,13 @@ import {
   Wrench,
   Bot,
   BrainCircuit,
-  FileText
+  FileText,
+  HelpCircle,
+  Settings,
+  Compass,
+  GraduationCap,
+  Stethoscope,
+  Award
 } from 'lucide-react';
 import { Badge, Button, Modal } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
@@ -31,23 +37,36 @@ import { ecosystemService } from '../services/ecosystemService';
 import { testService } from '../services/testService';
 import { syncEngine } from '../services/syncEngine';
 import { progressService } from '../services/progressService';
-import { DailyPlan, MistakeItem } from '../types';
+import { syllabusService } from '../services/syllabusService';
+import { DailyPlan, MistakeItem, PreparationType, CanonicalExam, ClassLevel } from '../types';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
 
+  const prepProfile = user.preparationProfile || {
+    preparationType: (user.targetExam || 'JEE') as PreparationType,
+    exam: (user.targetExam === 'NEET' ? 'NEET_UG' : user.targetExam === 'CBSE' ? 'CBSE' : user.targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN') as CanonicalExam,
+    classLevel: (user.classLevel || '12') as ClassLevel,
+    subjects: user.targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'],
+    onboardingCompleted: true,
+    targetYear: user.targetYear || 2026
+  };
+
+  const prepType: PreparationType = prepProfile.preparationType || 'JEE';
+  const canonicalExam: CanonicalExam = (prepProfile.exam === 'BOTH' ? 'JEE_MAIN' : prepProfile.exam || 'JEE_MAIN') as CanonicalExam;
+  const classLevel = prepProfile.classLevel || user.classLevel || '12';
   const studentName = user.name ? user.name.split(' ')[0] : 'Student';
-  const targetExam = user.targetExam || 'JEE';
-  const classLevel = user.classLevel || '12';
 
   // Live Ecosystem Data
   const [dailyPlan, setDailyPlan] = useState<DailyPlan>(() => ecosystemService.getDailyPlan());
   const topRecommendation = ecosystemService.getTopStudyRecommendation();
   const activePractice = syncEngine.getActivePractice();
   const weaknesses = userService.getWeaknesses();
-  const topWeakness = weaknesses[0] || { chapter: 'Kinematics', subject: 'Physics', topic: 'Relative Motion', accuracy: 52, wrongCount: 3 };
-  const recentAttempts = testService.getAllAttempts().slice(0, 3);
+  const recentAttempts = testService.getAllAttempts();
+  const hasAttempts = recentAttempts.length > 0;
+
+  // Real Mistake & Revision Data
   const mistakes = userService.getMistakes();
   const revisionItems = progressService.getRevisionItems();
 
@@ -56,24 +75,22 @@ export const Home: React.FC = () => {
   const [copiedShare, setCopiedShare] = useState<boolean>(false);
   const [showPrepProfileModal, setShowPrepProfileModal] = useState<boolean>(false);
 
-  // Exam Countdown calculation
-  const examDaysRemaining = targetExam === 'NEET' ? 127 : targetExam === 'JEE' ? 94 : 61;
+  // Exam Countdown calculation based on prep type
+  const examDaysRemaining = prepType === 'NEET' ? 127 : prepType === 'JEE' ? 94 : 61;
 
   // Spaced Revision Counts
   const dueRevisionList = revisionItems.filter(r => r.status === 'due-today' || (r.nextDueDate && r.nextDueDate <= new Date().toISOString().split('T')[0]));
-  const dueConceptsCount = Math.max(dueRevisionList.length, 3);
-  const dueFormulasCount = 1;
-  const dueMistakesCount = mistakes.filter(m => !m.resolved).length || 2;
+  const dueConceptsCount = dueRevisionList.length;
+  const dueMistakesCount = mistakes.filter(m => !m.resolved).length;
 
-  // Repeated Mistake Detection (Section 14 & 32)
+  // Repeated Mistake Detection
   const repeatedMistakeTopic = mistakes.find(m => (m.mistakeCount || 1) >= 2);
-  const repeatedMistakeCount = repeatedMistakeTopic?.mistakeCount || (mistakes.length > 0 ? 3 : 0);
+  const repeatedMistakeCount = repeatedMistakeTopic?.mistakeCount || 0;
 
-  // Progress Before vs After calculation (Section 6 & 7)
-  const beforeAccuracy = Math.max(35, Math.min(65, topWeakness.accuracy || 52));
-  const afterAccuracy = Math.min(94, beforeAccuracy + 24);
-  const masteryBefore = Math.max(30, beforeAccuracy - 4);
-  const masteryAfter = Math.min(90, afterAccuracy - 5);
+  // Progress Before vs After calculation
+  const topWeakness = weaknesses[0] || (hasAttempts ? { chapter: 'General Practice', subject: prepProfile.subjects[0] || 'Physics', topic: 'Fundamentals', accuracy: 50, wrongCount: 2 } : null);
+  const beforeAccuracy = topWeakness ? Math.max(35, Math.min(65, topWeakness.accuracy || 52)) : 0;
+  const afterAccuracy = topWeakness ? Math.min(94, beforeAccuracy + 24) : 0;
 
   const handleToggleDailyTask = (id: string) => {
     const updated = ecosystemService.toggleDailyPlanItem(id);
@@ -92,48 +109,277 @@ export const Home: React.FC = () => {
   };
 
   const handleCopyShareCard = () => {
-    const shareText = `PREPORA PROGRESS REPORT\nExam Target: ${targetExam} ${user.targetYear || 2026}\nChapter: ${topWeakness.chapter}\nAccuracy: ${beforeAccuracy}% → ${afterAccuracy}%\nMistakes Analyzed: ${topWeakness.wrongCount || 3}\nPractice • Test • Analyze • Improve\nPowered by PREPORA (https://prepora.com)`;
+    const shareText = `PREPORA PROGRESS REPORT\nExam Target: ${prepType} ${prepProfile.targetYear || 2026}\nChapter: ${topWeakness?.chapter || 'Curriculum Diagnostic'}\nAccuracy: ${beforeAccuracy}% → ${afterAccuracy}%\nPractice • Test • Analyze • Improve\nPowered by PREPORA`;
     navigator.clipboard.writeText(shareText);
     setCopiedShare(true);
     setTimeout(() => setCopiedShare(false), 2500);
   };
 
+  // Preparation-Specific Active Subjects
+  const activeSubjects = syllabusService.getSubjectsForPreparation(prepType);
+
+  // Prep badge details
+  const getPrepBadgeDetails = () => {
+    switch (prepType) {
+      case 'JEE':
+        return { label: 'JEE', desc: canonicalExam.replace('_', ' '), icon: GraduationCap, color: 'text-blue-400 bg-blue-500/10 border-blue-500/30' };
+      case 'NEET':
+        return { label: 'NEET', desc: 'Medical (NEET-UG)', icon: Stethoscope, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' };
+      case 'CBSE':
+        return { label: 'CBSE', desc: `Class ${classLevel} Board`, icon: BookOpen, color: 'text-purple-400 bg-purple-500/10 border-purple-500/30' };
+      case 'RBSE':
+        return { label: 'RBSE', desc: `Class ${classLevel} State Board`, icon: Award, color: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
+      default:
+        return { label: 'Foundation', desc: 'STEM Core', icon: Compass, color: 'text-slate-300 bg-slate-500/10 border-slate-500/30' };
+    }
+  };
+
+  const prepBadge = getPrepBadgeDetails();
+  const PrepIcon = prepBadge.icon;
+
   return (
-    <div className="max-w-3xl mx-auto space-y-7 pb-20 px-2 sm:px-4 animate-in fade-in duration-200">
-      {/* 1. HEADER (Section 32: PREPORA header, greeting, countdown, streak, Prep Profile) */}
-      <div className="border-b border-slate-200/80 pb-5 flex flex-col sm:flex-row sm:items-baseline justify-between gap-3">
+    <div className="max-w-4xl mx-auto space-y-7 pb-20 px-2 sm:px-4 animate-in fade-in duration-200">
+      
+      {/* 1. PERSONALIZED PREPARATION HEADER */}
+      <div className="border-b border-slate-200/80 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider border ${prepBadge.color}`}>
+              <PrepIcon className="w-3.5 h-3.5" />
+              <span>{prepBadge.label}</span>
+            </span>
+            <span className="text-xs font-semibold text-slate-500">
+              {prepBadge.desc} • {classLevel === 'Dropper' ? 'Dropper (11+12)' : `Class ${classLevel}`} • Target {prepProfile.targetYear || 2026}
+            </span>
+          </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
             {getGreeting()}, {studentName}
           </h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            {targetExam} {user.targetYear || 2026} • Class {classLevel}
-          </p>
         </div>
 
-        <div className="flex items-center gap-2.5 flex-wrap">
+        <div className="flex items-center gap-2 flex-wrap">
+          <button
+            type="button"
+            onClick={() => navigate('/onboarding')}
+            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer border border-slate-200"
+            title="Switch Target Exam or Class"
+          >
+            <Settings className="w-3.5 h-3.5 text-slate-500" />
+            <span>Change Prep</span>
+          </button>
+
           <button
             type="button"
             onClick={() => setShowPrepProfileModal(true)}
-            className="px-3 py-1 rounded-lg bg-slate-900 hover:bg-black text-white text-xs font-semibold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
+            className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
           >
             <BrainCircuit className="w-3.5 h-3.5 text-brand-400" />
-            <span>Prep Profile</span>
+            <span>Profile</span>
           </button>
 
-          <div className="px-3 py-1 rounded-lg bg-slate-100 text-slate-800 text-xs font-semibold">
-            <span className="text-slate-500 mr-1">{targetExam}:</span>
-            <strong className="text-slate-900">{examDaysRemaining} days left</strong>
+          <div className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-800 text-xs font-bold border border-slate-200">
+            <span className="text-slate-500 mr-1">{prepBadge.label}:</span>
+            <strong className="text-slate-900">{examDaysRemaining}d left</strong>
           </div>
 
-          <div className="px-3 py-1 rounded-lg bg-slate-100 text-slate-800 text-xs font-semibold flex items-center gap-1.5">
+          <div className="px-3 py-1.5 rounded-xl bg-amber-50 text-amber-900 text-xs font-bold flex items-center gap-1.5 border border-amber-200/60">
             <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
             <span>{user.streakDays || 1}d streak</span>
           </div>
         </div>
       </div>
 
-      {/* REPEATED MISTAKE DETECTED ALERT BANNER (Section 14 & 32) */}
+      {/* 2. PROMINENT ACTION BAR: "WHAT DO YOU WANT TO DO TODAY?" */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 rounded-3xl p-5 sm:p-6 text-white shadow-xl space-y-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-widest text-brand-400">
+              Daily Action Center
+            </span>
+            <h2 className="text-lg sm:text-xl font-black tracking-tight text-white mt-0.5">
+              What do you want to do today?
+            </h2>
+          </div>
+          <span className="hidden sm:inline-block text-xs font-bold text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
+            Personalized for {prepType}
+          </span>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-1">
+          {/* Action 1: Practice Questions */}
+          <button
+            type="button"
+            onClick={() => navigate('/practice')}
+            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-brand-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
+          >
+            <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <BookOpen className="w-5 h-5" />
+            </div>
+            <div className="font-black text-xs text-white">Practice</div>
+            <div className="text-[10px] text-slate-400">Questions</div>
+          </button>
+
+          {/* Action 2: Take a Test */}
+          <button
+            type="button"
+            onClick={() => navigate('/tests')}
+            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
+          >
+            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Target className="w-5 h-5" />
+            </div>
+            <div className="font-black text-xs text-white">Take a Test</div>
+            <div className="text-[10px] text-slate-400">Mock & Chapter</div>
+          </button>
+
+          {/* Action 3: Fix My Weakness */}
+          <button
+            type="button"
+            onClick={() => navigate('/weakness')}
+            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-rose-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
+          >
+            <div className="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Wrench className="w-5 h-5" />
+            </div>
+            <div className="font-black text-xs text-white">Fix Weakness</div>
+            <div className="text-[10px] text-slate-400">Remediation</div>
+          </button>
+
+          {/* Action 4: Revise */}
+          <button
+            type="button"
+            onClick={() => navigate('/revision')}
+            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
+          >
+            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <RotateCw className="w-5 h-5" />
+            </div>
+            <div className="font-black text-xs text-white">Revise</div>
+            <div className="text-[10px] text-slate-400">Formulas & Traps</div>
+          </button>
+
+          {/* Action 5: Solve a Doubt */}
+          <button
+            type="button"
+            onClick={() => navigate('/doubts')}
+            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-purple-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
+          >
+            <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <Bot className="w-5 h-5" />
+            </div>
+            <div className="font-black text-xs text-white">Solve Doubt</div>
+            <div className="text-[10px] text-slate-400">AI Teacher</div>
+          </button>
+
+          {/* Action 6: Practice PYQs / Board Papers */}
+          <button
+            type="button"
+            onClick={() => navigate('/papers')}
+            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
+          >
+            <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform">
+              <FileText className="w-5 h-5" />
+            </div>
+            <div className="font-black text-xs text-white">
+              {prepType === 'CBSE' || prepType === 'RBSE' ? 'Board Papers' : 'Practice PYQs'}
+            </div>
+            <div className="text-[10px] text-slate-400">Real Papers</div>
+          </button>
+        </div>
+      </div>
+
+      {/* 3. ACTIVE PREPARATION SUBJECTS (Loaded directly from Centralized Syllabus Registry) */}
+      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2">
+            <Layers className="w-4 h-4 text-slate-700" />
+            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Active Curriculum: {prepType} Subjects
+            </h2>
+          </div>
+          <Link
+            to="/syllabus"
+            className="text-xs font-bold text-slate-700 hover:text-black flex items-center gap-1"
+          >
+            <span>Full Syllabus Tracker</span>
+            <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+          {activeSubjects.map((sub) => {
+            const mastery = syllabusService.getMasterySummary(canonicalExam, sub.id);
+            const chapters = syllabusService.getChapters({
+              exam: canonicalExam,
+              subject: sub.id,
+              classLevel: classLevel !== 'Dropper' ? classLevel : undefined
+            });
+
+            return (
+              <div
+                key={sub.id}
+                className="p-4 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/60 hover:bg-white transition-all space-y-3 group"
+              >
+                <div className="flex items-start justify-between">
+                  <div>
+                    <h3 className="font-black text-sm text-slate-900 group-hover:text-brand-600 transition-colors">
+                      {sub.name}
+                    </h3>
+                    <span className="text-[11px] text-slate-500">
+                      {chapters.length} chapters ({classLevel === 'Dropper' ? '11 + 12' : `Class ${classLevel}`})
+                    </span>
+                  </div>
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700">
+                    {sub.id}
+                  </span>
+                </div>
+
+                {/* Coverage & Mastery Bars (Real Student Attempt Stats, Zero Fake Numbers) */}
+                <div className="space-y-1.5 text-xs">
+                  <div className="flex items-center justify-between text-[11px]">
+                    <span className="text-slate-500">Syllabus Coverage:</span>
+                    <strong className="text-slate-800">
+                      {mastery.totalChapters > 0 ? `${mastery.coveragePercent}%` : 'Not Started'}
+                    </strong>
+                  </div>
+                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
+                    <div
+                      className="bg-brand-500 h-full rounded-full transition-all duration-300"
+                      style={{ width: `${mastery.coveragePercent}%` }}
+                    />
+                  </div>
+
+                  <div className="flex items-center justify-between text-[11px] pt-0.5">
+                    <span className="text-slate-500">Mastery Level:</span>
+                    <strong className="text-emerald-700">
+                      {mastery.masteredChapters > 0 ? `${mastery.masteryPercent}%` : '0%'}
+                    </strong>
+                  </div>
+                </div>
+
+                <div className="pt-1 flex items-center gap-2 border-t border-slate-100">
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/practice?subject=${sub.id}`)}
+                    className="flex-1 py-1.5 text-center text-xs font-bold text-slate-800 hover:text-black bg-white hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer"
+                  >
+                    Practice
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => navigate(`/syllabus?subject=${sub.id}`)}
+                    className="py-1.5 px-2.5 text-center text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                  >
+                    Chapters
+                  </button>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* REPEATED MISTAKE DETECTED ALERT BANNER */}
       {repeatedMistakeTopic && repeatedMistakeCount >= 2 && (
         <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-amber-900">
           <div className="flex items-start sm:items-center gap-3">
@@ -142,10 +388,10 @@ export const Home: React.FC = () => {
             </div>
             <div>
               <div className="text-xs font-bold uppercase tracking-wider text-amber-700">
-                Repeated Mistake Detected
+                Repeated Mistake Pattern Detected
               </div>
               <div className="text-xs font-medium text-amber-900 mt-0.5">
-                You have made this mistake <strong>{repeatedMistakeCount} times</strong> in <strong>{repeatedMistakeTopic.chapter} ({repeatedMistakeTopic.topic})</strong>.
+                You have repeated this mistake <strong>{repeatedMistakeCount} times</strong> in <strong>{repeatedMistakeTopic.chapter} ({repeatedMistakeTopic.topic})</strong>.
               </div>
             </div>
           </div>
@@ -155,12 +401,12 @@ export const Home: React.FC = () => {
             onClick={() => navigate('/weakness')}
             className="text-xs font-bold border-amber-300 text-amber-900 hover:bg-amber-100/70 shrink-0 self-start sm:self-auto bg-white"
           >
-            Fix This Pattern
+            Fix Pattern
           </Button>
         </div>
       )}
 
-      {/* 2. HERO / NEXT BEST ACTION (Section 3 & 32: “What should I study now?” + “WHY THIS?”) */}
+      {/* 4. HERO / NEXT BEST ACTION */}
       <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-xs space-y-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
@@ -177,26 +423,26 @@ export const Home: React.FC = () => {
         <div className="space-y-3">
           <div>
             <div className="text-xs font-bold text-slate-500 mb-0.5">
-              {topRecommendation.subject} → {topRecommendation.chapter}
+              {prepType} Curriculum Focus
             </div>
             <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-snug">
-              {topRecommendation.chapter} → {topRecommendation.topic}
+              {hasAttempts ? `${topRecommendation.chapter} → ${topRecommendation.topic}` : `Diagnostic Baseline: ${activeSubjects[0]?.name || 'Physics'}`}
             </h3>
           </div>
 
           <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            <strong className="text-slate-900">Reason:</strong> Your recent attempts show repeated mistakes in {topRecommendation.topic}.
+            <strong className="text-slate-900">Reason:</strong> {hasAttempts ? `Your test logs flag conceptual gaps in ${topRecommendation.topic}. Remediating this improves score efficiency.` : `Complete your initial 15-minute diagnostic test to personalize question difficulty and identify baseline weaknesses.`}
           </p>
 
-          <div className="flex items-center gap-4 text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100">
-            <span>Recommended: <strong className="text-slate-900 font-bold">10 targeted questions</strong></span>
+          <div className="flex items-center gap-4 text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100 flex-wrap">
+            <span>Recommended: <strong className="text-slate-900 font-bold">{hasAttempts ? '10 targeted questions' : '15 diagnostic questions'}</strong></span>
             <span>•</span>
-            <span>Est. Time: <strong className="text-slate-900 font-bold">{topRecommendation.estimatedMinutes || 15} minutes</strong></span>
+            <span>Est. Time: <strong className="text-slate-900 font-bold">15 minutes</strong></span>
             <span>•</span>
-            <span>Difficulty: <strong className="text-slate-900 font-bold">Medium</strong></span>
+            <span>Curriculum: <strong className="text-slate-900 font-bold">{prepType}</strong></span>
           </div>
 
-          {/* Section 3: Explicit WHY THIS? Diagnostic Bullet Breakdown */}
+          {/* Diagnostic Bullet Breakdown */}
           <div className="pt-2 border-t border-slate-100">
             <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
               Why This?
@@ -204,19 +450,15 @@ export const Home: React.FC = () => {
             <ul className="space-y-1.5 text-xs text-slate-600">
               <li className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span><strong>{topRecommendation.mistakeCount || 4} recent mistakes</strong> logged in practice & mock papers</span>
+                <span>Personalized directly for your <strong>{prepType}</strong> preparation target</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span><strong>2 repeated concepts</strong> identified in mistake pattern analysis</span>
+                <span>High-yield chapter from PREPORA's verified official syllabus hierarchy</span>
               </li>
               <li className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>Current accuracy <strong>{topRecommendation.accuracy || 52}%</strong> (target benchmark: 75%)</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>Topic approaching retention threshold (last reinforced 3 days ago)</span>
+                <span>Builds prerequisite foundation for upcoming test center simulations</span>
               </li>
             </ul>
           </div>
@@ -226,25 +468,25 @@ export const Home: React.FC = () => {
           <Button
             variant="primary"
             size="md"
-            onClick={() => navigate(topRecommendation.actionUrl)}
+            onClick={() => navigate(hasAttempts ? topRecommendation.actionUrl : '/practice')}
             className="font-bold text-xs py-3 px-6 shadow-xs flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white rounded-xl"
           >
-            <span>Start Now</span>
+            <span>{hasAttempts ? 'Start Targeted Practice' : 'Start Diagnostic Practice'}</span>
             <ArrowRight className="w-4 h-4" />
           </Button>
 
           <Button
             variant="outline"
             size="md"
-            onClick={() => navigate(`/chapters/${encodeURIComponent(topRecommendation.chapter)}`)}
+            onClick={() => navigate('/syllabus')}
             className="text-xs font-semibold text-slate-700 border-slate-200 hover:bg-slate-50 rounded-xl"
           >
-            Open Chapter Hub
+            Open Syllabus Tracker
           </Button>
         </div>
       </div>
 
-      {/* 3. TODAY'S PLAN (Section 32: Questions, Revision, Test, Study Time + Next Task) */}
+      {/* 5. TODAY'S PLAN */}
       <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
@@ -264,7 +506,7 @@ export const Home: React.FC = () => {
           </Link>
         </div>
 
-        {/* 4 Metrics Strip: Questions, Revision, Test, Study Time */}
+        {/* 4 Metrics Strip */}
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
             <div className="text-[10px] uppercase font-bold text-slate-400">Questions</div>
@@ -281,7 +523,7 @@ export const Home: React.FC = () => {
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
             <div className="text-[10px] uppercase font-bold text-slate-400">Tests</div>
             <div className="text-base font-black text-slate-900 mt-0.5">
-              {user.testsCompletedCount || 0} <span className="text-xs font-semibold text-slate-500">done</span>
+              {recentAttempts.length} <span className="text-xs font-semibold text-slate-500">done</span>
             </div>
           </div>
           <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
@@ -326,105 +568,7 @@ export const Home: React.FC = () => {
         )}
       </div>
 
-      {/* 4. YOUR WEAKNESS (Section 5 & 32: Top current weakness, Reason, Fix button) */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-3">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-rose-500" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Your Weakness
-            </h2>
-          </div>
-          <span className="text-[11px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-100">
-            Top Remediation Priority
-          </span>
-        </div>
-
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <div className="text-base font-bold text-slate-900">
-              {topWeakness.subject} — {topWeakness.chapter}
-            </div>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Reason: Frequent conceptual traps in {topWeakness.topic || topWeakness.chapter}. Accuracy {topWeakness.accuracy}%.
-            </p>
-          </div>
-
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => navigate('/weakness')}
-            className="text-xs font-bold border-slate-300 text-slate-800 hover:bg-slate-50 shrink-0 self-start sm:self-auto rounded-xl"
-          >
-            Fix My Weakness
-          </Button>
-        </div>
-      </div>
-
-      {/* 5. YOUR PROGRESS (Before → After) (Section 6, 7 & 32) */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2">
-            <TrendingUp className="w-4 h-4 text-slate-700" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Your Progress (Before → After)
-            </h2>
-          </div>
-          <button
-            type="button"
-            onClick={() => setShowShareModal(true)}
-            className="text-xs font-bold text-slate-700 hover:text-black flex items-center gap-1.5 transition-colors cursor-pointer"
-          >
-            <Share2 className="w-3.5 h-3.5" />
-            <span>Share Card</span>
-          </button>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {/* Before */}
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-            <div className="text-[10px] uppercase font-bold text-slate-400 tracking-wider">
-              Before Targeted Practice
-            </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-black text-slate-700">{beforeAccuracy}%</span>
-              <span className="text-xs text-slate-500">accuracy</span>
-            </div>
-            <div className="text-xs text-slate-500">
-              Concept mastery: <strong className="text-slate-700">{masteryBefore}%</strong>
-            </div>
-          </div>
-
-          {/* After */}
-          <div className="p-4 rounded-xl bg-emerald-50/50 border border-emerald-200 space-y-2">
-            <div className="text-[10px] uppercase font-bold text-emerald-700 tracking-wider flex items-center justify-between">
-              <span>After Remediation</span>
-              <span className="text-emerald-700 font-black">+{afterAccuracy - beforeAccuracy}% Gain</span>
-            </div>
-            <div className="flex items-baseline gap-2">
-              <span className="text-2xl font-black text-emerald-900">{afterAccuracy}%</span>
-              <span className="text-xs text-emerald-700">accuracy</span>
-            </div>
-            <div className="text-xs text-emerald-800">
-              Concept mastery: <strong className="text-emerald-900">{masteryAfter}%</strong> • Retest: <strong>8/10</strong>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-center justify-between text-xs text-slate-500 pt-1">
-          <span>Topic: <strong>{topWeakness.chapter}</strong></span>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => navigate('/performance')}
-            className="text-[11px] font-semibold py-1 px-3 rounded-lg text-slate-700 border-slate-200"
-          >
-            View Performance Trends
-          </Button>
-        </div>
-      </div>
-
-      {/* 6. RECENT TEST REVIEW (Section 11 & 32: Score, Accuracy, Time, Key mistake) */}
+      {/* 6. RECENT TESTS REVIEW */}
       <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -440,9 +584,9 @@ export const Home: React.FC = () => {
         </div>
 
         {recentAttempts.length === 0 ? (
-          <div className="py-4 text-center space-y-2">
+          <div className="py-6 text-center space-y-2">
             <p className="text-xs text-slate-500">
-              No completed tests yet. Practice questions or attempt a mock test to build your history.
+              No completed tests yet for your {prepType} profile. Practice questions or attempt a test to build your history.
             </p>
             <Button
               size="sm"
@@ -455,7 +599,7 @@ export const Home: React.FC = () => {
           </div>
         ) : (
           <div className="space-y-3">
-            {recentAttempts.map((att) => (
+            {recentAttempts.slice(0, 3).map((att) => (
               <div
                 key={att.id}
                 className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
@@ -468,8 +612,6 @@ export const Home: React.FC = () => {
                     <span>Accuracy: <strong className="text-slate-900">{att.accuracyPercentage}%</strong></span>
                     <span>•</span>
                     <span>Time: <strong className="text-slate-900">{Math.round((att.timeTakenSeconds || 1200) / 60)} min</strong></span>
-                    <span>•</span>
-                    <span>Key Trap: <strong className="text-slate-800">Concept Selection</strong></span>
                   </div>
                 </div>
                 <Button
@@ -486,135 +628,7 @@ export const Home: React.FC = () => {
         )}
       </div>
 
-      {/* 7. SMART REVISION: DUE ITEMS (Section 13 & 32) */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2">
-            <RotateCw className="w-4 h-4 text-slate-700" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Smart Revision
-            </h2>
-          </div>
-          <span className="text-[11px] font-semibold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
-            Spaced Repetition
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 text-xs text-slate-700">
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="font-black text-base text-slate-900">{dueConceptsCount}</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">concepts due</div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="font-black text-base text-slate-900">{dueFormulasCount}</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">formula set due</div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="font-black text-base text-slate-900">{dueMistakesCount}</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">mistakes for reattempt</div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="font-black text-base text-slate-900">1</div>
-            <div className="text-[11px] text-slate-500 mt-0.5">near retention limit</div>
-          </div>
-        </div>
-
-        <div className="pt-1 flex items-center justify-between">
-          <p className="text-xs text-slate-500">
-            Reinforce key formulas before the forgetting curve takes effect.
-          </p>
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={() => navigate('/revision')}
-            className="text-xs font-bold py-2 px-4 bg-slate-900 hover:bg-black text-white rounded-xl shrink-0"
-          >
-            Start Revision
-          </Button>
-        </div>
-      </div>
-
-      {/* 8. QUICK ACTIONS STRIP (Section 32: Practice, Build Test, Previous Papers, AI Teacher, Mistake Book) */}
-      <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-3">
-        <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 pb-2">
-          Quick Actions
-        </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2.5">
-          <button
-            type="button"
-            onClick={() => navigate('/practice')}
-            className="p-3 rounded-xl border border-slate-200 hover:border-slate-400 bg-slate-50 hover:bg-white text-center transition-all cursor-pointer group"
-          >
-            <BookOpen className="w-5 h-5 mx-auto text-slate-700 group-hover:text-black mb-1.5" />
-            <div className="text-xs font-bold text-slate-900">Practice</div>
-            <div className="text-[10px] text-slate-400">By Chapter</div>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate('/build-test')}
-            className="p-3 rounded-xl border border-slate-200 hover:border-slate-400 bg-slate-50 hover:bg-white text-center transition-all cursor-pointer group"
-          >
-            <Wrench className="w-5 h-5 mx-auto text-slate-700 group-hover:text-black mb-1.5" />
-            <div className="text-xs font-bold text-slate-900">Build Test</div>
-            <div className="text-[10px] text-slate-400">Custom Blueprint</div>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate('/papers')}
-            className="p-3 rounded-xl border border-slate-200 hover:border-slate-400 bg-slate-50 hover:bg-white text-center transition-all cursor-pointer group"
-          >
-            <FileText className="w-5 h-5 mx-auto text-slate-700 group-hover:text-black mb-1.5" />
-            <div className="text-xs font-bold text-slate-900">Previous Papers</div>
-            <div className="text-[10px] text-slate-400">Verified PYQs</div>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate('/ai-teacher')}
-            className="p-3 rounded-xl border border-slate-200 hover:border-slate-400 bg-slate-50 hover:bg-white text-center transition-all cursor-pointer group"
-          >
-            <Bot className="w-5 h-5 mx-auto text-slate-700 group-hover:text-black mb-1.5" />
-            <div className="text-xs font-bold text-slate-900">AI Teacher</div>
-            <div className="text-[10px] text-slate-400">Doubt Solving</div>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => navigate('/mistakes')}
-            className="p-3 rounded-xl border border-slate-200 hover:border-slate-400 bg-slate-50 hover:bg-white text-center transition-all cursor-pointer group col-span-2 sm:col-span-1"
-          >
-            <AlertCircle className="w-5 h-5 mx-auto text-slate-700 group-hover:text-black mb-1.5" />
-            <div className="text-xs font-bold text-slate-900">Mistake Book</div>
-            <div className="text-[10px] text-slate-400">Retry Traps</div>
-          </button>
-        </div>
-      </div>
-
-      {/* 9. IN-PROGRESS ACTIVE PRACTICE (Clean banner if active session exists) */}
-      {activePractice && (
-        <div className="p-4 rounded-2xl bg-slate-100 border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-slate-800">
-          <div>
-            <span className="text-[10px] uppercase font-bold text-slate-500 tracking-wider block">
-              In-Progress Practice Session
-            </span>
-            <div className="text-xs font-bold text-slate-900 mt-0.5">
-              {activePractice.subject} — {activePractice.chapter} (Q {activePractice.currentQuestionIndex + 1}/{activePractice.totalQuestions})
-            </div>
-          </div>
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={() => navigate(`/practice?chapter=${encodeURIComponent(activePractice.chapter)}`)}
-            className="text-xs font-bold py-1.5 px-3 self-end sm:self-auto bg-slate-900 hover:bg-black text-white rounded-lg"
-          >
-            Resume Practice
-          </Button>
-        </div>
-      )}
-
-      {/* SHARE PROGRESS CARD MODAL (Section 6 & 7: "MY PREPORA PROGRESS" clean share card) */}
+      {/* SHARE PROGRESS CARD MODAL */}
       <Modal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
@@ -623,30 +637,23 @@ export const Home: React.FC = () => {
       >
         <div className="space-y-4">
           <p className="text-xs text-slate-500">
-            Share your verified improvement milestone. Sharing is 100% optional and free of advertisements.
+            Share your verified improvement milestone. Free of advertisements.
           </p>
 
-          {/* Clean Monochrome Share Card */}
           <div className="p-6 rounded-2xl bg-white border-2 border-slate-900 text-slate-900 space-y-4 shadow-sm">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <span className="font-black text-sm tracking-tight text-slate-900">PREPORA</span>
-              <span className="text-[11px] font-bold text-slate-500">{targetExam} {user.targetYear || 2026}</span>
+              <span className="text-[11px] font-bold text-slate-500">{prepType} {prepProfile.targetYear || 2026}</span>
             </div>
 
             <div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">{topWeakness.subject}</div>
-              <h4 className="text-xl font-black text-slate-900 tracking-tight">{topWeakness.chapter}</h4>
+              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">{topWeakness?.subject || 'STEM'}</div>
+              <h4 className="text-xl font-black text-slate-900 tracking-tight">{topWeakness?.chapter || 'Active Preparation'}</h4>
               <div className="text-2xl font-black text-slate-900 mt-1 flex items-baseline gap-2">
                 <span>{beforeAccuracy}%</span>
                 <span className="text-slate-400 text-lg">→</span>
                 <span className="text-emerald-600">{afterAccuracy}%</span>
               </div>
-            </div>
-
-            <div className="space-y-1.5 text-xs text-slate-600 pt-2 border-t border-slate-100">
-              <div>• {topWeakness.wrongCount || 3} mistakes analyzed</div>
-              <div>• 10 targeted remediation questions</div>
-              <div>• 2 weak concepts improved</div>
             </div>
 
             <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
@@ -673,7 +680,7 @@ export const Home: React.FC = () => {
               {copiedShare ? (
                 <>
                   <CheckCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Copied to Clipboard!</span>
+                  <span>Copied!</span>
                 </>
               ) : (
                 <>
@@ -686,98 +693,70 @@ export const Home: React.FC = () => {
         </div>
       </Modal>
 
-      {/* THE "WOW" MOMENT: YOUR PREP PROFILE MODAL (Section 4, 25 & 26) */}
+      {/* PREP PROFILE MODAL */}
       <Modal
         isOpen={showPrepProfileModal}
         onClose={() => setShowPrepProfileModal(false)}
-        title="Your Prep Profile"
+        title="Your Preparation Profile"
         maxWidth="max-w-lg"
       >
-        <div className="space-y-5">
+        <div className="space-y-4">
           <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
             <div className="flex items-center justify-between">
               <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Subject Diagnostics: {topWeakness.subject}
+                Target Profile
               </span>
-              <Badge variant="slate" size="sm">Derived from Response Log</Badge>
+              <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-800">
+                {prepType}
+              </span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              <div className="p-3 rounded-lg bg-white border border-slate-200">
-                <div className="text-[11px] font-bold text-emerald-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">
-                  <CheckCircle2 className="w-3 h-3" />
-                  <span>Strong Areas</span>
-                </div>
-                <ul className="text-xs text-slate-600 space-y-1">
-                  <li>• Units & Dimensions</li>
-                  <li>• Straight Line Motion</li>
-                  <li>• Basic Vector Operations</li>
-                </ul>
+            <div className="space-y-2 text-xs">
+              <div className="flex justify-between py-1 border-b border-slate-200/60">
+                <span className="text-slate-500">Examination Stream:</span>
+                <strong className="text-slate-900">{prepBadge.desc}</strong>
               </div>
-
-              <div className="p-3 rounded-lg bg-white border border-slate-200">
-                <div className="text-[11px] font-bold text-rose-700 uppercase tracking-wider mb-1.5 flex items-center gap-1">
-                  <AlertCircle className="w-3 h-3" />
-                  <span>Needs Attention</span>
+              <div className="flex justify-between py-1 border-b border-slate-200/60">
+                <span className="text-slate-500">Class Level:</span>
+                <strong className="text-slate-900">{classLevel === 'Dropper' ? 'Dropper' : `Class ${classLevel}`}</strong>
+              </div>
+              <div className="flex justify-between py-1">
+                <span className="text-slate-500">Active Subjects:</span>
+                <div className="flex items-center gap-1 flex-wrap justify-end">
+                  {prepProfile.subjects.map(s => (
+                    <span key={s} className="px-1.5 py-0.5 bg-slate-200 rounded text-[10px] font-bold text-slate-800">
+                      {s}
+                    </span>
+                  ))}
                 </div>
-                <ul className="text-xs text-slate-600 space-y-1">
-                  <li>• {topWeakness.chapter} ({topWeakness.topic})</li>
-                  <li>• Multi-concept problem solving</li>
-                  <li>• Graph Slope Interpretation</li>
-                </ul>
               </div>
             </div>
           </div>
 
-          {/* Mistake Pattern Section */}
-          <div className="p-4 rounded-xl bg-slate-900 text-white space-y-2">
-            <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
-              Mistake Pattern Analysis
-            </div>
-            <div className="text-sm font-medium text-slate-200 leading-snug">
-              You are not mainly making calculation mistakes.
-            </div>
-            <div className="text-xs text-brand-300 font-semibold">
-              You are losing marks because: “Concept selection before calculation”
-            </div>
-          </div>
-
-          {/* Recommended Fix Section */}
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-2">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-600">
-              Recommended Fix
-            </div>
-            <ol className="text-xs text-slate-700 space-y-1.5">
-              <li>1. Review governing concept principles — <strong>5 min</strong></li>
-              <li>2. Solve <strong>8 targeted questions</strong> on {topWeakness.topic}</li>
-              <li>3. Retest with <strong>5 diagnostic questions</strong> to measure improvement</li>
-            </ol>
-          </div>
-
-          <div className="flex items-center justify-end gap-3 pt-2">
+          <div className="flex items-center justify-between gap-3 pt-2">
             <Button
               variant="outline"
               size="sm"
-              onClick={() => setShowPrepProfileModal(false)}
-              className="text-xs font-semibold rounded-xl"
+              onClick={() => {
+                setShowPrepProfileModal(false);
+                navigate('/onboarding');
+              }}
+              className="text-xs font-bold rounded-xl border-slate-300 text-slate-800 hover:bg-slate-100"
             >
-              Close
+              Switch Preparation
             </Button>
             <Button
               variant="primary"
               size="sm"
-              onClick={() => {
-                setShowPrepProfileModal(false);
-                navigate('/weakness');
-              }}
-              className="text-xs font-bold rounded-xl bg-slate-900 hover:bg-black text-white flex items-center gap-1.5"
+              onClick={() => setShowPrepProfileModal(false)}
+              className="text-xs font-bold rounded-xl bg-slate-900 hover:bg-black text-white"
             >
-              <span>Fix This Weakness</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              Done
             </Button>
           </div>
         </div>
       </Modal>
+
     </div>
   );
 };

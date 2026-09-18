@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   Settings as SettingsIcon,
   Save,
@@ -13,7 +14,8 @@ import {
   ShieldCheck,
   KeyRound,
   Palette,
-  Check
+  Check,
+  Compass
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
@@ -22,6 +24,7 @@ import { ExamType, ClassLevel } from '../types';
 import { THEME_OPTIONS, ThemeKey, getSavedTheme, applyTheme } from '../utils/theme';
 
 export const Settings: React.FC = () => {
+  const navigate = useNavigate();
   const profile = userService.getProfile();
   const [activeTheme, setActiveTheme] = useState<ThemeKey>(getSavedTheme());
 
@@ -33,12 +36,27 @@ export const Settings: React.FC = () => {
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleSave = () => {
+    const updatedPrep = {
+      ...(profile.preparationProfile || {
+        userId: profile.id,
+        onboardingCompleted: true,
+        subjects: exam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'],
+        targetYear: targetYear,
+        updatedAt: new Date().toISOString()
+      }),
+      preparationType: (exam === 'CBSE' ? 'CBSE' : exam === 'RBSE' ? 'RBSE' : exam === 'NEET' ? 'NEET' : 'JEE') as any,
+      exam: (exam === 'NEET' ? 'NEET_UG' : exam === 'CBSE' ? 'CBSE' : exam === 'RBSE' ? 'RBSE' : 'JEE_MAIN') as any,
+      classLevel: classLevel,
+      targetYear: targetYear
+    };
+
     userService.updateProfile({
       name: name.trim() || profile.name,
       targetExam: exam,
       classLevel: classLevel,
       targetYear: targetYear,
-      dailyGoalQuestions: dailyGoal
+      dailyGoalQuestions: dailyGoal,
+      preparationProfile: updatedPrep
     });
     setSavedSuccess(true);
     setTimeout(() => setSavedSuccess(false), 2500);
@@ -64,6 +82,33 @@ export const Settings: React.FC = () => {
         </div>
       )}
 
+      {/* Dedicated Preparation Stream Wizard Card */}
+      <Card className="p-5 border-slate-200 space-y-3">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Compass className="w-4 h-4 text-brand-600" />
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+              Personalized Preparation Setup
+            </h3>
+          </div>
+          <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-slate-100 text-slate-800">
+            {profile.preparationProfile?.preparationType || profile.targetExam}
+          </span>
+        </div>
+        <p className="text-xs text-slate-500 leading-relaxed">
+          Need to switch from JEE to NEET, or change from Class 11 to 12? Run the multi-step setup wizard to recalibrate your personalized syllabus and daily priorities. All your historical test attempts, scores, and bookmarks remain preserved.
+        </p>
+        <div className="pt-1">
+          <button
+            type="button"
+            onClick={() => navigate('/onboarding')}
+            className="px-4 py-2 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-bold transition-all cursor-pointer shadow-xs"
+          >
+            Launch Preparation Setup Wizard
+          </button>
+        </div>
+      </Card>
+
       <Card className="space-y-5">
         {/* Student Name */}
         <div>
@@ -83,13 +128,13 @@ export const Settings: React.FC = () => {
           <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
             Primary Target Examination
           </label>
-          <div className="grid grid-cols-3 gap-2">
-            {(['JEE', 'NEET', 'Board'] as ExamType[]).map((e) => (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+            {(['JEE', 'NEET', 'CBSE', 'RBSE'] as ExamType[]).map((e) => (
               <button
                 key={e}
                 type="button"
                 onClick={() => setExam(e)}
-                className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                className={`py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                   exam === e
                     ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
                     : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'

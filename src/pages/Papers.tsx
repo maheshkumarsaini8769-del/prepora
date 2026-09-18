@@ -14,18 +14,33 @@ import {
 } from 'lucide-react';
 import { Card, Button, Badge } from '../components/common/UIComponents';
 import { paperService } from '../services/paperService';
+import { userService } from '../services/userService';
 import { Paper, CanonicalContentType } from '../types';
 
 export const Papers: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
+  const user = userService.getProfile();
 
   // Content Type Tab (Default strictly to REAL_PYQ)
   const initialType = (searchParams.get('type') as CanonicalContentType) || 'REAL_PYQ';
   const [activeContentType, setActiveContentType] = useState<CanonicalContentType>(initialType);
 
-  // Filter States
-  const [selectedExam, setSelectedExam] = useState<string>('All');
+  // Filter States: Initialize exam filter from user's active preparation profile
+  const defaultExamFilter = () => {
+    const fromUrl = searchParams.get('exam');
+    if (fromUrl) return fromUrl;
+    const prep = user.preparationProfile?.preparationType || user.targetExam;
+    if (prep === 'NEET') return 'NEET';
+    if (prep === 'CBSE') return 'CBSE';
+    if (prep === 'RBSE') return 'RBSE';
+    if (prep === 'JEE') {
+      if (user.preparationProfile?.exam === 'JEE_ADVANCED') return 'JEE Advanced';
+      return 'JEE';
+    }
+    return 'All';
+  };
+  const [selectedExam, setSelectedExam] = useState<string>(defaultExamFilter);
   const [selectedClass, setSelectedClass] = useState<string>('All');
   const [selectedSubject, setSelectedSubject] = useState<string>('All');
   const [selectedYear, setSelectedYear] = useState<number | 'All'>('All');

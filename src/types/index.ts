@@ -45,6 +45,45 @@ export type CanonicalRightsStatus =
 export type RightsStatus = CanonicalRightsStatus;
 export type AnswerKeySource = 'Official' | 'PREPORA' | 'AI_Generated';
 
+export type PreparationType = 'JEE' | 'NEET' | 'CBSE' | 'RBSE' | 'UNDECIDED';
+export type CanonicalSubjectId = 'PHYSICS' | 'CHEMISTRY' | 'MATHEMATICS' | 'BIOLOGY';
+
+export interface PreparationProfile {
+  userId: string;
+  preparationType: PreparationType;
+  exam: CanonicalExam | 'BOTH' | string;
+  classLevel: '11' | '12' | 'Dropper';
+  subjects: string[];
+  onboardingCompleted: boolean;
+  targetYear?: number;
+  updatedAt?: string;
+}
+
+export interface SyllabusTopic {
+  id: string;
+  name: string;
+  order: number;
+  isKeyTopic?: boolean;
+  subtopics?: string[];
+}
+
+export interface CanonicalSyllabusChapter {
+  id: string;
+  chapterId: string;
+  name: string;
+  examId: CanonicalExam;
+  classLevel: '11' | '12';
+  subjectId: CanonicalSubjectId;
+  subjectName: SubjectName;
+  order: number;
+  weightage: 'High' | 'Medium' | 'Low';
+  topics: SyllabusTopic[];
+  sourceAuthority: string;
+  sourceURL: string;
+  sourceYear: number;
+  verificationStatus: 'VERIFIED' | 'PREPORA_CURRICULUM';
+}
+
 export interface Question {
   id: string;
   exam: ExamType;
@@ -208,6 +247,7 @@ export interface UserProfile {
   todayQuestionsCount: number;
   overallAccuracy: number;
   testsCompletedCount: number;
+  preparationProfile?: PreparationProfile;
 }
 
 export interface Bookmark {

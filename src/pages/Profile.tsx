@@ -85,6 +85,64 @@ export const Profile: React.FC = () => {
           </div>
         </div>
       </Card>
+
+      {/* Preparation Profile Card */}
+      <Card className="p-6 space-y-4">
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div>
+            <h2 className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+              Preparation Profile & Curriculum
+            </h2>
+            <p className="text-xs text-slate-500 mt-0.5">
+              Personalized syllabus and question banks aligned with official exam standards.
+            </p>
+          </div>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => navigate('/onboarding')}
+            className="text-xs font-bold py-1.5 px-3 rounded-xl border-slate-300 text-slate-800 hover:bg-slate-50"
+          >
+            Switch Target Exam
+          </Button>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1 text-xs">
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <span className="text-slate-400 font-medium block">Category</span>
+            <strong className="text-sm font-black text-slate-900 mt-0.5 block">
+              {profile.preparationProfile?.preparationType || profile.targetExam}
+            </strong>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <span className="text-slate-400 font-medium block">Target Exam</span>
+            <strong className="text-sm font-bold text-slate-900 mt-0.5 block">
+              {profile.preparationProfile?.exam || profile.targetExam}
+            </strong>
+          </div>
+
+          <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200/80">
+            <span className="text-slate-400 font-medium block">Active Stage</span>
+            <strong className="text-sm font-bold text-slate-900 mt-0.5 block">
+              {profile.preparationProfile?.classLevel === 'Dropper' ? 'Dropper (11+12)' : `Class ${profile.classLevel}`}
+            </strong>
+          </div>
+        </div>
+
+        {profile.preparationProfile?.subjects && (
+          <div className="pt-2 flex items-center justify-between text-xs">
+            <span className="text-slate-500 font-medium">Curriculum Subjects:</span>
+            <div className="flex items-center gap-1.5 flex-wrap">
+              {profile.preparationProfile.subjects.map(s => (
+                <span key={s} className="px-2 py-0.5 rounded-md bg-slate-100 font-bold text-slate-700 text-[11px]">
+                  {s}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </Card>
     </div>
   );
 };
