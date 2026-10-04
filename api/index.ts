@@ -14,11 +14,8 @@ export default async function handler(req: any, res: any) {
       try {
         serverModule = await import('../server/index.js');
       } catch {
-        try {
-          serverModule = await import('../server/index');
-        } catch {
-          serverModule = await import('../server/index.ts');
-        }
+        const serverPath = '../server/index';
+        serverModule = await import(serverPath);
       }
       appInstance = serverModule.default || serverModule;
     }
