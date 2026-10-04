@@ -40,9 +40,38 @@ export const PaperDetail: React.FC = () => {
   const [showAllAnswers, setShowAllAnswers] = useState<boolean>(true);
   const [userSelectedOption, setUserSelectedOption] = useState<Record<string, number>>({});
 
-  const paper = paperService.getPaperById(id || '');
+  const localPaper = paperService.getPaperById(id || '');
+  const [apiPaper, setApiPaper] = useState<any>(null);
+  const [apiQuestions, setApiQuestions] = useState<Question[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
 
-  if (!paper) {
+  React.useEffect(() => {
+    let isCancelled = false;
+    const loadPaper = async () => {
+      try {
+        const res = await fetch(`/api/papers/${id}`);
+        if (res.ok) {
+          const data = await res.json();
+          if (!isCancelled && data.success && data.paper) {
+            setApiPaper(data.paper);
+            if (data.questions && data.questions.length > 0) {
+              setApiQuestions(data.questions);
+            }
+          }
+        }
+      } catch {
+        // Fallback to local
+      } finally {
+        if (!isCancelled) setLoading(false);
+      }
+    };
+    loadPaper();
+    return () => { isCancelled = true; };
+  }, [id]);
+
+  const paper = apiPaper || localPaper;
+
+  if (!paper && !loading) {
     return (
       <div className="max-w-xl mx-auto text-center py-16 space-y-4">
         <div className="w-16 h-16 rounded-2xl bg-rose-50 text-rose-600 mx-auto flex items-center justify-center">
@@ -57,6 +86,8 @@ export const PaperDetail: React.FC = () => {
 
   // Load questions for this paper
   const questions: Question[] = useMemo(() => {
+    if (apiQuestions.length > 0) return apiQuestions;
+    if (!paper) return [];
     let list = questionService.getQuestionsByIds(paper.questionIds);
     if (list.length < 5) {
       const pool = questionService.filterQuestions({
@@ -65,11 +96,11 @@ export const PaperDetail: React.FC = () => {
         subject: paper.subject && (paper.subject as string) !== 'All' && (paper.subject as string) !== 'Full Syllabus' ? (paper.subject as SubjectName) : undefined,
       });
       if (pool.length > 0) {
-        list = pool.slice(0, Math.min(paper.totalQuestions, 50));
+        list = pool.slice(0, Math.min(paper.totalQuestions || 30, 50));
       }
     }
     return list;
-  }, [paper]);
+  }, [paper, apiQuestions]);
 
   // Unique subjects in this paper
   const subjectsInPaper = useMemo(() => {

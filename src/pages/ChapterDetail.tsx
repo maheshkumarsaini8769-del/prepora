@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import {
   ArrowLeft,
   ChevronDown,
@@ -30,14 +30,16 @@ import { FormulaCard } from '../types';
 export const ChapterDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
 
   const chapterName = decodeURIComponent(id || 'Kinematics');
+  const querySubject = searchParams.get('subject');
   const canonicalChapter = syllabusService.getChapter(chapterName);
   const questions = questionService.filterQuestions({ chapter: chapterName });
   const canonicalTopics = canonicalChapter?.topics?.map(t => t.name) || [];
   const topics = canonicalTopics.length > 0 ? canonicalTopics : questionService.getTopics(chapterName);
   const sampleQ = questions[0];
-  const subjectName = canonicalChapter?.subjectName || sampleQ?.subject || 'Physics';
+  const subjectName = querySubject || canonicalChapter?.subjectName || sampleQ?.subject || 'Physics';
   const classNum = canonicalChapter?.classLevel || sampleQ?.class || '12';
 
   const chapterVideo = getChapterVideo(chapterName, subjectName);
@@ -56,8 +58,9 @@ export const ChapterDetail: React.FC = () => {
   // Progressive Disclosure: Active Selected Topic
   const [selectedTopic, setSelectedTopic] = useState<string | null>(topics[0] || null);
 
-  // Secondary Tools Tabs
-  const [activeSecondaryTab, setActiveSecondaryTab] = useState<'none' | 'videos' | 'formulas' | 'pyqs' | 'mindmap'>('none');
+  // Secondary Tools Tabs (auto-open if tab=videos in URL)
+  const initialTab = searchParams.get('tab') === 'videos' ? 'videos' : 'none';
+  const [activeSecondaryTab, setActiveSecondaryTab] = useState<'none' | 'videos' | 'formulas' | 'pyqs' | 'mindmap'>(initialTab);
   const [showDoubtModal, setShowDoubtModal] = useState<boolean>(false);
 
   // Track video watch analytics

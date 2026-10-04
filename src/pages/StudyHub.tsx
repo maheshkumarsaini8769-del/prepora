@@ -13,13 +13,16 @@ import {
   Sparkles,
   Layers,
   FileEdit,
-  Play
+  Play,
+  Tv,
+  ExternalLink
 } from 'lucide-react';
 import { Badge, Button } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { formulaService } from '../services/formulaService';
 import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
+import { getChapterVideo } from '../data/videoLectures';
 import { SubjectName, ExamType } from '../types';
 
 export const StudyHub: React.FC = () => {
@@ -28,13 +31,14 @@ export const StudyHub: React.FC = () => {
 
   const [activeSubject, setActiveSubject] = useState<SubjectName>('Physics');
   const [selectedChapter, setSelectedChapter] = useState<string>('Kinematics');
-  const [activeTab, setActiveTab] = useState<'notes' | 'formulas' | 'flashcards' | 'pyqs' | 'tests'>('notes');
+  const [activeTab, setActiveTab] = useState<'notes' | 'formulas' | 'flashcards' | 'pyqs' | 'tests' | 'video'>('notes');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const subjects: SubjectName[] = ['Physics', 'Chemistry', 'Mathematics', 'Biology'];
   const chapters = questionService.getChapters(activeSubject, user.classLevel as any);
   const effectiveChapter = chapters.includes(selectedChapter) ? selectedChapter : (chapters[0] || 'Kinematics');
 
+  const chapterVideo = getChapterVideo(effectiveChapter, activeSubject);
   const formulas = formulaService.getFormulasByChapter(effectiveChapter);
   const flashcards = formulaService.getAllFormulas().filter(f => f.chapterTitle === effectiveChapter || f.subject === activeSubject).slice(0, 8);
   const questions = questionService.filterQuestions({ subject: activeSubject, chapter: effectiveChapter });
@@ -164,6 +168,7 @@ export const StudyHub: React.FC = () => {
             {/* Study Tabs: Notes, Formulas, Flashcards, PYQs, Tests */}
             <div className="flex items-center gap-1 border-b border-slate-100 pb-1 overflow-x-auto">
               {[
+                { id: 'video', label: 'One-Shot Video', icon: Tv },
                 { id: 'notes', label: 'Notes', icon: FileEdit },
                 { id: 'formulas', label: 'Formulas', icon: Zap },
                 { id: 'flashcards', label: 'Flashcards', icon: Repeat },
@@ -292,6 +297,42 @@ export const StudyHub: React.FC = () => {
                     Take Test
                   </Button>
                 </div>
+              </div>
+            )}
+
+            {activeTab === 'video' && (
+              <div className="space-y-4 py-2 animate-in fade-in">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-2 border-b border-slate-100">
+                  <div>
+                    <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider">
+                      One-Shot Revision • {chapterVideo.channelName}
+                    </span>
+                    <h3 className="text-sm font-bold text-slate-900">{chapterVideo.title}</h3>
+                  </div>
+                  <a
+                    href={`https://www.youtube.com/watch?v=${chapterVideo.youtubeId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-xs text-rose-600 hover:text-rose-700 font-bold self-start sm:self-auto"
+                  >
+                    <span>Open in YouTube</span>
+                    <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+
+                <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-md border border-slate-800">
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${chapterVideo.youtubeId}?rel=0&modestbranding=1`}
+                    title={chapterVideo.title}
+                    className="absolute inset-0 w-full h-full border-0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                  />
+                </div>
+
+                <p className="text-xs text-slate-500 leading-relaxed">
+                  {chapterVideo.description}
+                </p>
               </div>
             )}
           </div>

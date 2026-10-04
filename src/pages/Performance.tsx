@@ -55,7 +55,7 @@ export const Performance: React.FC = () => {
           <Button
             size="sm"
             variant="outline"
-            onClick={() => navigate('/tests/build')}
+            onClick={() => navigate('/build-test')}
             className="text-xs font-semibold py-2 px-3 border-slate-300 text-slate-700"
           >
             Build Test

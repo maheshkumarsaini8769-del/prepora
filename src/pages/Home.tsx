@@ -29,7 +29,9 @@ import {
   Compass,
   GraduationCap,
   Stethoscope,
-  Award
+  Award,
+  Tv,
+  Play
 } from 'lucide-react';
 import { Badge, Button, Modal } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
@@ -305,6 +307,38 @@ export const Home: React.FC = () => {
             <div className="text-[10px] text-slate-400">Real Papers</div>
           </button>
         </div>
+      </div>
+
+      {/* 2.5 FEATURED: ONE-SHOT VIDEO LECTURES HERO BANNER */}
+      <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-indigo-950 rounded-2xl p-5 text-white shadow-md border border-rose-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-3.5">
+          <div className="w-12 h-12 rounded-2xl bg-rose-600/25 border border-rose-500/40 flex items-center justify-center text-rose-300 shrink-0 shadow-inner">
+            <Tv className="w-6 h-6 text-rose-400" />
+          </div>
+          <div className="space-y-0.5">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-200 border border-rose-400/30">
+                104+ Chapters
+              </span>
+              <span className="text-xs text-rose-300 font-bold">Zero-Distraction Video Lectures</span>
+            </div>
+            <h3 className="text-base sm:text-lg font-black text-white">
+              Top Faculty One-Shot Revisions
+            </h3>
+            <p className="text-xs text-slate-300">
+              Physics Galaxy, Pankaj Sir, Mohit Tyagi & Tarun Sir — Complete NCERT & PYQ shortcuts.
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          onClick={() => navigate('/videos')}
+          className="self-stretch sm:self-auto px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-105 shrink-0"
+        >
+          <Play className="w-4 h-4 fill-current" />
+          <span>Watch Lectures</span>
+        </button>
       </div>
 
       {/* 3. ACTIVE PREPARATION SUBJECTS (Loaded directly from Centralized Syllabus Registry) */}

@@ -1,116 +1,26 @@
 import express, { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
 import Paper from '../models/Paper.js';
 import Question from '../models/Question.js';
 
 const router = express.Router();
 
-// Default curated papers seed helper
+// Real curated papers seed helper
 async function ensureSeededPapers() {
   const count = await Paper.countDocuments();
   if (count === 0) {
-    const defaults = [
-      {
-        id: 'paper-jee-2024-s1',
-        title: 'JEE Main 2024 Session 1 (Sample Shift)',
-        exam: 'JEE',
-        classLevel: '12',
-        year: 2024,
-        paperType: 'PYQ',
-        durationMinutes: 60,
-        totalQuestions: 15,
-        shift: 'Morning Shift (9 AM - 12 PM)',
-        subject: 'Full Syllabus',
-        source: 'Official',
-        status: 'Published',
-        description: 'Original curated paper modeled on the JEE Main 2024 pattern with single correct MCQ questions.',
-        fileUrl: 'https://jeemain.nta.ac.in',
-        answerKeyUrl: 'https://jeemain.nta.ac.in/answer-keys',
-        downloadsCount: 1420,
-        attemptsCount: 890,
-        questionIds: []
-      },
-      {
-        id: 'paper-neet-2024-model',
-        title: 'NEET 2024 Model Question Paper',
-        exam: 'NEET',
-        classLevel: '12',
-        year: 2024,
-        paperType: 'Model Paper',
-        durationMinutes: 45,
-        totalQuestions: 12,
-        shift: 'National Single Shift',
-        subject: 'Full Syllabus',
-        source: 'Curated',
-        status: 'Published',
-        description: 'Standard model paper aligning with latest NTA NEET syllabus across Physics, Chemistry, and Biology.',
-        fileUrl: 'https://neet.nta.nic.in',
-        answerKeyUrl: 'https://neet.nta.nic.in/keys',
-        downloadsCount: 2310,
-        attemptsCount: 1450,
-        questionIds: []
-      },
-      {
-        id: 'paper-cbse-12-phy-2024',
-        title: 'CBSE Class 12 Physics Sample Paper',
-        exam: 'CBSE',
-        classLevel: '12',
-        board: 'CBSE',
-        subject: 'Physics',
-        year: 2024,
-        paperType: 'Sample Paper',
-        durationMinutes: 30,
-        totalQuestions: 8,
-        source: 'Official',
-        status: 'Published',
-        description: 'Official pattern demo questions for CBSE Class 12 Physics Board Examination.',
-        fileUrl: 'https://cbseacademic.nic.in',
-        answerKeyUrl: 'https://cbseacademic.nic.in/solutions',
-        downloadsCount: 980,
-        attemptsCount: 540,
-        questionIds: []
-      },
-      {
-        id: 'paper-rbse-12-chem-2024',
-        title: 'RBSE Class 12 Chemistry Sample Paper',
-        exam: 'RBSE',
-        classLevel: '12',
-        board: 'RBSE',
-        subject: 'Chemistry',
-        year: 2024,
-        paperType: 'Sample Paper',
-        durationMinutes: 30,
-        totalQuestions: 7,
-        source: 'Official',
-        status: 'Published',
-        description: 'Rajasthan Board Class 12 Model Paper for Chemistry theory exam practice.',
-        fileUrl: 'https://rajeduboard.rajasthan.gov.in',
-        answerKeyUrl: 'https://rajeduboard.rajasthan.gov.in/keys',
-        downloadsCount: 650,
-        attemptsCount: 320,
-        questionIds: []
-      },
-      {
-        id: 'paper-jee-adv-2023-p1',
-        title: 'JEE Advanced 2023 Paper 1',
-        exam: 'JEE',
-        classLevel: '12',
-        year: 2023,
-        shift: 'Paper 1 (9:00 AM - 12:00 PM)',
-        subject: 'Full Syllabus',
-        paperType: 'PYQ',
-        durationMinutes: 180,
-        totalQuestions: 51,
-        source: 'Official',
-        status: 'Published',
-        description: 'Official IIT Guwahati JEE Advanced 2023 Paper 1 complete with questions and step-by-step verified explanations.',
-        fileUrl: 'https://jeeadv.ac.in/archive.html',
-        answerKeyUrl: 'https://jeeadv.ac.in/keys2023.html',
-        downloadsCount: 3120,
-        attemptsCount: 1890,
-        questionIds: []
+    try {
+      const pPath = path.resolve('server/data/realPapers.json');
+      if (fs.existsSync(pPath)) {
+        const raw = fs.readFileSync(pPath, 'utf8');
+        const papers = JSON.parse(raw);
+        await Paper.insertMany(papers.map((p: any) => ({ ...p, status: 'Published' })));
+        return;
       }
-    ];
-    await Paper.insertMany(defaults);
+    } catch (e) {
+      console.warn('[Paper Seed Error]', e);
+    }
   }
 }
 

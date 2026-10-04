@@ -135,13 +135,13 @@ const PaperSchema: Schema = new Schema(
     downloadsCount: { type: Number, default: 0 },
     attemptsCount: { type: Number, default: 0 }
   },
-  { timestamps: true }
+  { timestamps: true, language_override: 'none' }
 );
 
 PaperSchema.index({ contentType: 1, canonicalExam: 1, year: -1, status: 1 });
 PaperSchema.index({ contentType: 1, exam: 1, year: -1, status: 1 });
 PaperSchema.index({ canonicalExam: 1, year: -1, status: 1 });
 PaperSchema.index({ exam: 1, year: -1, status: 1 });
-PaperSchema.index({ title: 'text', description: 'text' });
+PaperSchema.index({ title: 'text', description: 'text' }, { language_override: 'none' });
 
 export default mongoose.model<IPaper>('Paper', PaperSchema);

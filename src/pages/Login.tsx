@@ -31,9 +31,9 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  // Pre-login entrance animation state
-  const [animationPhase, setAnimationPhase] = useState<'animating' | 'fading' | 'finished'>('animating');
-  const [loadingProgress, setLoadingProgress] = useState<number>(20);
+  // Pre-login entrance animation state (Instant render without blocking)
+  const [animationPhase, setAnimationPhase] = useState<'animating' | 'fading' | 'finished'>('finished');
+  const [loadingProgress, setLoadingProgress] = useState<number>(100);
 
   useEffect(() => {
     const p1 = setTimeout(() => setLoadingProgress(55), 250);

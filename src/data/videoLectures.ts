@@ -671,6 +671,16 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Thermodynamics."
   },
+  "chemistry:thermodynamics": {
+    id: "vid-chemistry-chemical-thermodynamics",
+    chapter: "Chemical Thermodynamics",
+    subject: "Chemistry",
+    title: "Chemical Thermodynamics (Chemistry) High-Yield One-Shot",
+    youtubeId: "w5N8kP2qX4V",
+    channelName: "Pankaj Sir Chemistry",
+    duration: "2h 20m",
+    description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Thermodynamics."
+  },
   "chemistry:equilibrium": {
     id: "vid-chemistry-equilibrium",
     chapter: "Equilibrium",
@@ -2244,8 +2254,8 @@ export function getChapterVideo(chapterName: string, subjectName: string = "Phys
     return CURATED_CHAPTER_VIDEOS[specificKey];
   }
 
-  // 2. Exact Chapter match
-  if (CURATED_CHAPTER_VIDEOS[normKey]) {
+  // 2. Exact Chapter match with subject match verification
+  if (CURATED_CHAPTER_VIDEOS[normKey] && CURATED_CHAPTER_VIDEOS[normKey].subject?.toLowerCase() === subLower) {
     return CURATED_CHAPTER_VIDEOS[normKey];
   }
 
@@ -2255,12 +2265,15 @@ export function getChapterVideo(chapterName: string, subjectName: string = "Phys
   if (CURATED_CHAPTER_VIDEOS[cleanSpecificKey]) {
     return CURATED_CHAPTER_VIDEOS[cleanSpecificKey];
   }
-  if (CURATED_CHAPTER_VIDEOS[cleanKey]) {
+  if (CURATED_CHAPTER_VIDEOS[cleanKey] && CURATED_CHAPTER_VIDEOS[cleanKey].subject?.toLowerCase() === subLower) {
     return CURATED_CHAPTER_VIDEOS[cleanKey];
   }
 
-  // 4. Check partial match
+  // 4. Check partial match strictly matching requested subject
   for (const [key, resource] of Object.entries(CURATED_CHAPTER_VIDEOS)) {
+    if (resource.subject && resource.subject.toLowerCase() !== subLower) {
+      continue;
+    }
     const cleanKeyIter = normalizeString(key.includes(":") ? key.split(":")[1] : key);
     if (cleanKey.includes(cleanKeyIter) || cleanKeyIter.includes(cleanKey)) {
       return {
@@ -2284,3 +2297,14 @@ export function getChapterVideo(chapterName: string, subjectName: string = "Phys
     description: "Curated comprehensive one-shot theory, derivations, and exam shortcuts for " + chapterName + "."
   };
 }
+
+export function getAllCuratedVideos(): VideoResource[] {
+  const map = new Map<string, VideoResource>();
+  for (const v of Object.values(CURATED_CHAPTER_VIDEOS)) {
+    if (!map.has(v.id)) {
+      map.set(v.id, v);
+    }
+  }
+  return Array.from(map.values());
+}
+

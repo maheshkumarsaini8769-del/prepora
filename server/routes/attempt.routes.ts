@@ -114,8 +114,11 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
         timeSpentSeconds: 0
       };
 
-      const isAnswered = userAns.selectedAnswer !== null && userAns.selectedAnswer !== undefined;
-      const isCorrect = isAnswered && Number(userAns.selectedAnswer) === Number(q.correctAnswer);
+      const selectedVal = (userAns.selectedAnswer !== null && userAns.selectedAnswer !== undefined)
+        ? userAns.selectedAnswer
+        : (userAns.selectedOption !== null && userAns.selectedOption !== undefined ? userAns.selectedOption : null);
+      const isAnswered = selectedVal !== null && selectedVal !== undefined;
+      const isCorrect = isAnswered && Number(selectedVal) === Number(q.correctAnswer);
       const recTime = q.recommendedTimeSeconds || 90;
       const timeSpent = userAns.timeSpentSeconds || 0;
       subjectStats[sub].timeSpent += timeSpent;

@@ -30,7 +30,8 @@ import {
   LogIn,
   LogOut,
   Target,
-  ChevronRight
+  ChevronRight,
+  Tv
 } from 'lucide-react';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
@@ -60,6 +61,7 @@ export const MainLayout: React.FC = () => {
   ];
 
   const secondaryNav = [
+    { name: 'Video Lectures', path: '/videos', icon: Tv },
     { name: 'Performance', path: '/performance', icon: BarChart2 },
     { name: 'Revision', path: '/revision', icon: Repeat },
     { name: 'Mind Map', path: '/mind-map', icon: Sparkles },

@@ -64,6 +64,7 @@ const DailyPlanPage = lazyPage(() => import('./pages/DailyPlanPage'), 'DailyPlan
 const ExamReadinessPage = lazyPage(() => import('./pages/ExamReadinessPage'), 'ExamReadinessPage');
 const AITeacherPage = lazyPage(() => import('./pages/AITeacherPage'), 'AITeacherPage');
 const MindMapPage = lazyPage(() => import('./pages/MindMapPage'), 'MindMapPage');
+const VideoLecturesPage = lazyPage(() => import('./pages/VideoLecturesPage'), 'VideoLecturesPage');
 
 // Admin Pages (Loaded ONLY on demand when admin routes are visited)
 const AdminDashboard = lazyPage(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
@@ -133,11 +134,14 @@ export const App: React.FC = () => {
               <Route path="/tests/:id/review" element={<TestReview />} />
               <Route path="/build-test" element={<BuildMyTest />} />
               <Route path="/builder" element={<Navigate to="/build-test" replace />} />
+              <Route path="/tests/build" element={<Navigate to="/build-test" replace />} />
 
               {/* Papers, Chapters & Syllabus */}
               <Route path="/papers" element={<Papers />} />
               <Route path="/papers/:id" element={<PaperDetail />} />
               <Route path="/chapters/:id" element={<ChapterDetail />} />
+              <Route path="/videos" element={<VideoLecturesPage />} />
+              <Route path="/video-lectures" element={<Navigate to="/videos" replace />} />
               <Route path="/study-hub" element={<StudyHub />} />
               <Route path="/syllabus" element={<SyllabusTracker />} />
               <Route path="/planner" element={<StudyPlanner />} />
