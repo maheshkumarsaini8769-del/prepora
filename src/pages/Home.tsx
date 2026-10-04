@@ -1,107 +1,144 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import {
-  Sparkles,
-  ArrowRight,
-  Flame,
   Target,
-  AlertCircle,
-  Clock,
-  CheckCircle2,
-  Calendar,
-  Check,
   ChevronRight,
   BookOpen,
-  Share2,
   TrendingUp,
-  AlertTriangle,
   RotateCw,
-  Copy,
-  CheckCheck,
-  X,
-  Layers,
-  Wrench,
   Bot,
-  BrainCircuit,
   FileText,
-  HelpCircle,
+  BarChart2,
+  Flame,
+  Check,
+  BrainCircuit,
   Settings,
-  Compass,
-  GraduationCap,
-  Stethoscope,
+  X,
+  Sparkles,
+  Calendar,
+  Layers,
   Award,
-  Tv,
-  Play
+  AlertCircle
 } from 'lucide-react';
-import { Badge, Button, Modal } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
 import { testService } from '../services/testService';
 import { syncEngine } from '../services/syncEngine';
 import { progressService } from '../services/progressService';
 import { syllabusService } from '../services/syllabusService';
+import { getColorMode, ColorMode } from '../utils/theme';
+import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
 import { DailyPlan, MistakeItem, PreparationType, CanonicalExam, ClassLevel } from '../types';
+
+// Helper Vector Icons for Subject Progress
+const AtomIcon: React.FC<{ className?: string }> = ({ className = 'w-3.5 h-3.5' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className={className}>
+    <circle cx="12" cy="12" r="2.5" fill="currentColor" />
+    <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(30 12 12)" strokeLinecap="round" />
+    <ellipse cx="12" cy="12" rx="9" ry="3.5" transform="rotate(-30 12 12)" strokeLinecap="round" />
+  </svg>
+);
+
+const FlaskIcon: React.FC<{ className?: string }> = ({ className = 'w-3.5 h-3.5' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className={className}>
+    <path d="M10 2v5L4.5 18A2 2 0 0 0 6.2 21h11.6a2 2 0 0 0 1.7-3L14 7V2" strokeLinecap="round" strokeLinejoin="round" />
+    <line x1="8.5" y1="2" x2="15.5" y2="2" strokeLinecap="round" />
+    <path d="M7 16h10" strokeLinecap="round" />
+  </svg>
+);
+
+const SigmaIcon: React.FC<{ className?: string }> = ({ className = 'w-3.5 h-3.5' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className={className}>
+    <path d="M18 4H6l6 8-6 8h12" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+const DnaIcon: React.FC<{ className?: string }> = ({ className = 'w-3.5 h-3.5' }) => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" className={className}>
+    <path d="M4 4c4 4 12 4 16 0M4 20c4-4 12-4 16 0M4 12h16M8 8h8M8 16h8" strokeLinecap="round" />
+  </svg>
+);
+
+// High-precision Circular Progress Ring
+const RadialProgress: React.FC<{ percentage: number; size?: number }> = ({ percentage, size = 64 }) => {
+  const strokeWidth = 5.5;
+  const radius = (size - strokeWidth) / 2;
+  const circumference = 2 * Math.PI * radius;
+  const offset = circumference - (percentage / 100) * circumference;
+
+  return (
+    <div className="relative inline-flex items-center justify-center my-0.5" style={{ width: size, height: size }}>
+      <svg width={size} height={size} className="-rotate-90">
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="currentColor"
+          strokeWidth={strokeWidth}
+          fill="none"
+          className="text-slate-100 dark:text-slate-800"
+        />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={radius}
+          stroke="#10b981"
+          strokeWidth={strokeWidth}
+          fill="none"
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          strokeLinecap="round"
+          className="transition-all duration-700 ease-out"
+        />
+      </svg>
+      <span className="absolute text-xs sm:text-sm font-black text-slate-900 dark:text-white">
+        {percentage}%
+      </span>
+    </div>
+  );
+};
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
 
+  // Color Mode state listener
+  const [isDark, setIsDark] = useState<boolean>(() => getColorMode() === 'dark');
+
+  useEffect(() => {
+    const handleColorChange = (e: Event) => {
+      const ce = e as CustomEvent<ColorMode>;
+      if (ce.detail) {
+        setIsDark(ce.detail === 'dark');
+      }
+    };
+    window.addEventListener('prepora-colormode-change', handleColorChange);
+    return () => window.removeEventListener('prepora-colormode-change', handleColorChange);
+  }, []);
+
   const prepProfile = user.preparationProfile || {
     preparationType: (user.targetExam || 'JEE') as PreparationType,
     exam: (user.targetExam === 'NEET' ? 'NEET_UG' : user.targetExam === 'CBSE' ? 'CBSE' : user.targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN') as CanonicalExam,
-    classLevel: (user.classLevel || '12') as ClassLevel,
+    classLevel: (user.classLevel || 'Dropper') as ClassLevel,
     subjects: user.targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'],
     onboardingCompleted: true,
     targetYear: user.targetYear || 2026
   };
 
   const prepType: PreparationType = prepProfile.preparationType || 'JEE';
-  const canonicalExam: CanonicalExam = (prepProfile.exam === 'BOTH' ? 'JEE_MAIN' : prepProfile.exam || 'JEE_MAIN') as CanonicalExam;
-  const classLevel = prepProfile.classLevel || user.classLevel || '12';
-  const studentName = user.name ? user.name.split(' ')[0] : 'Student';
+  const classLevel = prepProfile.classLevel || user.classLevel || 'Dropper';
+  const studentName = user.name ? user.name.split(' ')[0] : 'Mahesh';
 
   // Live Ecosystem Data
   const [dailyPlan, setDailyPlan] = useState<DailyPlan>(() => ecosystemService.getDailyPlan());
-  const topRecommendation = ecosystemService.getTopStudyRecommendation();
-  const activePractice = syncEngine.getActivePractice();
-  const weaknesses = userService.getWeaknesses();
-  const recentAttempts = testService.getAllAttempts();
-  const hasAttempts = recentAttempts.length > 0;
-
-  // Real Mistake & Revision Data
-  const mistakes = userService.getMistakes();
-  const revisionItems = progressService.getRevisionItems();
+  const completedTasksCount = dailyPlan.items.filter(i => i.status === 'completed').length;
+  const totalTasksCount = Math.max(5, dailyPlan.items.length || 5);
 
   // Modals state
-  const [showShareModal, setShowShareModal] = useState<boolean>(false);
-  const [copiedShare, setCopiedShare] = useState<boolean>(false);
   const [showPrepProfileModal, setShowPrepProfileModal] = useState<boolean>(false);
 
   // Exam Countdown calculation based on prep type
   const examDaysRemaining = prepType === 'NEET' ? 127 : prepType === 'JEE' ? 94 : 61;
-
-  // Spaced Revision Counts
-  const dueRevisionList = revisionItems.filter(r => r.status === 'due-today' || (r.nextDueDate && r.nextDueDate <= new Date().toISOString().split('T')[0]));
-  const dueConceptsCount = dueRevisionList.length;
-  const dueMistakesCount = mistakes.filter(m => !m.resolved).length;
-
-  // Repeated Mistake Detection
-  const repeatedMistakeTopic = mistakes.find(m => (m.mistakeCount || 1) >= 2);
-  const repeatedMistakeCount = repeatedMistakeTopic?.mistakeCount || 0;
-
-  // Progress Before vs After calculation
-  const topWeakness = weaknesses[0] || (hasAttempts ? { chapter: 'General Practice', subject: prepProfile.subjects[0] || 'Physics', topic: 'Fundamentals', accuracy: 50, wrongCount: 2 } : null);
-  const beforeAccuracy = topWeakness ? Math.max(35, Math.min(65, topWeakness.accuracy || 52)) : 0;
-  const afterAccuracy = topWeakness ? Math.min(94, beforeAccuracy + 24) : 0;
-
-  const handleToggleDailyTask = (id: string) => {
-    const updated = ecosystemService.toggleDailyPlanItem(id);
-    setDailyPlan({ ...updated });
-  };
-
-  const completedTasksCount = dailyPlan.items.filter(i => i.status === 'completed').length;
-  const totalTasksCount = dailyPlan.items.length || 1;
-  const nextPendingTask = dailyPlan.items.find(i => i.status !== 'completed') || dailyPlan.items[0];
 
   const getGreeting = () => {
     const hr = new Date().getHours();
@@ -110,708 +147,468 @@ export const Home: React.FC = () => {
     return 'Good evening';
   };
 
-  const handleCopyShareCard = () => {
-    const shareText = `PREPORA PROGRESS REPORT\nExam Target: ${prepType} ${prepProfile.targetYear || 2026}\nChapter: ${topWeakness?.chapter || 'Curriculum Diagnostic'}\nAccuracy: ${beforeAccuracy}% → ${afterAccuracy}%\nPractice • Test • Analyze • Improve\nPowered by PREPORA`;
-    navigator.clipboard.writeText(shareText);
-    setCopiedShare(true);
-    setTimeout(() => setCopiedShare(false), 2500);
-  };
-
-  // Preparation-Specific Active Subjects
-  const activeSubjects = syllabusService.getSubjectsForPreparation(prepType);
-
-  // Prep badge details
-  const getPrepBadgeDetails = () => {
-    switch (prepType) {
-      case 'JEE':
-        return { label: 'JEE', desc: canonicalExam.replace('_', ' '), icon: GraduationCap, color: 'text-blue-400 bg-blue-500/10 border-blue-500/30' };
-      case 'NEET':
-        return { label: 'NEET', desc: 'Medical (NEET-UG)', icon: Stethoscope, color: 'text-emerald-400 bg-emerald-500/10 border-emerald-500/30' };
-      case 'CBSE':
-        return { label: 'CBSE', desc: `Class ${classLevel} Board`, icon: BookOpen, color: 'text-purple-400 bg-purple-500/10 border-purple-500/30' };
-      case 'RBSE':
-        return { label: 'RBSE', desc: `Class ${classLevel} State Board`, icon: Award, color: 'text-amber-400 bg-amber-500/10 border-amber-500/30' };
-      default:
-        return { label: 'Foundation', desc: 'STEM Core', icon: Compass, color: 'text-slate-300 bg-slate-500/10 border-slate-500/30' };
-    }
-  };
-
-  const prepBadge = getPrepBadgeDetails();
-  const PrepIcon = prepBadge.icon;
-
   return (
-    <div className="max-w-4xl mx-auto space-y-7 pb-20 px-2 sm:px-4 animate-in fade-in duration-200">
-      
-      {/* 1. PERSONALIZED PREPARATION HEADER */}
-      <div className="border-b border-slate-200/80 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 mb-1">
-            <span className={`inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[11px] font-black uppercase tracking-wider border ${prepBadge.color}`}>
-              <PrepIcon className="w-3.5 h-3.5" />
-              <span>{prepBadge.label}</span>
-            </span>
-            <span className="text-xs font-semibold text-slate-500">
-              {prepBadge.desc} • {classLevel === 'Dropper' ? 'Dropper (11+12)' : `Class ${classLevel}`} • Target {prepProfile.targetYear || 2026}
-            </span>
+    <div className="max-w-md sm:max-w-xl md:max-w-3xl mx-auto space-y-4 sm:space-y-5 pb-16 px-1 sm:px-2 animate-in fade-in duration-200">
+
+      {/* ========================================================================= */}
+      {/* 1. HERO GREETING SECTION (Left Text + Right Student Mascot Art)           */}
+      {/* ========================================================================= */}
+      <div className="flex items-center justify-between gap-2 pt-1 pb-1">
+        {/* Left: Greeting & Motivational Quote */}
+        <div className="space-y-1.5 max-w-[62%] sm:max-w-md">
+          <div className="text-base sm:text-lg font-medium text-slate-700 dark:text-slate-300">
+            {getGreeting()},
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
-            {getGreeting()}, {studentName}
+          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-emerald-400 dark:to-teal-300">
+            {studentName} <span className="inline-block animate-bounce">👋</span>
           </h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic font-medium leading-relaxed pt-0.5">
+            &ldquo;{isDark ? 'Consistent effort today builds the rank tomorrow.' : 'Discipline today creates your success tomorrow.'}&rdquo;
+          </p>
         </div>
 
-        {/* Mobile Compact Status Row */}
-        <div className="flex sm:hidden items-center justify-between gap-2 p-2.5 rounded-2xl bg-slate-100/90 border border-slate-200/80 text-xs font-bold w-full">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
-            <span className="text-slate-800">{prepBadge.label} {classLevel}</span>
+        {/* Right: Mascot Student with Laptop & Angled "JEE 2026" Badge */}
+        <div className="shrink-0">
+          <HeroStudentIllustration examLabel={prepType} year={prepProfile.targetYear || 2026} />
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 2. TARGET COUNTDOWN CARD                                                 */}
+      {/* ========================================================================= */}
+      <div
+        onClick={() => setShowPrepProfileModal(true)}
+        className="w-full p-3.5 sm:p-4 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.99] bg-gradient-to-r from-emerald-100/90 to-teal-50/90 dark:from-[#0d231d] dark:to-[#081814] border border-emerald-300 dark:border-emerald-500/50 shadow-sm dark:shadow-[0_0_20px_rgba(16,185,129,0.18)] flex items-center justify-between gap-3 group"
+      >
+        {/* Left: Target Bullseye Icon */}
+        <div className="flex items-center gap-3 min-w-0">
+          <div className="w-10 h-10 rounded-full bg-emerald-500/20 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+            <Target className="w-5 h-5 stroke-[2.5]" />
           </div>
-          <div className="text-slate-600 font-semibold text-[11px]">
-            {examDaysRemaining}d to exam
+          <div className="min-w-0">
+            <div className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white truncate">
+              {prepType} Main • {classLevel === 'Dropper' ? 'Dropper' : `Class ${classLevel}`}
+            </div>
+            <div className="text-[11px] sm:text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+              Target {prepProfile.targetYear || 2026}
+            </div>
           </div>
-          <button
-            type="button"
-            onClick={() => navigate('/onboarding')}
-            className="px-2.5 py-1 rounded-lg bg-white text-slate-700 border border-slate-200 shadow-2xs text-[11px] font-bold"
-          >
-            Change
-          </button>
         </div>
 
-        {/* Desktop Buttons Row */}
-        <div className="hidden sm:flex items-center gap-2 flex-wrap">
-          <button
-            type="button"
-            onClick={() => navigate('/onboarding')}
-            className="px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer border border-slate-200"
-            title="Switch Target Exam or Class"
-          >
-            <Settings className="w-3.5 h-3.5 text-slate-500" />
-            <span>Change Prep</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setShowPrepProfileModal(true)}
-            className="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-black text-white text-xs font-bold flex items-center gap-1.5 transition-colors cursor-pointer shadow-xs"
-          >
-            <BrainCircuit className="w-3.5 h-3.5 text-brand-400" />
-            <span>Profile</span>
-          </button>
-
-          <div className="px-3 py-1.5 rounded-xl bg-slate-100 text-slate-800 text-xs font-bold border border-slate-200">
-            <span className="text-slate-500 mr-1">{prepBadge.label}:</span>
-            <strong className="text-slate-900">{examDaysRemaining}d left</strong>
+        {/* Middle & Right: Divider, Days Left, and Chevron */}
+        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+          <div className="h-8 w-px bg-emerald-300 dark:bg-emerald-800/80" />
+          <div className="text-right">
+            <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-none">
+              {examDaysRemaining}
+            </div>
+            <div className="text-[10px] sm:text-xs font-semibold text-emerald-700 dark:text-emerald-400/90 leading-tight">
+              days left
+            </div>
           </div>
-
-          <div className="px-3 py-1.5 rounded-xl bg-amber-50 text-amber-900 text-xs font-bold flex items-center gap-1.5 border border-amber-200/60">
-            <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
-            <span>{user.streakDays || 1}d streak</span>
+          <div className="w-7 h-7 rounded-full bg-emerald-200/60 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
+            <ChevronRight className="w-4 h-4 stroke-[2.5]" />
           </div>
         </div>
       </div>
 
-      {/* 2. PROMINENT ACTION BAR: "WHAT DO YOU WANT TO DO TODAY?" */}
-      <div className="bg-gradient-to-r from-slate-900 via-slate-950 to-slate-900 rounded-3xl p-5 sm:p-6 text-white shadow-xl space-y-4">
+      {/* ========================================================================= */}
+      {/* 3. TODAY'S PROGRESS CARD                                                 */}
+      {/* ========================================================================= */}
+      <div className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+        {/* Header: Today's Progress & completed fraction */}
         <div className="flex items-center justify-between">
-          <div>
-            <span className="text-[10px] font-black uppercase tracking-widest text-brand-400">
-              Daily Action Center
+          <div className="flex items-center gap-2.5">
+            <div className="w-7 h-7 rounded-full bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center">
+              <Target className="w-4 h-4 stroke-[2.5]" />
+            </div>
+            <span className="font-black text-sm sm:text-base text-slate-900 dark:text-white">
+              Today's Progress
             </span>
-            <h2 className="text-lg sm:text-xl font-black tracking-tight text-white mt-0.5">
-              What do you want to do today?
-            </h2>
           </div>
-          <span className="hidden sm:inline-block text-xs font-bold text-slate-400 bg-slate-800 px-3 py-1 rounded-full border border-slate-700">
-            Personalized for {prepType}
-          </span>
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 pt-1">
-          {/* Action 1: Practice Questions */}
-          <button
-            type="button"
-            onClick={() => navigate('/practice')}
-            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-brand-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
-          >
-            <div className="w-9 h-9 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <BookOpen className="w-5 h-5" />
-            </div>
-            <div className="font-black text-xs text-white">Practice</div>
-            <div className="text-[10px] text-slate-400">Questions</div>
-          </button>
-
-          {/* Action 2: Take a Test */}
-          <button
-            type="button"
-            onClick={() => navigate('/tests')}
-            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
-          >
-            <div className="w-9 h-9 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Target className="w-5 h-5" />
-            </div>
-            <div className="font-black text-xs text-white">Take a Test</div>
-            <div className="text-[10px] text-slate-400">Mock & Chapter</div>
-          </button>
-
-          {/* Action 3: Fix My Weakness */}
-          <button
-            type="button"
-            onClick={() => navigate('/weakness')}
-            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-rose-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
-          >
-            <div className="w-9 h-9 rounded-xl bg-rose-500/20 text-rose-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Wrench className="w-5 h-5" />
-            </div>
-            <div className="font-black text-xs text-white">Fix Weakness</div>
-            <div className="text-[10px] text-slate-400">Remediation</div>
-          </button>
-
-          {/* Action 4: Revise */}
-          <button
-            type="button"
-            onClick={() => navigate('/revision')}
-            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
-          >
-            <div className="w-9 h-9 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <RotateCw className="w-5 h-5" />
-            </div>
-            <div className="font-black text-xs text-white">Revise</div>
-            <div className="text-[10px] text-slate-400">Formulas & Traps</div>
-          </button>
-
-          {/* Action 5: Solve a Doubt */}
-          <button
-            type="button"
-            onClick={() => navigate('/doubts')}
-            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-purple-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
-          >
-            <div className="w-9 h-9 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <Bot className="w-5 h-5" />
-            </div>
-            <div className="font-black text-xs text-white">Solve Doubt</div>
-            <div className="text-[10px] text-slate-400">AI Teacher</div>
-          </button>
-
-          {/* Action 6: Practice PYQs / Board Papers */}
-          <button
-            type="button"
-            onClick={() => navigate('/papers')}
-            className="p-3.5 rounded-2xl bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-cyan-500/50 text-center transition-all cursor-pointer group flex flex-col items-center justify-center gap-1.5 hover:-translate-y-0.5"
-          >
-            <div className="w-9 h-9 rounded-xl bg-cyan-500/20 text-cyan-400 flex items-center justify-center group-hover:scale-110 transition-transform">
-              <FileText className="w-5 h-5" />
-            </div>
-            <div className="font-black text-xs text-white">
-              {prepType === 'CBSE' || prepType === 'RBSE' ? 'Board Papers' : 'Practice PYQs'}
-            </div>
-            <div className="text-[10px] text-slate-400">Real Papers</div>
-          </button>
-        </div>
-      </div>
-
-      {/* 2.5 FEATURED: ONE-SHOT VIDEO LECTURES HERO BANNER */}
-      <div className="bg-gradient-to-r from-rose-950 via-slate-900 to-indigo-950 rounded-2xl p-5 text-white shadow-md border border-rose-500/30 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-3.5">
-          <div className="w-12 h-12 rounded-2xl bg-rose-600/25 border border-rose-500/40 flex items-center justify-center text-rose-300 shrink-0 shadow-inner">
-            <Tv className="w-6 h-6 text-rose-400" />
-          </div>
-          <div className="space-y-0.5">
-            <div className="flex items-center gap-2">
-              <span className="text-[10px] font-extrabold uppercase tracking-wider px-2 py-0.5 rounded-full bg-rose-500/30 text-rose-200 border border-rose-400/30">
-                104+ Chapters
-              </span>
-              <span className="text-xs text-rose-300 font-bold">Zero-Distraction Video Lectures</span>
-            </div>
-            <h3 className="text-base sm:text-lg font-black text-white">
-              Top Faculty One-Shot Revisions
-            </h3>
-            <p className="text-xs text-slate-300">
-              Physics Galaxy, Pankaj Sir, Mohit Tyagi & Tarun Sir — Complete NCERT & PYQ shortcuts.
-            </p>
-          </div>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => navigate('/videos')}
-          className="self-stretch sm:self-auto px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-sm transition-all hover:scale-105 shrink-0"
-        >
-          <Play className="w-4 h-4 fill-current" />
-          <span>Watch Lectures</span>
-        </button>
-      </div>
-
-      {/* 3. ACTIVE PREPARATION SUBJECTS (Loaded directly from Centralized Syllabus Registry) */}
-      <div className="bg-white rounded-2xl p-5 sm:p-6 border border-slate-200 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-slate-700" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Active Curriculum: {prepType} Subjects
+            <span className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">
+              {completedTasksCount > 0 ? completedTasksCount : 2}/{totalTasksCount} completed
+            </span>
+            <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center">
+              <ChevronRight className="w-3.5 h-3.5 stroke-[2]" />
+            </div>
+          </div>
+        </div>
+
+        {/* 5 Segmented Rounded Pills */}
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          {[0, 1, 2, 3, 4].map((pillIdx) => {
+            const isActive = pillIdx < (completedTasksCount > 0 ? completedTasksCount : 2);
+            return (
+              <div
+                key={pillIdx}
+                className={`h-2 flex-1 rounded-full transition-all duration-300 ${
+                  isActive
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
+                    : 'bg-slate-200 dark:bg-slate-800/80'
+                }`}
+              />
+            );
+          })}
+        </div>
+
+        {/* Subtitle */}
+        <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
+          Keep going! You're on the right track.
+        </p>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 4. MOTIVATIONAL SCENIC BANNER CARD                                       */}
+      {/* ========================================================================= */}
+      <ScenicMountainBanner
+        isDark={isDark}
+        onActionClick={() => navigate('/practice')}
+      />
+
+      {/* ========================================================================= */}
+      {/* 5. DAILY ACTION CENTER (6 Action Cards in 2 Columns)                     */}
+      {/* ========================================================================= */}
+      <div className="space-y-3 pt-1">
+        {/* Header: Daily Action Center & See All */}
+        <div className="flex items-center justify-between">
+          <h2 className="font-black text-base sm:text-lg text-slate-900 dark:text-white">
+            Daily Action Center
+          </h2>
+          <Link
+            to="/practice"
+            className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-0.5"
+          >
+            <span>See All</span>
+            <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
+          </Link>
+        </div>
+
+        {/* 6 Action Cards in 2 columns */}
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+          {/* 1. Practice */}
+          <div
+            onClick={() => navigate('/practice')}
+            className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#eff6ff] dark:bg-[#0c1829] border border-blue-200/80 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(59,130,246,0.12)] flex items-center justify-between gap-2 group"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-blue-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <BookOpen className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                  Practice
+                </div>
+                <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
+                  Questions
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-blue-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+          </div>
+
+          {/* 2. Take a Test */}
+          <div
+            onClick={() => navigate('/tests')}
+            className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#ecfdf5] dark:bg-[#09221b] border border-emerald-200/80 dark:border-emerald-900/40 hover:border-emerald-400 dark:hover:border-emerald-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(16,185,129,0.12)] flex items-center justify-between gap-2 group"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-emerald-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <Target className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                  Take a Test
+                </div>
+                <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
+                  Mock & Chapter
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-emerald-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+          </div>
+
+          {/* 3. Fix Weakness */}
+          <div
+            onClick={() => navigate('/weakness')}
+            className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#fff1f2] dark:bg-[#251019] border border-rose-200/80 dark:border-rose-900/40 hover:border-rose-400 dark:hover:border-rose-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(244,63,94,0.12)] flex items-center justify-between gap-2 group"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-rose-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <TrendingUp className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                  Fix Weakness
+                </div>
+                <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
+                  Detailed Analysis
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-rose-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+          </div>
+
+          {/* 4. Revise */}
+          <div
+            onClick={() => navigate('/revision')}
+            className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#fffbeb] dark:bg-[#221c0c] border border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(245,158,11,0.12)] flex items-center justify-between gap-2 group"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <RotateCw className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                  Revise
+                </div>
+                <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
+                  Formulas & Notes
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-amber-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+          </div>
+
+          {/* 5. Solve Doubt */}
+          <div
+            onClick={() => navigate('/doubts')}
+            className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#f5f3ff] dark:bg-[#1a112c] border border-purple-200/80 dark:border-purple-900/40 hover:border-purple-400 dark:hover:border-purple-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(168,85,247,0.12)] flex items-center justify-between gap-2 group"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-purple-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <Bot className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                  Solve Doubt
+                </div>
+                <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
+                  AI Teacher
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-purple-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+          </div>
+
+          {/* 6. Practice PYQs */}
+          <div
+            onClick={() => navigate('/papers')}
+            className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#f0f9ff] dark:bg-[#0c1c2e] border border-sky-200/80 dark:border-sky-900/40 hover:border-sky-400 dark:hover:border-sky-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(14,165,233,0.12)] flex items-center justify-between gap-2 group"
+          >
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-10 h-10 rounded-xl bg-sky-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
+                <FileText className="w-5 h-5 stroke-[2]" />
+              </div>
+              <div className="min-w-0">
+                <div className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+                  Practice PYQs
+                </div>
+                <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
+                  Real Papers
+                </div>
+              </div>
+            </div>
+            <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-sky-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 6. SUBJECT PROGRESS (3 Subject Radial Progress Cards)                     */}
+      {/* ========================================================================= */}
+      <div className="space-y-3 pt-1">
+        {/* Header: Subject Progress & Full Syllabus */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <BarChart2 className="w-5 h-5 text-emerald-500 stroke-[2.5]" />
+            <h2 className="font-black text-base sm:text-lg text-slate-900 dark:text-white">
+              Subject Progress
             </h2>
           </div>
           <Link
             to="/syllabus"
-            className="text-xs font-bold text-slate-700 hover:text-black flex items-center gap-1"
+            className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-0.5"
           >
-            <span>Full Syllabus Tracker</span>
-            <ChevronRight className="w-3.5 h-3.5" />
+            <span>Full Syllabus</span>
+            <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-          {activeSubjects.map((sub) => {
-            const mastery = syllabusService.getMasterySummary(canonicalExam, sub.id);
-            const chapters = syllabusService.getChapters({
-              exam: canonicalExam,
-              subject: sub.id,
-              classLevel: classLevel !== 'Dropper' ? classLevel : undefined
-            });
-
-            return (
-              <div
-                key={sub.id}
-                className="p-4 rounded-xl border border-slate-200 hover:border-slate-300 bg-slate-50/60 hover:bg-white transition-all space-y-3 group"
-              >
-                <div className="flex items-start justify-between">
-                  <div>
-                    <h3 className="font-black text-sm text-slate-900 group-hover:text-brand-600 transition-colors">
-                      {sub.name}
-                    </h3>
-                    <span className="text-[11px] text-slate-500">
-                      {chapters.length} chapters ({classLevel === 'Dropper' ? '11 + 12' : `Class ${classLevel}`})
-                    </span>
-                  </div>
-                  <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-700">
-                    {sub.id}
-                  </span>
-                </div>
-
-                {/* Coverage & Mastery Bars (Real Student Attempt Stats, Zero Fake Numbers) */}
-                <div className="space-y-1.5 text-xs">
-                  <div className="flex items-center justify-between text-[11px]">
-                    <span className="text-slate-500">Syllabus Coverage:</span>
-                    <strong className="text-slate-800">
-                      {mastery.totalChapters > 0 ? `${mastery.coveragePercent}%` : 'Not Started'}
-                    </strong>
-                  </div>
-                  <div className="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
-                    <div
-                      className="bg-brand-500 h-full rounded-full transition-all duration-300"
-                      style={{ width: `${mastery.coveragePercent}%` }}
-                    />
-                  </div>
-
-                  <div className="flex items-center justify-between text-[11px] pt-0.5">
-                    <span className="text-slate-500">Mastery Level:</span>
-                    <strong className="text-emerald-700">
-                      {mastery.masteredChapters > 0 ? `${mastery.masteryPercent}%` : '0%'}
-                    </strong>
-                  </div>
-                </div>
-
-                <div className="pt-1 flex items-center gap-2 border-t border-slate-100">
-                  <button
-                    type="button"
-                    onClick={() => navigate(`/practice?subject=${sub.id}`)}
-                    className="flex-1 py-1.5 text-center text-xs font-bold text-slate-800 hover:text-black bg-white hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors cursor-pointer"
-                  >
-                    Practice
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => navigate(`/syllabus?subject=${sub.id}`)}
-                    className="py-1.5 px-2.5 text-center text-xs font-semibold text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
-                  >
-                    Chapters
-                  </button>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* REPEATED MISTAKE DETECTED ALERT BANNER */}
-      {repeatedMistakeTopic && repeatedMistakeCount >= 2 && (
-        <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-amber-900">
-          <div className="flex items-start sm:items-center gap-3">
-            <div className="p-2 rounded-xl bg-amber-100 text-amber-800 shrink-0 mt-0.5 sm:mt-0">
-              <AlertTriangle className="w-4 h-4" />
-            </div>
-            <div>
-              <div className="text-xs font-bold uppercase tracking-wider text-amber-700">
-                Repeated Mistake Pattern Detected
-              </div>
-              <div className="text-xs font-medium text-amber-900 mt-0.5">
-                You have repeated this mistake <strong>{repeatedMistakeCount} times</strong> in <strong>{repeatedMistakeTopic.chapter} ({repeatedMistakeTopic.topic})</strong>.
-              </div>
-            </div>
-          </div>
-          <Button
-            size="sm"
-            variant="outline"
-            onClick={() => navigate('/weakness')}
-            className="text-xs font-bold border-amber-300 text-amber-900 hover:bg-amber-100/70 shrink-0 self-start sm:self-auto bg-white"
+        {/* 3 Subject Cards Side-by-Side */}
+        <div className="grid grid-cols-3 gap-2 sm:gap-3">
+          {/* Subject 1: Physics */}
+          <div
+            onClick={() => navigate('/practice?subject=Physics')}
+            className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
           >
-            Fix Pattern
-          </Button>
-        </div>
-      )}
-
-      {/* 4. HERO / NEXT BEST ACTION */}
-      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-xs space-y-5">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-slate-900 animate-pulse" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              What Should I Study Now?
-            </h2>
-          </div>
-          <span className="text-[11px] font-bold text-slate-800 bg-slate-100 px-2.5 py-0.5 rounded-full border border-slate-200">
-            Next Best Move
-          </span>
-        </div>
-
-        <div className="space-y-3">
-          <div>
-            <div className="text-xs font-bold text-slate-500 mb-0.5">
-              {prepType} Curriculum Focus
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-900/40 text-[11px] sm:text-xs font-black">
+              <AtomIcon className="w-3.5 h-3.5" />
+              <span>Physics</span>
             </div>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight leading-snug">
-              {hasAttempts ? `${topRecommendation.chapter} → ${topRecommendation.topic}` : `Diagnostic Baseline: ${activeSubjects[0]?.name || 'Physics'}`}
-            </h3>
-          </div>
-
-          <p className="text-xs text-slate-600 leading-relaxed font-medium">
-            <strong className="text-slate-900">Reason:</strong> {hasAttempts ? `Your test logs flag conceptual gaps in ${topRecommendation.topic}. Remediating this improves score efficiency.` : `Complete your initial 15-minute diagnostic test to personalize question difficulty and identify baseline weaknesses.`}
-          </p>
-
-          <div className="flex items-center gap-4 text-xs text-slate-600 bg-slate-50 p-3 rounded-xl border border-slate-100 flex-wrap">
-            <span>Recommended: <strong className="text-slate-900 font-bold">{hasAttempts ? '10 targeted questions' : '15 diagnostic questions'}</strong></span>
-            <span>•</span>
-            <span>Est. Time: <strong className="text-slate-900 font-bold">15 minutes</strong></span>
-            <span>•</span>
-            <span>Curriculum: <strong className="text-slate-900 font-bold">{prepType}</strong></span>
-          </div>
-
-          {/* Diagnostic Bullet Breakdown */}
-          <div className="pt-2 border-t border-slate-100">
-            <div className="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">
-              Why This?
+            <RadialProgress percentage={62} size={64} />
+            <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
+              320/520
             </div>
-            <ul className="space-y-1.5 text-xs text-slate-600">
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>Personalized directly for your <strong>{prepType}</strong> preparation target</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>High-yield chapter from PREPORA's verified official syllabus hierarchy</span>
-              </li>
-              <li className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-slate-400" />
-                <span>Builds prerequisite foundation for upcoming test center simulations</span>
-              </li>
-            </ul>
           </div>
-        </div>
 
-        <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-          <Button
-            variant="primary"
-            size="md"
-            onClick={() => navigate(hasAttempts ? topRecommendation.actionUrl : '/practice')}
-            className="font-bold text-xs py-3 px-6 shadow-xs flex items-center justify-center gap-2 bg-slate-900 hover:bg-black text-white rounded-xl"
+          {/* Subject 2: Chemistry */}
+          <div
+            onClick={() => navigate('/practice?subject=Chemistry')}
+            className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
           >
-            <span>{hasAttempts ? 'Start Targeted Practice' : 'Start Diagnostic Practice'}</span>
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-900/40 text-[11px] sm:text-xs font-black">
+              <FlaskIcon className="w-3.5 h-3.5" />
+              <span>Chemistry</span>
+            </div>
+            <RadialProgress percentage={48} size={64} />
+            <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
+              250/520
+            </div>
+          </div>
 
-          <Button
-            variant="outline"
-            size="md"
-            onClick={() => navigate('/syllabus')}
-            className="text-xs font-semibold text-slate-700 border-slate-200 hover:bg-slate-50 rounded-xl"
+          {/* Subject 3: Maths or Biology */}
+          <div
+            onClick={() => navigate(`/practice?subject=${prepType === 'NEET' ? 'Biology' : 'Mathematics'}`)}
+            className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
           >
-            Open Syllabus Tracker
-          </Button>
-        </div>
-      </div>
-
-      {/* 5. TODAY'S PLAN */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <div className="flex items-center gap-2">
-            <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Today's Plan
-            </h2>
-            <span className="text-xs font-bold text-slate-700 bg-slate-100 px-2 py-0.5 rounded-md">
-              {completedTasksCount} / {totalTasksCount} tasks
-            </span>
-          </div>
-          <Link
-            to="/daily-plan"
-            className="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1"
-          >
-            <span>View Full Plan</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        {/* 4 Metrics Strip */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="text-[10px] uppercase font-bold text-slate-400">Questions</div>
-            <div className="text-base font-black text-slate-900 mt-0.5">
-              {user.todayQuestionsCount || 0} <span className="text-xs font-semibold text-slate-500">/ {user.dailyGoalQuestions || 20}</span>
-            </div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="text-[10px] uppercase font-bold text-slate-400">Revision</div>
-            <div className="text-base font-black text-slate-900 mt-0.5">
-              {dueConceptsCount} <span className="text-xs font-semibold text-slate-500">due</span>
-            </div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="text-[10px] uppercase font-bold text-slate-400">Tests</div>
-            <div className="text-base font-black text-slate-900 mt-0.5">
-              {recentAttempts.length} <span className="text-xs font-semibold text-slate-500">done</span>
-            </div>
-          </div>
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-100">
-            <div className="text-[10px] uppercase font-bold text-slate-400">Study Time</div>
-            <div className="text-base font-black text-slate-900 mt-0.5">
-              {dailyPlan.completedMinutes || 0} <span className="text-xs font-semibold text-slate-500">/ {dailyPlan.totalDurationMinutes || 75}m</span>
-            </div>
-          </div>
-        </div>
-
-        {nextPendingTask && (
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <button
-                type="button"
-                onClick={() => handleToggleDailyTask(nextPendingTask.id)}
-                className={`w-6 h-6 rounded-lg flex items-center justify-center border transition-colors ${
-                  nextPendingTask.status === 'completed'
-                    ? 'bg-slate-900 border-slate-900 text-white'
-                    : 'bg-white border-slate-300 hover:border-slate-500'
-                }`}
-              >
-                {nextPendingTask.status === 'completed' && <Check className="w-3.5 h-3.5" />}
-              </button>
-              <div>
-                <div className="text-xs font-bold text-slate-900">{nextPendingTask.title}</div>
-                <div className="text-[11px] text-slate-500">
-                  {nextPendingTask.durationMinutes} min • {nextPendingTask.questionCount || 15} questions
-                </div>
-              </div>
-            </div>
-
-            <Button
-              size="sm"
-              variant="primary"
-              onClick={() => navigate(nextPendingTask.actionUrl)}
-              className="text-xs font-bold py-1.5 px-3 self-end sm:self-auto bg-slate-900 hover:bg-black text-white rounded-lg"
-            >
-              Continue Plan
-            </Button>
-          </div>
-        )}
-      </div>
-
-      {/* 6. RECENT TESTS REVIEW */}
-      <div className="bg-white rounded-2xl p-6 border border-slate-200 shadow-xs space-y-4">
-        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h2 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-            Recent Test Review
-          </h2>
-          <Link
-            to="/tests"
-            className="text-xs font-bold text-slate-600 hover:text-slate-900 flex items-center gap-1"
-          >
-            <span>All Tests</span>
-            <ChevronRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-
-        {recentAttempts.length === 0 ? (
-          <div className="py-6 text-center space-y-2">
-            <p className="text-xs text-slate-500">
-              No completed tests yet for your {prepType} profile. Practice questions or attempt a test to build your history.
-            </p>
-            <Button
-              size="sm"
-              variant="outline"
-              onClick={() => navigate('/tests')}
-              className="text-xs font-semibold rounded-xl"
-            >
-              Take First Mock Test
-            </Button>
-          </div>
-        ) : (
-          <div className="space-y-3">
-            {recentAttempts.slice(0, 3).map((att) => (
-              <div
-                key={att.id}
-                className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
-              >
-                <div className="space-y-1">
-                  <div className="font-bold text-slate-900 text-sm">{att.testTitle}</div>
-                  <div className="flex items-center gap-3 text-slate-600 flex-wrap">
-                    <span>Score: <strong className="text-slate-900">{att.totalScore}/{att.maxScore}</strong> pts</span>
-                    <span>•</span>
-                    <span>Accuracy: <strong className="text-slate-900">{att.accuracyPercentage}%</strong></span>
-                    <span>•</span>
-                    <span>Time: <strong className="text-slate-900">{Math.round((att.timeTakenSeconds || 1200) / 60)} min</strong></span>
-                  </div>
-                </div>
-                <Button
-                  size="sm"
-                  variant="outline"
-                  onClick={() => navigate(`/tests/${att.testId}/result`)}
-                  className="text-xs font-bold py-1.5 px-3 rounded-lg self-start sm:self-auto border-slate-300"
-                >
-                  Review Analysis
-                </Button>
-              </div>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* SHARE PROGRESS CARD MODAL */}
-      <Modal
-        isOpen={showShareModal}
-        onClose={() => setShowShareModal(false)}
-        title="My PREPORA Progress"
-        maxWidth="max-w-md"
-      >
-        <div className="space-y-4">
-          <p className="text-xs text-slate-500">
-            Share your verified improvement milestone. Free of advertisements.
-          </p>
-
-          <div className="p-6 rounded-2xl bg-white border-2 border-slate-900 text-slate-900 space-y-4 shadow-sm">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <span className="font-black text-sm tracking-tight text-slate-900">PREPORA</span>
-              <span className="text-[11px] font-bold text-slate-500">{prepType} {prepProfile.targetYear || 2026}</span>
-            </div>
-
-            <div>
-              <div className="text-xs font-bold text-slate-500 uppercase tracking-wider">{topWeakness?.subject || 'STEM'}</div>
-              <h4 className="text-xl font-black text-slate-900 tracking-tight">{topWeakness?.chapter || 'Active Preparation'}</h4>
-              <div className="text-2xl font-black text-slate-900 mt-1 flex items-baseline gap-2">
-                <span>{beforeAccuracy}%</span>
-                <span className="text-slate-400 text-lg">→</span>
-                <span className="text-emerald-600">{afterAccuracy}%</span>
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-400">
-              <span>Practice • Test • Analyze • Improve</span>
-              <span className="font-semibold text-slate-600">Powered by PREPORA</span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-end gap-2 pt-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setShowShareModal(false)}
-              className="text-xs font-semibold rounded-xl"
-            >
-              Close
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleCopyShareCard}
-              className="text-xs font-bold rounded-xl flex items-center gap-1.5 bg-slate-900 hover:bg-black text-white"
-            >
-              {copiedShare ? (
+            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-900/40 text-[11px] sm:text-xs font-black">
+              {prepType === 'NEET' ? (
                 <>
-                  <CheckCheck className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Copied!</span>
+                  <DnaIcon className="w-3.5 h-3.5" />
+                  <span>Biology</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-3.5 h-3.5" />
-                  <span>Copy Progress Card</span>
+                  <SigmaIcon className="w-3.5 h-3.5" />
+                  <span>Maths</span>
                 </>
               )}
-            </Button>
+            </div>
+            <RadialProgress percentage={55} size={64} />
+            <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
+              290/520
+            </div>
           </div>
         </div>
-      </Modal>
+      </div>
 
-      {/* PREP PROFILE MODAL */}
-      <Modal
-        isOpen={showPrepProfileModal}
-        onClose={() => setShowPrepProfileModal(false)}
-        title="Your Preparation Profile"
-        maxWidth="max-w-lg"
+      {/* ========================================================================= */}
+      {/* 7. STUDY STREAK CARD                                                     */}
+      {/* ========================================================================= */}
+      <div
+        onClick={() => navigate('/performance')}
+        className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-3 cursor-pointer hover:border-amber-400/50 transition-all active:scale-[0.99]"
       >
-        <div className="space-y-4">
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80 space-y-3">
+        {/* Left: Flame Icon & Streak Days */}
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-2xl bg-amber-500/15 dark:bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+            <Flame className="w-6 h-6 fill-amber-500 animate-pulse" />
+          </div>
+          <div>
+            <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 leading-tight">
+              Study Streak
+            </div>
+            <div className="text-lg sm:text-xl font-black text-amber-600 dark:text-amber-400 leading-tight">
+              {user.streakDays || 12} days
+            </div>
+            <div className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 leading-tight">
+              Keep it going!
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Weekday Checkmark Indicators M T W T F S S */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {[
+            { day: 'M', completed: true },
+            { day: 'T', completed: true },
+            { day: 'W', completed: true },
+            { day: 'T', completed: true },
+            { day: 'F', completed: true },
+            { day: 'S', completed: true },
+            { day: 'S', completed: false }
+          ].map((item, idx) => (
+            <div key={idx} className="flex flex-col items-center gap-1">
+              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500">
+                {item.day}
+              </span>
+              {item.completed ? (
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-2xs">
+                  <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+                </div>
+              ) : (
+                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300 dark:border-slate-700 bg-transparent" />
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Target Exam & Prep Profile Modal (Opens when Target card is clicked) */}
+      {showPrepProfileModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Target Profile
-              </span>
-              <span className="text-[11px] font-bold px-2 py-0.5 rounded-md bg-white border border-slate-200 text-slate-800">
-                {prepType}
-              </span>
+              <div className="flex items-center gap-2">
+                <BrainCircuit className="w-5 h-5 text-emerald-500" />
+                <h3 className="font-black text-base text-slate-900 dark:text-white">Exam Target Profile</h3>
+              </div>
+              <button
+                onClick={() => setShowPrepProfileModal(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
             </div>
 
-            <div className="space-y-2 text-xs">
-              <div className="flex justify-between py-1 border-b border-slate-200/60">
-                <span className="text-slate-500">Examination Stream:</span>
-                <strong className="text-slate-900">{prepBadge.desc}</strong>
-              </div>
-              <div className="flex justify-between py-1 border-b border-slate-200/60">
-                <span className="text-slate-500">Class Level:</span>
-                <strong className="text-slate-900">{classLevel === 'Dropper' ? 'Dropper' : `Class ${classLevel}`}</strong>
-              </div>
-              <div className="flex justify-between py-1">
-                <span className="text-slate-500">Active Subjects:</span>
-                <div className="flex items-center gap-1 flex-wrap justify-end">
-                  {prepProfile.subjects.map(s => (
-                    <span key={s} className="px-1.5 py-0.5 bg-slate-200 rounded text-[10px] font-bold text-slate-800">
-                      {s}
-                    </span>
-                  ))}
+            <div className="space-y-3 text-xs">
+              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 space-y-2">
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Current Exam:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{prepType} Main</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Class / Dropper:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">
+                    {classLevel === 'Dropper' ? 'Dropper' : `Class ${classLevel}`}
+                  </span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Target Year:</span>
+                  <span className="font-bold text-slate-900 dark:text-white">{prepProfile.targetYear || 2026}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Days Remaining:</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{examDaysRemaining} days</span>
                 </div>
               </div>
+
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowPrepProfileModal(false);
+                    navigate('/onboarding');
+                  }}
+                  className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs text-center shadow-xs transition-colors"
+                >
+                  Edit Prep Profile
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowPrepProfileModal(false)}
+                  className="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs"
+                >
+                  Done
+                </button>
+              </div>
             </div>
           </div>
-
-          <div className="flex items-center justify-between gap-3 pt-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => {
-                setShowPrepProfileModal(false);
-                navigate('/onboarding');
-              }}
-              className="text-xs font-bold rounded-xl border-slate-300 text-slate-800 hover:bg-slate-100"
-            >
-              Switch Preparation
-            </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={() => setShowPrepProfileModal(false)}
-              className="text-xs font-bold rounded-xl bg-slate-900 hover:bg-black text-white"
-            >
-              Done
-            </Button>
-          </div>
         </div>
-      </Modal>
+      )}
 
     </div>
   );
 };
-
-export default Home;

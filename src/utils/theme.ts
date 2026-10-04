@@ -87,15 +87,51 @@ export function applyTheme(themeKey: ThemeKey) {
   }
 }
 
-// Auto-initialize theme on import
+export type ColorMode = 'dark' | 'light';
+
+export function getColorMode(): ColorMode {
+  try {
+    const saved = localStorage.getItem('prepora_color_mode');
+    if (saved === 'dark' || saved === 'light') return saved;
+  } catch {}
+  return 'dark'; // Matches the user's primary modern dark obsidian design
+}
+
+export function applyColorMode(mode: ColorMode) {
+  try {
+    localStorage.setItem('prepora_color_mode', mode);
+    if (typeof document !== 'undefined') {
+      if (mode === 'dark') {
+        document.documentElement.classList.add('dark');
+        document.body?.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+        document.body?.classList.remove('dark');
+      }
+    }
+    window.dispatchEvent(new CustomEvent('prepora-colormode-change', { detail: mode }));
+  } catch {}
+}
+
+export function toggleColorMode(): ColorMode {
+  const current = getColorMode();
+  const next: ColorMode = current === 'dark' ? 'light' : 'dark';
+  applyColorMode(next);
+  return next;
+}
+
+// Auto-initialize theme & color mode on import
 if (typeof document !== 'undefined') {
   const initial = getSavedTheme();
   document.documentElement.setAttribute('data-theme', initial);
+  const initialMode = getColorMode();
+  applyColorMode(initialMode);
   if (document.body) {
     document.body.setAttribute('data-theme', initial);
   } else {
     document.addEventListener('DOMContentLoaded', () => {
       document.body.setAttribute('data-theme', initial);
+      applyColorMode(initialMode);
     });
   }
 }

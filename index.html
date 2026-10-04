@@ -15,17 +15,18 @@
     </style>
     <script>
       (function() {
-        var v = localStorage.getItem('prepora_theme_version_v6');
-        if (v !== '6.0_monochrome') {
-          localStorage.setItem('prepora_theme_version_v6', '6.0_monochrome');
-          localStorage.setItem('prepora_color_theme', 'black');
+        var mode = localStorage.getItem('prepora_color_mode') || 'dark';
+        if (mode === 'dark') {
+          document.documentElement.classList.add('dark');
+        } else {
+          document.documentElement.classList.remove('dark');
         }
-        var t = localStorage.getItem('prepora_color_theme') || 'black';
+        var t = localStorage.getItem('prepora_color_theme') || 'emerald';
         document.documentElement.setAttribute('data-theme', t);
       })();
     </script>
   </head>
-  <body class="bg-slate-50 text-slate-900 antialiased min-h-screen">
+  <body class="bg-slate-50 dark:bg-[#070b14] text-slate-900 dark:text-slate-100 antialiased min-h-screen selection:bg-emerald-500 selection:text-white">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

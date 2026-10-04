@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Outlet, NavLink, Link, useNavigate } from 'react-router-dom';
 import {
   Home,
@@ -31,7 +31,12 @@ import {
   LogOut,
   Target,
   ChevronRight,
-  Tv
+  Tv,
+  Sun,
+  Moon,
+  ChevronDown,
+  Bot,
+  Check
 } from 'lucide-react';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
@@ -39,12 +44,31 @@ import { GlobalQuickActionModal } from '../components/common/GlobalQuickActionMo
 import { StudySessionModal } from '../components/common/StudySessionModal';
 import { ReportTechnicalProblemModal } from '../components/common/ReportTechnicalProblemModal';
 import { ThemeSelector } from '../components/common/ThemeSelector';
+import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
 
 export const MainLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [quickActionOpen, setQuickActionOpen] = useState(false);
   const [studySessionOpen, setStudySessionOpen] = useState(false);
   const [reportTechOpen, setReportTechOpen] = useState(false);
+  const [examSwitcherOpen, setExamSwitcherOpen] = useState(false);
+  const [colorMode, setColorMode] = useState<ColorMode>(() => getColorMode());
+
+  useEffect(() => {
+    const handleColorModeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<ColorMode>;
+      if (customEvent.detail) {
+        setColorMode(customEvent.detail);
+      }
+    };
+    window.addEventListener('prepora-colormode-change', handleColorModeChange);
+    return () => window.removeEventListener('prepora-colormode-change', handleColorModeChange);
+  }, []);
+
+  const handleToggleColorMode = () => {
+    const next = toggleColorMode();
+    setColorMode(next);
+  };
 
   const { user: authUser, isAuthenticated, logout, setAuthModalOpen, setAuthModalMode } = useAuth();
   const user = authUser || userService.getProfile();
@@ -75,17 +99,17 @@ export const MainLayout: React.FC = () => {
   const [moreOpen, setMoreOpen] = useState(true);
 
   return (
-    <div className="min-h-screen bg-slate-50 flex flex-col md:flex-row font-sans text-slate-800">
+    <div className="min-h-screen bg-slate-50 dark:bg-[#080d12] flex flex-col md:flex-row font-sans text-slate-800 dark:text-slate-100 transition-colors">
       {/* Desktop Left Sidebar - Clean Minimal Monochrome */}
-      <aside className="hidden md:flex flex-col w-64 bg-white border-r border-slate-200/90 fixed inset-y-0 left-0 z-30">
+      <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-[#0c131a] border-r border-slate-200/90 dark:border-slate-800/80 fixed inset-y-0 left-0 z-30">
         {/* Brand Header */}
-        <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100 flex-shrink-0">
+        <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-brand-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
+            <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
               P
             </div>
             <div>
-              <span className="font-black text-lg tracking-tight text-slate-900">
+              <span className="font-black text-lg tracking-tight text-slate-900 dark:text-white">
                 PREPORA
               </span>
               <span className="block text-[9px] font-bold tracking-widest text-slate-400 uppercase -mt-0.5">
@@ -96,14 +120,19 @@ export const MainLayout: React.FC = () => {
         </div>
 
         {/* Minimal Streak & Target Pill */}
-        <div className="mx-3.5 my-3 p-2.5 bg-slate-50 border border-slate-200/80 rounded-xl flex items-center justify-between flex-shrink-0">
+        <div className="mx-3.5 my-3 p-2.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 rounded-xl flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
-            <Flame className="w-4 h-4 text-slate-700 fill-slate-700" />
-            <span className="text-xs font-bold text-slate-800">{user.streakDays || 1} Day Streak</span>
+            <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{user.streakDays || 12} Day Streak</span>
           </div>
-          <span className="text-[10px] font-extrabold text-slate-700 bg-white border border-slate-200 px-2 py-0.5 rounded-md">
-            {user.targetExam || 'JEE'}
-          </span>
+          <button
+            type="button"
+            onClick={() => setExamSwitcherOpen(true)}
+            className="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md hover:border-emerald-500 transition-colors flex items-center gap-1"
+          >
+            <span>{user.targetExam || 'JEE'}</span>
+            <ChevronDown className="w-2.5 h-2.5" />
+          </button>
         </div>
 
         {/* Navigation */}
@@ -122,14 +151,14 @@ export const MainLayout: React.FC = () => {
                   className={({ isActive }) =>
                     `flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
                       isActive
-                        ? 'bg-brand-600 text-white font-bold shadow-xs'
-                        : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                        ? 'bg-emerald-600 text-white font-bold shadow-xs'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
                     }`
                   }
                 >
                   {({ isActive }) => (
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-500'}`} />
+                      <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-white' : 'text-slate-400'}`} />
                       <span className="truncate">{item.name}</span>
                     </div>
                   )}
@@ -139,11 +168,11 @@ export const MainLayout: React.FC = () => {
           </div>
 
           {/* Secondary Tools Group */}
-          <div className="space-y-1 pt-2 border-t border-slate-100">
+          <div className="space-y-1 pt-2 border-t border-slate-100 dark:border-slate-800">
             <button
               type="button"
               onClick={() => setMoreOpen(!moreOpen)}
-              className="w-full flex items-center justify-between px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-slate-600"
+              className="w-full flex items-center justify-between px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
             >
               <span>More Tools</span>
               <span className="text-[10px] lowercase text-slate-400 font-normal">{moreOpen ? 'hide' : 'show'}</span>
@@ -157,8 +186,8 @@ export const MainLayout: React.FC = () => {
                   className={({ isActive }) =>
                     `flex items-center justify-between px-3 py-1.5 rounded-lg text-xs transition-all ${
                       isActive
-                        ? 'bg-slate-200/80 text-slate-900 font-bold'
-                        : 'text-slate-500 hover:bg-slate-100 hover:text-slate-900'
+                        ? 'bg-slate-200/80 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
+                        : 'text-slate-500 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-white'
                     }`
                   }
                 >
@@ -173,13 +202,13 @@ export const MainLayout: React.FC = () => {
         </nav>
 
         {/* Bottom Profile & Settings Quick Jump */}
-        <div className="p-3 border-t border-slate-100 flex-shrink-0 bg-slate-50/70">
+        <div className="p-3 border-t border-slate-100 dark:border-slate-800 flex-shrink-0 bg-slate-50/70 dark:bg-slate-900/40">
           <div className="grid grid-cols-2 gap-1">
             <NavLink
               to="/profile"
               className={({ isActive }) =>
                 `flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isActive ? 'bg-brand-600 text-white font-bold' : 'text-slate-600 hover:bg-white'
+                  isActive ? 'bg-emerald-600 text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800'
                 }`
               }
             >
@@ -190,7 +219,7 @@ export const MainLayout: React.FC = () => {
               to="/settings"
               className={({ isActive }) =>
                 `flex items-center justify-center gap-1.5 px-2 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  isActive ? 'bg-brand-600 text-white font-bold' : 'text-slate-600 hover:bg-white'
+                  isActive ? 'bg-emerald-600 text-white font-bold' : 'text-slate-600 dark:text-slate-400 hover:bg-white dark:hover:bg-slate-800'
                 }`
               }
             >
@@ -204,25 +233,32 @@ export const MainLayout: React.FC = () => {
       {/* Main Content Area */}
       <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
         {/* Top Navbar */}
-        <header className="h-16 bg-white/90 backdrop-blur-md border-b border-slate-200/80 sticky top-0 z-20 px-3 sm:px-6 lg:px-8 flex items-center justify-between shadow-xs">
-          {/* Mobile Brand & Hamburger */}
+        <header className="h-16 bg-white/90 dark:bg-[#0c131a]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 z-20 px-3 sm:px-6 lg:px-8 flex items-center justify-between shadow-xs">
+          {/* Mobile Brand & Hamburger (Exact Match to Reference Screenshot) */}
           <div className="flex items-center gap-2 md:hidden">
             <button
               onClick={() => setMobileMenuOpen(true)}
-              className="p-1.5 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+              className="p-1.5 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               aria-label="Open Navigation Menu"
             >
               <Menu className="w-5 h-5" />
             </button>
             <Link to="/" className="flex items-center gap-1.5">
-              <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
+              <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
                 P
               </div>
-              <span className="font-black text-base tracking-tight text-slate-900">PREPORA</span>
+              <span className="font-black text-base tracking-tight text-slate-900 dark:text-white">PREPORA</span>
             </Link>
-            <span className="px-1.5 py-0.5 rounded-md bg-brand-50 text-brand-700 border border-brand-200/80 text-[10px] font-extrabold uppercase">
-              {user.targetExam || 'JEE'}
-            </span>
+            
+            {/* Pill button matching screenshot: JEE ⌵ */}
+            <button
+              type="button"
+              onClick={() => setExamSwitcherOpen(true)}
+              className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-500/40 text-[11px] font-extrabold hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors"
+            >
+              <span>{user.targetExam || 'JEE'}</span>
+              <ChevronDown className="w-3 h-3 opacity-70" />
+            </button>
           </div>
 
           {/* Desktop Search / Quick Action Trigger */}
@@ -230,67 +266,87 @@ export const MainLayout: React.FC = () => {
             <button
               type="button"
               onClick={() => setQuickActionOpen(true)}
-              className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-100/80 hover:bg-slate-100 border border-slate-200/60 text-xs text-slate-400 font-medium transition-all"
+              className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700 text-xs text-slate-400 font-medium transition-all"
             >
               <span className="flex items-center gap-2">
                 <Search className="w-3.5 h-3.5 text-slate-400" />
                 <span>Search questions, chapters, formulas...</span>
               </span>
-              <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-white border border-slate-200 text-slate-500 shadow-2xs">
+              <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 shadow-2xs">
                 ⌘K
               </kbd>
             </button>
           </div>
 
-          {/* Right Controls: Target Exam, Start Sprint, Notifications, Profile */}
-          <div className="flex items-center gap-1.5 sm:gap-3">
-            {/* Mobile streak badge */}
-            <div className="flex sm:hidden items-center gap-1 px-2 py-1 rounded-lg bg-amber-50 border border-amber-200/80 text-amber-900 text-[11px] font-extrabold">
-              <Flame className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-              <span>{user.streakDays || 1}d</span>
+          {/* Right Controls: Dark/Light Mode, Notifications, Profile (Exact Match to Screenshot) */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {/* Dark / Light Mode Switcher (Moon/Sun) */}
+            <button
+              type="button"
+              onClick={handleToggleColorMode}
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              title={`Switch to ${colorMode === 'dark' ? 'Light' : 'Dark'} Mode`}
+              aria-label="Toggle Dark/Light Mode"
+            >
+              {colorMode === 'dark' ? (
+                <Sun className="w-4 h-4 text-amber-400" />
+              ) : (
+                <Moon className="w-4 h-4 text-slate-600" />
+              )}
+            </button>
+
+            {/* Live Theme Color Switcher (Desktop) */}
+            <div className="hidden sm:block">
+              <ThemeSelector />
             </div>
 
-            {/* Live Theme Color Switcher */}
-            <ThemeSelector />
-
-            {/* Target Exam Switcher / Tag */}
-            <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-brand-50 text-brand-700 border border-brand-200/70 text-xs font-bold">
-              <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
+            {/* Target Exam Switcher / Tag (Desktop) */}
+            <button
+              type="button"
+              onClick={() => setExamSwitcherOpen(true)}
+              className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/70 dark:border-emerald-500/30 text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors"
+            >
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>Target: {user.targetExam || 'JEE'} {user.targetYear || 2026}</span>
-            </div>
+              <ChevronDown className="w-3 h-3 text-emerald-600/70" />
+            </button>
 
             {/* Quick Action Button */}
             <button
               onClick={() => setStudySessionOpen(true)}
-              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-bold shadow-sm shadow-brand-500/20 transition-all"
+              className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm shadow-emerald-500/20 transition-all"
             >
               <Sparkles className="w-3.5 h-3.5 text-amber-300" />
               <span>Quick Sprint</span>
             </button>
 
-            {/* Notifications Bell */}
+            {/* Notifications Bell with Red Badge */}
             <Link
               to="/notifications"
-              className="relative p-2 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100 transition-colors"
+              className="relative p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              aria-label="Notifications"
             >
-              <Bell className="w-4 h-4" />
-              {unreadNotifs > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white" />
+              <Bell className="w-5 h-5" />
+              {unreadNotifs > 0 ? (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900" />
+              ) : (
+                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900" />
               )}
             </Link>
 
-            {/* Profile Avatar / Auth */}
+            {/* Profile Avatar / Auth [M] Green Circle */}
             {isAuthenticated ? (
               <div className="flex items-center gap-1.5">
                 <Link
                   to="/profile"
-                  className="flex items-center gap-2 p-1 pr-2 rounded-xl hover:bg-slate-100 transition-colors"
+                  className="flex items-center gap-2 p-0.5 rounded-full hover:ring-2 hover:ring-emerald-500/50 transition-all"
+                  aria-label="User Profile"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-tr from-brand-600 to-emerald-700 text-white font-bold text-xs flex items-center justify-center shadow-xs">
-                    {(user.name || 'Student').charAt(0).toUpperCase()}
+                  <div className="w-8 h-8 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white font-black text-xs flex items-center justify-center shadow-xs ring-2 ring-emerald-500/30">
+                    {(user.name || 'Mahesh').charAt(0).toUpperCase()}
                   </div>
-                  <span className="hidden sm:inline text-xs font-bold text-slate-700 max-w-[100px] truncate">
-                    {user.name || 'Student'}
+                  <span className="hidden sm:inline text-xs font-bold text-slate-700 dark:text-slate-200 max-w-[100px] truncate">
+                    {user.name || 'Mahesh'}
                   </span>
                 </Link>
                 <button
@@ -300,7 +356,7 @@ export const MainLayout: React.FC = () => {
                     navigate('/login');
                   }}
                   title="Sign Out"
-                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition-colors cursor-pointer"
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-950/40 transition-colors cursor-pointer hidden sm:block"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                 </button>
@@ -308,7 +364,7 @@ export const MainLayout: React.FC = () => {
             ) : (
               <Link
                 to="/login"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand-600 text-white hover:bg-brand-700 text-xs font-bold shadow-xs transition-all"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 text-xs font-bold shadow-xs transition-all"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 <span>Sign In</span>
@@ -318,67 +374,85 @@ export const MainLayout: React.FC = () => {
         </header>
 
         {/* Dynamic Page Content with Responsive Padding & Bottom Spacing for Mobile Nav */}
-        <main className="flex-1 p-3.5 sm:p-6 lg:p-8 pb-24 md:pb-8 max-w-7xl mx-auto w-full">
+        <main className="flex-1 p-3 sm:p-6 lg:p-8 pb-24 md:pb-8 max-w-7xl mx-auto w-full">
           <Outlet />
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation Bar (Sticky, App-like, Thumb-Friendly) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl border-t border-slate-200/90 px-1 py-1.5 flex items-center justify-around shadow-[0_-4px_25px_rgba(0,0,0,0.08)] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
+      {/* Mobile Bottom Navigation Bar (Exact 5 Tabs Matching Screenshot) */}
+      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#080d12]/95 backdrop-blur-xl border-t border-slate-200/90 dark:border-slate-800/90 px-2 py-1.5 flex items-center justify-around shadow-[0_-4px_25px_rgba(0,0,0,0.08)] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
+        {/* 1. Home */}
         <NavLink
           to="/"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1.5 px-3 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 bg-brand-50/90 font-black shadow-xs scale-105' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3.5 rounded-2xl transition-all ${
+              isActive
+                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`
           }
         >
-          <Home className="w-5 h-5" />
-          <span>Home</span>
+          {({ isActive }) => (
+            <>
+              <Home className={`w-5 h-5 ${isActive ? 'fill-emerald-600/20 dark:fill-emerald-400/20' : ''}`} />
+              <span>Home</span>
+            </>
+          )}
         </NavLink>
+
+        {/* 2. Practice */}
         <NavLink
           to="/practice"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1.5 px-3 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 bg-brand-50/90 font-black shadow-xs scale-105' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
+              isActive
+                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`
           }
         >
           <BookOpen className="w-5 h-5" />
           <span>Practice</span>
         </NavLink>
+
+        {/* 3. Tests */}
         <NavLink
           to="/tests"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1.5 px-3 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 bg-brand-50/90 font-black shadow-xs scale-105' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
+              isActive
+                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`
           }
         >
           <GraduationCap className="w-5 h-5" />
           <span>Tests</span>
         </NavLink>
+
+        {/* 4. AI Doubt */}
         <NavLink
           to="/doubts"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1.5 px-3 rounded-xl transition-all ${
-              isActive ? 'text-cyan-600 bg-cyan-50 font-black shadow-xs scale-105' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
+              isActive
+                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`
           }
         >
-          <div className="relative">
-            <HelpCircle className="w-5 h-5 text-cyan-600" />
-            <span className="absolute -top-1 -right-2 px-1 py-0.2 bg-cyan-500 text-white text-[8px] font-black rounded-full shadow-xs">
-              AI
-            </span>
-          </div>
-          <span className="text-cyan-700 font-bold">AI Doubt</span>
+          <Bot className="w-5 h-5" />
+          <span>AI Doubt</span>
         </NavLink>
+
+        {/* 5. Mistakes */}
         <NavLink
           to="/mistakes"
           className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1.5 px-3 rounded-xl transition-all ${
-              isActive ? 'text-brand-600 bg-brand-50/90 font-black shadow-xs scale-105' : 'text-slate-500 hover:text-slate-800'
+            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
+              isActive
+                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
             }`
           }
         >
@@ -394,27 +468,37 @@ export const MainLayout: React.FC = () => {
             className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs"
             onClick={() => setMobileMenuOpen(false)}
           />
-          <div className="relative w-4/5 max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-200">
+          <div className="relative w-4/5 max-w-xs bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100 h-full shadow-2xl flex flex-col z-10 animate-in slide-in-from-left duration-200 border-r border-slate-200 dark:border-slate-800">
             {/* Drawer Header */}
-            <div className="p-4 border-b border-slate-100 flex items-center justify-between">
+            <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-brand-600 text-white font-black flex items-center justify-center text-sm shadow-xs">
+                <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white font-black flex items-center justify-center text-sm shadow-xs">
                   P
                 </div>
-                <span className="font-black text-lg text-slate-900 tracking-tight">PREPORA</span>
+                <span className="font-black text-lg text-slate-900 dark:text-white tracking-tight">PREPORA</span>
               </div>
               <button
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 hover:bg-slate-100"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-800 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            {/* Mobile Theme Switcher Bar */}
-            <div className="px-4 py-2 bg-slate-50 border-b border-slate-100 flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Color Theme</span>
-              <ThemeSelector compact />
+            {/* Mobile Color Mode & Theme Switcher Bar */}
+            <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Appearance</span>
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={handleToggleColorMode}
+                  className="p-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1"
+                >
+                  {colorMode === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
+                  <span>{colorMode === 'dark' ? 'Dark' : 'Light'}</span>
+                </button>
+                <ThemeSelector compact />
+              </div>
             </div>
 
             {/* Mobile Nav Links */}
@@ -433,8 +517,8 @@ export const MainLayout: React.FC = () => {
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
                           isActive
-                            ? 'bg-brand-600 text-white font-bold'
-                            : 'text-slate-700 hover:bg-slate-100'
+                            ? 'bg-emerald-600 text-white font-bold'
+                            : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                         }`
                       }
                     >
@@ -445,7 +529,7 @@ export const MainLayout: React.FC = () => {
                 })}
               </div>
 
-              <div className="space-y-1 pt-2 border-t border-slate-100">
+              <div className="space-y-1 pt-2 border-t border-slate-100 dark:border-slate-800">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 block">
                   More Tools
                 </span>
@@ -459,8 +543,8 @@ export const MainLayout: React.FC = () => {
                       className={({ isActive }) =>
                         `flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
                           isActive
-                            ? 'bg-slate-200 text-slate-900 font-bold'
-                            : 'text-slate-600 hover:bg-slate-100'
+                            ? 'bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
+                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                         }`
                       }
                     >
@@ -473,23 +557,73 @@ export const MainLayout: React.FC = () => {
             </div>
 
             {/* Drawer Footer */}
-            <div className="p-4 border-t border-slate-100 bg-slate-50 flex items-center justify-between">
+            <div className="p-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-900/40 flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-lg bg-brand-100 text-brand-800 font-bold flex items-center justify-center text-xs">
-                  {(user.name || 'S').charAt(0)}
+                <div className="w-8 h-8 rounded-full bg-emerald-600 text-white font-bold flex items-center justify-center text-xs">
+                  {(user.name || 'M').charAt(0)}
                 </div>
                 <div className="text-xs">
-                  <div className="font-bold text-slate-800">{user.name || 'Student'}</div>
+                  <div className="font-bold text-slate-800 dark:text-slate-200">{user.name || 'Mahesh'}</div>
                   <div className="text-[10px] text-slate-400">{user.targetExam || 'JEE'} Aspirant</div>
                 </div>
               </div>
               <Link
                 to="/settings"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2 rounded-lg text-slate-400 hover:text-slate-700 hover:bg-white"
+                className="p-2 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-white dark:hover:bg-slate-800"
               >
                 <Settings className="w-4 h-4" />
               </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Target Exam Switcher Modal */}
+      {examSwitcherOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
+          <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-2xl p-5 space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Target className="w-5 h-5 text-emerald-500" />
+                <h3 className="font-black text-base text-slate-900 dark:text-white">Choose Target Exam</h3>
+              </div>
+              <button
+                onClick={() => setExamSwitcherOpen(false)}
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="space-y-2">
+              {[
+                { key: 'JEE', label: 'JEE (Main & Advanced)', desc: 'Engineering Entrance' },
+                { key: 'NEET', label: 'NEET (UG)', desc: 'Medical Entrance' },
+                { key: 'CBSE', label: 'CBSE Board', desc: 'Central Board of Secondary Education' },
+                { key: 'RBSE', label: 'RBSE Board', desc: 'Rajasthan Board of Secondary Education' }
+              ].map(ex => (
+                <button
+                  key={ex.key}
+                  onClick={() => {
+                    userService.updateProfile({ targetExam: ex.key as any });
+                    setExamSwitcherOpen(false);
+                    window.location.reload();
+                  }}
+                  className={`w-full flex items-center justify-between p-3 rounded-2xl border text-left transition-all ${
+                    (user.targetExam || 'JEE') === ex.key
+                      ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-300 font-bold'
+                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-800 dark:text-slate-200'
+                  }`}
+                >
+                  <div>
+                    <div className="text-sm font-bold">{ex.label}</div>
+                    <div className="text-[11px] text-slate-400 dark:text-slate-500">{ex.desc}</div>
+                  </div>
+                  {(user.targetExam || 'JEE') === ex.key && (
+                    <Check className="w-4 h-4 text-emerald-500 stroke-[3]" />
+                  )}
+                </button>
+              ))}
             </div>
           </div>
         </div>
