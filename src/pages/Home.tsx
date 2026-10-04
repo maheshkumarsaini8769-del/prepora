@@ -182,7 +182,11 @@ export const Home: React.FC = () => {
 
         {/* Right: Mascot Student with Laptop & Angled "JEE 2026" Badge */}
         <div className="shrink-0">
-          <HeroStudentIllustration examLabel={prepType} year={prepProfile.targetYear || 2026} />
+          <HeroStudentIllustration
+            examLabel={prepType}
+            year={prepProfile.targetYear || 2026}
+            isDark={isDark}
+          />
         </div>
       </div>
 
