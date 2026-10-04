@@ -92,12 +92,12 @@ export const GlobalQuickActionModal: React.FC<GlobalQuickActionModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-[#0c131a] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden flex flex-col">
         {/* Header */}
         <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-slate-50/70">
           <div>
             <span className="text-[11px] font-bold text-purple-600 uppercase tracking-wider">Quick Action Navigator</span>
-            <h3 className="text-base sm:text-lg font-black text-slate-900">What do you want to do right now?</h3>
+            <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white">What do you want to do right now?</h3>
           </div>
           <button
             onClick={onClose}
@@ -115,13 +115,13 @@ export const GlobalQuickActionModal: React.FC<GlobalQuickActionModalProps> = ({
               <button
                 key={idx}
                 onClick={act.action}
-                className="p-4 rounded-2xl border border-slate-200 hover:border-purple-300 hover:bg-purple-50/30 text-left transition-all group flex flex-col justify-between cursor-pointer"
+                className="p-4 rounded-2xl border border-slate-200 dark:border-slate-800 hover:border-purple-300 hover:bg-purple-50/30 text-left transition-all group flex flex-col justify-between cursor-pointer"
               >
                 <div className={`w-9 h-9 rounded-xl flex items-center justify-center border mb-3 ${act.color}`}>
                   <Icon className="w-5 h-5" />
                 </div>
                 <div>
-                  <h4 className="font-bold text-xs sm:text-sm text-slate-900 group-hover:text-purple-700 transition-colors">
+                  <h4 className="font-bold text-xs sm:text-sm text-slate-900 dark:text-white group-hover:text-purple-700 transition-colors">
                     {act.title}
                   </h4>
                   <p className="text-[11px] text-slate-500 mt-0.5 leading-snug">
@@ -134,7 +134,7 @@ export const GlobalQuickActionModal: React.FC<GlobalQuickActionModalProps> = ({
         </div>
 
         {/* Footer */}
-        <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 text-right">
+        <div className="px-5 py-3 border-t border-slate-100 bg-slate-50 dark:bg-slate-800/60 text-right">
           <button
             onClick={onClose}
             className="text-xs font-semibold text-slate-500 hover:text-slate-700"

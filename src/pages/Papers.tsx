@@ -128,7 +128,7 @@ export const Papers: React.FC = () => {
   return (
     <div className="space-y-6 max-w-6xl mx-auto pb-16 animate-in fade-in duration-200">
       {/* 1. Header */}
-      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-slate-200 pb-4">
+      <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
@@ -136,7 +136,7 @@ export const Papers: React.FC = () => {
               Exam Archives & Verification Engine
             </span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
             {activeContentType === 'REAL_PYQ' && 'Official Previous Year Papers (Real PYQs)'}
             {activeContentType === 'MODEL_PAPER' && 'Official Board Model Papers'}
             {activeContentType === 'MOCK_TEST' && 'Simulated Full Mock Tests'}
@@ -167,7 +167,7 @@ export const Papers: React.FC = () => {
       </div>
 
       {/* 2. Canonical Content Type Navigation Tabs (Mandatory Strict Isolation) */}
-      <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200">
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200 dark:border-slate-800">
         <button
           type="button"
           onClick={() => handleTabChange('REAL_PYQ')}
@@ -232,7 +232,7 @@ export const Papers: React.FC = () => {
       )}
 
       {/* 4. Filters Card */}
-      <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-3 shadow-xs">
+      <div className="bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 p-4 space-y-3 shadow-xs">
         {/* Search */}
         <div className="relative">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
@@ -241,7 +241,7 @@ export const Papers: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={`Search ${activeContentType === 'REAL_PYQ' ? 'verified PYQs' : 'papers'} by name, date, shift, or exam...`}
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-600"
+            className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-600"
           />
         </div>
 
@@ -252,7 +252,7 @@ export const Papers: React.FC = () => {
             <select
               value={selectedExam}
               onChange={(e) => setSelectedExam(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
             >
               <option value="All">All Exams</option>
               <option value="JEE">JEE Main</option>
@@ -268,7 +268,7 @@ export const Papers: React.FC = () => {
             <select
               value={selectedYear}
               onChange={(e) => setSelectedYear(e.target.value === 'All' ? 'All' : Number(e.target.value))}
-              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
             >
               <option value="All">All Years (2020 - 2025)</option>
               <option value={2025}>2025 (Audit Status)</option>
@@ -285,7 +285,7 @@ export const Papers: React.FC = () => {
             <select
               value={selectedClass}
               onChange={(e) => setSelectedClass(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
             >
               <option value="All">All Classes</option>
               <option value="12">Class 12 (Board / Entrance)</option>
@@ -298,7 +298,7 @@ export const Papers: React.FC = () => {
             <select
               value={selectedSubject}
               onChange={(e) => setSelectedSubject(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-lg py-1.5 px-2 font-medium text-slate-800 focus:outline-none focus:ring-1 focus:ring-brand-600"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
             >
               <option value="All">All Subjects</option>
               <option value="Physics">Physics</option>
@@ -348,9 +348,9 @@ export const Papers: React.FC = () => {
         </div>
 
         {filteredPapers.length === 0 ? (
-          <div className="bg-white rounded-xl border border-dashed border-slate-200 p-12 text-center space-y-3">
+          <div className="bg-white dark:bg-[#0c131a] rounded-xl border border-dashed border-slate-200 dark:border-slate-800 p-12 text-center space-y-3">
             <FileText className="w-10 h-10 text-slate-300 mx-auto" />
-            <h3 className="font-bold text-slate-800 text-sm">No papers match this filter criteria</h3>
+            <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">No papers match this filter criteria</h3>
             <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
               {activeContentType === 'REAL_PYQ' && selectedYear === 2025
                 ? 'No verified 2025 papers match this filter. Concluded 2025 sessions (JEE Main Jan, CBSE, RBSE) are published; upcoming 2025 sessions are cataloged in missingRealPapers.json.'
@@ -371,7 +371,7 @@ export const Papers: React.FC = () => {
                     {/* Tags row */}
                     <div className="flex flex-wrap items-center justify-between gap-1.5 text-xs">
                       <div className="flex items-center gap-1.5 flex-wrap">
-                        <span className="font-black text-slate-900 bg-slate-100 px-2 py-0.5 rounded text-[11px]">
+                        <span className="font-black text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded text-[11px]">
                           {paper.board ? `${paper.board}` : paper.canonicalExam ? paper.canonicalExam.replace('_', ' ') : paper.exam}
                         </span>
                         <span className="text-slate-300">•</span>
@@ -415,7 +415,7 @@ export const Papers: React.FC = () => {
                       </span>
                     </div>
 
-                    <h3 className="text-sm font-bold text-slate-900 leading-snug line-clamp-2">
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white leading-snug line-clamp-2">
                       {paper.title}
                     </h3>
 
@@ -427,7 +427,7 @@ export const Papers: React.FC = () => {
                     )}
 
                     {paper.stableKey && (
-                      <div className="text-[10px] font-mono text-slate-400 bg-slate-50 px-1.5 py-0.5 rounded border border-slate-100 truncate" title={paper.stableKey}>
+                      <div className="text-[10px] font-mono text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-100 truncate" title={paper.stableKey}>
                         ID: {paper.stableKey}
                       </div>
                     )}
@@ -447,7 +447,7 @@ export const Papers: React.FC = () => {
                     <button
                       type="button"
                       onClick={() => navigate(`/papers/${paper.id}?mode=study`)}
-                      className="py-2 px-3 rounded-lg bg-white border border-slate-200 hover:bg-slate-50 text-slate-800 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="py-2 px-3 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 hover:bg-slate-50 text-slate-800 dark:text-slate-100 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <Eye className="w-3.5 h-3.5 text-slate-500" />
                       <span>View Paper</span>

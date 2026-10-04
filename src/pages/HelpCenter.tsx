@@ -94,7 +94,7 @@ export const HelpCenter: React.FC = () => {
       </div>
 
       {/* Search & Category Filter */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs space-y-3">
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200/80 shadow-xs space-y-3">
         <div className="relative">
           <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
           <input
@@ -102,7 +102,7 @@ export const HelpCenter: React.FC = () => {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search FAQs, features, or guidelines..."
-            className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
+            className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
           />
         </div>
 
@@ -124,8 +124,8 @@ export const HelpCenter: React.FC = () => {
       </div>
 
       {/* FAQ Accordion List */}
-      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
-        <h2 className="text-lg font-black text-slate-900 border-b border-slate-100 pb-3">
+      <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
+        <h2 className="text-lg font-black text-slate-900 dark:text-white border-b border-slate-100 pb-3">
           Frequently Asked Questions
         </h2>
 
@@ -138,7 +138,7 @@ export const HelpCenter: React.FC = () => {
               <button
                 type="button"
                 onClick={() => setExpandedFaq(expandedFaq === idx ? null : idx)}
-                className="w-full p-4 text-left font-bold text-xs sm:text-sm text-slate-900 hover:bg-slate-50 flex items-center justify-between gap-3"
+                className="w-full p-4 text-left font-bold text-xs sm:text-sm text-slate-900 dark:text-white hover:bg-slate-50 flex items-center justify-between gap-3"
               >
                 <span>{faq.q}</span>
                 {expandedFaq === idx ? (
@@ -158,11 +158,11 @@ export const HelpCenter: React.FC = () => {
       </div>
 
       {/* Contact Support Direct Ticket Box */}
-      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
+      <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-4">
         <div className="flex items-center gap-2.5 border-b border-slate-100 pb-3">
           <Mail className="w-5 h-5 text-purple-600" />
           <div>
-            <h3 className="text-base font-black text-slate-900">Contact Support Team</h3>
+            <h3 className="text-base font-black text-slate-900 dark:text-white">Contact Support Team</h3>
             <p className="text-xs text-slate-500">Need specific technical help or report a system glitch?</p>
           </div>
         </div>
@@ -182,7 +182,7 @@ export const HelpCenter: React.FC = () => {
               value={supportMessage}
               onChange={e => setSupportMessage(e.target.value)}
               placeholder="Describe what you need assistance with..."
-              className="w-full text-xs p-3 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all resize-none"
+              className="w-full text-xs p-3 rounded-2xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all resize-none"
               required
             />
             <div className="flex justify-end">

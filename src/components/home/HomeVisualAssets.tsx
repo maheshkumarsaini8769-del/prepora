@@ -25,7 +25,9 @@ export const HeroStudentIllustration: React.FC<HeroStudentIllustrationProps> = (
       <img
         src={isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_light.png'}
         alt="Prepora Student Mascot"
-        className="w-32 sm:w-40 md:w-44 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-opacity duration-300"
+        className={`w-32 sm:w-40 md:w-44 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-all duration-300 rounded-2xl ${
+          isDark ? '' : 'mix-blend-multiply dark:mix-blend-normal'
+        }`}
         loading="eager"
       />
 

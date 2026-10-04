@@ -277,9 +277,9 @@ export const VideoLecturesPage: React.FC = () => {
       </div>
 
       {filteredVideos.length === 0 && (
-        <div className="text-center py-16 bg-white rounded-3xl border border-slate-200 space-y-3">
+        <div className="text-center py-16 bg-white dark:bg-[#0c131a] rounded-3xl border border-slate-200 dark:border-slate-800 space-y-3">
           <Tv className="w-10 h-10 text-slate-400 mx-auto" />
-          <h3 className="text-base font-bold text-slate-800">No Video Lectures Found</h3>
+          <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">No Video Lectures Found</h3>
           <p className="text-xs text-slate-500">Try adjusting your search terms or subject filter.</p>
         </div>
       )}

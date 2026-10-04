@@ -352,7 +352,7 @@ export const PracticeSession: React.FC = () => {
         </div>
 
         {/* Question Text */}
-        <div className="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
+        <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-relaxed">
           {currentQ.question}
         </div>
 
@@ -475,7 +475,7 @@ export const PracticeSession: React.FC = () => {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowDoubtModal(true)}
-                className="self-start sm:self-auto text-xs font-bold bg-white text-purple-700 border-purple-300 hover:bg-purple-50 shadow-xs"
+                className="self-start sm:self-auto text-xs font-bold bg-white dark:bg-[#0c131a] text-purple-700 border-purple-300 hover:bg-purple-50 shadow-xs"
               >
                 <MessageSquareQuote className="w-4 h-4 text-purple-600" />
                 <span>Ask Doubt to Mentor</span>
@@ -522,7 +522,7 @@ export const PracticeSession: React.FC = () => {
                       setPinnedToRevision(prev => ({ ...prev, [currentQ.id]: true }));
                     }}
                     disabled={pinnedToRevision[currentQ.id]}
-                    className="font-bold text-xs bg-white text-amber-900 border-amber-300 hover:bg-amber-50 shadow-xs"
+                    className="font-bold text-xs bg-white dark:bg-[#0c131a] text-amber-900 border-amber-300 hover:bg-amber-50 shadow-xs"
                   >
                     {pinnedToRevision[currentQ.id] ? (
                       <>
@@ -570,9 +570,9 @@ export const PracticeSession: React.FC = () => {
 
             {/* 1-Click Mistake Classification Chips (task2.md Section 3) */}
             {!isCorrect && (
-              <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2.5">
+              <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-xs space-y-2.5">
                 <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-black uppercase tracking-wider text-slate-700 flex items-center gap-1.5">
+                  <span className="text-[11px] font-black uppercase tracking-wider text-slate-700 dark:text-slate-200 flex items-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-purple-600" />
                     <span>Classify Why You Missed This (1-Click Tag)</span>
                   </span>
@@ -612,9 +612,9 @@ export const PracticeSession: React.FC = () => {
             )}
 
             {/* Structured Step-by-Step Solution */}
-            <div className="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200/70 space-y-4">
-              <div className="flex items-center justify-between border-b border-slate-200 pb-2">
-                <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+            <div className="bg-slate-50 dark:bg-slate-800/60 rounded-2xl p-4 sm:p-5 border border-slate-200/70 space-y-4">
+              <div className="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-2">
+                <h4 className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                   <BookOpen className="w-4 h-4 text-brand-600" /> Complete Step-by-Step Solution
                 </h4>
                 <span className="text-[11px] font-semibold text-purple-700 bg-purple-100 px-2 py-0.5 rounded-full">
@@ -625,7 +625,7 @@ export const PracticeSession: React.FC = () => {
               {/* 1. Concept & Principle */}
               <div className="space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-purple-700">1. Core Concept</span>
-                <p className="text-xs sm:text-sm text-slate-800 bg-white p-3 rounded-xl border border-slate-200 font-medium">
+                <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-slate-200 dark:border-slate-800 font-medium">
                   {currentQ.concept || `${currentQ.topic} fundamental principles and governing formulas`}
                 </p>
               </div>
@@ -633,7 +633,7 @@ export const PracticeSession: React.FC = () => {
               {/* 2. Step-by-step Substitution */}
               <div className="space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-purple-700">2. Step-by-step Substitution & Derivation</span>
-                <div className="text-xs sm:text-sm text-slate-800 leading-relaxed bg-white p-3.5 rounded-xl border border-slate-200 font-mono whitespace-pre-line">
+                <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed bg-white dark:bg-[#0c131a] p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 font-mono whitespace-pre-line">
                   {currentQ.explanation}
                 </div>
               </div>
@@ -695,7 +695,7 @@ export const PracticeSession: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold text-slate-900">Drill Completed!</h3>
+            <h3 className="text-xl font-bold text-slate-900 dark:text-white">Drill Completed!</h3>
             <p className="text-xs text-slate-500 mt-1">
               You reviewed {totalChecked} questions in {subject}.
             </p>

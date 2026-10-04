@@ -235,7 +235,7 @@ export const AdminAIStudio: React.FC = () => {
           <button
             onClick={handleGenerate}
             disabled={generating}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 text-xs font-bold transition shadow-xs disabled:opacity-50"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-[#0c131a] hover:bg-slate-100 text-slate-950 text-xs font-bold transition shadow-xs disabled:opacity-50"
           >
             <Sparkles className={`w-4 h-4 ${generating ? 'animate-spin' : ''}`} />
             <span>{generating ? 'Synthesizing Questions...' : 'Generate AI Draft Batch'}</span>

@@ -168,7 +168,7 @@ export const StudyPlanner: React.FC = () => {
       {/* 1. Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Study Planner</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Study Planner</h1>
           <p className="text-sm text-slate-500 mt-1">
             Weekly study schedule tailored to your target exam and weakness diagnostics.
           </p>
@@ -180,9 +180,9 @@ export const StudyPlanner: React.FC = () => {
             variant="outline"
             onClick={handleGenerateAdaptivePlan}
             disabled={isGenerating}
-            className="text-xs font-semibold py-2 px-3 border-slate-300 text-slate-700 flex items-center gap-1.5"
+            className="text-xs font-semibold py-2 px-3 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 flex items-center gap-1.5"
           >
-            <Sparkles className="w-3.5 h-3.5 text-slate-700" />
+            <Sparkles className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200" />
             <span>{isGenerating ? 'Analyzing...' : 'Auto-Schedule Week'}</span>
           </Button>
 
@@ -208,12 +208,12 @@ export const StudyPlanner: React.FC = () => {
       {/* 2. Weekly Execution Progress Bar */}
       <Card className="p-5">
         <div className="flex items-center justify-between text-xs mb-2">
-          <span className="font-semibold text-slate-700">Weekly Progress</span>
+          <span className="font-semibold text-slate-700 dark:text-slate-200">Weekly Progress</span>
           <span className="text-slate-500">
             <strong>{completedCount}</strong> of <strong>{tasks.length}</strong> tasks completed ({weeklyProgress}%)
           </span>
         </div>
-        <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+        <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
           <div
             className="bg-slate-900 h-full rounded-full transition-all duration-300"
             style={{ width: `${weeklyProgress}%` }}
@@ -256,7 +256,7 @@ export const StudyPlanner: React.FC = () => {
       {/* 4. Task List for Selected Day */}
       <Card className="p-6 space-y-4">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-          <h2 className="text-base font-bold text-slate-900">{selectedDay}'s Study Tasks</h2>
+          <h2 className="text-base font-bold text-slate-900 dark:text-white">{selectedDay}'s Study Tasks</h2>
           <span className="text-xs text-slate-400">{currentDayTasks.length} tasks scheduled</span>
         </div>
 
@@ -292,12 +292,12 @@ export const StudyPlanner: React.FC = () => {
 
                   <div className="truncate">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-slate-900">{t.subject}</span>
+                      <span className="font-bold text-slate-900 dark:text-white">{t.subject}</span>
                       <span className="text-slate-300">•</span>
                       <span className={`font-medium ${t.completed ? 'line-through text-slate-400' : 'text-slate-800'}`}>
                         {t.chapter}
                       </span>
-                      <span className="text-[10px] text-slate-500 bg-slate-100 px-1.5 py-0.5 rounded font-semibold">
+                      <span className="text-[10px] text-slate-500 bg-slate-100 dark:bg-slate-800 px-1.5 py-0.5 rounded font-semibold">
                         {t.taskType}
                       </span>
                     </div>
@@ -339,11 +339,11 @@ export const StudyPlanner: React.FC = () => {
       </Card>
 
       {/* 5. Progressive Disclosure: Target Exam Parameters */}
-      <div className="border border-slate-200 rounded-2xl p-4 bg-white space-y-3">
+      <div className="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white dark:bg-[#0c131a] space-y-3">
         <button
           type="button"
           onClick={() => setShowConfig(!showConfig)}
-          className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 hover:text-slate-900"
+          className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900"
         >
           <span className="flex items-center gap-1.5">
             <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -359,7 +359,7 @@ export const StudyPlanner: React.FC = () => {
               <select
                 value={config.targetExam}
                 onChange={(e) => handleSaveConfig({ targetExam: e.target.value })}
-                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
+                className="w-full p-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg font-semibold"
               >
                 <option value="JEE">JEE Main</option>
                 <option value="JEE_ADV">JEE Advanced</option>
@@ -374,7 +374,7 @@ export const StudyPlanner: React.FC = () => {
               <select
                 value={config.classLevel}
                 onChange={(e) => handleSaveConfig({ classLevel: e.target.value })}
-                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
+                className="w-full p-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg font-semibold"
               >
                 <option value="11">Class 11</option>
                 <option value="12">Class 12</option>
@@ -387,7 +387,7 @@ export const StudyPlanner: React.FC = () => {
               <select
                 value={config.dailyStudyHours}
                 onChange={(e) => handleSaveConfig({ dailyStudyHours: parseFloat(e.target.value) || 2 })}
-                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
+                className="w-full p-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg font-semibold"
               >
                 <option value="1.5">1.5 hrs</option>
                 <option value="2">2.0 hrs</option>
@@ -403,7 +403,7 @@ export const StudyPlanner: React.FC = () => {
                 type="date"
                 value={config.targetDate}
                 onChange={(e) => handleSaveConfig({ targetDate: e.target.value })}
-                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg"
+                className="w-full p-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg"
               />
             </div>
 
@@ -412,7 +412,7 @@ export const StudyPlanner: React.FC = () => {
               <select
                 value={config.prepLevel}
                 onChange={(e) => handleSaveConfig({ prepLevel: e.target.value as any })}
-                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
+                className="w-full p-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg font-semibold"
               >
                 <option value="Beginner">Beginner</option>
                 <option value="Intermediate">Intermediate</option>
@@ -426,7 +426,7 @@ export const StudyPlanner: React.FC = () => {
                 type="number"
                 value={config.targetScore}
                 onChange={(e) => handleSaveConfig({ targetScore: parseInt(e.target.value, 10) || 100 })}
-                className="w-full p-2 bg-slate-50 border border-slate-200 rounded-lg font-semibold"
+                className="w-full p-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg font-semibold"
               />
             </div>
           </div>
@@ -451,11 +451,11 @@ export const StudyPlanner: React.FC = () => {
       >
         <form onSubmit={handleAddTask} className="space-y-3 py-1 text-xs">
           <div>
-            <label className="font-semibold text-slate-700 block mb-1">Subject</label>
+            <label className="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Subject</label>
             <select
               value={newTaskSubject}
               onChange={(e) => setNewTaskSubject(e.target.value as SubjectName)}
-              className="w-full p-2 rounded-lg border border-slate-200 bg-white"
+              className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a]"
             >
               <option value="Physics">Physics</option>
               <option value="Chemistry">Chemistry</option>
@@ -465,24 +465,24 @@ export const StudyPlanner: React.FC = () => {
           </div>
 
           <div>
-            <label className="font-semibold text-slate-700 block mb-1">Chapter Name</label>
+            <label className="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Chapter Name</label>
             <input
               type="text"
               value={newTaskChapter}
               onChange={(e) => setNewTaskChapter(e.target.value)}
               placeholder="e.g. Kinematics, Chemical Bonding..."
-              className="w-full p-2 rounded-lg border border-slate-200"
+              className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800"
               required
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="font-semibold text-slate-700 block mb-1">Activity Type</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Activity Type</label>
               <select
                 value={newTaskType}
                 onChange={(e) => setNewTaskType(e.target.value as PlannerTask['taskType'])}
-                className="w-full p-2 rounded-lg border border-slate-200 bg-white"
+                className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a]"
               >
                 <option value="Practice">Practice Qs</option>
                 <option value="Revision">Revision</option>
@@ -493,7 +493,7 @@ export const StudyPlanner: React.FC = () => {
             </div>
 
             <div>
-              <label className="font-semibold text-slate-700 block mb-1">Duration (Mins)</label>
+              <label className="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Duration (Mins)</label>
               <input
                 type="number"
                 value={newTaskDuration}
@@ -501,19 +501,19 @@ export const StudyPlanner: React.FC = () => {
                 min="10"
                 max="180"
                 step="5"
-                className="w-full p-2 rounded-lg border border-slate-200"
+                className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800"
               />
             </div>
           </div>
 
           <div>
-            <label className="font-semibold text-slate-700 block mb-1">Target Notes (Optional)</label>
+            <label className="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Target Notes (Optional)</label>
             <input
               type="text"
               value={newTaskNotes}
               onChange={(e) => setNewTaskNotes(e.target.value)}
               placeholder="e.g. Solve 20 questions"
-              className="w-full p-2 rounded-lg border border-slate-200"
+              className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800"
             />
           </div>
         </form>

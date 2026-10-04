@@ -64,7 +64,7 @@ export const TestReview: React.FC = () => {
   if (!attempt) {
     return (
       <div className="max-w-xl mx-auto text-center py-16">
-        <h2 className="text-xl font-bold text-slate-800">Test Attempt Not Found</h2>
+        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Test Attempt Not Found</h2>
         <p className="text-sm text-slate-500 mt-1 mb-4">Please take or complete a test first.</p>
         <Button onClick={() => navigate('/tests')}>Go to Tests</Button>
       </div>
@@ -108,7 +108,7 @@ export const TestReview: React.FC = () => {
           <Button variant="ghost" size="sm" onClick={() => navigate(`/tests/${attempt.testId}/result?attemptId=${attempt.id}`)}>
             <ArrowLeft className="w-4 h-4" /> Back to Result Summary
           </Button>
-          <h1 className="text-2xl font-black text-slate-900 mt-1">Review: {attempt.testTitle}</h1>
+          <h1 className="text-2xl font-black text-slate-900 dark:text-white mt-1">Review: {attempt.testTitle}</h1>
           <p className="text-xs text-slate-500">
             Score: {attempt.totalScore} / {attempt.maxScore} • Accuracy: {attempt.accuracyPercentage}%
           </p>
@@ -188,7 +188,7 @@ export const TestReview: React.FC = () => {
                     </span>
                   )}
                   {isUnattempted && (
-                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-100 px-3 py-1 rounded-full">
+                    <span className="inline-flex items-center gap-1.5 text-xs font-bold text-slate-600 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
                       <AlertCircle className="w-4 h-4 text-slate-400" /> Unattempted (0)
                     </span>
                   )}
@@ -197,13 +197,13 @@ export const TestReview: React.FC = () => {
 
               {/* Time Analytics Bar for this Question */}
               {activeAns && (
-                <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs">
+                <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs">
                   <div className="flex items-center gap-2">
                     <span className="text-slate-500 font-medium">Time Spent:</span>
-                    <strong className="font-mono text-slate-900">{activeAns.timeSpentSeconds || 0}s</strong>
+                    <strong className="font-mono text-slate-900 dark:text-white">{activeAns.timeSpentSeconds || 0}s</strong>
                     <span className="text-slate-400">•</span>
                     <span className="text-slate-500 font-medium">Target:</span>
-                    <span className="font-mono text-slate-700">{activeAns.recommendedTimeSeconds || activeQ.recommendedTimeSeconds || 90}s</span>
+                    <span className="font-mono text-slate-700 dark:text-slate-200">{activeAns.recommendedTimeSeconds || activeQ.recommendedTimeSeconds || 90}s</span>
                     {((activeAns.timeSpentSeconds || 0) > (activeAns.recommendedTimeSeconds || activeQ.recommendedTimeSeconds || 90)) ? (
                       <span className="text-rose-600 font-bold">
                         (+{(activeAns.timeSpentSeconds || 0) - (activeAns.recommendedTimeSeconds || activeQ.recommendedTimeSeconds || 90)}s over)
@@ -219,7 +219,7 @@ export const TestReview: React.FC = () => {
                     {/* Ask Doubt Button */}
                     <button
                       onClick={() => setShowDoubtModal(true)}
-                      className="flex items-center gap-1 px-3 py-1 rounded-lg bg-white hover:bg-purple-50 border border-purple-200 text-purple-700 font-bold text-xs transition-colors shadow-xs"
+                      className="flex items-center gap-1 px-3 py-1 rounded-lg bg-white dark:bg-[#0c131a] hover:bg-purple-50 border border-purple-200 text-purple-700 font-bold text-xs transition-colors shadow-xs"
                     >
                       <MessageSquareQuote className="w-3.5 h-3.5 text-purple-600" />
                       <span>Ask Doubt</span>
@@ -228,7 +228,7 @@ export const TestReview: React.FC = () => {
                     {/* Report Question Button */}
                     <button
                       onClick={() => setShowReportModal(true)}
-                      className="flex items-center gap-1 px-3 py-1 rounded-lg bg-white hover:bg-rose-50 border border-slate-200 text-slate-600 hover:text-rose-700 font-bold text-xs transition-colors shadow-xs"
+                      className="flex items-center gap-1 px-3 py-1 rounded-lg bg-white dark:bg-[#0c131a] hover:bg-rose-50 border border-slate-200 dark:border-slate-800 text-slate-600 hover:text-rose-700 font-bold text-xs transition-colors shadow-xs"
                       title="Report discrepancy with this question"
                     >
                       <AlertTriangle className="w-3.5 h-3.5 text-amber-500" />
@@ -276,7 +276,7 @@ export const TestReview: React.FC = () => {
               )}
 
               {/* Question Text */}
-              <div className="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
+              <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-relaxed">
                 {activeQ.question}
               </div>
 
@@ -328,11 +328,11 @@ export const TestReview: React.FC = () => {
               </div>
 
               {/* Solution & Concept Box */}
-              <div className="p-5 bg-slate-50 rounded-2xl border border-slate-200/80 space-y-3">
-                <h4 className="text-xs font-bold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+              <div className="p-5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 space-y-3">
+                <h4 className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
                   <BookOpen className="w-4 h-4 text-brand-600" /> Detailed Solution
                 </h4>
-                <p className="text-sm text-slate-800 leading-relaxed whitespace-pre-line">
+                <p className="text-sm text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-line">
                   {activeQ.explanation}
                 </p>
 
@@ -358,7 +358,7 @@ export const TestReview: React.FC = () => {
         {/* Right: Question Palette & List */}
         <div className="space-y-4">
           <Card>
-            <h3 className="font-bold text-sm text-slate-900 mb-3">All Questions ({filteredQuestions.length})</h3>
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white mb-3">All Questions ({filteredQuestions.length})</h3>
 
             <div className="grid grid-cols-5 gap-2 max-h-96 overflow-y-auto pr-1">
               {filteredQuestions.map((q, idx) => {
@@ -431,7 +431,7 @@ export const TestReview: React.FC = () => {
           </p>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-2">Primary Reason</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-2">Primary Reason</label>
             <div className="grid grid-cols-2 gap-2">
               {([
                 'Calculation Error',
@@ -461,14 +461,14 @@ export const TestReview: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 mb-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1">
               Personal Note / What happened? <span className="font-normal text-slate-400">(optional)</span>
             </label>
             <textarea
               value={tagModalNote}
               onChange={e => setTagModalNote(e.target.value)}
               placeholder="e.g., Used 9.8 instead of 10, or forgot the factor of 1/2 in kinetic energy..."
-              className="w-full h-20 p-2.5 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none"
+              className="w-full h-20 p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none"
             />
           </div>
         </div>

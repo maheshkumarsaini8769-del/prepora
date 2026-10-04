@@ -45,13 +45,13 @@ export const ExamReadinessPage: React.FC = () => {
   return (
     <div className="max-w-5xl mx-auto space-y-6 pb-20 animate-slide-up">
       {/* Top Banner - Clean Monochrome Academic Card */}
-      <div className="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-6 sm:p-7 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 text-slate-700 text-xs font-semibold">
-            <Award className="w-3.5 h-3.5 text-slate-700" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 text-xs font-semibold">
+            <Award className="w-3.5 h-3.5 text-slate-700 dark:text-slate-200" />
             <span>Preparedness Diagnostic Index</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-slate-900 dark:text-white">
             {selectedExam} Readiness Score
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">
@@ -60,11 +60,11 @@ export const ExamReadinessPage: React.FC = () => {
         </div>
 
         {/* Overall Score Gauge */}
-        <div className="bg-slate-50 p-5 rounded-xl border border-slate-200 text-center min-w-[200px] shrink-0 space-y-1">
+        <div className="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-xl border border-slate-200 dark:border-slate-800 text-center min-w-[200px] shrink-0 space-y-1">
           <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
             PREPORA READINESS
           </span>
-          <div className="text-4xl font-black text-slate-900">
+          <div className="text-4xl font-black text-slate-900 dark:text-white">
             {readiness.score} <span className="text-sm text-slate-400 font-semibold">/ 100</span>
           </div>
           <span className={`inline-block text-[11px] font-bold px-2.5 py-0.5 rounded-full ${
@@ -90,8 +90,8 @@ export const ExamReadinessPage: React.FC = () => {
       </div>
 
       {/* Exam Switcher */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
-        <span className="text-xs font-bold text-slate-700">Target Examination Calibration:</span>
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
+        <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Target Examination Calibration:</span>
         <div className="flex items-center gap-2">
           {(['JEE', 'NEET', 'CBSE'] as ExamType[]).map(e => (
             <button
@@ -120,10 +120,10 @@ export const ExamReadinessPage: React.FC = () => {
             <span className="text-[11px] font-black uppercase tracking-wider text-amber-900">
               ⚡ Biggest Improvement Opportunity
             </span>
-            <h3 className="text-lg font-black text-slate-900">
+            <h3 className="text-lg font-black text-slate-900 dark:text-white">
               {readiness.biggestImprovementArea} (Score: {readiness.speed}/100)
             </h3>
-            <p className="text-xs text-slate-700 leading-relaxed max-w-xl">
+            <p className="text-xs text-slate-700 dark:text-slate-200 leading-relaxed max-w-xl">
               {readiness.recommendedAction}
             </p>
           </div>
@@ -141,10 +141,10 @@ export const ExamReadinessPage: React.FC = () => {
       </div>
 
       {/* 5-Dimensional Telemetry Breakdown */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
+      <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
         <div className="flex items-center justify-between border-b border-slate-100 pb-3">
           <div>
-            <h3 className="text-base font-black text-slate-900">
+            <h3 className="text-base font-black text-slate-900 dark:text-white">
               Dimensional Readiness Assessment
             </h3>
             <p className="text-xs text-slate-500">
@@ -159,14 +159,14 @@ export const ExamReadinessPage: React.FC = () => {
             <div key={i} className="space-y-1.5">
               <div className="flex items-center justify-between text-xs">
                 <div>
-                  <span className="font-bold text-slate-800">{dim.label}</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-100">{dim.label}</span>
                   <span className="text-slate-400 ml-2 hidden sm:inline text-[11px] font-normal">
                     ({dim.description})
                   </span>
                 </div>
-                <span className="font-mono font-black text-sm text-slate-900">{dim.value} / 100</span>
+                <span className="font-mono font-black text-sm text-slate-900 dark:text-white">{dim.value} / 100</span>
               </div>
-              <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 dark:bg-slate-800 h-2.5 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full transition-all duration-700 ${dim.color}`}
                   style={{ width: `${dim.value}%` }}
@@ -182,7 +182,7 @@ export const ExamReadinessPage: React.FC = () => {
         {subjectBreakdown.map((sub, i) => (
           <div
             key={i}
-            className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3 flex flex-col justify-between"
+            className="bg-white dark:bg-[#0c131a] rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3 flex flex-col justify-between"
           >
             <div className="space-y-1">
               <div className="flex items-center justify-between">
@@ -194,7 +194,7 @@ export const ExamReadinessPage: React.FC = () => {
                   {sub.status}
                 </span>
               </div>
-              <div className="text-2xl font-black text-slate-900">{sub.score}%</div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white">{sub.score}%</div>
               <p className="text-[11px] text-slate-500">
                 Weak bottleneck: <strong>{sub.weakTopic}</strong>
               </p>

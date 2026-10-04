@@ -155,13 +155,13 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
   return (
     <div className="space-y-4">
       {/* Mind Map Toolbar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
             <Sparkles className="w-4 h-4" />
           </div>
           <div>
-            <h3 className="text-sm font-black text-slate-900">
+            <h3 className="text-sm font-black text-slate-900 dark:text-white">
               Interactive Concept Mind Map
             </h3>
             <p className="text-[11px] text-slate-500">
@@ -171,7 +171,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
         </div>
 
         {/* Zoom & Reset Controls */}
-        <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-xl">
+        <div className="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl">
           <button
             type="button"
             onClick={() => setZoomLevel(prev => Math.min(1.4, prev + 0.1))}
@@ -180,7 +180,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
           >
             <ZoomIn className="w-4 h-4" />
           </button>
-          <span className="text-[11px] font-mono font-bold text-slate-700 px-1.5">
+          <span className="text-[11px] font-mono font-bold text-slate-700 dark:text-slate-200 px-1.5">
             {Math.round(zoomLevel * 100)}%
           </span>
           <button
@@ -217,7 +217,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
       </div>
 
       {/* Mind Map Canvas */}
-      <div className="bg-slate-900/5 rounded-3xl p-6 border border-slate-200 overflow-x-auto min-h-[460px] flex items-center justify-start sm:justify-center">
+      <div className="bg-slate-900/5 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 overflow-x-auto min-h-[460px] flex items-center justify-start sm:justify-center">
         <div
           style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'top center' }}
           className="transition-transform duration-200 flex flex-col md:flex-row items-center gap-8 py-4 px-2"
@@ -271,7 +271,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
                       onClick={() => setSelectedNode(top)}
                       className="flex items-center gap-3 flex-1 min-w-0"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-white/80 border border-slate-200 flex items-center justify-center shrink-0 font-black text-xs text-slate-800">
+                      <div className="w-8 h-8 rounded-xl bg-white/80 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0 font-black text-xs text-slate-800 dark:text-slate-100">
                         {top.mastery}%
                       </div>
                       <div className="truncate">
@@ -374,15 +374,15 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
 
             {/* Metric Grid */}
             <div className="grid grid-cols-3 gap-2 text-center">
-              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">Mastery</span>
                 <span className="text-lg font-black text-purple-700">{selectedNode.mastery}%</span>
               </div>
-              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">Accuracy</span>
                 <span className="text-lg font-black text-emerald-700">{selectedNode.accuracy}%</span>
               </div>
-              <div className="p-3 rounded-2xl bg-slate-50 border border-slate-200">
+              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">Mistakes</span>
                 <span className={`text-lg font-black ${selectedNode.mistakesCount > 0 ? 'text-rose-600' : 'text-slate-700'}`}>
                   {selectedNode.mistakesCount}

@@ -155,18 +155,18 @@ export const AdminReports: React.FC = () => {
   });
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6 pb-20 animate-slide-up text-slate-800">
+    <div className="max-w-6xl mx-auto space-y-6 pb-20 animate-slide-up text-slate-800 dark:text-slate-100">
       {/* Top Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <Link
             to="/admin"
-            className="p-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 transition-colors shadow-2xs"
+            className="p-2 rounded-xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-600 hover:bg-slate-50 transition-colors shadow-2xs"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-2">
               <ShieldAlert className="w-6 h-6 text-rose-600" />
               Quality Control & System Auditing
             </h1>
@@ -177,7 +177,7 @@ export const AdminReports: React.FC = () => {
         </div>
 
         {/* Global Tabs */}
-        <div className="flex bg-slate-100 p-1 rounded-2xl border border-slate-200/80 text-xs font-bold">
+        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl border border-slate-200/80 text-xs font-bold">
           <button
             onClick={() => setActiveTab('questions')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
@@ -210,7 +210,7 @@ export const AdminReports: React.FC = () => {
       {/* ========================================================= */}
       {activeTab === 'questions' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-1.5 flex-wrap">
               {(['All', 'Pending', 'Under Review', 'Resolved', 'Rejected'] as const).map(st => (
                 <button
@@ -234,30 +234,30 @@ export const AdminReports: React.FC = () => {
                 value={qSearch}
                 onChange={e => setQSearch(e.target.value)}
                 placeholder="Search reports or questions..."
-                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none"
+                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none"
               />
             </div>
           </div>
 
           <div className="space-y-3">
             {filteredQReports.length === 0 ? (
-              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-2">
+              <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 space-y-2">
                 <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                <h3 className="font-bold text-slate-800 text-sm">All Clean!</h3>
+                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">All Clean!</h3>
                 <p className="text-xs text-slate-500">No question issues found matching this filter.</p>
               </div>
             ) : (
               filteredQReports.map(r => (
                 <div
                   key={r.id}
-                  className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
+                  className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-xs hover:border-slate-300 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4"
                 >
                   <div className="space-y-1.5 flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2">
                       <span className="text-[10px] font-extrabold text-rose-700 bg-rose-50 border border-rose-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
                         {r.reason}
                       </span>
-                      <span className="text-xs font-bold text-slate-800">
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
                         {r.questionDetails?.subject || 'Question'}: {r.questionDetails?.chapter || r.questionId}
                       </span>
                       <span className="text-[11px] text-slate-400 ml-auto md:ml-0">
@@ -265,13 +265,13 @@ export const AdminReports: React.FC = () => {
                       </span>
                     </div>
 
-                    <p className="text-xs text-slate-800 font-medium line-clamp-2">
+                    <p className="text-xs text-slate-800 dark:text-slate-100 font-medium line-clamp-2">
                       {r.questionDetails?.question || `Question ID: ${r.questionId}`}
                     </p>
 
                     {r.message && (
-                      <p className="text-xs text-slate-600 bg-slate-50 p-2 rounded-xl border border-slate-200/60">
-                        <strong className="text-slate-800">Student Comment:</strong> {r.message}
+                      <p className="text-xs text-slate-600 bg-slate-50 dark:bg-slate-800/60 p-2 rounded-xl border border-slate-200/60">
+                        <strong className="text-slate-800 dark:text-slate-100">Student Comment:</strong> {r.message}
                       </p>
                     )}
                   </div>
@@ -293,7 +293,7 @@ export const AdminReports: React.FC = () => {
                       size="sm"
                       variant="outline"
                       onClick={() => handleOpenReview(r)}
-                      className="text-xs font-bold py-1.5 px-3 border-slate-200 text-slate-700 hover:bg-slate-50"
+                      className="text-xs font-bold py-1.5 px-3 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50"
                     >
                       <Edit2 className="w-3.5 h-3.5 mr-1" /> Review & Edit
                     </Button>
@@ -310,7 +310,7 @@ export const AdminReports: React.FC = () => {
       {/* ========================================================= */}
       {activeTab === 'technical' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2">
               <span className="font-bold text-slate-500 uppercase text-[10px]">Status:</span>
               {(['All', 'Open', 'Investigating', 'Resolved', 'Closed'] as const).map(st => (
@@ -348,16 +348,16 @@ export const AdminReports: React.FC = () => {
 
           <div className="space-y-3">
             {filteredTechReports.length === 0 ? (
-              <div className="bg-white rounded-3xl p-12 text-center border border-slate-200 space-y-2">
+              <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 space-y-2">
                 <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                <h3 className="font-bold text-slate-800 text-sm">System Healthy</h3>
+                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">System Healthy</h3>
                 <p className="text-xs text-slate-500">No active technical bug reports logged.</p>
               </div>
             ) : (
               filteredTechReports.map(tr => (
                 <div
                   key={tr.id}
-                  className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs space-y-3"
+                  className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3"
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2 text-xs">
                     <div className="flex items-center gap-2">
@@ -370,7 +370,7 @@ export const AdminReports: React.FC = () => {
                       }`}>
                         {tr.severity}
                       </span>
-                      <strong className="text-slate-900 font-bold">{tr.reason}</strong>
+                      <strong className="text-slate-900 dark:text-white font-bold">{tr.reason}</strong>
                       <span className="text-slate-400">•</span>
                       <span className="text-slate-500">Route: <code>{tr.route}</code></span>
                     </div>
@@ -380,7 +380,7 @@ export const AdminReports: React.FC = () => {
                     </span>
                   </div>
 
-                  <p className="text-xs text-slate-700 bg-slate-50 p-3 rounded-xl border border-slate-200/70 font-mono">
+                  <p className="text-xs text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/60 p-3 rounded-xl border border-slate-200/70 font-mono">
                     {tr.description}
                   </p>
 
@@ -404,7 +404,7 @@ export const AdminReports: React.FC = () => {
                       </button>
                       <button
                         onClick={() => handleUpdateTechStatus(tr.id, 'Closed')}
-                        className="px-2 py-1 rounded bg-slate-100 text-slate-600 hover:bg-slate-200 font-semibold"
+                        className="px-2 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 hover:bg-slate-200 font-semibold"
                       >
                         Close
                       </button>
@@ -422,7 +422,7 @@ export const AdminReports: React.FC = () => {
       {/* ========================================================= */}
       {activeTab === 'audit' && (
         <div className="space-y-4">
-          <div className="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+          <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
             <div className="flex items-center gap-2">
               <span className="font-bold text-slate-500 uppercase text-[10px]">Action Filter:</span>
               {(['All', 'Create', 'Edit', 'Change Answer', 'Bulk Edit', 'Import', 'Delete'] as const).map(act => (
@@ -447,16 +447,16 @@ export const AdminReports: React.FC = () => {
                 value={auditSearch}
                 onChange={e => setAuditSearch(e.target.value)}
                 placeholder="Search audit logs..."
-                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none"
+                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none"
               />
             </div>
           </div>
 
-          <Card className="p-0 overflow-hidden border-slate-200">
+          <Card className="p-0 overflow-hidden border-slate-200 dark:border-slate-800">
             <div className="overflow-x-auto">
               <table className="w-full text-left text-xs border-collapse">
                 <thead>
-                  <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+                  <tr className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
                     <th className="py-3 px-4">Action</th>
                     <th className="py-3 px-4">Entity</th>
                     <th className="py-3 px-4">Admin</th>
@@ -473,7 +473,7 @@ export const AdminReports: React.FC = () => {
                     </tr>
                   ) : (
                     filteredAuditLogs.map(log => (
-                      <tr key={log.id} className="hover:bg-slate-50/70 transition-colors">
+                      <tr key={log.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
                         <td className="py-3 px-4">
                           <span className={`px-2 py-0.5 rounded-md font-bold text-[10px] ${
                             log.action === 'Create'
@@ -487,7 +487,7 @@ export const AdminReports: React.FC = () => {
                             {log.action}
                           </span>
                         </td>
-                        <td className="py-3 px-4 font-mono text-[11px] text-slate-700">
+                        <td className="py-3 px-4 font-mono text-[11px] text-slate-700 dark:text-slate-200">
                           {log.entityType} #{log.entityId}
                         </td>
                         <td className="py-3 px-4 text-slate-600 font-medium">
@@ -546,21 +546,21 @@ export const AdminReports: React.FC = () => {
         }
       >
         <div className="space-y-4 py-2 text-xs">
-          <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
+          <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-800">
             <span className="text-[10px] font-bold uppercase text-slate-400 block mb-1">Student Flag</span>
             <div className="font-bold text-rose-700">{selectedQReport?.reason}</div>
             <p className="text-slate-600 mt-1 italic">"{selectedQReport?.message || 'No additional note'}"</p>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Question Statement</label>
-            <p className="p-3 bg-white rounded-xl border border-slate-200 text-slate-800">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Question Statement</label>
+            <p className="p-3 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100">
               {selectedQReport?.questionDetails?.question}
             </p>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Correct Answer Index</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Correct Answer Index</label>
             <div className="grid grid-cols-4 gap-2">
               {[0, 1, 2, 3].map(idx => (
                 <button
@@ -580,23 +580,23 @@ export const AdminReports: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Explanation</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Explanation</label>
             <textarea
               rows={3}
               value={correctedExplanation}
               onChange={e => setCorrectedExplanation(e.target.value)}
-              className="w-full p-2.5 bg-white rounded-xl border border-slate-200 text-xs text-slate-800"
+              className="w-full p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-100"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Academic Review Notes</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Academic Review Notes</label>
             <input
               type="text"
               value={reviewNotes}
               onChange={e => setReviewNotes(e.target.value)}
               placeholder="e.g. Verified sign convention in formula step 3"
-              className="w-full p-2 bg-white rounded-xl border border-slate-200 text-xs text-slate-800"
+              className="w-full p-2 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-100"
             />
           </div>
         </div>

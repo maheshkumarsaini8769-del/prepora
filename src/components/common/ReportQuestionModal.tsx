@@ -74,7 +74,7 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
+      <div className="relative w-full max-w-md bg-white dark:bg-[#0c131a] rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
         {/* Header */}
         <div className="px-5 py-4 bg-slate-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -99,7 +99,7 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
           {submitted ? (
             <div className="text-center py-6">
               <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-2 animate-bounce" />
-              <h4 className="text-base font-bold text-slate-900">Thank You!</h4>
+              <h4 className="text-base font-bold text-slate-900 dark:text-white">Thank You!</h4>
               <p className="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
                 Your report has been submitted to the academic team for verification and correction.
               </p>
@@ -107,7 +107,7 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               {questionSnippet && (
-                <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600 line-clamp-2 italic">
+                <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 line-clamp-2 italic">
                   "{questionSnippet}"
                 </div>
               )}
@@ -119,7 +119,7 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">
                   What is the issue?
                 </label>
                 <div className="grid grid-cols-2 gap-2">
@@ -141,7 +141,7 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1 flex items-center gap-1.5">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1 flex items-center gap-1.5">
                   <MessageSquare className="w-3.5 h-3.5 text-slate-400" />
                   Additional Notes (Optional)
                 </label>
@@ -150,7 +150,7 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   placeholder="Explain why the answer or explanation is problematic..."
-                  className="w-full text-xs p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:outline-none"
+                  className="w-full text-xs p-3 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-purple-600 focus:outline-none"
                 />
               </div>
 

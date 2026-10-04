@@ -199,7 +199,7 @@ export const AdminAuthorityPage: React.FC = () => {
               <button
                 type="submit"
                 disabled={actionLoading || !newEmail.trim()}
-                className="w-full py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                className="w-full py-2.5 rounded-xl bg-white dark:bg-[#0c131a] hover:bg-slate-100 text-slate-950 font-bold text-xs shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
               >
                 {actionLoading ? (
                   <RefreshCw className="w-4 h-4 animate-spin" />

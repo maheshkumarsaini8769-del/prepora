@@ -131,7 +131,7 @@ export const FixMyWeakness: React.FC = () => {
             <Zap className="w-3.5 h-3.5 text-purple-600" />
             <span>Prepora Signature 5-Stage Remediation Engine</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Fix My Weakness</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Fix My Weakness</h1>
           <p className="text-sm text-slate-500 mt-1">
             Color-coded competency breakdown across all syllabus subtopics. Launch 5-stage precision remediation drills.
           </p>
@@ -190,7 +190,7 @@ export const FixMyWeakness: React.FC = () => {
       </div>
 
       {/* Subject Filter */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-3">
+      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
         {(['All', 'Physics', 'Chemistry', 'Mathematics'] as (SubjectName | 'All')[]).map((sub) => (
           <button
             key={sub}
@@ -208,9 +208,9 @@ export const FixMyWeakness: React.FC = () => {
 
       {/* Topics List */}
       {filtered.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300">
+        <div className="text-center py-16 bg-white dark:bg-[#0c131a] rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
           <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-2" />
-          <h3 className="font-bold text-slate-800 text-base">No Critical Weaknesses Detected</h3>
+          <h3 className="font-bold text-slate-800 dark:text-slate-100 text-base">No Critical Weaknesses Detected</h3>
           <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
             Great job! Solve more questions and take mock tests. Any recurring mistake patterns will appear here with targeted AI remediation drills.
           </p>
@@ -229,7 +229,7 @@ export const FixMyWeakness: React.FC = () => {
                   <Badge variant={w.status === 'red' ? 'danger' : w.status === 'yellow' ? 'warning' : 'success'}>
                     {w.status === 'red' ? 'RED • Critical Weakness' : w.status === 'yellow' ? 'YELLOW • Developing' : 'GREEN • Mastered'}
                   </Badge>
-                  <span className="font-bold text-sm text-slate-800">{w.subject}</span>
+                  <span className="font-bold text-sm text-slate-800 dark:text-slate-100">{w.subject}</span>
                   <span className="text-slate-400 text-xs">•</span>
                   <span className="text-xs text-slate-500 font-medium">{w.chapter}</span>
                 </div>
@@ -241,9 +241,9 @@ export const FixMyWeakness: React.FC = () => {
 
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <h3 className="text-base font-bold text-slate-900">{w.topic}</h3>
-                  <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
-                    <span>Accuracy: <strong className={w.accuracy < 60 ? 'text-rose-600 font-black' : 'text-slate-900'}>{w.accuracy}%</strong></span>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">{w.topic}</h3>
+                  <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                    <span>Accuracy: <strong className={w.accuracy < 60 ? 'text-rose-600 dark:text-rose-400 font-black' : 'text-slate-900 dark:text-white'}>{w.accuracy}%</strong></span>
                     <span>•</span>
                     <span>{w.wrongCount} Errors in {w.totalAttempts} Attempts</span>
                   </div>
@@ -293,7 +293,7 @@ export const FixMyWeakness: React.FC = () => {
             <div className="p-3 bg-purple-50/70 border border-purple-200/80 rounded-2xl flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Badge variant="brand" size="sm">{remediationTarget.subject}</Badge>
-                <span className="text-xs font-bold text-slate-800">{remediationTarget.chapter}</span>
+                <span className="text-xs font-bold text-slate-800 dark:text-slate-100">{remediationTarget.chapter}</span>
               </div>
               <span className="text-xs font-black text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
                 {remediationTarget.accuracy}% Accuracy ({remediationTarget.wrongCount} Errors)
@@ -303,7 +303,7 @@ export const FixMyWeakness: React.FC = () => {
             {/* STAGE 1: ROOT CAUSE DIAGNOSIS */}
             <div className="space-y-2.5">
               <div className="flex items-center justify-between">
-                <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+                <h4 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
                   <span className="w-5 h-5 rounded-full bg-purple-600 text-white text-[10px] font-bold flex items-center justify-center">1</span>
                   <span>Stage 1: Root Cause Diagnosis</span>
                 </h4>
@@ -312,15 +312,15 @@ export const FixMyWeakness: React.FC = () => {
                 </span>
               </div>
               {aiDiagnosis && (
-                <div className="p-3.5 rounded-xl bg-purple-50/80 border border-purple-200 text-xs space-y-1.5 animate-in fade-in">
-                  <div className="flex items-center gap-1.5 font-bold text-purple-900 uppercase text-[10px] tracking-wider">
-                    <Sparkles className="w-3.5 h-3.5 text-purple-600" />
+                <div className="p-3.5 rounded-xl bg-purple-50/80 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-xs space-y-1.5 animate-in fade-in">
+                  <div className="flex items-center gap-1.5 font-bold text-purple-900 dark:text-purple-300 uppercase text-[10px] tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                     <span>Gemini AI Performance Diagnosis</span>
                   </div>
-                  <p className="text-slate-800 font-medium leading-relaxed">
+                  <p className="text-slate-800 dark:text-slate-100 font-medium leading-relaxed">
                     {aiDiagnosis.rootCauseAnalysis}
                   </p>
-                  <div className="text-[11px] text-purple-950 font-bold bg-white/80 p-2 rounded-lg border border-purple-100">
+                  <div className="text-[11px] text-purple-950 dark:text-purple-200 font-bold bg-white/80 dark:bg-slate-900/80 p-2 rounded-lg border border-purple-100 dark:border-purple-900">
                     💡 Prescribed 25-Q Plan: {aiDiagnosis.prescribedPlan.conceptQuestions} Concept + {aiDiagnosis.prescribedPlan.easyQuestions} Easy + {aiDiagnosis.prescribedPlan.mediumQuestions} Medium + {aiDiagnosis.prescribedPlan.timedQuestions} Timed ({aiDiagnosis.prescribedPlan.expectedAccuracyGain} Gain)
                   </div>
                 </div>
@@ -358,17 +358,17 @@ export const FixMyWeakness: React.FC = () => {
 
             {/* STAGE 2: FOCUSED INPUT (2-3 Min High-Yield Guide) */}
             <div className="space-y-2">
-              <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+              <h4 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
                 <span className="w-5 h-5 rounded-full bg-purple-600 text-white text-[10px] font-bold flex items-center justify-center">2</span>
                 <span>Stage 2: Focused Input (2-Min High-Yield Key Insight)</span>
               </h4>
 
-              <div className="p-3.5 bg-slate-50 rounded-2xl border border-slate-200 space-y-2 text-xs">
+              <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
                   <span className="font-bold text-purple-800 uppercase text-[10px] tracking-wider">Governing Equation</span>
                   <Badge variant="brand" size="sm">High-Yield Formula</Badge>
                 </div>
-                <div className="p-2.5 bg-white rounded-xl border border-slate-200 font-mono font-bold text-slate-800 text-center">
+                <div className="p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 font-mono font-bold text-slate-800 dark:text-slate-100 text-center">
                   {remediationTarget.topic.includes('Motion') || remediationTarget.chapter.includes('Kinematics')
                     ? 'v² = u² + 2as  |  R = (u² · sin(2θ)) / g'
                     : remediationTarget.chapter.includes('Thermodynamics')
@@ -390,7 +390,7 @@ export const FixMyWeakness: React.FC = () => {
 
             {/* STAGE 3: GRADUATED 5-QUESTION BLUEPRINT */}
             <div className="space-y-2">
-              <h4 className="text-xs font-black text-slate-900 uppercase tracking-wider flex items-center gap-1.5">
+              <h4 className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
                 <span className="w-5 h-5 rounded-full bg-purple-600 text-white text-[10px] font-bold flex items-center justify-center">3</span>
                 <span>Stage 3: Graduated 5-Question Blueprint</span>
               </h4>
@@ -403,13 +403,13 @@ export const FixMyWeakness: React.FC = () => {
                   { step: 'Q4', title: 'Distractor Trap Vigilance', level: 'Hard', desc: 'Option engineered to catch common sign or calculation errors' },
                   { step: 'Q5', title: 'Timed Exam Challenge', level: 'Exam-Level', desc: 'Full countdown pressure to verify speed and mastery' }
                 ].map((blueprint, idx) => (
-                  <div key={idx} className="p-2.5 bg-white rounded-xl border border-slate-200/90 flex items-center justify-between text-xs">
+                  <div key={idx} className="p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200/90 flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2.5">
-                      <span className="w-6 h-6 rounded-lg bg-slate-100 text-slate-800 font-bold text-xs flex items-center justify-center shrink-0">
+                      <span className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs flex items-center justify-center shrink-0">
                         {blueprint.step}
                       </span>
                       <div>
-                        <span className="font-bold text-slate-900">{blueprint.title}</span>
+                        <span className="font-bold text-slate-900 dark:text-white">{blueprint.title}</span>
                         <p className="text-[11px] text-slate-500">{blueprint.desc}</p>
                       </div>
                     </div>

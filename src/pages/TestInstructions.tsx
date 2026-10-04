@@ -23,7 +23,7 @@ export const TestInstructions: React.FC = () => {
   if (!test) {
     return (
       <div className="max-w-xl mx-auto text-center py-16">
-        <h2 className="text-xl font-bold text-slate-800">Test Not Found</h2>
+        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Test Not Found</h2>
         <p className="text-sm text-slate-500 mt-1 mb-4">The test you are trying to take does not exist.</p>
         <Button onClick={() => navigate('/tests')}>Back to Test Center</Button>
       </div>
@@ -69,7 +69,7 @@ export const TestInstructions: React.FC = () => {
       {/* Instructions Content */}
       <Card className="space-y-6">
         <div>
-          <h3 className="font-bold text-base text-slate-900 mb-2">General Test Instructions</h3>
+          <h3 className="font-bold text-base text-slate-900 dark:text-white mb-2">General Test Instructions</h3>
           <ul className="list-disc list-inside text-sm text-slate-600 space-y-2">
             <li>The countdown timer at the top-right indicates the remaining time.</li>
             <li>The test will automatically submit when the timer expires.</li>
@@ -86,7 +86,7 @@ export const TestInstructions: React.FC = () => {
               ⏱️
             </span>
             <div>
-              <h3 className="font-bold text-base text-slate-900">Recommended Time Plan (Time Coach)</h3>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Recommended Time Plan (Time Coach)</h3>
               <p className="text-xs text-slate-500">Benchmark time allocation strategy recommended for maximum score</p>
             </div>
           </div>
@@ -104,7 +104,7 @@ export const TestInstructions: React.FC = () => {
             })}
           </div>
 
-          <div className="mt-3 p-3 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-600 flex items-center justify-between">
+          <div className="mt-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 flex items-center justify-between">
             <span>Per-Question Target: <strong>60s (Easy)</strong> • <strong>90s (Medium)</strong> • <strong>150s (Hard)</strong></span>
             <span className="text-purple-700 font-semibold">
               Tools: {test.calculatorEnabled !== false ? 'Calculator & Scratchpad Enabled' : 'Scratchpad Only (Exam Rules)'}
@@ -114,42 +114,42 @@ export const TestInstructions: React.FC = () => {
 
         {/* Question Palette Legend */}
         <div className="pt-4 border-t border-slate-100">
-          <h3 className="font-bold text-base text-slate-900 mb-3">Question Palette Symbol Legend</h3>
+          <h3 className="font-bold text-base text-slate-900 dark:text-white mb-3">Question Palette Symbol Legend</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div className="flex items-center gap-3 p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100">
               <span className="w-8 h-8 rounded-lg bg-emerald-600 text-white font-bold text-xs flex items-center justify-center">
                 1
               </span>
-              <span className="text-xs font-semibold text-slate-700">Answered (Evaluated)</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">Answered (Evaluated)</span>
             </div>
 
-            <div className="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div className="flex items-center gap-3 p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100">
               <span className="w-8 h-8 rounded-lg bg-rose-600 text-white font-bold text-xs flex items-center justify-center">
                 2
               </span>
-              <span className="text-xs font-semibold text-slate-700">Not Answered (Evaluated as 0)</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">Not Answered (Evaluated as 0)</span>
             </div>
 
-            <div className="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
-              <span className="w-8 h-8 rounded-lg bg-slate-200 text-slate-700 font-bold text-xs flex items-center justify-center">
+            <div className="flex items-center gap-3 p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100">
+              <span className="w-8 h-8 rounded-lg bg-slate-200 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center">
                 3
               </span>
-              <span className="text-xs font-semibold text-slate-700">Not Visited Yet</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">Not Visited Yet</span>
             </div>
 
-            <div className="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl border border-slate-100">
+            <div className="flex items-center gap-3 p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100">
               <span className="w-8 h-8 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center">
                 4
               </span>
-              <span className="text-xs font-semibold text-slate-700">Marked for Review (Not Answered)</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">Marked for Review (Not Answered)</span>
             </div>
 
-            <div className="flex items-center gap-3 p-2.5 bg-slate-50 rounded-xl border border-slate-100 sm:col-span-2">
+            <div className="flex items-center gap-3 p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 sm:col-span-2">
               <span className="w-8 h-8 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center relative">
                 5
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full ring-2 ring-white"></span>
               </span>
-              <span className="text-xs font-semibold text-slate-700">
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
                 Answered & Marked for Review (Will be evaluated)
               </span>
             </div>
@@ -165,7 +165,7 @@ export const TestInstructions: React.FC = () => {
               onChange={(e) => setAgreed(e.target.checked)}
               className="mt-0.5 w-4 h-4 text-brand-600 rounded focus:ring-brand-500"
             />
-            <span className="text-xs text-slate-700 font-medium leading-relaxed">
+            <span className="text-xs text-slate-700 dark:text-slate-200 font-medium leading-relaxed">
               I have read and understood all instructions. I confirm that I will not use any unfair means during this simulated test session.
             </span>
           </label>

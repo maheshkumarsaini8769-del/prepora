@@ -216,7 +216,7 @@ export const SmartRevision: React.FC = () => {
       {/* 1. Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Revision</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Revision</h1>
           <p className="text-sm text-slate-500 mt-1">
             Maintain long-term retention with spaced repetition and high-yield formula review.
           </p>
@@ -254,7 +254,7 @@ export const SmartRevision: React.FC = () => {
           <Card className="p-6 space-y-4">
             <div className="flex items-center justify-between border-b border-slate-100 pb-3">
               <div>
-                <h2 className="text-base font-bold text-slate-900">Due Today</h2>
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">Due Today</h2>
                 <p className="text-xs text-slate-500">
                   Topics calculated by your memory curve for review today.
                 </p>
@@ -276,7 +276,7 @@ export const SmartRevision: React.FC = () => {
             {dueTodayItems.length === 0 ? (
               <div className="text-center py-12">
                 <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-slate-800 text-sm">All Caught Up for Today!</h3>
+                <h3 className="font-semibold text-slate-800 dark:text-slate-100 text-sm">All Caught Up for Today!</h3>
                 <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                   No topics currently pending revision. Continue with fresh practice or review upcoming schedules below.
                 </p>
@@ -286,14 +286,14 @@ export const SmartRevision: React.FC = () => {
                 {dueTodayItems.map((item, index) => (
                   <div
                     key={item.id}
-                    className="p-4 rounded-xl border border-slate-200 bg-white hover:border-slate-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                    className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] hover:border-slate-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
                   >
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-slate-100 text-slate-700 font-bold flex items-center justify-center text-[11px]">
+                        <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold flex items-center justify-center text-[11px]">
                           {index + 1}
                         </span>
-                        <span className="font-bold text-slate-900 text-sm">{item.topic}</span>
+                        <span className="font-bold text-slate-900 dark:text-white text-sm">{item.topic}</span>
                         <span className="text-slate-400">•</span>
                         <span className="text-slate-500">{item.subject}</span>
                       </div>
@@ -307,7 +307,7 @@ export const SmartRevision: React.FC = () => {
                         size="sm"
                         variant="outline"
                         onClick={() => handleMarkComplete(item.id)}
-                        className="text-xs font-medium py-1 px-2.5 text-slate-700"
+                        className="text-xs font-medium py-1 px-2.5 text-slate-700 dark:text-slate-200"
                       >
                         <Check className="w-3.5 h-3.5 mr-1" /> Mark Done
                       </Button>
@@ -331,11 +331,11 @@ export const SmartRevision: React.FC = () => {
           </Card>
 
           {/* Progressive Disclosure: Upcoming & Completed Revisions */}
-          <div className="border border-slate-200 rounded-2xl p-4 bg-white space-y-3">
+          <div className="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white dark:bg-[#0c131a] space-y-3">
             <button
               type="button"
               onClick={() => setShowUpcoming(!showUpcoming)}
-              className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 hover:text-slate-900"
+              className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900"
             >
               <span>Upcoming & Completed Revisions ({upcomingItems.length} Upcoming, {completedItems.length} Done)</span>
               {showUpcoming ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -350,7 +350,7 @@ export const SmartRevision: React.FC = () => {
                       {upcomingItems.map((item) => (
                         <div key={item.id} className="p-3 rounded-lg border border-slate-100 flex items-center justify-between">
                           <div>
-                            <div className="font-medium text-slate-800">{item.topic}</div>
+                            <div className="font-medium text-slate-800 dark:text-slate-100">{item.topic}</div>
                             <div className="text-[11px] text-slate-400">{item.subject} • Scheduled: {item.nextDueDate}</div>
                           </div>
                           <span className="text-[11px] font-semibold text-slate-500">Day {item.intervalStage}</span>
@@ -365,8 +365,8 @@ export const SmartRevision: React.FC = () => {
                     <h4 className="font-semibold text-slate-600 mb-2 uppercase tracking-wider text-[11px]">Recently Completed</h4>
                     <div className="space-y-2">
                       {completedItems.map((item) => (
-                        <div key={item.id} className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-between opacity-75">
-                          <div className="font-medium text-slate-700">{item.topic} ({item.subject})</div>
+                        <div key={item.id} className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 flex items-center justify-between opacity-75">
+                          <div className="font-medium text-slate-700 dark:text-slate-200">{item.topic} ({item.subject})</div>
                           <span className="text-emerald-700 text-[11px] font-semibold flex items-center gap-1">
                             <Check className="w-3.5 h-3.5" /> Completed
                           </span>
@@ -383,9 +383,9 @@ export const SmartRevision: React.FC = () => {
         /* Formula Flashcards Deck */
         <div className="space-y-6">
           {/* Controls & Subject Filter */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-slate-200 bg-white">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a]">
             <div className="text-xs">
-              <span className="font-bold text-slate-900">{masteredCount} of {filteredCards.length}</span>
+              <span className="font-bold text-slate-900 dark:text-white">{masteredCount} of {filteredCards.length}</span>
               <span className="text-slate-500"> formulas mastered</span>
             </div>
 
@@ -422,7 +422,7 @@ export const SmartRevision: React.FC = () => {
                 >
                   <div className="flex items-center justify-between gap-2 mb-3">
                     <div className="flex items-center gap-2 text-[11px] font-semibold">
-                      <span className="text-slate-900">{card.subject}</span>
+                      <span className="text-slate-900 dark:text-white">{card.subject}</span>
                       <span className="text-slate-400">•</span>
                       <span className="text-slate-500">{card.chapter}</span>
                     </div>
@@ -444,7 +444,7 @@ export const SmartRevision: React.FC = () => {
                   {!isFlipped ? (
                     <div className="space-y-3 min-h-[120px] flex flex-col justify-between">
                       <div>
-                        <h3 className="text-sm font-bold text-slate-900 mb-1">{card.title}</h3>
+                        <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">{card.title}</h3>
                         <p className="text-xs text-slate-600 leading-relaxed">{card.frontPrompt}</p>
                       </div>
 
@@ -467,7 +467,7 @@ export const SmartRevision: React.FC = () => {
                       </div>
 
                       <div className="text-[11px] text-slate-600">
-                        <span className="font-semibold text-slate-800">Variables: </span>
+                        <span className="font-semibold text-slate-800 dark:text-slate-100">Variables: </span>
                         {card.variables}
                       </div>
 

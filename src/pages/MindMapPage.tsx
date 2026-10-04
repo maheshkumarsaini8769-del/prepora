@@ -40,7 +40,7 @@ export const MindMapPage: React.FC = () => {
       {/* 1. Header with Controls */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Mind Map</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Mind Map</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Interactive knowledge graph connecting concepts, formulas, and topics.
           </p>
@@ -51,7 +51,7 @@ export const MindMapPage: React.FC = () => {
           <select
             value={selectedSubject}
             onChange={(e) => handleSubjectChange(e.target.value as SubjectName)}
-            className="text-xs font-semibold text-slate-800 bg-white border border-slate-200 rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-1 focus:ring-slate-900"
+            className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-1 focus:ring-slate-900"
           >
             {(['Physics', 'Chemistry', 'Mathematics', 'Biology'] as SubjectName[]).map((subj) => (
               <option key={subj} value={subj}>
@@ -63,7 +63,7 @@ export const MindMapPage: React.FC = () => {
           <select
             value={selectedChapter}
             onChange={(e) => handleChapterChange(e.target.value)}
-            className="text-xs font-semibold text-slate-800 bg-white border border-slate-200 rounded-lg py-1.5 px-2.5 max-w-[200px] truncate focus:outline-none focus:ring-1 focus:ring-slate-900"
+            className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 max-w-[200px] truncate focus:outline-none focus:ring-1 focus:ring-slate-900"
           >
             {chapters.map((ch) => (
               <option key={ch} value={ch}>
@@ -76,7 +76,7 @@ export const MindMapPage: React.FC = () => {
             variant="outline"
             size="sm"
             onClick={() => navigate(`/chapters/${encodeURIComponent(selectedChapter)}`)}
-            className="text-xs font-semibold py-1.5 px-3 text-slate-700 border-slate-300 flex items-center gap-1"
+            className="text-xs font-semibold py-1.5 px-3 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700 flex items-center gap-1"
           >
             <span>Chapter Hub</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -85,7 +85,7 @@ export const MindMapPage: React.FC = () => {
       </div>
 
       {/* 2. Main Full-Screen Mind Map Canvas */}
-      <div className="bg-white rounded-2xl p-4 sm:p-6 border border-slate-200 shadow-xs">
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs">
         <InteractiveMindMap
           chapterName={selectedChapter}
           subject={selectedSubject}

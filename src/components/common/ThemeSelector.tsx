@@ -51,7 +51,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ compact = false })
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         title="Change Theme Color"
-        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200/80 bg-white hover:bg-slate-50 text-slate-700 font-semibold text-xs transition-all shadow-2xs ${
+        className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl border border-slate-200/80 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-all shadow-2xs ${
           compact ? 'px-2 py-1 text-[11px]' : ''
         }`}
       >
@@ -59,9 +59,9 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ compact = false })
           className="w-3.5 h-3.5 rounded-full shadow-2xs shrink-0 ring-1 ring-black/10"
           style={{ backgroundColor: activeOption.primaryColor }}
         />
-        <Palette className="w-3.5 h-3.5 text-slate-500" />
+        <Palette className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
         {!compact && (
-          <span className="hidden sm:inline font-bold text-slate-800">
+          <span className="hidden sm:inline font-bold text-slate-800 dark:text-slate-100">
             {activeOption.name}
           </span>
         )}
@@ -69,9 +69,9 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ compact = false })
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white/95 backdrop-blur-xl border border-slate-200/90 shadow-xl shadow-purple-900/10 z-50 p-2 animate-in fade-in zoom-in-95 duration-150">
-          <div className="px-3 py-2 border-b border-slate-100 flex items-center justify-between">
-            <span className="text-xs font-black text-slate-900 uppercase tracking-wider">
+        <div className="absolute right-0 mt-2 w-64 rounded-2xl bg-white/95 dark:bg-[#0c131a]/95 backdrop-blur-xl border border-slate-200/90 dark:border-slate-800 shadow-xl shadow-purple-900/10 z-50 p-2 animate-in fade-in zoom-in-95 duration-150">
+          <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+            <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">
               Website Color Theme
             </span>
             <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full">

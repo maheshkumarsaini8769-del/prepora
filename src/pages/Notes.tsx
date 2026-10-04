@@ -92,7 +92,7 @@ export const Notes: React.FC = () => {
             <FileEdit className="w-3.5 h-3.5" />
             <span>Digital Study Journal</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Study Notes</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Study Notes</h1>
           <p className="text-sm text-slate-500 mt-1">
             Personal formula sheets, memory shortcuts, and reaction diagrams stored locally.
           </p>
@@ -116,7 +116,7 @@ export const Notes: React.FC = () => {
             placeholder="Search notes by keyword or formula..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full bg-white border border-slate-200 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl pl-10 pr-4 py-2 text-xs sm:text-sm text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
 
@@ -139,9 +139,9 @@ export const Notes: React.FC = () => {
 
       {/* Notes Grid */}
       {filteredNotes.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300">
+        <div className="text-center py-16 bg-white dark:bg-[#0c131a] rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
           <FileEdit className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-          <h3 className="font-bold text-slate-800">No Notes Found</h3>
+          <h3 className="font-bold text-slate-800 dark:text-slate-100">No Notes Found</h3>
           <p className="text-xs text-slate-500 mt-1 mb-4">Click "Create Note" to add your first high-yield note.</p>
           <Button size="sm" onClick={handleOpenCreate}>Create Note Now</Button>
         </div>
@@ -156,7 +156,7 @@ export const Notes: React.FC = () => {
                 </div>
 
                 <div>
-                  <h3 className="font-bold text-base text-slate-900 leading-snug">{note.title}</h3>
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white leading-snug">{note.title}</h3>
                   <div className="text-xs text-slate-400 font-medium mt-0.5">{note.chapter}</div>
                 </div>
 
@@ -166,7 +166,7 @@ export const Notes: React.FC = () => {
 
                 <div className="flex flex-wrap gap-1 pt-1">
                   {note.tags.map((t, idx) => (
-                    <span key={idx} className="text-[10px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md">
+                    <span key={idx} className="text-[10px] font-semibold bg-slate-100 dark:bg-slate-800 text-slate-600 px-2 py-0.5 rounded-md">
                       #{t}
                     </span>
                   ))}
@@ -221,7 +221,7 @@ export const Notes: React.FC = () => {
       >
         <div className="space-y-4 py-2">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1">
               Note Title
             </label>
             <input
@@ -229,19 +229,19 @@ export const Notes: React.FC = () => {
               placeholder="e.g. Carnot Cycle Thermodynamics Equations"
               value={formTitle}
               onChange={(e) => setFormTitle(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1">
                 Subject
               </label>
               <select
                 value={formSubject}
                 onChange={(e) => setFormSubject(e.target.value as SubjectName)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
                 {['Physics', 'Chemistry', 'Mathematics', 'Biology'].map((s) => (
                   <option key={s} value={s}>{s}</option>
@@ -250,7 +250,7 @@ export const Notes: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1">
                 Chapter
               </label>
               <input
@@ -258,13 +258,13 @@ export const Notes: React.FC = () => {
                 placeholder="e.g. Thermodynamics"
                 value={formChapter}
                 onChange={(e) => setFormChapter(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1">
               Content / Formulas
             </label>
             <textarea
@@ -272,12 +272,12 @@ export const Notes: React.FC = () => {
               placeholder="Write formulas, key takeaways, and mnemonics here..."
               value={formContent}
               onChange={(e) => setFormContent(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs sm:text-sm text-slate-800 font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs sm:text-sm text-slate-800 dark:text-slate-100 font-mono focus:outline-none focus:ring-2 focus:ring-brand-500"
             ></textarea>
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1">
               Tags (comma separated)
             </label>
             <input
@@ -285,7 +285,7 @@ export const Notes: React.FC = () => {
               placeholder="Formulas, Shortcut, Must-Revise"
               value={formTags}
               onChange={(e) => setFormTags(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs sm:text-sm text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
         </div>

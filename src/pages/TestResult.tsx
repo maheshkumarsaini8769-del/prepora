@@ -36,7 +36,7 @@ export const TestResult: React.FC = () => {
   if (!attempt) {
     return (
       <div className="max-w-xl mx-auto text-center py-16">
-        <h2 className="text-xl font-bold text-slate-800">Result Not Found</h2>
+        <h2 className="text-xl font-bold text-slate-800 dark:text-slate-100">Result Not Found</h2>
         <p className="text-sm text-slate-500 mt-1 mb-4">No test submission found for this exam session.</p>
         <Button onClick={() => navigate('/tests')}>Go to Test Center</Button>
       </div>
@@ -96,7 +96,7 @@ export const TestResult: React.FC = () => {
           <div className="flex items-center justify-center gap-1.5 text-emerald-600 text-xs font-bold mb-1">
             <CheckCircle2 className="w-4 h-4" /> Correct
           </div>
-          <div className="text-2xl font-black text-slate-800">{attempt.correctCount}</div>
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">{attempt.correctCount}</div>
           <div className="text-[11px] text-slate-400 mt-0.5">+{attempt.correctCount * 4} Marks</div>
         </Card>
 
@@ -104,7 +104,7 @@ export const TestResult: React.FC = () => {
           <div className="flex items-center justify-center gap-1.5 text-rose-600 text-xs font-bold mb-1">
             <XCircle className="w-4 h-4" /> Incorrect
           </div>
-          <div className="text-2xl font-black text-slate-800">{attempt.wrongCount}</div>
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">{attempt.wrongCount}</div>
           <div className="text-[11px] text-slate-400 mt-0.5">-{attempt.wrongCount} Negative</div>
         </Card>
 
@@ -112,7 +112,7 @@ export const TestResult: React.FC = () => {
           <div className="flex items-center justify-center gap-1.5 text-slate-500 text-xs font-bold mb-1">
             <AlertCircle className="w-4 h-4" /> Unattempted
           </div>
-          <div className="text-2xl font-black text-slate-800">{attempt.unattemptedCount}</div>
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">{attempt.unattemptedCount}</div>
           <div className="text-[11px] text-slate-400 mt-0.5">0 Marks</div>
         </Card>
 
@@ -120,20 +120,20 @@ export const TestResult: React.FC = () => {
           <div className="flex items-center justify-center gap-1.5 text-brand-600 text-xs font-bold mb-1">
             <TrendingUp className="w-4 h-4" /> Accuracy
           </div>
-          <div className="text-2xl font-black text-slate-800">{attempt.accuracyPercentage}%</div>
+          <div className="text-2xl font-black text-slate-800 dark:text-slate-100">{attempt.accuracyPercentage}%</div>
           <div className="text-[11px] text-slate-400 mt-0.5">Pacing: {avgTimePerQ}s / Q</div>
         </Card>
       </div>
 
       {/* Feature 1 & 5: Time Analytics & Time Coach Overview */}
-      <Card className="space-y-5 border-slate-200 bg-white">
+      <Card className="space-y-5 border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a]">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div className="flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold">
+            <div className="w-8 h-8 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 flex items-center justify-center font-bold">
               ⏱️
             </div>
             <div>
-              <h3 className="font-bold text-base text-slate-900">Time Analytics & Coach Report</h3>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Time Analytics & Coach Report</h3>
               <p className="text-xs text-slate-500">Question pacing, efficiency tags & subject budget breakdown</p>
             </div>
           </div>
@@ -180,22 +180,22 @@ export const TestResult: React.FC = () => {
 
         {/* Fastest vs Slowest Question */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center justify-between text-xs">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
-              <span className="font-semibold text-slate-700">Fastest Question:</span>
+              <span className="font-semibold text-slate-700 dark:text-slate-200">Fastest Question:</span>
             </div>
-            <span className="font-mono font-bold text-slate-900">
+            <span className="font-mono font-bold text-slate-900 dark:text-white">
               {attempt.fastestQuestion ? `${attempt.fastestQuestion.timeSpentSeconds}s` : 'N/A'}
             </span>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-50 border border-slate-200/70 flex items-center justify-between text-xs">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/70 flex items-center justify-between text-xs">
             <div className="flex items-center gap-2">
               <span className="w-2 h-2 rounded-full bg-rose-500"></span>
-              <span className="font-semibold text-slate-700">Slowest Question:</span>
+              <span className="font-semibold text-slate-700 dark:text-slate-200">Slowest Question:</span>
             </div>
-            <span className="font-mono font-bold text-slate-900">
+            <span className="font-mono font-bold text-slate-900 dark:text-white">
               {attempt.slowestQuestion ? `${attempt.slowestQuestion.timeSpentSeconds}s (${Math.floor(attempt.slowestQuestion.timeSpentSeconds / 60)}m ${attempt.slowestQuestion.timeSpentSeconds % 60}s)` : 'N/A'}
             </span>
           </div>
@@ -222,7 +222,7 @@ export const TestResult: React.FC = () => {
 
       {/* Subject-Wise Performance & Time Breakdown */}
       <Card className="space-y-4">
-        <h3 className="font-bold text-base text-slate-900">Subject Performance & Time Allocation</h3>
+        <h3 className="font-bold text-base text-slate-900 dark:text-white">Subject Performance & Time Allocation</h3>
 
         <div className="space-y-3">
           {attempt.subjectBreakdown.map((s) => {
@@ -231,15 +231,15 @@ export const TestResult: React.FC = () => {
             const diffMin = timeMin - recMin;
 
             return (
-              <div key={s.subject} className="p-4 rounded-2xl bg-slate-50 border border-slate-100">
+              <div key={s.subject} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-100">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
                   <div className="flex items-center gap-2">
-                    <span className="font-bold text-sm text-slate-800">{s.subject}</span>
+                    <span className="font-bold text-sm text-slate-800 dark:text-slate-100">{s.subject}</span>
                     <Badge variant="slate" size="sm">{s.attempted} / {s.totalQuestions} Attempted</Badge>
                   </div>
                   <div className="flex items-center gap-3">
                     <span className="text-xs text-slate-500 font-medium">
-                      Time: <strong className="text-slate-800">{timeMin}m</strong> / {recMin}m target
+                      Time: <strong className="text-slate-800 dark:text-slate-100">{timeMin}m</strong> / {recMin}m target
                       {diffMin > 2 ? (
                         <span className="text-rose-600 font-bold ml-1">({diffMin > 0 ? `+${diffMin}m` : `${diffMin}m`})</span>
                       ) : (
@@ -315,7 +315,7 @@ export const TestResult: React.FC = () => {
               <Compass className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-bold text-base text-slate-900">Question Decision Training</h3>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Question Decision Training</h3>
               <p className="text-xs text-slate-500">Evaluating your skip discipline and strategic question selection</p>
             </div>
           </div>
@@ -326,7 +326,7 @@ export const TestResult: React.FC = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
           {/* Negative Traps Warning */}
-          <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+          <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 shadow-xs space-y-2">
             <div className="flex items-center gap-2 text-rose-600 font-bold text-xs">
               <ShieldAlert className="w-4 h-4" />
               <span>Negative Traps ({negativeTrapAnswers.length} Questions)</span>
@@ -343,7 +343,7 @@ export const TestResult: React.FC = () => {
           </div>
 
           {/* Blind Guesses Warning */}
-          <div className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-2">
+          <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 shadow-xs space-y-2">
             <div className="flex items-center gap-2 text-amber-600 font-bold text-xs">
               <HelpCircle className="w-4 h-4" />
               <span>Rapid Guesses ({guessAnswers.length} Questions)</span>

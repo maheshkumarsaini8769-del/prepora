@@ -110,7 +110,7 @@ export const ReportTechnicalProblemModal: React.FC<ReportTechnicalProblemModalPr
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-md bg-white rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
+      <div className="relative w-full max-w-md bg-white dark:bg-[#0c131a] rounded-2xl shadow-2xl border border-slate-100 overflow-hidden">
         {/* Header */}
         <div className="px-5 py-4 bg-slate-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -135,7 +135,7 @@ export const ReportTechnicalProblemModal: React.FC<ReportTechnicalProblemModalPr
           {submitted ? (
             <div className="text-center py-6">
               <CheckCircle2 className="w-12 h-12 text-emerald-500 mx-auto mb-2 animate-bounce" />
-              <h4 className="text-base font-bold text-slate-900">Issue Reported</h4>
+              <h4 className="text-base font-bold text-slate-900 dark:text-white">Issue Reported</h4>
               <p className="text-xs text-slate-500 mt-1 max-w-xs mx-auto">
                 Thank you. Our engineering team has logged the technical diagnostics and will investigate promptly.
               </p>
@@ -150,13 +150,13 @@ export const ReportTechnicalProblemModal: React.FC<ReportTechnicalProblemModalPr
               )}
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1">
                   Issue Category
                 </label>
                 <select
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
-                  className="w-full text-xs p-2.5 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:outline-none bg-white font-medium"
+                  className="w-full text-xs p-2.5 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-purple-600 focus:outline-none bg-white dark:bg-[#0c131a] font-medium"
                 >
                   {TECH_REASONS.map((r) => (
                     <option key={r} value={r}>
@@ -167,7 +167,7 @@ export const ReportTechnicalProblemModal: React.FC<ReportTechnicalProblemModalPr
               </div>
 
               <div>
-                <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1">
                   Describe what happened
                 </label>
                 <textarea
@@ -176,11 +176,11 @@ export const ReportTechnicalProblemModal: React.FC<ReportTechnicalProblemModalPr
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   placeholder="e.g. Test submission timed out after clicking final button..."
-                  className="w-full text-xs p-3 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:outline-none"
+                  className="w-full text-xs p-3 border border-slate-200 dark:border-slate-800 rounded-xl focus:ring-2 focus:ring-purple-600 focus:outline-none"
                 />
               </div>
 
-              <div className="p-2.5 bg-slate-50 rounded-xl border border-slate-200 text-[11px] text-slate-500">
+              <div className="p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-800 text-[11px] text-slate-500">
                 Safe diagnostic details (browser, device type, route) are automatically attached to help resolve the problem faster.
               </div>
 

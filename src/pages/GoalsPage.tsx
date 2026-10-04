@@ -42,7 +42,7 @@ export const GoalsPage: React.FC = () => {
           size="sm"
           variant="primary"
           onClick={() => setShowEditModal(true)}
-          className="bg-white text-purple-950 hover:bg-purple-50 font-bold shadow-md shrink-0 text-xs py-2 px-4 self-start md:self-auto"
+          className="bg-white dark:bg-[#0c131a] text-purple-950 hover:bg-purple-50 font-bold shadow-md shrink-0 text-xs py-2 px-4 self-start md:self-auto"
         >
           <Edit3 className="w-3.5 h-3.5 mr-1.5 text-purple-700" />
           Edit Target
@@ -51,13 +51,13 @@ export const GoalsPage: React.FC = () => {
 
       {/* Target Progress Pillar */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        <div className="lg:col-span-8 bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
+        <div className="lg:col-span-8 bg-white dark:bg-[#0c131a] rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
           <div className="flex items-center justify-between border-b border-slate-100 pb-4">
             <div>
               <span className="text-[11px] font-extrabold uppercase tracking-wider text-purple-600">Target Trajectory</span>
-              <h2 className="text-lg font-black text-slate-900 mt-0.5">{goal.targetExam} Target Score Tracking</h2>
+              <h2 className="text-lg font-black text-slate-900 dark:text-white mt-0.5">{goal.targetExam} Target Score Tracking</h2>
             </div>
-            <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5 bg-slate-100 px-3 py-1 rounded-full">
+            <span className="text-xs font-bold text-slate-500 flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-3 py-1 rounded-full">
               <Calendar className="w-3.5 h-3.5 text-slate-400" />
               Target Exam Date: <strong>{goal.targetDate}</strong>
             </span>
@@ -91,10 +91,10 @@ export const GoalsPage: React.FC = () => {
 
           <div className="space-y-2 pt-2">
             <div className="flex justify-between text-xs font-bold">
-              <span className="text-slate-700">Trajectory to Goal</span>
+              <span className="text-slate-700 dark:text-slate-200">Trajectory to Goal</span>
               <span className="text-purple-700">{progressPercent}% Achieved</span>
             </div>
-            <div className="w-full bg-slate-100 h-3 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-100 dark:bg-slate-800 h-3 rounded-full overflow-hidden">
               <div
                 className="bg-gradient-to-r from-purple-600 to-amber-500 h-full rounded-full transition-all duration-700"
                 style={{ width: `${progressPercent}%` }}
@@ -113,7 +113,7 @@ export const GoalsPage: React.FC = () => {
               <Badge variant="warning" size="sm">Active Flame</Badge>
             </div>
             <div>
-              <h3 className="font-black text-base text-slate-900">Consistency Multiplier</h3>
+              <h3 className="font-black text-base text-slate-900 dark:text-white">Consistency Multiplier</h3>
               <p className="text-xs text-slate-500 mt-0.5">{user.streakDays} Consecutive Study Days</p>
             </div>
             <p className="text-xs text-slate-600 leading-relaxed">
@@ -121,7 +121,7 @@ export const GoalsPage: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-3 bg-white/80 rounded-2xl border border-amber-200/60 text-xs text-slate-700 font-semibold flex items-center justify-between">
+          <div className="p-3 bg-white/80 rounded-2xl border border-amber-200/60 text-xs text-slate-700 dark:text-slate-200 font-semibold flex items-center justify-between">
             <span>Next Milestone: 7-Day Streak</span>
             <span className="text-amber-700 font-black">2 Days away</span>
           </div>
@@ -129,10 +129,10 @@ export const GoalsPage: React.FC = () => {
       </div>
 
       {/* Milestones Checklist */}
-      <div className="bg-white rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
+      <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-6 sm:p-7 border border-slate-200/80 shadow-xs space-y-5">
         <div className="flex items-center justify-between border-b border-slate-100 pb-4">
           <div>
-            <h2 className="text-lg font-black text-slate-900">Preparation Milestones</h2>
+            <h2 className="text-lg font-black text-slate-900 dark:text-white">Preparation Milestones</h2>
             <p className="text-xs text-slate-500">Structured checkpoints that unlock true exam mastery</p>
           </div>
           <span className="text-xs font-bold text-slate-400">
@@ -150,13 +150,13 @@ export const GoalsPage: React.FC = () => {
                   : 'bg-slate-50/60 border-slate-200'
               }`}
             >
-              <div className="w-10 h-10 rounded-2xl bg-white border border-slate-200 shadow-2xs flex items-center justify-center text-xl shrink-0">
+              <div className="w-10 h-10 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs flex items-center justify-center text-xl shrink-0">
                 {m.rewardBadge}
               </div>
 
               <div className="flex-1 min-w-0 space-y-1">
                 <div className="flex items-center justify-between">
-                  <h4 className="text-xs font-black text-slate-900">{m.title}</h4>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white">{m.title}</h4>
                   {m.achieved ? (
                     <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full flex items-center gap-1">
                       <CheckCircle2 className="w-3 h-3" /> Unlocked
@@ -208,7 +208,7 @@ export const GoalsPage: React.FC = () => {
       >
         <form onSubmit={handleUpdate} className="space-y-4 py-1">
           <div>
-            <label className="text-xs font-bold text-slate-700 block mb-1">Target Score (Out of {goal.maxScore})</label>
+            <label className="text-xs font-bold text-slate-700 dark:text-slate-200 block mb-1">Target Score (Out of {goal.maxScore})</label>
             <input
               type="number"
               value={targetScoreInput}
@@ -216,18 +216,18 @@ export const GoalsPage: React.FC = () => {
               min="50"
               max={goal.maxScore}
               step="5"
-              className="w-full text-xs p-2.5 rounded-xl border border-slate-200"
+              className="w-full text-xs p-2.5 rounded-xl border border-slate-200 dark:border-slate-800"
               required
             />
           </div>
 
           <div>
-            <label className="text-xs font-bold text-slate-700 block mb-1">Target Exam Date</label>
+            <label className="text-xs font-bold text-slate-700 dark:text-slate-200 block mb-1">Target Exam Date</label>
             <input
               type="date"
               value={targetDateInput}
               onChange={e => setTargetDateInput(e.target.value)}
-              className="w-full text-xs p-2.5 rounded-xl border border-slate-200"
+              className="w-full text-xs p-2.5 rounded-xl border border-slate-200 dark:border-slate-800"
               required
             />
           </div>

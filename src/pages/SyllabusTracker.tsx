@@ -123,7 +123,7 @@ export const SyllabusTracker: React.FC = () => {
       case 'Learning':
         return <span className="inline-flex items-center gap-1 text-[11px] font-bold text-purple-700 bg-purple-50 border border-purple-200 px-2.5 py-0.5 rounded-full">🟣 Learning</span>;
       default:
-        return <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500 bg-slate-100 border border-slate-200 px-2.5 py-0.5 rounded-full">⚪ Not Started</span>;
+        return <span className="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-800 px-2.5 py-0.5 rounded-full">⚪ Not Started</span>;
     }
   };
 
@@ -184,7 +184,7 @@ export const SyllabusTracker: React.FC = () => {
       </div>
 
       {/* Filter Toolbar */}
-      <div className="bg-white rounded-2xl p-4 sm:p-5 border border-slate-200 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 sm:p-5 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 text-xs">
           
           {/* Exam Selector */}
@@ -193,7 +193,7 @@ export const SyllabusTracker: React.FC = () => {
             <select
               value={selectedExam}
               onChange={e => setSelectedExam(e.target.value as CanonicalExam)}
-              className="px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-800 outline-none cursor-pointer hover:border-slate-400 transition-colors"
+              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer hover:border-slate-400 transition-colors"
             >
               <option value="JEE_MAIN">JEE Main</option>
               <option value="JEE_ADVANCED">JEE Advanced</option>
@@ -209,7 +209,7 @@ export const SyllabusTracker: React.FC = () => {
             <select
               value={selectedClass}
               onChange={e => setSelectedClass(e.target.value as ClassLevel | 'All')}
-              className="px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 font-bold text-slate-800 outline-none cursor-pointer hover:border-slate-400 transition-colors"
+              className="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 font-bold text-slate-800 dark:text-slate-100 outline-none cursor-pointer hover:border-slate-400 transition-colors"
             >
               <option value="All">All (11 + 12)</option>
               <option value="11">Class 11</option>
@@ -253,7 +253,7 @@ export const SyllabusTracker: React.FC = () => {
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             placeholder="Search chapter or topic..."
-            className="w-full pl-9 pr-8 py-2 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all"
+            className="w-full pl-9 pr-8 py-2 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900/10 focus:border-slate-400 transition-all"
           />
           {searchQuery && (
             <button
@@ -269,11 +269,11 @@ export const SyllabusTracker: React.FC = () => {
 
       {/* Chapters Grid or Empty State */}
       {chapters.length === 0 ? (
-        <div className="bg-white rounded-3xl p-12 border border-slate-200 text-center space-y-4 max-w-md mx-auto">
-          <div className="w-14 h-14 rounded-2xl bg-slate-100 text-slate-400 flex items-center justify-center mx-auto">
+        <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-12 border border-slate-200 dark:border-slate-800 text-center space-y-4 max-w-md mx-auto">
+          <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-400 flex items-center justify-center mx-auto">
             <BookOpen className="w-7 h-7" />
           </div>
-          <h3 className="text-lg font-black text-slate-900">No Chapters Match Filters</h3>
+          <h3 className="text-lg font-black text-slate-900 dark:text-white">No Chapters Match Filters</h3>
           <p className="text-xs text-slate-500 leading-relaxed">
             No chapters were found for {selectedExam.replace('_', ' ')} with the current class or subject criteria.
           </p>
@@ -302,12 +302,12 @@ export const SyllabusTracker: React.FC = () => {
             return (
               <div
                 key={ch.chapterId}
-                className="bg-white rounded-3xl p-5 border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between space-y-4 group"
+                className="bg-white dark:bg-[#0c131a] rounded-3xl p-5 border border-slate-200 dark:border-slate-800 shadow-xs hover:border-slate-300 hover:shadow-md transition-all flex flex-col justify-between space-y-4 group"
               >
                 <div className="space-y-3">
                   {/* Header row */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-0.5 rounded-md">
+                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-md">
                       Class {ch.classLevel} • {ch.subjectName}
                     </span>
                     {getStatusBadge(status)}
@@ -315,14 +315,14 @@ export const SyllabusTracker: React.FC = () => {
 
                   {/* Chapter Name & Progress */}
                   <div>
-                    <h3 className="font-black text-base text-slate-900 group-hover:text-brand-600 transition-colors">
+                    <h3 className="font-black text-base text-slate-900 dark:text-white group-hover:text-brand-600 transition-colors">
                       {idx + 1}. {ch.name}
                     </h3>
                     <div className="flex items-center justify-between text-xs text-slate-500 font-semibold mt-1.5">
                       <span>Completion</span>
-                      <span className="text-slate-800 font-bold">{progressPercent}%</span>
+                      <span className="text-slate-800 dark:text-slate-100 font-bold">{progressPercent}%</span>
                     </div>
-                    <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden mt-1">
+                    <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden mt-1">
                       <div
                         className={`h-full rounded-full transition-all duration-500 ${
                           progressPercent >= 80 ? 'bg-emerald-500' : progressPercent >= 40 ? 'bg-brand-500' : 'bg-slate-300'
@@ -341,7 +341,7 @@ export const SyllabusTracker: React.FC = () => {
                       {ch.topics.map(t => {
                         const isMastered = progressPercent >= 80;
                         return (
-                          <div key={t.id} className="flex items-center justify-between text-xs text-slate-700 py-0.5">
+                          <div key={t.id} className="flex items-center justify-between text-xs text-slate-700 dark:text-slate-200 py-0.5">
                             <span className="truncate pr-2">{t.name}</span>
                             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${
                               isMastered ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-500'
@@ -362,7 +362,7 @@ export const SyllabusTracker: React.FC = () => {
                     <select
                       value={status}
                       onChange={e => handleStatusChange(ch.chapterId, e.target.value as any)}
-                      className="bg-slate-100 font-bold text-slate-700 py-1 px-2 rounded-lg border border-slate-200 text-[11px] focus:outline-none cursor-pointer"
+                      className="bg-slate-100 dark:bg-slate-800 font-bold text-slate-700 dark:text-slate-200 py-1 px-2 rounded-lg border border-slate-200 dark:border-slate-800 text-[11px] focus:outline-none cursor-pointer"
                     >
                       <option value="Not Started">⚪ Not Started</option>
                       <option value="Learning">🟣 Learning</option>

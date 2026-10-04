@@ -17,7 +17,7 @@ export const Leaderboard: React.FC = () => {
             <Award className="w-3.5 h-3.5" />
             <span>Benchmark Rankings</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Weekly Leaderboard</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Weekly Leaderboard</h1>
           <p className="text-sm text-slate-500 mt-1">
             Compare your weekly mock exam pacing and accuracy with student peer cohorts.
           </p>
@@ -38,21 +38,21 @@ export const Leaderboard: React.FC = () => {
 
         <Card className="p-4 text-center">
           <div className="text-xs text-emerald-600 font-bold mb-1">Topper Average</div>
-          <div className="text-3xl font-black text-slate-800">{data.topperAverage} <span className="text-xs font-semibold text-slate-400">/ 300</span></div>
+          <div className="text-3xl font-black text-slate-800 dark:text-slate-100">{data.topperAverage} <span className="text-xs font-semibold text-slate-400">/ 300</span></div>
           <div className="text-[11px] text-slate-400 mt-0.5">Top 5 percentile avg</div>
         </Card>
 
         <Card className="p-4 text-center">
           <div className="text-xs text-slate-500 font-bold mb-1">Median Peer Score</div>
-          <div className="text-3xl font-black text-slate-800">{data.medianScore} <span className="text-xs font-semibold text-slate-400">/ 300</span></div>
+          <div className="text-3xl font-black text-slate-800 dark:text-slate-100">{data.medianScore} <span className="text-xs font-semibold text-slate-400">/ 300</span></div>
           <div className="text-[11px] text-slate-400 mt-0.5">National test cohort</div>
         </Card>
       </div>
 
       {/* Leaderboard Table */}
-      <Card className="p-0 overflow-hidden border border-slate-200">
-        <div className="p-4 border-b border-slate-100 bg-slate-50 flex items-center justify-between">
-          <h3 className="font-bold text-sm text-slate-800">Weekly Top Performers</h3>
+      <Card className="p-0 overflow-hidden border border-slate-200 dark:border-slate-800">
+        <div className="p-4 border-b border-slate-100 bg-slate-50 dark:bg-slate-800/60 flex items-center justify-between">
+          <h3 className="font-bold text-sm text-slate-800 dark:text-slate-100">Weekly Top Performers</h3>
           <span className="text-xs text-slate-400 font-medium">Updated every Sunday midnight</span>
         </div>
 
@@ -79,14 +79,14 @@ export const Leaderboard: React.FC = () => {
                   {e.rank}
                 </span>
                 <div>
-                  <div className="font-bold text-slate-900">{e.studentName}</div>
+                  <div className="font-bold text-slate-900 dark:text-white">{e.studentName}</div>
                   <div className="text-[11px] text-slate-400">{e.testsTaken} tests attempted</div>
                 </div>
               </div>
 
               <div className="flex items-center gap-6">
                 <div className="text-right">
-                  <div className="font-mono font-black text-slate-900 text-sm">{e.score} pts</div>
+                  <div className="font-mono font-black text-slate-900 dark:text-white text-sm">{e.score} pts</div>
                   <div className="text-[11px] text-emerald-600 font-semibold">{e.accuracy}% Accuracy</div>
                 </div>
               </div>
@@ -95,7 +95,7 @@ export const Leaderboard: React.FC = () => {
         </div>
       </Card>
 
-      <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-500 flex items-center gap-2">
+      <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-500 flex items-center gap-2">
         <Shield className="w-4 h-4 text-slate-400 flex-shrink-0" />
         <span>Prepora follows strict privacy guidelines: personal identification numbers and emails are never published.</span>
       </div>

@@ -77,7 +77,7 @@ export const PaperDetail: React.FC = () => {
         <div className="w-16 h-16 rounded-2xl bg-rose-50 text-rose-600 mx-auto flex items-center justify-center">
           <FileText className="w-8 h-8" />
         </div>
-        <h2 className="text-xl font-bold text-slate-900">Paper Not Found</h2>
+        <h2 className="text-xl font-bold text-slate-900 dark:text-white">Paper Not Found</h2>
         <p className="text-xs text-slate-500">The requested previous year paper could not be located.</p>
         <Button onClick={() => navigate('/papers')}>Back to Paper Library</Button>
       </div>
@@ -159,7 +159,7 @@ export const PaperDetail: React.FC = () => {
         <button
           type="button"
           onClick={() => navigate('/papers')}
-          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs border border-slate-200 shadow-2xs transition cursor-pointer"
+          className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-[#0c131a] hover:bg-slate-100 text-slate-700 dark:text-slate-200 font-bold text-xs border border-slate-200 dark:border-slate-800 shadow-2xs transition cursor-pointer"
         >
           <ArrowLeft className="w-4 h-4" />
           <span>Back to All Papers</span>
@@ -326,7 +326,7 @@ export const PaperDetail: React.FC = () => {
       </div>
 
       {/* Mode Selector Tabs (Study Mode vs Timed Test Mode) */}
-      <div className="bg-white p-2 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-2">
+      <div className="bg-white dark:bg-[#0c131a] p-2 rounded-2xl border border-slate-200/80 shadow-xs flex items-center gap-2">
         <button
           type="button"
           onClick={() => {
@@ -367,7 +367,7 @@ export const PaperDetail: React.FC = () => {
         <div className="space-y-5">
           
           {/* Controls Bar: Subject Pills & Answer Display Toggle */}
-          <div className="bg-white p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white dark:bg-[#0c131a] p-4 rounded-2xl border border-slate-200/80 shadow-xs flex flex-wrap items-center justify-between gap-3">
             {/* Subject Tabs */}
             <div className="flex items-center gap-2 flex-wrap">
               <span className="text-xs font-bold text-slate-400 mr-1">Subject:</span>
@@ -400,7 +400,7 @@ export const PaperDetail: React.FC = () => {
             </div>
 
             {/* Always Show Answer Key Toggle */}
-            <div className="flex items-center gap-2 text-xs font-bold text-slate-700">
+            <div className="flex items-center gap-2 text-xs font-bold text-slate-700 dark:text-slate-200">
               <label className="flex items-center gap-2 cursor-pointer select-none">
                 <input
                   type="checkbox"
@@ -415,7 +415,7 @@ export const PaperDetail: React.FC = () => {
 
           {/* Quick Jump Navigator */}
           {displayedQuestions.length > 0 && (
-            <div className="bg-white p-3 rounded-2xl border border-slate-200/70 shadow-2xs">
+            <div className="bg-white dark:bg-[#0c131a] p-3 rounded-2xl border border-slate-200/70 shadow-2xs">
               <div className="text-[11px] font-bold text-slate-400 mb-2 uppercase tracking-wider">
                 Quick Jump to Question:
               </div>
@@ -424,7 +424,7 @@ export const PaperDetail: React.FC = () => {
                   <a
                     key={idx}
                     href={`#q-${idx + 1}`}
-                    className="w-7 h-7 rounded-lg bg-slate-100 hover:bg-purple-100 hover:text-purple-700 text-slate-700 font-bold text-xs flex items-center justify-center transition"
+                    className="w-7 h-7 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-purple-100 hover:text-purple-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center justify-center transition"
                   >
                     {idx + 1}
                   </a>
@@ -443,7 +443,7 @@ export const PaperDetail: React.FC = () => {
                 <div
                   key={q.id || idx}
                   id={`q-${idx + 1}`}
-                  className="bg-white rounded-3xl border border-slate-200 p-5 sm:p-7 shadow-xs space-y-4 scroll-mt-20"
+                  className="bg-white dark:bg-[#0c131a] rounded-3xl border border-slate-200 dark:border-slate-800 p-5 sm:p-7 shadow-xs space-y-4 scroll-mt-20"
                 >
                   {/* Top Metadata Header */}
                   <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
@@ -455,7 +455,7 @@ export const PaperDetail: React.FC = () => {
                         {q.subject}
                       </span>
                       {q.chapter && (
-                        <span className="px-2.5 py-0.5 rounded-lg bg-slate-100 text-slate-700 font-semibold text-xs">
+                        <span className="px-2.5 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-semibold text-xs">
                           {q.chapter}
                         </span>
                       )}
@@ -489,7 +489,7 @@ export const PaperDetail: React.FC = () => {
                   </div>
 
                   {/* Question Content */}
-                  <div className="text-sm sm:text-base font-semibold text-slate-900 leading-relaxed">
+                  <div className="text-sm sm:text-base font-semibold text-slate-900 dark:text-white leading-relaxed">
                     <MathRenderer content={q.question} />
                   </div>
 
@@ -574,13 +574,13 @@ export const PaperDetail: React.FC = () => {
                         </span>
                       </div>
 
-                      <div className="text-xs sm:text-sm text-slate-800 leading-relaxed whitespace-pre-line pl-1 border-l-2 border-emerald-400">
+                      <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-line pl-1 border-l-2 border-emerald-400">
                         <MathRenderer content={q.explanation || 'According to official syllabus theory and standard formula, this is the logically derived answer.'} />
                       </div>
 
                       {q.concept && (
                         <div className="pt-2 text-[11px] text-slate-600 flex items-center gap-1.5">
-                          <strong className="text-slate-800">Core Concept:</strong>
+                          <strong className="text-slate-800 dark:text-slate-100">Core Concept:</strong>
                           <span>{q.concept}</span>
                         </div>
                       )}
@@ -592,7 +592,7 @@ export const PaperDetail: React.FC = () => {
           </div>
 
           {displayedQuestions.length === 0 && (
-            <div className="bg-white p-8 rounded-3xl border border-slate-200 text-center space-y-2">
+            <div className="bg-white dark:bg-[#0c131a] p-8 rounded-3xl border border-slate-200 dark:border-slate-800 text-center space-y-2">
               <p className="text-xs text-slate-500">No questions found for the selected subject tab.</p>
               <Button size="sm" onClick={() => setSelectedSubject('All')}>
                 Show All Subjects
@@ -609,7 +609,7 @@ export const PaperDetail: React.FC = () => {
       {currentMode === 'test' && (
         <Card className="p-6 sm:p-8 space-y-6">
           <div className="space-y-2">
-            <h2 className="text-xl font-black text-slate-900">
+            <h2 className="text-xl font-black text-slate-900 dark:text-white">
               Exam Hall Instructions
             </h2>
             <p className="text-xs sm:text-sm text-slate-500 leading-relaxed">

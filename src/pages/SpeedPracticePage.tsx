@@ -147,15 +147,15 @@ export const SpeedPracticePage: React.FC = () => {
 
       {!isStarted ? (
         /* Configuration Stage */
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
-          <h2 className="text-lg font-black text-slate-900 border-b border-slate-100 pb-3">
+        <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-6 sm:p-8 border border-slate-200/80 shadow-xs space-y-6">
+          <h2 className="text-lg font-black text-slate-900 dark:text-white border-b border-slate-100 pb-3">
             Configure Your Speed Drill
           </h2>
 
           <div className="space-y-4">
             {/* Duration Selector */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 block">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-200 block">
                 Time Limit Per Question:
               </label>
               <div className="grid grid-cols-4 gap-3">
@@ -179,7 +179,7 @@ export const SpeedPracticePage: React.FC = () => {
 
             {/* Subject Selector */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 block">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-200 block">
                 Select Subject:
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -202,7 +202,7 @@ export const SpeedPracticePage: React.FC = () => {
 
             {/* Difficulty Selector */}
             <div className="space-y-2">
-              <label className="text-xs font-bold text-slate-700 block">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-200 block">
                 Difficulty Target:
               </label>
               <div className="grid grid-cols-3 gap-3">
@@ -238,10 +238,10 @@ export const SpeedPracticePage: React.FC = () => {
         /* Active Question Display */
         <div className="space-y-5">
           {/* Top Real-Time Status Bar */}
-          <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs flex items-center justify-between">
+          <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200/80 shadow-xs flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Badge variant="brand" size="sm">Q {currentIndex + 1} / {questions.length}</Badge>
-              <span className="text-xs font-bold text-slate-700">{currentQ.chapter}</span>
+              <span className="text-xs font-bold text-slate-700 dark:text-slate-200">{currentQ.chapter}</span>
             </div>
 
             {/* Countdown Badge */}
@@ -257,7 +257,7 @@ export const SpeedPracticePage: React.FC = () => {
 
           {/* Question Card */}
           <Card className="space-y-5">
-            <div className="text-base sm:text-lg font-bold text-slate-900 leading-relaxed">
+            <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-relaxed">
               {currentQ.question}
             </div>
 
@@ -342,7 +342,7 @@ export const SpeedPracticePage: React.FC = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-black text-slate-900">Drill Completed!</h3>
+            <h3 className="text-lg font-black text-slate-900 dark:text-white">Drill Completed!</h3>
             <p className="text-xs text-slate-500 mt-0.5">Speed breakdown across 5 questions:</p>
           </div>
 

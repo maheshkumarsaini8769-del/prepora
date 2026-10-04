@@ -149,7 +149,7 @@ export const DoubtCenter: React.FC = () => {
       {/* 1. Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">AI Doubt Solver</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">AI Doubt Solver</h1>
           <p className="text-sm text-slate-500 mt-1">
             Ask any academic question for step-by-step derivations or progressive hints.
           </p>
@@ -219,7 +219,7 @@ export const DoubtCenter: React.FC = () => {
                   <select
                     value={aiSubject}
                     onChange={(e) => setAiSubject(e.target.value as SubjectName)}
-                    className="w-full font-medium px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
+                    className="w-full font-medium px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
                   >
                     <option value="Physics">Physics</option>
                     <option value="Chemistry">Chemistry</option>
@@ -235,7 +235,7 @@ export const DoubtCenter: React.FC = () => {
                     value={aiChapter}
                     onChange={(e) => setAiChapter(e.target.value)}
                     placeholder="e.g. Kinematics, Thermodynamics..."
-                    className="w-full font-medium px-3 py-2 bg-white border border-slate-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
+                    className="w-full font-medium px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
                   />
                 </div>
               </div>
@@ -257,12 +257,12 @@ export const DoubtCenter: React.FC = () => {
                   value={aiQuestion}
                   onChange={(e) => setAiQuestion(e.target.value)}
                   placeholder="Yahan apna question likhein (e.g. 'What is work-energy theorem?', 'Calculate terminal velocity of a sphere')..."
-                  className="w-full text-xs p-3 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-900 leading-relaxed resize-none font-medium"
+                  className="w-full text-xs p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-900 leading-relaxed resize-none font-medium"
                 />
               </div>
 
               {uploadedImage && (
-                <div className="relative inline-block border-2 border-brand-500 rounded-xl p-1 bg-white shadow-xs">
+                <div className="relative inline-block border-2 border-brand-500 rounded-xl p-1 bg-white dark:bg-[#0c131a] shadow-xs">
                   <img src={uploadedImage} alt="Uploaded Doubt" className="h-24 max-w-xs object-cover rounded-lg" />
                   <button
                     type="button"
@@ -287,7 +287,7 @@ export const DoubtCenter: React.FC = () => {
                       setAiSubject(sq.sub);
                       setAiChapter(sq.chap);
                     }}
-                    className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 whitespace-nowrap shrink-0 font-medium transition-colors"
+                    className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 whitespace-nowrap shrink-0 font-medium transition-colors"
                   >
                     {sq.text}
                   </button>
@@ -308,7 +308,7 @@ export const DoubtCenter: React.FC = () => {
                     type="button"
                     variant="outline"
                     onClick={() => fileInputRef.current?.click()}
-                    className="w-full sm:w-auto text-xs font-bold text-slate-700 border-slate-300 py-2.5 px-3.5 rounded-xl flex items-center justify-center gap-1.5 hover:bg-slate-50"
+                    className="w-full sm:w-auto text-xs font-bold text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700 py-2.5 px-3.5 rounded-xl flex items-center justify-center gap-1.5 hover:bg-slate-50"
                   >
                     <Camera className="w-4 h-4 text-brand-600" />
                     <span>{uploadedImage ? 'Change Photo' : 'Photo Kheecho / Upload'}</span>
@@ -332,7 +332,7 @@ export const DoubtCenter: React.FC = () => {
           {solverMode === 'hints' && hintsData && (
             <Card className="p-5 space-y-3">
               <div className="flex items-center justify-between border-b border-slate-100 pb-2 text-xs">
-                <span className="font-semibold text-slate-900">Progressive Hints</span>
+                <span className="font-semibold text-slate-900 dark:text-white">Progressive Hints</span>
                 <div className="flex gap-1">
                   {[1, 2, 3].map((lvl) => (
                     <button
@@ -362,7 +362,7 @@ export const DoubtCenter: React.FC = () => {
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-800 leading-relaxed">
+              <div className="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-100 leading-relaxed">
                 {currentHintLevel === 1 && hintsData.hint1}
                 {currentHintLevel === 2 && hintsData.hint2}
                 {currentHintLevel === 3 && hintsData.hint3}
@@ -379,7 +379,7 @@ export const DoubtCenter: React.FC = () => {
                   <div className="text-xs font-semibold text-slate-400">
                     {currentSolution.subject} • {currentSolution.chapter}
                   </div>
-                  <h3 className="text-sm sm:text-base font-bold text-slate-900 mt-1">
+                  <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mt-1">
                     {currentSolution.question}
                   </h3>
                 </div>
@@ -408,7 +408,7 @@ export const DoubtCenter: React.FC = () => {
 
               {/* Core Concept / Direct Answer */}
               {currentSolution.answer && (
-                <div className="p-3.5 rounded-xl bg-slate-50 border border-slate-200 text-xs sm:text-sm text-slate-800 leading-relaxed font-medium">
+                <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
                   <MathRenderer content={currentSolution.answer} />
                 </div>
               )}
@@ -428,12 +428,12 @@ export const DoubtCenter: React.FC = () => {
               {/* Step-by-Step Breakdown */}
               {currentSolution.stepByStepSolution && currentSolution.stepByStepSolution.length > 0 && (
                 <div className="space-y-2">
-                  <h4 className="text-xs font-bold text-slate-900 uppercase tracking-wider">
+                  <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                     Step-by-Step Breakdown
                   </h4>
                   <div className="space-y-1.5">
                     {currentSolution.stepByStepSolution.map((step, idx) => (
-                      <div key={idx} className="p-2.5 rounded-lg bg-slate-50 text-xs text-slate-800 leading-relaxed">
+                      <div key={idx} className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 text-xs text-slate-800 dark:text-slate-100 leading-relaxed">
                         <MathRenderer content={step} />
                       </div>
                     ))}
@@ -457,7 +457,7 @@ export const DoubtCenter: React.FC = () => {
                     key={action}
                     type="button"
                     onClick={() => handleFollowUpClick(action)}
-                    className="px-2.5 py-1 rounded-md border border-slate-200 text-slate-700 hover:bg-slate-50 font-medium text-xs"
+                    className="px-2.5 py-1 rounded-md border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium text-xs"
                   >
                     {action}
                   </button>
@@ -498,7 +498,7 @@ export const DoubtCenter: React.FC = () => {
           {filteredDoubts.length === 0 ? (
             <Card className="text-center py-12">
               <HelpCircle className="w-8 h-8 text-slate-300 mx-auto mb-2" />
-              <h3 className="font-semibold text-slate-800 text-sm">No Questions Filed Yet</h3>
+              <h3 className="font-semibold text-slate-800 dark:text-slate-100 text-sm">No Questions Filed Yet</h3>
               <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                 Submit an academic question to receive detailed faculty clarification.
               </p>
@@ -509,18 +509,18 @@ export const DoubtCenter: React.FC = () => {
                 <Card key={d.id} className="p-4 space-y-2 text-xs">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-slate-900">{d.subject}</span>
+                      <span className="font-bold text-slate-900 dark:text-white">{d.subject}</span>
                       <span className="text-slate-400">•</span>
                       <span className="text-slate-600">{d.chapter}</span>
                     </div>
                     <span className="text-[11px] font-semibold text-slate-500">{d.status}</span>
                   </div>
 
-                  <p className="font-medium text-slate-800 text-xs sm:text-sm">{d.studentQuestion}</p>
+                  <p className="font-medium text-slate-800 dark:text-slate-100 text-xs sm:text-sm">{d.studentQuestion}</p>
 
                   {d.replies && d.replies.length > 0 && (
-                    <div className="p-3 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-700 mt-2">
-                      <div className="font-semibold text-slate-900 mb-1">Faculty Solution:</div>
+                    <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-100 text-xs text-slate-700 dark:text-slate-200 mt-2">
+                      <div className="font-semibold text-slate-900 dark:text-white mb-1">Faculty Solution:</div>
                       <p>{d.replies[0].message}</p>
                     </div>
                   )}
@@ -549,11 +549,11 @@ export const DoubtCenter: React.FC = () => {
       >
         <div className="space-y-3 py-1 text-xs">
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">Subject</label>
+            <label className="block font-semibold text-slate-700 dark:text-slate-200 mb-1">Subject</label>
             <select
               value={newSubject}
               onChange={(e) => setNewSubject(e.target.value as SubjectName)}
-              className="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg"
+              className="w-full px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg"
             >
               <option value="Physics">Physics</option>
               <option value="Chemistry">Chemistry</option>
@@ -563,24 +563,24 @@ export const DoubtCenter: React.FC = () => {
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">Chapter</label>
+            <label className="block font-semibold text-slate-700 dark:text-slate-200 mb-1">Chapter</label>
             <input
               type="text"
               value={newChapter}
               onChange={(e) => setNewChapter(e.target.value)}
               placeholder="e.g. Thermodynamics"
-              className="w-full px-3 py-2 border border-slate-200 rounded-lg"
+              className="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-lg"
             />
           </div>
 
           <div>
-            <label className="block font-semibold text-slate-700 mb-1">Question Details</label>
+            <label className="block font-semibold text-slate-700 dark:text-slate-200 mb-1">Question Details</label>
             <textarea
               rows={4}
               value={newQuestionText}
               onChange={(e) => setNewQuestionText(e.target.value)}
               placeholder="Describe what you find confusing or paste the problem text..."
-              className="w-full p-2.5 border border-slate-200 rounded-lg resize-none"
+              className="w-full p-2.5 border border-slate-200 dark:border-slate-800 rounded-lg resize-none"
             />
           </div>
         </div>

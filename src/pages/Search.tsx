@@ -55,7 +55,7 @@ export const Search: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
       {/* Search Input Bar */}
-      <div className="bg-white rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-sm space-y-4">
+      <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-4 sm:p-5 border border-slate-200/80 shadow-sm space-y-4">
         <div className="relative">
           <SearchIcon className="w-5 h-5 absolute left-4 top-3.5 text-brand-600" />
           <input
@@ -63,7 +63,7 @@ export const Search: React.FC = () => {
             placeholder="Search questions, topics, mock tests, sample papers, formulas..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            className="w-full bg-slate-50 border border-slate-200 rounded-2xl pl-12 pr-10 py-3 text-sm sm:text-base font-semibold text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white"
+            className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-2xl pl-12 pr-10 py-3 text-sm sm:text-base font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:bg-white"
             autoFocus
           />
           {query && (
@@ -126,9 +126,9 @@ export const Search: React.FC = () => {
         </div>
 
         {totalResults === 0 ? (
-          <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300">
+          <div className="text-center py-16 bg-white dark:bg-[#0c131a] rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
             <SearchIcon className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-            <h3 className="font-bold text-slate-800">No results found.</h3>
+            <h3 className="font-bold text-slate-800 dark:text-slate-100">No results found.</h3>
             <p className="text-xs text-slate-500 mt-1">
               Try adjusting your query keywords or resetting the type and subject filters.
             </p>
@@ -148,7 +148,7 @@ export const Search: React.FC = () => {
                       <Badge variant="slate" size="sm">{q.chapter}</Badge>
                       <span className="text-xs text-slate-400">{q.topic}</span>
                     </div>
-                    <div className="text-sm font-semibold text-slate-900 line-clamp-2">{q.question}</div>
+                    <div className="text-sm font-semibold text-slate-900 dark:text-white line-clamp-2">{q.question}</div>
                     <div className="pt-2 flex justify-end">
                       <Button
                         size="sm"
@@ -175,7 +175,7 @@ export const Search: React.FC = () => {
                     <div>
                       <div className="flex items-center gap-2">
                         <Badge variant="brand" size="sm">{t.exam}</Badge>
-                        <span className="font-bold text-sm text-slate-900">{t.title}</span>
+                        <span className="font-bold text-sm text-slate-900 dark:text-white">{t.title}</span>
                       </div>
                       <div className="text-xs text-slate-400 mt-1">
                         {t.totalQuestions} Questions • {t.durationMinutes} Minutes • {t.category}
@@ -200,7 +200,7 @@ export const Search: React.FC = () => {
                     <div>
                       <div className="flex items-center gap-2">
                         <Badge variant="warning" size="sm">{p.paperType}</Badge>
-                        <span className="font-bold text-sm text-slate-900">{p.title}</span>
+                        <span className="font-bold text-sm text-slate-900 dark:text-white">{p.title}</span>
                       </div>
                       <div className="text-xs text-slate-400 mt-1">
                         Year {p.year} • {p.totalQuestions} Questions

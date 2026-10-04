@@ -235,7 +235,7 @@ export const AITeacherPage: React.FC = () => {
       {/* 1. Clean Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">AI Teacher</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">AI Teacher</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Interactive tutor for concept explanation, worked examples, and instant practice.
           </p>
@@ -246,7 +246,7 @@ export const AITeacherPage: React.FC = () => {
           <select
             value={selectedSubject}
             onChange={(e) => handleSubjectChange(e.target.value as SubjectName)}
-            className="text-xs font-semibold text-slate-800 bg-white border border-slate-200 rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-1 focus:ring-slate-900"
+            className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-1 focus:ring-slate-900"
           >
             {(['Physics', 'Chemistry', 'Mathematics', 'Biology'] as SubjectName[]).map((s) => (
               <option key={s} value={s}>
@@ -258,7 +258,7 @@ export const AITeacherPage: React.FC = () => {
           <select
             value={selectedChapter}
             onChange={(e) => setSelectedChapter(e.target.value)}
-            className="text-xs font-semibold text-slate-800 bg-white border border-slate-200 rounded-lg py-1.5 px-2.5 max-w-[180px] truncate focus:outline-none focus:ring-1 focus:ring-slate-900"
+            className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 max-w-[180px] truncate focus:outline-none focus:ring-1 focus:ring-slate-900"
           >
             {chapters.map((c) => (
               <option key={c} value={c}>
@@ -293,7 +293,7 @@ export const AITeacherPage: React.FC = () => {
       )}
 
       {/* 2. Main Conversation Canvas */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 sm:p-6 space-y-4 min-h-[460px] max-h-[640px] overflow-y-auto">
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl border border-slate-200 dark:border-slate-800 p-4 sm:p-6 space-y-4 min-h-[460px] max-h-[640px] overflow-y-auto">
         {messages.map((msg) => {
           const isTutor = msg.sender === 'tutor';
           return (
@@ -319,7 +319,7 @@ export const AITeacherPage: React.FC = () => {
 
                 {/* Inline Practice Question Block */}
                 {msg.question && (
-                  <div className="mt-3 p-3.5 rounded-xl bg-white border border-slate-200 space-y-2.5 text-xs text-slate-900">
+                  <div className="mt-3 p-3.5 rounded-xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 space-y-2.5 text-xs text-slate-900 dark:text-white">
                     <div className="font-semibold">
                       <MathRenderer text={msg.question.question} />
                     </div>
@@ -384,35 +384,35 @@ export const AITeacherPage: React.FC = () => {
         <button
           type="button"
           onClick={() => handleSendMessage(`Give me a hint for ${selectedChapter}`, 'Hint')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 font-medium"
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
         >
           Hint
         </button>
         <button
           type="button"
           onClick={() => handleSendMessage(`Give me a step-by-step example in ${selectedChapter}`, 'Example')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 font-medium"
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
         >
           Example
         </button>
         <button
           type="button"
           onClick={() => handleSendMessage(`Give me a practice problem in ${selectedChapter}`, 'Practice')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 font-medium"
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
         >
           Practice
         </button>
         <button
           type="button"
           onClick={() => handleSendMessage(`Explain the core formulas and solution method for ${selectedChapter}`, 'Solution')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 font-medium"
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
         >
           Solution
         </button>
       </div>
 
       {/* 4. Bottom Input Bar */}
-      <div className="bg-white rounded-xl p-2 border border-slate-200 flex items-center gap-2">
+      <div className="bg-white dark:bg-[#0c131a] rounded-xl p-2 border border-slate-200 dark:border-slate-800 flex items-center gap-2">
         <input
           type="text"
           value={inputText}
@@ -424,7 +424,7 @@ export const AITeacherPage: React.FC = () => {
             }
           }}
           placeholder={`Ask about ${selectedSubject} — ${selectedChapter}...`}
-          className="flex-1 px-3 py-2 text-xs sm:text-sm bg-transparent outline-none text-slate-800 placeholder:text-slate-400"
+          className="flex-1 px-3 py-2 text-xs sm:text-sm bg-transparent outline-none text-slate-800 dark:text-slate-100 placeholder:text-slate-400"
         />
         <Button
           variant="primary"

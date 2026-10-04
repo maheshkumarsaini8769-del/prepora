@@ -98,7 +98,7 @@ export const StudySessionModal: React.FC<StudySessionModalProps> = ({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in duration-200">
-      <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 w-full max-w-lg overflow-hidden flex flex-col">
+      <div className="bg-white dark:bg-[#0c131a] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-lg overflow-hidden flex flex-col">
         {/* Modal Header */}
         <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-slate-50/70">
           <div className="flex items-center gap-2">
@@ -106,7 +106,7 @@ export const StudySessionModal: React.FC<StudySessionModalProps> = ({
               ⏱️
             </div>
             <div>
-              <h3 className="text-base font-bold text-slate-900">
+              <h3 className="text-base font-bold text-slate-900 dark:text-white">
                 {isRunning ? 'Focused Study Session' : 'Study Session Mode'}
               </h3>
               <p className="text-xs text-slate-500">
@@ -128,7 +128,7 @@ export const StudySessionModal: React.FC<StudySessionModalProps> = ({
             <div className="space-y-6">
               {/* Duration Buttons */}
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-2">Select Duration</label>
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-2">Select Duration</label>
                 <div className="grid grid-cols-5 gap-2">
                   {([10, 20, 30, 45, 60] as const).map(d => (
                     <button
@@ -156,9 +156,9 @@ export const StudySessionModal: React.FC<StudySessionModalProps> = ({
 
                 <div className="space-y-2">
                   {session.segments.map((seg, idx) => (
-                    <div key={idx} className="p-3 bg-white rounded-xl border border-purple-100 flex items-center justify-between text-xs">
+                    <div key={idx} className="p-3 bg-white dark:bg-[#0c131a] rounded-xl border border-purple-100 flex items-center justify-between text-xs">
                       <div>
-                        <div className="font-bold text-slate-800">{idx + 1}. {seg.title}</div>
+                        <div className="font-bold text-slate-800 dark:text-slate-100">{idx + 1}. {seg.title}</div>
                         <div className="text-[11px] text-slate-500 mt-0.5">{seg.description}</div>
                       </div>
                       <span className="font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg">
@@ -238,7 +238,7 @@ export const StudySessionModal: React.FC<StudySessionModalProps> = ({
                 <Award className="w-8 h-8" />
               </div>
               <div>
-                <h3 className="text-xl font-black text-slate-900">Study Session Completed!</h3>
+                <h3 className="text-xl font-black text-slate-900 dark:text-white">Study Session Completed!</h3>
                 <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
                   You successfully maintained focused preparation for <strong>{selectedDuration} minutes</strong> across {session.segments.length} targeted segments.
                 </p>

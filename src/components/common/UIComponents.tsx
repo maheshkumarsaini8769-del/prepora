@@ -52,8 +52,8 @@ export const Card: React.FC<CardProps> = ({
 }) => {
   return (
     <div
-      className={`bg-white rounded-2xl md:rounded-3xl border border-slate-200/70 p-5 md:p-6 shadow-sm ${
-        hoverEffect ? 'hover:shadow-md hover:border-brand-200 transition-all duration-200' : ''
+      className={`bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100 rounded-2xl md:rounded-3xl border border-slate-200/70 dark:border-slate-800 p-5 md:p-6 shadow-sm ${
+        hoverEffect ? 'hover:shadow-md hover:border-brand-200 dark:hover:border-emerald-500/40 transition-all duration-200' : ''
       } ${className}`}
       {...props}
     >
@@ -80,10 +80,10 @@ export const Button: React.FC<ButtonProps> = ({
 }) => {
   const variantStyles = {
     primary: 'bg-brand-600 hover:bg-brand-700 text-white shadow-sm shadow-brand-500/20 active:scale-[0.98]',
-    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 active:scale-[0.98]',
-    outline: 'border border-slate-200 hover:bg-slate-50 text-slate-700 hover:border-slate-300 active:scale-[0.98]',
+    secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-100 active:scale-[0.98]',
+    outline: 'border border-slate-200 hover:bg-slate-50 text-slate-700 hover:border-slate-300 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 active:scale-[0.98]',
     danger: 'bg-rose-600 hover:bg-rose-700 text-white shadow-sm shadow-rose-500/20 active:scale-[0.98]',
-    ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+    ghost: 'text-slate-600 hover:bg-slate-100 hover:text-slate-900 dark:text-slate-400 dark:hover:bg-slate-800 dark:hover:text-white',
   };
 
   const sizeStyles = {
@@ -124,9 +124,9 @@ export const EmptyState: React.FC<EmptyStateProps> = ({
   action,
 }) => {
   return (
-    <div className="bg-white rounded-3xl border border-dashed border-slate-300 p-8 text-center flex flex-col items-center justify-center my-6">
+    <div className="bg-white dark:bg-[#0c131a] rounded-3xl border border-dashed border-slate-300 dark:border-slate-700 p-8 text-center flex flex-col items-center justify-center my-6">
       {icon && <div className="p-4 bg-brand-50 rounded-2xl text-brand-600 mb-3">{icon}</div>}
-      <h3 className="text-base font-bold text-slate-800">{title}</h3>
+      <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">{title}</h3>
       <p className="text-sm text-slate-500 max-w-sm mt-1 mb-4">{description}</p>
       {action}
     </div>
@@ -154,19 +154,19 @@ export const Modal: React.FC<ModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/40 backdrop-blur-sm animate-in fade-in duration-150">
-      <div className={`bg-white rounded-3xl border border-slate-200/80 shadow-2xl w-full ${maxWidth} overflow-hidden flex flex-col max-h-[90vh]`}>
-        <div className="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-          <h3 className="font-bold text-lg text-slate-900">{title}</h3>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm animate-in fade-in duration-150">
+      <div className={`bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-2xl w-full ${maxWidth} overflow-hidden flex flex-col max-h-[90vh]`}>
+        <div className="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+          <h3 className="font-bold text-lg text-slate-900 dark:text-white">{title}</h3>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
             ✕
           </button>
         </div>
         <div className="px-6 py-5 overflow-y-auto flex-1">{children}</div>
-        {footer && <div className="px-6 py-4 bg-slate-50/70 border-t border-slate-100 flex justify-end gap-3">{footer}</div>}
+        {footer && <div className="px-6 py-4 bg-slate-50/70 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-800 flex justify-end gap-3">{footer}</div>}
       </div>
     </div>
   );

@@ -61,7 +61,7 @@ export const ResourceHub: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/80 shadow-xs space-y-3">
+      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200/80 shadow-xs space-y-3">
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Subject Pills */}
           <div className="flex flex-wrap items-center gap-2">
@@ -89,7 +89,7 @@ export const ResourceHub: React.FC = () => {
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               placeholder="Search notes, chapters, formulas..."
-              className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
+              className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-all"
             />
           </div>
         </div>
@@ -118,7 +118,7 @@ export const ResourceHub: React.FC = () => {
         {resources.map(res => (
           <div
             key={res.id}
-            className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs hover:border-purple-300 card-hover-lift flex flex-col justify-between space-y-4"
+            className="bg-white dark:bg-[#0c131a] rounded-3xl p-5 border border-slate-200/80 shadow-xs hover:border-purple-300 card-hover-lift flex flex-col justify-between space-y-4"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -129,7 +129,7 @@ export const ResourceHub: React.FC = () => {
               </div>
 
               <div>
-                <h3 className="font-black text-base text-slate-900 leading-snug">
+                <h3 className="font-black text-base text-slate-900 dark:text-white leading-snug">
                   {res.title}
                 </h3>
                 <span className="text-xs text-purple-600 font-semibold block mt-0.5">

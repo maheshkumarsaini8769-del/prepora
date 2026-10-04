@@ -28,7 +28,7 @@ export const WeeklyReportPage: React.FC = () => {
             <Calendar className="w-3.5 h-3.5" />
             <span>Weekly Study Progress Summary</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Weekly Performance Audit</h1>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Weekly Performance Audit</h1>
           <p className="text-sm text-slate-500 mt-1">
             Week of {report.weekStartDate} • Comprehensive review of study hours, problem volume, and pacing trends.
           </p>
@@ -45,7 +45,7 @@ export const WeeklyReportPage: React.FC = () => {
           <div className="flex items-center justify-center gap-1 text-purple-700 text-xs font-bold mb-1">
             <BookOpen className="w-3.5 h-3.5" /> Questions Solved
           </div>
-          <div className="text-3xl font-black text-slate-900">{report.totalQuestions}</div>
+          <div className="text-3xl font-black text-slate-900 dark:text-white">{report.totalQuestions}</div>
           <div className="text-[11px] text-slate-400 mt-0.5">+18% vs last week</div>
         </Card>
 
@@ -53,7 +53,7 @@ export const WeeklyReportPage: React.FC = () => {
           <div className="flex items-center justify-center gap-1 text-blue-700 text-xs font-bold mb-1">
             <Clock className="w-3.5 h-3.5" /> Study Time
           </div>
-          <div className="text-3xl font-black text-slate-900">
+          <div className="text-3xl font-black text-slate-900 dark:text-white">
             {Math.floor(report.totalStudyTimeMinutes / 60)}h {report.totalStudyTimeMinutes % 60}m
           </div>
           <div className="text-[11px] text-slate-400 mt-0.5">Across 7 days</div>
@@ -63,7 +63,7 @@ export const WeeklyReportPage: React.FC = () => {
           <div className="flex items-center justify-center gap-1 text-emerald-700 text-xs font-bold mb-1">
             <TrendingUp className="w-3.5 h-3.5" /> Accuracy
           </div>
-          <div className="text-3xl font-black text-slate-900">{report.overallAccuracy}%</div>
+          <div className="text-3xl font-black text-slate-900 dark:text-white">{report.overallAccuracy}%</div>
           <div className="text-[11px] text-emerald-600 font-semibold">+4% improvement</div>
         </Card>
 
@@ -71,7 +71,7 @@ export const WeeklyReportPage: React.FC = () => {
           <div className="flex items-center justify-center gap-1 text-amber-700 text-xs font-bold mb-1">
             <Award className="w-3.5 h-3.5" /> Tests Attempted
           </div>
-          <div className="text-3xl font-black text-slate-900">{report.totalTests}</div>
+          <div className="text-3xl font-black text-slate-900 dark:text-white">{report.totalTests}</div>
           <div className="text-[11px] text-slate-400 mt-0.5">Full mocks & chapters</div>
         </Card>
       </div>
@@ -113,7 +113,7 @@ export const WeeklyReportPage: React.FC = () => {
       <Card className="p-6 space-y-4">
         <div className="flex items-center gap-2 border-b border-slate-100 pb-3">
           <Zap className="w-5 h-5 text-purple-600" />
-          <h3 className="font-bold text-base text-slate-900">Recommended Action Plan For Next Week</h3>
+          <h3 className="font-bold text-base text-slate-900 dark:text-white">Recommended Action Plan For Next Week</h3>
         </div>
 
         <div className="space-y-2.5">
@@ -122,7 +122,7 @@ export const WeeklyReportPage: React.FC = () => {
               <span className="w-6 h-6 rounded-lg bg-purple-600 text-white font-bold text-xs flex items-center justify-center flex-shrink-0 mt-0.5">
                 {i + 1}
               </span>
-              <span className="text-slate-800 font-medium pt-0.5">{rec}</span>
+              <span className="text-slate-800 dark:text-slate-100 font-medium pt-0.5">{rec}</span>
             </div>
           ))}
         </div>

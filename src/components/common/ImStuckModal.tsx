@@ -73,7 +73,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
     >
       <div className="space-y-4 py-1">
         {/* Navigation Tabs for Progressive Help */}
-        <div className="flex flex-wrap gap-1.5 p-1 bg-slate-100 rounded-2xl">
+        <div className="flex flex-wrap gap-1.5 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
           <button
             type="button"
             onClick={() => setActiveLevel('hint')}
@@ -141,14 +141,14 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
         </div>
 
         {/* Content Box */}
-        <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 text-xs sm:text-sm text-slate-800 space-y-2">
+        <div className="p-4 rounded-2xl bg-purple-50/50 border border-purple-100 text-xs sm:text-sm text-slate-800 dark:text-slate-100 space-y-2">
           {activeLevel === 'hint' && (
             <div className="space-y-2 animate-in fade-in duration-150">
               <div className="font-bold text-purple-900 flex items-center gap-1.5">
                 <Lightbulb className="w-4 h-4 text-amber-500" />
                 <span>Level 1: Subtle Strategic Clue</span>
               </div>
-              <p className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
+              <p className="text-slate-700 dark:text-slate-200 leading-relaxed bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-purple-100 font-medium">
                 {hintText}
               </p>
             </div>
@@ -160,7 +160,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 <Calculator className="w-4 h-4 text-blue-500" />
                 <span>Level 2: Governing Concept & Formula</span>
               </div>
-              <div className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-mono">
+              <div className="text-slate-700 dark:text-slate-200 leading-relaxed bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-purple-100 font-mono">
                 <MathRenderer content={formulaText} />
               </div>
             </div>
@@ -172,7 +172,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 <Footprints className="w-4 h-4 text-emerald-500" />
                 <span>Level 3: Strategic Approach & Setup</span>
               </div>
-              <div className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
+              <div className="text-slate-700 dark:text-slate-200 leading-relaxed bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-purple-100 font-medium">
                 <MathRenderer content={firstStepText} />
               </div>
             </div>
@@ -185,7 +185,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 <span>Level 4: Core Theory & Examiner Traps</span>
               </div>
               <div className="space-y-2">
-                <div className="text-slate-700 leading-relaxed bg-white p-3 rounded-xl border border-purple-100 font-medium">
+                <div className="text-slate-700 dark:text-slate-200 leading-relaxed bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-purple-100 font-medium">
                   <MathRenderer content={conceptText} />
                 </div>
                 {aiHints?.examinerTrap && (
@@ -206,7 +206,7 @@ export const ImStuckModal: React.FC<ImStuckModalProps> = ({
                 </span>
                 <Badge variant="brand" size="sm">Answer: Option {['A', 'B', 'C', 'D'][question.correctAnswer]}</Badge>
               </div>
-              <div className="text-slate-700 leading-relaxed bg-white p-3.5 rounded-xl border border-purple-100 font-mono text-xs">
+              <div className="text-slate-700 dark:text-slate-200 leading-relaxed bg-white dark:bg-[#0c131a] p-3.5 rounded-xl border border-purple-100 font-mono text-xs">
                 <MathRenderer content={solutionText} />
               </div>
             </div>

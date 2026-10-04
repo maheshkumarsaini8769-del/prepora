@@ -146,7 +146,7 @@ export const GlobalSearch: React.FC = () => {
             value={query}
             onChange={e => setQuery(e.target.value)}
             placeholder="Search any concept, formula, chapter, or question snippet..."
-            className="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-white text-slate-900 placeholder:text-slate-400 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-purple-500/30 shadow-inner"
+            className="w-full pl-12 pr-10 py-3.5 rounded-2xl bg-white dark:bg-[#0c131a] text-slate-900 dark:text-white placeholder:text-slate-400 text-sm font-medium focus:outline-none focus:ring-4 focus:ring-purple-500/30 shadow-inner"
             autoFocus
           />
           {query && (
@@ -175,7 +175,7 @@ export const GlobalSearch: React.FC = () => {
       </Card>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-3 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3 overflow-x-auto">
         {(['All', 'Chapters', 'Formulas', 'Questions', 'Tests', 'Notes'] as const).map(tab => (
           <button
             key={tab}
@@ -220,7 +220,7 @@ export const GlobalSearch: React.FC = () => {
                     <Badge variant={badgeVariant} size="sm">{res.type}</Badge>
                     <span className="text-xs font-semibold text-purple-700">{res.subject}</span>
                   </div>
-                  <h4 className="font-bold text-sm text-slate-900 line-clamp-1">{res.title}</h4>
+                  <h4 className="font-bold text-sm text-slate-900 dark:text-white line-clamp-1">{res.title}</h4>
                   <p className="text-xs text-slate-500 line-clamp-1 mt-0.5">{res.subtitle}</p>
                 </div>
 

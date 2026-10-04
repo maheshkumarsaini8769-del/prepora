@@ -76,7 +76,7 @@ export const StudyHub: React.FC = () => {
       </div>
 
       {/* Subject Filter Pills */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 pb-3">
+      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
         {subjects.map(s => (
           <button
             key={s}
@@ -100,9 +100,9 @@ export const StudyHub: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
         {/* Left Side: Chapter Navigation */}
         <div className="lg:col-span-4 space-y-3">
-          <div className="bg-white rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3">
+          <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-5 border border-slate-200/80 shadow-xs space-y-3">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100">
-              <span className="text-xs font-black text-slate-900 uppercase tracking-wider">{activeSubject} Chapters</span>
+              <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">{activeSubject} Chapters</span>
               <span className="text-[11px] font-bold text-slate-400">{chapters.length} Total</span>
             </div>
 
@@ -135,14 +135,14 @@ export const StudyHub: React.FC = () => {
         {/* Right Side: Selected Chapter Content Workspace */}
         <div className="lg:col-span-8 space-y-5">
           {/* Chapter Banner & Quick Actions */}
-          <div className="bg-white rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
+          <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-6 border border-slate-200/80 shadow-xs space-y-4">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
               <div>
                 <div className="flex items-center gap-2">
                   <Badge variant="brand" size="sm">{activeSubject}</Badge>
                   <span className="text-xs font-bold text-slate-400">Class {user.classLevel}</span>
                 </div>
-                <h2 className="text-xl font-black text-slate-900 mt-1">{effectiveChapter}</h2>
+                <h2 className="text-xl font-black text-slate-900 dark:text-white mt-1">{effectiveChapter}</h2>
               </div>
 
               {/* Action Buttons */}
@@ -158,7 +158,7 @@ export const StudyHub: React.FC = () => {
                 </Button>
                 <Link
                   to={`/chapters/${encodeURIComponent(effectiveChapter)}`}
-                  className="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-bold transition-colors"
+                  className="px-3 py-1.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 text-slate-700 dark:text-slate-200 text-xs font-bold transition-colors"
                 >
                   Chapter Detail →
                 </Link>
@@ -198,8 +198,8 @@ export const StudyHub: React.FC = () => {
             {activeTab === 'notes' && (
               <div className="space-y-3 py-2">
                 <p className="text-xs text-slate-500">Core summary, crucial NCERT definitions, and derivation pointers:</p>
-                <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-700 leading-relaxed space-y-2">
-                  <p className="font-bold text-slate-900">Key Chapter Principles:</p>
+                <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-200 leading-relaxed space-y-2">
+                  <p className="font-bold text-slate-900 dark:text-white">Key Chapter Principles:</p>
                   <ul className="list-disc list-inside space-y-1 text-slate-600">
                     <li>Always check coordinate directions and sign conventions before applying equations.</li>
                     <li>For uniform acceleration, verify whether equations of motion apply without variable limits.</li>
@@ -226,9 +226,9 @@ export const StudyHub: React.FC = () => {
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     {formulas.map(f => (
-                      <div key={f.id} className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 space-y-1">
-                        <span className="text-xs font-bold text-slate-900">{f.name}</span>
-                        <div className="p-2 rounded-xl bg-white border border-slate-200 font-mono text-xs font-bold text-brand-700 text-center">
+                      <div key={f.id} className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 space-y-1">
+                        <span className="text-xs font-bold text-slate-900 dark:text-white">{f.name}</span>
+                        <div className="p-2 rounded-xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 font-mono text-xs font-bold text-brand-700 text-center">
                           {f.formula}
                         </div>
                         {f.importantNote && <p className="text-[10px] text-slate-500">{f.importantNote}</p>}
@@ -246,7 +246,7 @@ export const StudyHub: React.FC = () => {
                   {flashcards.slice(0, 4).map(card => (
                     <div key={card.id} className="p-4 rounded-2xl bg-gradient-to-br from-brand-50 to-indigo-50 border border-brand-200/70 space-y-2">
                       <span className="text-[10px] font-bold text-brand-600 uppercase tracking-wide">Concept Front</span>
-                      <h4 className="text-xs font-black text-slate-900">{card.name}</h4>
+                      <h4 className="text-xs font-black text-slate-900 dark:text-white">{card.name}</h4>
                       <div className="pt-2 border-t border-brand-200/50 text-xs font-mono font-bold text-brand-800">
                         {card.formula}
                       </div>
@@ -261,9 +261,9 @@ export const StudyHub: React.FC = () => {
                 <p className="text-xs text-slate-500">Verified Past Year Questions for {effectiveChapter}:</p>
                 <div className="space-y-2">
                   {pyqs.map(q => (
-                    <div key={q.id} className="p-3 rounded-2xl bg-slate-50 border border-slate-200 flex items-center justify-between gap-3 text-xs">
+                    <div key={q.id} className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between gap-3 text-xs">
                       <div className="truncate">
-                        <span className="font-bold text-slate-900 block truncate">{q.question}</span>
+                        <span className="font-bold text-slate-900 dark:text-white block truncate">{q.question}</span>
                         <span className="text-[10px] text-slate-500">{q.topic} • {q.difficulty}</span>
                       </div>
                       <Button
@@ -307,7 +307,7 @@ export const StudyHub: React.FC = () => {
                     <span className="text-[10px] font-bold text-rose-600 uppercase tracking-wider">
                       One-Shot Revision • {chapterVideo.channelName}
                     </span>
-                    <h3 className="text-sm font-bold text-slate-900">{chapterVideo.title}</h3>
+                    <h3 className="text-sm font-bold text-slate-900 dark:text-white">{chapterVideo.title}</h3>
                   </div>
                   <a
                     href={`https://www.youtube.com/watch?v=${chapterVideo.youtubeId}`}

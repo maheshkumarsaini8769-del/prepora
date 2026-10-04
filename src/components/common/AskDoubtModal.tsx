@@ -179,7 +179,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
               <span>Question #{questionContext.id}</span>
               <span>{questionContext.subject} • {questionContext.chapter}</span>
             </div>
-            <p className="text-xs text-slate-700 line-clamp-2 italic font-medium">
+            <p className="text-xs text-slate-700 dark:text-slate-200 line-clamp-2 italic font-medium">
               "{questionContext.question}"
             </p>
           </div>
@@ -189,14 +189,14 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
           <div className="space-y-3">
             {!aiSolution ? (
               <div className="space-y-3">
-                <label className="block text-xs font-bold text-slate-700">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-200">
                   What specific step, formula, or concept is confusing you?
                 </label>
                 <textarea
                   value={doubtText}
                   onChange={e => setDoubtText(e.target.value)}
                   placeholder="e.g. Why is work done negative here? Or explain the formula derivation step..."
-                  className="w-full h-24 p-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none font-medium"
+                  className="w-full h-24 p-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none font-medium"
                 />
                 <Button
                   variant="primary"
@@ -259,11 +259,11 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                 {/* Steps with MathRenderer */}
                 {aiSolution.stepByStepSolution && aiSolution.stepByStepSolution.length > 0 && (
                   <div className="space-y-1.5">
-                    <span className="text-[11px] font-bold text-slate-700 uppercase tracking-wider block">
+                    <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider block">
                       Derivation & Solution Steps:
                     </span>
                     {aiSolution.stepByStepSolution.map((s, i) => (
-                      <div key={i} className="p-2.5 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-800 font-medium leading-relaxed">
+                      <div key={i} className="p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-lg border border-slate-100 text-xs text-slate-800 dark:text-slate-100 font-medium leading-relaxed">
                         <MathRenderer content={s} />
                       </div>
                     ))}
@@ -286,14 +286,14 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
           </div>
         ) : !submitted ? (
           <div className="space-y-3">
-            <label className="block text-xs font-bold text-slate-700 mb-1">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-1">
               What part of this question or concept is unclear?
             </label>
             <textarea
               value={doubtText}
               onChange={e => setDoubtText(e.target.value)}
               placeholder="Explain what part is giving you difficulty..."
-              className="w-full h-28 p-3 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none font-medium"
+              className="w-full h-28 p-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none font-medium"
             />
             <p className="text-[11px] text-slate-400">
               Your doubt will be submitted to the Prepora Academic Doubt Center with your question context automatically attached.
@@ -304,7 +304,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
             <div className="w-12 h-12 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto text-xl">
               <CheckCircle2 className="w-7 h-7" />
             </div>
-            <h3 className="text-base font-bold text-slate-900">Doubt Submitted to Faculty!</h3>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">Doubt Submitted to Faculty!</h3>
             <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
               Your doubt has been filed. Faculty mentors review and publish detailed clarifications within 2 hours.
             </p>

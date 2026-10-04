@@ -43,14 +43,14 @@ export const Bookmarks: React.FC = () => {
           <Bookmark className="w-3.5 h-3.5 fill-amber-600" />
           <span>Saved Collections</span>
         </div>
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 tracking-tight">Bookmarks</h1>
+        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Bookmarks</h1>
         <p className="text-sm text-slate-500 mt-1">
           Quickly access bookmarked high-yield questions, mock tests, and revision notes.
         </p>
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2">
         {[
           { key: 'all', label: 'All Items' },
           { key: 'question', label: 'Questions' },
@@ -74,9 +74,9 @@ export const Bookmarks: React.FC = () => {
 
       {/* Bookmarks Grid */}
       {filtered.length === 0 ? (
-        <div className="text-center py-16 bg-white rounded-3xl border border-dashed border-slate-300">
+        <div className="text-center py-16 bg-white dark:bg-[#0c131a] rounded-3xl border border-dashed border-slate-300 dark:border-slate-700">
           <Bookmark className="w-12 h-12 text-slate-300 mx-auto mb-2" />
-          <h3 className="font-bold text-slate-800">No Bookmarks Found</h3>
+          <h3 className="font-bold text-slate-800 dark:text-slate-100">No Bookmarks Found</h3>
           <p className="text-xs text-slate-500 mt-1">
             Bookmark tricky questions or mock papers while practicing to see them here.
           </p>
@@ -86,7 +86,7 @@ export const Bookmarks: React.FC = () => {
           {filtered.map((b) => (
             <Card key={b.id} className="flex items-center justify-between gap-4 p-4">
               <div className="flex items-center gap-3">
-                <div className="p-2.5 rounded-xl bg-slate-100 text-brand-600">
+                <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-brand-600">
                   {b.type === 'question' && <BookOpen className="w-4 h-4" />}
                   {b.type === 'test' && <CheckSquare className="w-4 h-4" />}
                   {b.type === 'paper' && <FileText className="w-4 h-4" />}
@@ -94,7 +94,7 @@ export const Bookmarks: React.FC = () => {
                 </div>
 
                 <div>
-                  <div className="font-bold text-sm text-slate-900">{b.title}</div>
+                  <div className="font-bold text-sm text-slate-900 dark:text-white">{b.title}</div>
                   <div className="text-xs text-slate-400 mt-0.5">
                     {b.subtitle} • Saved on {b.dateAdded}
                   </div>

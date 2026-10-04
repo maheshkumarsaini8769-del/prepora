@@ -693,7 +693,7 @@ export const AdminAIFactory: React.FC = () => {
           </button>
           <button
             onClick={() => setActiveTab('upload')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-950 text-xs font-bold shadow-xs transition"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-[#0c131a] hover:bg-slate-100 text-slate-950 text-xs font-bold shadow-xs transition"
           >
             <Upload className="w-4 h-4" />
             <span>Upload Chapter PDF</span>

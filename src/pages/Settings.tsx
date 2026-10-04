@@ -72,7 +72,7 @@ export const Settings: React.FC = () => {
   return (
     <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in duration-300">
       <div>
-        <h1 className="text-2xl font-black text-slate-900 tracking-tight">App Preferences</h1>
+        <h1 className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">App Preferences</h1>
         <p className="text-xs text-slate-500 mt-0.5">Customize your academic goals, syllabus streams, and application settings</p>
       </div>
 
@@ -83,15 +83,15 @@ export const Settings: React.FC = () => {
       )}
 
       {/* Dedicated Preparation Stream Wizard Card */}
-      <Card className="p-5 border-slate-200 space-y-3">
+      <Card className="p-5 border-slate-200 dark:border-slate-800 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Compass className="w-4 h-4 text-brand-600" />
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-200">
               Personalized Preparation Setup
             </h3>
           </div>
-          <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-slate-100 text-slate-800">
+          <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100">
             {profile.preparationProfile?.preparationType || profile.targetExam}
           </span>
         </div>
@@ -112,20 +112,20 @@ export const Settings: React.FC = () => {
       <Card className="space-y-5">
         {/* Student Name */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
             Student Display Name
           </label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+            className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
           />
         </div>
 
         {/* Target Exam */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
             Primary Target Examination
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
@@ -149,7 +149,7 @@ export const Settings: React.FC = () => {
         {/* Class Level */}
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
               Class
             </label>
             <div className="grid grid-cols-2 gap-2">
@@ -171,21 +171,21 @@ export const Settings: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
               Target Year
             </label>
             <input
               type="number"
               value={targetYear}
               onChange={(e) => setTargetYear(parseInt(e.target.value, 10))}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
         </div>
 
         {/* Daily Goal */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+          <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
             Daily Practice Target ({dailyGoal} questions / day)
           </label>
           <input
@@ -210,7 +210,7 @@ export const Settings: React.FC = () => {
       <Card className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
           <div>
-            <h3 className="font-bold text-sm text-slate-900 flex items-center gap-1.5">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
               <Palette className="w-4 h-4 text-brand-600" />
               <span>Website Theme & Accent Colors</span>
             </h3>
@@ -306,14 +306,14 @@ const SecurityActiveDevicesCard: React.FC = () => {
   };
 
   return (
-    <Card className="space-y-4 border-slate-200">
+    <Card className="space-y-4 border-slate-200 dark:border-slate-800">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="p-2 rounded-xl bg-purple-50 text-purple-700">
             <ShieldCheck className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-900">Security & Active Devices</h3>
+            <h3 className="text-sm font-bold text-slate-900 dark:text-white">Security & Active Devices</h3>
             <p className="text-[11px] text-slate-500">
               {isAuthenticated ? `Signed in as ${user.email || user.name}` : 'Currently running in offline student mode'}
             </p>
@@ -361,7 +361,7 @@ const SecurityActiveDevicesCard: React.FC = () => {
         </div>
 
         {activeSessions.length === 0 ? (
-          <div className="p-3 bg-slate-50 rounded-xl text-xs text-slate-500 text-center">
+          <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl text-xs text-slate-500 text-center">
             {isAuthenticated ? 'No other active devices found.' : 'Log in with your account to manage multiple device sessions.'}
           </div>
         ) : (
@@ -369,10 +369,10 @@ const SecurityActiveDevicesCard: React.FC = () => {
             {activeSessions.map((sess) => (
               <div
                 key={sess.id}
-                className="flex items-center justify-between p-3 rounded-xl border border-slate-100 bg-slate-50/70 text-xs"
+                className="flex items-center justify-between p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 text-xs text-slate-800 dark:text-slate-100"
               >
                 <div className="flex items-center gap-3">
-                  <div className="p-2 rounded-lg bg-white border border-slate-200 text-slate-600">
+                  <div className="p-2 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300">
                     {sess.device.toLowerCase().includes('phone') || sess.device.toLowerCase().includes('android') || sess.device.toLowerCase().includes('ios') ? (
                       <Smartphone className="w-4 h-4" />
                     ) : (
@@ -380,7 +380,7 @@ const SecurityActiveDevicesCard: React.FC = () => {
                     )}
                   </div>
                   <div>
-                    <div className="font-bold text-slate-800 flex items-center gap-2">
+                    <div className="font-bold text-slate-800 dark:text-slate-100 flex items-center gap-2">
                       <span>{sess.device}</span>
                       {sess.isCurrent && (
                         <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 text-emerald-800 font-bold">

@@ -147,7 +147,7 @@ export const SimilarQuestionsModal: React.FC<SimilarQuestionsModalProps> = ({
             </div>
 
             {/* Progress bar */}
-            <div className="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+            <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full overflow-hidden">
               <div
                 className="bg-purple-600 h-full rounded-full transition-all duration-300"
                 style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
@@ -155,7 +155,7 @@ export const SimilarQuestionsModal: React.FC<SimilarQuestionsModalProps> = ({
             </div>
 
             {/* Question Text */}
-            <div className="text-sm sm:text-base font-bold text-slate-900 leading-relaxed pt-1">
+            <div className="text-sm sm:text-base font-bold text-slate-900 dark:text-white leading-relaxed pt-1">
               <MathRenderer text={currentQ.question} />
             </div>
 
@@ -182,7 +182,7 @@ export const SimilarQuestionsModal: React.FC<SimilarQuestionsModalProps> = ({
                     onClick={() => handleSelectOpt(idx)}
                     className={`w-full p-3 rounded-2xl border text-left flex items-start gap-3 transition-all text-xs sm:text-sm cursor-pointer ${style}`}
                   >
-                    <span className="w-6 h-6 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                    <span className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
                       {['A', 'B', 'C', 'D'][idx]}
                     </span>
                     <span className="flex-1 pt-0.5">
@@ -226,12 +226,12 @@ export const SimilarQuestionsModal: React.FC<SimilarQuestionsModalProps> = ({
 
             {/* Explanation snippet when checked */}
             {isChecked && (
-              <div className="p-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-xs text-slate-800 space-y-1 animate-in fade-in">
+              <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-100 space-y-1 animate-in fade-in">
                 <div className="font-bold text-purple-900 flex items-center gap-1">
                   <BookOpen className="w-3.5 h-3.5 text-purple-600" />
                   <span>Step-by-Step Explanation:</span>
                 </div>
-                <div className="text-slate-700 whitespace-pre-line leading-relaxed font-mono text-[11px]">
+                <div className="text-slate-700 dark:text-slate-200 whitespace-pre-line leading-relaxed font-mono text-[11px]">
                   {currentQ.explanation}
                 </div>
               </div>
@@ -245,7 +245,7 @@ export const SimilarQuestionsModal: React.FC<SimilarQuestionsModalProps> = ({
             </div>
 
             <div>
-              <h3 className="text-xl font-black text-slate-900">Similar Drill Complete!</h3>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white">Similar Drill Complete!</h3>
               <p className="text-xs text-slate-500 mt-1">
                 You resolved 5 original questions reinforcing <strong>{sourceQuestion.topic}</strong>.
               </p>

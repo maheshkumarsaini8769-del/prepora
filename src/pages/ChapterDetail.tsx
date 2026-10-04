@@ -114,7 +114,7 @@ export const ChapterDetail: React.FC = () => {
               <span>•</span>
               <span>Class {classNum}</span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
               {chapterName}
             </h1>
           </div>
@@ -122,7 +122,7 @@ export const ChapterDetail: React.FC = () => {
           <div className="flex items-center gap-4 text-xs">
             <div className="text-left sm:text-right">
               <div className="text-slate-400 text-[11px] font-medium uppercase tracking-wider">Chapter Mastery</div>
-              <div className="text-2xl font-bold text-slate-900">{masteryData.overallMastery}%</div>
+              <div className="text-2xl font-bold text-slate-900 dark:text-white">{masteryData.overallMastery}%</div>
             </div>
 
             <Button
@@ -212,15 +212,15 @@ export const ChapterDetail: React.FC = () => {
                   <Clock className="w-3.5 h-3.5 text-slate-400" /> {chapterVideo.duration}
                 </span>
               </div>
-              <h3 className="font-bold text-sm text-slate-900 mt-1">{chapterVideo.title}</h3>
-              <p className="text-xs text-slate-500">Educator: <span className="font-semibold text-slate-700">{chapterVideo.channelName}</span></p>
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white mt-1">{chapterVideo.title}</h3>
+              <p className="text-xs text-slate-500">Educator: <span className="font-semibold text-slate-700 dark:text-slate-200">{chapterVideo.channelName}</span></p>
             </div>
             <div className="flex items-center gap-2">
               <a
                 href={`https://www.youtube.com/watch?v=${chapterVideo.youtubeId}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-2xs"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] hover:bg-slate-50 text-slate-700 dark:text-slate-200 text-xs font-bold transition-all shadow-2xs"
                 title="Open in YouTube App"
               >
                 <ExternalLink className="w-3.5 h-3.5 text-rose-600" />
@@ -277,13 +277,13 @@ export const ChapterDetail: React.FC = () => {
       {activeSecondaryTab === 'formulas' && (
         <Card className="p-5 space-y-3">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <h3 className="font-bold text-sm text-slate-900">Key Formulas</h3>
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white">Key Formulas</h3>
             <span className="text-xs text-slate-400">{formulas.length} formulas</span>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {formulas.map((f) => (
-              <div key={f.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1.5">
-                <div className="font-semibold text-slate-800">{f.name}</div>
+              <div key={f.id} className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1.5">
+                <div className="font-semibold text-slate-800 dark:text-slate-100">{f.name}</div>
                 <div className="p-2 bg-slate-900 text-emerald-300 font-mono text-xs rounded font-bold">
                   {f.formula}
                 </div>
@@ -298,17 +298,17 @@ export const ChapterDetail: React.FC = () => {
       {activeSecondaryTab === 'pyqs' && (
         <Card className="p-5 space-y-3">
           <div className="flex items-center justify-between border-b border-slate-100 pb-2">
-            <h3 className="font-bold text-sm text-slate-900">Official Previous Year Questions</h3>
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white">Official Previous Year Questions</h3>
             <span className="text-xs text-slate-400">{pyqQuestions.length} questions</span>
           </div>
           <div className="space-y-2.5">
             {pyqQuestions.slice(0, 4).map((q) => (
-              <div key={q.id} className="p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs space-y-1">
+              <div key={q.id} className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1">
                 <div className="flex items-center justify-between text-[11px] text-slate-500">
                   <span>{q.exam} {q.year || '2024'} • {q.topic}</span>
-                  <span className="font-semibold text-slate-700">{q.difficulty}</span>
+                  <span className="font-semibold text-slate-700 dark:text-slate-200">{q.difficulty}</span>
                 </div>
-                <div className="font-medium text-slate-900">
+                <div className="font-medium text-slate-900 dark:text-white">
                   <MathRenderer text={q.question} />
                 </div>
               </div>
@@ -327,7 +327,7 @@ export const ChapterDetail: React.FC = () => {
       {/* 2. Compact Topics List with Progressive Disclosure */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <h2 className="text-base font-bold text-slate-900">Topics ({topics.length})</h2>
+          <h2 className="text-base font-bold text-slate-900 dark:text-white">Topics ({topics.length})</h2>
           <span className="text-xs text-slate-500">Click a topic to reveal details and actions</span>
         </div>
 
@@ -345,7 +345,7 @@ export const ChapterDetail: React.FC = () => {
             return (
               <div
                 key={t}
-                className="border border-slate-200 rounded-xl bg-white transition-all overflow-hidden"
+                className="border border-slate-200 dark:border-slate-800 rounded-xl bg-white dark:bg-[#0c131a] transition-all overflow-hidden"
               >
                 {/* Topic Header Row */}
                 <button
@@ -354,12 +354,12 @@ export const ChapterDetail: React.FC = () => {
                   className="w-full p-4 text-left flex items-center justify-between gap-3 hover:bg-slate-50 transition-colors"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="font-semibold text-sm text-slate-900">{t}</span>
+                    <span className="font-semibold text-sm text-slate-900 dark:text-white">{t}</span>
                   </div>
 
                   <div className="flex items-center gap-3 text-xs">
                     <span className="text-slate-500 hidden sm:inline">
-                      Accuracy: <strong className="text-slate-800">{topicAccuracy}%</strong>
+                      Accuracy: <strong className="text-slate-800 dark:text-slate-100">{topicAccuracy}%</strong>
                     </span>
                     {isSelected ? (
                       <ChevronUp className="w-4 h-4 text-slate-400" />
@@ -371,28 +371,28 @@ export const ChapterDetail: React.FC = () => {
 
                 {/* Progressive Disclosure: Topic Details */}
                 {isSelected && (
-                  <div className="p-4 bg-slate-50 border-t border-slate-100 space-y-4 text-xs animate-in fade-in duration-150">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-700">
-                      <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                  <div className="p-4 bg-slate-50 dark:bg-slate-800/60 border-t border-slate-100 space-y-4 text-xs animate-in fade-in duration-150">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-slate-700 dark:text-slate-200">
+                      <div className="p-2.5 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800">
                         <div className="text-[10px] uppercase font-semibold text-slate-400">Questions</div>
-                        <div className="text-base font-bold text-slate-900 mt-0.5">
+                        <div className="text-base font-bold text-slate-900 dark:text-white mt-0.5">
                           {questions.filter((q) => q.topic.toLowerCase().includes(t.toLowerCase())).length || 15}
                         </div>
                       </div>
 
-                      <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                      <div className="p-2.5 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800">
                         <div className="text-[10px] uppercase font-semibold text-slate-400">Accuracy</div>
-                        <div className="text-base font-bold text-slate-900 mt-0.5">{topicAccuracy}%</div>
+                        <div className="text-base font-bold text-slate-900 dark:text-white mt-0.5">{topicAccuracy}%</div>
                       </div>
 
-                      <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                      <div className="p-2.5 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800">
                         <div className="text-[10px] uppercase font-semibold text-slate-400">Mistakes</div>
                         <div className="text-base font-bold text-rose-600 mt-0.5">{topicMistakes.length}</div>
                       </div>
 
-                      <div className="p-2.5 rounded-lg bg-white border border-slate-200">
+                      <div className="p-2.5 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800">
                         <div className="text-[10px] uppercase font-semibold text-slate-400">Revision</div>
-                        <div className="text-base font-bold text-slate-900 mt-0.5">Scheduled</div>
+                        <div className="text-base font-bold text-slate-900 dark:text-white mt-0.5">Scheduled</div>
                       </div>
                     </div>
 

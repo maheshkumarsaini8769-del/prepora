@@ -483,12 +483,12 @@ export const AdminQuestions: React.FC = () => {
         <div className="flex items-center gap-3">
           <Link
             to="/admin"
-            className="p-2 rounded-xl bg-white border border-slate-200 text-slate-500 hover:text-brand-600 shadow-2xs transition-colors"
+            className="p-2 rounded-xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-500 hover:text-brand-600 shadow-2xs transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
           </Link>
           <div>
-            <h1 className="text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Question Pool Management</h1>
+            <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">Question Pool Management</h1>
             <p className="text-xs text-slate-500">
               Audit, create, bulk edit, verify duplicate similarity, and export test questions
             </p>
@@ -501,7 +501,7 @@ export const AdminQuestions: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={() => handleExportData('csv')}
-            className="text-xs font-bold text-slate-700 hover:bg-slate-50"
+            className="text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50"
             title="Download questions as CSV"
           >
             <Download className="w-3.5 h-3.5 mr-1" /> CSV
@@ -511,7 +511,7 @@ export const AdminQuestions: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={() => handleExportData('xlsx')}
-            className="text-xs font-bold text-slate-700 hover:bg-slate-50"
+            className="text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50"
             title="Download questions as Excel .xlsx"
           >
             <FileSpreadsheet className="w-3.5 h-3.5 mr-1 text-emerald-600" /> Excel
@@ -535,7 +535,7 @@ export const AdminQuestions: React.FC = () => {
               setImportErrors([]);
               setImportModalOpen(true);
             }}
-            className="text-xs font-bold text-slate-700 bg-white hover:bg-slate-50 border-slate-200"
+            className="text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#0c131a] hover:bg-slate-50 border-slate-200 dark:border-slate-800"
           >
             <Upload className="w-3.5 h-3.5 mr-1" /> Bulk Import
           </Button>
@@ -559,7 +559,7 @@ export const AdminQuestions: React.FC = () => {
               size="sm"
               variant="outline"
               onClick={() => setBulkEditModalOpen(true)}
-              className="text-xs font-bold bg-white text-slate-900 hover:bg-slate-100"
+              className="text-xs font-bold bg-white dark:bg-[#0c131a] text-slate-900 dark:text-white hover:bg-slate-100"
             >
               <Layers className="w-3.5 h-3.5 mr-1" /> Bulk Edit Fields
             </Button>
@@ -574,7 +574,7 @@ export const AdminQuestions: React.FC = () => {
       )}
 
       {/* View Switch: All Questions vs Review Queue (Task1.md Section 6) */}
-      <div className="flex items-center gap-2 border-b border-slate-200 pb-2 text-xs font-bold">
+      <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 text-xs font-bold">
         <button
           onClick={() => setActiveView('all')}
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl transition ${
@@ -607,7 +607,7 @@ export const AdminQuestions: React.FC = () => {
               placeholder="Search statement, chapter, topic..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
 
@@ -636,7 +636,7 @@ export const AdminQuestions: React.FC = () => {
             <select
               value={selectedExam}
               onChange={(e) => setSelectedExam(e.target.value as any)}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700"
+              className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200"
             >
               <option value="All">All Exams</option>
               <option value="JEE">JEE</option>
@@ -650,7 +650,7 @@ export const AdminQuestions: React.FC = () => {
             <select
               value={selectedDifficulty}
               onChange={(e) => setSelectedDifficulty(e.target.value as any)}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700"
+              className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200"
             >
               <option value="All">All Difficulties</option>
               <option value="Easy">Easy</option>
@@ -664,7 +664,7 @@ export const AdminQuestions: React.FC = () => {
             <select
               value={selectedStatus}
               onChange={(e) => setSelectedStatus(e.target.value)}
-              className="bg-slate-50 border border-slate-200 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700"
+              className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200"
             >
               <option value="All">All Statuses</option>
               <option value="Approved">Approved</option>
@@ -692,11 +692,11 @@ export const AdminQuestions: React.FC = () => {
       </Card>
 
       {/* Questions Data Table */}
-      <Card className="p-0 overflow-hidden border-slate-200">
+      <Card className="p-0 overflow-hidden border-slate-200 dark:border-slate-800">
         <div className="overflow-x-auto">
           <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-50 border-b border-slate-200 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
+              <tr className="bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 text-slate-500 font-bold uppercase tracking-wider text-[11px]">
                 <th className="py-3 px-3 w-8">
                   <input
                     type="checkbox"
@@ -712,22 +712,22 @@ export const AdminQuestions: React.FC = () => {
                 <th className="py-3 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
               {filtered.map((q) => (
-                <tr key={q.id} className="hover:bg-slate-50/70 transition-colors">
+                <tr key={q.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
                   <td className="py-3 px-3">
                     <input
                       type="checkbox"
                       checked={selectedIds.includes(q.id)}
                       onChange={() => handleToggleSelect(q.id)}
-                      className="w-4 h-4 accent-slate-900 rounded"
+                      className="w-4 h-4 accent-slate-900 dark:accent-emerald-500 rounded"
                     />
                   </td>
-                  <td className="py-3 px-3 font-medium text-slate-800 whitespace-nowrap">
-                    <div className="font-bold text-slate-900">{q.subject}</div>
+                  <td className="py-3 px-3 font-medium text-slate-800 dark:text-slate-100 whitespace-nowrap">
+                    <div className="font-bold text-slate-900 dark:text-white">{q.subject}</div>
                     <div className="text-[11px] text-slate-500">{q.chapter}</div>
                   </td>
-                  <td className="py-3 px-4 max-w-md font-medium text-slate-700 line-clamp-2">
+                  <td className="py-3 px-4 max-w-md font-medium text-slate-700 dark:text-slate-200 line-clamp-2">
                     {q.question}
                   </td>
                   <td className="py-3 px-3">
@@ -741,7 +741,7 @@ export const AdminQuestions: React.FC = () => {
                         Pending Review
                       </span>
                     ) : q.status === 'Draft' ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md border border-slate-200">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-800">
                         Draft
                       </span>
                     ) : q.status === 'Rejected' ? (
@@ -854,22 +854,22 @@ export const AdminQuestions: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-              <div className="font-bold text-slate-700 uppercase tracking-wider text-[10px] mb-1">
+            <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div className="font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider text-[10px] mb-1">
                 Existing Question in Database
               </div>
-              <p className="text-slate-800 font-medium leading-relaxed">{duplicateMatch?.matchedQuestionText}</p>
-              <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] text-slate-500">
+              <p className="text-slate-800 dark:text-slate-100 font-medium leading-relaxed">{duplicateMatch?.matchedQuestionText}</p>
+              <div className="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500">
                 <span>Topic: {duplicateMatch?.matchedTopic || 'General'}</span> • <span>ID: {duplicateMatch?.matchedQuestionId}</span>
               </div>
             </div>
 
-            <div className="p-3 bg-slate-50 rounded-xl border border-slate-200">
-              <div className="font-bold text-slate-700 uppercase tracking-wider text-[10px] mb-1">
+            <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-800">
+              <div className="font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider text-[10px] mb-1">
                 New Question Being Added
               </div>
-              <p className="text-slate-900 font-medium leading-relaxed">{formQuestion}</p>
-              <div className="mt-2 pt-2 border-t border-slate-200 text-[11px] text-slate-500">
+              <p className="text-slate-900 dark:text-white font-medium leading-relaxed">{formQuestion}</p>
+              <div className="mt-2 pt-2 border-t border-slate-200 dark:border-slate-800 text-[11px] text-slate-500">
                 <span>Topic: {formTopic || 'General'}</span>
               </div>
             </div>
@@ -898,13 +898,13 @@ export const AdminQuestions: React.FC = () => {
           ) : (
             <div className="space-y-3 max-h-96 overflow-y-auto pr-1">
               {questionVersions.map((v) => (
-                <div key={v.id} className="p-3.5 rounded-xl border border-slate-200 bg-white space-y-2">
+                <div key={v.id} className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-bold text-indigo-700">Version {v.versionNumber} Snapshot</span>
                     <span className="text-[11px] text-slate-400">{new Date(v.createdAt).toLocaleString()}</span>
                   </div>
-                  <p className="text-slate-700 font-medium">"{v.snapshot?.question}"</p>
-                  <div className="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 p-2 rounded-lg text-slate-600">
+                  <p className="text-slate-700 dark:text-slate-200 font-medium">"{v.snapshot?.question}"</p>
+                  <div className="grid grid-cols-2 gap-2 text-[11px] bg-slate-50 dark:bg-slate-800/60 p-2 rounded-lg text-slate-600">
                     <div>Correct Answer: Option {['A', 'B', 'C', 'D'][v.snapshot?.correctAnswer || 0]}</div>
                     <div>Difficulty: {v.snapshot?.difficulty}</div>
                   </div>
@@ -941,11 +941,11 @@ export const AdminQuestions: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Subject</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Subject</label>
               <select
                 value={bulkSubject}
                 onChange={(e) => setBulkSubject(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-800"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 font-semibold text-slate-800 dark:text-slate-100"
               >
                 <option value="keep">Keep Existing</option>
                 <option value="Physics">Physics</option>
@@ -956,11 +956,11 @@ export const AdminQuestions: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Difficulty</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Difficulty</label>
               <select
                 value={bulkDifficulty}
                 onChange={(e) => setBulkDifficulty(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 font-semibold text-slate-800"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 font-semibold text-slate-800 dark:text-slate-100"
               >
                 <option value="keep">Keep Existing</option>
                 <option value="Easy">Easy</option>
@@ -971,13 +971,13 @@ export const AdminQuestions: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Chapter Name (Optional)</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Chapter Name (Optional)</label>
             <input
               type="text"
               placeholder="Leave empty to keep existing chapter"
               value={bulkChapter}
               onChange={(e) => setBulkChapter(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100"
             />
           </div>
         </div>
@@ -1016,14 +1016,14 @@ export const AdminQuestions: React.FC = () => {
           )}
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-2">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-2">
               Select CSV or Excel Spreadsheet
             </label>
             <input
               type="file"
               accept=".csv,.xlsx,.xls"
               onChange={handleFileUpload}
-              className="w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-800 hover:file:bg-slate-200 border border-slate-200 rounded-xl p-2 cursor-pointer"
+              className="w-full text-xs file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-slate-100 file:text-slate-800 hover:file:bg-slate-200 border border-slate-200 dark:border-slate-800 rounded-xl p-2 cursor-pointer"
             />
             <p className="text-[11px] text-slate-400 mt-1">
               File must contain columns: Subject, Chapter, Topic, Question, Option_A, Option_B, Option_C, Option_D, CorrectAnswerIndex.
@@ -1031,13 +1031,13 @@ export const AdminQuestions: React.FC = () => {
           </div>
 
           {importSummary && (
-            <div className="p-4 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
-              <div className="font-bold text-slate-800 uppercase tracking-wider text-[11px]">
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-3">
+              <div className="font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wider text-[11px]">
                 Import Validation Summary
               </div>
               <div className="grid grid-cols-4 gap-2 text-center">
-                <div className="p-2.5 bg-white rounded-xl border border-slate-200">
-                  <div className="text-lg font-black text-slate-800">{importSummary.totalRows}</div>
+                <div className="p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800">
+                  <div className="text-lg font-black text-slate-800 dark:text-slate-100">{importSummary.totalRows}</div>
                   <div className="text-[10px] text-slate-500 font-bold">Total Rows</div>
                 </div>
                 <div className="p-2.5 bg-emerald-50 rounded-xl border border-emerald-200">
@@ -1087,31 +1087,31 @@ export const AdminQuestions: React.FC = () => {
         <div className="space-y-4 py-2">
           <div className="grid grid-cols-3 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Exam</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Exam</label>
               <select
                 value={formExam}
                 onChange={(e) => setFormExam(e.target.value as any)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100"
               >
                 {['JEE', 'NEET', 'Board'].map((e) => <option key={e} value={e}>{e}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Class</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Class</label>
               <select
                 value={formClass}
                 onChange={(e) => setFormClass(e.target.value as any)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100"
               >
                 {['11', '12'].map((c) => <option key={c} value={c}>Class {c}</option>)}
               </select>
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Subject</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Subject</label>
               <select
                 value={formSubject}
                 onChange={(e) => setFormSubject(e.target.value as any)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100"
               >
                 {['Physics', 'Chemistry', 'Mathematics', 'Biology'].map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
@@ -1120,20 +1120,20 @@ export const AdminQuestions: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Chapter</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Chapter</label>
               <input
                 type="text"
                 value={formChapter}
                 onChange={(e) => setFormChapter(e.target.value)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Difficulty</label>
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Difficulty</label>
               <select
                 value={formDifficulty}
                 onChange={(e) => setFormDifficulty(e.target.value as any)}
-                className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100"
               >
                 {['Easy', 'Medium', 'Hard'].map((d) => <option key={d} value={d}>{d}</option>)}
               </select>
@@ -1141,28 +1141,28 @@ export const AdminQuestions: React.FC = () => {
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Topic</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Topic</label>
             <input
               type="text"
               value={formTopic}
               onChange={(e) => setFormTopic(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100"
             />
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Question Statement</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Question Statement</label>
             <textarea
               rows={3}
               value={formQuestion}
               onChange={(e) => setFormQuestion(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs sm:text-sm text-slate-800"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs sm:text-sm text-slate-800 dark:text-slate-100"
             />
           </div>
 
           {/* 4 Options */}
           <div className="space-y-2">
-            <label className="block text-xs font-bold text-slate-700 uppercase">Options (Select correct option radio)</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase">Options (Select correct option radio)</label>
             {[
               { letter: 'A', val: formOptionA, set: setFormOptionA, idx: 0 },
               { letter: 'B', val: formOptionB, set: setFormOptionB, idx: 1 },
@@ -1183,19 +1183,19 @@ export const AdminQuestions: React.FC = () => {
                   value={opt.val}
                   onChange={(e) => opt.set(e.target.value)}
                   placeholder={`Option ${opt.letter} content`}
-                  className="flex-1 bg-white border border-slate-200 rounded-xl px-3 py-1.5 text-xs text-slate-800"
+                  className="flex-1 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-1.5 text-xs text-slate-800 dark:text-slate-100"
                 />
               </div>
             ))}
           </div>
 
           <div>
-            <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Detailed Explanation</label>
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase mb-1">Detailed Explanation</label>
             <textarea
               rows={2}
               value={formExplanation}
               onChange={(e) => setFormExplanation(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl p-2.5 text-xs text-slate-800"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl p-2.5 text-xs text-slate-800 dark:text-slate-100"
             />
           </div>
         </div>
@@ -1214,11 +1214,11 @@ export const AdminQuestions: React.FC = () => {
           </p>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Rejection Category</label>
+            <label className="block font-bold text-slate-700 dark:text-slate-200 mb-1">Rejection Category</label>
             <select
               value={rejectReason}
               onChange={(e) => setRejectReason(e.target.value)}
-              className="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500"
             >
               <option value="Wrong Answer">Wrong Answer</option>
               <option value="Wrong Explanation">Wrong Explanation</option>
@@ -1232,13 +1232,13 @@ export const AdminQuestions: React.FC = () => {
           </div>
 
           <div>
-            <label className="block font-bold text-slate-700 mb-1">Reviewer Notes (Optional)</label>
+            <label className="block font-bold text-slate-700 dark:text-slate-200 mb-1">Reviewer Notes (Optional)</label>
             <textarea
               rows={3}
               value={rejectCustomNotes}
               onChange={(e) => setRejectCustomNotes(e.target.value)}
               placeholder="Provide specific guidance to help authors correct the question..."
-              className="w-full bg-white border border-slate-200 rounded-xl p-3 text-xs text-slate-800 focus:outline-none focus:ring-2 focus:ring-rose-500"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-rose-500"
             />
           </div>
 

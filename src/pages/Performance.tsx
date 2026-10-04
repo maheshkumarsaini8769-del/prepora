@@ -46,7 +46,7 @@ export const Performance: React.FC = () => {
       {/* 1. Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Performance</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Performance</h1>
           <p className="text-sm text-slate-500 mt-1">
             Summary of your test scores, accuracy trajectory, and target areas.
           </p>
@@ -56,7 +56,7 @@ export const Performance: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={() => navigate('/build-test')}
-            className="text-xs font-semibold py-2 px-3 border-slate-300 text-slate-700"
+            className="text-xs font-semibold py-2 px-3 border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200"
           >
             Build Test
           </Button>
@@ -76,7 +76,7 @@ export const Performance: React.FC = () => {
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-6">
           <div>
             <div className="text-xs font-medium text-slate-500 mb-1">Average Score</div>
-            <div className="text-2xl sm:text-3xl font-bold text-slate-900">
+            <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
               {metrics.averageTestScorePct}%
             </div>
             <div className="text-[11px] text-slate-400 mt-0.5">{metrics.testsCompleted} tests completed</div>
@@ -84,7 +84,7 @@ export const Performance: React.FC = () => {
 
           <div>
             <div className="text-xs font-medium text-slate-500 mb-1">Accuracy</div>
-            <div className="text-2xl sm:text-3xl font-bold text-slate-900">
+            <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
               {metrics.overallAccuracy}%
             </div>
             <div className="text-[11px] text-emerald-600 font-medium mt-0.5">Top 15% in {user.targetExam}</div>
@@ -92,7 +92,7 @@ export const Performance: React.FC = () => {
 
           <div>
             <div className="text-xs font-medium text-slate-500 mb-1">Questions Solved</div>
-            <div className="text-2xl sm:text-3xl font-bold text-slate-900">
+            <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
               {metrics.questionsAttempted}
             </div>
             <div className="text-[11px] text-slate-400 mt-0.5">{metrics.studyHours} hours logged</div>
@@ -100,7 +100,7 @@ export const Performance: React.FC = () => {
 
           <div>
             <div className="text-xs font-medium text-slate-500 mb-1">Projected AIR</div>
-            <div className="text-2xl sm:text-3xl font-bold text-slate-900">
+            <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
               ~{predictedRankLow.toLocaleString()}
             </div>
             <div className="text-[11px] text-slate-500 mt-0.5">{predictedPercentile}th percentile</div>
@@ -113,12 +113,12 @@ export const Performance: React.FC = () => {
         {/* 7-Day Accuracy Trend */}
         <Card className="p-6 md:col-span-2 space-y-4">
           <div className="flex items-center justify-between">
-            <h3 className="font-semibold text-sm text-slate-900">7-Day Accuracy Trajectory</h3>
+            <h3 className="font-semibold text-sm text-slate-900 dark:text-white">7-Day Accuracy Trajectory</h3>
             <span className="text-xs text-slate-500 font-medium">Target: 85%</span>
           </div>
 
           <div className="pt-4 pb-2">
-            <div className="h-36 flex items-end justify-between gap-3 px-2 border-b border-slate-200">
+            <div className="h-36 flex items-end justify-between gap-3 px-2 border-b border-slate-200 dark:border-slate-800">
               {metrics.accuracyTrend.map((item, idx) => (
                 <div key={idx} className="flex-1 flex flex-col items-center h-full justify-end group">
                   <div className="text-[10px] font-semibold text-slate-600 mb-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -137,35 +137,35 @@ export const Performance: React.FC = () => {
 
         {/* Difficulty Breakdown */}
         <Card className="p-6 space-y-4">
-          <h3 className="font-semibold text-sm text-slate-900">Difficulty Accuracy</h3>
+          <h3 className="font-semibold text-sm text-slate-900 dark:text-white">Difficulty Accuracy</h3>
 
           <div className="space-y-3 text-xs">
             <div>
-              <div className="flex justify-between font-medium text-slate-700 mb-1">
+              <div className="flex justify-between font-medium text-slate-700 dark:text-slate-200 mb-1">
                 <span>Easy</span>
-                <span className="font-bold text-slate-900">91%</span>
+                <span className="font-bold text-slate-900 dark:text-white">91%</span>
               </div>
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                 <div className="bg-emerald-600 h-full rounded-full" style={{ width: '91%' }} />
               </div>
             </div>
 
             <div>
-              <div className="flex justify-between font-medium text-slate-700 mb-1">
+              <div className="flex justify-between font-medium text-slate-700 dark:text-slate-200 mb-1">
                 <span>Medium</span>
-                <span className="font-bold text-slate-900">68%</span>
+                <span className="font-bold text-slate-900 dark:text-white">68%</span>
               </div>
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                 <div className="bg-slate-700 h-full rounded-full" style={{ width: '68%' }} />
               </div>
             </div>
 
             <div>
-              <div className="flex justify-between font-medium text-slate-700 mb-1">
+              <div className="flex justify-between font-medium text-slate-700 dark:text-slate-200 mb-1">
                 <span>Hard</span>
-                <span className="font-bold text-slate-900">37%</span>
+                <span className="font-bold text-slate-900 dark:text-white">37%</span>
               </div>
-              <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
                 <div className="bg-rose-500 h-full rounded-full" style={{ width: '37%' }} />
               </div>
             </div>
@@ -181,7 +181,7 @@ export const Performance: React.FC = () => {
       <Card className="p-6 space-y-4">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="font-semibold text-sm text-slate-900">Identified Weak Areas</h3>
+            <h3 className="font-semibold text-sm text-slate-900 dark:text-white">Identified Weak Areas</h3>
             <p className="text-xs text-slate-500">Topics requiring focused practice before your next full mock.</p>
           </div>
           <Button
@@ -198,10 +198,10 @@ export const Performance: React.FC = () => {
           {weakTopics.map((topic, i) => (
             <div
               key={i}
-              className="p-3.5 rounded-xl border border-slate-200 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+              className="p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
             >
               <div>
-                <div className="font-bold text-slate-900">{topic.name}</div>
+                <div className="font-bold text-slate-900 dark:text-white">{topic.name}</div>
                 <div className="text-slate-500 text-[11px] mt-0.5">
                   {topic.chapter} • Accuracy: <span className="text-rose-600 font-bold">{topic.accuracy}%</span> • {topic.reason}
                 </div>
@@ -221,11 +221,11 @@ export const Performance: React.FC = () => {
       </Card>
 
       {/* 5. Progressive Disclosure: Deep Diagnostics & Rank Simulator */}
-      <div className="border border-slate-200 rounded-2xl p-4 bg-white space-y-4">
+      <div className="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white dark:bg-[#0c131a] space-y-4">
         <button
           type="button"
           onClick={() => setShowAdvancedDiagnostics(!showAdvancedDiagnostics)}
-          className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 hover:text-slate-900"
+          className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900"
         >
           <span>More: Rank Simulator & Detailed Diagnostics</span>
           {showAdvancedDiagnostics ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
@@ -236,8 +236,8 @@ export const Performance: React.FC = () => {
             {/* Target Score Simulation Slider */}
             <div className="space-y-3">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-semibold text-slate-700">Target Score Simulator ({user.targetExam})</span>
-                <span className="font-bold text-slate-900">{targetScoreSlider} / {maxPossibleScore}</span>
+                <span className="font-semibold text-slate-700 dark:text-slate-200">Target Score Simulator ({user.targetExam})</span>
+                <span className="font-bold text-slate-900 dark:text-white">{targetScoreSlider} / {maxPossibleScore}</span>
               </div>
               <input
                 type="range"
@@ -248,7 +248,7 @@ export const Performance: React.FC = () => {
                 onChange={(e) => setTargetScoreSlider(Number(e.target.value))}
                 className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900"
               />
-              <div className="p-3 rounded-lg bg-slate-50 border border-slate-200 text-xs text-slate-600 flex justify-between">
+              <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 flex justify-between">
                 <span>Predicted Rank: <strong>AIR {predictedRankLow.toLocaleString()} - {predictedRankHigh.toLocaleString()}</strong></span>
                 <span>Projected Percentile: <strong>{predictedPercentile}th</strong></span>
               </div>
@@ -256,7 +256,7 @@ export const Performance: React.FC = () => {
 
             {/* Recent Scorecards */}
             <div className="space-y-3">
-              <h4 className="text-xs font-semibold text-slate-700 uppercase tracking-wider">Recent Exam Scorecards</h4>
+              <h4 className="text-xs font-semibold text-slate-700 dark:text-slate-200 uppercase tracking-wider">Recent Exam Scorecards</h4>
               {recentAttempts.length === 0 ? (
                 <div className="text-center py-6 text-slate-400 text-xs">
                   No exam scorecards available yet. Complete a test to see your scores.
@@ -266,21 +266,21 @@ export const Performance: React.FC = () => {
                   {recentAttempts.map((att) => (
                     <div
                       key={att.id}
-                      className="p-3 rounded-xl border border-slate-200 flex items-center justify-between"
+                      className="p-3 rounded-xl border border-slate-200 dark:border-slate-800 flex items-center justify-between"
                     >
                       <div>
-                        <div className="font-semibold text-slate-900">{att.testTitle}</div>
+                        <div className="font-semibold text-slate-900 dark:text-white">{att.testTitle}</div>
                         <div className="text-[11px] text-slate-500">
                           {att.correctCount} Right, {att.wrongCount} Wrong • {att.accuracyPercentage}% Accuracy
                         </div>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className="font-bold text-slate-900">{att.totalScore} / {att.maxScore}</span>
+                        <span className="font-bold text-slate-900 dark:text-white">{att.totalScore} / {att.maxScore}</span>
                         <Button
                           size="sm"
                           variant="outline"
                           onClick={() => navigate(`/tests/${att.testId}/result`)}
-                          className="text-[11px] py-1 px-2 text-slate-700"
+                          className="text-[11px] py-1 px-2 text-slate-700 dark:text-slate-200"
                         >
                           Review
                         </Button>
