@@ -26,6 +26,7 @@ import {
   ShieldCheck
 } from 'lucide-react';
 import { paperService } from '../../services/paperService';
+import { adminFetch } from '../../utils/adminApi';
 import { CanonicalContentType, VerificationStatus, AnswerKeySource } from '../../types';
 
 interface PaperItem {
@@ -109,7 +110,7 @@ export const AdminPapers: React.FC = () => {
   const fetchPapers = async () => {
     setRefreshing(true);
     try {
-      const res = await fetch('/api/admin/papers');
+      const res = await adminFetch('/api/admin/papers');
       const data = await res.json();
       if (data.success && Array.isArray(data.data) && data.data.length > 0) {
         setPapers(data.data);
@@ -258,7 +259,7 @@ export const AdminPapers: React.FC = () => {
         const url = editingPaper ? `/api/admin/papers/${editingPaper.id}` : '/api/admin/papers';
         const method = editingPaper ? 'PUT' : 'POST';
 
-        const res = await fetch(url, {
+        const res = await adminFetch(url, {
           method,
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
@@ -297,7 +298,7 @@ export const AdminPapers: React.FC = () => {
     const nextStatus: 'Published' | 'Draft' | 'Archived' =
       paper.status === 'Published' ? 'Draft' : 'Published';
     try {
-      const res = await fetch(`/api/admin/papers/${paper.id}/status`, {
+      const res = await adminFetch(`/api/admin/papers/${paper.id}/status`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: nextStatus, adminEmail: 'superadmin@prepore.edu' })
@@ -321,7 +322,7 @@ export const AdminPapers: React.FC = () => {
 
   const handleDeletePaper = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/papers/${id}`, {
+      const res = await adminFetch(`/api/admin/papers/${id}`, {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ adminEmail: 'superadmin@prepore.edu' })

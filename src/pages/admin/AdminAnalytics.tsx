@@ -15,6 +15,7 @@ import {
   Play,
   Eye
 } from 'lucide-react';
+import { adminFetch } from '../../utils/adminApi';
 
 export const AdminAnalytics: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -30,9 +31,9 @@ export const AdminAnalytics: React.FC = () => {
   useEffect(() => {
     // Fetch analytics, video stats, and settings
     Promise.all([
-      fetch('/api/admin/analytics/aggregate').then((r) => r.json()).catch(() => ({ success: false })),
-      fetch('/api/admin/settings').then((r) => r.json()).catch(() => ({ success: false })),
-      fetch('/api/video-views/stats').then((r) => r.json()).catch(() => ({ success: false }))
+      adminFetch('/api/admin/analytics/aggregate').then((r) => r.json()).catch(() => ({ success: false })),
+      adminFetch('/api/admin/settings').then((r) => r.json()).catch(() => ({ success: false })),
+      adminFetch('/api/video-views/stats').then((r) => r.json()).catch(() => ({ success: false }))
     ])
       .then(([analyticsRes, settingsRes, videoRes]) => {
         if (analyticsRes?.success) setData(analyticsRes.data);
@@ -48,7 +49,7 @@ export const AdminAnalytics: React.FC = () => {
 
   const handleSaveThresholds = async () => {
     try {
-      const res = await fetch('/api/admin/settings', {
+      const res = await adminFetch('/api/admin/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

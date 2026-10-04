@@ -18,6 +18,7 @@ import {
   UserCheck,
   XCircle
 } from 'lucide-react';
+import { adminFetch } from '../../utils/adminApi';
 
 interface AuditItem {
   id: string;
@@ -43,10 +44,10 @@ export const AdminSystemSecurity: React.FC = () => {
     setLoading(true);
     try {
       const [statsRes, rolesRes, auditRes, sessionsRes] = await Promise.all([
-        fetch('/api/admin/stats').then((r) => r.json()),
-        fetch('/api/admin/security/roles').then((r) => r.json()),
-        fetch('/api/audit?limit=25').then((r) => r.json()),
-        fetch('/api/admin/sessions?limit=50').then((r) => r.json())
+        adminFetch('/api/admin/stats').then((r) => r.json()),
+        adminFetch('/api/admin/security/roles').then((r) => r.json()),
+        adminFetch('/api/audit?limit=25').then((r) => r.json()),
+        adminFetch('/api/admin/sessions?limit=50').then((r) => r.json())
       ]);
 
       if (statsRes.success) setSysStatus(statsRes.data?.system);
@@ -331,7 +332,7 @@ export const AdminSystemSecurity: React.FC = () => {
                               <button
                                 onClick={async () => {
                                   try {
-                                    await fetch(`/api/admin/sessions/${sess.id}/revoke`, { method: 'POST' });
+                                    await adminFetch(`/api/admin/sessions/${sess.id}/revoke`, { method: 'POST' });
                                     setSessions(prev => prev.map(s => s.id === sess.id ? { ...s, isRevoked: true, status: 'Revoked' } : s));
                                   } catch (e) {
                                     console.error(e);

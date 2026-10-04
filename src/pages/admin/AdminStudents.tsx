@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { adminFetch } from '../../utils/adminApi';
 import {
   Users,
   Search,
@@ -52,7 +53,7 @@ export const AdminStudents: React.FC = () => {
       if (examFilter !== 'all') query.append('exam', examFilter);
       if (statusFilter !== 'all') query.append('status', statusFilter);
 
-      const res = await fetch(`/api/admin/students?${query.toString()}`);
+      const res = await adminFetch(`/api/admin/students?${query.toString()}`);
       const data = await res.json();
       if (data.success) {
         setStudents(data.data || []);
@@ -71,7 +72,7 @@ export const AdminStudents: React.FC = () => {
   const handleStatusToggle = async (student: Student) => {
     const newStatus = student.status === 'active' ? 'suspended' : 'active';
     try {
-      const res = await fetch(`/api/admin/students/${student.id}/status`, {
+      const res = await adminFetch(`/api/admin/students/${student.id}/status`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status: newStatus })
@@ -95,7 +96,7 @@ export const AdminStudents: React.FC = () => {
   const handlePasswordReset = async () => {
     if (!selectedStudent) return;
     try {
-      const res = await fetch(`/api/admin/students/${selectedStudent.id}/reset-password`, {
+      const res = await adminFetch(`/api/admin/students/${selectedStudent.id}/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ newPassword: newPassword || 'prepore123' })

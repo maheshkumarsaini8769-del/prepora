@@ -1307,6 +1307,34 @@ router.get('/sessions', async (req: Request, res: Response) => {
   }
 });
 
+router.post('/sessions/:id/revoke', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const session = await Session.findOneAndUpdate(
+      { id },
+      { $set: { isRevoked: true, revocationReason: 'REVOKED_BY_ADMIN' } },
+      { new: true }
+    );
+    if (!session) {
+      return res.status(404).json({ success: false, message: 'Session not found' });
+    }
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 6),
+      adminId: 'admin_sys',
+      adminEmail: 'superadmin@prepore.edu',
+      action: 'ADMIN_REVOKED_SESSION',
+      entityType: 'Session',
+      entityId: id,
+      metadata: { sessionId: id, userId: session.userId }
+    });
+
+    res.json({ success: true, message: 'Session successfully revoked', data: session });
+  } catch (err: any) {
+    res.status(500).json({ success: false, message: 'Failed to revoke session', error: err.message });
+  }
+});
+
 // ==========================================
 // 15. PAPER MANAGEMENT & VERIFICATION PIPELINE
 // ==========================================

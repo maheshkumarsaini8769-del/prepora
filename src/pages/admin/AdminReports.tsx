@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../../components/common/UIComponents';
 import { Link } from 'react-router-dom';
+import { adminFetch } from '../../utils/adminApi';
 
 export const AdminReports: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'questions' | 'technical' | 'audit'>('questions');
@@ -51,7 +52,7 @@ export const AdminReports: React.FC = () => {
 
   const fetchQuestionReports = async () => {
     try {
-      const res = await fetch('/api/reports/question?limit=100');
+      const res = await adminFetch('/api/reports/question?limit=100');
       const data = await res.json();
       if (data.success) {
         setQReports(data.reports || []);
@@ -63,7 +64,7 @@ export const AdminReports: React.FC = () => {
 
   const fetchTechnicalReports = async () => {
     try {
-      const res = await fetch('/api/reports/technical?limit=100');
+      const res = await adminFetch('/api/reports/technical?limit=100');
       const data = await res.json();
       if (data.success) {
         setTechReports(data.reports || []);
@@ -73,7 +74,7 @@ export const AdminReports: React.FC = () => {
 
   const fetchAuditLogs = async () => {
     try {
-      const res = await fetch('/api/audit?limit=100');
+      const res = await adminFetch('/api/audit?limit=100');
       const data = await res.json();
       if (data.success) {
         setAuditLogs(data.logs || []);
@@ -97,7 +98,7 @@ export const AdminReports: React.FC = () => {
         body.correctedExplanation = correctedExplanation;
       }
 
-      const res = await fetch(`/api/reports/question/${id}`, {
+      const res = await adminFetch(`/api/reports/question/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
@@ -115,7 +116,7 @@ export const AdminReports: React.FC = () => {
 
   const handleUpdateTechStatus = async (id: string, status: string) => {
     try {
-      await fetch(`/api/reports/technical/${id}`, {
+      await adminFetch(`/api/reports/technical/${id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status, adminEmail: 'admin@prepora.internal' })

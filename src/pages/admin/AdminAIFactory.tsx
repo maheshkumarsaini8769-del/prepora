@@ -30,6 +30,7 @@ import {
   Info,
   Trash2
 } from 'lucide-react';
+import { adminFetch } from '../../utils/adminApi';
 
 export const AdminAIFactory: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'upload' | 'knowledge' | 'review' | 'docs' | 'settings'>('overview');
@@ -517,7 +518,7 @@ export const AdminAIFactory: React.FC = () => {
   const handleClearAllData = async () => {
     if (!window.confirm('Are you sure you want to CLEAR ALL questions, tests, and AI jobs? This resets your system to a clean slate so only questions from your uploaded PDFs will appear.')) return;
     try {
-      const res = await fetch('/api/admin/clear-data', {
+      const res = await adminFetch('/api/admin/clear-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target: 'all' })

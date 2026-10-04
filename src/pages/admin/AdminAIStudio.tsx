@@ -12,6 +12,7 @@ import {
   ArrowRight,
   BookOpen
 } from 'lucide-react';
+import { adminFetch } from '../../utils/adminApi';
 
 interface AIQuestion {
   id: string;
@@ -54,7 +55,7 @@ export const AdminAIStudio: React.FC = () => {
 
   const fetchJobs = async () => {
     try {
-      const res = await fetch('/api/admin/ai/jobs');
+      const res = await adminFetch('/api/admin/ai/jobs');
       const data = await res.json();
       if (data.success) {
         setJobs(data.data || []);
@@ -74,7 +75,7 @@ export const AdminAIStudio: React.FC = () => {
   const handleGenerate = async () => {
     setGenerating(true);
     try {
-      const res = await fetch('/api/admin/ai/generate', {
+      const res = await adminFetch('/api/admin/ai/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -102,7 +103,7 @@ export const AdminAIStudio: React.FC = () => {
 
   const handleApproveQuestion = async (jobId: string, questionId: string) => {
     try {
-      const res = await fetch(`/api/admin/ai/jobs/${jobId}/approve-question`, {
+      const res = await adminFetch(`/api/admin/ai/jobs/${jobId}/approve-question`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ questionId })

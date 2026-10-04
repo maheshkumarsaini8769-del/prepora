@@ -174,6 +174,53 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 });
 
+// POST /api/auth/demo - Quick Demo Session with real signed JWT & Session lock
+router.post('/demo', async (req: Request, res: Response) => {
+  try {
+    const { role = 'student' } = req.body;
+    const isAdm = role === 'admin';
+    const email = isAdm ? 'maheshkumarsaini8769@gmail.com' : 'aman.sharma@example.com';
+    const name = isAdm ? 'Mahesh Kumar (System Owner)' : 'Aman Sharma';
+
+    let user = await User.findOne({ email });
+    if (!user) {
+      user = new User({
+        id: isAdm ? 'usr_admin_mahesh' : 'usr_default_aman',
+        name,
+        email,
+        role: isAdm ? 'admin' : 'student',
+        targetExam: 'JEE',
+        classLevel: '12',
+        targetYear: 2026,
+        dreamScore: 280,
+        status: 'active'
+      });
+      await user.save();
+    } else {
+      if (isAdm && user.role !== 'admin') {
+        user.role = 'admin';
+        await user.save();
+      }
+    }
+
+    const { token, session } = await createSingleActiveSession(user, req);
+
+    const userObj = user.toObject();
+    delete userObj.passwordHash;
+    delete userObj.otpCode;
+
+    res.json({
+      success: true,
+      token,
+      user: userObj,
+      sessionId: session.id,
+      message: `${isAdm ? 'Admin' : 'Student'} demo session created.`
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // POST /api/auth/zenuxs - Zenuxs OAuth 2.0 Single Sign-On
 router.post('/zenuxs', async (req: Request, res: Response) => {
   try {

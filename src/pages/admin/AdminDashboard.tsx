@@ -22,6 +22,7 @@ import {
   Zap,
   PlayCircle
 } from 'lucide-react';
+import { adminFetch } from '../../utils/adminApi';
 
 export const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
@@ -31,7 +32,7 @@ export const AdminDashboard: React.FC = () => {
   const fetchStats = async () => {
     setRefreshing(true);
     try {
-      const res = await fetch('/api/admin/stats');
+      const res = await adminFetch('/api/admin/stats');
       const data = await res.json();
       if (data.success) {
         setStats(data.data);

@@ -524,19 +524,46 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const loginDemo = useCallback((role: 'student' | 'admin' = 'student') => {
-    const demoToken = 'prepora_demo_session_' + Date.now();
+  const loginDemo = useCallback(async (role: 'student' | 'admin' = 'student') => {
     const isAdm = role === 'admin';
     const email = isAdm ? 'maheshkumarsaini8769@gmail.com' : 'aman.sharma@example.com';
     const name = isAdm ? 'Mahesh Kumar (Admin)' : 'Aman Sharma';
 
+    try {
+      const res = await fetch('/api/auth/demo', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ role })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success && data.token) {
+          setToken(data.token);
+          localStorage.setItem(TOKEN_KEY, data.token);
+          localStorage.setItem('prepora_onboarding_completed', 'true');
+          const merged: UserProfile & { role?: 'student' | 'admin' } = {
+            ...userService.getProfile(),
+            ...data.user,
+            role: isAdm ? 'admin' : 'student'
+          };
+          setUser(merged);
+          userService.updateProfile(merged);
+          setAuthModalOpen(false);
+          return;
+        }
+      }
+    } catch {
+      // Offline fallback
+    }
+
+    const demoToken = 'prepora_demo_session_' + (isAdm ? 'admin_' : '') + Date.now();
     setToken(demoToken);
     localStorage.setItem(TOKEN_KEY, demoToken);
     localStorage.setItem('prepora_onboarding_completed', 'true');
 
     const demoUser: UserProfile & { role?: 'student' | 'admin' } = {
       ...userService.getProfile(),
-      id: isAdm ? 'usr_admin_master' : 'usr_default_aman',
+      id: isAdm ? 'usr_admin_mahesh' : 'usr_default_aman',
       email,
       name,
       role: isAdm ? 'admin' : 'student'

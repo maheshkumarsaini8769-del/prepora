@@ -23,6 +23,7 @@ import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { Card, Badge, Button, Modal } from '../../components/common/UIComponents';
 import { questionService } from '../../services/questionService';
+import { adminFetch } from '../../utils/adminApi';
 import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../../types';
 
 export const AdminQuestions: React.FC = () => {
@@ -270,7 +271,7 @@ export const AdminQuestions: React.FC = () => {
   const handleClearAllQuestions = async () => {
     if (!window.confirm('Are you sure you want to delete ALL questions from the repository? This resets the question bank to a clean slate.')) return;
     try {
-      await fetch('/api/admin/clear-data', {
+      await adminFetch('/api/admin/clear-data', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ target: 'questions' })

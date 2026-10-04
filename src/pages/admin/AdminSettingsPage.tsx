@@ -13,6 +13,7 @@ import {
   Calendar,
   Layers
 } from 'lucide-react';
+import { adminFetch } from '../../utils/adminApi';
 
 export const AdminSettingsPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'general' | 'exams' | 'flags' | 'ads' | 'subs' | 'help'>('general');
@@ -22,7 +23,7 @@ export const AdminSettingsPage: React.FC = () => {
 
   const fetchSettings = async () => {
     try {
-      const res = await fetch('/api/admin/settings');
+      const res = await adminFetch('/api/admin/settings');
       const data = await res.json();
       if (data.success && data.data) {
         setSettings(data.data);
@@ -40,7 +41,7 @@ export const AdminSettingsPage: React.FC = () => {
 
   const handleSave = async (updatedFields: any) => {
     try {
-      const res = await fetch('/api/admin/settings', {
+      const res = await adminFetch('/api/admin/settings', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(updatedFields)

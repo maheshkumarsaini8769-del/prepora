@@ -17,6 +17,7 @@ import {
   Calendar
 } from 'lucide-react';
 import { testService } from '../../services/testService';
+import { adminFetch } from '../../utils/adminApi';
 
 export const AdminTests: React.FC = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ export const AdminTests: React.FC = () => {
 
   const fetchMonitoring = async () => {
     try {
-      const res = await fetch('/api/admin/tests/monitoring');
+      const res = await adminFetch('/api/admin/tests/monitoring');
       const data = await res.json();
       if (data.success) {
         setMonitoringData(data.data);
@@ -88,7 +89,7 @@ export const AdminTests: React.FC = () => {
   const handleValidateBlueprint = async () => {
     setValidating(true);
     try {
-      const res = await fetch('/api/admin/tests/blueprint-validate', {
+      const res = await adminFetch('/api/admin/tests/blueprint-validate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

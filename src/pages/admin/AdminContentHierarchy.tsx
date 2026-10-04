@@ -14,6 +14,7 @@ import {
   RefreshCw,
   X
 } from 'lucide-react';
+import { adminFetch } from '../../utils/adminApi';
 
 interface HierarchyItem {
   _id: string;
@@ -70,7 +71,7 @@ export const AdminContentHierarchy: React.FC = () => {
   const fetchHierarchy = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/hierarchy?exam=${selectedExam}&subject=${selectedSubject}`);
+      const res = await adminFetch(`/api/admin/hierarchy?exam=${selectedExam}&subject=${selectedSubject}`);
       const data = await res.json();
       if (data.success) {
         setHierarchy(data.data || []);
@@ -84,7 +85,7 @@ export const AdminContentHierarchy: React.FC = () => {
 
   const fetchFlashcards = async () => {
     try {
-      const res = await fetch(`/api/admin/flashcards?subject=${selectedSubject}`);
+      const res = await adminFetch(`/api/admin/flashcards?subject=${selectedSubject}`);
       const data = await res.json();
       if (data.success) {
         setFlashcards(data.data || []);
@@ -105,7 +106,7 @@ export const AdminContentHierarchy: React.FC = () => {
   const handleCreateNode = async () => {
     if (!newChapter || !newTopic) return;
     try {
-      const res = await fetch('/api/admin/hierarchy', {
+      const res = await adminFetch('/api/admin/hierarchy', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -131,7 +132,7 @@ export const AdminContentHierarchy: React.FC = () => {
 
   const handleDeleteNode = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/hierarchy/${id}`, { method: 'DELETE' });
+      const res = await adminFetch(`/api/admin/hierarchy/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         setHierarchy((prev) => prev.filter((item) => item.id !== id));
@@ -144,7 +145,7 @@ export const AdminContentHierarchy: React.FC = () => {
   const handleCreateCard = async () => {
     if (!cardFront || !cardBack || !cardChapter) return;
     try {
-      const res = await fetch('/api/admin/flashcards', {
+      const res = await adminFetch('/api/admin/flashcards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -174,7 +175,7 @@ export const AdminContentHierarchy: React.FC = () => {
 
   const handleDeleteCard = async (id: string) => {
     try {
-      const res = await fetch(`/api/admin/flashcards/${id}`, { method: 'DELETE' });
+      const res = await adminFetch(`/api/admin/flashcards/${id}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         setFlashcards((prev) => prev.filter((item) => item.id !== id));

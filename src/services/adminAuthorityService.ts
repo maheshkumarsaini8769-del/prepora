@@ -14,6 +14,8 @@ export const PRIMARY_ADMIN_EMAILS = [
   'admin@prepora.com'
 ];
 
+import { adminFetch } from '../utils/adminApi';
+
 class AdminAuthorityService {
   private cache: AuthorizedAdmin[] = [];
   private isInitialized = false;
@@ -53,7 +55,7 @@ class AdminAuthorityService {
 
   private async syncFromCloud() {
     try {
-      const res = await fetch('/api/admin/authorities');
+      const res = await adminFetch('/api/admin/authorities');
       if (res.ok) {
         const data = await res.json();
         if (data.success && Array.isArray(data.authorities) && data.authorities.length > 0) {
@@ -133,7 +135,7 @@ class AdminAuthorityService {
 
     // Push to server/MongoDB
     try {
-      await fetch('/api/admin/authorities', {
+      await adminFetch('/api/admin/authorities', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newAdmin)
@@ -153,7 +155,7 @@ class AdminAuthorityService {
     this.saveLocal();
 
     try {
-      await fetch(`/api/admin/authorities?email=${encodeURIComponent(cleanEmail)}`, {
+      await adminFetch(`/api/admin/authorities?email=${encodeURIComponent(cleanEmail)}`, {
         method: 'DELETE'
       });
     } catch {}

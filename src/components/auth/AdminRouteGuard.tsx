@@ -15,9 +15,9 @@ export const AdminRouteGuard: React.FC<{ children?: React.ReactNode }> = ({ chil
     return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname)}`} replace />;
   }
 
-  // 2. Check if user's email has admin authority
+  // 2. Check if user's email has admin authority or user has role admin
   const userEmail = user?.email || '';
-  const isAuthorized = adminAuthorityService.isAuthorizedAdmin(userEmail);
+  const isAuthorized = user?.role === 'admin' || adminAuthorityService.isAuthorizedAdmin(userEmail);
 
   if (!isAuthorized) {
     return (

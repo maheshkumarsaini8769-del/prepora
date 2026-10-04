@@ -29,6 +29,7 @@ import {
   KeyRound
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { adminFetch } from '../utils/adminApi';
 
 export const AdminLayout: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -46,7 +47,7 @@ export const AdminLayout: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    fetch('/api/admin/stats')
+    adminFetch('/api/admin/stats')
       .then((res) => res.json())
       .then((data) => {
         if (data.success && data.data) {
