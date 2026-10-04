@@ -127,7 +127,7 @@ export const AdminAuthorityPage: React.FC = () => {
             </span>
           </div>
           <p className="text-slate-300 leading-relaxed">
-            Anyone logging in through Zenuxs SSO with an unauthorized email address is automatically blocked by the 
+            Anyone logging in with an unauthorized email address is automatically blocked by the 
             <strong className="text-white"> 403 Forbidden Gate</strong>. To grant someone admin access, simply enter their email below.
           </p>
         </div>

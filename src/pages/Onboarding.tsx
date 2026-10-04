@@ -361,6 +361,20 @@ export const Onboarding: React.FC = () => {
                 </button>
               )}
             </div>
+
+            {/* Quick Instant Start Button */}
+            <div className="pt-3">
+              <button
+                type="button"
+                onClick={handleCompleteOnboarding}
+                disabled={isSubmitting}
+                className="w-full py-3.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-emerald-600/30 transition cursor-pointer"
+              >
+                <Sparkles className="w-4 h-4 text-amber-300" />
+                <span>Save & Start Preparation Now ({prepType} • {selectedClass === 'Dropper' ? 'Dropper' : `Class ${selectedClass}`})</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         )}
 

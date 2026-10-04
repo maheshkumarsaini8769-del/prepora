@@ -25,10 +25,10 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
     if (hasAuthParams || isOAuthInFlight) {
       // Show clean loading state while OAuth code is exchanged for tokens and session is saved
       return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-purple-950 flex flex-col items-center justify-center text-white px-4">
-          <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mb-4" />
+        <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-emerald-950 flex flex-col items-center justify-center text-white px-4">
+          <div className="w-12 h-12 border-4 border-emerald-500/30 border-t-emerald-500 rounded-full animate-spin mb-4" />
           <h2 className="text-lg font-bold">Signing You In...</h2>
-          <p className="text-xs text-slate-400 mt-1">Verifying #2 Zenuxs Auth credentials and loading dashboard...</p>
+          <p className="text-xs text-slate-400 mt-1">Verifying credentials and loading your dashboard...</p>
         </div>
       );
     }

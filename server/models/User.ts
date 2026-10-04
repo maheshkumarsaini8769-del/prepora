@@ -5,6 +5,7 @@ export interface IUser extends Document {
   name: string;
   email: string;
   passwordHash?: string;
+  phone?: string;
   role: 'student' | 'admin';
   avatar?: string;
   targetExam: 'JEE' | 'NEET' | 'Board';
@@ -39,6 +40,7 @@ const UserSchema: Schema = new Schema(
     id: { type: String, required: true, unique: true, index: true },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, index: true },
+    phone: { type: String, sparse: true, index: true },
     passwordHash: { type: String },
     zenuxsId: { type: String, sparse: true, index: true },
     role: { type: String, enum: ['student', 'admin'], default: 'student', index: true },

@@ -18,7 +18,8 @@ import {
   Calendar,
   Layers,
   Award,
-  AlertCircle
+  AlertCircle,
+  GraduationCap
 } from 'lucide-react';
 import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
@@ -136,6 +137,14 @@ export const Home: React.FC = () => {
 
   // Modals state
   const [showPrepProfileModal, setShowPrepProfileModal] = useState<boolean>(false);
+
+  // Initial questions popup on first open if not already set
+  useEffect(() => {
+    const hasCompleted = localStorage.getItem('prepora_onboarding_completed') === 'true';
+    if (!hasCompleted) {
+      setShowPrepProfileModal(true);
+    }
+  }, []);
 
   // Exam Countdown calculation based on prep type
   const examDaysRemaining = prepType === 'NEET' ? 127 : prepType === 'JEE' ? 94 : 61;
@@ -546,62 +555,120 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Target Exam & Prep Profile Modal (Opens when Target card is clicked) */}
+      {/* Target Exam & Prep Profile Modal (Asks 1-2 core questions on initial open or when target card is clicked) */}
       {showPrepProfileModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
           <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-2xl p-5 space-y-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <BrainCircuit className="w-5 h-5 text-emerald-500" />
-                <h3 className="font-black text-base text-slate-900 dark:text-white">Exam Target Profile</h3>
+                <h3 className="font-black text-base text-slate-900 dark:text-white">Choose Your Goal</h3>
               </div>
               <button
-                onClick={() => setShowPrepProfileModal(false)}
+                onClick={() => {
+                  localStorage.setItem('prepora_onboarding_completed', 'true');
+                  setShowPrepProfileModal(false);
+                }}
                 className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Select your exam and class level so Prepora can configure your syllabus, countdown & daily targets.
+            </p>
+
             <div className="space-y-3 text-xs">
-              <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200/80 dark:border-slate-700/80 space-y-2">
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Current Exam:</span>
-                  <span className="font-bold text-slate-900 dark:text-white">{prepType} Main</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Class / Dropper:</span>
-                  <span className="font-bold text-slate-900 dark:text-white">
-                    {classLevel === 'Dropper' ? 'Dropper' : `Class ${classLevel}`}
-                  </span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Target Year:</span>
-                  <span className="font-bold text-slate-900 dark:text-white">{prepProfile.targetYear || 2026}</span>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-slate-500 dark:text-slate-400 font-semibold">Days Remaining:</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{examDaysRemaining} days</span>
+              {/* Question 1: Target Exam */}
+              <div className="space-y-1.5">
+                <span className="font-extrabold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                  <Target className="w-3.5 h-3.5 text-emerald-500" />
+                  1. Which exam are you preparing for?
+                </span>
+                <div className="grid grid-cols-2 gap-2">
+                  {[
+                    { key: 'JEE', label: 'JEE (IIT)', sub: 'Engineering' },
+                    { key: 'NEET', label: 'NEET', sub: 'Medical UG' },
+                    { key: 'CBSE', label: 'CBSE', sub: 'Class 11/12' },
+                    { key: 'RBSE', label: 'RBSE', sub: 'State Board' }
+                  ].map(item => (
+                    <button
+                      key={item.key}
+                      type="button"
+                      onClick={() => {
+                        const canonicalExam = item.key === 'NEET' ? 'NEET_UG' : item.key === 'CBSE' ? 'CBSE' : item.key === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
+                        const subs = item.key === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'];
+                        const updated = {
+                          ...prepProfile,
+                          preparationType: item.key as PreparationType,
+                          exam: canonicalExam,
+                          subjects: subs,
+                          onboardingCompleted: true
+                        };
+                        localStorage.setItem('prepora_preparation_profile', JSON.stringify(updated));
+                        localStorage.setItem('prepora_onboarding_completed', 'true');
+                        userService.updateProfile({ targetExam: item.key as any, preparationProfile: updated as any });
+                        window.location.reload();
+                      }}
+                      className={`p-2.5 rounded-xl border text-left transition-all ${
+                        prepType === item.key
+                          ? 'bg-emerald-600 text-white border-emerald-600 font-bold shadow-xs'
+                          : 'bg-slate-50 dark:bg-slate-850 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500'
+                      }`}
+                    >
+                      <div className="font-bold text-xs">{item.label}</div>
+                      <div className={`text-[10px] ${prepType === item.key ? 'text-emerald-100' : 'text-slate-400'}`}>{item.sub}</div>
+                    </button>
+                  ))}
                 </div>
               </div>
 
-              <div className="flex gap-2">
+              {/* Question 2: Class Level */}
+              <div className="space-y-1.5 pt-2 border-t border-slate-200 dark:border-slate-800">
+                <span className="font-extrabold text-slate-700 dark:text-slate-300 flex items-center gap-1">
+                  <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />
+                  2. Select your class / category:
+                </span>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {(['11', '12', 'Dropper'] as const).map(lvl => (
+                    <button
+                      key={lvl}
+                      type="button"
+                      onClick={() => {
+                        const updated = {
+                          ...prepProfile,
+                          classLevel: lvl,
+                          targetYear: lvl === '11' ? 2027 : 2026,
+                          onboardingCompleted: true
+                        };
+                        localStorage.setItem('prepora_preparation_profile', JSON.stringify(updated));
+                        localStorage.setItem('prepora_onboarding_completed', 'true');
+                        userService.updateProfile({ classLevel: lvl as any, targetYear: updated.targetYear, preparationProfile: updated as any });
+                        window.location.reload();
+                      }}
+                      className={`py-2 px-1 rounded-xl border text-center font-bold text-xs transition-all ${
+                        classLevel === lvl
+                          ? 'bg-emerald-600 text-white border-emerald-600 shadow-xs'
+                          : 'bg-slate-50 dark:bg-slate-850 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:border-emerald-500'
+                      }`}
+                    >
+                      {lvl === 'Dropper' ? 'Dropper' : `Class ${lvl}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-2 flex gap-2">
                 <button
                   type="button"
                   onClick={() => {
+                    localStorage.setItem('prepora_onboarding_completed', 'true');
                     setShowPrepProfileModal(false);
-                    navigate('/onboarding');
                   }}
-                  className="flex-1 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs text-center shadow-xs transition-colors"
+                  className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs text-center shadow-xs transition-colors"
                 >
-                  Edit Prep Profile
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setShowPrepProfileModal(false)}
-                  className="px-4 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs"
-                >
-                  Done
+                  Confirm & Start Learning
                 </button>
               </div>
             </div>

@@ -306,27 +306,40 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
 // POST /api/auth/send-otp
 router.post('/send-otp', async (req: Request, res: Response) => {
   try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ success: false, message: 'Email is required.' });
+    const { email, phone, identifier } = req.body;
+    const targetIdentifier = (identifier || phone || email || '').trim();
+
+    if (!targetIdentifier) {
+      return res.status(400).json({ success: false, message: 'Phone number or email is required.' });
     }
 
-    const normalizedEmail = email.toLowerCase().trim();
-    let user = await User.findOne({ email: normalizedEmail });
+    const isPhone = /^\+?[0-9\s-]{8,15}$/.test(targetIdentifier) || (!targetIdentifier.includes('@') && /^\d+$/.test(targetIdentifier));
+    const normalizedPhone = isPhone ? targetIdentifier.replace(/[^0-9]/g, '').slice(-10) : undefined;
+    const normalizedEmail = !isPhone ? targetIdentifier.toLowerCase().trim() : undefined;
 
-    // 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    const expires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
+    let user = null;
+    if (normalizedPhone) {
+      user = await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] });
+    } else if (normalizedEmail) {
+      user = await User.findOne({ email: normalizedEmail });
+    }
+
+    // Set demo OTP to 9999 per configuration
+    const otp = '9999';
+    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
     if (!user) {
-      // Auto-create basic profile if brand new email logging in via OTP
+      // Pre-create user stub so OTP is stored
+      const id = `usr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
       user = new User({
-        id: `usr-${Date.now()}`,
-        name: normalizedEmail.split('@')[0],
-        email: normalizedEmail,
+        id,
+        name: normalizedPhone ? `Student ${normalizedPhone.slice(-4)}` : (normalizedEmail?.split('@')[0] || 'Student'),
+        email: normalizedEmail || `phone_${normalizedPhone}@prepora.student`,
+        phone: normalizedPhone,
         role: 'student',
         targetExam: 'JEE',
         classLevel: '12',
+        targetYear: 2026,
         otpCode: otp,
         otpExpires: expires
       });
@@ -337,14 +350,13 @@ router.post('/send-otp', async (req: Request, res: Response) => {
 
     await user.save();
 
-    // In a production server with SMTP, this would email the user.
-    // For reliable local and test usage, we return the code in response or console log it
-    console.log(`[PREPORA AUTH] OTP for ${normalizedEmail}: ${otp}`);
+    console.log(`[PREPORA AUTH] Demo OTP for ${normalizedPhone || normalizedEmail}: ${otp}`);
 
     res.json({
       success: true,
-      message: `OTP sent to ${normalizedEmail}. Valid for 10 minutes.`,
-      debugOtp: process.env.NODE_ENV !== 'production' ? otp : undefined
+      message: `Demo OTP sent successfully. Use OTP: ${otp}`,
+      otp,
+      debugOtp: otp
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -354,29 +366,81 @@ router.post('/send-otp', async (req: Request, res: Response) => {
 // POST /api/auth/verify-otp
 router.post('/verify-otp', async (req: Request, res: Response) => {
   try {
-    const { email, otp } = req.body;
-    if (!email || !otp) {
-      return res.status(400).json({ success: false, message: 'Email and OTP are required.' });
+    const { email, phone, identifier, otp, name, targetExam = 'JEE', classLevel = '12', targetYear = 2026 } = req.body;
+    const targetIdentifier = (identifier || phone || email || '').trim();
+
+    if (!targetIdentifier || !otp) {
+      return res.status(400).json({ success: false, message: 'Phone/Email and OTP are required.' });
     }
 
-    const normalizedEmail = email.toLowerCase().trim();
-    const user = await User.findOne({ email: normalizedEmail });
+    const isPhone = /^\+?[0-9\s-]{8,15}$/.test(targetIdentifier) || (!targetIdentifier.includes('@') && /^\d+$/.test(targetIdentifier));
+    const normalizedPhone = isPhone ? targetIdentifier.replace(/[^0-9]/g, '').slice(-10) : undefined;
+    const normalizedEmail = !isPhone ? targetIdentifier.toLowerCase().trim() : (email ? email.toLowerCase().trim() : undefined);
 
-    if (!user || !user.otpCode || !user.otpExpires) {
-      return res.status(400).json({ success: false, message: 'No OTP requested for this email or OTP expired.' });
+    let user = null;
+    if (normalizedPhone) {
+      user = await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] });
+    } else if (normalizedEmail) {
+      user = await User.findOne({ email: normalizedEmail });
     }
 
-    if (new Date() > user.otpExpires) {
-      return res.status(400).json({ success: false, message: 'OTP has expired. Please request a new one.' });
+    // Demo OTP check: accept '9999' or matching user.otpCode
+    const isValidOtp = otp.trim() === '9999' || (user && user.otpCode === otp.trim() && user.otpExpires && new Date() <= user.otpExpires);
+
+    if (!isValidOtp) {
+      return res.status(400).json({ success: false, message: 'Invalid OTP code. Please use demo OTP: 9999.' });
     }
 
-    if (user.otpCode !== otp.trim()) {
-      return res.status(400).json({ success: false, message: 'Incorrect OTP code.' });
+    const canonicalExam = targetExam === 'NEET' ? 'NEET_UG' : targetExam === 'CBSE' ? 'CBSE' : targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
+    const activeSubjects = targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'];
+
+    if (!user) {
+      // Auto-create student user upon verified demo OTP
+      const id = `usr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+      const assignedEmail = normalizedEmail || `phone_${normalizedPhone}@prepora.student`;
+      user = new User({
+        id,
+        name: name ? name.trim() : (normalizedPhone ? `Student ${normalizedPhone.slice(-4)}` : assignedEmail.split('@')[0]),
+        email: assignedEmail,
+        phone: normalizedPhone,
+        role: 'student',
+        targetExam,
+        classLevel,
+        targetYear: Number(targetYear) || 2026,
+        streakDays: 12,
+        totalQuestionsSolved: 140,
+        overallAccuracy: 68,
+        preparationProfile: {
+          preparationType: targetExam,
+          exam: canonicalExam,
+          classLevel,
+          subjects: activeSubjects,
+          onboardingCompleted: true,
+          targetYear: Number(targetYear) || 2026
+        }
+      });
+    } else {
+      // Update target exam & class choices if supplied
+      if (targetExam) user.targetExam = targetExam;
+      if (classLevel) user.classLevel = classLevel;
+      if (targetYear) user.targetYear = Number(targetYear);
+      if (normalizedPhone && !user.phone) user.phone = normalizedPhone;
+      if (name && (!user.name || user.name.startsWith('Student '))) user.name = name.trim();
+      
+      if (!user.preparationProfile || !user.preparationProfile.onboardingCompleted) {
+        user.preparationProfile = {
+          preparationType: targetExam,
+          exam: canonicalExam,
+          classLevel,
+          subjects: activeSubjects,
+          onboardingCompleted: true,
+          targetYear: Number(targetYear) || 2026
+        };
+      }
+      user.otpCode = undefined;
+      user.otpExpires = undefined;
     }
 
-    // Clear used OTP
-    user.otpCode = undefined;
-    user.otpExpires = undefined;
     await user.save();
 
     const { token, session } = await createSingleActiveSession(user, req);

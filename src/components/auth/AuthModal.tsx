@@ -1,182 +1,348 @@
 import React, { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
-import { ZenuxOAuth } from 'zenuxs-oauth';
-import { X, ShieldCheck, CheckCircle2, AlertCircle, ArrowRight, Target, GraduationCap } from 'lucide-react';
-
-const ZENUXS_CLIENT_ID = '99366ee281c7e424';
+import {
+  X,
+  Phone,
+  Mail,
+  ShieldCheck,
+  CheckCircle2,
+  AlertCircle,
+  ArrowRight,
+  Target,
+  GraduationCap,
+  KeyRound,
+  RotateCw,
+  Zap
+} from 'lucide-react';
+import { PreparationType, ClassLevel } from '../../types';
 
 export const AuthModal: React.FC = () => {
-  const { authModalOpen, setAuthModalOpen, loginWithZenuxs } = useAuth();
+  const { authModalOpen, setAuthModalOpen, sendOtp, verifyOtp, loginDemo } = useAuth();
 
-  const [targetExam, setTargetExam] = useState<'JEE' | 'NEET' | 'Board'>('JEE');
-  const [classLevel, setClassLevel] = useState<'11' | '12' | 'Dropper'>('12');
+  const [authMethod, setAuthMethod] = useState<'phone' | 'email'>('phone');
+  const [phone, setPhone] = useState<string>('9876543210');
+  const [email, setEmail] = useState<string>('student@prepora.com');
+  const [otp, setOtp] = useState<string>('9999');
 
-  const [isLoggingIn, setIsLoggingIn] = useState<boolean>(false);
+  const [targetExam, setTargetExam] = useState<PreparationType>('JEE');
+  const [classLevel, setClassLevel] = useState<ClassLevel | 'Dropper'>('12');
+
+  const [step, setStep] = useState<'enter-identifier' | 'enter-otp'>('enter-identifier');
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
   if (!authModalOpen) return null;
 
-  const handleZenuxsLogin = async () => {
+  const handleRequestOtp = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setError(null);
-    setIsLoggingIn(true);
+    setSuccessMsg(null);
+
+    const identifier = authMethod === 'phone' ? phone.trim() : email.trim();
+    if (!identifier) {
+      setError(authMethod === 'phone' ? 'Enter mobile number.' : 'Enter email address.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await sendOtp(identifier);
+      setIsLoading(false);
+      if (res.success) {
+        setStep('enter-otp');
+        setOtp('9999');
+        setSuccessMsg('OTP sent! Demo OTP: 9999');
+      } else {
+        setError(res.message || 'Could not send OTP.');
+      }
+    } catch (err: any) {
+      setIsLoading(false);
+      setError(err?.message || 'Server connection error.');
+    }
+  };
+
+  const handleVerifyOtp = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setError(null);
+    setSuccessMsg(null);
+
+    if (!otp.trim()) {
+      setError('Please enter the 4-digit OTP.');
+      return;
+    }
+
+    const identifier = authMethod === 'phone' ? phone.trim() : email.trim();
+    setIsLoading(true);
 
     try {
-      const redirectUri = window.location.origin;
-
-      // Persist student exam choices to localStorage so callback recovers them
-      localStorage.setItem('prepora_selected_target_exam', targetExam);
-      localStorage.setItem('prepora_selected_class_level', classLevel);
-
-      // Flag OAuth in progress so ProtectedRoute shows loading state instead of bouncing
-      sessionStorage.setItem('prepora_oauth_processing', 'true');
-      localStorage.setItem('prepora_oauth_processing', 'true');
-
-      const oauth = new ZenuxOAuth({
-        clientId: ZENUXS_CLIENT_ID,
-        redirectUri,
-        scopes: 'openid profile email',
-        theme: 'light',
-        storage: 'localStorage',
-        validateState: false,
-        cleanupUrl: false
-      } as any);
-
-      // Standard, robust OAuth 2.0 PKCE redirect flow
-      await oauth.login({
-        mode: 'redirect',
-        redirectUri
+      const res = await verifyOtp(identifier, otp.trim(), {
+        targetExam,
+        classLevel: classLevel as any,
+        targetYear: 2026
       });
+      setIsLoading(false);
+
+      if (res.success) {
+        setSuccessMsg('Verified successfully!');
+        setTimeout(() => {
+          setAuthModalOpen(false);
+        }, 300);
+      } else {
+        setError(res.message || 'Incorrect OTP code. Use demo OTP: 9999');
+      }
     } catch (err: any) {
-      console.error('Zenuxs login initiation error:', err);
-      sessionStorage.removeItem('prepora_oauth_processing');
-      localStorage.removeItem('prepora_oauth_processing');
-      setIsLoggingIn(false);
-      setError(err?.message || 'Could not initiate Zenuxs authentication. Please try again.');
+      setIsLoading(false);
+      setError(err?.message || 'Verification error.');
     }
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md bg-white rounded-3xl p-6 sm:p-8 shadow-2xl border border-slate-100 animate-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md bg-white dark:bg-[#0e1620] rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200 space-y-4">
         {/* Close Button */}
         <button
           onClick={() => setAuthModalOpen(false)}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 hover:bg-slate-100 rounded-full transition cursor-pointer"
+          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-full transition cursor-pointer"
         >
           <X className="w-5 h-5" />
         </button>
 
-        {/* Modal Brand Header */}
-        <div className="text-center mb-6">
-          <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white font-black text-xl mb-3 shadow-md shadow-purple-500/20">
+        {/* Brand Header */}
+        <div className="text-center">
+          <div className="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-emerald-600 text-white font-black text-lg mb-2 shadow-md shadow-emerald-500/20">
             P
           </div>
-          <h2 className="text-xl font-black text-slate-900 tracking-tight">
-            Sign In with Zenuxs
+          <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
+            Student Sign In
           </h2>
-          <p className="text-xs text-slate-500 mt-1">
-            Single Sign-On authentication for your PREPORA learning account
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Login with Mobile OTP or Email
           </p>
         </div>
 
-        {/* Target Exam & Class preferences */}
-        <div className="mb-5 space-y-2.5 bg-slate-50 p-3.5 rounded-2xl border border-slate-200/60">
-          <div className="flex items-center justify-between text-xs font-bold text-slate-700">
-            <span className="flex items-center gap-1.5">
-              <Target className="w-3.5 h-3.5 text-purple-600" />
-              Target Exam:
-            </span>
-            <div className="flex gap-1">
-              {(['JEE', 'NEET', 'Board'] as const).map((ex) => (
-                <button
-                  key={ex}
-                  type="button"
-                  onClick={() => setTargetExam(ex)}
-                  className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition cursor-pointer ${
-                    targetExam === ex
-                      ? 'bg-purple-600 text-white'
-                      : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  {ex}
-                </button>
-              ))}
-            </div>
+        {/* Tabs */}
+        {step === 'enter-identifier' && (
+          <div className="flex p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMethod('phone');
+                setError(null);
+              }}
+              className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+                authMethod === 'phone'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
+                  : 'text-slate-500'
+              }`}
+            >
+              <Phone className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Mobile</span>
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setAuthMethod('email');
+                setError(null);
+              }}
+              className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
+                authMethod === 'email'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
+                  : 'text-slate-500'
+              }`}
+            >
+              <Mail className="w-3.5 h-3.5 text-blue-600" />
+              <span>Email</span>
+            </button>
           </div>
+        )}
 
-          <div className="flex items-center justify-between text-xs font-bold text-slate-700 pt-1 border-t border-slate-200/50">
-            <span className="flex items-center gap-1.5">
-              <GraduationCap className="w-3.5 h-3.5 text-indigo-600" />
-              Class:
-            </span>
-            <div className="flex gap-1">
-              {(['11', '12', 'Dropper'] as const).map((lvl) => (
-                <button
-                  key={lvl}
-                  type="button"
-                  onClick={() => setClassLevel(lvl)}
-                  className={`px-2 py-0.5 rounded-md text-[11px] font-bold transition cursor-pointer ${
-                    classLevel === lvl
-                      ? 'bg-indigo-600 text-white'
-                      : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-100'
-                  }`}
-                >
-                  {lvl === 'Dropper' ? 'Dropper' : `Class ${lvl}`}
-                </button>
-              ))}
-            </div>
-          </div>
-        </div>
-
-        {/* Alerts */}
+        {/* Feedback alerts */}
         {error && (
-          <div className="mb-4 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2">
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600" />
+          <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs flex items-center gap-2">
+            <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
             <span>{error}</span>
           </div>
         )}
 
         {successMsg && (
-          <div className="mb-4 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 text-xs flex items-start gap-2">
-            <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
+          <div className="p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900 text-emerald-700 dark:text-emerald-300 text-xs flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 shrink-0 text-emerald-600" />
             <span>{successMsg}</span>
           </div>
         )}
 
-        {/* Login Buttons: ONLY #2 — Zenuxs Auth */}
-        <div className="space-y-2.5">
+        {step === 'enter-identifier' ? (
+          <form onSubmit={handleRequestOtp} className="space-y-3.5">
+            {authMethod === 'phone' ? (
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                  Mobile Number
+                </label>
+                <div className="relative flex items-center">
+                  <span className="absolute left-3 text-xs font-bold text-slate-500 border-r border-slate-200 dark:border-slate-700 pr-2">
+                    +91
+                  </span>
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))}
+                    placeholder="9876543210"
+                    maxLength={10}
+                    required
+                    className="w-full pl-14 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="space-y-1">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                  Email Address
+                </label>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="student@prepora.com"
+                  required
+                  className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
+                />
+              </div>
+            )}
+
+            {/* Exam & Class Selection */}
+            <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+                <span className="flex items-center gap-1">
+                  <Target className="w-3.5 h-3.5 text-emerald-500" />
+                  Target Exam:
+                </span>
+                <div className="flex gap-1">
+                  {(['JEE', 'NEET', 'CBSE'] as const).map((ex) => (
+                    <button
+                      key={ex}
+                      type="button"
+                      onClick={() => setTargetExam(ex as PreparationType)}
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
+                        targetExam === ex
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+                      }`}
+                    >
+                      {ex}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
+                <span className="flex items-center gap-1">
+                  <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />
+                  Class:
+                </span>
+                <div className="flex gap-1">
+                  {(['11', '12', 'Dropper'] as const).map((lvl) => (
+                    <button
+                      key={lvl}
+                      type="button"
+                      onClick={() => setClassLevel(lvl)}
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
+                        classLevel === lvl
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+                      }`}
+                    >
+                      {lvl === 'Dropper' ? 'Dropper' : `Class ${lvl}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Get Demo OTP</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </form>
+        ) : (
+          <form onSubmit={handleVerifyOtp} className="space-y-3.5 animate-in fade-in duration-150">
+            {/* Demo Notice */}
+            <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 flex items-center justify-between">
+              <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 dark:text-amber-300">
+                <KeyRound className="w-4 h-4 text-amber-600" />
+                <span>Demo OTP: <strong className="text-emerald-600 font-mono text-sm ml-1">9999</strong></span>
+              </div>
+              <button
+                type="button"
+                onClick={() => setOtp('9999')}
+                className="px-2 py-0.5 rounded bg-amber-200 dark:bg-amber-900 text-amber-950 dark:text-amber-200 text-[10px] font-black"
+              >
+                Use 9999
+              </button>
+            </div>
+
+            <div className="space-y-1 text-center">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                Enter 4-Digit Code
+              </label>
+              <input
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
+                placeholder="9999"
+                maxLength={4}
+                required
+                className="w-full py-2.5 text-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xl font-mono font-black tracking-widest"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Verify & Sign In</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
+            <div className="flex items-center justify-between text-[11px] pt-1">
+              <button
+                type="button"
+                onClick={() => handleRequestOtp()}
+                className="text-slate-500 hover:text-slate-800 font-semibold"
+              >
+                Resend OTP
+              </button>
+              <button
+                type="button"
+                onClick={() => setStep('enter-identifier')}
+                className="text-emerald-600 font-bold hover:underline"
+              >
+                Change {authMethod}
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* 1-Click Demo Access */}
+        <div className="pt-2 border-t border-slate-100 dark:border-slate-800">
           <button
             type="button"
-            onClick={handleZenuxsLogin}
-            disabled={isLoggingIn}
-            className="w-full flex items-center justify-center gap-2.5 py-3.5 px-4 rounded-xl bg-gradient-to-r from-purple-700 via-purple-600 to-indigo-600 hover:from-purple-800 hover:to-indigo-700 text-white font-bold text-xs shadow-md shadow-purple-600/20 transition hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 cursor-pointer"
+            onClick={() => {
+              loginDemo('student');
+              setAuthModalOpen(false);
+            }}
+            className="w-full py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center justify-center gap-1.5 transition cursor-pointer"
           >
-            {isLoggingIn ? (
-              <>
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                <span>Verifying #2 Zenuxs Auth...</span>
-              </>
-            ) : (
-              <>
-                <div className="w-5 h-5 rounded-lg bg-white/20 flex items-center justify-center text-[10px] font-black text-white">
-                  Z
-                </div>
-                <span>#2 — Zenuxs Auth</span>
-                <ArrowRight className="w-3.5 h-3.5 ml-auto" />
-              </>
-            )}
+            <Zap className="w-3.5 h-3.5 text-amber-500" />
+            <span>1-Click Instant Demo Student</span>
           </button>
-        </div>
-
-        {/* Security badge */}
-        <div className="mt-5 pt-3 border-t border-slate-100 flex items-center justify-center gap-1.5 text-[10px] text-slate-400 font-medium">
-          <ShieldCheck className="w-3 h-3 text-emerald-500" />
-          <span>Unified Zenuxs SSO • End-to-End Encrypted Session</span>
         </div>
       </div>
     </div>
   );
 };
-
-export default AuthModal;
