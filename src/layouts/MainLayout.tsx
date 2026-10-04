@@ -44,6 +44,9 @@ import { GlobalQuickActionModal } from '../components/common/GlobalQuickActionMo
 import { StudySessionModal } from '../components/common/StudySessionModal';
 import { ReportTechnicalProblemModal } from '../components/common/ReportTechnicalProblemModal';
 import { ThemeSelector } from '../components/common/ThemeSelector';
+import { NotificationDropdown } from '../components/common/NotificationDropdown';
+import { InstallAppBanner } from '../components/common/InstallAppBanner';
+import { soundFeedback } from '../utils/audioFeedback';
 import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
 
 export const MainLayout: React.FC = () => {
@@ -52,6 +55,7 @@ export const MainLayout: React.FC = () => {
   const [studySessionOpen, setStudySessionOpen] = useState(false);
   const [reportTechOpen, setReportTechOpen] = useState(false);
   const [examSwitcherOpen, setExamSwitcherOpen] = useState(false);
+  const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>(() => getColorMode());
 
   useEffect(() => {
@@ -72,7 +76,7 @@ export const MainLayout: React.FC = () => {
 
   const { user: authUser, isAuthenticated, logout, setAuthModalOpen, setAuthModalMode } = useAuth();
   const user = authUser || userService.getProfile();
-  const unreadNotifs = userService.getNotifications().filter(n => !n.isRead).length;
+  const [unreadCount, setUnreadCount] = useState<number>(() => userService.getNotifications().filter(n => !n.isRead).length);
   const navigate = useNavigate();
 
   // Task 5 Minimal Navigation Hierarchy: 5 Core Primary + Secondary Tools
@@ -320,17 +324,29 @@ export const MainLayout: React.FC = () => {
               <span>Quick Sprint</span>
             </button>
 
-            {/* Notifications Bell with Red Badge */}
-            <Link
-              to="/notifications"
-              className="relative p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
-              aria-label="Notifications"
-            >
-              <Bell className="w-5 h-5" />
-              {unreadNotifs > 0 && (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900" />
-              )}
-            </Link>
+            {/* Notifications Bell Dropdown Tray */}
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => {
+                  soundFeedback.playClick();
+                  setNotifDropdownOpen(prev => !prev);
+                }}
+                className="relative p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+                aria-label="Notifications"
+              >
+                <Bell className="w-5 h-5" />
+                {unreadCount > 0 && (
+                  <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900" />
+                )}
+              </button>
+
+              <NotificationDropdown
+                isOpen={notifDropdownOpen}
+                onClose={() => setNotifDropdownOpen(false)}
+                onUnreadChange={setUnreadCount}
+              />
+            </div>
 
             {/* Profile Avatar / Auth [M] Green Circle */}
             {isAuthenticated ? (
@@ -640,6 +656,9 @@ export const MainLayout: React.FC = () => {
         isOpen={reportTechOpen}
         onClose={() => setReportTechOpen(false)}
       />
+
+      {/* PWA Mobile Install Prompt */}
+      <InstallAppBanner />
     </div>
   );
 };

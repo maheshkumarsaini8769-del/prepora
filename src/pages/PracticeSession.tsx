@@ -27,6 +27,7 @@ import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { syncEngine } from '../services/syncEngine';
 import { progressService } from '../services/progressService';
+import { soundFeedback } from '../utils/audioFeedback';
 import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../types';
 
 const MISTAKE_TYPES = [
@@ -170,6 +171,7 @@ export const PracticeSession: React.FC = () => {
 
   const handleSelectOption = (idx: number) => {
     if (isChecked) return; // Prevent change after check
+    soundFeedback.playClick();
     setSelectedAnswers(prev => ({ ...prev, [currentQ.id]: idx }));
   };
 
@@ -178,6 +180,11 @@ export const PracticeSession: React.FC = () => {
     setCheckedQuestions(prev => ({ ...prev, [currentQ.id]: true }));
 
     const isCorrect = selectedOption === currentQ.correctAnswer;
+    if (isCorrect) {
+      soundFeedback.playSuccess();
+    } else {
+      soundFeedback.vibrate([30, 40]);
+    }
     const elapsedSecs = Math.max(1, Math.round((Date.now() - questionStartTime) / 1000));
     let predictedTag = 'Calculation Error';
     if (elapsedSecs < 15) {
@@ -205,6 +212,7 @@ export const PracticeSession: React.FC = () => {
   };
 
   const handleClassifyMistake = (tag: string) => {
+    soundFeedback.playClick();
     setMistakeClassifications(prev => ({ ...prev, [currentQ.id]: tag }));
     const mistakes = JSON.parse(localStorage.getItem('prepora_mistakes') || '[]');
     const existing = mistakes.find((m: any) => m.questionId === currentQ.id);
@@ -216,9 +224,11 @@ export const PracticeSession: React.FC = () => {
 
   const handleNext = () => {
     if (currentIndex < questions.length - 1) {
+      soundFeedback.playClick();
       setCurrentIndex(prev => prev + 1);
       setQuestionStartTime(Date.now());
     } else {
+      soundFeedback.playStreakCelebration();
       setShowSummary(true);
     }
   };

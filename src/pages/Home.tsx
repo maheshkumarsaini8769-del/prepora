@@ -19,8 +19,12 @@ import {
   Layers,
   Award,
   AlertCircle,
-  GraduationCap
+  GraduationCap,
+  Trophy,
+  Zap,
+  Crown
 } from 'lucide-react';
+import { soundFeedback } from '../utils/audioFeedback';
 import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
 import { testService } from '../services/testService';
@@ -277,6 +281,71 @@ export const Home: React.FC = () => {
       />
 
       {/* ========================================================================= */}
+      {/* 4.5 DAILY HIGH-YIELD CHALLENGE & COHORT LEADERBOARD WIDGET               */}
+      {/* ========================================================================= */}
+      <div className="w-full p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-emerald-500/10 dark:from-[#1b1706] dark:to-[#081f17] border border-amber-300/80 dark:border-amber-500/30 shadow-xs space-y-3">
+        {/* Top: Header with Trophy, Streak Saver XP, and Active status */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Trophy className="w-4 h-4 stroke-[2.5]" />
+            </div>
+            <div>
+              <span className="font-black text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
+                <span>Daily Challenge Question</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
+              </span>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-400 font-extrabold text-[10px] border border-amber-500/30">
+            +50 XP • Protects Streak 🔥
+          </span>
+        </div>
+
+        {/* Middle: Challenge Topic tailored to student target */}
+        <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-amber-200/60 dark:border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div className="space-y-0.5 min-w-0">
+            <div className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+              {prepType === 'NEET' ? 'NEET 2024 High-Yield Biology' : prepType === 'CBSE' || prepType === 'RBSE' ? `${prepType} Board Core Problem` : 'JEE Main 2024 Hot Topic'}
+            </div>
+            <div className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+              {prepType === 'NEET' ? 'Genetics: Dihybrid Cross Linkage Ratio' : 'Kinematics: Velocity Vector on Inclined Plane'}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/practice/session?subject=Physics&chapter=Kinematics');
+            }}
+            className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 shrink-0 shadow-sm"
+          >
+            <Zap className="w-3.5 h-3.5 fill-current" />
+            <span>Solve Now</span>
+          </button>
+        </div>
+
+        {/* Bottom Strip: Cohort Standing */}
+        <div className="flex items-center justify-between pt-1 border-t border-amber-200/40 dark:border-slate-800/80 text-[11px]">
+          <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-semibold">
+            <Crown className="w-3.5 h-3.5 text-amber-500" />
+            <span>Rank <strong>#4</strong> in {prepType} {classLevel} Batch</span>
+            <span className="text-slate-400 dark:text-slate-500">• Top 3%</span>
+          </div>
+
+          <Link
+            to="/leaderboard"
+            onClick={() => soundFeedback.playClick()}
+            className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline flex items-center gap-0.5"
+          >
+            <span>Leaderboard</span>
+            <ChevronRight className="w-3 h-3 stroke-[2.5]" />
+          </Link>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
       {/* 5. DAILY ACTION CENTER (6 Action Cards in 2 Columns)                     */}
       {/* ========================================================================= */}
       <div className="space-y-3 pt-1">
@@ -287,6 +356,7 @@ export const Home: React.FC = () => {
           </h2>
           <Link
             to="/practice"
+            onClick={() => soundFeedback.playClick()}
             className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-0.5"
           >
             <span>See All</span>
@@ -298,7 +368,10 @@ export const Home: React.FC = () => {
         <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
           {/* 1. Practice */}
           <div
-            onClick={() => navigate('/practice')}
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/practice');
+            }}
             className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#eff6ff] dark:bg-[#0c1829] border border-blue-200/80 dark:border-blue-900/40 hover:border-blue-400 dark:hover:border-blue-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(59,130,246,0.12)] flex items-center justify-between gap-2 group"
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -319,7 +392,10 @@ export const Home: React.FC = () => {
 
           {/* 2. Take a Test */}
           <div
-            onClick={() => navigate('/tests')}
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/tests');
+            }}
             className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#ecfdf5] dark:bg-[#09221b] border border-emerald-200/80 dark:border-emerald-900/40 hover:border-emerald-400 dark:hover:border-emerald-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(16,185,129,0.12)] flex items-center justify-between gap-2 group"
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -340,7 +416,10 @@ export const Home: React.FC = () => {
 
           {/* 3. Fix Weakness */}
           <div
-            onClick={() => navigate('/weakness')}
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/weakness');
+            }}
             className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#fff1f2] dark:bg-[#251019] border border-rose-200/80 dark:border-rose-900/40 hover:border-rose-400 dark:hover:border-rose-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(244,63,94,0.12)] flex items-center justify-between gap-2 group"
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -361,7 +440,10 @@ export const Home: React.FC = () => {
 
           {/* 4. Revise */}
           <div
-            onClick={() => navigate('/revision')}
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/revision');
+            }}
             className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#fffbeb] dark:bg-[#221c0c] border border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(245,158,11,0.12)] flex items-center justify-between gap-2 group"
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -382,7 +464,10 @@ export const Home: React.FC = () => {
 
           {/* 5. Solve Doubt */}
           <div
-            onClick={() => navigate('/doubts')}
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/doubts');
+            }}
             className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#f5f3ff] dark:bg-[#1a112c] border border-purple-200/80 dark:border-purple-900/40 hover:border-purple-400 dark:hover:border-purple-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(168,85,247,0.12)] flex items-center justify-between gap-2 group"
           >
             <div className="flex items-center gap-2.5 min-w-0">
@@ -403,7 +488,10 @@ export const Home: React.FC = () => {
 
           {/* 6. Practice PYQs */}
           <div
-            onClick={() => navigate('/papers')}
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/papers');
+            }}
             className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#f0f9ff] dark:bg-[#0c1c2e] border border-sky-200/80 dark:border-sky-900/40 hover:border-sky-400 dark:hover:border-sky-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(14,165,233,0.12)] flex items-center justify-between gap-2 group"
           >
             <div className="flex items-center gap-2.5 min-w-0">
