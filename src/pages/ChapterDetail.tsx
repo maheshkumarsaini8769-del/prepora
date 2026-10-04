@@ -249,17 +249,26 @@ export const ChapterDetail: React.FC = () => {
             />
           </div>
 
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 bg-slate-50 dark:bg-slate-900/60 rounded-xl border border-slate-200 dark:border-slate-800 text-xs text-slate-600 dark:text-slate-300">
             <p className="leading-relaxed">
-              💡 <span className="font-semibold text-slate-800">Distraction-Free Mode:</span> YouTube comments and sidebar recommendations are blocked. Complete this high-yield lecture, then practice the questions below!
+              💡 <span className="font-semibold text-slate-800 dark:text-white">Distraction-Free Mode:</span> YouTube comments and sidebar recommendations are blocked. Complete this high-yield lecture, then practice the questions below!
             </p>
-            <button
-              type="button"
-              onClick={() => setShowDoubtModal(true)}
-              className="whitespace-nowrap px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg shadow-sm transition-all"
-            >
-              Ask AI Doubt
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => navigate(`/videos?subject=${encodeURIComponent(subjectName)}`)}
+                className="whitespace-nowrap px-3 py-1.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-semibold rounded-lg transition-all"
+              >
+                More {subjectName} Videos
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowDoubtModal(true)}
+                className="whitespace-nowrap px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg shadow-sm transition-all"
+              >
+                Ask AI Doubt
+              </button>
+            </div>
           </div>
         </Card>
       )}

@@ -327,9 +327,7 @@ export const MainLayout: React.FC = () => {
               aria-label="Notifications"
             >
               <Bell className="w-5 h-5" />
-              {unreadNotifs > 0 ? (
-                <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900" />
-              ) : (
+              {unreadNotifs > 0 && (
                 <span className="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-rose-500 ring-2 ring-white dark:ring-slate-900" />
               )}
             </Link>

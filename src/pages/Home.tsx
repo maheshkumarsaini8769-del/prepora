@@ -436,13 +436,22 @@ export const Home: React.FC = () => {
               Subject Progress
             </h2>
           </div>
-          <Link
-            to="/syllabus"
-            className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-0.5"
-          >
-            <span>Full Syllabus</span>
-            <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
-          </Link>
+          <div className="flex items-center gap-2.5">
+            <Link
+              to="/videos"
+              className="text-xs sm:text-sm font-bold text-rose-500 dark:text-rose-400 hover:underline flex items-center gap-1"
+            >
+              <span>Videos</span>
+            </Link>
+            <span className="text-slate-300 dark:text-slate-700 text-xs">•</span>
+            <Link
+              to="/syllabus"
+              className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-0.5"
+            >
+              <span>Syllabus</span>
+              <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
+            </Link>
+          </div>
         </div>
 
         {/* 3 Subject Cards Side-by-Side */}

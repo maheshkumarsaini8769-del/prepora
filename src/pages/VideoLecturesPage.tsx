@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Play,
   Search,
@@ -20,11 +20,35 @@ import { userService } from '../services/userService';
 
 export const VideoLecturesPage: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const allVideos = useMemo(() => getAllCuratedVideos(), []);
   
-  const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
+  const paramSubject = searchParams.get('subject') as SubjectName | null;
+  const initialSubject = paramSubject && ['Physics', 'Chemistry', 'Mathematics', 'Biology'].includes(paramSubject)
+    ? paramSubject
+    : 'All';
+
+  const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>(initialSubject);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeVideo, setActiveVideo] = useState<VideoResource | null>(null);
+
+  // Sync state if URL query param changes
+  useEffect(() => {
+    const sub = searchParams.get('subject') as SubjectName | null;
+    if (sub && ['Physics', 'Chemistry', 'Mathematics', 'Biology'].includes(sub)) {
+      setSelectedSubject(sub);
+    }
+  }, [searchParams]);
+
+  const handleSelectSubject = (sub: SubjectName | 'All') => {
+    setSelectedSubject(sub);
+    if (sub === 'All') {
+      searchParams.delete('subject');
+      setSearchParams(searchParams, { replace: true });
+    } else {
+      setSearchParams({ subject: sub }, { replace: true });
+    }
+  };
 
   const subjects: (SubjectName | 'All')[] = ['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'];
 
@@ -130,7 +154,7 @@ export const VideoLecturesPage: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl p-4 border border-slate-200/90 shadow-xs space-y-4">
+      <div className="bg-white dark:bg-[#0e1620] rounded-2xl p-4 border border-slate-200/90 dark:border-slate-800 shadow-xs space-y-4">
         {/* Subject Filter Pills */}
         <div className="flex flex-wrap items-center gap-2">
           {subjects.map((sub) => {
@@ -139,17 +163,17 @@ export const VideoLecturesPage: React.FC = () => {
             return (
               <button
                 key={sub}
-                onClick={() => setSelectedSubject(sub)}
+                onClick={() => handleSelectSubject(sub)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
                   isSelected
-                    ? 'bg-slate-900 text-white shadow-sm'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    ? 'bg-emerald-600 text-white shadow-sm shadow-emerald-600/20'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
                 <span>{sub}</span>
                 <span
                   className={`text-[10px] px-1.5 py-0.5 rounded-full ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 text-slate-600'
+                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   {count}
@@ -167,7 +191,7 @@ export const VideoLecturesPage: React.FC = () => {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search chapters (e.g. Kinematics, Thermodynamics, Biomolecules, Matrices)..."
-            className="w-full pl-9 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:bg-white"
+            className="w-full pl-9 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:bg-white dark:focus:bg-slate-900"
           />
         </div>
       </div>
@@ -179,7 +203,7 @@ export const VideoLecturesPage: React.FC = () => {
           return (
             <div
               key={video.id}
-              className="bg-white rounded-2xl border border-slate-200/90 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col group"
+              className="bg-white dark:bg-[#0e1620] rounded-2xl border border-slate-200/90 dark:border-slate-800/90 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col group"
             >
               {/* Thumbnail / Video Banner */}
               <div
@@ -214,25 +238,25 @@ export const VideoLecturesPage: React.FC = () => {
                     <span className={`text-[10px] font-extrabold uppercase px-2 py-0.5 rounded-md border ${colors.badge}`}>
                       {video.subject}
                     </span>
-                    <span className="text-[11px] font-semibold text-slate-500 truncate">
+                    <span className="text-[11px] font-semibold text-slate-500 dark:text-slate-400 truncate">
                       {video.channelName}
                     </span>
                   </div>
 
-                  <h3 className="font-bold text-sm text-slate-900 leading-snug line-clamp-1">
+                  <h3 className="font-bold text-sm text-slate-900 dark:text-white leading-snug line-clamp-1">
                     {video.chapter}
                   </h3>
 
-                  <p className="text-xs text-slate-500 line-clamp-2 leading-relaxed">
+                  <p className="text-xs text-slate-500 dark:text-slate-400 line-clamp-2 leading-relaxed">
                     {video.description}
                   </p>
                 </div>
 
                 {/* Action Buttons */}
-                <div className="pt-2 border-t border-slate-100 flex items-center gap-2">
+                <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center gap-2">
                   <button
                     onClick={() => handlePlayVideo(video)}
-                    className="flex-1 py-2 bg-slate-900 hover:bg-black text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 py-2 bg-emerald-600 hover:bg-emerald-700 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white text-xs font-bold rounded-xl flex items-center justify-center gap-1.5 transition-colors"
                   >
                     <Play className="w-3.5 h-3.5 fill-current" />
                     <span>Watch Now</span>
@@ -241,7 +265,7 @@ export const VideoLecturesPage: React.FC = () => {
                   <button
                     onClick={() => navigate(`/chapters/${encodeURIComponent(video.chapter)}?subject=${encodeURIComponent(video.subject)}`)}
                     title="Chapter Detail & Practice"
-                    className="py-2 px-3 border border-slate-200 text-slate-700 hover:bg-slate-50 text-xs font-bold rounded-xl flex items-center justify-center transition-colors"
+                    className="py-2 px-3 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800 text-xs font-bold rounded-xl flex items-center justify-center transition-colors"
                   >
                     <BookOpen className="w-3.5 h-3.5" />
                   </button>
