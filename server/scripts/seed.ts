@@ -1,5 +1,7 @@
-﻿import mongoose from 'mongoose';
+import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import fs from 'fs';
+import path from 'path';
 import Question from '../models/Question.js';
 import Test from '../models/Test.js';
 import User from '../models/User.js';
@@ -13,6 +15,40 @@ const MONGODB_URI = process.env.MONGODB_URI;
 if (!MONGODB_URI) {
   console.error('Missing MONGODB_URI in environment.');
   process.exit(1);
+}
+
+function loadAllQuestions(): any[] {
+  const allQs: any[] = [];
+  const serverDataDir = path.resolve(process.cwd(), 'server/data/questions');
+  
+  if (fs.existsSync(serverDataDir)) {
+    const files = ['physicsBank.json', 'chemistryBank.json', 'mathBank.json', 'biologyBank.json'];
+    for (const f of files) {
+      const fullPath = path.join(serverDataDir, f);
+      if (fs.existsSync(fullPath)) {
+        try {
+          const fileData = JSON.parse(fs.readFileSync(fullPath, 'utf8'));
+          if (Array.isArray(fileData)) {
+            allQs.push(...fileData);
+            console.log(`[Seed] Loaded ${fileData.length} questions from ${f}`);
+          }
+        } catch (err: any) {
+          console.warn(`[Seed] Warning loading ${f}:`, err?.message);
+        }
+      }
+    }
+  }
+
+  // Also merge in starter mock questions to ensure test-referenced IDs exist
+  const idSet = new Set(allQs.map(q => q.id));
+  for (const mq of mockQuestions) {
+    if (!idSet.has(mq.id)) {
+      allQs.push(mq);
+      idSet.add(mq.id);
+    }
+  }
+
+  return allQs.length > 0 ? allQs : mockQuestions;
 }
 
 async function seed() {
@@ -43,32 +79,40 @@ async function seed() {
     { upsert: true }
   );
 
-  // 2. Seed Questions
-  console.log(`[Seed] Seeding ${mockQuestions.length} questions...`);
-  let qCount = 0;
-  for (const q of mockQuestions) {
-    await Question.findOneAndUpdate(
-      { id: q.id },
-      {
-        $set: {
-          ...q,
-          status: 'Approved',
-          recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
-        }
-      },
-      { upsert: true }
-    );
-    qCount++;
+  // 2. High-Performance Bulk Seeding of Questions
+  const questionsToSeed = loadAllQuestions();
+  console.log(`[Seed] Preparing bulk write for ${questionsToSeed.length} questions...`);
+
+  const BATCH_SIZE = 500;
+  for (let i = 0; i < questionsToSeed.length; i += BATCH_SIZE) {
+    const chunk = questionsToSeed.slice(i, i + BATCH_SIZE);
+    const operations = chunk.map(q => ({
+      updateOne: {
+        filter: { id: q.id },
+        update: {
+          $set: {
+            ...q,
+            status: 'Approved',
+            recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
+          }
+        },
+        upsert: true
+      }
+    }));
+
+    await Question.bulkWrite(operations, { ordered: false });
+    const progress = Math.min(i + BATCH_SIZE, questionsToSeed.length);
+    console.log(`[Seed] Processed ${progress}/${questionsToSeed.length} questions...`);
   }
-  console.log(`[Seed] Successfully upserted ${qCount} questions.`);
+
+  console.log(`[Seed] Successfully bulk-upserted ${questionsToSeed.length} questions.`);
 
   // 3. Seed Tests
   console.log(`[Seed] Seeding ${mockTests.length} tests...`);
-  let tCount = 0;
-  for (const t of mockTests) {
-    await Test.findOneAndUpdate(
-      { id: t.id },
-      {
+  const testOps = mockTests.map(t => ({
+    updateOne: {
+      filter: { id: t.id },
+      update: {
         $set: {
           id: t.id,
           title: t.title,
@@ -87,11 +131,12 @@ async function seed() {
           subjectTimePlan: t.subjectTimePlan || {}
         }
       },
-      { upsert: true }
-    );
-    tCount++;
-  }
-  console.log(`[Seed] Successfully upserted ${tCount} tests.`);
+      upsert: true
+    }
+  }));
+
+  await Test.bulkWrite(testOps as any, { ordered: false });
+  console.log(`[Seed] Successfully upserted ${mockTests.length} tests.`);
 
   console.log('[Seed] Database seeding completed successfully!');
   await mongoose.disconnect();

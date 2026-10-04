@@ -69,29 +69,60 @@ export const PracticeSession: React.FC = () => {
   const [pinnedToRevision, setPinnedToRevision] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
-    let pool = questionService.filterQuestions({
-      exam: exam && exam !== ('All' as any) ? exam : undefined,
-      classLevel: classLevel && classLevel !== ('All' as any) ? classLevel : undefined,
-      subject: subject && subject !== ('All' as any) ? subject : undefined,
-      chapter: chapter && chapter !== 'All' ? chapter : undefined,
-      topic: topic && topic !== 'All' ? topic : undefined,
-      difficulty: difficulty && difficulty !== ('All' as any) ? difficulty : undefined,
-    });
+    let isCancelled = false;
 
-    if (pool.length === 0) {
-      pool = questionService.getAllQuestions();
-    }
+    const loadPracticeQuestions = async () => {
+      let pool = questionService.filterQuestions({
+        exam: exam && exam !== ('All' as any) ? exam : undefined,
+        classLevel: classLevel && classLevel !== ('All' as any) ? classLevel : undefined,
+        subject: subject && subject !== ('All' as any) ? subject : undefined,
+        chapter: chapter && chapter !== 'All' ? chapter : undefined,
+        topic: topic && topic !== 'All' ? topic : undefined,
+        difficulty: difficulty && difficulty !== ('All' as any) ? difficulty : undefined,
+      });
 
-    const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, count || 10);
-    setQuestions(shuffled);
+      // If local cache doesn't have enough questions for this topic/chapter, fetch from MongoDB
+      if (pool.length < (count || 10)) {
+        try {
+          const fetched = await questionService.fetchQuestionsAsync({
+            exam: exam && exam !== ('All' as any) ? exam : undefined,
+            classLevel: classLevel && classLevel !== ('All' as any) ? classLevel : undefined,
+            subject: subject && subject !== ('All' as any) ? subject : undefined,
+            chapter: chapter && chapter !== 'All' ? chapter : undefined,
+            topic: topic && topic !== 'All' ? topic : undefined,
+            difficulty: difficulty && difficulty !== ('All' as any) ? difficulty : undefined,
+          }, count || 10);
+          if (fetched.length > 0) {
+            pool = fetched;
+          }
+        } catch (err) {
+          console.warn('Practice fetch error:', err);
+        }
+      }
 
-    // Load initial bookmarks
-    const bMarks = userService.getBookmarks();
-    const map: Record<string, boolean> = {};
-    shuffled.forEach(q => {
-      map[q.id] = bMarks.some(b => b.type === 'question' && b.targetId === q.id);
-    });
-    setBookmarkedMap(map);
+      if (pool.length === 0) {
+        pool = questionService.getAllQuestions();
+      }
+
+      if (isCancelled) return;
+
+      const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, count || 10);
+      setQuestions(shuffled);
+
+      // Load initial bookmarks
+      const bMarks = userService.getBookmarks();
+      const map: Record<string, boolean> = {};
+      shuffled.forEach(q => {
+        map[q.id] = bMarks.some(b => b.type === 'question' && b.targetId === q.id);
+      });
+      setBookmarkedMap(map);
+    };
+
+    loadPracticeQuestions();
+
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   // Universal Continuation Auto-Save

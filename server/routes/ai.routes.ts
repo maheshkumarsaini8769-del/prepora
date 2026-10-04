@@ -40,14 +40,18 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
       requestFollowUp
     } = req.body;
 
-    if (!question || typeof question !== 'string' || !question.trim()) {
-      return res.status(400).json({ success: false, error: 'Question text is required' });
+    const resolvedQuestion = (question && typeof question === 'string' && question.trim())
+      ? question.trim()
+      : (imageBase64 ? 'Please solve and explain the question in this image step-by-step.' : '');
+
+    if (!resolvedQuestion) {
+      return res.status(400).json({ success: false, error: 'Question text or an image is required' });
     }
 
     // Grounding lookup in PREPORA Question Bank if applicable (task3.md Section 12)
     let contextSnippet: string | undefined = undefined;
     try {
-      const searchRegex = new RegExp(question.slice(0, 30).trim().split(' ')[0] || '', 'i');
+      const searchRegex = new RegExp(resolvedQuestion.slice(0, 30).trim().split(' ')[0] || '', 'i');
       const foundQ = await Question.findOne({
         $or: [
           { topic: { $regex: searchRegex } },
@@ -64,7 +68,7 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
     }
 
     const solveReq: IDoubtSolveRequest = {
-      question,
+      question: resolvedQuestion,
       subject,
       chapter,
       topic,

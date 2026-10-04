@@ -47,15 +47,25 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       // If no active session found, check if it was revoked
       const revokedSession = await Session.findOne({ token: tokenHash, isRevoked: true });
       if (revokedSession) {
-        return res.status(401).json({ success: false, message: 'Session has been revoked or logged out.' });
+        const isAnotherDevice = revokedSession.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE';
+        return res.status(401).json({
+          success: false,
+          code: isAnotherDevice ? 'SESSION_REVOKED_ANOTHER_DEVICE' : 'SESSION_REVOKED',
+          message: isAnotherDevice
+            ? 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device se aap logout ho gaye hain.'
+            : 'Session has been revoked or logged out.'
+        });
       }
+      return res.status(401).json({
+        success: false,
+        code: 'SESSION_INVALID',
+        message: 'Session has expired or is invalid. Please log in again.'
+      });
     }
 
     // Update session last active time asynchronously
-    if (session) {
-      session.lastActive = new Date();
-      session.save().catch(() => null);
-    }
+    session.lastActive = new Date();
+    session.save().catch(() => null);
 
     const user = await User.findOne({ id: decoded.id });
     if (!user) {

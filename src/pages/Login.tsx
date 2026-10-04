@@ -20,7 +20,7 @@ import {
 const ZENUXS_CLIENT_ID = '99366ee281c7e424';
 
 export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = () => {
-  const { loginWithZenuxs, isAuthenticated } = useAuth();
+  const { loginWithZenuxs, isAuthenticated, loginDemo } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -63,26 +63,12 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
 
   const queryParams = new URLSearchParams(location.search);
   const redirectTo = queryParams.get('redirect') || '/';
-  const hasErrorParam = queryParams.has('error') || queryParams.has('error_description');
 
   useEffect(() => {
     if (isAuthenticated) {
       navigate(redirectTo, { replace: true });
-      return;
     }
-
-    // If an error is present in query parameters, do not auto-redirect in loop
-    if (hasErrorParam) {
-      return;
-    }
-
-    // Direct auto-redirect to #2 Zenuxs Auth login page in 1 single step
-    const timer = setTimeout(() => {
-      handleZenuxsLogin();
-    }, 700);
-
-    return () => clearTimeout(timer);
-  }, [isAuthenticated, hasErrorParam, navigate, redirectTo]);
+  }, [isAuthenticated, navigate, redirectTo]);
 
   // Handle #2 Zenuxs Auth Authentication
   const handleZenuxsLogin = async () => {
@@ -301,6 +287,35 @@ export const Login: React.FC<{ defaultTab?: 'login' | 'register' | 'otp' }> = ()
                 </>
               )}
             </button>
+
+            {/* Quick Demo Access Options for Testing & Offline Readiness */}
+            <div className="relative flex py-1 items-center">
+              <div className="flex-grow border-t border-slate-200"></div>
+              <span className="flex-shrink mx-3 text-[10px] uppercase font-bold text-slate-400 tracking-wider">
+                Or Quick Access
+              </span>
+              <div className="flex-grow border-t border-slate-200"></div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => loginDemo('student')}
+                className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition cursor-pointer border border-slate-200"
+              >
+                <Zap className="w-3.5 h-3.5 text-amber-500" />
+                <span>Demo Student</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => loginDemo('admin')}
+                className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-900 font-bold text-xs transition cursor-pointer border border-indigo-200"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-indigo-600" />
+                <span>Admin Console</span>
+              </button>
+            </div>
           </div>
 
           {/* Security & Admin note */}

@@ -3,14 +3,14 @@ import SyllabusChapter from '../models/Syllabus.js';
 
 const router = express.Router();
 
-function normalizeCanonicalExam(exam: string): string {
+function normalizeCanonicalExam(exam: string): 'JEE_MAIN' | 'JEE_ADVANCED' | 'NEET_UG' | 'CBSE' | 'RBSE' {
   const norm = (exam || '').toUpperCase().trim();
   if (norm === 'JEE' || norm === 'JEE_MAIN' || norm === 'JEE MAIN') return 'JEE_MAIN';
   if (norm.includes('ADVANCED') || norm === 'JEE_ADVANCED') return 'JEE_ADVANCED';
   if (norm.includes('NEET') || norm === 'NEET_UG') return 'NEET_UG';
   if (norm.includes('RBSE')) return 'RBSE';
   if (norm.includes('CBSE') || norm === 'BOARD') return 'CBSE';
-  return norm;
+  return (norm as any) || 'JEE_MAIN';
 }
 
 // GET /api/syllabus - Full or filtered list
@@ -44,14 +44,15 @@ router.get('/', async (req: Request, res: Response): Promise<void> => {
 // GET /api/syllabus/:exam - Exam-specific syllabus
 router.get('/:exam', async (req: Request, res: Response): Promise<void> => {
   try {
-    const examId = normalizeCanonicalExam(req.params.exam);
+    const examParam = String(req.params.exam || '');
+    const examId = normalizeCanonicalExam(examParam);
     const chapters = await SyllabusChapter.find({ examId, status: 'active' }).sort({ subjectId: 1, classLevel: 1, order: 1 });
 
     if (chapters.length === 0) {
       res.status(404).json({
         success: false,
         code: 'SYLLABUS_NOT_CONFIGURED',
-        message: 'Syllabus configuration is missing or not yet configured for exam ' + req.params.exam
+        message: 'Syllabus configuration is missing or not yet configured for exam ' + examParam
       });
       return;
     }
@@ -65,8 +66,9 @@ router.get('/:exam', async (req: Request, res: Response): Promise<void> => {
 // GET /api/syllabus/:exam/:class - Exam and Class specific syllabus
 router.get('/:exam/:class', async (req: Request, res: Response): Promise<void> => {
   try {
-    const examId = normalizeCanonicalExam(req.params.exam);
-    const classLevel = req.params.class;
+    const examParam = String(req.params.exam || '');
+    const examId = normalizeCanonicalExam(examParam);
+    const classLevel = String(req.params.class || '');
     const query: any = { examId, status: 'active' };
     if (classLevel !== 'Dropper') {
       query.classLevel = classLevel;
@@ -78,7 +80,7 @@ router.get('/:exam/:class', async (req: Request, res: Response): Promise<void> =
       res.status(404).json({
         success: false,
         code: 'SYLLABUS_NOT_CONFIGURED',
-        message: 'Syllabus configuration is missing for ' + req.params.exam + ' Class ' + classLevel
+        message: 'Syllabus configuration is missing for ' + examParam + ' Class ' + classLevel
       });
       return;
     }
@@ -92,14 +94,16 @@ router.get('/:exam/:class', async (req: Request, res: Response): Promise<void> =
 // GET /api/syllabus/:exam/:class/:subject - Subject specific chapters and topics
 router.get('/:exam/:class/:subject', async (req: Request, res: Response): Promise<void> => {
   try {
-    const examId = normalizeCanonicalExam(req.params.exam);
-    const classLevel = req.params.class;
-    const subUpper = req.params.subject.toUpperCase();
+    const examParam = String(req.params.exam || '');
+    const examId = normalizeCanonicalExam(examParam);
+    const classLevel = String(req.params.class || '');
+    const subjectParam = String(req.params.subject || '');
+    const subUpper = subjectParam.toUpperCase();
 
     const query: any = {
       examId,
       status: 'active',
-      $or: [{ subjectId: subUpper }, { subjectName: new RegExp('^' + req.params.subject + '$', 'i') }]
+      $or: [{ subjectId: subUpper }, { subjectName: new RegExp('^' + subjectParam + '$', 'i') }]
     };
     if (classLevel !== 'Dropper') {
       query.classLevel = classLevel;
@@ -111,7 +115,7 @@ router.get('/:exam/:class/:subject', async (req: Request, res: Response): Promis
       res.status(404).json({
         success: false,
         code: 'SYLLABUS_NOT_CONFIGURED',
-        message: 'Syllabus configuration is missing for ' + req.params.subject + ' in ' + req.params.exam + ' Class ' + classLevel
+        message: 'Syllabus configuration is missing for ' + subjectParam + ' in ' + examParam + ' Class ' + classLevel
       });
       return;
     }
@@ -125,10 +129,12 @@ router.get('/:exam/:class/:subject', async (req: Request, res: Response): Promis
 // GET /api/syllabus/:exam/:class/:subject/:chapter - Chapter detail with topics
 router.get('/:exam/:class/:subject/:chapter', async (req: Request, res: Response): Promise<void> => {
   try {
-    const examId = normalizeCanonicalExam(req.params.exam);
-    const classLevel = req.params.class;
-    const subUpper = req.params.subject.toUpperCase();
-    const chParam = req.params.chapter;
+    const examParam = String(req.params.exam || '');
+    const examId = normalizeCanonicalExam(examParam);
+    const classLevel = String(req.params.class || '');
+    const subjectParam = String(req.params.subject || '');
+    const subUpper = subjectParam.toUpperCase();
+    const chParam = String(req.params.chapter || '');
     const chNorm = chParam.toUpperCase().replace(/[^A-Z0-9]+/g, '_');
 
     const query: any = {

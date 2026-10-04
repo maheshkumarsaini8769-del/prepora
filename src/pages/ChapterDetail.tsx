@@ -10,7 +10,10 @@ import {
   RotateCcw,
   Sparkles,
   Layers,
-  FileText
+  FileText,
+  Clock,
+  Video,
+  ExternalLink
 } from 'lucide-react';
 import { Card, Button } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
@@ -21,6 +24,7 @@ import { userService } from '../services/userService';
 import { InteractiveMindMap } from '../components/common/InteractiveMindMap';
 import { AskDoubtModal } from '../components/common/AskDoubtModal';
 import { MathRenderer } from '../components/common/MathRenderer';
+import { getChapterVideo, VideoResource } from '../data/videoLectures';
 import { FormulaCard } from '../types';
 
 export const ChapterDetail: React.FC = () => {
@@ -35,6 +39,8 @@ export const ChapterDetail: React.FC = () => {
   const sampleQ = questions[0];
   const subjectName = canonicalChapter?.subjectName || sampleQ?.subject || 'Physics';
   const classNum = canonicalChapter?.classLevel || sampleQ?.class || '12';
+
+  const chapterVideo = getChapterVideo(chapterName, subjectName);
 
   const masteryData = ecosystemService.getChapterMastery(chapterName);
   const chapterMistakes = userService.getMistakes().filter(
@@ -51,8 +57,25 @@ export const ChapterDetail: React.FC = () => {
   const [selectedTopic, setSelectedTopic] = useState<string | null>(topics[0] || null);
 
   // Secondary Tools Tabs
-  const [activeSecondaryTab, setActiveSecondaryTab] = useState<'none' | 'formulas' | 'pyqs' | 'mindmap'>('none');
+  const [activeSecondaryTab, setActiveSecondaryTab] = useState<'none' | 'videos' | 'formulas' | 'pyqs' | 'mindmap'>('none');
   const [showDoubtModal, setShowDoubtModal] = useState<boolean>(false);
+
+  // Track video watch analytics
+  const trackVideoWatch = (video: VideoResource) => {
+    fetch('/api/video-views/track', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        subject: subjectName,
+        chapter: chapterName,
+        videoId: video.youtubeId,
+        videoTitle: video.title,
+        channelName: video.channelName,
+        userId: userService.getProfile().id,
+        userEmail: userService.getProfile().email
+      })
+    }).catch(() => null);
+  };
 
   // Formulas state
   const [formulas, setFormulas] = useState<FormulaCard[]>([]);
@@ -111,7 +134,25 @@ export const ChapterDetail: React.FC = () => {
         </div>
 
         {/* Quick Secondary Links Bar */}
-        <div className="flex items-center gap-2 pt-4 mt-4 border-t border-slate-100 text-xs">
+        <div className="flex flex-wrap items-center gap-2 pt-4 mt-4 border-t border-slate-100 text-xs">
+          <button
+            type="button"
+            onClick={() => {
+              const next = activeSecondaryTab === 'videos' ? 'none' : 'videos';
+              setActiveSecondaryTab(next);
+              if (next === 'videos') {
+                trackVideoWatch(chapterVideo);
+              }
+            }}
+            className={`px-2.5 py-1 rounded-md transition-colors flex items-center gap-1.5 ${
+              activeSecondaryTab === 'videos'
+                ? 'bg-rose-600 text-white font-semibold shadow-sm'
+                : 'text-rose-700 bg-rose-50 hover:bg-rose-100 font-medium'
+            }`}
+          >
+            <Play className="w-3.5 h-3.5 fill-current" />
+            One-Shot Video
+          </button>
           <button
             type="button"
             onClick={() => setActiveSecondaryTab(activeSecondaryTab === 'formulas' ? 'none' : 'formulas')}
@@ -154,6 +195,71 @@ export const ChapterDetail: React.FC = () => {
           </button>
         </div>
       </Card>
+
+      {/* Secondary Tab: Curated Video Lecture */}
+      {activeSecondaryTab === 'videos' && (
+        <Card className="p-5 space-y-4 border-rose-200 bg-gradient-to-b from-rose-50/20 to-white shadow-sm">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-rose-100 pb-3">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-100 text-rose-800">
+                  Curated High-Yield Lecture
+                </span>
+                <span className="text-xs text-slate-500 font-medium flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" /> {chapterVideo.duration}
+                </span>
+              </div>
+              <h3 className="font-bold text-sm text-slate-900 mt-1">{chapterVideo.title}</h3>
+              <p className="text-xs text-slate-500">Educator: <span className="font-semibold text-slate-700">{chapterVideo.channelName}</span></p>
+            </div>
+            <div className="flex items-center gap-2">
+              <a
+                href={`https://www.youtube.com/watch?v=${chapterVideo.youtubeId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 text-xs font-bold transition-all shadow-2xs"
+                title="Open in YouTube App"
+              >
+                <ExternalLink className="w-3.5 h-3.5 text-rose-600" />
+                <span>Open in YouTube</span>
+              </a>
+
+              <Button
+                size="sm"
+                variant="primary"
+                onClick={() => navigate(`/practice/session?subject=${encodeURIComponent(subjectName)}&chapter=${encodeURIComponent(chapterName)}`)}
+                className="text-xs bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm font-bold py-1.5 px-3"
+              >
+                <Play className="w-3.5 h-3.5 mr-1" /> Start CBT Test
+              </Button>
+            </div>
+          </div>
+
+          {/* Distraction-Free Embedded YouTube Player */}
+          <div className="relative w-full aspect-video rounded-xl overflow-hidden bg-black shadow-lg border border-slate-800">
+            <iframe
+              src={`https://www.youtube-nocookie.com/embed/${chapterVideo.youtubeId}?rel=0&modestbranding=1&showinfo=0`}
+              title={chapterVideo.title}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="absolute inset-0 w-full h-full border-0"
+            />
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3 p-3 bg-slate-50 rounded-xl border border-slate-200 text-xs text-slate-600">
+            <p className="leading-relaxed">
+              💡 <span className="font-semibold text-slate-800">Distraction-Free Mode:</span> YouTube comments and sidebar recommendations are blocked. Complete this high-yield lecture, then practice the questions below!
+            </p>
+            <button
+              type="button"
+              onClick={() => setShowDoubtModal(true)}
+              className="whitespace-nowrap px-3 py-1.5 bg-cyan-600 hover:bg-cyan-700 text-white font-semibold rounded-lg shadow-sm transition-all"
+            >
+              Ask AI Doubt
+            </button>
+          </div>
+        </Card>
+      )}
 
       {/* Secondary Tab: Formulas */}
       {activeSecondaryTab === 'formulas' && (

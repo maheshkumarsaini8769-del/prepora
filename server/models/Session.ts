@@ -13,6 +13,7 @@ export interface ISession extends Document {
   userAgent: string;
   lastActive: Date;
   isRevoked: boolean;
+  revocationReason?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -30,7 +31,8 @@ const SessionSchema: Schema = new Schema(
     ipAddress: { type: String, default: '127.0.0.1' },
     userAgent: { type: String, default: '' },
     lastActive: { type: Date, default: Date.now },
-    isRevoked: { type: Boolean, default: false, index: true }
+    isRevoked: { type: Boolean, default: false, index: true },
+    revocationReason: { type: String, default: null }
   },
   { timestamps: true }
 );

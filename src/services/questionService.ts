@@ -26,7 +26,7 @@ class ApiQuestionService {
 
   private async init() {
     try {
-      const { data, error } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=15000');
+      const { data, error } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=500');
       if (data && data.success && data.questions && data.questions.length > 0) {
         const map = new Map<string, Question>();
         mockQuestions.forEach(q => map.set(q.id, q));
@@ -62,7 +62,7 @@ class ApiQuestionService {
   }
 
   public async fetchAllQuestionsAsync(): Promise<Question[]> {
-    const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=15000');
+    const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=500');
     if (data && data.success && data.questions && data.questions.length > 0) {
       const map = new Map<string, Question>();
       mockQuestions.forEach(q => map.set(q.id, q));
@@ -91,6 +91,62 @@ class ApiQuestionService {
   public getQuestionsByIds(ids: string[]): Question[] {
     const map = new Map(this.getAllQuestions().map(q => [q.id, q]));
     return ids.map(id => map.get(id)).filter((q): q is Question => Boolean(q));
+  }
+
+  public async getQuestionsByIdsAsync(ids: string[]): Promise<Question[]> {
+    if (!ids || ids.length === 0) return [];
+    const cacheMap = new Map(this.getAllQuestions().map(q => [q.id, q]));
+    const missingIds = ids.filter(id => !cacheMap.has(id));
+
+    if (missingIds.length > 0) {
+      try {
+        const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions/by-ids', {
+          method: 'POST',
+          body: JSON.stringify({ ids: missingIds })
+        });
+        if (data && data.success && Array.isArray(data.questions)) {
+          data.questions.forEach(q => {
+            cacheMap.set(q.id, q);
+            this.localQuestionsCache.push(q);
+          });
+        }
+      } catch (err) {
+        console.warn('Failed to fetch missing questions by IDs', err);
+      }
+    }
+
+    return ids.map(id => cacheMap.get(id)).filter((q): q is Question => Boolean(q));
+  }
+
+  public async fetchQuestionsAsync(filters: QuestionFilters = {}, limit: number = 50): Promise<Question[]> {
+    try {
+      const params = new URLSearchParams();
+      if (filters.exam && filters.exam !== 'All') params.set('exam', filters.exam);
+      if (filters.classLevel && filters.classLevel !== 'All') params.set('classLevel', filters.classLevel);
+      if (filters.subject && filters.subject !== 'All') params.set('subject', filters.subject);
+      if (filters.chapter && filters.chapter !== 'All') params.set('chapter', filters.chapter);
+      if (filters.topic && filters.topic !== 'All') params.set('topic', filters.topic);
+      if (filters.difficulty && filters.difficulty !== 'All') params.set('difficulty', filters.difficulty);
+      if (filters.contentType && filters.contentType !== 'All') params.set('contentType', filters.contentType);
+      if (filters.includePYQs !== undefined) params.set('includePYQs', String(filters.includePYQs));
+      if (filters.includeModelPapers !== undefined) params.set('includeModelPapers', String(filters.includeModelPapers));
+      if (filters.searchQuery) params.set('search', filters.searchQuery);
+      params.set('limit', String(limit));
+
+      const { data } = await apiRequest<{ success: boolean; questions: Question[] }>(`/questions?${params.toString()}`);
+      if (data && data.success && Array.isArray(data.questions) && data.questions.length > 0) {
+        const cacheMap = new Map(this.localQuestionsCache.map(q => [q.id, q]));
+        data.questions.forEach(q => cacheMap.set(q.id, q));
+        this.localQuestionsCache = Array.from(cacheMap.values());
+        return data.questions.map(q => ({
+          ...q,
+          recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
+        }));
+      }
+    } catch {
+      // fallback
+    }
+    return this.filterQuestions(filters).slice(0, limit);
   }
 
   public filterQuestions(filters: QuestionFilters): Question[] {

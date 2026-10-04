@@ -39,6 +39,36 @@ function parseDeviceInfo(req: Request) {
   return { device, browser, os, userAgent, ipAddress };
 }
 
+// Helper: Ensure single active device/session lock per account.
+// When an account is logged in on a phone or laptop, any previous active session is automatically revoked.
+async function createSingleActiveSession(user: { id: string; email: string; role: string }, req: Request) {
+  // Revoke all existing active sessions for this user on any other phone, laptop, or browser
+  await Session.updateMany(
+    { userId: user.id, isRevoked: false },
+    { $set: { isRevoked: true, revocationReason: 'LOGGED_IN_ON_ANOTHER_DEVICE' } }
+  );
+
+  const sessionId = `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+  const token = jwt.sign(
+    { id: user.id, email: user.email, role: user.role, sessionId },
+    JWT_SECRET,
+    { expiresIn: '30d' }
+  );
+  const { device, browser, os, userAgent, ipAddress } = parseDeviceInfo(req);
+
+  const session = new Session({
+    id: sessionId,
+    userId: user.id,
+    token: hashToken(token),
+    deviceInfo: { device, browser, os },
+    ipAddress,
+    userAgent
+  });
+  await session.save();
+
+  return { token, session };
+}
+
 // POST /api/auth/register
 router.post('/register', async (req: Request, res: Response) => {
   try {
@@ -80,19 +110,8 @@ router.post('/register', async (req: Request, res: Response) => {
 
     await newUser.save();
 
-    // Create session
-    const token = jwt.sign({ id: newUser.id, email: newUser.email, role: newUser.role }, JWT_SECRET, { expiresIn: '30d' });
-    const { device, browser, os, userAgent, ipAddress } = parseDeviceInfo(req);
-
-    const session = new Session({
-      id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      userId: newUser.id,
-      token: hashToken(token),
-      deviceInfo: { device, browser, os },
-      ipAddress,
-      userAgent
-    });
-    await session.save();
+    // Create single active session
+    const { token, session } = await createSingleActiveSession(newUser, req);
 
     const userObj = newUser.toObject();
     delete userObj.passwordHash;
@@ -137,18 +156,7 @@ router.post('/login', async (req: Request, res: Response) => {
       await user.save();
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
-    const { device, browser, os, userAgent, ipAddress } = parseDeviceInfo(req);
-
-    const session = new Session({
-      id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      userId: user.id,
-      token: hashToken(token),
-      deviceInfo: { device, browser, os },
-      ipAddress,
-      userAgent
-    });
-    await session.save();
+    const { token, session } = await createSingleActiveSession(user, req);
 
     const userObj = user.toObject();
     delete userObj.passwordHash;
@@ -230,18 +238,7 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
       await user.save();
     }
 
-    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
-    const { device, browser, os, userAgent, ipAddress } = parseDeviceInfo(req);
-
-    const session = new Session({
-      id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      userId: user.id,
-      token: hashToken(token),
-      deviceInfo: { device, browser, os },
-      ipAddress,
-      userAgent
-    });
-    await session.save();
+    const { token, session } = await createSingleActiveSession(user, req);
 
     const userObj = user.toObject();
     delete userObj.passwordHash;
@@ -335,18 +332,7 @@ router.post('/verify-otp', async (req: Request, res: Response) => {
     user.otpExpires = undefined;
     await user.save();
 
-    const token = jwt.sign({ id: user.id, email: user.email, role: user.role }, JWT_SECRET, { expiresIn: '30d' });
-    const { device, browser, os, userAgent, ipAddress } = parseDeviceInfo(req);
-
-    const session = new Session({
-      id: `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
-      userId: user.id,
-      token: hashToken(token),
-      deviceInfo: { device, browser, os },
-      ipAddress,
-      userAgent
-    });
-    await session.save();
+    const { token, session } = await createSingleActiveSession(user, req);
 
     const userObj = user.toObject();
     delete userObj.passwordHash;

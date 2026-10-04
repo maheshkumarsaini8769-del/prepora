@@ -81,6 +81,54 @@ class ApiTestService {
     return null;
   }
 
+  public async buildCustomTestAsync(options: CustomTestOptions): Promise<{
+    success: boolean;
+    test?: Test;
+    message?: string;
+    isUnderflow?: boolean;
+    availableCount?: number;
+    requestedCount?: number;
+  }> {
+    try {
+      const { data, error } = await apiRequest<{
+        success: boolean;
+        test?: Test;
+        message?: string;
+        isUnderflow?: boolean;
+        availableCount?: number;
+        requestedCount?: number;
+      }>('/tests/build-custom', {
+        method: 'POST',
+        body: JSON.stringify(options)
+      });
+
+      if (data && data.success && data.test) {
+        const custom = this.getCustomTests();
+        custom.unshift(data.test);
+        setStorageItem('prepora_custom_tests', custom);
+        return { success: true, test: data.test };
+      }
+
+      if (data && data.isUnderflow) {
+        return {
+          success: false,
+          isUnderflow: true,
+          availableCount: data.availableCount,
+          requestedCount: data.requestedCount,
+          message: data.message
+        };
+      }
+
+      if (error || (data && !data.success)) {
+        return this.buildCustomTest(options);
+      }
+    } catch {
+      // offline fallback
+    }
+
+    return this.buildCustomTest(options);
+  }
+
   public buildCustomTest(options: CustomTestOptions): { 
     success: boolean; 
     test?: Test; 

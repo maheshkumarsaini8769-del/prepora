@@ -84,6 +84,30 @@ export const BuildMyTest: React.FC = () => {
       .filter((q) => selectedSubjects.includes(q.subject));
   }, [exam, classLevel, difficulty, includePYQs, selectedChapter, selectedTopic, selectedSubjects]);
 
+  const [serverCount, setServerCount] = useState<number | null>(null);
+
+  React.useEffect(() => {
+    let isCancelled = false;
+    const fetchCount = async () => {
+      const cnt = await questionService.getEligibleCountAsync({
+        exam,
+        classLevel,
+        subject: selectedSubjects.length === 1 ? selectedSubjects[0] : undefined,
+        chapter: selectedChapter !== 'ALL' ? selectedChapter : undefined,
+        topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
+        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+        includePYQs
+      });
+      if (!isCancelled) {
+        setServerCount(cnt);
+      }
+    };
+    fetchCount();
+    return () => { isCancelled = true; };
+  }, [exam, classLevel, selectedSubjects, selectedChapter, selectedTopic, difficulty, includePYQs]);
+
+  const effectiveAvailableCount = serverCount !== null ? serverCount : availablePool.length;
+
   // Section 10: Deterministic Paper Blueprint Calculation
   const blueprintSubjects = useMemo(() => {
     const subCount = selectedSubjects.length || 1;
@@ -144,18 +168,18 @@ export const BuildMyTest: React.FC = () => {
     }
   };
 
-  const handleGenerateTest = (overrideCount?: number) => {
+  const handleGenerateTest = async (overrideCount?: number) => {
     setErrorMessage(null);
     setAiSuccessMessage(null);
     const countToUse = overrideCount !== undefined ? overrideCount : Number(questionCount);
 
-    if (availablePool.length < countToUse) {
-      setUnderflowInfo({ available: availablePool.length, requested: countToUse });
+    if (effectiveAvailableCount > 0 && effectiveAvailableCount < countToUse) {
+      setUnderflowInfo({ available: effectiveAvailableCount, requested: countToUse });
       setShowUnderflowModal(true);
       return;
     }
 
-    const result = testService.buildCustomTest({
+    const result = await testService.buildCustomTestAsync({
       title: testTitle.trim() || `${exam} Custom Test (${countToUse} Questions)`,
       exam,
       classLevel,
@@ -172,7 +196,7 @@ export const BuildMyTest: React.FC = () => {
     if (!result.success || !result.test) {
       if (result.isUnderflow) {
         setUnderflowInfo({
-          available: result.availableCount ?? availablePool.length,
+          available: result.availableCount ?? effectiveAvailableCount,
           requested: result.requestedCount ?? countToUse
         });
         setShowUnderflowModal(true);
@@ -410,8 +434,8 @@ export const BuildMyTest: React.FC = () => {
         <div className="p-3.5 rounded-lg bg-slate-50 border border-slate-200 flex items-center justify-between text-xs">
           <div className="text-slate-600">
             <span className="font-semibold text-slate-900">{difficulty}</span> •{' '}
-            <span className={availablePool.length < questionCount ? 'text-amber-600 font-bold' : 'text-slate-700 font-semibold'}>
-              {availablePool.length} questions available
+            <span className={effectiveAvailableCount < questionCount ? 'text-amber-600 font-bold' : 'text-slate-700 font-semibold'}>
+              {effectiveAvailableCount} questions available
             </span>
           </div>
           <span className="text-slate-400 text-[11px]">
@@ -469,7 +493,7 @@ export const BuildMyTest: React.FC = () => {
             size="lg"
             variant="primary"
             onClick={() => handleGenerateTest()}
-            disabled={availablePool.length === 0}
+            disabled={effectiveAvailableCount === 0}
             className="w-full py-3 bg-slate-900 hover:bg-black text-white font-bold rounded-xl flex items-center justify-center gap-2"
           >
             <span>Start Test</span>

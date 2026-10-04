@@ -157,7 +157,26 @@ export const Home: React.FC = () => {
           </h1>
         </div>
 
-        <div className="flex items-center gap-2 flex-wrap">
+        {/* Mobile Compact Status Row */}
+        <div className="flex sm:hidden items-center justify-between gap-2 p-2.5 rounded-2xl bg-slate-100/90 border border-slate-200/80 text-xs font-bold w-full">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-brand-600 animate-pulse" />
+            <span className="text-slate-800">{prepBadge.label} {classLevel}</span>
+          </div>
+          <div className="text-slate-600 font-semibold text-[11px]">
+            {examDaysRemaining}d to exam
+          </div>
+          <button
+            type="button"
+            onClick={() => navigate('/onboarding')}
+            className="px-2.5 py-1 rounded-lg bg-white text-slate-700 border border-slate-200 shadow-2xs text-[11px] font-bold"
+          >
+            Change
+          </button>
+        </div>
+
+        {/* Desktop Buttons Row */}
+        <div className="hidden sm:flex items-center gap-2 flex-wrap">
           <button
             type="button"
             onClick={() => navigate('/onboarding')}

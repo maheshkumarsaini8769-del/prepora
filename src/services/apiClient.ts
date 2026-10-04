@@ -22,6 +22,19 @@ export async function apiRequest<T>(
 
     if (!res.ok) {
       const errJson = await res.json().catch(() => null);
+      if (res.status === 401 && (errJson?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' || errJson?.code === 'SESSION_REVOKED')) {
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('prepora_auth_token');
+          window.dispatchEvent(
+            new CustomEvent('prepora:session_revoked', {
+              detail: {
+                reason: errJson?.code || 'SESSION_REVOKED',
+                message: errJson?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai.'
+              }
+            })
+          );
+        }
+      }
       return {
         data: null,
         error: errJson?.message || `Request failed with status ${res.status}`

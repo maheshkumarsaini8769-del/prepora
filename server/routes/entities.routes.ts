@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import { Mistake, Bookmark, Note, Doubt, QuestionReport, Goal } from '../models/Entities.js';
 import Question from '../models/Question.js';
 import User from '../models/User.js';
+import VideoWatchLog from '../models/VideoWatchLog.js';
 import { optionalAuth, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -243,6 +244,81 @@ router.patch('/user/profile', async (req: Request, res: Response) => {
     res.json({ success: true, user });
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
+  }
+});
+
+// --- VIDEO LECTURE WATCH TRACKING ---
+router.post('/video-views/track', optionalAuth, async (req: AuthRequest, res: Response) => {
+  try {
+    const { subject, chapter, videoId, videoTitle, channelName } = req.body;
+    if (!subject || !chapter || !videoId) {
+      return res.status(400).json({ success: false, message: 'subject, chapter, and videoId are required' });
+    }
+
+    const userId = req.userId || req.body.userId || 'usr-anonymous';
+    const userEmail = req.user?.email || req.body.userEmail || '';
+
+    const log = new VideoWatchLog({
+      id: `vw-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      userId,
+      userEmail,
+      subject,
+      chapter,
+      videoId,
+      videoTitle: videoTitle || 'Chapter One-Shot Lecture',
+      channelName: channelName || 'Curated Educator',
+      watchedAt: new Date()
+    });
+
+    await log.save();
+    res.status(201).json({ success: true, logId: log.id });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// --- VIDEO LECTURE STATS (FOR ADMIN ANALYTICS) ---
+router.get('/video-views/stats', async (req: Request, res: Response) => {
+  try {
+    const totalViews = await VideoWatchLog.countDocuments();
+
+    // Subject breakdown
+    const subjectStats = await VideoWatchLog.aggregate([
+      { $group: { _id: '$subject', count: { $sum: 1 } } },
+      { $sort: { count: -1 } }
+    ]);
+
+    const subjectMap: Record<string, number> = {
+      Physics: 0,
+      Chemistry: 0,
+      Mathematics: 0,
+      Biology: 0
+    };
+    for (const item of subjectStats) {
+      if (item._id) subjectMap[item._id] = item.count;
+    }
+
+    // Top chapters watched
+    const topChapters = await VideoWatchLog.aggregate([
+      { $group: { _id: '$chapter', subject: { $first: '$subject' }, count: { $sum: 1 } } },
+      { $sort: { count: -1 } },
+      { $limit: 8 }
+    ]);
+
+    // Recent 10 views
+    const recentViews = await VideoWatchLog.find().sort({ watchedAt: -1 }).limit(10);
+
+    res.json({
+      success: true,
+      stats: {
+        totalViews,
+        subjectMap,
+        topChapters: topChapters.map(c => ({ chapter: c._id, subject: c.subject, count: c.count })),
+        recentViews
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
   }
 });
 

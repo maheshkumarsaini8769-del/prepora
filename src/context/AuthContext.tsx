@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { AlertTriangle } from 'lucide-react';
 import { UserProfile } from '../types';
 import { userService } from '../services/userService';
 import { initialUserProfile } from '../data/mockData';
@@ -34,6 +35,7 @@ export interface AuthContextType {
   logoutOtherDevices: () => Promise<{ success: boolean; message?: string }>;
   fetchSessions: (authToken?: string) => Promise<void>;
   updateUser: (updates: Partial<UserProfile>) => Promise<void>;
+  loginDemo: (role?: 'student' | 'admin') => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -50,6 +52,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [activeSessions, setActiveSessions] = useState<ActiveSession[]>([]);
   const [authModalOpen, setAuthModalOpen] = useState<boolean>(false);
   const [authModalMode, setAuthModalMode] = useState<'login' | 'register' | 'otp' | 'forgot'>('login');
+  const [sessionRevokedAlert, setSessionRevokedAlert] = useState<{ open: boolean; message: string }>({
+    open: false,
+    message: ''
+  });
 
   const syncStudentUserData = async (studentId: string, authToken: string) => {
     try {
@@ -150,9 +156,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             syncStudentUserData(data.user.id, storedToken);
           }
         } else if (res.status === 401) {
-          // Token expired or session revoked
+          const errData = await res.json().catch(() => null);
           localStorage.removeItem(TOKEN_KEY);
           setToken(null);
+          if (errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE') {
+            setSessionRevokedAlert({
+              open: true,
+              message: errData.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device par session band kar diya gaya hai.'
+            });
+          }
         }
       } catch (err) {
         console.warn('Could not connect to /api/auth/me, using local profile state:', err);
@@ -161,6 +173,60 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     initAuth();
   }, [fetchSessions]);
+
+  // Listen for session revoked event dispatched by apiClient or background checks
+  useEffect(() => {
+    const handleRevoked = (e: any) => {
+      const msg = e?.detail?.message || 'Aapka account kisi dusre device ya laptop par login ho gaya hai. Suraksha ke liye is device se logout kiya gaya hai.';
+      localStorage.removeItem(TOKEN_KEY);
+      setToken(null);
+      setUser(userService.getProfile());
+      setSessionRevokedAlert({ open: true, message: msg });
+    };
+
+    window.addEventListener('prepora:session_revoked', handleRevoked);
+    return () => window.removeEventListener('prepora:session_revoked', handleRevoked);
+  }, []);
+
+  // Periodic and tab-visibility heartbeat session check
+  useEffect(() => {
+    if (!token) return;
+
+    const checkActiveSession = async () => {
+      const currentToken = localStorage.getItem(TOKEN_KEY);
+      if (!currentToken) return;
+
+      try {
+        const res = await fetch('/api/auth/me', {
+          headers: { Authorization: `Bearer ${currentToken}` }
+        });
+        if (res.status === 401) {
+          const errData = await res.json().catch(() => null);
+          const msg = errData?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai.';
+          localStorage.removeItem(TOKEN_KEY);
+          setToken(null);
+          setUser(userService.getProfile());
+          setSessionRevokedAlert({ open: true, message: msg });
+        }
+      } catch {
+        // Network offline, skip
+      }
+    };
+
+    const interval = setInterval(checkActiveSession, 20000);
+
+    const handleVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        checkActiveSession();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    return () => {
+      clearInterval(interval);
+      document.removeEventListener('visibilitychange', handleVisibility);
+    };
+  }, [token]);
 
   // Listen for real-time local profile updates (practice questions, mock tests, streak updates)
   useEffect(() => {
@@ -458,6 +524,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
+  const loginDemo = useCallback((role: 'student' | 'admin' = 'student') => {
+    const demoToken = 'prepora_demo_session_' + Date.now();
+    const isAdm = role === 'admin';
+    const email = isAdm ? 'maheshkumarsaini8769@gmail.com' : 'aman.sharma@example.com';
+    const name = isAdm ? 'Mahesh Kumar (Admin)' : 'Aman Sharma';
+
+    setToken(demoToken);
+    localStorage.setItem(TOKEN_KEY, demoToken);
+    localStorage.setItem('prepora_onboarding_completed', 'true');
+
+    const demoUser: UserProfile & { role?: 'student' | 'admin' } = {
+      ...userService.getProfile(),
+      id: isAdm ? 'usr_admin_master' : 'usr_default_aman',
+      email,
+      name,
+      role: isAdm ? 'admin' : 'student'
+    };
+    setUser(demoUser);
+    userService.updateProfile(demoUser);
+    setAuthModalOpen(false);
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -479,10 +567,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         logout,
         logoutOtherDevices,
         fetchSessions,
-        updateUser
+        updateUser,
+        loginDemo
       }}
     >
       {children}
+      {sessionRevokedAlert.open && (
+        <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/75 backdrop-blur-md p-4 animate-in fade-in">
+          <div className="bg-slate-900 border border-amber-500/40 rounded-2xl p-6 sm:p-8 max-w-md w-full shadow-2xl text-center">
+            <div className="w-16 h-16 bg-amber-500/15 text-amber-400 rounded-2xl flex items-center justify-center mx-auto mb-4 border border-amber-500/30">
+              <AlertTriangle className="w-8 h-8" />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">Device Changed / Logged Out</h3>
+            <p className="text-slate-300 text-sm mb-6 leading-relaxed">
+              {sessionRevokedAlert.message}
+            </p>
+            <button
+              onClick={() => {
+                setSessionRevokedAlert({ open: false, message: '' });
+                setAuthModalOpen(true);
+              }}
+              className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-cyan-500/25 transition-all"
+            >
+              Wapas Login Karein
+            </button>
+          </div>
+        </div>
+      )}
     </AuthContext.Provider>
   );
 };

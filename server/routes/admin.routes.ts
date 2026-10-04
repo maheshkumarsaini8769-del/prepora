@@ -1400,12 +1400,13 @@ router.post('/papers', async (req: AuthRequest, res: Response) => {
     await newPaper.save();
 
     await AuditLog.create({
+      id: `audit_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       action: 'CREATE_PAPER',
       adminId: req.user?.id || 'admin',
       adminEmail: req.user?.email || 'admin@prepora.internal',
-      targetResource: 'Paper',
-      targetId: newPaper.id,
-      details: { title: newPaper.title, contentType: newPaper.contentType, exam: newPaper.exam }
+      entityType: 'Paper',
+      entityId: newPaper.id,
+      metadata: { title: newPaper.title, contentType: newPaper.contentType, exam: newPaper.exam }
     });
 
     res.json({ success: true, message: 'Paper successfully created & verified', data: newPaper });
@@ -1443,12 +1444,13 @@ router.put('/papers/:id', async (req: AuthRequest, res: Response) => {
     }
 
     await AuditLog.create({
+      id: `audit_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       action: 'UPDATE_PAPER',
       adminId: req.user?.id || 'admin',
       adminEmail: req.user?.email || 'admin@prepora.internal',
-      targetResource: 'Paper',
-      targetId: id,
-      details: { updates: body }
+      entityType: 'Paper',
+      entityId: String(id),
+      metadata: { updates: body }
     });
 
     res.json({ success: true, message: 'Paper updated successfully', data: updated });
@@ -1466,12 +1468,13 @@ router.delete('/papers/:id', async (req: AuthRequest, res: Response) => {
     }
 
     await AuditLog.create({
+      id: `audit_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
       action: 'DELETE_PAPER',
       adminId: req.user?.id || 'admin',
       adminEmail: req.user?.email || 'admin@prepora.internal',
-      targetResource: 'Paper',
-      targetId: id,
-      details: { title: paper.title, contentType: paper.contentType }
+      entityType: 'Paper',
+      entityId: String(id),
+      metadata: { title: paper.title, contentType: paper.contentType }
     });
 
     res.json({ success: true, message: 'Paper deleted successfully' });

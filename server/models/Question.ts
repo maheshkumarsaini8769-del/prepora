@@ -81,7 +81,6 @@ const QuestionSchema: Schema = new Schema(
 );
 
 QuestionSchema.index({ exam: 1, subject: 1, chapter: 1, difficulty: 1 });
-QuestionSchema.index({ question: 'text', chapter: 'text', topic: 'text', concept: 'text' });
 
 export const Question = mongoose.model<IQuestion>('Question', QuestionSchema);
 export default Question;

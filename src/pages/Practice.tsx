@@ -39,6 +39,29 @@ export const Practice: React.FC = () => {
     difficulty: difficulty === 'All' ? undefined : difficulty,
   });
 
+  const [dbCount, setDbCount] = useState<number | null>(null);
+
+  React.useEffect(() => {
+    let isCancelled = false;
+    const fetchCount = async () => {
+      const cnt = await questionService.getEligibleCountAsync({
+        exam: exam === 'All' ? undefined : exam,
+        classLevel: classLevel === 'All' ? undefined : classLevel,
+        subject,
+        chapter: chapter === 'All' ? undefined : chapter,
+        topic: topic === 'All' ? undefined : topic,
+        difficulty: difficulty === 'All' ? undefined : difficulty,
+      });
+      if (!isCancelled) {
+        setDbCount(cnt);
+      }
+    };
+    fetchCount();
+    return () => { isCancelled = true; };
+  }, [exam, classLevel, subject, chapter, topic, difficulty]);
+
+  const effectiveAvailableCount = dbCount !== null ? dbCount : matchingPool.length;
+
   const handleStartPractice = (overrideCount?: number) => {
     const finalCount = overrideCount !== undefined ? overrideCount : questionCount;
     const params = new URLSearchParams({
@@ -201,13 +224,13 @@ export const Practice: React.FC = () => {
           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
             4. Difficulty
           </label>
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
             {(['All', 'Easy', 'Medium', 'Hard'] as (DifficultyLevel | 'All')[]).map((d) => (
               <button
                 key={d}
                 type="button"
                 onClick={() => setDifficulty(d)}
-                className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center ${
                   difficulty === d
                     ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
@@ -224,7 +247,7 @@ export const Practice: React.FC = () => {
           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
             5. Number of Questions
           </label>
-          <div className="grid grid-cols-5 gap-2">
+          <div className="grid grid-cols-5 gap-1 sm:gap-2">
             {[10, 20, 30, 50].map((num) => (
               <button
                 key={num}
@@ -233,7 +256,7 @@ export const Practice: React.FC = () => {
                   setQuestionCount(num);
                   setCustomCountInput('');
                 }}
-                className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center ${
                   questionCount === num && customCountInput === ''
                     ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
                     : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
@@ -248,7 +271,7 @@ export const Practice: React.FC = () => {
                 if (!customCountInput) setCustomCountInput('40');
                 setQuestionCount(Number(customCountInput) || 40);
               }}
-              className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${
+              className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center ${
                 customCountInput !== ''
                   ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
                   : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
@@ -338,23 +361,23 @@ export const Practice: React.FC = () => {
         )}
 
         {/* Section 9: Honest Underflow Advisory */}
-        {matchingPool.length > 0 && matchingPool.length < questionCount && (
+        {effectiveAvailableCount > 0 && effectiveAvailableCount < questionCount && (
           <div className="p-4 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 space-y-2.5">
             <div className="flex items-center gap-2 text-xs font-bold text-amber-800">
               <AlertCircle className="w-4 h-4 shrink-0" />
-              <span>{matchingPool.length} verified questions available (requested {questionCount})</span>
+              <span>{effectiveAvailableCount} verified questions available (requested {questionCount})</span>
             </div>
             <p className="text-[11px] text-amber-700">
-              PREPORA will never silently substitute random questions. You can practice the {matchingPool.length} verified questions immediately, or generate {questionCount - matchingPool.length} verified questions for this exact topic using the AI Engine.
+              PREPORA will never silently substitute random questions. You can practice the {effectiveAvailableCount} verified questions immediately, or generate {questionCount - effectiveAvailableCount} verified questions for this exact topic using the AI Engine.
             </p>
             <div className="flex items-center gap-2.5 pt-1">
               <Button
                 size="sm"
                 variant="outline"
-                onClick={() => handleStartPractice(matchingPool.length)}
+                onClick={() => handleStartPractice(effectiveAvailableCount)}
                 className="text-xs font-bold border-amber-300 text-amber-900 bg-white hover:bg-amber-100/60"
               >
-                Practice {matchingPool.length} Verified
+                Practice {effectiveAvailableCount} Verified
               </Button>
               <Button
                 size="sm"
@@ -364,7 +387,7 @@ export const Practice: React.FC = () => {
                 className="text-xs font-bold bg-amber-900 hover:bg-black text-white flex items-center gap-1.5"
               >
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>{isGeneratingAI ? 'Generating...' : `Generate ${questionCount - matchingPool.length} More`}</span>
+                <span>{isGeneratingAI ? 'Generating...' : `Generate ${questionCount - effectiveAvailableCount} More`}</span>
               </Button>
             </div>
           </div>
@@ -374,14 +397,14 @@ export const Practice: React.FC = () => {
         <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
           <div className="text-xs text-slate-500">
             Available questions matching filters:{' '}
-            <strong className="text-slate-900">{matchingPool.length}</strong>
+            <strong className="text-slate-900">{effectiveAvailableCount}</strong>
           </div>
 
           <Button
             size="lg"
             variant="primary"
             onClick={() => handleStartPractice()}
-            disabled={matchingPool.length === 0}
+            disabled={effectiveAvailableCount === 0}
             className="w-full sm:w-auto font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 shadow-xs flex items-center justify-center gap-2"
           >
             <span>Start Practice</span>

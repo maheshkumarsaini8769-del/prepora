@@ -10,12 +10,16 @@ import {
   Activity,
   Zap,
   Clock,
-  Target
+  Target,
+  Video,
+  Play,
+  Eye
 } from 'lucide-react';
 
 export const AdminAnalytics: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<any>(null);
+  const [videoStats, setVideoStats] = useState<any>(null);
   const [settings, setSettings] = useState<any>({
     weakPercent: 50,
     improvementPercent: 70,
@@ -24,15 +28,19 @@ export const AdminAnalytics: React.FC = () => {
   const [savedMsg, setSavedMsg] = useState('');
 
   useEffect(() => {
-    // Fetch analytics and settings
+    // Fetch analytics, video stats, and settings
     Promise.all([
-      fetch('/api/admin/analytics/aggregate').then((r) => r.json()),
-      fetch('/api/admin/settings').then((r) => r.json())
+      fetch('/api/admin/analytics/aggregate').then((r) => r.json()).catch(() => ({ success: false })),
+      fetch('/api/admin/settings').then((r) => r.json()).catch(() => ({ success: false })),
+      fetch('/api/video-views/stats').then((r) => r.json()).catch(() => ({ success: false }))
     ])
-      .then(([analyticsRes, settingsRes]) => {
-        if (analyticsRes.success) setData(analyticsRes.data);
-        if (settingsRes.success && settingsRes.data?.difficultyThresholds) {
+      .then(([analyticsRes, settingsRes, videoRes]) => {
+        if (analyticsRes?.success) setData(analyticsRes.data);
+        if (settingsRes?.success && settingsRes.data?.difficultyThresholds) {
           setSettings(settingsRes.data.difficultyThresholds);
+        }
+        if (videoRes?.success && videoRes.stats) {
+          setVideoStats(videoRes.stats);
         }
       })
       .finally(() => setLoading(false));
@@ -231,6 +239,79 @@ export const AdminAnalytics: React.FC = () => {
             </button>
           </div>
         </div>
+      </div>
+
+      {/* Video Lecture Insights Section */}
+      <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-5 shadow-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-800 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center">
+              <Video className="w-5 h-5" />
+            </div>
+            <div>
+              <h2 className="text-base font-bold text-white flex items-center gap-2">
+                <span>Video Lecture Insights & Subject Analytics</span>
+                <span className="px-2 py-0.5 rounded text-[10px] font-extrabold bg-rose-500/20 text-rose-300 uppercase tracking-wider">
+                  Live Tracking
+                </span>
+              </h2>
+              <p className="text-xs text-slate-400">
+                Track how many students are watching curated YouTube lectures across Physics, Chemistry, Maths & Biology.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2 bg-slate-800/80 px-3.5 py-2 rounded-xl border border-slate-700">
+            <Eye className="w-4 h-4 text-rose-400" />
+            <span className="text-xs text-slate-300 font-medium">Total Video Views:</span>
+            <span className="text-sm font-black text-white">{videoStats?.totalViews || 0}</span>
+          </div>
+        </div>
+
+        {/* Subject-Wise Breakdown Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {[
+            { subject: 'Physics', color: 'text-cyan-400', bg: 'bg-cyan-500/10', bar: 'bg-cyan-500', count: videoStats?.subjectMap?.Physics || 0 },
+            { subject: 'Chemistry', color: 'text-amber-400', bg: 'bg-amber-500/10', bar: 'bg-amber-500', count: videoStats?.subjectMap?.Chemistry || 0 },
+            { subject: 'Mathematics', color: 'text-indigo-400', bg: 'bg-indigo-500/10', bar: 'bg-indigo-500', count: videoStats?.subjectMap?.Mathematics || 0 },
+            { subject: 'Biology', color: 'text-emerald-400', bg: 'bg-emerald-500/10', bar: 'bg-emerald-500', count: videoStats?.subjectMap?.Biology || 0 },
+          ].map((sub) => {
+            const total = videoStats?.totalViews || 1;
+            const pct = Math.round((sub.count / total) * 100);
+            return (
+              <div key={sub.subject} className="p-4 rounded-xl bg-slate-800/50 border border-slate-700/60 space-y-2">
+                <div className="flex items-center justify-between text-xs font-semibold text-slate-400">
+                  <span className={sub.color}>{sub.subject}</span>
+                  <span className="text-white font-bold">{sub.count} views</span>
+                </div>
+                <div className="w-full bg-slate-700 h-2 rounded-full overflow-hidden">
+                  <div className={`h-full rounded-full ${sub.bar}`} style={{ width: `${Math.min(100, Math.max(sub.count > 0 ? 8 : 0, pct))}%` }} />
+                </div>
+                <div className="text-[11px] text-slate-500 text-right">
+                  {sub.count > 0 ? `${pct}% of total traffic` : '0 views yet'}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Top Watched Chapters */}
+        {videoStats?.topChapters && videoStats.topChapters.length > 0 && (
+          <div className="mt-4 pt-4 border-t border-slate-800 space-y-2">
+            <h3 className="text-xs font-bold text-slate-300 uppercase tracking-wider">
+              Top Watched Chapters
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-2">
+              {videoStats.topChapters.map((chap: any, idx: number) => (
+                <div key={idx} className="p-2.5 rounded-lg bg-slate-800/40 border border-slate-700/40 flex items-center justify-between text-xs">
+                  <span className="font-semibold text-slate-200 truncate pr-2">{chap.chapter}</span>
+                  <span className="px-2 py-0.5 rounded bg-rose-500/20 text-rose-300 font-bold text-[11px] shrink-0">
+                    {chap.count} views
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

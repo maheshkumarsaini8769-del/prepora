@@ -17,6 +17,8 @@ import {
   Calculator,
   Type,
   Globe,
+  Maximize,
+  Minimize,
   ChevronDown,
   ChevronUp,
   Sparkles
@@ -57,53 +59,88 @@ export const ExamSession: React.FC = () => {
   const [language, setLanguage] = useState<'en' | 'hi'>('en');
   const [coachMinimized, setCoachMinimized] = useState<boolean>(false);
 
+  // Anti-Cheating & Proctoring States
+  const [tabSwitchWarnings, setTabSwitchWarnings] = useState<number>(0);
+  const [showTabWarningModal, setShowTabWarningModal] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
   // Active question ref for reliable time-tracking without re-binding timer interval
   const currentQIdRef = useRef<string>('');
 
   // Initialize test and answers ONCE per test ID
   useEffect(() => {
     if (!test) return;
-    const qs = questionService.getQuestionsByIds(test.questionIds).slice(0, test.totalQuestions);
-    setQuestions(qs);
-    const duration = test.durationMinutes * 60;
-    totalDurationSeconds.current = duration;
-    setTimeLeftSeconds(duration);
+    let isCancelled = false;
 
-    if (qs.length > 0) {
-      currentQIdRef.current = qs[0].id;
-    }
+    const loadExamQuestions = async () => {
+      let qs: Question[] = [];
+      if (test.questionIds && test.questionIds.length > 0) {
+        qs = await questionService.getQuestionsByIdsAsync(test.questionIds);
+        qs = qs.slice(0, test.totalQuestions);
+      }
 
-    // Initialize answer state for every question
-    const initialAnswers: Record<string, TestAnswer> = {};
-    qs.forEach((q, idx) => {
-      initialAnswers[q.id] = {
-        questionId: q.id,
-        selectedAnswer: null,
-        isAnswered: false,
-        isMarkedForReview: false,
-        isVisited: idx === 0,
-        timeSpentSeconds: 0,
-        recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
-      };
-    });
+      if (qs.length === 0) {
+        const fetched = await questionService.fetchQuestionsAsync({
+          exam: test.exam as any,
+          classLevel: test.classLevel as any,
+          includePYQs: true
+        }, test.totalQuestions);
+        qs = fetched.filter(q => test.subjects.includes(q.subject)).slice(0, test.totalQuestions);
 
-    // Check if previous unfinished attempt exists in local storage
-    const saved = syncEngine.getActiveTest(test.id);
-    if (saved && saved.answers && saved.timeLeftSeconds > 0) {
-      setAnswers(saved.answers);
-      setTimeLeftSeconds(saved.timeLeftSeconds);
-      if (saved.currentIndex !== undefined && saved.currentIndex < qs.length) {
-        setCurrentIndex(saved.currentIndex);
-        if (qs[saved.currentIndex]) {
-          currentQIdRef.current = qs[saved.currentIndex].id;
+        if (qs.length === 0) {
+          qs = questionService.getAllQuestions().slice(0, test.totalQuestions);
         }
       }
-      setRestoredNotice(true);
-      setTimeout(() => setRestoredNotice(false), 4000);
-    } else {
-      setAnswers(initialAnswers);
-    }
-  }, [id]);
+
+      if (isCancelled) return;
+
+      setQuestions(qs);
+      const duration = test.durationMinutes * 60;
+      totalDurationSeconds.current = duration;
+      setTimeLeftSeconds(duration);
+
+      if (qs.length > 0) {
+        currentQIdRef.current = qs[0].id;
+      }
+
+      // Initialize answer state for every question
+      const initialAnswers: Record<string, TestAnswer> = {};
+      qs.forEach((q, idx) => {
+        initialAnswers[q.id] = {
+          questionId: q.id,
+          selectedAnswer: null,
+          isAnswered: false,
+          isMarkedForReview: false,
+          isVisited: idx === 0,
+          timeSpentSeconds: 0,
+          recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
+        };
+      });
+
+      // Check if previous unfinished attempt exists in local storage
+      const saved = syncEngine.getActiveTest(test.id);
+      if (saved && saved.answers && saved.timeLeftSeconds > 0) {
+        setAnswers(saved.answers);
+        setTimeLeftSeconds(saved.timeLeftSeconds);
+        if (saved.currentIndex !== undefined && saved.currentIndex < qs.length) {
+          setCurrentIndex(saved.currentIndex);
+          if (qs[saved.currentIndex]) {
+            currentQIdRef.current = qs[saved.currentIndex].id;
+          }
+        }
+        setRestoredNotice(true);
+        setTimeout(() => setRestoredNotice(false), 4000);
+      } else {
+        setAnswers(initialAnswers);
+      }
+    };
+
+    loadExamQuestions();
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [id, test]);
 
   // Real-time Auto-Save to localStorage on state change
   useEffect(() => {
@@ -165,6 +202,48 @@ export const ExamSession: React.FC = () => {
     }
   }, [timeLeftSeconds]);
 
+  // Anti-Cheating: Tab Switch & Window Blur Proctoring
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.hidden && !submitting) {
+        setTabSwitchWarnings((prev) => {
+          const next = prev + 1;
+          setShowTabWarningModal(true);
+          if (next >= 3) {
+            handleSubmitTest(true);
+          }
+          return next;
+        });
+      }
+    };
+
+    const handleFullscreenChange = () => {
+      setIsFullscreen(Boolean(document.fullscreenElement));
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    document.addEventListener('fullscreenchange', handleFullscreenChange);
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    };
+  }, [submitting]);
+
+  const toggleFullscreen = async () => {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+        setIsFullscreen(true);
+      } else {
+        await document.exitFullscreen();
+        setIsFullscreen(false);
+      }
+    } catch (err) {
+      console.warn('Fullscreen request:', err);
+    }
+  };
+
   if (!test || questions.length === 0) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-slate-100">
@@ -177,6 +256,16 @@ export const ExamSession: React.FC = () => {
   }
 
   const currentQ = questions[currentIndex] || questions[0];
+  if (!currentQ) {
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-slate-900 text-white">
+        <div className="text-center p-6">
+          <div className="animate-spin h-8 w-8 border-4 border-indigo-500 border-t-transparent rounded-full mx-auto mb-3"></div>
+          <p className="font-semibold text-sm">Loading questions for this test session...</p>
+        </div>
+      </div>
+    );
+  }
   const currentAnswer = answers[currentQ.id] || {
     questionId: currentQ.id,
     selectedAnswer: null,
@@ -379,7 +468,11 @@ export const ExamSession: React.FC = () => {
   const optionFontClass = fontSize === 'sm' ? 'text-xs sm:text-sm' : fontSize === 'lg' ? 'text-base sm:text-lg' : 'text-sm sm:text-base';
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col font-sans select-none">
+    <div 
+      className="min-h-screen bg-slate-100 flex flex-col font-sans select-none"
+      onContextMenu={(e) => e.preventDefault()}
+      onCopy={(e) => e.preventDefault()}
+    >
       {restoredNotice && (
         <div className="bg-emerald-600 text-white text-xs px-4 py-1.5 text-center font-semibold shadow-inner animate-fadeIn flex items-center justify-center gap-1.5 z-30">
           <CheckCircle2 className="w-3.5 h-3.5" />
@@ -395,14 +488,34 @@ export const ExamSession: React.FC = () => {
           </span>
           <div className="min-w-0">
             <h1 className="text-xs sm:text-sm font-bold text-slate-900 truncate">{test.title}</h1>
-            <div className="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate">
-              {test.exam} • Section: <span className="font-semibold text-purple-700">{currentQ.subject}</span>
+            <div className="text-[10px] sm:text-[11px] text-slate-500 font-medium truncate flex items-center gap-1.5">
+              <span>{test.exam} • Section: <span className="font-semibold text-purple-700">{currentQ.subject}</span></span>
+              {tabSwitchWarnings > 0 && (
+                <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-[10px] font-bold bg-amber-100 text-amber-800 border border-amber-300">
+                  <ShieldAlert className="w-3 h-3 text-amber-600" />
+                  {tabSwitchWarnings}/3 Warning{tabSwitchWarnings > 1 ? 's' : ''}
+                </span>
+              )}
             </div>
           </div>
         </div>
 
         {/* Center/Right Toolbar: Exam Tools, Font, Lang & Countdown Timer */}
         <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+          {/* Fullscreen CBT Mode Toggle */}
+          <button
+            onClick={toggleFullscreen}
+            className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-xs font-semibold transition-colors ${
+              isFullscreen
+                ? 'bg-emerald-50 border-emerald-200 text-emerald-700'
+                : 'bg-slate-50 border-slate-200 text-slate-700 hover:bg-slate-100'
+            }`}
+            title={isFullscreen ? 'Exit Fullscreen' : 'Enter Fullscreen Exam Mode'}
+          >
+            {isFullscreen ? <Minimize className="w-3.5 h-3.5" /> : <Maximize className="w-3.5 h-3.5" />}
+            <span className="hidden sm:inline">{isFullscreen ? 'Fullscreen' : 'Fullscreen'}</span>
+          </button>
+
           {/* Quick Font Size Switcher (Desktop) */}
           <div className="hidden md:flex items-center bg-slate-100 rounded-lg p-0.5 border border-slate-200 text-xs">
             <button
@@ -592,67 +705,73 @@ export const ExamSession: React.FC = () => {
             </div>
           </div>
 
-          {/* Bottom Exam Action Controls */}
-          <div className="mt-8 pt-4 border-t border-slate-200 bg-white/70 -mx-4 -mb-4 p-4 sm:mx-0 sm:mb-0 sm:rounded-2xl sm:border flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClearResponse}
-                disabled={currentAnswer.selectedAnswer === null}
-                className="text-xs"
-              >
-                Clear Response
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleToggleMarkReview}
-                className={`text-xs ${currentAnswer.isMarkedForReview ? 'bg-purple-50 text-purple-700 border-purple-300 font-bold' : ''}`}
-              >
-                {currentAnswer.isMarkedForReview ? 'Unmark Review' : 'Mark for Review'}
-              </Button>
+          {/* Bottom Exam Action Controls (Sticky, Thumb-Friendly on Mobile) */}
+          <div className="mt-6 pt-3 border-t border-slate-200 bg-white/95 backdrop-blur-md -mx-4 -mb-4 p-3.5 sm:mx-0 sm:mb-0 sm:rounded-2xl sm:border flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sticky bottom-0 z-20 shadow-md sm:shadow-none">
+            {/* Primary Action Row on Mobile */}
+            <div className="flex items-center justify-between gap-2 order-2 sm:order-2">
+              <div className="flex items-center gap-2">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => navigateToQuestion(currentIndex - 1)}
+                  disabled={currentIndex === 0}
+                  className="text-xs font-bold py-2 px-3"
+                >
+                  <ArrowLeft className="w-3.5 h-3.5 mr-1" /> Prev
+                </Button>
 
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setReportModalOpen(true)}
-                className="text-xs text-slate-600 hover:text-amber-700 hover:bg-amber-50 border-slate-200"
-                title="Report issue with this question"
-              >
-                <AlertCircle className="w-3.5 h-3.5 text-amber-500 mr-1" />
-                Report
-              </Button>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => navigateToQuestion(currentIndex - 1)}
-                disabled={currentIndex === 0}
-                className="text-xs"
-              >
-                <ArrowLeft className="w-3.5 h-3.5" /> Prev
-              </Button>
-
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={handleSaveAndNext}
-                disabled={currentIndex === questions.length - 1}
-                className="text-xs font-bold px-4"
-              >
-                Save & Next <ArrowRight className="w-3.5 h-3.5" />
-              </Button>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={handleSaveAndNext}
+                  disabled={currentIndex === questions.length - 1}
+                  className="text-xs font-bold py-2 px-4 bg-brand-600 hover:bg-brand-700 text-white shadow-xs"
+                >
+                  Save & Next <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                </Button>
+              </div>
 
               <Button
                 size="sm"
                 variant="danger"
                 onClick={() => handleSubmitTest(false)}
-                className="sm:hidden text-xs font-bold"
+                className="sm:hidden text-xs font-bold py-2 px-3 shadow-xs"
               >
                 Submit
+              </Button>
+            </div>
+
+            {/* Secondary Controls: Clear, Review, Report */}
+            <div className="flex items-center justify-between sm:justify-start gap-1.5 order-1 sm:order-1 text-[11px]">
+              <div className="flex items-center gap-1.5">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleClearResponse}
+                  disabled={currentAnswer.selectedAnswer === null}
+                  className="text-[11px] py-1.5 px-2.5"
+                >
+                  Clear
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleToggleMarkReview}
+                  className={`text-[11px] py-1.5 px-2.5 ${currentAnswer.isMarkedForReview ? 'bg-purple-50 text-purple-700 border-purple-300 font-bold' : ''}`}
+                >
+                  {currentAnswer.isMarkedForReview ? 'Unmark Review' : 'Mark Review'}
+                </Button>
+              </div>
+
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setReportModalOpen(true)}
+                className="text-[11px] py-1.5 px-2 text-slate-500 hover:text-amber-700 hover:bg-amber-50 border-slate-200"
+                title="Report issue with this question"
+              >
+                <AlertCircle className="w-3 h-3 text-amber-500 mr-1" />
+                Report
               </Button>
             </div>
           </div>
@@ -869,6 +988,38 @@ export const ExamSession: React.FC = () => {
         questionId={currentQ?.id || ''}
         questionSnippet={currentQ?.question || ''}
       />
+
+      {/* Proctoring Tab-Switch Warning Modal */}
+      {showTabWarningModal && (
+        <Modal
+          isOpen={showTabWarningModal}
+          onClose={() => setShowTabWarningModal(false)}
+          title="⚠️ Proctoring Alert: Tab Switch Detected"
+        >
+          <div className="p-4 space-y-4">
+            <div className="flex items-center gap-3 p-3.5 bg-rose-50 border border-rose-200 rounded-2xl text-rose-800">
+              <ShieldAlert className="w-6 h-6 text-rose-600 shrink-0" />
+              <div className="text-xs">
+                <p className="font-bold">Warning {tabSwitchWarnings} of 3</p>
+                <p className="text-rose-700 mt-0.5 leading-relaxed">
+                  Navigating away from the examination window is strictly monitored. If you switch tabs or leave this window 3 times, your examination will be automatically submitted.
+                </p>
+              </div>
+            </div>
+            <div className="text-xs text-slate-600">
+              Please stay focused on your test session. Click below to return immediately.
+            </div>
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={() => setShowTabWarningModal(false)}
+              className="w-full bg-slate-900 hover:bg-black text-white font-bold py-2.5 rounded-xl justify-center"
+            >
+              I Understand, Resume Exam
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
