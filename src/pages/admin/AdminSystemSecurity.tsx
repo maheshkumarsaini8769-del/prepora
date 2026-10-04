@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   ShieldCheck,
   Server,
@@ -32,7 +33,11 @@ interface AuditItem {
 }
 
 export const AdminSystemSecurity: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'system' | 'roles' | 'sessions' | 'audit'>('system');
+  const location = useLocation();
+  const [activeTab, setActiveTab] = useState<'system' | 'roles' | 'sessions' | 'audit'>(() => {
+    if (typeof window !== 'undefined' && window.location.pathname.includes('/security')) return 'roles';
+    return 'system';
+  });
   const [auditLogs, setAuditLogs] = useState<AuditItem[]>([]);
   const [roles, setRoles] = useState<any[]>([]);
   const [sessions, setSessions] = useState<any[]>([]);
@@ -64,6 +69,11 @@ export const AdminSystemSecurity: React.FC = () => {
   useEffect(() => {
     fetchAll();
   }, []);
+
+  useEffect(() => {
+    if (location.pathname.includes('/security')) setActiveTab('roles');
+    else if (location.pathname.includes('/system')) setActiveTab('system');
+  }, [location.pathname]);
 
   const systemServices = [
     { name: 'Core REST API Server', port: '5000', status: 'Operational', ping: '12ms', icon: Server },
