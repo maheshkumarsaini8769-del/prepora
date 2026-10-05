@@ -251,6 +251,9 @@ export interface UserProfile {
   lastStudyHour?: number;
   lastStudyMinute?: number;
   lastStreakWarningDate?: string;
+  role?: 'student' | 'admin';
+  phone?: string;
+  password?: string;
 }
 
 export interface Bookmark {

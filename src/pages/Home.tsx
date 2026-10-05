@@ -22,7 +22,8 @@ import {
   GraduationCap,
   Trophy,
   Zap,
-  Crown
+  Crown,
+  BookMarked
 } from 'lucide-react';
 import { soundFeedback } from '../utils/audioFeedback';
 import { userService } from '../services/userService';
@@ -537,24 +538,24 @@ export const Home: React.FC = () => {
             <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-rose-500 group-hover:translate-x-0.5 transition-all shrink-0" />
           </div>
 
-          {/* 4. Revise */}
+          {/* 4. Short Notes & Formulas */}
           <div
             onClick={() => {
               soundFeedback.playClick();
-              navigate('/revision');
+              navigate('/formula-notes');
             }}
             className="p-3 sm:p-3.5 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.98] bg-[#fffbeb] dark:bg-[#221c0c] border border-amber-200/80 dark:border-amber-900/40 hover:border-amber-400 dark:hover:border-amber-500/50 shadow-2xs dark:shadow-[0_0_15px_rgba(245,158,11,0.12)] flex items-center justify-between gap-2 group"
           >
             <div className="flex items-center gap-2.5 min-w-0">
               <div className="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs group-hover:scale-105 transition-transform">
-                <RotateCw className="w-5 h-5 stroke-[2]" />
+                <BookMarked className="w-5 h-5 stroke-[2]" />
               </div>
               <div className="min-w-0">
                 <div className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate">
-                  Revise
+                  Short Notes
                 </div>
                 <div className="text-[10px] sm:text-xs text-slate-500 dark:text-slate-400 truncate">
-                  Formulas & Notes
+                  Formulas & Theory
                 </div>
               </div>
             </div>
@@ -608,6 +609,33 @@ export const Home: React.FC = () => {
             </div>
             <ChevronRight className="w-4 h-4 text-slate-400 group-hover:text-sky-500 group-hover:translate-x-0.5 transition-all shrink-0" />
           </div>
+        </div>
+      </div>
+
+      {/* Formula & Short Notes Hub Banner */}
+      <div
+        onClick={() => {
+          soundFeedback.playClick();
+          navigate('/formula-notes');
+        }}
+        className="w-full p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 text-white shadow-sm dark:shadow-[0_0_20px_rgba(16,185,129,0.2)] cursor-pointer transition-all duration-200 hover:shadow-md active:scale-[0.99] flex items-center justify-between gap-3 group"
+      >
+        <div className="flex items-center gap-3.5 min-w-0">
+          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center shrink-0 group-hover:scale-105 transition-transform">
+            <BookMarked className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
+          </div>
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="font-black text-xs sm:text-base leading-tight">Formula & Short Notes Hub</span>
+              <span className="px-2 py-0.5 rounded-full bg-emerald-400/30 text-emerald-100 text-[10px] font-black tracking-wide uppercase">New</span>
+            </div>
+            <p className="text-[11px] sm:text-xs text-emerald-100/90 font-medium truncate mt-0.5">
+              Har chapter ke topic-wise short notes, KaTeX formulas aur topic questions
+            </p>
+          </div>
+        </div>
+        <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 group-hover:translate-x-1 transition-transform">
+          <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-white stroke-[2.5]" />
         </div>
       </div>
 

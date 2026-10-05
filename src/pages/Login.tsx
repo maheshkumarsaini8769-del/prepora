@@ -87,7 +87,11 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       if (res.success) {
         setSuccessMsg('Logged in successfully!');
         setTimeout(() => {
-          navigate(redirectTo, { replace: true });
+          if (identifier.trim().toLowerCase() === 'maheshkumarsaini8769@gmail.com') {
+            navigate('/admin', { replace: true });
+          } else {
+            navigate(redirectTo, { replace: true });
+          }
         }, 300);
       } else {
         setError(res.message || 'Invalid mobile number/email or password.');
@@ -129,8 +133,8 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       setIsLoading(false);
       if (res.success) {
         setStep('enter-otp');
-        setOtp('9999'); // Pre-fill with demo OTP for instant frictionless testing
-        setSuccessMsg(`OTP sent successfully! Demo OTP: 9999`);
+        setOtp(res.debugOtp || res.otp || '9999');
+        setSuccessMsg(`Verification code sent to ${identifier}`);
       } else {
         setError(res.message || 'Could not send OTP. Please try again.');
       }
@@ -689,23 +693,6 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                         Edit
                       </button>
                     </div>
-                  </div>
-
-                  {/* Demo Mode Notice Badge */}
-                  <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <KeyRound className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-                      <div className="text-xs font-bold text-amber-900 dark:text-amber-300">
-                        Demo OTP: <span className="font-mono text-sm font-black tracking-widest text-emerald-600 dark:text-emerald-400 ml-1">9999</span>
-                      </div>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={() => setOtp('9999')}
-                      className="px-2.5 py-1 rounded-lg bg-amber-200/70 dark:bg-amber-900/60 text-amber-900 dark:text-amber-200 text-[11px] font-black hover:bg-amber-300 transition"
-                    >
-                      Use 9999
-                    </button>
                   </div>
 
                   {/* 4-digit OTP Input */}

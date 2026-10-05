@@ -1,7 +1,25 @@
 import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel, ContentType } from '../types';
 import { mockQuestions } from '../data/mockQuestions';
+import { canonicalSyllabus } from '../data/canonicalSyllabusData';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 import { apiRequest } from './apiClient';
+
+function cleanStr(s: any): string {
+  return String(s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+export function matchesFuzzy(val1: any, val2: any): boolean {
+  const c1 = cleanStr(val1);
+  const c2 = cleanStr(val2);
+  if (!c1 || !c2) return false;
+  if (c1 === c2 || c1.includes(c2) || c2.includes(c1)) return true;
+
+  const w1 = String(val1).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  const w2 = String(val2).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  if (w1.length === 0 || w2.length === 0) return false;
+  const common = w1.filter(w => w2.includes(w));
+  return common.length >= Math.min(w1.length, w2.length, 1);
+}
 
 export interface QuestionFilters {
   exam?: ExamType | 'All';
@@ -19,6 +37,7 @@ export interface QuestionFilters {
 class ApiQuestionService {
   private localQuestionsCache: Question[] = [];
   private isInitialized = false;
+  private taxonomyCache: Map<string, any[]> = new Map();
 
   constructor() {
     this.init();
@@ -190,11 +209,11 @@ class ApiQuestionService {
         }
       }
 
-      if (filters.subject && filters.subject !== 'All' && q.subject !== filters.subject) return false;
-      if (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL' && q.chapter.toLowerCase() !== filters.chapter.toLowerCase()) return false;
+      if (filters.subject && filters.subject !== 'All' && !matchesFuzzy(q.subject, filters.subject)) return false;
+      if (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL' && !matchesFuzzy(q.chapter, filters.chapter)) return false;
       
-      // Exact topic filtering (Task.md section 5, 6, 7)
-      if (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL' && q.topic.toLowerCase() !== filters.topic.toLowerCase()) return false;
+      // Resilient topic filtering
+      if (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL' && !matchesFuzzy(q.topic, filters.topic)) return false;
       
       if (filters.difficulty && filters.difficulty !== 'All' && q.difficulty !== filters.difficulty) return false;
       if (filters.searchQuery) {
@@ -374,12 +393,19 @@ class ApiQuestionService {
   public getChapters(subject?: SubjectName, classLevel?: ClassLevel | 'All'): string[] {
     const chapters = new Set<string>();
 
+    // 0. From canonical syllabus (comprehensive NTA syllabus for JEE/NEET/Boards)
+    canonicalSyllabus.forEach(ch => {
+      if (subject && !matchesFuzzy(ch.subjectName, subject)) return;
+      if (classLevel && classLevel !== 'All' && String(ch.classLevel) !== String(classLevel)) return;
+      if (ch.name) chapters.add(ch.name);
+    });
+
     // 1. From stored syllabus
     try {
       const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
       if (Array.isArray(savedSyllabus)) {
         savedSyllabus.forEach((ch: any) => {
-          if (subject && ch.subject !== subject) return;
+          if (subject && !matchesFuzzy(ch.subject, subject)) return;
           if (classLevel && classLevel !== 'All' && ch.classLevel !== classLevel) return;
           if (ch.name) chapters.add(ch.name);
         });
@@ -390,7 +416,7 @@ class ApiQuestionService {
 
     // 2. From all questions
     this.getAllQuestions().forEach(q => {
-      if (subject && q.subject !== subject) return;
+      if (subject && !matchesFuzzy(q.subject, subject)) return;
       if (classLevel && classLevel !== 'All' && q.class !== classLevel) return;
       if (q.chapter) chapters.add(q.chapter);
     });
@@ -401,11 +427,19 @@ class ApiQuestionService {
   public getTopics(chapter: string): string[] {
     const topics = new Set<string>();
 
+    // 0. From canonical syllabus
+    const foundChapter = canonicalSyllabus.find(c => matchesFuzzy(c.name, chapter));
+    if (foundChapter && Array.isArray(foundChapter.topics)) {
+      foundChapter.topics.forEach((t: any) => {
+        if (t?.name) topics.add(t.name);
+      });
+    }
+
     // 1. Full syllabus hierarchy topics (Task.md section 5)
     try {
       const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
       if (Array.isArray(savedSyllabus)) {
-        const sylChapter = savedSyllabus.find((c: any) => c.name?.toLowerCase() === chapter.toLowerCase());
+        const sylChapter = savedSyllabus.find((c: any) => matchesFuzzy(c.name, chapter));
         if (sylChapter && Array.isArray(sylChapter.subtopics)) {
           sylChapter.subtopics.forEach((st: any) => {
             if (st?.name) topics.add(st.name);
@@ -418,12 +452,30 @@ class ApiQuestionService {
 
     // 2. Question bank topics
     this.getAllQuestions().forEach(q => {
-      if (q.chapter?.toLowerCase() === chapter.toLowerCase() && q.topic) {
+      if (matchesFuzzy(q.chapter, chapter) && q.topic) {
         topics.add(q.topic);
       }
     });
 
     return Array.from(topics).sort();
+  }
+
+  public async fetchTaxonomyAsync(subject?: string, classLevel?: string): Promise<{ name: string; count: number; topics: { name: string; count: number }[] }[]> {
+    const key = `${subject || 'ALL'}_${classLevel || 'ALL'}`;
+    if (this.taxonomyCache.has(key)) return this.taxonomyCache.get(key)!;
+
+    try {
+      const params = new URLSearchParams();
+      if (subject && subject !== 'All') params.set('subject', subject);
+      if (classLevel && classLevel !== 'All') params.set('classLevel', classLevel);
+
+      const { data } = await apiRequest<{ success: boolean; chapters: any[] }>(`/questions/taxonomy?${params.toString()}`);
+      if (data && data.success && Array.isArray(data.chapters)) {
+        this.taxonomyCache.set(key, data.chapters);
+        return data.chapters;
+      }
+    } catch {}
+    return [];
   }
 
   // Admin CRUD capabilities sync to MongoDB + local cache

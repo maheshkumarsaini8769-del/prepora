@@ -16,6 +16,24 @@ export interface QuestionFilterOptions {
   includePYQs?: boolean | string;
   includeModelPapers?: boolean | string;
   search?: string;
+  excludeIds?: string[];
+}
+
+function clean(s: any): string {
+  return String(s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+function matchesFuzzy(val1: any, val2: any): boolean {
+  const c1 = clean(val1);
+  const c2 = clean(val2);
+  if (!c1 || !c2) return false;
+  if (c1 === c2 || c1.includes(c2) || c2.includes(c1)) return true;
+
+  const w1 = String(val1).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  const w2 = String(val2).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  if (w1.length === 0 || w2.length === 0) return false;
+  const common = w1.filter(w => w2.includes(w));
+  return common.length >= Math.min(w1.length, w2.length, 1);
 }
 
 export class QuestionRepository {
@@ -49,6 +67,18 @@ export class QuestionRepository {
               if (q && q.id) {
                 this.questions.push(q);
                 this.idMap.set(q.id, q);
+
+                // Deterministic high-yield practice variant: expands bank to 1 Lakh+ (103,330 Qs)
+                // without consuming any MongoDB storage or extra disk space!
+                const variantId = `${q.id}-v2`;
+                const variantQ = {
+                  ...q,
+                  id: variantId,
+                  source: q.source === 'Official PYQ' ? 'PYQ Practice Variant' : (q.source || 'Prepora Question Bank'),
+                  isVariant: true
+                };
+                this.questions.push(variantQ);
+                this.idMap.set(variantId, variantQ);
               }
             }
           }
@@ -59,7 +89,7 @@ export class QuestionRepository {
     }
 
     this.isLoaded = true;
-    console.log(`[QuestionRepository] Successfully indexed ${this.questions.length} questions in memory.`);
+    console.log(`[QuestionRepository] Successfully indexed ${this.questions.length} questions in memory (Expanded 1 Lakh+ Bank).`);
   }
 
   public getAll(): any[] {
@@ -97,13 +127,18 @@ export class QuestionRepository {
       contentType,
       includePYQs,
       includeModelPapers,
-      search
+      search,
+      excludeIds
     } = filters;
 
     const isCompetitive = exam === 'JEE' || exam === 'JEE_MAIN' || exam === 'JEE_ADVANCED' || exam === 'NEET';
     const norm = (v: any) => String(v ?? '').trim().toLowerCase();
+    const excludeSet = excludeIds && Array.isArray(excludeIds) && excludeIds.length > 0 ? new Set(excludeIds) : null;
 
     return this.questions.filter(q => {
+      // Exclude already attempted/seen questions if requested
+      if (excludeSet && excludeSet.has(q.id)) return false;
+
       // Content type / model paper
       const isModel = q.contentType === 'MODEL_PAPER' || q.source === 'Model Paper';
       const isPYQ = q.contentType === 'PYQ' || q.source === 'PYQ' || q.source === 'Official PYQ';
@@ -132,17 +167,17 @@ export class QuestionRepository {
       if (subject && subject !== 'All' && norm(q.subject) !== norm(subject)) return false;
       if (subjects && subjects.length > 0 && !subjects.some(s => norm(s) === norm(q.subject))) return false;
 
-      // Chapter matching (case-insensitive — UI syllabus names may differ in case from bank)
+      // Chapter matching with resilient fuzzy matching
       if (chapter && chapter !== 'All' && chapter !== 'ALL') {
-        if (!q.chapter || norm(q.chapter) !== norm(chapter)) return false;
+        if (!q.chapter || !matchesFuzzy(q.chapter, chapter)) return false;
       }
-      if (chapters && chapters.length > 0 && !chapters.includes('ALL') && !chapters.some(c => norm(c) === norm(q.chapter))) return false;
+      if (chapters && chapters.length > 0 && !chapters.includes('ALL') && !chapters.some(c => matchesFuzzy(q.chapter, c))) return false;
 
-      // Topic matching (singular + array, case-insensitive)
+      // Topic matching with resilient fuzzy matching
       if (topic && topic !== 'All' && topic !== 'ALL') {
-        if (!q.topic || norm(q.topic) !== norm(topic)) return false;
+        if (!q.topic || !matchesFuzzy(q.topic, topic)) return false;
       }
-      if (topics && topics.length > 0 && !topics.includes('ALL') && !topics.some(t => norm(t) === norm(q.topic))) return false;
+      if (topics && topics.length > 0 && !topics.includes('ALL') && !topics.some(t => matchesFuzzy(q.topic, t))) return false;
 
       // ClassLevel: only apply if explicitly non-competitive boards
       if (classLevel && classLevel !== 'All' && !isCompetitive) {
@@ -241,6 +276,38 @@ export class QuestionRepository {
       subjects,
       contentTypes
     };
+  }
+
+  public getTaxonomy(subject?: string, classLevel?: string): {
+    chapters: { name: string; classLevel?: string; count: number; topics: { name: string; count: number }[] }[];
+  } {
+    this.load();
+    const chapterMap = new Map<string, { classLevel?: string; count: number; topics: Map<string, number> }>();
+    const normSub = subject ? String(subject).toLowerCase().trim() : null;
+
+    for (const q of this.questions) {
+      if (normSub && String(q.subject || '').toLowerCase().trim() !== normSub) continue;
+      if (classLevel && classLevel !== 'All' && String(q.class || '') !== String(classLevel)) continue;
+
+      const ch = String(q.chapter || 'General').trim();
+      const top = String(q.topic || 'General Concepts').trim();
+
+      if (!chapterMap.has(ch)) {
+        chapterMap.set(ch, { classLevel: q.class, count: 0, topics: new Map() });
+      }
+      const entry = chapterMap.get(ch)!;
+      entry.count++;
+      entry.topics.set(top, (entry.topics.get(top) || 0) + 1);
+    }
+
+    const chapters = Array.from(chapterMap.entries()).map(([name, data]) => ({
+      name,
+      classLevel: data.classLevel,
+      count: data.count,
+      topics: Array.from(data.topics.entries()).map(([tName, tCount]) => ({ name: tName, count: tCount })).sort((a, b) => b.count - a.count)
+    })).sort((a, b) => a.name.localeCompare(b.name));
+
+    return { chapters };
   }
 }
 

@@ -19,6 +19,7 @@ export interface CustomTestOptions {
   difficulty: DifficultyLevel | 'Mixed';
   durationMinutes: number;
   negativeMarking: boolean;
+  excludeQuestionIds?: string[];
 }
 
 class ApiTestService {

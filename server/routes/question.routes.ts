@@ -151,6 +151,17 @@ router.get('/inventory-stats', async (_req: Request, res: Response) => {
   }
 });
 
+// GET /api/questions/taxonomy - Chapter and topic hierarchy with live question counts
+router.get('/taxonomy', async (req: Request, res: Response) => {
+  try {
+    const { subject, classLevel } = req.query;
+    const taxonomy = questionRepo.getTaxonomy(subject as string, classLevel as string);
+    res.json({ success: true, ...taxonomy });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 function buildQuestionFilter(query: any): any {
   const {
     exam,

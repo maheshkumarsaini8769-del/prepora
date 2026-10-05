@@ -57,7 +57,8 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       questionCount = 10,
       difficulty = 'Mixed',
       durationMinutes = 30,
-      negativeMarking = true
+      negativeMarking = true,
+      excludeQuestionIds = []
     } = req.body;
 
     if (!exam || !subjects || subjects.length === 0) {
@@ -90,6 +91,7 @@ router.post('/build-custom', async (req: Request, res: Response) => {
     }
 
     // Repo-first: expanded in-memory bank (~1 lakh) is the canonical source
+    // Pass excludeIds to ensure fresh, unattempted questions!
     let pool: any[] = questionRepo.filter({
       exam,
       subjects,
@@ -98,7 +100,8 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       topic,
       difficulty: difficulty === 'Mixed' ? undefined : difficulty,
       includePYQs,
-      includeModelPapers: false
+      includeModelPapers: false,
+      excludeIds: Array.isArray(excludeQuestionIds) ? excludeQuestionIds : []
     });
 
     // Mongo overlay: admin-created questions not present in the file bank

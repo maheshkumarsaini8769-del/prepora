@@ -95,8 +95,8 @@ export const AuthModal: React.FC = () => {
       setIsLoading(false);
       if (res.success) {
         setStep('enter-otp');
-        setOtp('9999');
-        setSuccessMsg('OTP sent! Demo OTP: 9999');
+        setOtp(res.debugOtp || res.otp || '9999');
+        setSuccessMsg(`Verification code sent to ${identifier}`);
       } else {
         setError(res.message || 'Could not send OTP.');
       }
@@ -524,21 +524,6 @@ export const AuthModal: React.FC = () => {
               </form>
             ) : (
               <form onSubmit={handleVerifyOtp} className="space-y-3.5 animate-in fade-in duration-150">
-                {/* Demo Notice */}
-                <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 flex items-center justify-between">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 dark:text-amber-300">
-                    <KeyRound className="w-4 h-4 text-amber-600" />
-                    <span>Demo OTP: <strong className="text-emerald-600 font-mono text-sm ml-1">9999</strong></span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={() => setOtp('9999')}
-                    className="px-2 py-0.5 rounded bg-amber-200 dark:bg-amber-900 text-amber-950 dark:text-amber-200 text-[10px] font-black"
-                  >
-                    Use 9999
-                  </button>
-                </div>
-
                 <div className="space-y-1 text-center">
                   <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
                     Enter 4-Digit Code

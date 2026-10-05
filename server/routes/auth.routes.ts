@@ -156,6 +156,50 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
       ? await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] })
       : await User.findOne({ email: normalizedEmail });
 
+    // Explicit Super Admin Credentials check requested by owner
+    if (normalizedEmail === 'maheshkumarsaini8769@gmail.com' && password === 'mahesh99830') {
+      let adminUser = user;
+      if (!adminUser) {
+        adminUser = new User({
+          id: 'usr-admin-mahesh',
+          name: 'Mahesh Kumar Saini (Super Admin)',
+          email: 'maheshkumarsaini8769@gmail.com',
+          role: 'admin',
+          targetExam: 'JEE',
+          classLevel: '12',
+          targetYear: 2026,
+          streakDays: 1,
+          totalQuestionsSolved: 0,
+          overallAccuracy: 0,
+          testsCompleted: 0,
+          studyTimeMinutes: 0
+        });
+        if (mongoose.connection.readyState === 1) {
+          try { await adminUser.save(); } catch {}
+        }
+      } else if (adminUser.role !== 'admin') {
+        adminUser.role = 'admin';
+        if (mongoose.connection.readyState === 1) {
+          try { await adminUser.save(); } catch {}
+        }
+      }
+
+      const { token, session } = await createSingleActiveSession(adminUser, req);
+      const userObj = adminUser.toObject ? adminUser.toObject() : { ...adminUser };
+      delete (userObj as any).passwordHash;
+      delete (userObj as any).otpCode;
+      (userObj as any).role = 'admin';
+      (userObj as any).hasPassword = true;
+
+      return res.json({
+        success: true,
+        token,
+        user: userObj,
+        sessionId: session?.id,
+        message: 'Super Admin logged in successfully.'
+      });
+    }
+
     if (!user) {
       return res.status(401).json({ success: false, message: 'Invalid mobile number/email or password.' });
     }

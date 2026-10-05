@@ -404,6 +404,13 @@ export const ExamSession: React.FC = () => {
         // 3. Clear temporary active-test state ONLY after confirmed submission
         syncEngine.clearActiveTest(test.id);
 
+        // Record attempted questions to ensure subsequent custom tests never repeat them
+        try {
+          const existingAttempted = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+          const merged = Array.from(new Set([...existingAttempted, ...(test.questionIds || [])]));
+          localStorage.setItem('prepora_attempted_question_ids', JSON.stringify(merged));
+        } catch {}
+
         navigate(`/tests/${test.id}/result?attemptId=${data.attempt.id}`);
         return;
       } else {
@@ -426,6 +433,13 @@ export const ExamSession: React.FC = () => {
             timeTakenSeconds: timeTaken
           }
         });
+
+        // Record attempted questions
+        try {
+          const existingAttempted = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+          const merged = Array.from(new Set([...existingAttempted, ...(test.questionIds || [])]));
+          localStorage.setItem('prepora_attempted_question_ids', JSON.stringify(merged));
+        } catch {}
 
         syncEngine.clearActiveTest(test.id);
         navigate(`/tests/${test.id}/result?attemptId=${localAttempt.id}`);

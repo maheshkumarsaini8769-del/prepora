@@ -16,7 +16,7 @@ import { Card, Button } from '../components/common/UIComponents';
 import { testService } from '../services/testService';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
-import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question } from '../types';
+import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question, TestAttempt } from '../types';
 
 export const BuildMyTest: React.FC = () => {
   const navigate = useNavigate();
@@ -186,6 +186,23 @@ export const BuildMyTest: React.FC = () => {
     setAiSuccessMessage(null);
     const countToUse = overrideCount !== undefined ? overrideCount : Number(questionCount);
 
+    // Collect previously attempted/seen questions so the student never gets repeat questions!
+    const attemptedIds = new Set<string>();
+    const pastAttempts: TestAttempt[] = testService.getAllAttempts();
+    pastAttempts.forEach((att: TestAttempt) => {
+      if (att && att.answers && typeof att.answers === 'object') {
+        Object.values(att.answers).forEach((ans: any) => {
+          if (ans && ans.questionId) attemptedIds.add(ans.questionId);
+        });
+      }
+    });
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      if (Array.isArray(stored)) {
+        stored.forEach((id: string) => attemptedIds.add(id));
+      }
+    } catch {}
+
     const result = await testService.buildCustomTestAsync({
       title: testTitle.trim() || `${exam} Custom Test (${countToUse} Questions)`,
       exam,
@@ -197,7 +214,8 @@ export const BuildMyTest: React.FC = () => {
       questionCount: countToUse,
       difficulty,
       durationMinutes,
-      negativeMarking
+      negativeMarking,
+      excludeQuestionIds: Array.from(attemptedIds)
     });
 
     if (!result.success || !result.test) {

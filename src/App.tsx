@@ -39,6 +39,7 @@ const ChapterDetail = lazyPage(() => import('./pages/ChapterDetail'), 'ChapterDe
 const MistakeBook = lazyPage(() => import('./pages/MistakeBook'), 'MistakeBook');
 const FixMyWeakness = lazyPage(() => import('./pages/FixMyWeakness'), 'FixMyWeakness');
 const SmartRevision = lazyPage(() => import('./pages/SmartRevision'), 'SmartRevision');
+const FormulaNotesHub = lazyPage(() => import('./pages/FormulaNotesHub'), 'FormulaNotesHub');
 const Performance = lazyPage(() => import('./pages/Performance'), 'Performance');
 const Bookmarks = lazyPage(() => import('./pages/Bookmarks'), 'Bookmarks');
 const Notes = lazyPage(() => import('./pages/Notes'), 'Notes');
@@ -160,6 +161,9 @@ export const App: React.FC = () => {
               <Route path="/mistakes" element={<MistakeBook />} />
               <Route path="/weakness" element={<FixMyWeakness />} />
               <Route path="/revision" element={<SmartRevision />} />
+              <Route path="/formula-notes" element={<FormulaNotesHub />} />
+              <Route path="/formulas" element={<Navigate to="/formula-notes" replace />} />
+              <Route path="/short-notes" element={<Navigate to="/formula-notes" replace />} />
               <Route path="/performance" element={<Performance />} />
               <Route path="/weekly-report" element={<WeeklyReportPage />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
