@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { apiRequest } from '../services/apiClient';
 import {
   Calendar,
   Clock,
@@ -55,6 +57,7 @@ export const StudyPlanner: React.FC = () => {
     };
   });
 
+  const { isAuthenticated, token } = useAuth();
   const [tasks, setTasks] = useState<PlannerTask[]>(() => ecosystemService.getPlannerTasks());
   const [selectedDay, setSelectedDay] = useState<PlannerTask['day']>('Monday');
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
@@ -62,6 +65,38 @@ export const StudyPlanner: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generateMsg, setGenerateMsg] = useState<string | null>(null);
   const [showConfig, setShowConfig] = useState<boolean>(false);
+
+  // Sync with student-isolated server planner when authenticated
+  useEffect(() => {
+    if (!isAuthenticated || !token) return;
+
+    let isMounted = true;
+    const fetchStudentPlanner = async () => {
+      try {
+        const { data } = await apiRequest<any>('/planner');
+        if (data && data.success && data.data?.tasks && isMounted) {
+          const apiTasks = (data.data.tasks || []).map((t: any) => ({
+            id: t.id,
+            day: selectedDay,
+            subject: (t.subject as SubjectName) || 'Physics',
+            chapter: t.chapter || t.title,
+            taskType: (t.taskType as PlannerTask['taskType']) || 'Practice',
+            durationMinutes: t.durationMinutes || 30,
+            completed: Boolean(t.isCompleted),
+            notes: t.notes
+          }));
+          if (apiTasks.length > 0) {
+            setTasks(apiTasks);
+          }
+        }
+      } catch (err) {
+        console.warn('Could not sync with /api/planner:', err);
+      }
+    };
+
+    fetchStudentPlanner();
+    return () => { isMounted = false; };
+  }, [isAuthenticated, token]);
 
   // Form state
   const [newTaskSubject, setNewTaskSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
@@ -104,13 +139,27 @@ export const StudyPlanner: React.FC = () => {
   };
 
   const handleToggleTask = (id: string) => {
+    const targetTask = tasks.find(t => t.id === id);
     const updated = ecosystemService.togglePlannerTask(id);
     setTasks([...updated]);
+
+    if (isAuthenticated && targetTask) {
+      apiRequest(`/planner/tasks/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify({ isCompleted: !targetTask.completed })
+      }).catch(() => null);
+    }
   };
 
   const handleDeleteTask = (id: string) => {
     const updated = ecosystemService.deletePlannerTask(id);
     setTasks([...updated]);
+
+    if (isAuthenticated) {
+      apiRequest(`/planner/tasks/${id}`, {
+        method: 'DELETE'
+      }).catch(() => null);
+    }
   };
 
   const handleOpenAdd = () => {
@@ -144,6 +193,20 @@ export const StudyPlanner: React.FC = () => {
         notes: newTaskNotes.trim() || undefined
       });
       setTasks([...updated]);
+
+      if (isAuthenticated) {
+        apiRequest(`/planner/tasks/${editingTaskId}`, {
+          method: 'PUT',
+          body: JSON.stringify({
+            title: `${newTaskSubject} — ${newTaskChapter.trim() || 'General Revision'}`,
+            subject: newTaskSubject,
+            chapter: newTaskChapter.trim() || 'General Revision',
+            taskType: newTaskType,
+            durationMinutes: newTaskDuration,
+            notes: newTaskNotes.trim() || undefined
+          })
+        }).catch(() => null);
+      }
     } else {
       const created = ecosystemService.addPlannerTask({
         day: selectedDay,
@@ -155,6 +218,20 @@ export const StudyPlanner: React.FC = () => {
         notes: newTaskNotes.trim() || undefined
       });
       setTasks((prev) => [...prev, created]);
+
+      if (isAuthenticated) {
+        apiRequest('/planner/tasks', {
+          method: 'POST',
+          body: JSON.stringify({
+            title: `${newTaskSubject} — ${newTaskChapter.trim() || 'General Revision'}`,
+            subject: newTaskSubject,
+            chapter: newTaskChapter.trim() || 'General Revision',
+            taskType: newTaskType,
+            durationMinutes: newTaskDuration,
+            notes: newTaskNotes.trim() || undefined
+          })
+        }).catch(() => null);
+      }
     }
     setShowAddModal(false);
     setNewTaskNotes('');

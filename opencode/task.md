@@ -1,1769 +1,1260 @@
-PREPORA — WORLD-CLASS STUDENT EXPERIENCE + VIRAL PRODUCT TRANSFORMATION
+You are working on my existing PREPORA student planner website.
 
-PROJECT:
-PREPORA
-
-TAGLINE:
-Practice • Test • Analyze • Improve
-
-CORE PRODUCT PROMISE:
-PREPORA does not simply provide questions, tests and study material.
-
-PREPORA helps a student understand:
-1. Where am I currently?
-2. What am I weak at?
-3. Why am I making mistakes?
-4. What should I practice right now?
-5. What should I revise?
-6. Did I actually improve?
-7. What should I do next?
-
-CORE LOOP:
-Practice → Test → Analyze → Identify Weakness → Fix Weakness → Retest → Measure Improvement
-
-PRIMARY DIFFERENTIATOR:
-FIX MY WEAKNESS
+Existing website:
+https://test-green-pi-22.vercel.app/planner
 
 IMPORTANT:
-Do not turn PREPORA into another generic JEE/NEET dashboard.
-Do not simply add more cards, more features or more AI labels.
+Do NOT rebuild the entire website from scratch.
+Do NOT unnecessarily change the existing UI/design.
+First inspect the existing project structure, frontend, backend, database models, authentication logic, routes, planner logic, and existing UI. Understand what is already implemented, then integrate the new system cleanly.
 
-The experience must feel like:
-“PREPORA understands my preparation and tells me what to do next.”
+## MAIN GOAL
 
-==================================================
-1. FIRST-TIME STUDENT EXPERIENCE
-==================================================
+Build a secure student authentication and student-isolated data system with:
 
-The first-time student experience is extremely important.
-
-When a student lands on PREPORA for the first time, they must understand within 10–20 seconds:
-
-- What PREPORA is
-- Who it is for
-- What problem it solves
-- What they can do here
-- Why it is different from a normal question/test website
-
-Do NOT make the student read a long explanation.
-
-Communicate the product through the interface itself.
-
-Primary message:
-
-“Stop wondering what to study next.”
-
-Supporting message:
-
-“PREPORA finds your weak areas, explains your mistakes and gives you the next practice step.”
-
-Primary CTA:
-
-“Start My Preparation”
-
-Secondary CTA:
-
-“Explore PREPORA”
-
-Avoid generic marketing phrases like:
-- Revolutionary AI
-- Next Generation Education
-- World's Best Platform
-- 100% Accurate AI
-- Guaranteed Improvement
-
-Use real product value instead.
+1. WhatsApp OTP for first-time verification
+2. Automatically generated unique password after OTP verification
+3. Normal future login using mobile number + password
+4. OTP should NOT be required for every login
+5. Only ONE active login/session per student at a time
+6. If the same student logs in on another phone/browser, the previous session must immediately become invalid
+7. Every student's planner/data must be completely isolated
+8. Admin must be able to see each student's data separately
+9. Admin must be able to force logout a student
+10. Maintain student login/session/activity history
+11. Add a daily student activity/progress stream
+12. Keep the architecture production-ready and scalable
 
 ==================================================
-2. HERO SECTION
+1. FIRST AUDIT THE EXISTING PROJECT
 ==================================================
 
-Create a premium, modern, highly polished hero section.
+Before writing code:
 
-The hero must immediately communicate:
+- Inspect all frontend folders
+- Inspect all backend folders
+- Inspect package.json files
+- Inspect existing React routes
+- Inspect existing authentication
+- Inspect existing API endpoints
+- Inspect MongoDB/Mongoose models
+- Inspect environment variables
+- Inspect planner components
+- Inspect current student data structure
+- Inspect admin functionality if already present
+- Inspect current login/register pages
+- Inspect current deployment configuration
 
-PREPORA = PERSONALIZED PREPARATION ENGINE
+Create an internal understanding of:
 
-Visual hierarchy:
+Frontend:
+React / Vite / existing framework
 
-PREPORA
-Practice • Test • Analyze • Improve
+Backend:
+Node.js / Express / existing architecture
 
-Large headline:
-“Know What To Study Next.”
+Database:
+MongoDB / Mongoose
 
-Supporting text:
-“Practice smarter, understand your mistakes, fix your weak topics and measure your improvement.”
+Do not replace working functionality unless necessary.
 
-Primary CTA:
-“Start Practicing”
+If something already exists, extend it instead of creating duplicate systems.
 
-Secondary CTA:
-“See How It Works”
+==================================================
+2. STUDENT ACCOUNT SYSTEM
+==================================================
 
-Include a live-looking but REAL student preparation preview.
+Create a Student model similar to:
+
+Student {
+    _id,
+    studentId,
+    name,
+    mobile,
+    passwordHash,
+
+    whatsappVerified,
+
+    status,
+
+    createdAt,
+    updatedAt,
+    lastLoginAt,
+    lastLogoutAt,
+
+    currentSessionId,
+
+    profileData
+}
+
+studentId must be unique.
+
+mobile must be unique.
+
+Never store the plain-text password.
+
+Use a strong password hashing algorithm such as Argon2id or bcrypt with an appropriate cost factor.
+
+==================================================
+3. FIRST-TIME REGISTRATION
+==================================================
+
+Flow:
+
+Student enters:
+
+Mobile Number
+Name / required registration information
+
+Then:
+
+SEND WHATSAPP OTP
+
+WhatsApp OTP verification is required only for account verification/recovery/new-device verification.
+
+After successful OTP verification:
+
+Automatically create the student account.
+
+Generate a cryptographically secure random password.
+
+DO NOT use:
+
+9999
+
+as a production password.
+
+9999 may exist only as a development/testing fallback if absolutely required, and it must be disabled in production.
+
+Generated password example:
+
+Pp7#Kx29Lm
+
+Show it once to the student:
+
+--------------------------------
+Account Created Successfully
+
+Mobile:
+98XXXXXXXX
+
+Password:
+Pp7#Kx29Lm
+
+[Copy Password]
+
+Save this password safely.
+--------------------------------
+
+Do not store the plain-text password in the database.
+
+Store only passwordHash.
+
+==================================================
+4. NORMAL LOGIN
+==================================================
+
+After first registration, the student should NOT need WhatsApp OTP for every login.
+
+Login page:
+
+Mobile Number
+Password
+
+[Login]
+
+Backend:
+
+1. Find student by mobile
+2. Verify password
+3. Create new authenticated session
+4. Revoke previous active session
+5. Store new currentSessionId
+6. Create secure authentication cookie/session
+7. Redirect to planner
+
+==================================================
+5. SINGLE ACTIVE DEVICE / SESSION SYSTEM
+==================================================
+
+THIS IS CRITICAL.
+
+Each student can have only ONE active authenticated session.
 
 Example:
 
-TODAY'S PREP
+Student logs in on Phone A.
 
-Physics
-Kinematics
-Accuracy: 58%
+Database:
 
-3 repeated mistakes detected
+currentSessionId = SESSION_A
 
-NEXT BEST ACTION
+Phone A works normally.
 
-10 targeted questions
-15 min
-Difficulty: Medium
+Then the same student logs in on Phone B.
 
-[ FIX MY WEAKNESS ]
+Backend must:
 
-Important:
-All numbers shown in real product UI must come from real user/database data.
+1. Detect existing SESSION_A
+2. Revoke SESSION_A
+3. Create SESSION_B
+4. Set currentSessionId = SESSION_B
 
-Never use fake analytics and present them as real.
+Phone A must no longer be authorized.
 
-For empty/new accounts, use a clearly marked demo/example state or onboarding state.
+When Phone A makes another API request:
+
+Backend checks:
+
+Does authenticated session ID equal student's currentSessionId?
+
+If NO:
+
+Return something like:
+
+401 SESSION_REVOKED
+
+Frontend automatically logs the student out and shows:
+
+"Your account was signed in on another device."
+
+Then redirect to login.
+
+DO NOT implement this security only with localStorage.
+
+The server/database must be the source of truth.
 
 ==================================================
-3. HOME PAGE MUST FEEL LIKE A PERSONAL COACH
+6. SESSION SECURITY
 ==================================================
 
-After login, the Home page must NOT feel like a generic SaaS dashboard.
+Use secure server-side authentication.
 
-The first question must be:
+Prefer:
 
-“What should I study now?”
+HttpOnly
+Secure
+SameSite
 
-Create a prominent:
+cookies for browser authentication.
 
-NEXT BEST ACTION
+Do not put sensitive authentication tokens in localStorage unless there is a strong architectural reason.
 
-section.
+Session IDs must be:
+
+- Cryptographically random
+- Unpredictable
+- Expire appropriately
+- Revocable
+- Rotated when appropriate
+
+Create a Session model if required:
+
+Session {
+    _id,
+    sessionId,
+    studentId,
+    deviceInfo,
+    userAgent,
+    ipAddress,
+    createdAt,
+    lastActiveAt,
+    expiresAt,
+    revokedAt,
+    revokeReason,
+    status
+}
+
+Only one session may have:
+
+status = ACTIVE
+
+for a student.
+
+==================================================
+7. LOGOUT
+==================================================
+
+When student clicks Logout:
+
+1. Revoke current session
+2. Clear secure authentication cookie
+3. Update lastLogoutAt
+4. Redirect to login
+
+Do not delete the student account.
+
+==================================================
+8. PASSWORD CHANGE
+==================================================
+
+Add:
+
+Settings
+→ Change Password
+
+Fields:
+
+Current Password
+New Password
+Confirm New Password
+
+After successful password change:
+
+- Hash new password
+- Update passwordHash
+- Revoke existing sessions
+- Require a fresh login
+
+Show:
+
+"Password changed successfully. Please log in again."
+
+==================================================
+9. FORGOT PASSWORD
+==================================================
+
+Because the student normally logs in with password, provide:
+
+Forgot Password?
+
+Flow:
+
+Mobile Number
+↓
+WhatsApp OTP
+↓
+Verify OTP
+↓
+Create new password
+OR
+Generate secure temporary password
+
+Do NOT expose whether a mobile number exists in a way that enables account enumeration.
+
+Rate-limit OTP requests.
+
+Rate-limit login attempts.
+
+==================================================
+10. OTP SYSTEM
+==================================================
+
+WhatsApp OTP should NOT be used for normal login.
+
+Use OTP for:
+
+- First account verification
+- Forgot password
+- Account recovery
+- Suspicious/new-device verification if later enabled
+- Important security actions if required
+
+OTP requirements:
+
+- Short expiry
+- One-time use
+- Store hashed OTP where practical
+- Maximum attempts
+- Resend cooldown
+- Rate limiting
+- Never log OTP in production
+- Never expose OTP in API responses
+
+Create a clean WhatsApp OTP service abstraction so the provider can be changed later.
 
 Example:
 
-Good morning.
+WhatsAppOTPService.sendOTP()
+WhatsAppOTPService.verifyOTP()
 
-Your next best move:
+Do not hard-code provider credentials.
 
-Physics → Kinematics → Relative Motion
-
-Reason:
-Your recent attempts show repeated mistakes in relative velocity.
-
-Recommended:
-10 targeted questions
-15 minutes
-
-[ START NOW ]
-
-Below it:
-
-WHY THIS?
-
-• 4 recent mistakes
-• 2 repeated concepts
-• Accuracy dropped 18%
-• Last practiced 4 days ago
-
-This makes PREPORA explain WHY it is recommending something.
-
-Never randomly recommend content.
+Use environment variables.
 
 ==================================================
-4. THE “WOW” MOMENT
+11. STUDENT DATA ISOLATION
 ==================================================
 
-Create a powerful first-session WOW moment.
+THIS IS EXTREMELY IMPORTANT.
 
-The student should experience something that makes them think:
+Every student-owned database record must contain:
 
-“Yaar, ye normal test website nahi hai.”
+studentId
 
-Example flow:
+Examples:
 
-Student takes a short diagnostic test.
+Planner
+Task
+DailyProgress
+StudySession
+Notes
+Attendance
+Activity
+Goals
 
-PREPORA analyzes the answers.
+Example:
 
-Instead of only showing:
+{
+    studentId: "...",
+    date: "...",
+    tasks: [...]
+}
 
-Score: 6/10
+Every API must derive studentId from the authenticated session.
+
+DO NOT trust:
+
+studentId
+
+sent by the frontend.
+
+Bad:
+
+GET /planner?studentId=STUDENT_A
+
+Better:
+
+GET /planner
+
+Backend gets:
+
+studentId = authenticatedSession.studentId
+
+Then queries:
+
+Planner.find({
+    studentId: authenticatedStudentId
+})
+
+A student must NEVER be able to access another student's data by changing an ID in the browser/API.
+
+Apply authorization at the backend/database query level.
+
+==================================================
+12. DAILY STUDENT STREAM
+==================================================
+
+Create a daily activity/progress stream for each student.
+
+Example:
+
+05 October 2026
+
+08:00
+Planner opened
+
+09:15
+Task "Mathematics" completed
+
+11:20
+Study session completed
+
+01:30
+Task "English" completed
+
+04:45
+Daily goal completed
+
+Store meaningful activity events.
+
+Possible model:
+
+StudentActivity {
+    _id,
+    studentId,
+    type,
+    title,
+    description,
+    metadata,
+    createdAt
+}
+
+Examples:
+
+LOGIN
+LOGOUT
+TASK_COMPLETED
+TASK_CREATED
+PLANNER_OPENED
+STUDY_SESSION_STARTED
+STUDY_SESSION_COMPLETED
+GOAL_COMPLETED
+PASSWORD_CHANGED
+
+Do not create unnecessary activity records on every tiny frontend action.
+
+==================================================
+13. DAILY PROGRESS
+==================================================
+
+Create/extend a daily progress system.
+
+Example:
+
+Student:
+
+Today's Progress
+----------------
+
+Tasks:
+8 / 10
+
+Completion:
+80%
+
+Study Time:
+3h 20m
+
+Goals:
+4 / 5
+
+Streak:
+12 days
+
+Daily progress must belong to the authenticated student.
+
+==================================================
+14. ADMIN STUDENT MANAGEMENT
+==================================================
+
+Create an Admin → Students section.
+
+Admin should see:
+
+Student ID
+Name
+Mobile
+Status
+Created Date
+Last Login
+Last Active
+Current Session Status
+Today's Progress
+
+Example:
+
+Students
+
+--------------------------------
+Mahesh
+98XXXXXXXX
+Active
+Last Login: Today 4:32 PM
+Progress: 80%
+Session: Active
+
+[View Student]
+--------------------------------
+
+Admin search:
+
+Search by:
+- Name
+- Mobile
+- Student ID
+
+Add filters:
+
+Active
+Inactive
+Recently Active
+Never Logged In
+
+==================================================
+15. ADMIN STUDENT DETAIL PAGE
+==================================================
+
+When admin clicks:
+
+View Student
 
 show:
 
-YOUR PREP PROFILE
-
-Physics
-━━━━━━━━━━
-Strong:
-• Units & Dimensions
-• Basic Motion
-
-Needs Attention:
-• Relative Motion
-• Graph Interpretation
-
-MISTAKE PATTERN
-
-You are not mainly making calculation mistakes.
-
-You are losing marks because:
-“Concept selection before calculation”
-
-RECOMMENDED FIX
-
-1. Review concept — 5 min
-2. Solve 8 targeted questions
-3. Retest — 5 questions
-
-[ FIX THIS WEAKNESS ]
-
-This must be based on actual student responses.
-
-Do NOT fabricate insights.
-
-==================================================
-5. FIX MY WEAKNESS — SIGNATURE EXPERIENCE
-==================================================
-
-Make FIX MY WEAKNESS the signature feature of PREPORA.
-
-Flow:
-
-Mistake
-↓
-Identify mistake type
-↓
-Identify underlying concept
-↓
-Explain why it happened
-↓
-Targeted practice
-↓
-Revision
-↓
-Retest
-↓
-Compare performance
-
-Possible mistake categories:
-
-- Conceptual misunderstanding
-- Formula recall
-- Calculation error
-- Question interpretation
-- Unit mistake
-- Sign mistake
-- Graph interpretation
-- Time pressure
-- Guessing
-- Careless mistake
-- Multi-concept confusion
-
-Do not force a category when evidence is insufficient.
-
-Allow:
-“Unable to confidently classify”
-
-rather than hallucinating.
-
-==================================================
-6. BEFORE vs AFTER IMPROVEMENT
-==================================================
-
-Create visible improvement tracking.
-
-Example:
-
-BEFORE
-Accuracy: 52%
-Concept mastery: 48%
-
-AFTER TARGETED PRACTICE
-Accuracy: 76%
-Concept mastery: 71%
-
-Retest:
-8/10
-
-Show exactly what changed.
-
-The improvement screen should be highly shareable.
-
-Create:
-
-“MY PREPORA PROGRESS”
-
-Student can optionally generate a clean share card containing:
-
-- Questions practiced
-- Accuracy improvement
-- Topics improved
-- Mistakes fixed
-- Current streak if real
-
-Do NOT expose sensitive/private information.
-
-Do NOT create fake achievements.
-
-==================================================
-7. SHARE-WORTHY EXPERIENCE
-==================================================
-
-Do not use manipulative referral popups.
-
-Instead create genuine shareable moments.
-
-After meaningful improvement:
-
-“You improved in Kinematics.”
-
-[ VIEW MY PROGRESS ]
-
-[ SHARE PROGRESS ]
-
-The share card should look premium and minimal.
-
-Example:
-
-PREPORA
-
-Kinematics
-52% → 76%
-
-12 mistakes analyzed
-8 targeted questions
-2 weak concepts improved
-
-Practice • Test • Analyze • Improve
-
-Include a subtle:
-“Powered by PREPORA”
-
-Sharing must be optional.
-
-==================================================
-8. STUDENT HOME INFORMATION HIERARCHY
-==================================================
-
-Home page priority:
-
-1. NEXT BEST ACTION
-2. CURRENT WEAKNESS
-3. TODAY'S TARGET
-4. RECENT IMPROVEMENT
-5. TEST PERFORMANCE
-6. REVISION
-7. MISTAKE BOOK
-8. QUICK ACTIONS
-9. SECONDARY FEATURES
-
-Do NOT give equal visual importance to every feature.
-
-The home page should have a clear visual hierarchy.
-
-==================================================
-9. PRACTICE EXPERIENCE
-==================================================
-
-Practice must feel fast and focused.
-
-Flow:
-
-Subject
-→ Chapter
-→ Topic
-→ Difficulty
-→ Question Count
-→ Start
-
-Include:
-
-- Easy
-- Medium
-- Hard
-- Mixed
-
-Question count:
-
-10
-20
-30
-50
-Custom
-
-IMPORTANT:
-
-If only 30 eligible questions exist and student requests 50:
-
-DO NOT silently give 30.
-
-Show:
-
-“30 verified questions available.”
-
-[ Practice 30 ]
-[ Generate 20 More ]
-
-If AI generation is used:
-- Generate only the missing exact-topic questions.
-- Validate them.
-- Detect duplicates.
-- Verify answer.
-- Do not silently substitute another topic.
-
-==================================================
-10. TEST BUILDER
-==================================================
-
-Create:
-
-BUILD YOUR EXACT PAPER
-
-Student can select:
-
-Exam
-Subject
-Chapter
-Topic
-Difficulty
-Question count
-Marking scheme
-Time limit
-
-Example:
-
-JEE Main
-Physics + Chemistry + Maths
-50 Questions
-180 Minutes
-+4 / -1
-
-Before starting, show:
-
-PAPER BLUEPRINT
-
-Physics — 18
-Chemistry — 16
-Mathematics — 16
-
-Easy — 15
-Medium — 25
-Hard — 10
-
-Do not change the requested blueprint silently.
-
-==================================================
-11. TEST ANALYSIS
-==================================================
-
-After every test, don't stop at:
-
-Score
-Accuracy
-Rank
-
-Show:
-
-WHAT HAPPENED?
-
-Score
-Accuracy
-Attempt rate
-Time spent
-Correct
-Wrong
-Unattempted
-
-WHY?
-
-Mistake categories.
-
-WHERE?
-
-Subject → Chapter → Topic
-
-WHAT NEXT?
-
-Specific recommended actions.
-
-Example:
-
-Physics:
-Relative Motion
-Accuracy 42%
-
-Problem:
-Conceptual errors
-
-Action:
-8 targeted questions + 5-question retest
-
-==================================================
-12. QUESTION-LEVEL TIME INTELLIGENCE
-==================================================
-
-For each question where timing data exists:
-
-- Time spent
-- Correct/Wrong
-- Difficulty
-- Time efficiency
-- Whether time was unusually high
-
-Identify patterns:
-
-“Correct but slow”
-
-“Fast but inaccurate”
-
-“Repeatedly stuck”
-
-“Time lost on low-value questions”
-
-Do not make conclusions when data is insufficient.
-
-==================================================
-13. SMART REVISION
-==================================================
-
-Revision should not be another giant feature page.
-
-Make it actionable.
-
-TODAY'S REVISION
-
-3 concepts due
-
-1 formula set due
-
-2 mistakes due for reattempt
-
-1 topic approaching forgetting threshold
-
-[ START REVISION ]
-
-Use spaced revision only when the underlying scheduling data supports it.
-
-==================================================
-14. MISTAKE BOOK
-==================================================
-
-Create a meaningful digital mistake book.
-
-Each mistake should contain:
-
-Question
-Student answer
-Correct answer
-Why student was wrong
-Mistake category
-Concept
-Correct approach
-Personal note
-Reattempt status
-
-Allow:
-
-Retry
-Mark Fixed
-Add Note
-View Similar Questions
-
-Repeated mistake detection:
-
-If the same mistake pattern appears repeatedly:
-
-“Repeated Mistake Detected”
-
-Then show:
-
-“You have made this mistake 4 times.”
-
-[ FIX THIS PATTERN ]
-
-Only show this when actual historical data supports it.
-
-==================================================
-15. AI DOUBT SOLVER
-==================================================
-
-AI Teacher / Doubt Solver must feel like a real educational assistant.
-
-Student can ask:
-
-- Concept questions
-- Numerical questions
-- Theory questions
-- Image-based questions if supported
-- Follow-up questions
-
-The AI must:
-
-1. Understand the question.
-2. Identify subject/topic when possible.
-3. Detect mismatch with selected subject/chapter.
-4. Warn about mismatch instead of silently forcing context.
-5. Give concise answer for simple questions.
-6. Give step-by-step solution for complex questions.
-7. Provide progressive hints.
-8. Verify calculations.
-9. Render mathematical notation properly using KaTeX/MathJax.
-10. Never fabricate source grounding.
-
-SOURCE STATUS MUST BE ACCURATE:
-
-PREPORA GROUNDED
-GENERAL AI
-WEB VERIFIED
-MIXED
-
-Show “Grounded in PREPORA” ONLY when PREPORA content was actually retrieved and used.
-
-==================================================
-16. AI MUST NOT BE THE SOURCE OF TRUTH
-==================================================
-
-Use deterministic backend logic wherever possible for:
-
-- Scores
-- Accuracy
-- Test marks
-- Rank calculations
-- Readiness score
-- Mastery
-- Question counts
-- Availability
-- Test timing
-- Progress calculations
-
-AI may interpret data but must not replace deterministic calculations.
-
-Never claim 100% AI accuracy.
-
-==================================================
-17. QUESTION QUALITY SYSTEM
-==================================================
-
-Every AI-generated question must pass validation.
-
-Pipeline:
-
-Source
-→ Analyze
-→ Blueprint
-→ Generate
-→ Validate
-→ Answer Verification
-→ Math Verification
-→ Duplicate Detection
-→ Difficulty Check
-→ Exam Suitability
-→ Review
-→ Publish
-
-For MCQs:
-
-- Exactly one correct answer.
-- No ambiguous options.
-- Correct answer must match explanation.
-- Explanation must actually solve the question.
-- No duplicate questions.
-- No semantic duplicates.
-- No hallucinated source attribution.
-
-If validation fails:
-
-REJECT / REGENERATE
-
-Do not publish automatically.
-
-==================================================
-18. 400+ QUESTIONS PER CHAPTER
-==================================================
-
-400 means:
-
-400 VALID UNIQUE QUESTIONS
-
-NOT:
-
-400 generated attempts.
-
-Generate in batches of approximately 25–50.
-
-Example:
-
-Batch 1
-→ 50 generated
-→ 44 valid
-→ 6 rejected
-
-Then generate replacements.
-
-Continue until:
-
-VALID UNIQUE = 400
-
-Use:
-
-- semantic duplicate detection
-- exact duplicate detection
-- answer validation
-- source coverage
-- topic coverage
-- difficulty distribution
-
-Never fill the target using low-quality or repeated questions.
-
-==================================================
-19. CONTENT TYPE SEPARATION
-==================================================
-
-This is CRITICAL.
-
-Use database-level content types:
-
-REAL_PYQ
-MODEL_PAPER
-MOCK_TEST
-SAMPLE_PAPER
-AI_GENERATED
-QUESTION_BANK
-CUSTOM_TEST
-
-These must be separated at:
-
-DATABASE
-BACKEND
-API
-FRONTEND
-SEARCH
-FILTER
-ROUTING
-
-REAL_PYQ means only an actual exam paper that has been independently verified.
-
-MODEL_PAPER is NOT REAL_PYQ.
-
-MOCK_TEST is NOT REAL_PYQ.
-
-AI_GENERATED is NOT REAL_PYQ.
-
-Never classify a paper as REAL_PYQ merely because its title contains an exam/year.
-
-==================================================
-20. REAL PREVIOUS PAPER VERIFICATION
-==================================================
-
-For every REAL_PYQ verify:
-
-Exam
-Year
-Session
-Date
-Shift
-Paper/set/code where applicable
-Original source
-Source URL/reference
-Verification status
-
-Use authoritative sources wherever available.
-
-Do not reconstruct missing papers using AI.
-
-If a paper cannot be verified:
-
-UNVERIFIED
-
-Do not call it official.
-
-Existing records must be audited and migrated.
-
-Example:
-
-“JEE Main 2025 NTA High-Yield Full Mock #2”
-
-must NOT appear in REAL_PYQ.
-
-It should be classified according to its actual nature, such as MODEL_PAPER or MOCK_TEST.
-
-==================================================
-21. OFFICIAL ANSWER KEY LABEL
-==================================================
-
-Never display:
-
-“Official Answer Key”
-
-unless the answer key is genuinely from the official authority.
-
-Use:
-
-Official Answer Key
-
-ONLY when verified.
-
-Otherwise use:
-
-PREPORA Solution
-or
-AI-Generated Solution
-
-Never misrepresent generated content as official.
-
-==================================================
-22. RBSE / CBSE / JEE / NEET
-==================================================
-
-Maintain separate datasets for:
-
-JEE Main
-JEE Advanced
-NEET
-CBSE
-RBSE
-
-Within each:
-
-REAL_PYQ
-MODEL_PAPER
-MOCK_TEST
-SAMPLE_PAPER
-
-Do not mix them.
-
-RBSE Model Question Papers must not appear as RBSE Examination Papers.
-
-==================================================
-23. PREVIOUS PAPERS EXPERIENCE
-==================================================
-
-Create a clean paper browser.
-
-Filters:
-
-Exam
-Year
-Session
-Subject
-Paper/Shift
-Content Type
-Verified Only
-
-Default:
-
-REAL_PYQ + Verified Only
-
-Each paper should clearly show:
-
-Exam
-Year
-Session
-Date/Shift if verified
-Paper type
-Verification status
-
-Example:
-
-JEE Main
-2025
-Session 1
-Shift 1
-REAL PYQ
-✓ Source Verified
-
-Never use ambiguous labels.
-
-==================================================
-24. SEARCH
-==================================================
-
-Global search must search:
-
-Questions
-Topics
-Chapters
-PYQs
-Model Papers
-Tests
-Mistakes
-Revision
-Doubts
-
-Search results must show content type clearly.
-
-Example:
-
-JEE Main 2025 — REAL PYQ
-
-NOT:
-
-JEE Main 2025
-
-when the type is ambiguous.
-
-==================================================
-25. STUDENT ONBOARDING
-==================================================
-
-Do not ask for unnecessary information.
-
-Ask only what is required to personalize:
-
-Exam
-Class
-Board
-Subjects
-Target exam/date if applicable
-Current preparation level
-
-Then immediately create:
-
-MY PREP PROFILE
-
-Example:
-
-Target:
-JEE Main
-
-Current focus:
-Physics
-
-Weakness:
-Kinematics
-
-Recommended today:
-10 questions + revision
-
-The student should be able to start within a few clicks.
-
-==================================================
-26. FIRST 5 MINUTES
-==================================================
-
-Design the first 5 minutes as a product experience.
-
-Minute 0:
-Understand PREPORA
-
-Minute 1:
-Choose exam/profile
-
-Minute 2:
-Take quick diagnostic OR start practice
-
-Minute 3:
-Get personalized analysis
-
-Minute 4:
-See weakness
-
-Minute 5:
-Start FIX MY WEAKNESS
-
-The student should finish the first session thinking:
-
-“Ab mujhe pata hai mujhe kya karna hai.”
-
-==================================================
-27. PROGRESS EXPERIENCE
-==================================================
-
-Create:
-
-MY PREPARATION
-
-Overall progress
-Subject progress
-Chapter mastery
-Recent improvement
-Mistake trends
-Practice consistency
-Test performance
-Revision status
-
-But avoid giant dashboards.
-
-Prioritize actionable information.
-
-==================================================
-28. READINESS SCORE
-==================================================
-
-If readiness score exists:
-
-Never make it look like a magical AI prediction.
-
-Show factors:
-
-Concept mastery
-Accuracy
-Consistency
-Test performance
-Time efficiency
-Revision coverage
-
-Show:
-
-“How this score is calculated”
-
-Never claim guaranteed rank/result.
-
-==================================================
-29. UI / VISUAL DESIGN
-==================================================
-
-Create a premium monochrome visual system.
-
-Primary:
-
-#111111
-
-Background:
-
-#F7F7F7
-
-Surface:
-
-#FFFFFF
-
-Dark:
-
-#0A0A0A
-
-Dark surface:
-
-#151515
-
-Secondary:
-
-#333333
-
-Muted:
-
-#737373
-
-Border:
-
-#E5E5E5
-
-Success:
-
-semantic green only where necessary.
-
-Warning:
-
-semantic amber only where necessary.
-
-Error:
-
-semantic red only where necessary.
-
-No purple-heavy design.
-
-No neon.
-
-No childish colors.
-
-No gaming-style UI.
-
-No excessive gradients.
-
-No excessive glassmorphism.
-
-No excessive shadows.
-
-==================================================
-30. TYPOGRAPHY
-==================================================
-
-Use strong modern typography.
-
-Clear hierarchy:
-
-Page title
-Section title
-Card title
-Supporting text
-Metadata
-
-Do not make everything bold.
-
-Use whitespace as a design element.
-
-Spacing:
-
-8
-12
-16
-24
-32
-48
-
-Border radius:
-
-8–12px
-
-Animations:
-
-150–250ms
-
-Animations must improve usability, not distract.
-
-==================================================
-31. REDUCE CARD OVERLOAD
-==================================================
-
-Do NOT put every feature inside a card.
-
-Use:
-
-- whitespace
-- sections
-- dividers
-- compact rows
-- tabs
-- inline statistics
-- progressive disclosure
-
-Cards should be used only where they improve grouping.
-
-==================================================
-32. HOME PAGE STRUCTURE
-==================================================
-
-Create the final Home page approximately as:
-
-HEADER
-
-PREPORA logo
-Search
-Notifications
 Profile
-
-HERO / NEXT BEST ACTION
-
-“What should I study now?”
-
-Primary recommended action.
-
-TODAY
-
-Questions
-Revision
-Test
-Study time
-
-YOUR WEAKNESS
-
-Top current weakness
-Reason
-Fix button
-
-YOUR PROGRESS
-
-Before → After
-
-RECENT TEST
-
-Score
-Accuracy
-Time
-Key mistake
-
-SMART REVISION
-
-Due items
-
-QUICK ACTIONS
-
-Practice
-Build Test
-Previous Papers
-AI Teacher
-Mistake Book
-
-RECENT ACTIVITY
-
-Minimal timeline.
-
-Do not overcrowd the page.
-
-==================================================
-33. MOBILE EXPERIENCE
-==================================================
-
-Mobile is NOT a compressed desktop website.
-
-Design mobile intentionally.
-
-Bottom navigation:
-
-Home
-Practice
-Tests
-Doubts
-Mistakes
-
-Use responsive breakpoints:
-
-360
-375
-390
-412
-768
-1024
-1280+
-
-No horizontal overflow.
-
-Tables on mobile become cards.
-
-Important actions must be thumb-friendly.
-
-==================================================
-34. PERFORMANCE
-==================================================
-
-Do not sacrifice performance for animations.
-
-Optimize:
-
-Images
-Fonts
-JS bundles
-API calls
-Database queries
-Question loading
-AI requests
-
-Lazy-load heavy content.
-
-Use skeleton loading.
-
-Never use fake loading progress.
-
-If AI job progress exists, show real progress from backend job state.
-
-==================================================
-35. EMPTY STATES
-==================================================
-
-New student:
-
-“Your preparation starts here.”
-
-[ Start Diagnostic ]
-
-No mistakes:
-
-“No mistakes yet. Once you practice, PREPORA will identify patterns here.”
-
-No revision:
-
-“You're caught up.”
-
-No PYQ:
-
-“Verified papers unavailable for this filter.”
-
-Do not show fake data to make the UI look populated.
-
-==================================================
-36. ERROR / NETWORK RECOVERY
-==================================================
-
-Handle:
-
-Network failure
-API failure
-AI timeout
-Database failure
-Session expiration
-
-Show useful recovery actions.
-
-Autosave where appropriate.
-
-If test connection drops:
-
-Save progress locally/server-side.
-
-Allow:
-
-“Resume Test”
-
-Do not lose student attempts.
-
-==================================================
-37. TRUST & TRANSPARENCY
-==================================================
-
-Clearly distinguish:
-
-Official
-Verified
-PREPORA-generated
-AI-generated
-User-generated
-
-Never blur these categories.
-
-Never fake:
-
-- official papers
-- official answer keys
-- student counts
-- question counts
-- AI accuracy
-- rankings
-- improvement
-- reviews/testimonials
-
-==================================================
-38. SOCIAL PROOF
-==================================================
-
-If real student data exists, show it.
+Account Information
+Today's Planner
+Daily Progress
+Tasks
+Study Sessions
+Goals
+Activity Timeline
+Login History
+Session Information
+
+Use tabs:
+
+Overview
+Planner
+Progress
+Activity
+Login History
 
 Example:
 
-“Students solved 24,382 questions this week.”
+Student Overview
 
-Only use real backend numbers.
+Name: Mahesh
+Mobile: 98XXXXXXXX
+Student ID: STU_XXXX
+Account Created: ...
+Last Login: ...
+Current Session: Active
 
-If there is no real data yet:
+Today's Progress:
+80%
 
-DO NOT fabricate social proof.
-
-Use product demonstrations instead.
-
-==================================================
-39. PRODUCT DIFFERENTIATION
-==================================================
-
-Do not compete only on:
-
-More questions
-More tests
-More AI
-More features
-
-Compete on:
-
-BETTER DECISION MAKING
-
-PREPORA should answer:
-
-“What should I do next?”
-
-and:
-
-“Why?”
-
-and:
-
-“Did it work?”
-
-This is the core product identity.
+Weekly Progress:
+...
 
 ==================================================
-40. DO NOT COPY COMPETITORS
+16. ADMIN FORCE LOGOUT
 ==================================================
 
-Research the current education ecosystem for UX patterns and common student problems.
+Admin should have:
 
-You may learn from:
+[Force Logout]
 
-JEE/NEET platforms
-adaptive learning platforms
-test platforms
-learning apps
-study planners
-AI tutors
+When clicked:
 
-But do not copy their branding, layouts or proprietary content.
+Confirm:
 
-Build a distinct PREPORA identity.
+"Are you sure you want to log out this student from their current device?"
 
-==================================================
-41. DATA ARCHITECTURE
-==================================================
+If confirmed:
 
-Maintain stable IDs for:
-
-Exam
-Board
-Class
-Subject
-Chapter
-Topic
-Concept
-Question
-Question Version
-Paper
-Test
-Attempt
-Mistake
-Revision Item
-
-Do not use display names as database identity.
+- Revoke current session
+- Clear currentSessionId if appropriate
+- Create activity log
+- Student's next API request receives SESSION_REVOKED
+- Frontend logs out automatically
 
 ==================================================
-42. QUESTION VERSIONING
+17. ADMIN SESSION MONITORING
 ==================================================
 
-If a question changes after publication:
+Admin can see:
 
-Create a new question version.
+Current Device
+Browser
+Last Active
+Login Time
+Session Status
 
-Old student attempts must continue referencing the exact old version.
+Example:
 
-Never silently alter historical attempts.
+Current Session
+
+Device:
+Android
+
+Browser:
+Chrome
+
+Login:
+05 Oct 2026 04:32 PM
+
+Last Active:
+05 Oct 2026 04:48 PM
+
+Status:
+ACTIVE
+
+[Force Logout]
+
+Do not rely on device fingerprinting as the primary security mechanism.
+
+The active server-side session is the actual security mechanism.
 
 ==================================================
-43. ADMIN CONTENT FACTORY
+18. LOGIN HISTORY
 ==================================================
 
-Admin workflow:
+Maintain security/login history.
 
-SOURCE
+Example:
+
+05 Oct 2026 04:32 PM
+Login successful
+Android / Chrome
+
+05 Oct 2026 04:31 PM
+Previous session revoked
+Reason: New login
+
+04 Oct 2026 07:12 PM
+Logout
+
+Store:
+
+LoginHistory {
+    studentId,
+    eventType,
+    deviceInfo,
+    userAgent,
+    ipAddress,
+    timestamp,
+    reason
+}
+
+Do not expose sensitive information unnecessarily.
+
+==================================================
+19. FRONTEND SESSION HANDLING
+==================================================
+
+Create a central authentication/session provider.
+
+For example:
+
+AuthContext
+
+It should handle:
+
+currentStudent
+isAuthenticated
+loading
+login()
+logout()
+refreshSession()
+handleSessionRevoked()
+
+Global API handling:
+
+If API returns:
+
+401 SESSION_REVOKED
+
+then:
+
+1. Clear frontend authentication state
+2. Clear relevant cached student data
+3. Redirect to login
+4. Show:
+
+"Your account was signed in on another device."
+
+Avoid infinite redirect loops.
+
+==================================================
+20. PLANNER INTEGRATION
+==================================================
+
+The existing:
+
+/planner
+
+page must continue working.
+
+After authentication:
+
+/planner
+
+should automatically load only the logged-in student's planner.
+
+Do not require the frontend to send studentId manually.
+
+Example:
+
+GET /api/planner
+
+Backend:
+
+authenticated session
 ↓
-ANALYZE
+studentId
 ↓
-TOPIC MAP
-↓
-BLUEPRINT
-↓
-GENERATE
-↓
-VALIDATE
-↓
-DUPLICATE CHECK
-↓
-QUALITY CHECK
-↓
-REVIEW
-↓
-APPROVE
-↓
-PUBLISH
+student planner
 
-Admin must see:
+If student logs out:
 
-Generated
-Valid
-Rejected
-Duplicate
-Remaining
-Coverage
-Difficulty
-Topic distribution
+Planner data must no longer remain accessible.
 
-No fake progress.
+If session is revoked:
+
+Planner API must return unauthorized.
 
 ==================================================
-44. ADMIN QUALITY CONTROL
+21. SECURITY REQUIREMENTS
 ==================================================
 
-Admin must be able to:
+Implement:
 
-- Review questions
-- Edit questions
-- Approve
-- Reject
-- Regenerate
-- View source
-- View validation results
-- Compare duplicate candidates
-- See question version
-- See content type
-- See verification status
+- Password hashing
+- Secure sessions
+- HttpOnly cookies
+- Secure cookies in production
+- SameSite protection
+- CSRF protection where applicable
+- Rate limiting
+- Login attempt protection
+- OTP rate limiting
+- OTP expiry
+- OTP attempt limit
+- Input validation
+- Request validation
+- Authorization middleware
+- Role-based access control
+- Admin authorization
+- No student-to-student data access
+- No plaintext passwords
+- No plaintext OTP storage where avoidable
+- No secrets in frontend code
+- Environment variables for secrets
+- Proper error handling
+- Security logging
 
-==================================================
-45. RBAC SECURITY
-==================================================
+Never trust client-provided:
 
-Roles:
+studentId
+role
+admin status
+session status
 
-Super Admin
-Content Admin
-Test Admin
-Reviewer
-Support Admin
-Analytics Admin
-
-Permissions must be enforced server-side.
-
-Never rely only on hiding buttons in frontend.
-
-API authorization must be implemented.
-
-==================================================
-46. AI PROVIDER ARCHITECTURE
-==================================================
-
-Use a centralized AI provider abstraction.
-
-Do not hard-code AI logic throughout the application.
-
-Support:
-
-AIService
-QuestionGenerator
-QuestionValidator
-AnswerValidator
-MathValidator
-DuplicateDetector
-SourceValidator
-ContentQualityChecker
-AIJobManager
-
-API keys must remain server-side.
-
-Never expose secret keys in frontend.
-
-Do not automatically switch to a paid AI provider when free quota is exhausted.
-
-Handle quota errors explicitly.
+All must be determined server-side.
 
 ==================================================
-47. REAL INVENTORY
+22. ROLES
 ==================================================
 
-Never show:
+Create role-based access:
 
-“100K+ Questions”
-
-unless database actually contains that many valid questions.
-
-Inventory dashboard must display real counts.
-
-Separate:
-
-Verified
-AI Generated
-Draft
-Pending Review
-Published
-Rejected
-Duplicates
-
-==================================================
-48. FINAL UX PRINCIPLE
-==================================================
-
-Every important screen must answer:
-
-WHERE AM I?
-
-WHAT IS HAPPENING?
-
-WHAT SHOULD I DO NEXT?
-
-WHY SHOULD I DO IT?
-
-WHAT WILL I GET FROM IT?
-
-This should be visible without overwhelming the student.
-
-==================================================
-49. FINAL HOME PAGE EMOTIONAL GOAL
-==================================================
-
-When a student opens PREPORA for the first time:
-
-They should NOT think:
-
-“Wow, there are 50 features.”
-
-They should think:
-
-“Finally, I know what I need to do.”
-
-After completing a meaningful task:
-
-They should think:
-
-“Isne meri actual problem pakdi.”
-
-After fixing a weakness:
-
-They should think:
-
-“Bhai, ye useful hai.”
-
-After seeing improvement:
-
-They should think:
-
-“Ye mere friend ko bhi try karna chahiye.”
-
-That is the target experience.
-
-==================================================
-50. FINAL QA — DO NOT DECLARE SUCCESS EARLY
-==================================================
-
-Do a complete end-to-end audit after implementation.
-
-Test:
-
-FIRST VISIT
-→ LANDING PAGE
-→ SIGNUP
-→ ONBOARDING
-→ DIAGNOSTIC
-→ HOME
-→ NEXT BEST ACTION
-→ PRACTICE
-→ TEST
-→ ANALYSIS
-→ MISTAKE
-→ FIX MY WEAKNESS
-→ REVISION
-→ RETEST
-→ IMPROVEMENT
-
-Also test:
-
-AI DOUBT SOLVER
-QUESTION SEARCH
-QUESTION BANK
-TEST BUILDER
-PREVIOUS PAPERS
-MODEL PAPERS
-MOCK TESTS
-RBSE
-CBSE
-JEE MAIN
-JEE ADVANCED
-NEET
+STUDENT
 ADMIN
-CONTENT FACTORY
-QUESTION VALIDATION
-DATABASE COUNTS
-MOBILE
-DESKTOP
-NETWORK RECOVERY
+SUPER_ADMIN
 
-For every feature verify:
+Student:
 
-Database
-→ Backend
-→ API
-→ Frontend
-→ UI
-→ Actual user behavior
+Can access only own data.
 
-Do not fix only the visual layer.
+Admin:
+
+Can access authorized student management.
+
+Super Admin:
+
+Can manage admins and system-level configuration.
+
+Never trust role sent from frontend.
 
 ==================================================
-51. FINAL REPORT
+23. API STRUCTURE
 ==================================================
 
-After testing, provide a factual report:
+Keep APIs organized.
 
-WORKING
-- features that passed
+Example:
 
-FIXED
-- bugs fixed
+/api/auth/register
+/api/auth/send-otp
+/api/auth/verify-otp
+/api/auth/login
+/api/auth/logout
+/api/auth/forgot-password
+/api/auth/reset-password
+/api/auth/change-password
+/api/auth/session
 
-FOUND
-- bugs discovered
+/api/planner
+/api/tasks
+/api/progress
+/api/activity
 
-REMAINING
-- unresolved issues
+/api/admin/students
+/api/admin/students/:id
+/api/admin/students/:id/activity
+/api/admin/students/:id/progress
+/api/admin/students/:id/sessions
+/api/admin/students/:id/force-logout
 
-DATA CLEANUP
-- records migrated
+Use middleware:
 
-REAL PYQ INVENTORY
-- exact verified count
-
-MODEL PAPER INVENTORY
-- exact count
-
-MOCK INVENTORY
-- exact count
-
-QUESTION BANK INVENTORY
-- exact count
-
-AI GENERATED INVENTORY
-- exact count
-
-QUALITY ISSUES
-- rejected
-- duplicate
-- unverified
-
-Do not claim success if important tests fail.
+requireAuth
+requireStudent
+requireAdmin
+requireSuperAdmin
 
 ==================================================
-FINAL INSTRUCTION
+24. DATABASE INDEXES
 ==================================================
 
-Transform the existing PREPORA application into a genuinely premium, student-first preparation platform.
+Add appropriate indexes.
 
-Preserve all existing working business logic.
+Examples:
 
-Do not randomly rewrite working features.
+Student.mobile → unique index
+Student.studentId → unique index
 
-Do not create fake data.
+Session.sessionId → unique index
+Session.studentId → index
+Session.status → index
 
-Do not create fake analytics.
+Planner.studentId → index
+Planner.studentId + date → compound index
 
-Do not create fake progress.
+Activity.studentId + createdAt → index
 
-Do not create fake official papers.
+LoginHistory.studentId + timestamp → index
 
-Do not create fake testimonials.
+Optimize queries for many students.
 
-Do not mislabel AI-generated content.
+==================================================
+25. DATA RETENTION
+==================================================
 
-Do not remove existing useful functionality without replacing it.
+Do not store unlimited activity forever without planning.
 
-Prioritize:
+Use appropriate retention rules for:
 
-CLARITY
-→ PERSONALIZATION
-→ ACTION
-→ FEEDBACK
-→ IMPROVEMENT
-→ TRUST
+- Session records
+- Login history
+- Activity events
 
-The final product should feel less like:
+Keep important audit data while preventing unnecessary database growth.
 
-“a website containing many study features”
+==================================================
+26. UI/UX
+==================================================
 
-and more like:
+Keep the existing PREPORA design language.
 
-“a personal preparation system that continuously tells the student what to do next and helps them fix what is holding them back.”
+Do not make the authentication screens look like a completely different website.
 
-The ultimate product loop is:
+Create:
 
-PRACTICE
+Login
+Register
+OTP Verification
+Account Created
+Forgot Password
+Reset Password
+Change Password
+Session Revoked
+Profile/Settings
+
+Make all screens:
+
+- Mobile-first
+- Responsive
+- Clean
+- Fast
+- Accessible
+- Good loading states
+- Good error states
+- No layout jumps
+
+Password field should include:
+
+Show / Hide password
+
+Copy generated password button.
+
+==================================================
+27. IMPORTANT PRODUCT DECISION
+==================================================
+
+Do NOT force WhatsApp OTP on every login.
+
+The desired cost-saving architecture is:
+
+FIRST TIME:
+
+WhatsApp OTP
 ↓
-TEST
+Account creation
 ↓
-ANALYZE
-↓
-FIND WEAKNESS
-↓
-FIX WEAKNESS
-↓
-RETEST
-↓
-SEE IMPROVEMENT
-↓
-KNOW WHAT TO DO NEXT
+Generated password
 
-Build the experience around this loop.
+NORMAL:
+
+Mobile + Password
+↓
+Login
+
+RECOVERY:
+
+WhatsApp OTP
+↓
+Reset password
+
+NEW LOGIN:
+
+Mobile + Password
+↓
+Old session revoked
+↓
+New session active
+
+==================================================
+28. DO NOT BREAK EXISTING DATA
+==================================================
+
+Before modifying existing database models:
+
+- Inspect current schema
+- Create migration strategy if required
+- Preserve existing planner records
+- Add studentId safely
+- Do not delete existing production data
+- Do not reset MongoDB
+- Do not drop collections
+
+If old records don't have studentId, create a safe migration plan and clearly identify records that cannot be automatically assigned.
+
+==================================================
+29. ENVIRONMENT VARIABLES
+==================================================
+
+Keep all secrets server-side.
+
+Examples:
+
+MONGODB_URI=
+SESSION_SECRET=
+WHATSAPP_API_KEY=
+WHATSAPP_PHONE_NUMBER_ID=
+WHATSAPP_BUSINESS_ACCOUNT_ID=
+
+Never expose these through VITE_ frontend variables.
+
+Never commit .env files.
+
+Update .env.example with placeholder values.
+
+==================================================
+30. TESTING
+==================================================
+
+Before declaring completion, test this exact scenario.
+
+TEST A:
+
+Create Student A.
+
+Verify WhatsApp OTP.
+
+Generate password.
+
+Login.
+
+Open planner.
+
+Create tasks.
+
+Confirm data is saved.
+
+TEST B:
+
+Login Student A on Phone/Browser B using same mobile + password.
+
+Expected:
+
+Browser A session becomes invalid.
+
+Browser B works.
+
+Browser A API request:
+
+401 SESSION_REVOKED
+
+Browser A redirects to login.
+
+TEST C:
+
+Create Student B.
+
+Login Student B.
+
+Confirm Student B cannot see Student A's:
+
+Planner
+Tasks
+Progress
+Activity
+Sessions
+
+TEST D:
+
+Try manually changing student ID in API request.
+
+Expected:
+
+Access denied.
+
+TEST E:
+
+Admin opens Student A.
+
+Admin can see only Student A's data.
+
+Admin force logout.
+
+Student A gets logged out.
+
+TEST F:
+
+Student changes password.
+
+Old session becomes invalid.
+
+Student must log in with new password.
+
+TEST G:
+
+Forgot password.
+
+OTP verification.
+
+New password.
+
+Login works.
+
+TEST H:
+
+Rate-limit OTP and login attempts.
+
+==================================================
+31. IMPLEMENTATION APPROACH
+==================================================
+
+Work in this order:
+
+STEP 1
+Audit existing code.
+
+STEP 2
+Document existing authentication/data architecture.
+
+STEP 3
+Design database changes.
+
+STEP 4
+Implement Student model.
+
+STEP 5
+Implement Session model.
+
+STEP 6
+Implement OTP service abstraction.
+
+STEP 7
+Implement registration.
+
+STEP 8
+Implement password generation.
+
+STEP 9
+Implement login.
+
+STEP 10
+Implement single-active-session logic.
+
+STEP 11
+Implement auth middleware.
+
+STEP 12
+Secure planner APIs.
+
+STEP 13
+Implement daily activity/progress.
+
+STEP 14
+Implement admin student management.
+
+STEP 15
+Implement force logout.
+
+STEP 16
+Implement password recovery/change.
+
+STEP 17
+Integrate frontend auth state.
+
+STEP 18
+Integrate existing /planner.
+
+STEP 19
+Test student isolation.
+
+STEP 20
+Test session revocation.
+
+STEP 21
+Test admin access control.
+
+STEP 22
+Production security review.
+
+==================================================
+32. VERY IMPORTANT CODING RULE
+==================================================
+
+Do NOT blindly generate thousands of lines of code.
+
+First inspect the existing code and identify exactly which files need modification.
+
+Then make small, controlled changes.
+
+After each major change:
+
+- Run the project
+- Check for errors
+- Test affected API
+- Test frontend
+- Fix regressions
+
+Do not rewrite working components unnecessarily.
+
+==================================================
+33. FINAL DELIVERABLE
+==================================================
+
+When implementation is complete, provide:
+
+1. Files created
+2. Files modified
+3. Database models added/changed
+4. API endpoints added
+5. Authentication flow
+6. Session flow
+7. OTP flow
+8. Student data isolation strategy
+9. Admin features
+10. Environment variables required
+11. Migration requirements
+12. Testing results
+13. Security issues found
+14. Remaining improvements
+
+Also clearly tell me:
+
+- What was already present
+- What you changed
+- What you did NOT change
+- Any risks
+- Any production configuration still required
+
+MOST IMPORTANT:
+
+The final system must behave like:
+
+FIRST LOGIN
+WhatsApp OTP → Account → Generated Password
+
+EVERY NORMAL LOGIN
+Mobile + Password → Login
+
+SECOND DEVICE LOGIN
+New login → Old session immediately revoked
+
+STUDENT DATA
+Student A → only Student A data
+Student B → only Student B data
+
+ADMIN
+Admin → student-wise data + progress + activity + login history
+
+OTP
+Used only when actually required, not on every normal login.
+
+Build this as a production-quality authentication and student-management architecture, not as a demo-only implementation.

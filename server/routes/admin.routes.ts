@@ -9,6 +9,11 @@ import TechnicalReport from '../models/TechnicalReport.js';
 import AuditLog from '../models/AuditLog.js';
 import { ContentHierarchy, Flashcard, AdminSettings, AIJob, AuthorizedAdmin } from '../models/Admin.js';
 import Session from '../models/Session.js';
+import Planner from '../models/Planner.js';
+import DailyProgress from '../models/DailyProgress.js';
+import StudentActivity from '../models/StudentActivity.js';
+import LoginHistory from '../models/LoginHistory.js';
+import { randomBytes } from 'crypto';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { authenticateUser, requireAdmin, AuthRequest } from '../middleware/auth.js';
@@ -146,14 +151,34 @@ router.get('/students', async (req: Request, res: Response) => {
     const query: any = { role: 'student' };
 
     if (search) {
+      const clean = String(search).trim();
+      const phoneDigits = clean.replace(/[^0-9]/g, '');
       query.$or = [
-        { name: { $regex: String(search), $options: 'i' } },
-        { email: { $regex: String(search), $options: 'i' } }
+        { name: { $regex: clean, $options: 'i' } },
+        { email: { $regex: clean, $options: 'i' } },
+        { id: { $regex: clean, $options: 'i' } },
+        { studentId: { $regex: clean, $options: 'i' } }
       ];
+      if (phoneDigits.length >= 4) {
+        query.$or.push({ phone: { $regex: phoneDigits } });
+        query.$or.push({ mobile: { $regex: phoneDigits } });
+      }
     }
+
     if (exam && exam !== 'all') query.targetExam = exam;
     if (classLevel && classLevel !== 'all') query.classLevel = classLevel;
-    if (status && status !== 'all') query.status = status;
+    
+    // Status filters: active, suspended, recently_active, never_logged_in
+    if (status && status !== 'all') {
+      if (status === 'active' || status === 'suspended') {
+        query.status = status;
+      } else if (status === 'recently_active') {
+        const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+        query.lastLoginAt = { $gte: sevenDaysAgo };
+      } else if (status === 'never_logged_in') {
+        query.lastLoginAt = { $exists: false };
+      }
+    }
 
     const skip = (Number(page) - 1) * Number(limit);
     const [students, total] = await Promise.all([
@@ -165,9 +190,40 @@ router.get('/students', async (req: Request, res: Response) => {
       User.countDocuments(query)
     ]);
 
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    // Enrich each student with active session status and today's progress
+    const enrichedStudents = await Promise.all(
+      students.map(async (st) => {
+        const [activeSession, todayProgress] = await Promise.all([
+          Session.findOne({ userId: st.id, isRevoked: false }),
+          DailyProgress.findOne({ studentId: st.id, date: todayStr })
+        ]);
+
+        const stObj = st.toObject();
+        return {
+          ...stObj,
+          studentId: st.studentId || st.id,
+          mobile: st.mobile || st.phone,
+          sessionStatus: activeSession ? 'Active' : 'Inactive',
+          currentDevice: activeSession?.deviceInfo || null,
+          lastActive: activeSession?.lastActive || st.updatedAt,
+          todayProgress: todayProgress
+            ? {
+                completed: todayProgress.tasksCompleted,
+                total: todayProgress.tasksTotal,
+                percentage: todayProgress.tasksTotal > 0 ? Math.round((todayProgress.tasksCompleted / todayProgress.tasksTotal) * 100) : 0,
+                studyTimeMinutes: todayProgress.studyTimeMinutes
+              }
+            : { completed: 0, total: 0, percentage: 0, studyTimeMinutes: 0 }
+        };
+      })
+    );
+
     res.json({
       success: true,
-      data: students,
+      data: enrichedStudents,
+      students: enrichedStudents,
       pagination: {
         page: Number(page),
         limit: Number(limit),
@@ -177,6 +233,133 @@ router.get('/students', async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: 'Failed to fetch students', error: error.message });
+  }
+});
+
+// GET /api/admin/students/:id - Comprehensive Student Detail for Admin (Overview, Planner, Progress, Activity, LoginHistory)
+router.get('/students/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const user = await User.findOne({ $or: [{ id }, { studentId: id }] }).select('-passwordHash -otpCode');
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Student not found.' });
+    }
+
+    const todayStr = new Date().toISOString().split('T')[0];
+
+    const studentIdentities = [user.id, user.studentId].filter(Boolean);
+
+    const [activeSession, planner, progressHistory, activities, loginHistories] = await Promise.all([
+      Session.findOne({ userId: user.id, isRevoked: false }),
+      Planner.findOne({ studentId: { $in: studentIdentities }, date: todayStr }),
+      DailyProgress.find({ studentId: { $in: studentIdentities } }).sort({ date: -1 }).limit(7),
+      StudentActivity.find({ studentId: { $in: studentIdentities } }).sort({ createdAt: -1 }).limit(25),
+      LoginHistory.find({ studentId: { $in: studentIdentities } }).sort({ timestamp: -1 }).limit(25)
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        student: {
+          ...user.toObject(),
+          studentId: user.studentId || user.id,
+          mobile: user.mobile || user.phone
+        },
+        currentSession: activeSession
+          ? {
+              sessionId: activeSession.id,
+              deviceInfo: activeSession.deviceInfo,
+              ipAddress: activeSession.ipAddress,
+              userAgent: activeSession.userAgent,
+              loginTime: activeSession.createdAt,
+              lastActive: activeSession.lastActive,
+              status: 'ACTIVE'
+            }
+          : null,
+        planner: planner || { date: todayStr, tasks: [] },
+        progressHistory: progressHistory || [],
+        activities: activities || [],
+        activityTimeline: activities || [],
+        loginHistories: loginHistories || [],
+        loginHistory: loginHistories || []
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to fetch student details', error: error.message });
+  }
+});
+
+// POST /api/admin/students/:id/force-logout - Force Logout student from active device
+router.post('/students/:id/force-logout', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const adminUser = (req as AuthRequest).user;
+    const now = new Date();
+
+    const targetUser = await User.findOne({ $or: [{ id }, { studentId: id }] });
+    if (!targetUser) {
+      return res.status(404).json({ success: false, message: 'Student not found.' });
+    }
+
+    // Revoke all active sessions for this student
+    const revokedResult = await Session.updateMany(
+      { userId: targetUser.id, isRevoked: false },
+      {
+        $set: {
+          isRevoked: true,
+          status: 'REVOKED',
+          revokedAt: now,
+          revocationReason: 'ADMIN_FORCE_LOGOUT'
+        }
+      }
+    );
+
+    // Clear currentSessionId on user
+    targetUser.currentSessionId = undefined;
+    targetUser.lastLogoutAt = now;
+    await targetUser.save();
+
+    // Log to LoginHistory
+    await LoginHistory.create({
+      id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
+      studentId: targetUser.studentId || targetUser.id,
+      eventType: 'FORCE_LOGOUT',
+      reason: `Forcefully logged out by Admin (${adminUser?.email || 'admin'})`,
+      timestamp: now
+    }).catch(() => null);
+
+    // Log to StudentActivity
+    await StudentActivity.create({
+      id: `act-${Date.now()}-${randomBytes(3).toString('hex')}`,
+      studentId: targetUser.studentId || targetUser.id,
+      type: 'FORCE_LOGOUT',
+      title: 'Force Logout by Admin',
+      description: 'Account session was terminated by an administrator.'
+    }).catch(() => null);
+
+    // Append to AuditLog
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + randomBytes(3).toString('hex'),
+      adminId: adminUser?.id || 'admin_sys',
+      adminEmail: adminUser?.email || 'superadmin@prepora.edu',
+      action: 'STUDENT_FORCE_LOGOUT',
+      entityType: 'User',
+      entityId: String(targetUser.id),
+      metadata: {
+        studentId: targetUser.studentId || targetUser.id,
+        studentName: targetUser.name,
+        studentMobile: targetUser.mobile || targetUser.phone,
+        revokedSessionsCount: revokedResult.modifiedCount
+      }
+    }).catch(() => null);
+
+    res.json({
+      success: true,
+      message: `Student ${targetUser.name} has been forcefully logged out from their current device.`,
+      revokedCount: revokedResult.modifiedCount
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to force logout student', error: error.message });
   }
 });
 

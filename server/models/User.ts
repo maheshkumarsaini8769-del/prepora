@@ -2,10 +2,16 @@ import mongoose, { Schema, Document } from 'mongoose';
 
 export interface IUser extends Document {
   id: string;
+  studentId?: string;
   name: string;
   email: string;
   passwordHash?: string;
   phone?: string;
+  mobile?: string;
+  whatsappVerified?: boolean;
+  currentSessionId?: string;
+  lastLoginAt?: Date;
+  lastLogoutAt?: Date;
   role: 'student' | 'admin';
   avatar?: string;
   targetExam: 'JEE' | 'NEET' | 'Board';
@@ -38,9 +44,15 @@ export interface IUser extends Document {
 const UserSchema: Schema = new Schema(
   {
     id: { type: String, required: true, unique: true, index: true },
+    studentId: { type: String, sparse: true, unique: true, index: true },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true, index: true },
     phone: { type: String, sparse: true, index: true },
+    mobile: { type: String, sparse: true, index: true },
+    whatsappVerified: { type: Boolean, default: false },
+    currentSessionId: { type: String, sparse: true, index: true },
+    lastLoginAt: { type: Date },
+    lastLogoutAt: { type: Date },
     passwordHash: { type: String },
     zenuxsId: { type: String, sparse: true, index: true },
     role: { type: String, enum: ['student', 'admin'], default: 'student', index: true },

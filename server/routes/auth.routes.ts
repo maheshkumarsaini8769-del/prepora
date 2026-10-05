@@ -2,16 +2,21 @@ import express, { Request, Response } from 'express';
 import { rateLimit } from '../middleware/rateLimit.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { randomBytes } from 'crypto';
 import User from '../models/User.js';
 import Session from '../models/Session.js';
+import StudentActivity from '../models/StudentActivity.js';
+import LoginHistory from '../models/LoginHistory.js';
 import { AuthorizedAdmin } from '../models/Admin.js';
 import { JWT_SECRET, authenticateUser, AuthRequest, hashToken } from '../middleware/auth.js';
+import { whatsappOTPService } from '../services/whatsappOTPService.js';
+import { generateSecurePassword } from '../utils/passwordGenerator.js';
 
 const router = express.Router();
 
-// SECURITY: brute-force protection on credential endpoints (per IP)
-const authLimiter = rateLimit(12, 60 * 1000); // 12 attempts per minute
-const otpLimiter = rateLimit(6, 60 * 1000); // 6 OTP sends per minute
+const isDevEnv = process.env.NODE_ENV !== 'production';
+const authLimiter = rateLimit(isDevEnv ? 60 : 12, 60 * 1000); // 12 attempts/min in prod
+const otpLimiter = rateLimit(isDevEnv ? 40 : 6, 60 * 1000); // 6 OTP sends/min in prod
 
 // Helper to parse device info from User-Agent
 function parseDeviceInfo(req: Request) {
@@ -21,11 +26,14 @@ function parseDeviceInfo(req: Request) {
   let os = 'Windows';
 
   if (/android/i.test(userAgent)) {
-    device = 'Android Device';
+    device = 'Android Phone';
     os = 'Android';
-  } else if (/iphone|ipad|ipod/i.test(userAgent)) {
-    device = /ipad/i.test(userAgent) ? 'iPad' : 'iPhone';
+  } else if (/iphone/i.test(userAgent)) {
+    device = 'iPhone';
     os = 'iOS';
+  } else if (/ipad/i.test(userAgent)) {
+    device = 'iPad';
+    os = 'iPadOS';
   } else if (/macintosh|mac os x/i.test(userAgent)) {
     device = 'Mac';
     os = 'macOS';
@@ -44,22 +52,38 @@ function parseDeviceInfo(req: Request) {
   return { device, browser, os, userAgent, ipAddress };
 }
 
-// Helper: Manage active student sessions across personal study devices (phone, laptop, tablet).
-// Allows students to study seamlessly across devices (up to 5 concurrent devices) without being aggressively logged out.
-async function createSingleActiveSession(user: { id: string; email: string; role: string }, req: Request) {
-  // Allow up to 5 personal devices; revoke only excess older sessions
-  const activeSessions = await Session.find({ userId: user.id, isRevoked: false }).sort({ createdAt: -1 });
-  if (activeSessions.length >= 5) {
-    const toRevoke = activeSessions.slice(4);
+// Helper: Strictly SINGLE active authenticated session per student.
+// When a student logs in on another phone/browser, all previous sessions are immediately revoked!
+async function createSingleActiveSession(user: { id: string; studentId?: string; email: string; role: string }, req: Request) {
+  const now = new Date();
+
+  // Detect and revoke all prior active sessions for this student
+  const activeSessions = await Session.find({ userId: user.id, isRevoked: false });
+  if (activeSessions.length > 0) {
     await Session.updateMany(
-      { _id: { $in: toRevoke.map(s => s._id) } },
-      { $set: { isRevoked: true, revocationReason: 'DEVICE_LIMIT_EXCEEDED' } }
+      { userId: user.id, isRevoked: false },
+      {
+        $set: {
+          isRevoked: true,
+          status: 'REVOKED',
+          revokedAt: now,
+          revocationReason: 'NEW_LOGIN_ON_OTHER_DEVICE'
+        }
+      }
     );
+
+    await LoginHistory.create({
+      id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
+      studentId: user.studentId || user.id,
+      eventType: 'SESSION_REVOKED',
+      reason: 'Revoked due to new login on another device or browser',
+      timestamp: now
+    }).catch(() => null);
   }
 
-  const sessionId = `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
+  const sessionId = `sess-${Date.now()}-${randomBytes(4).toString('hex')}`;
   const token = jwt.sign(
-    { id: user.id, email: user.email, role: user.role, sessionId },
+    { id: user.id, studentId: user.studentId || user.id, email: user.email, role: user.role, sessionId },
     JWT_SECRET,
     { expiresIn: '30d' }
   );
@@ -67,13 +91,44 @@ async function createSingleActiveSession(user: { id: string; email: string; role
 
   const session = new Session({
     id: sessionId,
+    sessionId,
     userId: user.id,
+    studentId: user.studentId || user.id,
     token: hashToken(token),
     deviceInfo: { device, browser, os },
     ipAddress,
-    userAgent
+    userAgent,
+    status: 'ACTIVE',
+    isRevoked: false,
+    lastActive: now,
+    lastActiveAt: now
   });
   await session.save();
+
+  // Update student's currentSessionId and lastLoginAt
+  await User.findOneAndUpdate(
+    { id: user.id },
+    { $set: { currentSessionId: sessionId, lastLoginAt: now } }
+  );
+
+  // Log successful login to LoginHistory and StudentActivity
+  await LoginHistory.create({
+    id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
+    studentId: user.studentId || user.id,
+    eventType: 'LOGIN_SUCCESS',
+    deviceInfo: { device, browser, os },
+    userAgent,
+    ipAddress,
+    timestamp: now
+  }).catch(() => null);
+
+  await StudentActivity.create({
+    id: `act-${Date.now()}-${randomBytes(3).toString('hex')}`,
+    studentId: user.studentId || user.id,
+    type: 'LOGIN',
+    title: 'Student Logged In',
+    description: `Signed in on ${device} (${browser})`
+  }).catch(() => null);
 
   return { token, session };
 }
@@ -338,116 +393,98 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
   }
 });
 
-// POST /api/auth/send-otp
+// POST /api/auth/send-otp - WhatsApp OTP Dispatch
 router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
   try {
-    const { email, phone, identifier } = req.body;
-    const targetIdentifier = (identifier || phone || email || '').trim();
+    const { email, phone, mobile, identifier } = req.body;
+    const targetIdentifier = (mobile || phone || identifier || email || '').trim();
 
     if (!targetIdentifier) {
-      return res.status(400).json({ success: false, message: 'Phone number or email is required.' });
+      return res.status(400).json({ success: false, message: 'Mobile number is required.' });
     }
 
-    const isPhone = /^\+?[0-9\s-]{8,15}$/.test(targetIdentifier) || (!targetIdentifier.includes('@') && /^\d+$/.test(targetIdentifier));
-    const normalizedPhone = isPhone ? targetIdentifier.replace(/[^0-9]/g, '').slice(-10) : undefined;
-    const normalizedEmail = !isPhone ? targetIdentifier.toLowerCase().trim() : undefined;
-
-    let user = null;
-    if (normalizedPhone) {
-      user = await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] });
-    } else if (normalizedEmail) {
-      user = await User.findOne({ email: normalizedEmail });
+    const cleanMobile = targetIdentifier.replace(/[^0-9]/g, '').slice(-10);
+    if (!cleanMobile || cleanMobile.length !== 10) {
+      return res.status(400).json({ success: false, message: 'Please provide a valid 10-digit mobile number for WhatsApp verification.' });
     }
 
-    // SECURITY: fixed demo OTP (9999) only outside production; production uses a random OTP
-    const otp = process.env.NODE_ENV === 'production'
-      ? String(Math.floor(1000 + Math.random() * 9000))
-      : '9999';
-    const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
-
-    if (!user) {
-      // Pre-create user stub so OTP is stored
-      const id = `usr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
-      user = new User({
-        id,
-        name: normalizedPhone ? `Student ${normalizedPhone.slice(-4)}` : (normalizedEmail?.split('@')[0] || 'Student'),
-        email: normalizedEmail || `phone_${normalizedPhone}@prepora.student`,
-        phone: normalizedPhone,
-        role: 'student',
-        targetExam: 'JEE',
-        classLevel: '12',
-        targetYear: 2026,
-        otpCode: otp,
-        otpExpires: expires
-      });
-    } else {
-      user.otpCode = otp;
-      user.otpExpires = expires;
+    const result = await whatsappOTPService.sendOTP(cleanMobile);
+    if (!result.success) {
+      return res.status(400).json({ success: false, message: result.message, cooldownSeconds: result.cooldownSeconds });
     }
-
-    await user.save();
-
-    console.log(`[PREPORA AUTH] Demo OTP for ${normalizedPhone || normalizedEmail}: ${otp}`);
 
     res.json({
       success: true,
-      message: `Demo OTP sent successfully. Use OTP: ${otp}`,
-      otp,
-      debugOtp: otp
+      message: result.message,
+      cooldownSeconds: result.cooldownSeconds
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// POST /api/auth/verify-otp
+// POST /api/auth/verify-otp - Verify WhatsApp OTP, create account & generate unique password for new student
 router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
   try {
-    const { email, phone, identifier, otp, name, targetExam = 'JEE', classLevel = '12', targetYear = 2026 } = req.body;
-    const targetIdentifier = (identifier || phone || email || '').trim();
+    const { email, phone, mobile, identifier, otp, name, targetExam = 'JEE', classLevel = '12', targetYear = 2026 } = req.body;
+    const targetIdentifier = (mobile || phone || identifier || email || '').trim();
 
     if (!targetIdentifier || !otp) {
-      return res.status(400).json({ success: false, message: 'Phone/Email and OTP are required.' });
+      return res.status(400).json({ success: false, message: 'Mobile number and OTP are required.' });
     }
 
-    const isPhone = /^\+?[0-9\s-]{8,15}$/.test(targetIdentifier) || (!targetIdentifier.includes('@') && /^\d+$/.test(targetIdentifier));
-    const normalizedPhone = isPhone ? targetIdentifier.replace(/[^0-9]/g, '').slice(-10) : undefined;
-    const normalizedEmail = !isPhone ? targetIdentifier.toLowerCase().trim() : (email ? email.toLowerCase().trim() : undefined);
-
-    let user = null;
-    if (normalizedPhone) {
-      user = await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] });
-    } else if (normalizedEmail) {
-      user = await User.findOne({ email: normalizedEmail });
+    const cleanMobile = targetIdentifier.replace(/[^0-9]/g, '').slice(-10);
+    if (!cleanMobile || cleanMobile.length !== 10) {
+      return res.status(400).json({ success: false, message: 'Valid 10-digit mobile number is required.' });
     }
 
-    // SECURITY: the universal demo OTP is accepted only outside production
-    const isDemoOtp = process.env.NODE_ENV !== 'production' && otp.trim() === '9999';
-    const isValidOtp = isDemoOtp || (user && user.otpCode === otp.trim() && user.otpExpires && new Date() <= user.otpExpires);
-
-    if (!isValidOtp) {
-      return res.status(400).json({ success: false, message: 'Invalid OTP code. Please use demo OTP: 9999.' });
+    const verifyResult = whatsappOTPService.verifyOTP(cleanMobile, otp);
+    if (!verifyResult.success) {
+      return res.status(400).json({ success: false, message: verifyResult.message });
     }
+
+    let user = await User.findOne({
+      $or: [
+        { mobile: cleanMobile },
+        { phone: cleanMobile },
+        { email: `phone_${cleanMobile}@prepora.student` }
+      ]
+    });
+
+    let generatedPassword = '';
+    let isNewUser = false;
 
     const canonicalExam = targetExam === 'NEET' ? 'NEET_UG' : targetExam === 'CBSE' ? 'CBSE' : targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
     const activeSubjects = targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'];
 
     if (!user) {
-      // Auto-create student user upon verified demo OTP
-      const id = `usr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
-      const assignedEmail = normalizedEmail || `phone_${normalizedPhone}@prepora.student`;
+      // First-time registration:
+      // Automatically create student account, generate unique cryptographically secure password
+      isNewUser = true;
+      generatedPassword = generateSecurePassword(10);
+      const salt = await bcrypt.genSalt(10);
+      const passwordHash = await bcrypt.hash(generatedPassword, salt);
+      const studentId = `STU_${Date.now().toString(36).toUpperCase()}${randomBytes(2).toString('hex').toUpperCase()}`;
+      const assignedEmail = `phone_${cleanMobile}@prepora.student`;
+
       user = new User({
-        id,
-        name: name ? name.trim() : (normalizedPhone ? `Student ${normalizedPhone.slice(-4)}` : assignedEmail.split('@')[0]),
+        id: studentId,
+        studentId,
+        name: name ? name.trim() : `Student ${cleanMobile.slice(-4)}`,
         email: assignedEmail,
-        phone: normalizedPhone,
+        phone: cleanMobile,
+        mobile: cleanMobile,
+        passwordHash,
+        whatsappVerified: true,
         role: 'student',
         targetExam,
         classLevel,
         targetYear: Number(targetYear) || 2026,
-        streakDays: 12,
-        totalQuestionsSolved: 140,
-        overallAccuracy: 68,
+        streakDays: 1,
+        totalQuestionsSolved: 0,
+        overallAccuracy: 0,
+        testsCompleted: 0,
+        studyTimeMinutes: 0,
         preparationProfile: {
           preparationType: targetExam,
           exam: canonicalExam,
@@ -457,75 +494,167 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
           targetYear: Number(targetYear) || 2026
         }
       });
+      await user.save();
     } else {
-      // Update target exam & class choices if supplied
-      if (targetExam) user.targetExam = targetExam;
-      if (classLevel) user.classLevel = classLevel;
-      if (targetYear) user.targetYear = Number(targetYear);
-      if (normalizedPhone && !user.phone) user.phone = normalizedPhone;
+      // Existing student: mark WhatsApp verified
+      user.whatsappVerified = true;
+      if (!user.mobile) user.mobile = cleanMobile;
+      if (!user.phone) user.phone = cleanMobile;
       if (name && (!user.name || user.name.startsWith('Student '))) user.name = name.trim();
-      
-      if (!user.preparationProfile || !user.preparationProfile.onboardingCompleted) {
-        user.preparationProfile = {
-          preparationType: targetExam,
-          exam: canonicalExam,
-          classLevel,
-          subjects: activeSubjects,
-          onboardingCompleted: true,
-          targetYear: Number(targetYear) || 2026
-        };
+
+      // If existing user had no password yet, generate and save one
+      if (!user.passwordHash) {
+        generatedPassword = generateSecurePassword(10);
+        const salt = await bcrypt.genSalt(10);
+        user.passwordHash = await bcrypt.hash(generatedPassword, salt);
+        isNewUser = true;
       }
-      user.otpCode = undefined;
-      user.otpExpires = undefined;
+      await user.save();
     }
 
-    await user.save();
-
+    // Create strictly single active session (revokes any previous session on another device/browser)
     const { token, session } = await createSingleActiveSession(user, req);
 
     const userObj = user.toObject();
-    (userObj as any).hasPassword = !!user.passwordHash;
     delete userObj.passwordHash;
     delete userObj.otpCode;
+    (userObj as any).hasPassword = true;
 
     res.json({
       success: true,
+      isNewUser,
+      generatedPassword: generatedPassword || undefined,
       token,
       user: userObj,
       sessionId: session.id,
-      message: 'Verified successfully.'
+      message: isNewUser
+        ? 'Account created successfully! Save your unique password safely.'
+        : 'Logged in successfully.'
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-// POST /api/auth/forgot-password
-router.post('/forgot-password', otpLimiter, async (req: Request, res: Response) => {
+// POST /api/auth/change-password - Change password from Settings (authenticated)
+router.post('/change-password', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const { email } = req.body;
-    if (!email) {
-      return res.status(400).json({ success: false, message: 'Email is required.' });
+    const { currentPassword, newPassword, confirmPassword } = req.body;
+
+    if (!newPassword || newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long.' });
     }
 
-    const normalizedEmail = email.toLowerCase().trim();
-    const user = await User.findOne({ email: normalizedEmail });
+    if (confirmPassword && newPassword !== confirmPassword) {
+      return res.status(400).json({ success: false, message: 'New password and confirm password do not match.' });
+    }
+
+    const user = await User.findOne({ id: req.user!.id });
     if (!user) {
-      // Don't leak whether email exists
-      return res.json({ success: true, message: 'If this email exists in our system, a password reset OTP was sent.' });
+      return res.status(404).json({ success: false, message: 'User not found.' });
     }
 
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-    user.otpCode = otp;
-    user.otpExpires = new Date(Date.now() + 10 * 60 * 1000);
+    if (user.passwordHash) {
+      if (!currentPassword) {
+        return res.status(400).json({ success: false, message: 'Current password is required.' });
+      }
+      const isMatch = await bcrypt.compare(currentPassword, user.passwordHash);
+      if (!isMatch) {
+        return res.status(400).json({ success: false, message: 'Current password is incorrect.' });
+      }
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(newPassword, salt);
+    user.passwordHash = passwordHash;
+    user.currentSessionId = undefined; // Invalidate active session
     await user.save();
 
-    console.log(`[PREPORA AUTH] Password reset OTP for ${normalizedEmail}: ${otp}`);
+    // Revoke all existing sessions so a fresh login is required
+    await Session.updateMany(
+      { userId: user.id },
+      { $set: { isRevoked: true, status: 'REVOKED', revokedAt: new Date(), revocationReason: 'PASSWORD_CHANGED' } }
+    );
+
+    await StudentActivity.create({
+      id: `act_${Date.now()}_${randomBytes(3).toString('hex')}`,
+      studentId: user.studentId || user.id,
+      type: 'PASSWORD_CHANGED',
+      title: 'Password Changed',
+      description: 'Account password updated from settings. All prior sessions revoked.'
+    }).catch(() => null);
 
     res.json({
       success: true,
-      message: 'Password reset OTP sent to your email.',
-      debugOtp: process.env.NODE_ENV !== 'production' ? otp : undefined
+      message: 'Password changed successfully. Please log in again.'
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// POST /api/auth/forgot-password/send-otp - Dispatch WhatsApp OTP for password recovery
+router.post('/forgot-password/send-otp', otpLimiter, async (req: Request, res: Response) => {
+  try {
+    const { mobile, phone } = req.body;
+    const cleanMobile = String(mobile || phone || '').replace(/[^0-9]/g, '').slice(-10);
+
+    if (!cleanMobile || cleanMobile.length !== 10) {
+      return res.status(400).json({ success: false, message: 'Valid 10-digit mobile number is required.' });
+    }
+
+    const result = await whatsappOTPService.sendOTP(cleanMobile);
+    res.json({
+      success: result.success,
+      message: result.message || 'If this mobile is registered, a WhatsApp OTP has been sent.',
+      cooldownSeconds: result.cooldownSeconds || 60
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// POST /api/auth/forgot-password/verify-reset - Verify WhatsApp OTP and set new password
+router.post('/forgot-password/verify-reset', authLimiter, async (req: Request, res: Response) => {
+  try {
+    const { mobile, phone, otp, newPassword } = req.body;
+    const cleanMobile = String(mobile || phone || '').replace(/[^0-9]/g, '').slice(-10);
+
+    if (!cleanMobile || !otp || !newPassword) {
+      return res.status(400).json({ success: false, message: 'Mobile number, OTP, and new password are required.' });
+    }
+
+    if (newPassword.length < 6) {
+      return res.status(400).json({ success: false, message: 'New password must be at least 6 characters long.' });
+    }
+
+    const verifyResult = whatsappOTPService.verifyOTP(cleanMobile, otp);
+    if (!verifyResult.success) {
+      return res.status(400).json({ success: false, message: verifyResult.message });
+    }
+
+    const user = await User.findOne({
+      $or: [{ mobile: cleanMobile }, { phone: cleanMobile }, { email: `phone_${cleanMobile}@prepora.student` }]
+    });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'No registered student found with this mobile number.' });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    user.passwordHash = await bcrypt.hash(newPassword, salt);
+    user.currentSessionId = undefined;
+    await user.save();
+
+    // Revoke all prior sessions
+    await Session.updateMany(
+      { userId: user.id },
+      { $set: { isRevoked: true, status: 'REVOKED', revokedAt: new Date(), revocationReason: 'PASSWORD_CHANGED' } }
+    );
+
+    res.json({
+      success: true,
+      message: 'Password reset successfully. Please log in with your new password.'
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -683,9 +812,37 @@ router.post('/logout-other-devices', authenticateUser, async (req: AuthRequest, 
 // POST /api/auth/logout - Logout current session
 router.post('/logout', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
+    const now = new Date();
     if (req.token) {
-      await Session.findOneAndUpdate({ token: hashToken(req.token) }, { $set: { isRevoked: true } });
+      await Session.findOneAndUpdate(
+        { token: hashToken(req.token) },
+        { $set: { isRevoked: true, status: 'REVOKED', revokedAt: now, revocationReason: 'USER_LOGOUT' } }
+      );
     }
+
+    if (req.user) {
+      await User.findOneAndUpdate(
+        { id: req.user.id },
+        { $set: { currentSessionId: null, lastLogoutAt: now } }
+      );
+
+      await LoginHistory.create({
+        id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
+        studentId: req.user.studentId || req.user.id,
+        eventType: 'LOGOUT',
+        reason: 'User logged out',
+        timestamp: now
+      }).catch(() => null);
+
+      await StudentActivity.create({
+        id: `act-${Date.now()}-${randomBytes(3).toString('hex')}`,
+        studentId: req.user.studentId || req.user.id,
+        type: 'LOGOUT',
+        title: 'Student Logged Out',
+        description: 'Session ended'
+      }).catch(() => null);
+    }
+
     res.json({ success: true, message: 'Logged out successfully.' });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });

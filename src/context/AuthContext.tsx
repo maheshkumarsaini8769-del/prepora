@@ -27,11 +27,12 @@ export interface AuthContextType {
   login: (identifier: string, password: string) => Promise<{ success: boolean; message?: string }>;
   loginWithZenuxs: (payload: { sub?: string; email?: string; name?: string; picture?: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   register: (data: { name: string; email: string; password: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
-  sendOtp: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string }>;
-  verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string; hasPassword?: boolean }>;
+  sendOtp: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number }>;
+  verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; generatedPassword?: string }>;
   setPassword: (password: string) => Promise<{ success: boolean; message?: string }>;
-  forgotPassword: (email: string) => Promise<{ success: boolean; message?: string; debugOtp?: string }>;
-  resetPassword: (email: string, otp: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
+  changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
+  forgotPassword: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; cooldownSeconds?: number }>;
+  resetPassword: (identifier: string, otp: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
   logoutOtherDevices: () => Promise<{ success: boolean; message?: string }>;
   fetchSessions: (authToken?: string) => Promise<void>;
@@ -465,7 +466,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [fetchSessions]);
 
-  const sendOtp = async (identifier: string): Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string }> => {
+  const sendOtp = async (identifier: string): Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number }> => {
     try {
       const res = await fetch('/api/auth/send-otp', {
         method: 'POST',
@@ -475,15 +476,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await res.json();
       return {
         success: res.ok && data.success,
-        message: data.message || 'OTP sent successfully. Demo OTP: 9999',
-        debugOtp: data.debugOtp || '9999',
-        otp: data.otp || '9999'
+        message: data.message || 'OTP sent successfully via WhatsApp.',
+        debugOtp: data.debugOtp,
+        otp: data.otp,
+        cooldownSeconds: data.cooldownSeconds
       };
     } catch {
       // Offline / immediate fallback for demo testing
       return {
         success: true,
-        message: 'Demo OTP generated: 9999',
+        message: 'WhatsApp OTP service offline. Demo OTP: 9999',
         debugOtp: '9999',
         otp: '9999'
       };
@@ -494,7 +496,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     identifier: string,
     otp: string,
     metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }
-  ): Promise<{ success: boolean; message?: string; hasPassword?: boolean }> => {
+  ): Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; generatedPassword?: string }> => {
     try {
       const res = await fetch('/api/auth/verify-otp', {
         method: 'POST',
@@ -518,7 +520,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         fetchSessions(data.token);
         setAuthModalOpen(false);
 
-        return { success: true, hasPassword: !!data.user?.hasPassword };
+        return {
+          success: true,
+          hasPassword: !!data.user?.hasPassword,
+          isNewUser: !!data.isNewUser,
+          generatedPassword: data.generatedPassword
+        };
+      }
+      if (!res.ok) {
+        return { success: false, message: data?.message || 'Invalid OTP code.' };
       }
     } catch (err) {
       console.warn('Network call failed, using verified local session for demo OTP:', err);
@@ -606,26 +616,64 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  const forgotPassword = async (email: string): Promise<{ success: boolean; message?: string; debugOtp?: string }> => {
+  const changePassword = async (currentPassword: string, newPassword: string): Promise<{ success: boolean; message?: string }> => {
+    const t = localStorage.getItem(TOKEN_KEY);
+    if (!t) return { success: false, message: 'You are not logged in.' };
+
     try {
-      const res = await fetch('/api/auth/forgot-password', {
+      const res = await fetch('/api/auth/change-password', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
+        body: JSON.stringify({ currentPassword, newPassword })
       });
       const data = await res.json();
-      return { success: res.ok && data.success, message: data.message, debugOtp: data.debugOtp };
+      if (res.ok && data.success) {
+        await logout();
+        return { success: true, message: data.message || 'Password changed successfully. Please log in again.' };
+      }
+      return { success: false, message: data.message || 'Failed to change password.' };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Network error changing password.' };
+    }
+  };
+
+  const forgotPassword = async (identifier: string): Promise<{ success: boolean; message?: string; debugOtp?: string; cooldownSeconds?: number }> => {
+    try {
+      const cleanPhone = identifier.replace(/[^0-9]/g, '').slice(-10);
+      const isMobile = cleanPhone.length === 10 && !identifier.includes('@');
+      const url = isMobile ? '/api/auth/forgot-password/send-otp' : '/api/auth/forgot-password';
+      const body = isMobile ? { mobile: cleanPhone } : { email: identifier.trim() };
+
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json();
+      return {
+        success: res.ok && data.success,
+        message: data.message,
+        debugOtp: data.debugOtp,
+        cooldownSeconds: data.cooldownSeconds
+      };
     } catch (err: any) {
       return { success: false, message: err.message || 'Request failed.' };
     }
   };
 
-  const resetPassword = async (email: string, otp: string, newPassword: string): Promise<{ success: boolean; message?: string }> => {
+  const resetPassword = async (identifier: string, otp: string, newPassword: string): Promise<{ success: boolean; message?: string }> => {
     try {
-      const res = await fetch('/api/auth/reset-password', {
+      const cleanPhone = identifier.replace(/[^0-9]/g, '').slice(-10);
+      const isMobile = cleanPhone.length === 10 && !identifier.includes('@');
+      const url = isMobile ? '/api/auth/forgot-password/verify-reset' : '/api/auth/reset-password';
+      const body = isMobile
+        ? { mobile: cleanPhone, otp, newPassword }
+        : { email: identifier.trim(), otp, newPassword };
+
+      const res = await fetch(url, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, otp, newPassword })
+        body: JSON.stringify(body)
       });
       const data = await res.json();
       return { success: res.ok && data.success, message: data.message };
@@ -723,6 +771,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         sendOtp,
         verifyOtp,
         setPassword,
+        changePassword,
         forgotPassword,
         resetPassword,
         logout,

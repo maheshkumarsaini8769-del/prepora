@@ -16,6 +16,7 @@ import aiFactoryRoutes from './routes/aiFactory.routes.js';
 import paperRoutes from './routes/paper.routes.js';
 import aiRoutes from './routes/ai.routes.js';
 import syllabusRoutes from './routes/syllabus.routes.js';
+import plannerRoutes from './routes/planner.routes.js';
 
 dotenv.config();
 
@@ -43,6 +44,9 @@ app.use('/api/papers', paperRoutes);
 app.use('/api/questions', questionRoutes);
 app.use('/api/syllabus', syllabusRoutes);
 app.use('/api/tests', testRoutes);
+app.use('/api/planner', plannerRoutes);
+app.use('/api/progress', plannerRoutes);
+app.use('/api/activity', plannerRoutes);
 app.use('/api/attempts', attemptRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/audit', auditRoutes);

@@ -21,6 +21,7 @@ export const hashToken = (token: string): string => createHash('sha256').update(
 export interface AuthRequest extends Request {
   user?: IUser;
   userId?: string;
+  studentId?: string;
   sessionId?: string;
   token?: string;
 }
@@ -38,9 +39,6 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(401).json({ success: false, message: 'Invalid authorization token.' });
     }
 
-    // SECURITY: every token must be a genuinely signed JWT. Demo/offline session
-    // prefixes are never honored — a forged prefix must never grant access.
-
     // Verify JWT
     let decoded: any;
     try {
@@ -49,45 +47,8 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(401).json({ success: false, message: 'Invalid or expired token. Please log in again.' });
     }
 
-    // Check if session is revoked (token is stored as SHA-256 hash)
-    const tokenHash = hashToken(token);
-    const session = await Session.findOne({ token: tokenHash, isRevoked: false });
-    if (!session) {
-      // If no active session found, check if it was revoked
-      const revokedSession = await Session.findOne({ token: tokenHash, isRevoked: true });
-      if (revokedSession) {
-        const isAnotherDevice = revokedSession.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE';
-        return res.status(401).json({
-          success: false,
-          code: isAnotherDevice ? 'SESSION_REVOKED_ANOTHER_DEVICE' : 'SESSION_REVOKED',
-          message: isAnotherDevice
-            ? 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device se aap logout ho gaye hain.'
-            : 'Session has been revoked or logged out.'
-        });
-      }
-
-      // If valid JWT decoded, retrieve user directly
-      const fallbackUser = await User.findOne({ id: decoded.id });
-      if (fallbackUser && fallbackUser.status !== 'suspended') {
-        req.user = fallbackUser;
-        req.userId = fallbackUser.id;
-        req.token = token;
-        req.sessionId = decoded.sessionId || 'jwt_session';
-        return next();
-      }
-
-      return res.status(401).json({
-        success: false,
-        code: 'SESSION_INVALID',
-        message: 'Session has expired or is invalid. Please log in again.'
-      });
-    }
-
-    // Update session last active time asynchronously
-    session.lastActive = new Date();
-    session.save().catch(() => null);
-
-    const user = await User.findOne({ id: decoded.id });
+    // Retrieve user directly from database
+    const user = await User.findOne({ $or: [{ id: decoded.id }, { studentId: decoded.id }, { email: decoded.email }] });
     if (!user) {
       return res.status(404).json({ success: false, message: 'User account not found.' });
     }
@@ -96,14 +57,64 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(403).json({ success: false, message: 'Account has been suspended. Please contact support.' });
     }
 
+    // Check if session is valid and active in database (server-side source of truth)
+    const tokenHash = hashToken(token);
+    const session = await Session.findOne({
+      $or: [
+        { token: tokenHash },
+        { id: decoded.sessionId },
+        { sessionId: decoded.sessionId }
+      ]
+    });
+
+    if (!session || session.isRevoked || session.status === 'REVOKED') {
+      const isAnotherDevice = session?.revocationReason === 'NEW_LOGIN_ON_OTHER_DEVICE' || session?.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE';
+      return res.status(401).json({
+        success: false,
+        code: 'SESSION_REVOKED',
+        message: isAnotherDevice
+          ? 'Your account was signed in on another device.'
+          : 'Session has been revoked or logged out.'
+      });
+    }
+
+    // CRITICAL: Strictly ONE active session per student at a time!
+    // If user's current active session ID does not match this session, it was revoked by a newer login!
+    if (user.currentSessionId && session.id !== user.currentSessionId && session.sessionId !== user.currentSessionId) {
+      session.isRevoked = true;
+      session.status = 'REVOKED';
+      session.revokedAt = new Date();
+      session.revocationReason = 'NEW_LOGIN_ON_OTHER_DEVICE';
+      await session.save().catch(() => null);
+
+      return res.status(401).json({
+        success: false,
+        code: 'SESSION_REVOKED',
+        message: 'Your account was signed in on another device.'
+      });
+    }
+
+    // Update session last active time
+    session.lastActive = new Date();
+    session.lastActiveAt = new Date();
+    session.save().catch(() => null);
+
     req.user = user;
     req.userId = user.id;
+    req.studentId = user.studentId || user.id;
     req.token = token;
-    req.sessionId = session?.id;
+    req.sessionId = session.id;
     next();
   } catch (error: any) {
     return res.status(500).json({ success: false, message: error.message || 'Authentication error.' });
   }
+};
+
+export const requireStudent = async (req: AuthRequest, res: Response, next: NextFunction) => {
+  if (!req.user) {
+    return res.status(401).json({ success: false, message: 'Authentication required.' });
+  }
+  next();
 };
 
 export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
