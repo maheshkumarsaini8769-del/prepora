@@ -1,1256 +1,840 @@
-PREPORA — COMPLETE 100K+ QUESTION + FULL WEBSITE QA AUDIT + REAL PREVIOUS PAPER VERIFICATION
-=============================================================================================
+# PREPORA — STUDY SEARCH FEATURE
+## Unified Search: Formula + Lecture + Notes + Planner
 
-IMPORTANT:
+Existing PREPORA project ko pehle audit karo. Existing working features, UI, database, authentication aur APIs ko break mat karo. Study Search ko existing architecture ke saath integrate karo.
 
-You are NOT doing a small UI fix.
+---
 
-You must perform a COMPLETE END-TO-END AUDIT of the existing PREPORA website.
+## 1. CORE IDEA
 
-The goal is:
+PREPORA me ek global **Study Search** feature add karo.
 
-1. 100,000+ VALID questions system
-2. Correct Easy / Medium / Hard filtering
-3. Correct Test Builder
-4. Correct Practice system
-5. Correct Previous Papers system
-6. Correct Performance/Analytics
-7. Correct Admin Panel
-8. Correct Login Activity
-9. Correct AI Content Factory
-10. Correct mobile + desktop UI
-11. Complete regression testing of the ENTIRE website
+Student search box me kuch bhi type kar sake, for example:
 
-DO NOT claim something is fixed unless you actually test it.
+- Newton
+- Newton's Laws
+- Quadratic Formula
+- Relations & Functions
+- Domain and Range
+- Trigonometric Ratios
+- Chemical Bonding
+- Organic Chemistry
 
-DO NOT use fake data.
+Search karne ke baad ek unified result page/open search panel dikhe jisme relevant learning resources ek hi jagah milen:
 
-DO NOT use fake progress.
+### SEARCH RESULTS
+1. Formula
+2. Lectures
+3. Notes
+4. Planner / Revision
+5. Related Topics
 
-DO NOT use fake question counts.
+Goal:
 
-DO NOT assume a feature works because the UI exists.
+> Student ko alag-alag Formula Sheet, Lectures, Notes aur Planner sections me manually search na karna pade.
 
-=============================================================================================
-PHASE 1 — COMPLETE CODEBASE AUDIT
-=============================================================================================
+---
 
-First inspect the entire project.
+# 2. SEARCH UI
 
-Inspect:
+Student dashboard/navigation me prominent global search add karo.
 
-- Frontend
-- Backend
-- APIs
-- Database
-- Database schema
-- Authentication
-- Authorization
-- Admin panel
-- Student panel
-- Question Bank
-- Test Builder
-- Practice
-- Previous Papers
-- Model Papers
-- AI Content Factory
-- AI Doubt Solver
-- Search
-- Filters
-- Performance
-- Analytics
-- Mistake Book
-- Revision
-- Fix My Weakness
-- Dashboard
-- Profile
-- Settings
-- Notifications
-- Reports
-- Doubts
-- Mobile navigation
-- Desktop navigation
-- Loading states
-- Error states
-- Empty states
-- Network recovery
-- Autosave
-- Pagination
-- Sorting
-- Caching
+Placeholder:
 
-Find ROOT CAUSES.
+**"Search topics, formulas, chapters, lectures..."**
 
-Do not only patch visible symptoms.
+Desktop:
+- Top navigation/search area me large search bar.
 
-=============================================================================================
-PHASE 2 — 100,000+ QUESTION SYSTEM
-=============================================================================================
+Mobile:
+- Full-width search button/input.
+- Touch friendly.
+- No horizontal overflow.
 
-PREPORA must support 100,000+ VALID questions platform-wide.
+Search ke time:
+- Debounce API requests.
+- Minimum 2 characters ke baad suggestions/results.
+- Loading skeleton.
+- Empty state.
+- Error state.
 
-IMPORTANT:
+---
 
-"100,000+" means:
+# 3. SEARCH SUGGESTIONS
 
-100,000+ VALID + UNIQUE + CORRECT + PUBLISHABLE questions.
+Student type kare:
 
-Do NOT count:
+`newt`
 
-- Duplicates
-- Invalid questions
-- Broken questions
-- Missing-answer questions
-- Rejected questions
-- Unverified questions
-- Deleted questions
-- Fake placeholder records
+To suggestions aa sakti hain:
 
-Every question must contain valid metadata:
+- Newton's Laws of Motion
+- Newton's First Law
+- Newton's Second Law
+- Newton's Third Law
+- Newton's Laws — Formula
+- Newton's Laws — Lectures
 
-- questionId
-- questionVersion
-- subject
-- class
-- exam
-- chapter
-- topic
-- difficulty
-- questionType
-- contentType
-- questionText
-- options where applicable
-- correctAnswer
-- explanation
-- solution where required
-- source
-- verificationStatus
-- createdAt
-- updatedAt
+Suggestions ko relevant database content se generate karo.
 
-Use background jobs for large-scale generation/import.
+Recent searches optionally show karo:
 
-Generation must be resumable.
+**Recent Searches**
+- Quadratic Formula
+- Relations & Functions
+- Newton's Laws
 
-If generation stops at 62,000:
+Student recent search clear bhi kar sake.
 
-Resume from 62,001.
+---
 
-Never restart unnecessarily.
-
-=============================================================================================
-PHASE 3 — QUESTION DIFFICULTY
-=============================================================================================
-
-Canonical difficulty values:
-
-EASY
-MEDIUM
-HARD
-
-Normalize all old records.
-
-Never treat:
-
-easy
-Easy
-Easy 
-EASY
-
-as separate values.
-
-Same for Medium and Hard.
-
-Invalid difficulty:
-
-NEEDS_REVIEW
-
-Do not randomly assign difficulty.
-
-Default AI generation target:
-
-30% EASY
-50% MEDIUM
-20% HARD
-
-But count only VALID UNIQUE questions.
-
-Show actual inventory.
-
-Example:
-
-Total: 100,000
-Easy: 30,200
-Medium: 49,500
-Hard: 20,300
-
-Never fake these values.
-
-=============================================================================================
-PHASE 4 — FULL FILTER TESTING
-=============================================================================================
-
-TEST EVERY FILTER.
-
-Do not just inspect code.
-
-Actually execute test cases.
-
-Test:
-
-- All Subjects
-- Physics
-- Chemistry
-- Biology
-- Mathematics where applicable
-- All Chapters
-- Individual Chapter
-- All Topics
-- Individual Topic
-- Easy
-- Medium
-- Hard
-- All Difficulties
-- Question Type
-- Exam
-- Class
-- Content Type
-- Published status
-- Search
-
-Then test combinations:
-
-Subject + Difficulty
-
-Chapter + Difficulty
-
-Topic + Difficulty
-
-Subject + Chapter
-
-Subject + Chapter + Topic
-
-Subject + Chapter + Difficulty
-
-Subject + Topic + Difficulty
-
-Search + Difficulty
-
-Search + Subject
-
-Search + Chapter
-
-Search + Topic
-
-Search + Difficulty + Subject + Chapter + Topic
-
-Every selected filter must apply using correct AND logic.
-
-=============================================================================================
-PHASE 5 — HARD / MEDIUM / EASY TEST BUILDER
-=============================================================================================
-
-This is CRITICAL.
-
-Open Test Builder and actually create tests.
-
-Test:
-
-10 Easy
-10 Medium
-10 Hard
-
-Then:
-
-20 Easy
-20 Medium
-20 Hard
-
-Then:
-
-50 Easy
-50 Medium
-50 Hard
-
-Then larger valid quantities based on inventory.
-
-For every test verify:
-
-- Correct number of questions
-- Correct difficulty
-- Correct subject
-- Correct chapter
-- Correct topic
-- Correct exam
-- Correct contentType
-- No duplicate question
-- No wrong difficulty
-- No model paper accidentally included
-- No PYQ accidentally included
-- No random unrelated topic included
-
-Example:
-
-User selects:
-
-Physics
-Kinematics
-Hard
-50 Questions
-
-System must first calculate:
-
-eligibleCount
-
-If eligibleCount = 73:
-
-Allow 50.
-
-If eligibleCount = 31:
-
-DO NOT silently give 20.
-
-Show:
-
-"31 Hard questions available."
-
-Options:
-
-[Practice 31]
-
-[Generate 19 More]
-
-Never change Hard to Medium/Easy automatically.
-
-Never duplicate questions.
-
-=============================================================================================
-PHASE 6 — DATABASE FILTER VS FRONTEND FILTER
-=============================================================================================
-
-Filtering must happen at database/API level.
-
-Correct:
-
-FILTER
-→ COUNT
-→ RANDOMIZE/SORT
-→ SELECT
-→ PAGINATE
-
-NOT:
-
-FETCH RANDOM QUESTIONS
-→ FILTER IN FRONTEND
-→ SHOW WHATEVER REMAINS
-
-Verify API response against database counts.
-
-If database says:
-
-Hard = 82
-
-API must correctly return:
-
-82 eligible questions.
-
-Frontend must display:
-
-82.
-
-Test all three layers.
-
-DATABASE
-↓
-API
-↓
-FRONTEND
-
-=============================================================================================
-PHASE 7 — QUESTION CONTENT TYPE SEPARATION
-=============================================================================================
-
-Strictly separate:
-
-QUESTION_BANK
-PYQ
-MODEL_PAPER
-SAMPLE_PAPER
-MOCK_TEST
-PRACTICE_SET
-AI_GENERATED
-CUSTOM_TEST
-
-TEST THIS.
-
-Normal Practice/Test Builder must NOT accidentally include:
-
-- Model Papers
-- Previous Year Papers
-
-unless explicitly selected.
-
-Previous Papers must remain separate.
-
-Model Papers must remain separate.
-
-AI-generated questions must remain correctly labelled.
-
-=============================================================================================
-PHASE 8 — REAL PREVIOUS YEAR PAPERS
-=============================================================================================
-
-Audit and verify real Previous Year Papers.
-
-Supported categories:
-
-- JEE Main
-- JEE Advanced
-- NEET UG
-- CBSE
-- RBSE
-
-Use REAL papers from authoritative/official sources where available.
-
-Do NOT:
-
-- Invent papers
-- Reconstruct missing papers with AI
-- Generate fake PYQs
-- Label AI questions as PYQ
-- Mix Model Papers with PYQs
-
-For every imported paper store:
-
-paperId
-exam
-year
-session
-date
-shift
-paperNumber
-class
-subject
-language
-setCode
-contentType
-sourceType
-sourceURL
-sourceDocument
-rightsStatus
-verificationStatus
-questionCount
-answerKeyStatus
-createdAt
-
-Before publishing:
-
-Verify source.
-
-Verify document.
-
-Verify year.
-
-Verify exam.
-
-Verify question count.
-
-Verify paper identity.
-
-Verify answer key if available.
-
-=============================================================================================
-PHASE 9 — PREVIOUS PAPER INVENTORY CHECK
-=============================================================================================
-
-After importing Previous Papers, generate an exact inventory.
-
-Example format:
-
-JEE MAIN
-2020:
-- Session 1: ...
-- Session 2: ...
-- Available shifts/papers: ...
-
-2021:
-...
-
-JEE ADVANCED
-2020:
-- Paper 1
-- Paper 2
-
-2021:
-- Paper 1
-- Paper 2
-
-...
-
-NEET
-2020:
-- Set(s) actually imported
-
-...
-
-CBSE
-2020:
-- Class
-- Subject
-- Paper
-
-...
-
-RBSE
-2020:
-- Class
-- Subject
-- Paper
-
-...
-
-IMPORTANT:
-
-Only list papers that ACTUALLY exist in the PREPORA database after verification.
-
-Do NOT say:
-
-"2020–2026 added"
-
-unless the individual papers have actually been imported and verified.
-
-If something is missing, explicitly write:
-
-NOT ADDED / NOT VERIFIED / SOURCE ONLY / RIGHTS REVIEW REQUIRED
-
-=============================================================================================
-PHASE 10 — PREVIOUS PAPER PAGE TEST
-=============================================================================================
-
-Open Previous Papers page.
-
-Test filters:
-
-Exam
-Year
-Session
-Date
-Shift
-Paper
-Subject
-Class
-Language
-Set/Code
-
-Test:
-
-JEE Main
-JEE Advanced
-NEET
-CBSE
-RBSE
-
-Verify that filtering does not mix papers.
-
-Open several actual papers.
-
-Verify:
-
-- PDF/document opens
-- Questions visible
-- Correct order
-- Options preserved
-- Images preserved
-- Question count correct
-- Answer key mapping correct where available
-- Paper metadata correct
-
-=============================================================================================
-PHASE 11 — ADMIN PANEL AUDIT
-=============================================================================================
-
-Test every Admin Panel section.
-
-Dashboard
-AI Content Factory
-Question Bank
-Test Builder
-Previous Papers
-Model Papers
-Students
-Reports
-Doubts
-Analytics
-Syllabus
-AI Studio
-System Status
-Security
-Admins
-Settings
-
-Every page must:
-
-- Load
-- Filter
-- Search
-- Sort
-- Paginate
-- Save
-- Edit
-- Delete where permitted
-- Show loading state
-- Show error state
-- Show empty state
-
-Do not leave broken buttons.
-
-Do not leave fake counters.
-
-=============================================================================================
-PHASE 12 — ADMIN LOGIN ACTIVITY
-=============================================================================================
-
-Verify Login Activity.
-
-Admin must see real:
-
-- User name
-- Email
-- User ID
-- Role
-- Login time
-- Last active
-- Device
-- OS
-- Browser
-- Session
-- IP
-- Login status
-- Logout where available
-
-Do not expose:
-
-- Passwords
-- API keys
-- Auth tokens
-- Sensitive secrets
-
-Test:
-
-Student login
-Admin login
-Failed login
-Logout
-Multiple sessions
-
-Verify records are actually created in database.
-
-=============================================================================================
-PHASE 13 — STUDENT PRACTICE SYSTEM
-=============================================================================================
-
-Actually use the student flow.
-
-Test:
-
-Subject
-→ Chapter
-→ Topic
-→ Difficulty
-→ Number of Questions
-→ Start Practice
-
-Verify every step.
-
-Test:
-
-All Topics
-
-Make sure ALL supported topics appear.
-
-No missing topics.
-
-No duplicate topics.
-
-No unrelated topics.
-
-Test:
-
-Easy
-Medium
-Hard
-
-and verify actual questions match selection.
-
-=============================================================================================
-PHASE 14 — SEARCH
-=============================================================================================
-
-Test question search.
+# 4. SEARCH RESULT PAGE
 
 Search:
 
-- Exact question
-- Partial question
-- Keyword
+**"Quadratic Formula"**
+
+Result page:
+
+### Header
+
+**Search results for "Quadratic Formula"**
+
+Optional result count:
+
+`18 resources found`
+
+Filters:
+
+- All
+- Formulas
+- Lectures
+- Notes
+- Planner
+
+Additional filters:
+
+- Class
 - Subject
 - Chapter
 - Topic
-- Difficulty
+- Language
 
-Combine search with filters.
+---
 
-Verify results are actually relevant.
+# 5. FORMULA RESULTS
 
-No random unrelated questions.
+Formula section:
 
-=============================================================================================
-PHASE 15 — PERFORMANCE PAGE
-=============================================================================================
+### Formula
 
-Actually attempt questions and tests.
+**Quadratic Formula**
 
-Then verify Performance.
+Show:
 
-Check:
+- Formula title
+- Formula
+- Short explanation
+- Example
+- Subject
+- Chapter
+- Topic
+- Importance
 
-- Attempted
-- Correct
-- Incorrect
-- Skipped
-- Accuracy
-- Average time
-- Subject performance
-- Chapter performance
-- Topic performance
-- Difficulty performance
-- Test history
-- Practice history
-- Mistakes
-- Repeated mistakes
-- Mastery
-- Readiness
+Actions:
 
-Numbers must come from deterministic database calculations.
+**View Formula**
 
-AI must NOT invent statistics.
+**Copy Formula**
 
-Test:
+**Add Revision**
 
-Easy performance
+**Related Lecture**
 
-Medium performance
+If multiple formulas exist:
 
-Hard performance
+Show the most relevant formula first.
 
-Subject performance
+Ranking should consider:
 
-Chapter performance
+- Exact title match
+- Exact topic match
+- Chapter match
+- Subject match
+- Class match
+- Search keyword match
+- Formula importance
 
-Topic performance
+---
 
-=============================================================================================
-PHASE 16 — MISTAKE + FIX MY WEAKNESS
-=============================================================================================
+# 6. LECTURE RESULTS
 
-Actually answer questions incorrectly.
-
-Verify:
-
-Mistake Book
-
-Repeated Mistake Detection
-
-Weak Topic Detection
-
-Fix My Weakness
-
-Recommended Practice
-
-Retest
-
-The loop must work:
-
-WRONG
-→ MISTAKE
-→ ANALYZE
-→ WEAKNESS
-→ TARGETED PRACTICE
-→ RETEST
-
-Verify the recommended questions actually match the weakness.
-
-=============================================================================================
-PHASE 17 — AI DOUBT SOLVER
-=============================================================================================
-
-Test multiple question types:
-
-- Simple theory
-- Physics numerical
-- Chemistry numerical
-- Biology theory
-- Formula question
-- Derivation
-- Conceptual question
-- Image-based question where supported
-
-Verify:
-
-- Correct subject detection
-- Correct chapter detection
-- Correct answer
-- Correct formula
-- Correct calculation
-- Proper math rendering
-- No raw LaTeX
-- No fake "Grounded in PREPORA"
-- Correct source state
-
-Possible source states:
-
-PREPORA_GROUNDED
-GENERAL_AI
-WEB_VERIFIED
-MIXED
-
-Do not claim PREPORA grounding unless PREPORA content was actually retrieved.
-
-=============================================================================================
-PHASE 18 — AI QUESTION VALIDATION
-=============================================================================================
-
-Every AI-generated question must pass:
-
-Question validation
-Answer validation
-Math validation
-Duplicate detection
-Semantic duplicate detection
-Difficulty validation
-Topic validation
-Source validation
-Formatting validation
-
-MCQ:
-
-Exactly ONE correct answer.
-
-Numerical:
-
-Independent calculation check.
-
-If validation fails:
-
-REJECT
-
-or
-
-REGENERATE.
-
-Never publish blindly.
-
-=============================================================================================
-PHASE 19 — MOBILE TESTING
-=============================================================================================
-
-Test the entire website on:
-
-360px
-375px
-390px
-412px
-
-Check:
-
-- No horizontal overflow
-- No clipped text
-- No broken tables
-- No broken charts
-- No inaccessible buttons
-- No filter overflow
-- Bottom navigation
-- Modals
-- Test Builder
-- Previous Papers
-- Admin pages
-- Performance
-- Question cards
-
-Desktop also:
-
-1024
-1280
-1440+
-
-=============================================================================================
-PHASE 20 — NAVIGATION TEST
-=============================================================================================
-
-Click every important navigation item.
-
-Verify:
-
-No dead links.
-
-No blank pages.
-
-No incorrect route.
-
-No accidental redirect.
-
-No broken back button.
-
-No lost state where state should persist.
-
-=============================================================================================
-PHASE 21 — NETWORK / ERROR TESTING
-=============================================================================================
-
-Test:
-
-Slow network
-Failed API
-Timeout
-Refresh
-Back button
-Double click
-Page reload during generation
-Page reload during test
-Temporary network loss
-
-Verify:
-
-No lost test attempt.
-
-No duplicate submission.
-
-No corrupted question generation job.
-
-Autosave where required.
-
-Retry where appropriate.
-
-=============================================================================================
-PHASE 22 — SECURITY TEST
-=============================================================================================
-
-Test role permissions.
-
-Student cannot access admin APIs.
-
-Reviewer cannot perform Super Admin actions.
-
-Content Admin cannot perform unauthorized security actions.
-
-Do not rely only on frontend hiding.
-
-Authorization must happen server-side.
-
-Check:
-
-- API authorization
-- Admin routes
-- Database access
-- IDOR risks
-- Input validation
-- File upload validation
-- Rate limiting where needed
-- Secret exposure
-
-=============================================================================================
-PHASE 23 — UI QUALITY AUDIT
-=============================================================================================
-
-After functional testing, inspect design.
-
-PREPORA should remain:
-
-Premium
-Clean
-Academic
-Professional
-Fast
-Mobile-first
-
-Use the existing monochrome design direction.
-
-Avoid:
-
-- Excessive purple
-- Excessive gradients
-- Excessive glassmorphism
-- Childish/gaming UI
-- Too many cards
-- Huge empty spaces
-- Inconsistent typography
-
-Fix:
-
-Spacing
-Typography
-Alignment
-Buttons
-Forms
-Tables
-Charts
-Empty states
-Loading states
-Error states
-
-=============================================================================================
-PHASE 24 — PERFORMANCE
-=============================================================================================
-
-Check:
-
-- Page loading
-- API response time
-- Database queries
-- Large question-bank queries
-- Pagination
-- Search
-- Filtering
-- Test generation
-- AI jobs
-- Previous Paper loading
-
-Do not load 100,000 questions into browser memory.
-
-Use:
-
-Server-side filtering
-Pagination
-Indexes
-Efficient queries
-Caching where appropriate
-
-=============================================================================================
-PHASE 25 — FINAL REGRESSION TEST
-=============================================================================================
-
-After all fixes, run the entire flow again.
-
-STUDENT:
-
-Login
-→ Dashboard
-→ Practice
-→ Filter
-→ Test Builder
-→ Start Test
-→ Submit
-→ Analysis
-→ Mistake Book
-→ Fix My Weakness
-→ Revision
-→ Retest
-→ Performance
-→ Previous Papers
-→ Doubt Solver
-→ Search
-
-ADMIN:
-
-Login
-→ Dashboard
-→ Question Inventory
-→ Filters
-→ Question Review
-→ AI Content Factory
-→ Generate
-→ Validate
-→ Approve
-→ Publish
-→ Previous Papers
-→ Model Papers
-→ Students
-→ Login Activity
-→ Analytics
-→ Reports
-→ Settings
-
-Do not skip steps.
-
-=============================================================================================
-PHASE 26 — FINAL REPORT
-=============================================================================================
-
-At the VERY END provide a complete audit report.
-
-SECTION 1 — OVERALL RESULT
-
-- Total issues found
-- Critical issues
-- Major issues
-- Minor issues
-- Fixed issues
-- Remaining issues
-
-SECTION 2 — QUESTION INVENTORY
-
-Give REAL database numbers:
-
-Total valid questions:
-Easy:
-Medium:
-Hard:
-
-Also:
-
-Published:
-Pending:
-Draft:
-Rejected:
-Duplicates:
-
-Breakdown by:
-
-Exam
-Subject
-Chapter
-Topic
-Difficulty
-Content Type
-
-SECTION 3 — TEST BUILDER RESULTS
-
-Report actual tests performed:
-
-Easy tests:
-Medium tests:
-Hard tests:
-Mixed difficulty tests:
-50-question tests:
-Insufficient inventory tests:
-
-For every failed test:
-
-Expected
-Actual
-Root Cause
-Fix
-
-SECTION 4 — FILTER TEST RESULTS
-
-List every filter tested.
+Search result me relevant lectures show karo.
 
 Example:
 
-Physics + Hard — PASS
-Chemistry + Medium — PASS
-Biology + Easy — PASS
-Physics + Kinematics + Hard — PASS
-Search + Hard — PASS
+### Recommended Lecture
 
-Do NOT write PASS unless actually tested.
+**Quadratic Equations — Full Chapter Lecture**
 
-SECTION 5 — PREVIOUS PAPERS — MANDATORY
+Metadata:
 
-This section is extremely important.
+`Class 10 • Mathematics`
 
-Give an EXACT list of Previous Papers that were ACTUALLY ADDED.
+`Full Chapter Lecture`
 
-For each:
+`Hindi`
 
-Exam
-Year
-Session
-Date
-Shift
-Paper
-Subject
-Class
-Set/Code
-Question Count
-Source
-Verification Status
-Answer Key Status
-Rights Status
+`Duration`
 
-Separate:
+Buttons:
 
-JEE MAIN
-JEE ADVANCED
-NEET UG
-CBSE
-RBSE
+**▶ Watch Here**
 
-Also provide:
+**↗ Open in YouTube**
 
-NOT ADDED
-NOT VERIFIED
-SOURCE ONLY
-RIGHTS REVIEW REQUIRED
+Existing PREPORA video functionality preserve karo.
 
-Do not hide missing papers.
+### Watch Here
 
-Do not claim a year is complete unless all intended papers for that year/category were actually verified/imported.
+Official YouTube embed/player ke through PREPORA ke andar video play ho.
 
-SECTION 6 — ADMIN LOGIN ACTIVITY
+### Open in YouTube
 
-Confirm whether:
+Original YouTube URL/app open ho.
 
-Login recording works
-Logout recording works
-Failed login recording works
-Device detection works
-Browser detection works
-Admin filtering works
+YouTube videos ko download ya re-host mat karo.
 
-SECTION 7 — PERFORMANCE
+PREPORA UI me unnecessary coaching-brand labels mat add karo. Official YouTube player/page attribution naturally remain kar sakta hai.
 
-Report whether:
+---
 
-Accuracy
-Time
-Mistakes
-Mastery
-Readiness
-Weakness
-Retest
+# 7. TOPIC-WISE LECTURES
 
-were tested against real attempt data.
+Agar search exact topic se match kare:
 
-SECTION 8 — MOBILE
+Example:
 
-Report:
+`Domain and Range`
 
-360
-375
-390
-412
+To result:
 
-PASS/FAIL for major flows.
+### Topic-wise Lecture
 
-SECTION 9 — SECURITY
+**Domain and Range**
 
-Report:
+`Class 11 • Mathematics`
 
-Authentication
-Authorization
-Admin permissions
-API protection
-Secret protection
+Actions:
 
-SECTION 10 — REMAINING ISSUES
+**Watch Here**
 
-Clearly list anything that still needs work.
+**Open in YouTube**
 
-FINAL RULE:
+Topic lecture ko generic chapter lecture se priority do jab exact topic match available ho.
 
-Never say:
+---
 
-"Everything is fixed"
+# 8. NOTES RESULTS
 
-unless the complete regression test was actually executed.
+Existing Notes system ko search ke saath integrate karo.
 
-Never invent test results.
+Show:
 
-Never invent question counts.
+### Notes
 
-Never invent Previous Papers.
+**Relations & Functions — Short Notes**
 
-Never invent verification status.
+Preview:
 
-Use REAL database/system data only.
+- Important definitions
+- Key concepts
+- Important points
+
+Actions:
+
+**Open Notes**
+
+**Add Revision**
+
+Agar notes system me relevant content nahi hai:
+
+Notes section hide/empty state gracefully show karo.
+
+Wrong/unrelated notes mat show karo.
+
+---
+
+# 9. PLANNER INTEGRATION
+
+Study Search ka most useful part:
+
+Student kisi topic ko search kare aur directly Planner se connect kar sake.
+
+Example:
+
+Search:
+
+**Newton's Laws**
+
+Result:
+
+### Study / Revision
+
+**Add to Planner**
+
+Click karne par existing PREPORA Planner use karo.
+
+NEW planner system create mat karo.
+
+Existing planner me:
+
+- Topic
+- Subject
+- Chapter
+- Resource reference
+- Task type
+- Date
+- Optional priority
+- Optional reminder
+
+add/update ho.
+
+Example:
+
+`Revise Newton's Laws`
+
+Student date select kare:
+
+`Tomorrow`
+
+Then:
+
+**Add to Planner**
+
+---
+
+# 10. SMART "STUDY THIS" ACTION
+
+Har major search result ke saath optionally:
+
+**Study This**
+
+button ho.
+
+Isse student ko relevant resources ka combined study flow mile:
+
+1. Read Formula
+2. Read Notes
+3. Watch Lecture
+4. Add Revision to Planner
+5. Practice Questions
+
+Ye feature existing modules ko connect kare.
+
+---
+
+# 11. RELATED TOPICS
+
+Search result ke bottom par:
+
+### Related Topics
+
+Example:
+
+Search:
+`Quadratic Formula`
+
+Related:
+
+- Quadratic Equations
+- Discriminant
+- Roots of Quadratic Equation
+- Factorisation
+- Graph of Quadratic Equation
+
+Related topics database ke actual subject/chapter/topic relationships se generate karo.
+
+Random AI-generated topics ko directly publish mat karo.
+
+---
+
+# 12. SEARCH RESULT RANKING
+
+Search results ko relevance ke according rank karo.
+
+Suggested scoring:
+
+Exact title match: +35
+
+Exact topic match: +30
+
+Exact chapter match: +20
+
+Subject match: +15
+
+Class match: +15
+
+Keyword match: +10
+
+Tag match: +10
+
+Resource importance: +5
+
+Recently updated/active content: +3
+
+Popularity/usage: +2
+
+Normalize final score to 0–100.
+
+Exact educational relevance ko popularity se zyada priority do.
+
+Wrong but popular content ko top result mat banao.
+
+---
+
+# 13. SEARCH INTELLIGENCE
+
+Search query ko intelligently normalize karo.
+
+Examples:
+
+`newton`
+
+`Newton laws`
+
+`newtons law`
+
+`newton's laws`
+
+`Newton Law of Motion`
+
+In queries ko relevant same topic/resources se map karne ki koshish karo.
+
+Support:
+
+- Case-insensitive search
+- Basic typo tolerance
+- Singular/plural matching
+- Apostrophe variations
+- Whitespace normalization
+- Keyword matching
+
+But aggressive fuzzy matching se unrelated results mat lao.
+
+---
+
+# 14. SEARCH ARCHITECTURE
+
+Backend endpoint:
+
+`GET /api/search?q=...`
+
+Optional parameters:
+
+- classLevel
+- subjectId
+- chapterId
+- topicId
+- type
+- page
+- limit
+
+Example:
+
+`/api/search?q=newton&type=all`
+
+Response structure:
+
+```json
+{
+  "query": "newton",
+  "total": 12,
+  "results": {
+    "formulas": [],
+    "lectures": [],
+    "notes": [],
+    "planner": [],
+    "relatedTopics": []
+  }
+}
+```
+
+Pagination implement karo where required.
+
+---
+
+# 15. SEARCH DATABASE DESIGN
+
+Existing schemas ko reuse karo.
+
+Agar required ho to searchable fields properly index karo.
+
+Formula searchable fields:
+
+- title
+- formula
+- explanation
+- tags
+- subjectId
+- chapterId
+- topicId
+
+Lecture searchable fields:
+
+- title
+- description
+- topicId
+- chapterId
+- subjectId
+- tags
+
+Notes searchable fields:
+
+- title
+- content
+- tags
+- subjectId
+- chapterId
+- topicId
+
+MongoDB indexes/search strategy performance ke according implement karo.
+
+Large dataset ke liye inefficient full collection scan avoid karo.
+
+---
+
+# 16. PERSONALIZED SEARCH
+
+Search results student ke class/academic context ke according prioritize karo.
+
+Example:
+
+Agar student Class 11 me hai aur search karta hai:
+
+`Relations`
+
+to Class 11 Mathematics ke relevant resources ko priority mile.
+
+Lekin incorrect class content ko completely hide karna required nahi hai agar user explicitly filters change kare.
+
+---
+
+# 17. SEARCH + ACTIVITY TRACKING
+
+Meaningful activity track karo.
+
+Events:
+
+- SEARCH_PERFORMED
+- SEARCH_RESULT_OPENED
+- FORMULA_VIEWED
+- FORMULA_COPIED
+- LECTURE_OPENED
+- WATCH_HERE_CLICKED
+- OPENED_YOUTUBE
+- NOTES_OPENED
+- REVISION_ADDED
+
+Activity me sensitive secrets store mat karo.
+
+Search history ko privacy-safe rakho.
+
+---
+
+# 18. SEARCH ANALYTICS FOR ADMIN
+
+Admin dashboard me optional analytics:
+
+### Most Searched Topics
+
+Example:
+
+1. Quadratic Formula
+2. Newton's Laws
+3. Relations & Functions
+
+### Searches With No Result
+
+Example:
+
+- Probability
+- Integration
+- Chemical Bonding
+
+Isse admin ko pata chalega ki students ko kis content ki need hai.
+
+Admin dekh sake:
+
+- Search query
+- Result count
+- Date/time
+- Optional anonymous aggregate statistics
+
+Individual student search history ko unnecessarily expose mat karo.
+
+---
+
+# 19. NO-RESULT EXPERIENCE
+
+Agar result nahi mile:
+
+Don't show random content.
+
+Show:
+
+**No highly relevant study material found.**
+
+Then suggestions:
+
+- Check spelling
+- Try chapter/topic name
+- Browse subjects
+- Browse Formula Sheet
+- Browse Lectures
+
+Example:
+
+> No highly relevant resources found for "integration".
+
+Buttons:
+
+**Browse Mathematics**
+
+**Open Formula Sheet**
+
+**Browse Lectures**
+
+---
+
+# 20. EMPTY/FAILURE STATES
+
+Handle:
+
+- API failure
+- Database failure
+- YouTube API failure
+- No formula
+- No lecture
+- No notes
+- No planner item
+- Slow network
+
+One failed resource type should NOT break the entire search page.
+
+Example:
+
+Formula unavailable but lectures available:
+
+Show lectures normally.
+
+---
+
+# 21. SECURITY
+
+Study Search ko secure backend architecture ke through implement karo.
+
+Never trust:
+
+- studentId from frontend
+- role from frontend
+- classLevel blindly
+- admin flag
+- resource ownership
+
+Protected student resources ke liye authenticated session se student identity derive karo.
+
+Student A ko Student B ke private notes/planner data search se access nahi milna chahiye.
+
+Admin-only analytics endpoints server-side authorization se protect karo.
+
+Input validation aur rate limiting implement karo.
+
+Search query ko safely handle karo to prevent:
+
+- NoSQL injection
+- XSS
+- abuse
+- excessive database queries
+
+---
+
+# 22. PERFORMANCE
+
+Search fast feel hona chahiye.
+
+Implement:
+
+- Debounced input
+- API caching where useful
+- Database indexes
+- Pagination
+- Lazy loading
+- Result limits
+- Avoid unnecessary duplicate API calls
+
+YouTube API ko har keystroke par call mat karo.
+
+YouTube search sirf lecture discovery/admin workflow ke through use karo.
+
+Student Study Search preferably PREPORA ke already-approved/cached lecture data ko search kare.
+
+---
+
+# 23. MOBILE UX
+
+Mobile first design.
+
+Search screen:
+
+- Full-width search
+- Sticky search bar where useful
+- Large touch targets
+- Cards stacked vertically
+- No horizontal scrolling
+- Bottom actions accessible
+- Video/player responsive
+- Filters as horizontal scroll/chips or filter sheet
+
+---
+
+# 24. UI STYLE
+
+Existing PREPORA design system preserve karo.
+
+Do not create a completely separate visual style.
+
+Use:
+
+- clean educational UI
+- modern cards
+- subtle animations
+- clear typography
+- consistent spacing
+- accessible contrast
+- responsive layout
+
+Search result sections visually distinguishable hon:
+
+Formula
+Lecture
+Notes
+Planner
+Related Topics
+
+But page overloaded feel nahi hona chahiye.
+
+---
+
+# 25. FINAL USER FLOW
+
+Example:
+
+Student opens PREPORA.
+
+Search bar:
+
+`Newton`
+
+↓
+
+Suggestions:
+
+**Newton's Laws of Motion**
+
+Student selects it.
+
+↓
+
+Search Results:
+
+### Formula
+Newton's Laws — Important Formula
+
+[View Formula] [Copy] [Add Revision]
+
+### Recommended Lecture
+Newton's Laws of Motion — Full Chapter
+
+[Watch Here] [Open in YouTube]
+
+### Notes
+Newton's Laws — Quick Notes
+
+[Open Notes]
+
+### Study Plan
+Revise Newton's Laws
+
+[Add to Planner]
+
+### Related Topics
+- Force
+- Momentum
+- Friction
+- Work & Energy
+
+This should feel like one connected learning experience rather than four separate features.
+
+---
+
+# 26. IMPORTANT RULE
+
+Do not rebuild the existing PREPORA application.
+
+First:
+
+1. Audit existing frontend.
+2. Audit backend.
+3. Audit database/schema.
+4. Find existing Formula system.
+5. Find existing Lecture system.
+6. Find existing Notes system.
+7. Find existing Planner.
+8. Find existing authentication/session system.
+9. Reuse existing APIs/components where possible.
+10. Implement Study Search incrementally.
+11. Test existing functionality after every major change.
+
+Do not delete working data.
+
+Do not drop production collections.
+
+Do not replace existing planner logic unnecessarily.
+
+---
+
+# 27. ACCEPTANCE CRITERIA
+
+Feature is complete only when:
+
+- Student can search from global search.
+- Search results combine Formula + Lecture + Notes + Planner.
+- Exact topic gets highest relevance.
+- Class/subject/chapter context works.
+- Formula can be opened/copied.
+- Lecture can be watched inside PREPORA.
+- Lecture can be opened in YouTube.
+- Notes can be opened.
+- Revision can be added to existing Planner.
+- Related topics work.
+- No-result state works.
+- Search is responsive on mobile.
+- Search does not expose another student's private data.
+- Admin analytics work if implemented.
+- Search remains fast with larger content.
+- Existing PREPORA features continue working.
+
+---
+
+# REAL PRODUCT GOAL
+
+Study Search ko PREPORA ka central learning entry point banao.
+
+Student ko ye feel hona chahiye:
+
+> "Mujhe jo padhna hai, bas search karo — PREPORA mujhe us topic ke relevant formula, notes, lecture aur revision plan ek hi jagah de dega."
+
+Do not make it just a database search box.
+
+Make it a **Unified Study Discovery System**.

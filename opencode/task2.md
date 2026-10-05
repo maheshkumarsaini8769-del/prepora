@@ -1,1671 +1,1369 @@
-IMPORTANT FIX — AI MUST NOT STOP AT 25 QUESTIONS
+You are implementing the PREPORA educational platform's Smart YouTube Lecture Discovery system.
 
-The current PDF-to-question system generated only 25 questions
-from a complete Biology chapter.
+IMPORTANT:
+Do not blindly publish the first YouTube search result.
 
-This is NOT acceptable for PREPORA's question-bank generation system.
+The system must automatically discover relevant educational lectures, rank them intelligently, and provide strong admin control before content becomes the primary recommended lecture.
 
-Do NOT solve this by simply increasing max_tokens.
+The architecture must be:
 
-Build a BATCHED QUESTION GENERATION ENGINE.
+Student selects:
+Class → Subject → Chapter → Topic
+        ↓
+YouTube Search
+        ↓
+Multiple Candidate Videos
+        ↓
+Validation + Filtering
+        ↓
+Relevance Scoring
+        ↓
+Confidence Classification
+        ↓
+Admin Approval / Automatic Recommendation
+        ↓
+Student receives the best available lecture
 
-==================================================
-CORE RULE
-==================================================
+============================================================
+1. CORE PRINCIPLE
+============================================================
 
-When admin uploads a chapter PDF and requests:
+The system must NOT assume:
 
-"Generate Questions"
-
-the system must generate the requested number of
-VALID UNIQUE questions.
-
-Example:
-
-Requested:
-100 questions
-
-The system must NOT generate:
-
-25 → Done
+"First YouTube result = best lecture."
 
 Instead:
 
-Batch 1 → 20 questions
-Batch 2 → 20 questions
-Batch 3 → 20 questions
-Batch 4 → 20 questions
-Batch 5 → 20 questions
+SEARCH
+→ FILTER
+→ SCORE
+→ VERIFY
+→ CLASSIFY
+→ APPROVE
+→ RECOMMEND
 
-Then:
+Quality and curriculum relevance are more important than raw views.
 
-Combine
+============================================================
+2. CONTENT HIERARCHY
+============================================================
+
+Every lecture must belong to:
+
+Class
 ↓
-Validate
+Subject
 ↓
-Duplicate Check
+Chapter
 ↓
-Quality Check
-↓
-Topic Coverage Check
-↓
-Generate replacements for rejected/duplicate questions
-↓
-Final 100 valid questions
+Topic
 
-==================================================
-1. ADMIN INPUT
-==================================================
+Examples:
 
-Admin selects:
+Class 11
+→ Mathematics
+→ Relations & Functions
+→ Domain and Range
 
-PDF:
-The Living World
+Class 12
+→ Physics
+→ Ray Optics
+→ Lens Formula
 
-Requested Questions:
+This hierarchy must come from the database.
 
-[ 100 ]
+Do not rely on manually typed strings from the frontend.
 
-Exam:
+============================================================
+3. SEARCH CANDIDATES
+============================================================
 
-☑ NEET
-☑ CBSE
-☑ RBSE
+When there is no approved lecture for a topic/chapter:
 
-Difficulty:
+Search YouTube using the YouTube Data API.
 
-Auto
-
-Question Type:
-
-Auto
-
-Then:
-
-[ GENERATE QUESTIONS ]
-
-==================================================
-2. NEVER STOP EARLY
-==================================================
-
-If admin requests 100 questions:
-
-The job is considered incomplete until:
-
-100 VALID questions
-
-are available.
-
-Bad:
-
-Generated: 25
-Status: Completed
-
-Correct:
-
-Generated: 25 / 100
-Status: Generating...
-
-Continue automatically.
-
-==================================================
-3. BATCH GENERATION
-==================================================
-
-Never ask the AI model to generate hundreds of questions
-in one API request.
-
-Use batches.
-
-Recommended:
-
-10–25 questions per batch depending on provider limits.
-
-Example:
-
-Requested = 100
-
-Batch size = 20
-
-Batch 1:
-1–20
-
-Batch 2:
-21–40
-
-Batch 3:
-41–60
-
-Batch 4:
-61–80
-
-Batch 5:
-81–100
-
-==================================================
-4. TOPIC-FIRST GENERATION
-==================================================
-
-DO NOT generate all questions from the whole PDF randomly.
-
-First create:
-
-CHAPTER KNOWLEDGE MAP
-
-Example:
-
-The Living World
-
-Topics:
-
-1. Diversity in the Living World
-2. Nomenclature
-3. Identification
-4. Binomial Nomenclature
-5. Scientific Naming Rules
-6. Classification
-7. Taxa
-8. Taxonomy
-9. Systematics
-10. Taxonomic Categories
-11. Species
-12. Genus
-13. Family
-14. Order
-15. Class
-16. Phylum
-17. Kingdom
-18. Taxonomic Hierarchy
-19. Taxonomic Examples
-
-Use the actual PDF content to determine topics.
-
-The uploaded chapter contains these sections and taxonomic
-hierarchy material, including the organism examples table. 
-
-==================================================
-5. TOPIC DISTRIBUTION
-==================================================
-
-If requested:
-
-100 questions
-
-Do NOT randomly generate.
-
-Distribute questions according to:
-
-Topic importance
-Content size
-Concept density
-Exam relevance
-
-Example:
-
-Diversity:
-10
-
-Nomenclature:
-12
-
-Binomial Nomenclature:
-12
-
-Classification:
-10
-
-Taxonomy:
-8
-
-Systematics:
-6
-
-Species:
-10
-
-Genus:
-8
-
-Family:
-6
-
-Order:
-5
-
-Class:
-4
-
-Phylum:
-4
-
-Kingdom:
-3
-
-Hierarchy/examples:
-2
-
-The exact distribution must be calculated dynamically.
-
-Do not hardcode these numbers.
-
-==================================================
-6. CONCEPT COVERAGE
-==================================================
-
-Each topic should contain multiple concepts.
+Generate multiple search queries instead of relying on one query.
 
 For example:
 
-Binomial nomenclature:
+Query 1:
+"Class 11 Mathematics Relations and Functions full chapter Hindi"
 
-- Generic name
-- Specific epithet
-- Capitalization
-- Italics
-- Handwritten underlining
-- Author citation
-- Mangifera indica
+Query 2:
+"Class 11 Maths Relations Functions one shot Hindi"
 
-Generate different questions testing different concepts.
+Query 3:
+"Class 11 Relations Functions complete lecture Hindi"
 
-Do NOT generate:
+For a topic:
 
-20 questions asking the same thing in slightly different words.
+Query 1:
+"Class 11 Mathematics Domain Range Hindi"
 
-==================================================
-7. QUESTION VARIETY
-==================================================
+Query 2:
+"Class 11 Domain and Range Functions lecture"
 
-Within the requested question count, vary:
+Query 3:
+"Class 11 Domain Range one shot Hindi"
 
-Concept-based
-Statement-based
-Application
-Classification
-Example-based
-Sequence/order
-Match-type where appropriate
-Assertion-reason where appropriate
-Case-based where appropriate
+Use the actual database values to generate queries.
 
-But:
+============================================================
+4. SEARCH FILTERS
+============================================================
 
-DO NOT generate question types that are not appropriate
-for the selected exam.
+Where supported by the API, prioritize:
 
-==================================================
-8. NEET POOL
-==================================================
+type = video
 
-If NEET is selected:
+and:
 
-Generate NEET-suitable questions.
+videoEmbeddable = true
 
-Focus on:
+Also filter out inappropriate/unwanted content.
 
-NCERT-aligned concepts
-Important facts
-Conceptual traps
-Statement-based questions
-Application of concepts
-Closely related options
-Competitive-level distractors
+Do not intentionally select:
 
-Every question must remain supported by the source material.
+YouTube Shorts
+Unrelated videos
+Music
+Entertainment
+Promotional-only videos
+Random livestreams
+Wrong classes
+Wrong subjects
+Wrong chapters
+Wrong topics
 
-==================================================
-9. CBSE POOL
-==================================================
+============================================================
+5. CANDIDATE COUNT
+============================================================
 
-If CBSE selected:
+For every discovery operation:
 
-Generate:
+Try to collect approximately 5–10 strong candidates.
 
-NCERT-based
-Conceptual
-Understanding-based
-Application-based
-Competency-oriented where appropriate
-Case-based where appropriate
+Do not show all candidates to students.
 
-==================================================
-10. RBSE POOL
-==================================================
+Candidates are for the recommendation engine/admin review.
 
-If RBSE selected:
+If fewer than 5 useful videos are found, do NOT fill the list with irrelevant videos.
 
-Generate questions suitable for the selected RBSE
-curriculum/content available to the system.
+Quality is more important than quantity.
 
-Do NOT assume CBSE and RBSE are identical.
+============================================================
+6. VIDEO METADATA
+============================================================
 
-If alignment cannot be confidently determined:
-
-Flag for admin review.
-
-==================================================
-11. ONE MASTER QUESTION BANK
-==================================================
-
-Do NOT create duplicate questions for every exam.
-
-One question can have:
-
-NEET ✓
-CBSE ✓
-RBSE ✓
+For each candidate collect only necessary public metadata.
 
 Example:
 
-Question #5001
+youtubeVideoId
+title
+description
+channelTitle
+publishedAt
+thumbnail
+duration
+viewCount
+likeCount where available
+url
 
-Exam suitability:
+Do not download the video.
 
-NEET
-CBSE
-RBSE
+Do not store the video file.
 
-This question can be used by all three pools.
+Do not re-host YouTube content.
 
-==================================================
-12. DUPLICATE CONTROL
-==================================================
+============================================================
+7. HARD FILTERS
+============================================================
 
-Every generated batch must be checked against:
+Before scoring, remove candidates that fail critical requirements.
 
-Existing database questions
-Previous batches
-Current batch
+Reject if:
 
-Use:
+- Wrong subject
+- Clearly wrong class
+- Clearly unrelated chapter
+- Clearly unrelated topic
+- Video unavailable
+- Private video
+- Deleted video
+- Non-embeddable when Watch Here requires embedding
+- Obviously promotional/unrelated content
 
-Exact duplicate detection
+For full chapter searches, reject videos that only cover a tiny unrelated subtopic.
 
-AND
+For topic searches, reject videos that don't actually explain that topic.
 
-Semantic similarity detection.
+============================================================
+8. FULL CHAPTER VS TOPIC
+============================================================
 
-Example:
+The scoring system must understand two different lecture types.
 
-Question A:
-Similarity = 94%
+TYPE A:
 
-Question B:
-Similarity = 38%
+FULL_CHAPTER
 
-94%:
+TYPE B:
 
-Possible Duplicate
+TOPIC
 
-38%:
+For FULL_CHAPTER:
 
-Unique
+Prefer titles/descriptions indicating:
 
-The threshold must be configurable.
+Full Chapter
+Complete Chapter
+Complete Lecture
+One Shot
+Revision
+Chapter Lecture
 
-==================================================
-13. REPLACEMENT SYSTEM
-==================================================
+But do not trust title alone.
 
-This is VERY IMPORTANT.
+For TOPIC:
 
-Suppose:
-
-Requested:
-100
-
-Generated:
-100
-
-After quality check:
-
-Valid:
-87
-
-Duplicates:
-8
-
-Rejected:
-5
-
-Final:
-87
-
-DO NOT finish.
-
-Automatically request:
-
-13 replacement questions.
-
-Then validate them again.
-
-Continue until:
-
-100 VALID UNIQUE QUESTIONS
-
-or the source genuinely cannot support more.
-
-==================================================
-14. PREVENT INFINITE LOOP
-==================================================
-
-Maximum generation attempts:
-
-Configurable.
+Prefer exact topic matches.
 
 Example:
 
 Requested:
-100
 
-Attempts:
-10 batches
+Domain and Range
 
-If the system determines that the source cannot safely
-support additional unique questions:
+Strong match:
 
-Stop and show:
+"Domain and Range of Functions Class 11"
 
-"Only 93 high-quality unique questions could be generated
-from this source without repeating concepts."
+Weak match:
 
-Do NOT generate low-quality or hallucinated questions just
-to reach the requested number.
+"Relations and Functions Full Chapter"
 
-==================================================
-15. SOURCE-GROUNDED QUESTIONS
-==================================================
+The second may be useful as a backup but should not outrank an exact topic lecture.
 
-Every question must have:
+============================================================
+9. RELEVANCE SCORING ENGINE
+============================================================
 
-sourceDocumentId
-sourceVersion
-sourcePage
-sourceSection
-sourceConcept
+Create a server-side scoring function.
 
-Admin can click:
+Example maximum score:
 
-View Source
+100 points.
 
-and see where the concept came from.
+Suggested scoring:
 
-For example, the PDF describes binomial nomenclature,
-including generic name, specific epithet and naming rules
-on page 4. 
+Exact topic match:
++30
 
-The question generator should be able to trace questions
-back to this material.
+Exact chapter match:
++25
 
-==================================================
-16. QUESTION QUALITY CHECK
-==================================================
+Correct subject:
++15
 
-Before a question enters the final pool:
+Correct class:
++15
 
-Check:
+Correct language:
++5
 
-✓ Question complete
-✓ 4 valid options where applicable
-✓ Correct answer exists
-✓ Only one correct answer for single-correct MCQ
-✓ Explanation matches answer
-✓ No contradictory explanation
-✓ Topic valid
-✓ Source support exists
-✓ Exam suitability valid
-✓ Difficulty valid
-✓ No duplicate
-✓ No ambiguous wording
-✓ No broken formatting
-✓ No hallucinated fact
+Lecture type match:
++5
 
-Failed questions:
+Educational relevance:
++5
 
-→ Reject
+Suitable duration:
++3
 
-Then automatically generate replacement.
-
-==================================================
-17. DIFFICULTY DISTRIBUTION
-==================================================
-
-If:
-
-Difficulty = Auto
-
-Create a balanced distribution based on selected exam.
-
-Example:
-
-Easy:
-30%
-
-Medium:
-50%
-
-Hard:
-20%
-
-Make this configurable.
-
-Do NOT hardcode one distribution forever.
-
-==================================================
-18. GENERATION JOB UI
-==================================================
-
-Admin should see real progress.
-
-Example:
-
-AI CONTENT FACTORY
-
-The Living World
-
-Generating Questions
-
-████████████░░░░ 68%
-
-68 / 100 valid questions
-
-Batch:
-4 / 5
-
-Current:
-
-Generating Taxonomic Categories...
-
-Then show:
-
-Generated:
-80
-
-Valid:
-68
-
-Duplicates:
-7
-
-Rejected:
-5
-
-Remaining:
-32
-
-==================================================
-19. BATCH FAILURE RECOVERY
-==================================================
-
-If Batch 3 fails:
-
-DO NOT lose:
-
-Batch 1
-Batch 2
-
-Retry only failed batch.
-
-Example:
-
-Batch 3:
-Failed
-
-Reason:
-Provider timeout
-
-[Retry Batch]
-
-==================================================
-20. API LIMIT HANDLING
-==================================================
-
-If AI provider returns:
-
-Rate limit
-Quota exceeded
-Timeout
-Temporary error
-
-Handle gracefully.
-
-Do NOT automatically switch to a paid provider.
-
-Show:
-
-"AI provider limit reached."
-
-Keep generated questions safe.
-
-Allow:
-
-Resume Job
-Retry Later
-
-==================================================
-21. FREE-TIER SAFETY
-==================================================
-
-The system must work with a free-tier AI provider where
-available.
-
-IMPORTANT:
-
-Never assume unlimited free generation.
-
-Admin must explicitly configure:
-
-Provider
-API key
-Model
-Daily limit
-
-If daily limit is reached:
-
-Pause generation.
-
-No unexpected paid API calls.
-
-==================================================
-22. RESUME GENERATION
-==================================================
-
-If admin closes the browser:
-
-Generation must continue server-side where supported.
-
-When admin returns:
-
-Show:
-
-The Living World
-
-Generation:
-
-72 / 100
-
-[Resume / View Job]
-
-Do not start from zero.
-
-==================================================
-23. QUESTION COUNT MUST BE EXACT
-==================================================
-
-Admin requests:
-
-50
-
-Final:
-
-50 valid unique questions
-
-Admin requests:
-
-100
-
-Final:
-
-100 valid unique questions
-
-Admin requests:
-
-250
-
-Final:
-
-250 valid unique questions
-
-unless the system genuinely determines that the source
-cannot safely support the requested amount.
-
-==================================================
-24. EXISTING QUESTIONS MUST BE INCLUDED
-==================================================
-
-When generating a new batch:
-
-Check the entire PREPORA question database.
-
-Do not create questions that already exist.
-
-Also compare against previously generated batches
-from the same PDF.
-
-==================================================
-25. GENERATION MODES
-==================================================
-
-Provide:
-
-QUICK
-
-Generate smaller set quickly.
-
-STANDARD
-
-Balanced question generation.
-
-DEEP
-
-Maximum topic/concept coverage with stronger quality
-checking.
-
-Example:
-
-Quick:
-25
-
-Standard:
-100
-
-Deep:
-200+
-
-Admin can still enter custom count.
-
-==================================================
-26. "GENERATE MORE" BUTTON
-==================================================
-
-After a chapter is published:
-
-Show:
-
-Questions:
-100
-
-[Generate 25 More]
-
-When clicked:
-
-AI analyzes existing questions first.
-
-Then generates:
-
-25 NEW questions
-
-without repeating existing concepts unnecessarily.
-
-==================================================
-27. QUESTION COVERAGE DASHBOARD
-==================================================
-
-After generation:
-
-Show:
+Good engagement:
++2
 
 Total:
-100
-
-Unique:
-91
-
-Pending Review:
-9
-
-Topics Covered:
-17 / 18
-
-Concepts Covered:
-42 / 47
-
-NEET:
-78
-
-CBSE:
-84
-
-RBSE:
-71
-
-These are suitability counts and may overlap.
-
-==================================================
-28. FINAL PIPELINE
-==================================================
-
-PDF
-↓
-Extract
-↓
-Understand
-↓
-Knowledge Map
-↓
-Topic Detection
-↓
-Concept Detection
-↓
-Question Blueprint
-↓
-Batch Generation
-↓
-Source Validation
-↓
-Answer Validation
-↓
-Quality Check
-↓
-Duplicate Check
-↓
-Exam Classification
-↓
-Difficulty Classification
-↓
-Replacement Generation
-↓
-Final Question Pool
-↓
-Admin Review
-↓
-Approve
-↓
-Publish
-
-==================================================
-29. IMPORTANT
-==================================================
-
-NEVER do this:
-
-PDF
-↓
-AI
-↓
-25 questions
-↓
-DONE
-
-Instead:
-
-PDF
-↓
-AI Planning
-↓
-Batch 1
-↓
-Validation
-↓
-Batch 2
-↓
-Validation
-↓
-Batch 3
-↓
-Validation
-↓
-...
-↓
-Requested Count Reached
-↓
-Final Quality Check
-↓
-Admin Review
+100+
 
-==================================================
-30. FINAL ACCEPTANCE TEST
-==================================================
+Normalize final score to 0–100.
 
-Test with the uploaded Biology chapter:
+Do not use views as the main quality signal.
 
-The Living World
+Curriculum accuracy is more important.
 
-Request:
+============================================================
+10. LANGUAGE
+============================================================
 
-100 questions
+Respect the configured student language.
 
-Expected behavior:
+If the platform is configured for Hindi/Hinglish:
 
-The system should NOT stop after 25.
+Prefer:
 
-It should automatically continue generating batches,
-checking them and replacing duplicates/rejected questions.
+Hindi
+Hinglish
 
-Final target:
+over unrelated English content.
 
-100 valid unique questions.
+But if no good Hindi result exists:
 
-Also verify topic coverage across the chapter.
+Allow a high-quality English result as a fallback.
 
-Do NOT simply repeat the same concept 100 times.
+Never select a poor Hindi video simply because it is Hindi.
 
-==================================================
-31. IMPORTANT EXISTING FUNCTIONALITY
-==================================================
+Quality + relevance comes first.
 
-Do not break:
+============================================================
+11. DURATION
+============================================================
 
-Admin Panel
-PDF Upload
-Question Database
-Question Review
-Tests
-Practice
-NEET
-CBSE
-RBSE
-Search
-Analytics
-Duplicate Detection
-Question Versioning
+Use duration intelligently.
 
-Integrate the new batch-generation engine into the
-existing PREPORA architecture.
+For FULL_CHAPTER:
 
-FIRST inspect the existing implementation.
+Prefer an appropriately long lecture.
 
-Then modify only what is required.
+Do not automatically reject short videos because some chapters may genuinely have short high-quality revision lectures.
 
-Do NOT rewrite the entire project unnecessarily.
-==================================================
-🔥 MINIMUM 400 QUESTIONS PER CHAPTER
-==================================================
+For TOPIC:
 
-CRITICAL REQUIREMENT:
+Prefer topic-appropriate duration.
 
-For every sufficiently detailed chapter PDF, PREPORA should
-target a MINIMUM of 400 high-quality, unique questions.
+Avoid extremely short videos unless they genuinely explain the requested topic.
 
-Example:
+Do not assume:
 
-Admin uploads:
+Longer = Better.
 
-Biology
-Class 11
-The Living World.pdf
+============================================================
+12. QUALITY SIGNALS
+============================================================
 
-System target:
+Use multiple signals.
 
-400 QUESTIONS MINIMUM
+Possible signals:
 
-The AI must NOT stop at:
+- Exact curriculum match
+- Title relevance
+- Description relevance
+- Topic keyword match
+- Chapter keyword match
+- Class keyword match
+- Language
+- Duration
+- Views
+- Engagement where available
+- Recency
+- Channel/video metadata
+- Embeddability
 
-25
-50
-100
-200
+Never allow popularity alone to determine the winner.
 
-simply because one generation request is complete.
+============================================================
+13. CONFIDENCE LEVEL
+============================================================
 
-The generation system must continue automatically using
-multiple batches.
+After scoring, classify:
 
-==================================================
-1. GENERATION TARGET
-==================================================
+GREEN:
 
-Default:
+90–100
 
-Minimum:
-400
+HIGH CONFIDENCE
 
-Admin options:
+Automatically eligible for recommendation.
 
-400
-500
-750
-1000
-Custom
+YELLOW:
 
-Example:
+75–89
 
-[ 400 Questions ]
+MEDIUM CONFIDENCE
 
-If admin selects 400:
+Send to admin review before becoming the primary recommendation.
 
-Target = 400 VALID UNIQUE QUESTIONS
+RED:
 
-==================================================
-2. BATCH GENERATION
-==================================================
+0–74
 
-NEVER request 400 questions from the AI in one API call.
+LOW CONFIDENCE
 
-Use batches.
+Do not automatically recommend to students.
 
-Recommended:
+This threshold must be configurable in admin/system settings.
 
-Batch size:
-10–25 questions
-
-Example:
-
-400 requested
-
-Batch 1 → 20
-Batch 2 → 20
-Batch 3 → 20
-...
-Batch 20 → 20
-
-But batch size must be dynamically adjusted according to
-the AI provider's actual limits.
-
-==================================================
-3. VALID QUESTION COUNT
-==================================================
-
-IMPORTANT:
-
-"Generated" does NOT mean "valid".
-
-Example:
-
-Generated:
-450
-
-Duplicates:
-25
-
-Rejected:
-18
-
-Quality failed:
-7
-
-Valid:
-400
-
-Only then:
-
-STATUS = COMPLETE
-
-The system must count only valid, unique, approved-for-review
-questions toward the target.
-
-==================================================
-4. AUTOMATIC REPLACEMENT
-==================================================
-
-Example:
-
-Target:
-400
-
-Generated:
-400
-
-After validation:
-
-Valid:
-340
-
-Duplicate:
-35
-
-Rejected:
-25
-
-Then automatically generate:
-
-60 replacement questions.
-
-Continue validation.
-
-If:
-
-Valid:
-390
-
-Generate:
-
-10 more.
-
-Continue until:
-
-VALID UNIQUE = 400
-
-==================================================
-5. TOPIC COVERAGE
-==================================================
-
-Before generating questions:
-
-First analyze the complete PDF.
+============================================================
+14. ADMIN APPROVAL
+============================================================
 
 Create:
 
-Chapter
-↓
-Sections
-↓
-Topics
-↓
-Subtopics
-↓
-Concepts
+Admin → Content → Lecture Discovery
 
-Then create a question-generation blueprint.
+Admin should see:
 
-DO NOT randomly generate 400 questions.
+--------------------------------------------
 
-Every major concept should receive appropriate coverage.
+Relations & Functions
+Class 11
+Mathematics
+Full Chapter
 
-==================================================
-6. QUESTION DIVERSITY
-==================================================
+Candidate Videos:
 
-400 questions must contain meaningful variation.
+1.
+Title
+Channel
+Duration
+Score: 96
+Confidence: HIGH
 
-Generate combinations of:
+[Preview]
+[Approve]
+[Reject]
 
-Concept-based
-Fact-based
-Understanding-based
-Application-based
-Statement-based
-Multiple-statement
-Comparison
-Classification
-Example-based
-Sequence/order
-Assertion-Reason where appropriate
-Match-the-following where appropriate
-Case-based where appropriate
-Diagram/data-based where supported
-NCERT-line/concept interpretation
-Common-confusion questions
+2.
+Title
+Channel
+Duration
+Score: 89
+Confidence: MEDIUM
 
-Do NOT generate the same question with only
-different wording.
+[Preview]
+[Approve]
+[Reject]
 
-==================================================
-7. DIFFICULTY DISTRIBUTION
-==================================================
+3.
+Title
+Channel
+Duration
+Score: 71
+Confidence: LOW
 
-Default automatic distribution:
+[Reject]
 
-Easy:
-30%
+--------------------------------------------
 
-Medium:
-50%
+Admin can approve the best candidate.
 
-Hard:
-20%
+============================================================
+15. ADMIN PREVIEW
+============================================================
 
-For 400:
+Admin must be able to preview the candidate before approval.
 
-Easy ≈ 120
-Medium ≈ 200
-Hard ≈ 80
+Provide:
 
-BUT:
+[Preview]
 
-This must be configurable.
+and:
 
-The AI should also consider the actual chapter content.
+[Open in YouTube]
 
-==================================================
-8. EXAM DISTRIBUTION
-==================================================
+Do not require admin to manually search YouTube.
 
-The master question bank should support:
+Admin should be able to quickly compare candidates.
 
-NEET
-CBSE
-RBSE
+============================================================
+16. ADMIN APPROVED LECTURE
+============================================================
 
-One question may belong to multiple exams.
+When admin approves a candidate:
 
-Example:
+status:
 
-Question #1024
+APPROVED
 
-NEET ✓
-CBSE ✓
-RBSE ✓
+It becomes the primary recommended lecture.
 
-Do NOT create three identical copies.
+Student requests:
 
-==================================================
-9. NEET QUESTION COVERAGE
-==================================================
+Class 11
+→ Mathematics
+→ Relations & Functions
 
-For NEET-suitable questions:
+Backend returns the approved lecture.
 
-Focus on:
+Do NOT call YouTube Search API again.
 
-- Core chapter concepts
-- Important facts
-- Conceptual understanding
-- Statement-based reasoning
-- Closely related distractors
-- Application where supported
-- Common exam traps
-- NCERT-aligned content
+============================================================
+17. PRIORITY SYSTEM
+============================================================
 
-Every question must remain supported by the source.
+Recommendation priority must be:
 
-==================================================
-10. CBSE QUESTION COVERAGE
-==================================================
+1. ADMIN_SELECTED_PRIMARY
+2. ADMIN_APPROVED
+3. ADMIN_FEATURED
+4. HIGH_CONFIDENCE_AUTO_APPROVED
+5. CACHED_HIGH_SCORE
+6. BACKUP_APPROVED
 
-For CBSE:
+Never allow a new automatic result to silently replace an admin-approved lecture.
 
-Generate suitable combinations of:
+============================================================
+18. ADMIN REPLACE
+============================================================
 
-- Conceptual questions
-- Understanding
-- Application
-- Competency-oriented questions where appropriate
-- Case-based questions where appropriate
-- Important definitions
-- Classification/comparison
-- Source-supported interpretation
+Admin should have:
 
-==================================================
-11. RBSE QUESTION COVERAGE
-==================================================
+[Replace Lecture]
 
-For RBSE:
+Clicking it shows:
 
-Generate only where the source/curriculum information
-supports the classification.
+Current Lecture
 
-Do NOT assume:
+and:
 
-CBSE = RBSE
+Candidate Alternatives
 
-If confidence is insufficient:
+Admin can choose another candidate.
 
-RBSE suitability:
-"Needs Review"
+Or paste another YouTube URL manually.
 
-==================================================
-12. 400 QUESTIONS MUST COVER THE WHOLE CHAPTER
-==================================================
+After replacement:
 
-IMPORTANT:
+The new lecture becomes:
 
-Do not generate:
+ADMIN_SELECTED_PRIMARY
 
-300 questions from first 20% of chapter
-and
-100 questions from remaining content.
+and receives highest priority.
 
-First analyze content density.
+============================================================
+19. BACKUP LECTURE
+============================================================
 
-Then distribute questions proportionally.
+Allow admin to configure:
 
-Example:
+Primary Lecture
+Backup Lecture
 
-Topic A:
-12%
+If the primary video becomes unavailable:
 
-Topic B:
-18%
+Use the backup automatically.
 
-Topic C:
-25%
+Flow:
 
-Topic D:
-15%
+Primary available?
+YES → show primary.
 
-Topic E:
-30%
+NO →
+Check backup.
 
-Question distribution should approximately reflect
-concept/content importance.
+Backup available?
+YES → show backup.
 
-==================================================
-13. CONCEPT DIVERSITY CHECK
-==================================================
+NO →
+Run discovery/fallback process.
 
-For every question store:
+This prevents broken lecture pages.
 
-conceptId
-topicId
-subtopicId
+============================================================
+20. VIDEO AVAILABILITY CHECK
+============================================================
 
-Before accepting a new question:
+Do not assume a stored video remains available forever.
 
-Check whether too many existing questions are testing
-the same concept in the same way.
+When practical, verify:
 
-If overrepresented:
+Video exists
+Video is public
+Video can be embedded if Watch Here is enabled
 
-AI should move to an under-covered concept.
+If a previously approved video becomes unavailable:
 
-==================================================
-14. 400 QUESTIONS QUALITY GATE
-==================================================
+mark:
 
-Every question must pass:
+UNAVAILABLE
 
-✓ Source support
-✓ Correct answer
-✓ Option validation
-✓ Explanation validation
-✓ Topic validation
-✓ Exam suitability
-✓ Difficulty validation
-✓ Duplicate check
-✓ Semantic similarity check
-✓ Formatting check
-✓ No hallucination
-✓ No ambiguous answer
+Do not delete historical records unnecessarily.
 
-Only valid questions count toward 400.
+Try backup lecture.
 
-==================================================
-15. QUESTION QUALITY TIERS
-==================================================
+============================================================
+21. ADMIN DASHBOARD
+============================================================
 
-Internally classify:
+Add a section:
 
-A — High Quality
-B — Acceptable
-C — Needs Review
-D — Reject
-
-Only:
-
-A + B
-
-should normally enter the admin review queue.
-
-C:
-
-Needs manual review.
-
-D:
-
-Reject and regenerate.
-
-==================================================
-16. NEVER LOWER QUALITY TO REACH 400
-==================================================
-
-THIS IS CRITICAL.
-
-If the chapter genuinely does not contain enough
-independent concepts to safely produce 400 questions:
-
-DO NOT create fake/repetitive questions just to reach 400.
-
-Instead show:
-
-"400 unique high-quality questions could not be safely
-generated from this source without excessive repetition."
+Lecture Health
 
 Show:
 
-Valid Questions:
-372
+Total Lectures
+Approved
+Pending Review
+Rejected
+Unavailable
+Need Review
 
-Recommended Action:
-
-Upload additional authorized source material
-OR
-Generate more with broader curriculum context.
-
-==================================================
-17. "GENERATE MORE" SYSTEM
-==================================================
-
-After 400 questions:
-
-Show:
-
-Question Bank:
-400
-
-Button:
-
-[ + Generate 50 More ]
-
-If clicked:
-
-The system MUST first analyze all existing 400 questions.
-
-Then generate 50 NEW questions.
-
-Do not repeat existing questions.
-
-==================================================
-18. CHAPTER QUESTION COUNTER
-==================================================
-
-Every chapter should display:
-
-Total Questions:
-400
-
-NEET:
-XXX
-
-CBSE:
-XXX
-
-RBSE:
-XXX
-
-Easy:
-XXX
-
-Medium:
-XXX
-
-Hard:
-XXX
+Example:
 
 Approved:
-XXX
+1,240
 
 Pending:
-XXX
+37
 
-Rejected:
-XXX
+Unavailable:
+12
 
-Duplicates:
-XXX
+Low Confidence:
+48
 
-==================================================
-19. GENERATION PROGRESS
-==================================================
+This helps admin maintain content quality.
 
-Show real-time progress.
+============================================================
+22. BULK DISCOVERY
+============================================================
 
-Example:
+Admin should be able to run:
 
-THE LIVING WORLD
+[Discover Lectures]
 
-Generating Question Bank
+for:
 
-━━━━━━━━━━━━━━━━━━ 73%
+Entire Chapter
 
-292 / 400 valid questions
+or:
 
-Current Batch:
-15 / 20
+Entire Subject
 
-Topics Covered:
-18 / 19
+or:
 
-Quality Checks:
-✓
-
-Duplicate Checks:
-✓
-
-Remaining:
-108
-
-Do NOT show:
-
-"Generating 400 questions..."
-
-with no progress information.
-
-==================================================
-20. BACKGROUND JOB
-==================================================
-
-400-question generation must run as a background job.
-
-Admin should be able to:
-
-Leave page
-Close browser
-Return later
-
-The job should retain its state.
+Selected Topics
 
 Example:
 
-AI Job #2048
+Admin selects:
 
-292 / 400
+Class 11
+Mathematics
+Relations & Functions
 
-Status:
-Running
+[Discover Lectures]
 
-==================================================
-21. FAILED BATCH RECOVERY
-==================================================
+System searches for:
 
-If:
+Full Chapter
+Introduction
+Relations
+Types of Relations
+Functions
+Domain
+Range
+Composite Functions
+etc.
 
-Batch 11 fails
+Then creates candidate recommendations.
 
-DO NOT restart the entire generation.
+Do not automatically replace existing approved lectures.
+
+============================================================
+23. BULK APPROVAL
+============================================================
+
+Admin can approve multiple HIGH-CONFIDENCE candidates.
+
+Example:
+
+☑ Domain & Range — 94
+☑ Types of Functions — 96
+☑ Composite Functions — 92
+
+[Approve Selected]
+
+But require confirmation before bulk approval.
+
+============================================================
+24. MANUAL LECTURE ADD
+============================================================
+
+Admin can manually add:
+
+YouTube URL
+
+System extracts:
+
+videoId
+
+Then validates the URL.
+
+Admin selects:
+
+Class
+Subject
+Chapter
+Topic
+Lecture Type
+
+Then:
+
+[Save Lecture]
+
+Manual admin-selected content receives higher priority than automatic discovery.
+
+============================================================
+25. DUPLICATE DETECTION
+============================================================
+
+Do not store the same YouTube video repeatedly for the same content.
+
+Use:
+
+youtubeVideoId
+
+as a unique/reference key where appropriate.
+
+If the same video is already attached:
+
+Show:
+
+"Video already exists."
+
+============================================================
+26. DISCOVERY CACHE
+============================================================
+
+Store discovery results temporarily.
+
+Example:
+
+LectureDiscovery {
+    _id,
+
+    classLevel,
+    subjectId,
+    chapterId,
+    topicId,
+    lectureType,
+
+    query,
+    candidates,
+
+    discoveredAt,
+    expiresAt
+}
+
+Do not permanently treat old search results as fresh.
+
+Allow re-discovery when required.
+
+============================================================
+27. YOUTUBE API QUOTA
+============================================================
+
+Do not search YouTube every time students open a page.
+
+Student request:
+
+GET lecture
+
+↓
+
+Database approved lecture?
+
+YES
+→ return immediately.
+
+NO
+↓
+
+Cached candidate?
+
+YES
+→ use candidate if valid.
+
+NO
+↓
+
+YouTube API discovery.
+
+This minimizes API quota usage.
+
+============================================================
+28. API KEY SECURITY
+============================================================
+
+YouTube API key must remain server-side.
+
+Use:
+
+YOUTUBE_API_KEY
+
+in backend environment variables.
+
+Never expose the secret unnecessarily to frontend.
+
+Never commit it to GitHub.
+
+Never put it in public JavaScript bundles.
+
+============================================================
+29. WATCH HERE
+============================================================
+
+When student selects:
+
+[▶ Watch Here]
+
+play the selected YouTube video inside PREPORA using the official YouTube embed/player.
+
+Keep this functionality because the user wants both viewing methods.
+
+Use responsive 16:9 layout.
+
+If the selected video cannot be embedded:
+
+Hide/disable Watch Here.
 
 Keep:
 
-Batch 1–10
+[↗ Open in YouTube]
 
-Retry only:
+available.
 
-Batch 11
+Do not break the page.
 
-If provider temporarily reaches quota:
+============================================================
+30. OPEN IN YOUTUBE
+============================================================
 
-Pause job safely.
+Every lecture should provide:
+
+[↗ Open in YouTube]
+
+Open the original official YouTube URL.
+
+Example:
+
+https://www.youtube.com/watch?v=VIDEO_ID
+
+On mobile, allow normal YouTube app/browser behavior.
+
+The student can then see:
+
+Creator/channel name
+YouTube interface
+Comments
+Likes
+Share
+Normal YouTube functionality
+
+Do not hide creator attribution.
+
+============================================================
+31. PREPORA UI BRANDING
+============================================================
+
+Inside PREPORA:
+
+Do not create coaching-brand sections.
+
+Use:
+
+Recommended Lecture
+Best Match
+Full Chapter
+Topic Lecture
+
+Do not artificially make the creator appear to be PREPORA.
+
+When the user opens YouTube, the original creator identity naturally remains visible.
+
+============================================================
+32. STUDENT EXPERIENCE
+============================================================
+
+Student does NOT see the complicated scoring system.
+
+Student should see a simple result:
+
+--------------------------------------------
+
+⭐ Recommended Lecture
+
+Relations & Functions
+Full Chapter
+
+Class 11 • Mathematics
+Hindi
+
+[Thumbnail]
+
+[▶ Watch Here]
+
+[↗ Open in YouTube]
+
+--------------------------------------------
+
+Optionally:
+
+Why this lecture?
+
+"Best match for this chapter."
+
+Do not expose internal ranking details unless useful.
+
+============================================================
+33. FORMULA SHEET CONNECTION
+============================================================
+
+Every topic should connect to:
+
+Formula Sheet
+and
+Lecture.
+
+Example:
+
+Domain and Range
+
+[Formula Sheet]
+
+[Watch Lecture]
+
+This should use the same canonical:
+
+Class
+Subject
+Chapter
+Topic
+
+IDs.
+
+============================================================
+34. PLANNER CONNECTION
+============================================================
 
 Allow:
 
-Resume
+[Add Revision to Planner]
 
-==================================================
-22. AI PROVIDER LIMITS
-==================================================
+For example:
 
-Do NOT assume unlimited free API usage.
+"Revise Domain and Range"
 
-The system must:
+Use the existing planner system.
 
-- Respect provider rate limits
-- Respect token limits
-- Respect daily quotas
-- Retry temporary failures
-- Pause on quota exhaustion
-- Never automatically trigger paid usage
+Do not create duplicate planner logic.
 
-Admin must be able to configure:
+============================================================
+35. STUDENT ACTIVITY
+============================================================
 
-Daily question generation limit.
+Track meaningful events:
 
-==================================================
-23. 400 QUESTIONS SHOULD BE ORIGINAL
-==================================================
+LECTURE_OPENED
+WATCH_HERE_CLICKED
+OPENED_YOUTUBE
+TOPIC_VIEWED
+FORMULA_VIEWED
+FORMULA_COPIED
+REVISION_ADDED
 
-Do NOT copy the PDF directly.
+Do not claim exact watch duration unless technically reliable.
 
-Use the PDF as the knowledge/source material.
+============================================================
+36. SECURITY
+============================================================
 
-Generate original questions.
+Apply the existing PREPORA authentication architecture.
 
-Do not reproduce long textbook passages.
+Student:
 
-Every question should have a source reference for admin
-verification.
+Can only read permitted educational content.
 
-==================================================
-24. SOURCE TRACEABILITY
-==================================================
+Admin:
 
-Each question:
+Can approve/edit/replace lectures.
 
-sourceDocumentId
-sourceVersion
-sourcePage
-sourceSection
-sourceConcept
+Backend must enforce authorization.
 
-Admin can:
+Never trust:
 
-View Source
+studentId
+role
+admin=true
 
-and inspect the relevant PDF location.
+from frontend requests.
 
-==================================================
-25. FINAL GENERATION ALGORITHM
-==================================================
+YouTube API credentials remain server-side.
 
-IMPLEMENT THIS LOGIC:
+============================================================
+37. ADMIN CONTENT AUDIT
+============================================================
 
-target = 400
+Every admin action should be logged:
 
-analyzePDF()
+Lecture discovered
+Lecture approved
+Lecture rejected
+Lecture replaced
+Lecture disabled
+Primary lecture changed
+Backup lecture changed
 
-createKnowledgeMap()
+Example:
 
-createTopicBlueprint()
+Admin approved:
 
-WHILE validUniqueQuestions < target:
+Relations & Functions
+Video ID: XXXXX
+Time: 05 Oct 2026 17:30
 
-    generateNextBatch()
+============================================================
+38. MOBILE ADMIN
+============================================================
 
-    validateQuestions()
+Admin review should also work on mobile.
 
-    detectDuplicates()
+Candidate cards should not overflow.
 
-    classifyExam()
+Buttons:
 
-    classifyDifficulty()
+Preview
+Approve
+Reject
+Replace
 
-    checkConceptCoverage()
+must be touch-friendly.
 
-    rejectInvalidQuestions()
+============================================================
+39. PERFORMANCE
+============================================================
 
-    saveValidQuestions()
+Use:
 
-    calculateRemaining()
+Caching
+Lazy loading
+Pagination
+Database indexes
+Debounced search
+Optimized thumbnails
 
-    if temporaryAPIError:
-        retryBatch()
+Do not load 100 YouTube thumbnails simultaneously.
 
-    if providerQuotaReached:
-        pauseJob()
+Load candidate videos only when admin opens discovery/review.
 
-    if maximumAttemptsReached:
-        evaluateSourceCapacity()
+============================================================
+40. FAILURE HANDLING
+============================================================
 
-END WHILE
+If YouTube API fails:
 
-runFinalQualityCheck()
+Do not break PREPORA.
 
-createAdminReviewQueue()
+If approved lecture exists:
 
-==================================================
-26. FINAL RULE
-==================================================
+show approved lecture.
 
-The system is NOT COMPLETE when:
+If backup exists:
 
-"AI generated 25 questions."
+use backup.
 
-The system is COMPLETE when:
+If no lecture exists:
 
-"400 valid, unique, source-supported questions are ready
-for admin review."
+show:
 
-OR, if 400 cannot be responsibly supported:
+"No lecture is available yet."
 
-"Maximum safe question capacity reached."
+Admin can manually add one.
 
-Never sacrifice educational quality merely to display
-the number 400.
+============================================================
+41. AUTOMATIC REFRESH
+============================================================
+
+Do not constantly replace recommendations.
+
+Automatic rediscovery should happen only when:
+
+- No approved lecture exists
+- Current lecture is unavailable
+- Admin manually requests discovery
+- Candidate cache expires
+- Content is marked for review
+
+Never silently replace a good admin-approved lecture.
+
+============================================================
+42. FINAL RECOMMENDATION LOGIC
+============================================================
+
+For a student request:
+
+Class 11
+Mathematics
+Relations & Functions
+Full Chapter
+
+Backend should execute:
+
+1. Find ADMIN_SELECTED_PRIMARY
+2. If available → return it
+3. Else find ADMIN_APPROVED
+4. If available → return it
+5. Else find HIGH_CONFIDENCE_APPROVED
+6. If available → return it
+7. Else check backup
+8. Else use cached high-confidence candidate
+9. If no valid candidate → trigger discovery/fallback according to configured policy
+
+Never return an unrelated video just to fill the UI.
+
+============================================================
+43. QUALITY PRINCIPLE
+============================================================
+
+The system must prefer:
+
+NO VIDEO
+
+over:
+
+WRONG VIDEO.
+
+If confidence is low, show:
+
+"No highly relevant lecture found yet."
+
+instead of showing an unrelated lecture.
+
+This is extremely important for educational accuracy.
+
+============================================================
+44. ADMIN CONTROL PRINCIPLE
+============================================================
+
+The admin is the final authority.
+
+Automatic system:
+
+Finds
+Filters
+Scores
+Suggests
+
+Admin:
+
+Approves
+Rejects
+Replaces
+Prioritizes
+
+Once admin selects a primary lecture, automatic discovery must respect that decision.
+
+============================================================
+45. FINAL TESTING
+============================================================
+
+Test:
+
+TEST 1
+Select a chapter with no lecture.
+
+Expected:
+YouTube candidates discovered.
+
+TEST 2
+Multiple candidates.
+
+Expected:
+They are scored.
+
+TEST 3
+High confidence.
+
+Expected:
+Eligible for automatic recommendation.
+
+TEST 4
+Medium confidence.
+
+Expected:
+Admin review.
+
+TEST 5
+Low confidence.
+
+Expected:
+Not recommended.
+
+TEST 6
+Admin approves candidate.
+
+Expected:
+Student sees approved lecture.
+
+TEST 7
+Admin replaces lecture.
+
+Expected:
+New lecture immediately becomes primary.
+
+TEST 8
+Primary video becomes unavailable.
+
+Expected:
+Backup lecture used.
+
+TEST 9
+Student clicks Watch Here.
+
+Expected:
+Video plays inside PREPORA.
+
+TEST 10
+Student clicks Open in YouTube.
+
+Expected:
+Original YouTube video opens.
+
+TEST 11
+YouTube API unavailable.
+
+Expected:
+Existing approved/cached content continues working.
+
+TEST 12
+Duplicate video discovered.
+
+Expected:
+Duplicate handled safely.
+
+TEST 13
+Wrong chapter video.
+
+Expected:
+Low score/rejected.
+
+TEST 14
+Correct chapter but wrong topic.
+
+Expected:
+Should not outrank exact topic match.
+
+TEST 15
+Admin-approved lecture exists.
+
+Expected:
+Automatic search cannot silently replace it.
+
+============================================================
+46. FINAL ADMIN EXPERIENCE
+============================================================
+
+The ideal admin workflow should take approximately seconds:
+
+Admin opens:
+
+Content
+→ Lecture Discovery
+
+Selects:
+
+Class 11
+Mathematics
+Relations & Functions
+
+Clicks:
+
+[Discover Lectures]
+
+System returns:
+
+5–10 candidates
+
+Admin sees:
+
+Video
+Title
+Channel
+Duration
+Score
+Confidence
+Preview
+
+Admin clicks:
+
+[Approve]
+
+Done.
+
+Student immediately sees:
+
+⭐ Recommended Lecture
+
+[▶ Watch Here]
+[↗ Open in YouTube]
+
+============================================================
+47. FINAL SYSTEM PRINCIPLE
+============================================================
+
+The final architecture is:
+
+YouTube
+↓
+Discovery
+↓
+Filtering
+↓
+Relevance Scoring
+↓
+Confidence
+↓
+Admin Review when needed
+↓
+Approved Recommendation
+↓
+Student
+
+NOT:
+
+YouTube
+↓
+First Search Result
+↓
+Student
+
+The system must be designed for educational accuracy, not just automation.
+
+============================================================
+48. FINAL REPORT
+============================================================
+
+After implementation report:
+
+- Files created
+- Files modified
+- Database models
+- APIs
+- YouTube integration
+- Ranking algorithm
+- Confidence thresholds
+- Admin workflow
+- Caching strategy
+- Backup strategy
+- Security measures
+- API quota protection
+- Tests performed
+- Failed tests
+- Known limitations
+- Production requirements
+
+Never claim a feature is tested if it was not actually tested.
+
+If something could not be verified, clearly state:
+
+NOT VERIFIED.
+
+FINAL REQUIREMENT:
+
+Build a system where PREPORA automatically finds the best relevant YouTube lectures, but never blindly trusts YouTube search results.
+
+Admin must always have the ability to approve, replace, reject, prioritize, and manage the recommended lecture.
+
+The student experience must remain simple and clean.

@@ -518,7 +518,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         userService.updateProfile(updatedUser);
         await syncStudentUserData(data.user.id, data.token);
         fetchSessions(data.token);
-        setAuthModalOpen(false);
+        // Modal lifecycle is handled by caller (AuthModal transitions to create-password)
 
         return {
           success: true,
@@ -580,7 +580,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('prepora_onboarding_completed', 'true');
       setUser(authenticatedUser);
       userService.updateProfile(authenticatedUser);
-      setAuthModalOpen(false);
+      // Modal lifecycle is handled by caller (AuthModal transitions to create-password)
 
       return { success: true, hasPassword: false };
     }

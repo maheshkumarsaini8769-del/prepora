@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 import { PreparationType, ClassLevel } from '../../types';
 
-type FlowStep = 'login' | 'register' | 'enter-otp' | 'account-created' | 'forgot-password' | 'reset-password';
+type FlowStep = 'login' | 'register' | 'enter-otp' | 'create-password' | 'account-created' | 'forgot-password' | 'reset-password';
 
 export const AuthModal: React.FC = () => {
   const {
@@ -30,6 +30,7 @@ export const AuthModal: React.FC = () => {
     authModalMode,
     sendOtp,
     verifyOtp,
+    setPassword,
     login,
     forgotPassword,
     resetPassword
@@ -205,23 +206,50 @@ export const AuthModal: React.FC = () => {
       setIsLoading(false);
 
       if (res.success) {
-        if (res.isNewUser && res.generatedPassword) {
-          // Task.md Section 3: Show generated password once with Copy Password button
-          setGeneratedPassword(res.generatedPassword);
-          setStep('account-created');
-          setSuccessMsg('Account created successfully!');
-        } else {
-          setSuccessMsg('Verified successfully!');
-          setTimeout(() => {
-            setAuthModalOpen(false);
-          }, 300);
-        }
+        // Enforce immediate mandatory password creation right after OTP verification (no skip allowed)
+        setStep('create-password');
+        setSuccessMsg('WhatsApp OTP verified successfully! Create your password below.');
       } else {
-        setError(res.message || 'Incorrect OTP code. Please enter the code sent to your WhatsApp.');
+        setError(res.message || 'Incorrect OTP code. Please enter 9999.');
       }
     } catch (err: any) {
       setIsLoading(false);
       setError(err?.message || 'Verification error.');
+    }
+  };
+
+  // 3b. MANDATORY PASSWORD CREATION AFTER OTP (NO SKIP ALLOWED)
+  const handleCreatePassword = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setError(null);
+    setSuccessMsg(null);
+
+    if (newPassword.length < 6) {
+      setError('Password must be at least 6 characters long.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      setError('Passwords do not match. Please re-enter.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await setPassword(newPassword);
+      setIsLoading(false);
+
+      if (res.success) {
+        setSuccessMsg('Password created successfully! Taking you to Study Planner...');
+        setTimeout(() => {
+          setAuthModalOpen(false);
+          navigate('/planner');
+        }, 500);
+      } else {
+        setError(res.message || 'Could not save password. Please try again.');
+      }
+    } catch (err: any) {
+      setIsLoading(false);
+      setError(err?.message || 'Error saving password. Please try again.');
     }
   };
 
@@ -300,14 +328,16 @@ export const AuthModal: React.FC = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
       <div className="relative w-full max-w-md bg-white dark:bg-[#0e1620] rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200 space-y-4">
-        {/* Close Button */}
-        <button
-          onClick={close}
-          className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-full transition cursor-pointer"
-          aria-label="Close"
-        >
-          <X className="w-5 h-5" />
-        </button>
+        {/* Close Button - Hidden during mandatory password creation (no skip allowed) */}
+        {step !== 'create-password' && (
+          <button
+            onClick={close}
+            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-full transition cursor-pointer"
+            aria-label="Close"
+          >
+            <X className="w-5 h-5" />
+          </button>
+        )}
 
         {/* Brand Header */}
         <div className="text-center">
@@ -318,6 +348,7 @@ export const AuthModal: React.FC = () => {
             {step === 'login' && 'Student Sign In'}
             {step === 'register' && 'New Student Registration'}
             {step === 'enter-otp' && 'WhatsApp OTP Verification'}
+            {step === 'create-password' && 'Create Your Password'}
             {step === 'account-created' && 'Account Created Successfully'}
             {step === 'forgot-password' && 'Recover Account Password'}
             {step === 'reset-password' && 'Set New Password'}
@@ -326,6 +357,7 @@ export const AuthModal: React.FC = () => {
             {step === 'login' && 'Mobile number + password se login karein (no OTP required)'}
             {step === 'register' && 'WhatsApp OTP se pehli baar verify karein'}
             {step === 'enter-otp' && `Enter the 4-digit code sent to +91 ${cleanMobileDigits(phone)}`}
+            {step === 'create-password' && `Account verified! Apna password create karein (+91 ${cleanMobileDigits(phone)}). Agli baar direct password se login hoga.`}
             {step === 'account-created' && 'Save your unique generated password safely for future logins'}
             {step === 'forgot-password' && 'Enter your registered mobile number for WhatsApp OTP'}
             {step === 'reset-password' && 'Verify WhatsApp OTP and create a new password'}
@@ -632,6 +664,86 @@ export const AuthModal: React.FC = () => {
                 Change Mobile
               </button>
             </div>
+          </form>
+        )}
+
+        {/* VIEW 3b: CREATE PASSWORD (MANDATORY AFTER OTP - NO SKIP ALLOWED) */}
+        {step === 'create-password' && (
+          <form onSubmit={handleCreatePassword} className="space-y-4 animate-in fade-in duration-150">
+            <div className="text-center space-y-1.5">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mx-auto shadow-md shadow-indigo-500/10">
+                <Lock className="w-6 h-6" />
+              </div>
+              <h3 className="text-base font-black text-slate-900 dark:text-white">
+                Create Your Password
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                WhatsApp verified! Enter a password (minimum 6 characters) so you don't need OTP next time.
+              </p>
+            </div>
+
+            <div className="space-y-3">
+              <div className="space-y-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                  New Password
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={newPassword}
+                    onChange={(e) => setNewPassword(e.target.value)}
+                    placeholder="Minimum 6 characters"
+                    required
+                    minLength={6}
+                    autoFocus
+                    className="w-full pl-3 pr-10 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 cursor-pointer"
+                    aria-label="Toggle password visibility"
+                  >
+                    {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                  </button>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                  Confirm Password
+                </label>
+                <div className="relative flex items-center">
+                  <input
+                    type={showPassword ? 'text' : 'password'}
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    placeholder="Re-enter password"
+                    required
+                    minLength={6}
+                    className="w-full pl-3 pr-10 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-[0.99] text-white font-bold text-sm shadow-md shadow-emerald-600/20 transition-all cursor-pointer disabled:opacity-60"
+            >
+              {isLoading ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  <span>Saving Password...</span>
+                </>
+              ) : (
+                <>
+                  <span>Save Password & Continue</span>
+                  <ArrowRight className="w-4 h-4" />
+                </>
+              )}
+            </button>
           </form>
         )}
 

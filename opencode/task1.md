@@ -1,1566 +1,1805 @@
-PREPORA — COMPLETE ADMIN PANEL
-BUILD A PRODUCTION-READY ADMIN CONTROL CENTER
+You are working on my existing PREPORA educational website.
+
+EXISTING WEBSITE:
+https://test-green-pi-22.vercel.app/planner
 
 IMPORTANT:
-This is the ADMIN PANEL for the existing PREPORA education platform.
+Do NOT rebuild the entire website from scratch.
 
-Do NOT redesign or break the student-facing PREPORA website.
+First inspect the existing project completely and understand:
 
-Admin Panel must use the same PREPORA design system, but it should feel more powerful and information-dense.
+- Existing React/Vite structure
+- Existing routes
+- Existing authentication
+- Existing planner
+- Existing backend
+- Existing MongoDB/Mongoose models
+- Existing API structure
+- Existing UI/design system
+- Existing responsive behavior
+- Existing video functionality if already implemented
+- Existing student/admin architecture
 
-Build REAL functionality.
-No fake statistics.
-No dummy buttons.
-No placeholder CRUD.
+Then integrate the new features into the existing system.
 
-Use the existing backend, MongoDB models and APIs wherever possible.
-First inspect the existing codebase before creating new models or APIs.
+DO NOT unnecessarily replace working code.
 
-==================================================
-1. ADMIN LOGIN & SECURITY
-==================================================
+DO NOT destroy existing functionality.
 
-Create a separate secure admin authentication system.
+DO NOT create duplicate authentication/planner systems.
 
-Admin login:
+The final product must feel like one polished educational platform called PREPORA.
 
-Email
-Password
-OTP / 2FA if configured
+============================================================
+1. FEATURES TO ADD
+============================================================
 
-Security:
+Add TWO major educational systems:
 
-- Secure password hashing
-- Session management
-- Multiple admin devices
-- Logout current device
-- Logout all devices
-- Rate limiting
-- Server-side authorization
-- Admin route protection
-- Session expiration
-- Suspicious login tracking
+A. FORMULA SHEET
+B. SMART LECTURES
 
-NEVER trust admin permissions from frontend.
+The complete student flow should be:
 
-==================================================
-2. ROLE & PERMISSION MANAGEMENT
-==================================================
+FORMULA SHEET:
 
-Support multiple admin roles.
+Subject
+↓
+Chapter
+↓
+Topic
+↓
+Formula / Short Notes / Important Concepts
 
-SUPER ADMIN
-- Full access
 
-CONTENT ADMIN
-- Questions
-- Chapters
-- Subjects
-- Notes
-- Formulas
-- Flashcards
+LECTURES:
 
-TEST ADMIN
-- Tests
-- Mock tests
-- Test blueprints
-- Papers
-- Answer keys
+Subject
+↓
+Chapter
+↓
+Choose:
 
-REVIEWER
-- Question review
-- Reports
-- Approve/reject content
+[Full Chapter Lecture]
 
-SUPPORT ADMIN
-- Technical reports
-- User support
-- Doubts
-- Messages
+OR
 
-ANALYTICS ADMIN
-- Analytics
-- Reports
-- Performance
+[Topic-wise Lecture]
 
-Each permission should be configurable.
+↓
+Recommended best YouTube lecture
 
-Example:
+Student gets TWO watching options:
 
-Questions:
-View ✓
-Create ✓
-Edit ✓
-Delete ✕
-Publish ✓
+[▶ Watch Here]
 
-==================================================
-3. ADMIN DASHBOARD
-==================================================
+AND
 
-Create a professional command center.
+[↗ Open in YouTube]
 
-Top cards:
+Both options must work.
 
-Total Students
-Active Students
-Questions
+============================================================
+2. IMPORTANT EXISTING VIDEO BEHAVIOR
+============================================================
+
+DO NOT REMOVE THE EXISTING IN-WEBSITE VIDEO EXPERIENCE if it already exists.
+
+The student should still be able to watch the YouTube video inside PREPORA.
+
+Add another option:
+
+[↗ Open in YouTube]
+
+So the final system supports BOTH:
+
+1. Watch inside PREPORA
+2. Open the original video on YouTube
+
+Do not replace one with the other.
+
+============================================================
+3. LECTURE UI BRANDING
+============================================================
+
+PREPORA should have its own clean educational UI.
+
+Do NOT display coaching-platform names around lecture cards.
+
+Do NOT create sections such as:
+
+"PW Lectures"
+"Physics Wallah Lectures"
+"Unacademy Lectures"
+"Vedantu Lectures"
+
+etc.
+
+Instead use neutral PREPORA labels:
+
+"Recommended Lecture"
+
+"Best Match"
+
+"Full Chapter Lecture"
+
+"Topic-wise Lecture"
+
+"Recommended for this Topic"
+
+"Quick Revision"
+
+The actual YouTube player may naturally display YouTube/creator attribution.
+
+DO NOT attempt to remove, fake, or modify required YouTube attribution.
+
+When the student clicks:
+
+[↗ Open in YouTube]
+
+open the ORIGINAL YouTube video.
+
+Therefore, the student can naturally see exactly which creator/channel made the video.
+
+============================================================
+4. LECTURES PAGE
+============================================================
+
+Create a dedicated:
+
+/lectures
+
+page.
+
+Add it to the existing PREPORA sidebar.
+
+Suggested navigation:
+
+Dashboard
+My Planner
+Practice
+Notes
+Lectures
+Formula Sheet
 Tests
-Papers
-Reports
-Pending Reviews
-System Status
+Performance
+Doubt & Help
+
+Use the existing PREPORA visual language.
+
+Do not create an unrelated design.
+
+Use:
+
+- Premium dark UI if existing design is dark
+- Rounded cards
+- Clean typography
+- Smooth animations
+- Responsive layout
+- Proper loading skeletons
+- Empty states
+- Error states
+
+============================================================
+5. LECTURE MAIN FLOW
+============================================================
+
+Student opens:
+
+Lectures
+
+Show:
+
+"Learn smarter with chapter-wise and topic-wise lectures."
 
 Then:
 
-STUDENT ACTIVITY
+Choose Subject
 
-- Daily active users
-- Weekly active users
-- New registrations
-- Tests attempted
-- Questions solved
+[Physics]
+[Chemistry]
+[Mathematics]
+[Biology]
 
-CONTENT HEALTH
+The available subjects should come from the database/curriculum.
 
-- Published questions
-- Draft questions
-- Pending review
-- Reported questions
-- Possible duplicates
+Do NOT hard-code the UI so that only these four subjects are possible.
 
-TEST ACTIVITY
+Architecture should support future subjects.
 
-- Tests created
-- Tests attempted
-- Average score
-- Average accuracy
-- Submission failures
+============================================================
+6. CHAPTER SELECTION
+============================================================
 
-SYSTEM HEALTH
+After selecting a subject:
 
-- API status
-- Database status
-- Background jobs
-- Failed jobs
-- Error rate
+Example:
 
-IMPORTANT:
-All numbers must come from real database data.
+Mathematics
 
-==================================================
-4. QUESTION MANAGEMENT
-==================================================
+Show:
 
-Main section:
+Mathematics Chapters
 
-Questions
+1. Relations & Functions
+2. Trigonometric Functions
+3. Complex Numbers
+4. Linear Inequalities
+5. Permutations & Combinations
+6. Binomial Theorem
+7. Sequences & Series
+8. Straight Lines
+9. Conic Sections
+10. Statistics
+11. Probability
 
-Features:
+Use the actual configured curriculum.
 
-- Search
-- Filter
-- Sort
-- Pagination
-- Bulk actions
+Support:
 
-Filters:
+Class 9
+Class 10
+Class 11
+Class 12
 
-Exam
+and future classes.
+
+The class should be part of the content structure.
+
+============================================================
+7. CHAPTER PAGE
+============================================================
+
+After selecting:
+
+Mathematics
+→ Relations & Functions
+
+show:
+
+Relations & Functions
+
+Class 11
+Mathematics
+Chapter 1
+
+Then show TWO main options:
+
+--------------------------------------------
+
+[▶ FULL CHAPTER LECTURE]
+
+Watch the complete chapter in one lecture.
+
+--------------------------------------------
+
+[☰ TOPIC-WISE LECTURES]
+
+Choose exactly what you want to learn.
+
+--------------------------------------------
+
+Below this show:
+
+Chapter Topics
+
+1. Introduction
+2. Relations
+3. Types of Relations
+4. Functions
+5. Domain
+6. Range
+7. Types of Functions
+8. One-One Function
+9. Many-One Function
+10. Onto Function
+11. Into Function
+12. Composite Function
+13. Invertible Function
+
+The topics must come from the database.
+
+============================================================
+8. FULL CHAPTER LECTURE
+============================================================
+
+When the student selects:
+
+Full Chapter Lecture
+
+show the best available complete chapter lecture.
+
+Example:
+
+--------------------------------------------
+Recommended Lecture
+
+Relations & Functions
+Full Chapter Lecture
+
+Class 11 • Mathematics
+Hindi
+
+[YouTube Thumbnail]
+
+Duration: 3h 28m
+
+[▶ Watch Here]
+
+[↗ Open in YouTube]
+--------------------------------------------
+
+The selected video must actually correspond to the complete chapter.
+
+Do NOT select a random topic video.
+
+============================================================
+9. TOPIC-WISE LECTURES
+============================================================
+
+When the student chooses:
+
+Topic-wise Lectures
+
+show:
+
+Chapter Topics
+
+[Domain]
+[Range]
+[Types of Functions]
+[One-One Function]
+[Many-One Function]
+[Onto Function]
+[Composite Function]
+etc.
+
+When the student clicks:
+
+Domain
+
+show:
+
+Domain of a Function
+
+Recommended Lecture
+
+[Thumbnail]
+
+[▶ Watch Here]
+
+[↗ Open in YouTube]
+
+Then optionally show:
+
+More Recommended Lectures
+
+But keep recommendations limited and useful.
+
+Do NOT turn PREPORA into a YouTube clone.
+
+============================================================
+10. WATCH HERE
+============================================================
+
+The existing in-website video behavior must remain.
+
+When student clicks:
+
+[▶ Watch Here]
+
+play the selected YouTube video inside PREPORA using the official YouTube embed/player mechanism.
+
+Use a responsive 16:9 player.
+
+It must work correctly on:
+
+- Android
+- iPhone
+- Tablet
+- Desktop
+
+Do NOT download the video.
+
+Do NOT re-host the video.
+
+Do NOT proxy the audiovisual content through our server.
+
+Use the official YouTube player/embed.
+
+============================================================
+11. OPEN IN YOUTUBE
+============================================================
+
+Every lecture must also have:
+
+[↗ Open in YouTube]
+
+This must open the ORIGINAL YouTube video.
+
+Example:
+
+https://www.youtube.com/watch?v=VIDEO_ID
+
+On mobile, use normal platform behavior so the YouTube app can open when available.
+
+Otherwise open YouTube in the browser.
+
+The student should then see the normal YouTube interface including:
+
+- Video title
+- Creator/channel name
+- YouTube controls
+- Comments
+- Like/share
+- Normal YouTube experience
+
+Do NOT hide creator attribution.
+
+Do NOT replace the original YouTube page with a fake PREPORA page.
+
+============================================================
+12. NO COACHING BRAND NAMES OUTSIDE VIDEO
+============================================================
+
+PREPORA's own UI must NOT contain the name of the video creator/coaching platform as a promotional label.
+
+For example, do NOT show:
+
+"PW Recommended"
+"Unacademy Recommended"
+"Physics Wallah Section"
+
+Instead:
+
+"Recommended Lecture"
+"Best Match"
+"Full Chapter Lecture"
+
+The official YouTube page/player may naturally show the creator/channel name.
+
+That is expected.
+
+============================================================
+13. AUTOMATIC YOUTUBE DISCOVERY
+============================================================
+
+Do NOT manually add thousands of videos.
+
+Build a YouTube discovery system.
+
+Use the YouTube Data API to search for relevant educational videos.
+
+Search dynamically using:
+
 Class
-Board
 Subject
 Chapter
 Topic
-Difficulty
-Question Type
-Source
-Status
-Created Date
-Updated Date
-
-Question statuses:
-
-Draft
-Pending Review
-Approved
-Published
-Rejected
-Archived
-
-Actions:
-
-Create
-Edit
-Preview
-Duplicate
-Archive
-Publish
-Unpublish
-Report
-View History
-
-==================================================
-5. QUESTION CREATOR
-==================================================
-
-Create professional question editor.
-
-Fields:
-
-Exam
-Class
-Board
-Subject
-Chapter
-Topic
-Question Type
-Difficulty
-Source
-Year
 Language
-Tags
+Lecture type
 
-Question:
+Examples:
 
-Question text
+"Class 11 Mathematics Relations Functions full chapter Hindi"
+
+"Class 11 Mathematics Domain Range Hindi"
+
+"Class 12 Physics Ray Optics full chapter Hindi"
+
+"Class 10 Science Electricity Hindi"
+
+The system should automatically find relevant videos.
+
+============================================================
+14. ONLY USE RELEVANT VIDEOS
+============================================================
+
+Do NOT simply select the first search result.
+
+Filter and rank results.
+
+Prefer videos that have:
+
+- Correct class
+- Correct subject
+- Correct chapter
+- Exact topic match
+- Hindi/Hinglish where appropriate
+- Clear educational explanation
+- Appropriate duration
+- Good relevance
+- Good engagement
+- Good educational quality
+- Public availability
+- Embeddable availability
+- Useful/recent content where relevant
+
+Avoid:
+
+- Shorts
+- Unrelated videos
+- Clickbait
+- Promotional-only videos
+- Wrong class
+- Wrong subject
+- Wrong chapter
+- Wrong topic
+- Random live streams
+- Entertainment videos
+- Poor-quality matches
+
+============================================================
+15. BEST VIDEO RANKING
+============================================================
+
+Create a ranking/scoring system.
+
+Example:
+
+Exact topic match
++35
+
+Exact chapter match
++30
+
+Correct subject
++25
+
+Correct class
++25
+
+Correct language
++15
+
+Educational relevance
++15
+
+Suitable duration
++10
+
+Good engagement
++10
+
+Recent/useful content
++5
+
+Embeddable
+REQUIRED
+
+Do not select a video just because it has the highest views.
+
+Educational relevance must be more important than popularity.
+
+============================================================
+16. FULL CHAPTER DETECTION
+============================================================
+
+For FULL_CHAPTER searches, prioritize:
+
+"full chapter"
+"complete chapter"
+"one shot"
+"complete lecture"
+
+But do NOT trust the title alone.
+
+Verify that the result is actually related to the selected chapter.
+
+For example:
+
+If the chapter is:
+
+Relations & Functions
+
+do not select:
+
+Only Domain and Range
+
+as the full chapter lecture.
+
+That should only be used as a topic lecture.
+
+============================================================
+17. TOPIC DETECTION
+============================================================
+
+For topic:
+
+Domain and Range
+
+prefer:
+
+Domain and Range lectures
+
+Do not select:
+
+Full Mathematics course
+Unrelated Functions lecture
+Random Class 12 lecture
+
+unless it genuinely explains the selected topic.
+
+============================================================
+18. ADMIN OVERRIDE
+============================================================
+
+Automatic YouTube discovery is useful, but ADMIN must have complete control.
+
+Admin should be able to:
+
+- Add lecture
+- Edit lecture
+- Delete lecture
+- Replace lecture
+- Set recommended lecture
+- Set backup lecture
+- Disable lecture
+- Mark featured
+- Approve automatically discovered lecture
+- Reject automatically discovered lecture
+
+Admin should be able to override automatic selection.
+
+============================================================
+19. ADMIN ADD LECTURE
+============================================================
+
+Admin form:
+
+Class
+Subject
+Chapter
+Topic
+Lecture Type
 
 Options:
 
-A
-B
-C
-D
+FULL_CHAPTER
+TOPIC
 
-Correct Answer
-
-Solution
-
-Detailed Explanation
-
-Concept
-
-Important Point
-
-Shortcut
-
-Common Mistake
-
-Exam Tip
-
-Recommended Time
-
-Marks
-
-Negative Marks
-
-Question status.
-
-Support:
-
-Image
-Equation
-Chemical formula
-Math notation
-
-Preview exactly how student will see it.
-
-==================================================
-6. QUESTION QUALITY CONTROL
-==================================================
-
-Every new question can go through:
-
-Draft
-↓
-Review
-↓
-Approved
-↓
-Published
-
-Reviewer sees:
-
-Question
-Options
-Answer
-Solution
-Tags
-Difficulty
-Duplicate warnings
-
-Actions:
-
-Approve
-Reject
-Request Changes
-
-Reject reason:
-
-Wrong Answer
-Wrong Explanation
-Ambiguous
-Duplicate
-Typo
-Incorrect Concept
-Poor Quality
-Other
-
-==================================================
-7. DUPLICATE DETECTION
-==================================================
-
-Before publishing:
-
-Run:
-
-Exact duplicate check
-Similar question check
-Semantic similarity check
-
-Show:
-
-Possible Duplicate
-
-Existing question
-New question
-Similarity score
-
-Admin can:
-
-Keep New
-Merge
-Edit
-Ignore
-
-Never automatically delete content.
-
-==================================================
-8. QUESTION VERSION HISTORY
-==================================================
-
-Every published question must support versioning.
-
-Example:
-
-Question #1024
-
-Version 1
-Version 2
-Version 3
-
-Show:
-
-Changed By
-Changed Date
-What Changed
-
-Example:
-
-Correct Answer:
-B → C
-
-Explanation:
-Updated
-
-IMPORTANT:
-
-Old test attempts must remain linked to the old question version.
-
-Never destroy historical attempt data.
-
-==================================================
-9. BULK IMPORT
-==================================================
-
-Support:
-
-CSV
-Excel XLSX
-
-Flow:
-
-Upload
-↓
-Parse
-↓
-Validate
-↓
-Duplicate Check
-↓
-Preview
-↓
-Import
-
-Show:
-
-Total rows
-Valid
-Invalid
-Duplicates
-Warnings
-
-Allow:
-
-Import valid rows
-Download error report
-Cancel
-
-Never partially corrupt the database.
-
-==================================================
-10. BULK EXPORT
-==================================================
-
-Export:
-
-Questions
-Tests
-Papers
-Users
-Reports
-Analytics
-
-Filters should apply before export.
-
-Support:
-
-CSV
-XLSX
-
-==================================================
-11. SUBJECT / CHAPTER / TOPIC MANAGEMENT
-==================================================
-
-Create hierarchy:
-
-Exam
-→ Class
-→ Board
-→ Subject
-→ Chapter
-→ Topic
-
-Admin can:
-
-Create
-Edit
-Reorder
-Archive
-Publish
-
-Example:
-
-JEE
-→ Class 11
-→ Physics
-→ Kinematics
-→ Motion in One Dimension
-
-Keep content hierarchy reusable across:
-
-Practice
-Tests
-PYQs
-Analytics
-Weakness Engine
-Revision
-
-==================================================
-12. PAPER LIBRARY
-==================================================
-
-Manage:
-
-JEE Papers
-NEET Papers
-CBSE Papers
-RBSE Papers
-Model Papers
-Sample Papers
-
-Fields:
-
-Exam
-Year
-Session/Shift
-Class
-Subject
-Paper
-Answer Key
-Source
-Status
-
-Actions:
-
-Upload
-Preview
-Publish
-Unpublish
-Archive
-Edit Metadata
-
-IMPORTANT:
-Only host/reproduce papers where PREPORA has the required rights or permission.
-
-Otherwise store/link the authorized source appropriately.
-
-==================================================
-13. TEST MANAGEMENT
-==================================================
-
-Create:
-
-Full Mock
-Subject Test
-Chapter Test
-Topic Test
-Mini Test
-Custom Test
-Daily Test
-
-Fields:
-
-Test Name
-Exam
-Class
-Subjects
-Chapters
-Topics
-Question Count
-Difficulty
-Duration
-Marks
-Negative Marking
-Blueprint
-Status
-
-Statuses:
-
-Draft
-Scheduled
-Published
-Archived
-
-==================================================
-14. TEST BLUEPRINT BUILDER
-==================================================
-
-Admin must be able to define exact question distribution.
-
-Example:
-
-Physics
-Mechanics — 8
-Electrodynamics — 7
-Modern Physics — 5
-Other — 5
-
-Difficulty:
-
-Easy 30%
-Medium 50%
-Hard 20%
-
-Source:
-
-PYQ 40%
-Original 60%
-
-The engine should try to satisfy the blueprint.
-
-If insufficient questions exist:
-
-Show:
-
-"Only 18 suitable questions available; 25 requested."
-
-Never silently use unrelated questions.
-
-==================================================
-15. TEST SCHEDULING
-==================================================
-
-Admin can schedule tests.
-
-Fields:
-
-Start date/time
-End date/time
-Duration
-Availability
-
-Optional:
-
-Class restriction
-Exam restriction
-User group
-
-Show upcoming tests.
-
-==================================================
-16. TEST MONITORING
-==================================================
-
-During active tests show:
-
-Students Started
-Students Completed
-Students In Progress
-Average Score
-Average Accuracy
-Submission Failures
-
-Do NOT expose unnecessary personal data.
-
-==================================================
-17. TEST RESULT ANALYTICS
-==================================================
-
-Admin can inspect aggregate performance.
-
-Show:
-
-Average Score
-Median Score
-Accuracy
-Correct
-Wrong
-Unattempted
-Average Time
-
-Breakdown:
-
-Subject
-Chapter
-Topic
-Difficulty
-Question
-
-Find:
-
-Very easy questions with unusually low accuracy
-Questions with unusually high wrong rate
-Time-draining questions
-Possible ambiguous questions
-
-These should be signals for review, not automatic accusations.
-
-==================================================
-18. STUDENT MANAGEMENT
-==================================================
-
-Students section.
-
-Search by:
-
-Name
-Email
-Class
-Exam
-Target year
-
-Profile:
-
-Basic account information
-Selected exam
-Class
-Board
-Progress
-Tests
-Accuracy
-Activity
-
-Actions:
-
-View Profile
-Suspend
-Restore
-Reset relevant account access
-View sessions where permitted
-
-Do NOT allow admins to see passwords.
-
-==================================================
-19. STUDENT PROGRESS
-==================================================
-
-Student profile should show:
-
-Questions attempted
-Tests attempted
-Average accuracy
-Study time
-Streak
-Strong subjects
-Weak subjects
-Recent activity
-Chapter mastery
-
-Do not expose private data beyond admin permissions.
-
-==================================================
-20. WEAKNESS ENGINE ADMIN
-==================================================
-
-Admin can inspect the logic powering:
-
-Fix My Weakness
-
-Show:
-
-Weak topic
-Accuracy
-Attempts
-Repeated mistakes
-Average time
-Difficulty performance
-
-Allow configuration of thresholds.
-
-Example:
-
-Weak:
-< 50%
-
-Needs Improvement:
-50–70%
-
-Strong:
-> 70%
-
-Do not hardcode if these values need future adjustment.
-
-==================================================
-21. MISTAKE BOOK MANAGEMENT
-==================================================
-
-Admin analytics only.
-
-Show aggregate:
-
-Most common mistake
-
-Calculation Error
-Concept Not Clear
-Formula Forgotten
-Misread Question
-Time Issue
-Wrong Option
-Guess
-Careless Mistake
-
-Use this to improve content.
-
-==================================================
-22. REVISION SYSTEM
-==================================================
-
-Manage spaced revision rules.
-
-Default:
-
-Day 1
-Day 3
-Day 7
-Day 14
-
-Admin can configure intervals.
-
-Track:
-
-Due revisions
-Completed revisions
-Skipped
-Success rate
-
-==================================================
-23. FORMULA & FLASHCARD MANAGEMENT
-==================================================
-
-Admin can create/edit:
-
-Formula Cards
-Flashcards
-
-Fields:
-
-Subject
-Chapter
-Topic
-Question/front
-Answer/back
-Explanation
-Difficulty
-Tags
-
-Preview student view.
-
-==================================================
-24. NOTES / STUDY MATERIAL
-==================================================
-
-Manage:
-
-Chapter notes
-Revision notes
-Formula sheets
-Study resources
-
-Fields:
+YouTube URL
 
 Title
-Subject
-Chapter
-Topic
-Exam
-Class
-Content
-Attachment
-Status
 
-Statuses:
+Language
 
-Draft
-Review
-Published
-Archived
+Description
 
-==================================================
-25. AI QUESTION GENERATION
-==================================================
+Priority
 
-Create:
+Featured
 
-AI Question Generator
+Active
 
-Flow:
+Recommended
 
-Select:
+Admin only needs to paste the YouTube URL.
 
-Exam
-Class
-Subject
-Chapter
-Topic
-Difficulty
-Question count
-Question type
+The system extracts the video ID.
 
-Generate
+Do NOT accept arbitrary iframe HTML.
 
-↓
-AI Draft Queue
+Store only the validated YouTube video ID.
 
-↓
-Duplicate Detection
+============================================================
+20. LECTURE DATABASE
+============================================================
 
-↓
-Quality Checks
+Create a model similar to:
 
-↓
-Human Review
+Lecture {
+    _id,
 
-↓
+    classLevel,
+
+    subjectId,
+
+    chapterId,
+
+    topicId,
+
+    type,
+
+    youtubeVideoId,
+
+    title,
+
+    description,
+
+    thumbnail,
+
+    duration,
+
+    language,
+
+    source,
+
+    priority,
+
+    isFeatured,
+
+    isRecommended,
+
+    isActive,
+
+    approvalStatus,
+
+    createdAt,
+
+    updatedAt
+}
+
+type:
+
+FULL_CHAPTER
+TOPIC
+
+source:
+
+YOUTUBE
+
+approvalStatus:
+
+AUTO_DISCOVERED
+PENDING_REVIEW
+APPROVED
+REJECTED
+
+============================================================
+21. AUTOMATIC DISCOVERY + ADMIN APPROVAL
+============================================================
+
+For production quality:
+
+New automatically discovered videos should preferably enter:
+
+PENDING_REVIEW
+
+or be automatically accepted only when the ranking confidence is very high.
+
+Admin can then:
+
 Approve
+Reject
+Replace
 
-↓
-Publish
+Once approved, store the video ID and use it without searching YouTube again every time.
+
+============================================================
+22. YOUTUBE API CACHING
+============================================================
 
 IMPORTANT:
 
-AI-generated questions must NEVER automatically become trusted published content without configured review/quality controls.
+Do NOT call the YouTube Search API every time a student opens a topic.
 
-Store:
+Flow:
 
-AI job ID
-Model/provider
-Prompt metadata where appropriate
-Generation timestamp
-Generated questions
-Review status
-Reviewer
-Final status
+Student opens topic
 
-Do not expose API keys.
+↓
 
-==================================================
-26. AI QUESTION QUALITY CHECK
-==================================================
+Backend checks database
 
-For generated questions check:
+↓
 
-Missing answer
-Multiple correct options
-No correct option
-Option duplication
-Question duplication
-Explanation mismatch
-Difficulty mismatch
-Missing topic
-Invalid formatting
+Approved lecture exists?
 
-Flag questionable questions.
+YES
+↓
+Return existing lecture
 
-==================================================
-27. REPORT MANAGEMENT
-==================================================
+NO
+↓
+Check cached discovery
 
-Central:
+If no suitable cached result:
 
-Reports Center
+YouTube API search
 
-Question Reports
-Technical Reports
-Content Reports
-User Reports
+↓
 
-Filters:
+Rank results
 
-Type
-Status
-Severity
-Date
+↓
 
-Actions:
+Save suitable result
 
-Open
-Assign
-Resolve
-Reject
-Close
+↓
 
-==================================================
-28. TECHNICAL ERROR CENTER
-==================================================
+Return result
 
-Show:
+This reduces:
 
-API errors
-Test submission failures
-Login failures
-Sync failures
-Background job failures
+- API quota usage
+- Server load
+- Response time
 
-Fields:
+============================================================
+23. YOUTUBE API KEY
+============================================================
 
-Error ID
-Feature
-Severity
-Timestamp
-Status
+Keep YouTube API credentials server-side.
 
-Do NOT expose sensitive secrets or tokens in logs.
+Use:
 
-==================================================
-29. SYSTEM STATUS
-==================================================
+YOUTUBE_API_KEY=
 
-Dashboard:
+in backend environment variables.
 
-Backend
-Database
-Authentication
-Storage
-Email/OTP
-AI service
-Background jobs
+NEVER expose the secret unnecessarily in frontend code.
 
-Status:
+NEVER commit it to GitHub.
 
-Operational
-Degraded
-Down
+Update:
 
-Include:
+.env.example
 
-Last checked
-Safe error message
+with:
 
-==================================================
-30. ADMIN AUDIT LOG
-==================================================
+YOUTUBE_API_KEY=
 
-Record important admin actions.
+but no real key.
+
+============================================================
+24. FORMULA SHEET
+============================================================
+
+Create a dedicated:
+
+/formula-sheet
+
+page.
+
+Add to sidebar:
+
+Formula Sheet
+
+Student flow:
+
+Subject
+↓
+Chapter
+↓
+Topic
+↓
+Formula
+
+============================================================
+25. FORMULA SHEET UI
+============================================================
 
 Example:
 
-Admin:
-Content Admin
+Formula Sheet
 
-Action:
-Edited Question
+Choose Subject:
 
-Entity:
-Question #1024
+[Physics]
+[Chemistry]
+[Mathematics]
+[Biology]
 
-Before:
-Answer B
+Then:
 
-After:
-Answer C
+Choose Chapter
 
-Date:
-14 Sep 2026
+Then:
 
-Track:
+Choose Topic
 
-Create
-Edit
-Delete/archive
-Publish
-Unpublish
-Approve
-Reject
-Import
-Export
-Settings changes
-Permission changes
+Then show formula cards.
 
-Audit logs should be append-only from normal UI.
+Example:
 
-==================================================
-31. ADMIN NOTIFICATIONS
-==================================================
+-----------------------------------------
 
-Show notifications for:
+Quadratic Formula
 
-New question reports
-Pending reviews
-Import failures
-System errors
-Test submission failures
-AI generation completed
-Scheduled test
-Critical system issues
+x = (-b ± √(b² - 4ac)) / 2a
 
-Use severity levels.
+Used for:
+Solving quadratic equations.
 
-==================================================
-32. CONTENT SEARCH
-==================================================
+Important:
+★★★★★
 
-Global admin search.
+[Copy Formula]
 
-Search across:
+-----------------------------------------
 
-Questions
-Users
-Tests
-Papers
-Chapters
-Reports
-Notes
-Flashcards
+Use KaTeX or MathJax for proper mathematical rendering.
+
+Do NOT display complex formulas as broken plain text.
+
+============================================================
+26. FORMULA DATABASE
+============================================================
+
+Create:
+
+Formula {
+    _id,
+
+    classLevel,
+
+    subjectId,
+
+    chapterId,
+
+    topicId,
+
+    title,
+
+    formula,
+
+    explanation,
+
+    example,
+
+    tags,
+
+    importance,
+
+    order,
+
+    isActive,
+
+    createdAt,
+
+    updatedAt
+}
+
+============================================================
+27. FORMULA SEARCH
+============================================================
+
+Add a search box:
+
+Search formulas, topics, chapters...
+
+Search should support:
+
+Formula name
+Topic
+Chapter
+Subject
+Tags
 
 Example:
 
 Search:
-"Kinematics"
 
-Results grouped by:
+"quadratic"
 
-Questions
-Topics
-Tests
-Reports
+Results:
 
-==================================================
-33. ADMIN DASHBOARD WIDGETS
-==================================================
+Mathematics
+→ Quadratic Equations
 
-Allow admin dashboard widgets to show:
+Formula:
 
-Today's registrations
-Today's tests
-Pending reviews
-Reported questions
-AI drafts
-System health
-Top weak topics
-Most attempted chapters
+x = (-b ± √(b² - 4ac)) / 2a
 
-Admin should be able to hide/reorder non-critical widgets if architecture allows.
+============================================================
+28. QUICK REVISION
+============================================================
 
-==================================================
-34. DATA SAFETY
-==================================================
+Add:
 
-NEVER hard delete important educational history.
+Quick Revision
 
-Prefer:
+Example:
 
-Archive
-Unpublish
-Deactivate
+Mathematics
+→ Relations & Functions
+→ Quick Revision
 
-Historical:
+Show the most important formulas/concepts on one page.
 
-Test attempts
-Answers
-Scores
-Question versions
+Each chapter should have:
 
-must remain intact.
+Important formulas
+Important definitions
+Important identities
+Important shortcuts
 
-==================================================
-35. DATABASE BACKUP / DATA MANAGEMENT
-==================================================
+Allow:
 
-Provide safe admin controls for:
+[Copy]
 
-Backup status
-Export data
-Import data
+and if practical:
 
-Do NOT expose raw MongoDB credentials.
+[Print]
+[Download PDF]
 
-Do not allow dangerous database operations from normal admin UI.
+============================================================
+29. FORMULA + LECTURE CONNECTION
+============================================================
 
-==================================================
-36. ADMIN SETTINGS
-==================================================
+Connect Formula Sheet and Lectures.
 
-Settings:
+Every topic should ideally have:
 
-General
-Authentication
-Exam configuration
-Question settings
-Test settings
-Negative marking
-Revision intervals
-Difficulty thresholds
-Ad configuration
-Notification settings
-AI settings
-Maintenance mode
-Feature flags
+[View Formula]
 
-IMPORTANT:
+and:
 
-Exam patterns should be configurable.
+[Watch Lecture]
 
-Do not hardcode JEE/NEET question counts permanently.
+Example:
 
-==================================================
-37. AD MANAGEMENT
-==================================================
+Domain & Range
 
-Since PREPORA has free users:
+[View Formula/Concept]
 
-Admin can configure:
+[Watch Topic Lecture]
 
-Ad enabled/disabled
-Placement
-Frequency limit
-Premium ad-free behavior
+This makes PREPORA a connected learning system instead of separate pages.
 
-Important:
+============================================================
+30. ADD TO PLANNER
+============================================================
 
-Maximum free-user ad frequency must be enforced server-side.
+Integrate with the existing planner.
 
-Never place ads:
+On lecture/topic/formula pages add:
 
-Inside question options
-Over active test controls
-In a way that interferes with answering
+[Add to Planner]
 
-==================================================
-38. SUBSCRIPTION ARCHITECTURE
-==================================================
+Example:
 
-Keep subscription architecture optional for future.
+Student is viewing:
 
-Plans:
+Relations & Functions
 
-Free
-Premium
+Click:
 
-Admin can manage:
+[Add Revision to Planner]
 
-Plan name
-Price
-Features
-Status
+Create a planner task:
 
-Do not make core educational content dependent on premium unless explicitly configured.
+"Revise Relations & Functions"
 
-==================================================
-39. FEATURE FLAGS
-==================================================
+with appropriate subject/chapter/topic information.
 
-Create feature flag system.
+Do NOT create a second planner system.
 
-Examples:
+Use the existing planner.
 
-AI Doubt
-Community
-Parent Dashboard
-Flashcards
-Adaptive Practice
-Smart Revision
+============================================================
+31. STUDENT PROGRESS
+============================================================
 
-Admin can:
+Track useful learning events.
 
-Enable
-Disable
+Possible events:
 
-Prefer gradual rollout capability.
+LECTURE_OPENED
+LECTURE_PLAY_CLICKED
+YOUTUBE_OPENED
+TOPIC_VIEWED
+FORMULA_VIEWED
+FORMULA_COPIED
+CHAPTER_VIEWED
+REVISION_ADDED_TO_PLANNER
 
-==================================================
-40. ADMIN HELP / DOCUMENTATION
-==================================================
+Do NOT falsely claim exact YouTube watch percentage unless technically reliable.
 
-Create simple Help section:
+For example:
 
-How to create questions
-How to approve questions
-How to import Excel
-How duplicate detection works
-How to create tests
-How to interpret reports
+"Student opened lecture"
 
-==================================================
-41. ADMIN UI DESIGN
-==================================================
+is valid.
 
-Use PREPORA design language.
+But:
 
-Desktop-first but responsive.
+"Student watched 87%"
 
-Sidebar:
+should NOT be stored unless the implementation can reliably determine it.
 
-Dashboard
-Students
-Content
-Questions
-Tests
-Papers
-AI
-Analytics
-Reports
-System
-Settings
+============================================================
+32. DAILY ACTIVITY
+============================================================
 
-Use nested menus where required.
+Integrate educational activity with the existing student daily stream.
 
-Design:
+Example:
 
-Clean
-Premium
-Professional
-Information-dense but readable
+05 October
 
-Use:
+09:10
+Viewed Mathematics → Relations & Functions
 
-Cards
-Tables
-Filters
-Drawers
-Modal editors
-Tabs
-Charts
+09:15
+Opened Domain & Range lecture
 
-Avoid:
+09:40
+Copied Quadratic Formula
 
-Excessive gradients
-Excessive glassmorphism
-Huge decorative graphics
-Unnecessary animations
+10:00
+Added Relations & Functions revision to planner
 
-Admin panel should feel like a serious control center.
+This should appear in the student's own activity stream.
 
-==================================================
-42. RESPONSIVE ADMIN
-==================================================
+Admin should be able to see appropriate student activity according to the existing admin permissions.
 
-Desktop:
+============================================================
+33. SEARCH
+============================================================
 
-Full sidebar + tables.
+Create a global educational search.
 
-Tablet:
+Search:
 
-Collapsible sidebar.
-
-Mobile:
-
-Sidebar → drawer
-Tables → responsive cards
-Filters → bottom sheet
-Actions → overflow menu
-
-Admin should still be usable from mobile.
-
-==================================================
-43. PERFORMANCE
-==================================================
-
-Do NOT load thousands of records at once.
-
-Use:
-
-Pagination
-Server-side filtering
-Server-side sorting
-Lazy loading
-Debounced search
-Virtualized lists where useful
-
-Charts should request aggregated data instead of downloading raw records.
-
-==================================================
-44. API ARCHITECTURE
-==================================================
-
-Use the existing backend architecture.
-
-Create secure endpoints for:
-
-Admin authentication
-Users
-Questions
-Question versions
-Question reports
 Subjects
 Chapters
 Topics
-Tests
-Test attempts
-Papers
-Answer keys
-AI jobs
-Imports
-Exports
-Audit logs
-Technical reports
-System health
-Settings
+Formulas
+Lectures
 
-Every endpoint must verify authorization.
+Example:
 
-==================================================
-45. VALIDATION
-==================================================
+Search:
 
-Validate:
+"Newton"
 
-Frontend
-Backend
-Database
+Results:
 
-Never rely only on frontend validation.
+Physics
+→ Laws of Motion
+→ Newton's Laws
+→ Important formulas
+→ Recommended lectures
 
-For important actions:
+Another:
+
+Search:
+
+"Integration"
+
+Results:
+
+Mathematics
+→ Integrals
+→ Formula Sheet
+→ Topic-wise lectures
+
+============================================================
+34. MOBILE EXPERIENCE
+============================================================
+
+Mobile-first design is mandatory.
+
+Lecture flow on mobile:
+
+Lectures
+
+↓
+
+Select Subject
+
+↓
+
+Select Chapter
+
+↓
+
+Full Chapter / Topic-wise
+
+↓
+
+Select Topic
+
+↓
+
+Lecture Card
+
+↓
+
+[▶ Watch Here]
+[↗ YouTube]
+
+The embedded video must remain responsive.
+
+No horizontal overflow.
+
+Formula cards must fit small screens.
+
+Buttons must be touch-friendly.
+
+============================================================
+35. DESKTOP EXPERIENCE
+============================================================
+
+Desktop should use the available screen properly.
+
+Suggested layout:
+
+Left:
+Chapter/Topic navigation
+
+Right:
+Lecture/content
+
+or:
+
+Subject → Chapter → Topic navigation
+
+Use the existing PREPORA design language.
+
+Do not make the page unnecessarily crowded.
+
+============================================================
+36. EMPTY STATES
+============================================================
+
+If no lecture exists:
+
+"No suitable lecture found yet."
+
+Then:
+
+[Search Again]
+
+or:
+
+"Admin can add a recommended lecture."
+
+Do NOT show random unrelated videos.
+
+If no formula exists:
+
+"No formula has been added for this topic yet."
+
+============================================================
+37. ERROR HANDLING
+============================================================
+
+If YouTube API fails:
+
+Do not break PREPORA.
+
+If cached approved lecture exists:
+
+show cached lecture.
+
+If no cached lecture exists:
+
+show a clean error/empty state.
+
+Example:
+
+"Lecture temporarily unavailable."
+
+Admin can manually add a YouTube lecture.
+
+============================================================
+38. SECURITY
+============================================================
+
+Apply the existing PREPORA security architecture.
+
+Students can only access permitted content.
+
+Admin content APIs require server-side admin authorization.
+
+Never trust:
+
+studentId
+role
+admin=true
+
+from the frontend.
+
+YouTube API credentials remain server-side.
+
+Admin actions must be authorized on the backend.
+
+============================================================
+39. DATABASE STRUCTURE
+============================================================
+
+Architecture should support:
+
+Course/Class
+    ↓
+Subject
+    ↓
+Chapter
+    ↓
+Topic
+    ↓
+Formula
+    ↓
+Lecture
+
+Example:
+
+Class 11
+→ Mathematics
+→ Relations & Functions
+→ Domain and Range
+→ Formula
+→ Recommended Lecture
+
+Do NOT duplicate subject/chapter/topic names unnecessarily in every collection if IDs can safely reference the canonical content structure.
+
+============================================================
+40. CONTENT SEEDING
+============================================================
+
+Create a proper content-seeding system.
+
+Seed:
+
+Classes
+Subjects
+Chapters
+Topics
+Formulas
+
+Then use the YouTube discovery service to find suitable lectures.
+
+Do NOT hard-code hundreds of YouTube URLs inside React components.
+
+Content belongs in the database.
+
+============================================================
+41. ADMIN CONTENT MANAGEMENT
+============================================================
+
+Admin panel should have:
+
+Content Management
+
+├── Classes
+├── Subjects
+├── Chapters
+├── Topics
+├── Formulas
+└── Lectures
+
+Admin can:
 
 Create
 Edit
-Publish
-Delete/archive
-Import
-Export
-Change permissions
+Delete
+Reorder
+Enable
+Disable
 
-require appropriate permission checks.
+content.
 
-==================================================
-46. AUDITABLE IMPORTANT ACTIONS
-==================================================
+For lectures:
 
-Every sensitive admin operation should generate an audit record.
+Auto-discovered
+Pending Review
+Approved
+Rejected
+Featured
+Recommended
+Backup
 
-Especially:
+============================================================
+42. YOUTUBE RULES
+============================================================
 
-Question answer changes
-Question deletion/archive
-Publishing
-Test changes
-Student suspension
-Permission changes
-Settings changes
-Bulk imports
-Bulk edits
+Use official YouTube functionality.
 
-==================================================
-47. FINAL ADMIN SIDEBAR
-==================================================
+DO NOT:
 
-FINAL STRUCTURE:
+- Download YouTube videos
+- Re-host YouTube videos
+- Store video files
+- Strip creator attribution
+- Fake ownership
+- Circumvent YouTube restrictions
+- Proxy the video through PREPORA
 
-🏠 Dashboard
+For "Watch Here":
 
-👨‍🎓 Students
-   - All Students
-   - Activity
-   - Progress
+Use the official YouTube embed/player.
 
-📚 Content
-   - Subjects
-   - Chapters
-   - Topics
-   - Notes
-   - Formulas
-   - Flashcards
+For "Open in YouTube":
 
-❓ Questions
-   - All Questions
-   - Create Question
-   - Review Queue
-   - Reports
-   - Duplicate Queue
-   - Versions
-   - Import
-   - Export
+Open the original YouTube watch URL.
 
-📝 Tests
-   - All Tests
-   - Create Test
-   - Blueprint Builder
-   - Scheduled Tests
-   - Live Monitoring
-   - Results
+PREPORA only organizes and recommends the videos.
 
-📄 Papers
-   - PYQs
-   - Model Papers
-   - Sample Papers
-   - Answer Keys
+============================================================
+43. LECTURE CARD DESIGN
+============================================================
 
-🤖 AI
-   - Generate Questions
-   - Draft Queue
-   - AI Review
-   - AI Jobs
+Use a polished card like:
 
-📊 Analytics
-   - Platform
-   - Students
-   - Questions
-   - Tests
-   - Weak Topics
-   - Mistakes
+--------------------------------------------
 
-🚨 Reports
-   - Question Reports
-   - Technical Reports
-   - User Reports
+[YouTube Thumbnail]
 
-🛠 System
-   - System Status
-   - Error Logs
-   - Sync Status
-   - Background Jobs
+Relations & Functions
+Complete Chapter Lecture
 
-🔐 Security
-   - Admins
-   - Roles
-   - Permissions
-   - Sessions
-   - Audit Logs
+Class 11 • Mathematics
+Hindi • 3h 28m
 
-⚙ Settings
-   - General
-   - Exams
-   - Tests
-   - Revision
-   - Ads
-   - Subscriptions
-   - Feature Flags
+Recommended for this chapter
 
-==================================================
-48. MOST IMPORTANT RULE
-==================================================
+[▶ Watch Here]
 
-Admin panel must control the entire PREPORA content lifecycle:
+[↗ Open in YouTube]
 
-CREATE
+--------------------------------------------
+
+For topic:
+
+--------------------------------------------
+
+[Thumbnail]
+
+Domain and Range
+
+Topic-wise Lecture
+
+Class 11 • Mathematics
+Hindi • 18 min
+
+[▶ Watch Here]
+
+[↗ Open in YouTube]
+
+--------------------------------------------
+
+Do NOT add unnecessary coaching brand labels.
+
+============================================================
+44. "BEST VIDEO" LOGIC
+============================================================
+
+The system must prioritize QUALITY and RELEVANCE.
+
+Do not simply use:
+
+Most viewed video.
+
+Instead:
+
+Exact curriculum match
++
+Correct class
++
+Correct chapter/topic
++
+Correct language
++
+Educational quality
++
+Suitable duration
++
+Good relevance
+
+Then select the best result.
+
+If admin has manually approved a video:
+
+ADMIN APPROVED VIDEO
+must take priority over automatic discovery.
+
+============================================================
+45. PERFORMANCE
+============================================================
+
+Use:
+
+- Lazy loading
+- Debounced search
+- API caching
+- Database indexes
+- Pagination where needed
+- Optimized thumbnails
+- Progressive loading
+
+Do not load every lecture for every chapter when the student opens the Lectures page.
+
+Load:
+
+Subject
+→ Chapter
+→ Topic
+→ Lecture
+
+progressively.
+
+============================================================
+46. ACCESSIBILITY
+============================================================
+
+Add:
+
+Keyboard navigation
+Accessible buttons
+Readable contrast
+Proper focus states
+Alt text for thumbnails
+Clear error messages
+Accessible dropdowns
+
+Do not rely only on colors to communicate status.
+
+============================================================
+47. FINAL USER EXPERIENCE
+============================================================
+
+The final student experience should feel like:
+
+PREPORA
+
+Dashboard
+My Planner
+Practice
+Notes
+Lectures
+Formula Sheet
+Tests
+Performance
+Doubt & Help
+
+LECTURES:
+
+Subject
 ↓
-VALIDATE
+Chapter
 ↓
-DUPLICATE CHECK
+Full Chapter / Topic-wise
 ↓
-REVIEW
+Recommended best lecture
 ↓
-APPROVE
+[▶ Watch Here]
+[↗ Open in YouTube]
+
+FORMULA SHEET:
+
+Subject
 ↓
-PUBLISH
+Chapter
 ↓
-STUDENT USE
+Topic
 ↓
-REPORT
+Formula
 ↓
-REVIEW
+Explanation
 ↓
-VERSION UPDATE
+Example
 ↓
-ANALYTICS
+[Copy]
+[Watch Related Lecture]
 
-Nothing important should require directly editing MongoDB manually.
+============================================================
+48. DO NOT BREAK EXISTING WEBSITE
+============================================================
 
-==================================================
-49. FINAL QA
-==================================================
+Before changing code:
 
-Before declaring completion verify:
+Inspect everything.
 
-[ ] Admin login
-[ ] Role permissions
-[ ] Student management
-[ ] Question CRUD
-[ ] Question review
-[ ] Duplicate detection
-[ ] Question versioning
-[ ] Bulk import
-[ ] Bulk export
-[ ] Subject/chapter/topic management
-[ ] Paper management
-[ ] Test builder
-[ ] Test blueprint
-[ ] Test scheduling
-[ ] Test monitoring
-[ ] Result analytics
-[ ] AI question generation
-[ ] AI review queue
-[ ] Notes
-[ ] Formulas
-[ ] Flashcards
-[ ] Reports
-[ ] Technical errors
-[ ] System status
-[ ] Audit logs
-[ ] Admin notifications
-[ ] Settings
-[ ] Feature flags
-[ ] Ad configuration
-[ ] Subscription architecture
-[ ] Mobile responsive
-[ ] Server-side authorization
-[ ] Existing student website still works
+Identify:
 
-FINAL INSTRUCTION:
+- Existing files
+- Existing components
+- Existing routes
+- Existing APIs
+- Existing database
+- Existing video implementation
+- Existing planner
 
-FIRST inspect the existing PREPORA codebase.
+Then integrate.
 
-Identify existing:
+Do NOT rewrite the whole website.
 
-- MongoDB models
-- APIs
-- Authentication
-- Admin components
-- Question system
-- Test system
-- User system
-- Analytics
-- Existing UI components
+Do NOT remove existing planner functionality.
 
-Then integrate the Admin Panel into the existing architecture.
+Do NOT remove existing authentication.
 
-DO NOT rewrite working systems unnecessarily.
+Do NOT replace existing video functionality.
 
-DO NOT create duplicate models or APIs.
+Extend what already works.
 
-DO NOT use fake data in production screens.
+============================================================
+49. IMPLEMENTATION ORDER
+============================================================
 
-DO NOT break existing student functionality.
+STEP 1
+Audit existing project.
 
-Build this as a REAL production-ready PREPORA ADMIN CONTROL CENTER.
+STEP 2
+Understand existing database.
+
+STEP 3
+Create/extend content models.
+
+STEP 4
+Create Subject → Chapter → Topic structure.
+
+STEP 5
+Create Formula model.
+
+STEP 6
+Create Formula Sheet UI.
+
+STEP 7
+Create Lecture model.
+
+STEP 8
+Create YouTube discovery service.
+
+STEP 9
+Create video-ranking logic.
+
+STEP 10
+Create YouTube caching.
+
+STEP 11
+Create Lecture UI.
+
+STEP 12
+Keep Watch Here functionality.
+
+STEP 13
+Add Open in YouTube functionality.
+
+STEP 14
+Create Admin lecture management.
+
+STEP 15
+Create Admin formula management.
+
+STEP 16
+Connect Formula ↔ Lecture.
+
+STEP 17
+Connect content ↔ Planner.
+
+STEP 18
+Add student activity tracking.
+
+STEP 19
+Add responsive mobile UI.
+
+STEP 20
+Test desktop.
+
+STEP 21
+Test mobile.
+
+STEP 22
+Test YouTube failure/caching.
+
+STEP 23
+Test security.
+
+STEP 24
+Run final regression test.
+
+============================================================
+50. FINAL TEST CHECKLIST
+============================================================
+
+Before declaring the feature complete:
+
+LECTURES:
+
+[ ] Lectures page works
+[ ] Subject selection works
+[ ] Chapter selection works
+[ ] Topic selection works
+[ ] Full Chapter option works
+[ ] Topic-wise option works
+[ ] Best relevant YouTube video is selected
+[ ] Irrelevant videos are filtered
+[ ] Watch Here works
+[ ] Open in YouTube works
+[ ] YouTube app/browser behavior works
+[ ] Existing video functionality is preserved
+[ ] Mobile video works
+[ ] Desktop video works
+
+FORMULA SHEET:
+
+[ ] Subject selection works
+[ ] Chapter selection works
+[ ] Topic selection works
+[ ] Formula cards work
+[ ] Math rendering works
+[ ] Search works
+[ ] Copy formula works
+[ ] Quick Revision works
+[ ] Mobile layout works
+
+ADMIN:
+
+[ ] Admin can add formulas
+[ ] Admin can edit formulas
+[ ] Admin can delete/disable formulas
+[ ] Admin can add YouTube lectures
+[ ] Admin can replace lectures
+[ ] Admin can approve/reject discovered videos
+[ ] Admin can feature lectures
+[ ] Admin can set recommended lectures
+
+PLANNER:
+
+[ ] Add to Planner works
+[ ] Existing planner remains functional
+
+SECURITY:
+
+[ ] YouTube API key is protected
+[ ] Admin endpoints are protected
+[ ] Students cannot modify content
+[ ] Student data isolation remains intact
+[ ] Authentication remains functional
+
+============================================================
+51. FINAL REPORT
+============================================================
+
+After implementation, report:
+
+1. Files created
+2. Files modified
+3. Existing files preserved
+4. Database models added
+5. Database models modified
+6. API endpoints added
+7. YouTube API configuration
+8. Environment variables
+9. Formula system
+10. Lecture system
+11. YouTube recommendation logic
+12. Admin controls
+13. Planner integration
+14. Student activity tracking
+15. Mobile improvements
+16. Security checks
+17. Tests performed
+18. Problems discovered
+19. Remaining limitations
+20. Production deployment requirements
+
+IMPORTANT:
+
+Do not say "everything is perfect" without testing.
+
+If something cannot be verified, explicitly say:
+
+"Not verified."
+
+The final implementation must be production-oriented, scalable, secure, responsive, and integrated with the existing PREPORA website.
+
+MOST IMPORTANT FINAL BEHAVIOR:
+
+STUDENT:
+
+Lectures
+→ Subject
+→ Chapter
+→ Full Chapter / Topic
+→ Best relevant YouTube video
+→ [Watch Here] OR [Open in YouTube]
+
+Formula Sheet
+→ Subject
+→ Chapter
+→ Topic
+→ Formula
+→ Explanation
+→ Related Lecture
+
+The student should NEVER have to manually search YouTube to find the appropriate lecture.
+
+PREPORA should automatically find and organize the best relevant videos, while the actual video remains on YouTube.
+
+Do not remove the existing in-website video option.
+Do not remove the Open in YouTube option.
+Both must exist.
