@@ -33,7 +33,7 @@ import { progressService } from '../services/progressService';
 import { syllabusService } from '../services/syllabusService';
 import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
-import { DailyPlan, MistakeItem, PreparationType, CanonicalExam, ClassLevel } from '../types';
+import { DailyPlan, MistakeItem, PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
 
 // Helper Vector Icons for Subject Progress
 const AtomIcon: React.FC<{ className?: string }> = ({ className = 'w-3.5 h-3.5' }) => (
@@ -105,10 +105,25 @@ const RadialProgress: React.FC<{ percentage: number; size?: number }> = ({ perce
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
-  const user = userService.getProfile();
+  const [user, setUser] = useState<UserProfile>(() => userService.getProfile());
 
   // Color Mode state listener
   const [isDark, setIsDark] = useState<boolean>(() => getColorMode() === 'dark');
+
+  useEffect(() => {
+    // Check and trigger streak safety notification if study time reached
+    userService.checkAndTriggerStreakWarning();
+
+    const handleProfileUpdate = () => {
+      setUser(userService.getProfile());
+    };
+    window.addEventListener('prepora:profile_updated', handleProfileUpdate);
+    window.addEventListener('prepora:daily_goal_reached', handleProfileUpdate);
+    return () => {
+      window.removeEventListener('prepora:profile_updated', handleProfileUpdate);
+      window.removeEventListener('prepora:daily_goal_reached', handleProfileUpdate);
+    };
+  }, []);
 
   useEffect(() => {
     const handleColorChange = (e: Event) => {
@@ -280,7 +295,7 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Dynamic Streak Motivation Warning or Goal Achieved Alert */}
+      {/* Dynamic Streak Motivation Warning / In-Progress Tracker / Goal Achieved Alert */}
       {(user.todayQuestionsCount || 0) === 0 ? (
         <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-amber-500/15 border border-amber-500/40 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
           <div className="flex items-start sm:items-center gap-3 min-w-0">
@@ -288,11 +303,12 @@ export const Home: React.FC = () => {
               ⚠️
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-black text-amber-700 dark:text-amber-400">
-                Streak toot jayegi!
+              <p className="text-sm font-black text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
+                <span>Streak toot jayegi!</span>
+                <span className="text-[10px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">Action Required</span>
               </p>
-              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
-                Tumhara goal <strong>{prepType}</strong> crack karne ka hai na? 1 question solve karo aur apni streak bacha lo!
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                Tumhara goal <strong>{prepType}</strong> todna hai na? Aaj ke <strong>{user.dailyGoalQuestions || 25} sawal</strong> abhi start karo aur apni streak bachao!
               </p>
             </div>
           </div>
@@ -301,12 +317,40 @@ export const Home: React.FC = () => {
               soundFeedback.playClick();
               navigate('/practice');
             }}
-            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto"
+            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
           >
-            Solve 1 Q Now →
+            Daily Goal Start Karo ({user.dailyGoalQuestions || 25} Qs) →
           </button>
         </div>
-      ) : (user.todayQuestionsCount || 0) >= (user.dailyGoalQuestions || 25) ? (
+      ) : (user.todayQuestionsCount || 0) < (user.dailyGoalQuestions || 25) ? (
+        <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-teal-500/15 via-emerald-500/10 to-teal-500/15 border border-teal-500/40 dark:border-teal-500/30 text-slate-900 dark:text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-start sm:items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-teal-500/20 text-teal-600 dark:text-teal-400 flex items-center justify-center shrink-0 text-xl font-black animate-pulse">
+              🔥
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-black text-teal-800 dark:text-teal-300 flex items-center gap-1.5">
+                <span>Streak Safe Rakhne Ka Target Chalu Hai!</span>
+                <span className="text-[10px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300">
+                  {user.todayQuestionsCount}/{user.dailyGoalQuestions || 25} Solved
+                </span>
+              </p>
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                Great momentum! Bas <strong>{(user.dailyGoalQuestions || 25) - (user.todayQuestionsCount || 0)} sawal aur</strong> solve karo aur aaj ki streak 100% secure karo!
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/practice');
+            }}
+            className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
+          >
+            Target Continue Karo →
+          </button>
+        </div>
+      ) : (
         <div className="w-full p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-950 dark:text-emerald-200 flex items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-3">
             <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 text-2xl animate-bounce">
@@ -317,7 +361,7 @@ export const Home: React.FC = () => {
                 Congratulations! Today's Goal Completed ({user.todayQuestionsCount}/{user.dailyGoalQuestions || 25} Qs)
               </p>
               <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">
-                Shaandar dedication! Tumhara {prepType} crack karne ka dream zaroor poora hoga!
+                Shaandar dedication! Aaj ki streak 100% secure ho chuki hai. Tumhara {prepType} crack karne ka dream zaroor poora hoga!
               </p>
             </div>
           </div>
@@ -325,7 +369,7 @@ export const Home: React.FC = () => {
             Goal Done ✓
           </span>
         </div>
-      ) : null}
+      )}
 
       {/* ========================================================================= */}
       {/* 4. MOTIVATIONAL SCENIC BANNER CARD                                       */}

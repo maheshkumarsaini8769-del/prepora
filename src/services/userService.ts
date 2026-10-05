@@ -171,7 +171,11 @@ class MockUserService {
     const profile = this.getProfile();
     const today = new Date().toISOString().split('T')[0];
 
+    const now = new Date();
     profile.lastActiveDate = today;
+    profile.lastStudyHour = now.getHours();
+    profile.lastStudyMinute = now.getMinutes();
+
     const prevCount = profile.todayQuestionsCount || 0;
     profile.todayQuestionsCount = prevCount + 1;
     if (!profile.streakDays || profile.streakDays === 0) {
@@ -251,6 +255,71 @@ class MockUserService {
     }
 
     this.updateProfile(profile);
+  }
+
+  /**
+   * Streak Safety Check & Proactive Notification Trigger:
+   * Triggers a high-priority warning when student hasn't completed their daily goal by their usual study time.
+   */
+  public checkAndTriggerStreakWarning(): boolean {
+    const profile = this.getProfile();
+    const today = new Date().toISOString().split('T')[0];
+    const now = new Date();
+    const currentHour = now.getHours();
+
+    // If student already practiced today, streak is safe!
+    if ((profile.todayQuestionsCount || 0) > 0) {
+      return false;
+    }
+
+    // Don't send multiple warnings on the same date
+    if (profile.lastStreakWarningDate === today) {
+      return false;
+    }
+
+    // Trigger if current time is around or past their usual study hour, or evening (>= 17 / 5 PM)
+    const targetStudyHour = profile.lastStudyHour ?? 18;
+    const shouldWarn = currentHour >= targetStudyHour || currentHour >= 17;
+
+    if (shouldWarn) {
+      profile.lastStreakWarningDate = today;
+      setStorageItem(StorageKeys.USER_PROFILE, profile);
+
+      const exam = profile.targetExam || 'JEE/NEET';
+      const goal = profile.dailyGoalQuestions || 25;
+      const title = '🔥 Streak toot jayegi! Daily Target Baaki Hai';
+      const message = `Aapka regular study time ho gaya hai! Tumhara goal ${exam} crack karna hai na? Aaj ke ${goal} sawal abhi start karo aur apni streak bachao!`;
+
+      this.addNotification({
+        title,
+        message,
+        type: 'practice',
+        isRead: false,
+        timestamp: 'Just now',
+        actionUrl: '/practice'
+      });
+
+      // Browser / Mobile push notification if permitted
+      if (typeof window !== 'undefined' && 'Notification' in window && Notification.permission === 'granted') {
+        try {
+          new Notification(title, {
+            body: message,
+            icon: '/icons/icon-192.png'
+          });
+        } catch {
+          // ignore
+        }
+      }
+
+      window.dispatchEvent(
+        new CustomEvent('prepora:streak_warning', {
+          detail: { exam, goal }
+        })
+      );
+      return true;
+    }
+
+    return false;
   }
 
   // Notes

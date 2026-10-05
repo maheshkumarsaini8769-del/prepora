@@ -248,6 +248,9 @@ export interface UserProfile {
   overallAccuracy: number;
   testsCompletedCount: number;
   preparationProfile?: PreparationProfile;
+  lastStudyHour?: number;
+  lastStudyMinute?: number;
+  lastStreakWarningDate?: string;
 }
 
 export interface Bookmark {

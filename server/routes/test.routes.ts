@@ -1,6 +1,8 @@
 import express, { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import Test from '../models/Test.js';
 import Question from '../models/Question.js';
+import { questionRepo } from '../services/questionRepository.js';
 
 const router = express.Router();
 
@@ -87,28 +89,46 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       filter.source = { $nin: ['Model Paper', 'PYQ'] };
     }
 
-    let pool = await Question.find(filter);
+    let pool: any[] = [];
+    if (mongoose.connection.readyState === 1) {
+      try {
+        pool = await Question.find(filter);
+      } catch (err) {
+        pool = [];
+      }
+    }
 
-    // If pool is smaller than requested, supplement from the broader subject pool
+    // High-performance fallback or supplement from 51,665 repository
     if (pool.length < questionCount) {
-      const existingIds = new Set(pool.map(q => String(q._id || q.id)));
-      const fallbackQuestions = await Question.find({
-        subject: { $in: subjects },
-        source: { $ne: 'Model Paper' }
-      }).limit(questionCount * 2);
+      const existingIds = new Set(pool.map(q => String(q.id || q._id)));
+      const repoQuestions = questionRepo.filter({
+        exam,
+        subjects,
+        chapters,
+        topic,
+        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+        includePYQs
+      });
 
-      for (const q of fallbackQuestions) {
-        const idStr = String(q._id || q.id);
-        if (!existingIds.has(idStr)) {
+      for (const q of repoQuestions) {
+        if (!existingIds.has(q.id)) {
           pool.push(q);
-          existingIds.add(idStr);
+          existingIds.add(q.id);
           if (pool.length >= questionCount) break;
         }
       }
     }
 
-    if (pool.length === 0) {
-      pool = await Question.find({}).limit(questionCount);
+    if (pool.length < questionCount) {
+      const existingIds = new Set(pool.map(q => String(q.id || q._id)));
+      const broader = questionRepo.filter({ exam, subjects });
+      for (const q of broader) {
+        if (!existingIds.has(q.id)) {
+          pool.push(q);
+          existingIds.add(q.id);
+          if (pool.length >= questionCount) break;
+        }
+      }
     }
 
     // Shuffle and pick (Fisher-Yates for uniform distribution)

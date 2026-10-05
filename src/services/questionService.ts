@@ -179,11 +179,10 @@ class ApiQuestionService {
         }
       }
 
-      // For competitive entrance exams (JEE/NEET), both Class 11 and 12 are part of the syllabus
+      // For competitive entrance exams (JEE/NEET), both Class 11 and 12 are integral parts of the syllabus
       if (filters.classLevel && filters.classLevel !== 'All') {
         const isCompetitiveEntrance = filters.exam === 'JEE' || filters.exam === 'NEET';
-        const isFullSyllabusOrUnspecified = !filters.chapter || filters.chapter === 'ALL' || filters.chapter === 'All';
-        if (!isCompetitiveEntrance || !isFullSyllabusOrUnspecified) {
+        if (!isCompetitiveEntrance) {
           const qClass = String(q.class);
           if (qClass !== filters.classLevel && qClass !== 'Both' && qClass !== 'All') {
             return false;

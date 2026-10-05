@@ -74,7 +74,7 @@ export const BuildMyTest: React.FC = () => {
     return questionService
       .filterQuestions({
         exam,
-        classLevel: (exam === 'JEE' || exam === 'NEET') && (selectedChapter === 'ALL' || !selectedChapter) ? undefined : classLevel,
+        classLevel: (exam === 'JEE' || exam === 'NEET') ? undefined : classLevel,
         difficulty: difficulty === 'Mixed' ? undefined : difficulty,
         includePYQs,
         includeModelPapers: false,
@@ -89,17 +89,30 @@ export const BuildMyTest: React.FC = () => {
   React.useEffect(() => {
     let isCancelled = false;
     const fetchCount = async () => {
-      const cnt = await questionService.getEligibleCountAsync({
-        exam,
-        classLevel: (exam === 'JEE' || exam === 'NEET') && (selectedChapter === 'ALL' || !selectedChapter) ? undefined : classLevel,
-        subject: selectedSubjects.length === 1 ? selectedSubjects[0] : undefined,
-        chapter: selectedChapter !== 'ALL' ? selectedChapter : undefined,
-        topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
-        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
-        includePYQs
-      });
-      if (!isCancelled) {
-        setServerCount(cnt);
+      if (selectedSubjects.length === 0) {
+        if (!isCancelled) setServerCount(0);
+        return;
+      }
+
+      try {
+        let totalCount = 0;
+        for (const sub of selectedSubjects) {
+          const cnt = await questionService.getEligibleCountAsync({
+            exam,
+            classLevel: (exam === 'JEE' || exam === 'NEET') ? undefined : classLevel,
+            subject: sub,
+            chapter: selectedChapter !== 'ALL' ? selectedChapter : undefined,
+            topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
+            difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+            includePYQs
+          });
+          totalCount += cnt;
+        }
+        if (!isCancelled) {
+          setServerCount(totalCount);
+        }
+      } catch {
+        if (!isCancelled) setServerCount(null);
       }
     };
     fetchCount();
