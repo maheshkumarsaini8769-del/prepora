@@ -73,47 +73,37 @@ export const PracticeSession: React.FC = () => {
     let isCancelled = false;
 
     const loadPracticeQuestions = async () => {
-      let pool = questionService.filterQuestions({
+      const requestedCount = count || 10;
+      const filterOpts = {
         exam: exam && exam !== ('All' as any) ? exam : undefined,
         classLevel: classLevel && classLevel !== ('All' as any) ? classLevel : undefined,
         subject: subject && subject !== ('All' as any) ? subject : undefined,
         chapter: chapter && chapter !== 'All' ? chapter : undefined,
         topic: topic && topic !== 'All' ? topic : undefined,
         difficulty: difficulty && difficulty !== ('All' as any) ? difficulty : undefined,
-      });
+        includePYQs: true
+      };
 
-      // If local cache doesn't have enough questions for this topic/chapter, fetch from MongoDB
-      if (pool.length < (count || 10)) {
-        try {
-          const fetched = await questionService.fetchQuestionsAsync({
-            exam: exam && exam !== ('All' as any) ? exam : undefined,
-            classLevel: classLevel && classLevel !== ('All' as any) ? classLevel : undefined,
-            subject: subject && subject !== ('All' as any) ? subject : undefined,
-            chapter: chapter && chapter !== 'All' ? chapter : undefined,
-            topic: topic && topic !== 'All' ? topic : undefined,
-            difficulty: difficulty && difficulty !== ('All' as any) ? difficulty : undefined,
-          }, count || 10);
-          if (fetched.length > 0) {
-            pool = fetched;
-          }
-        } catch (err) {
-          console.warn('Practice fetch error:', err);
+      // 1. Fetch from server in background if possible
+      try {
+        const fetched = await questionService.fetchQuestionsAsync(filterOpts, requestedCount * 2);
+        if (fetched && fetched.length > 0) {
+          // Cached in questionService
         }
-      }
-
-      if (pool.length === 0) {
-        pool = questionService.getAllQuestions();
+      } catch (err) {
+        console.warn('Practice fetch error:', err);
       }
 
       if (isCancelled) return;
 
-      const shuffled = [...pool].sort(() => 0.5 - Math.random()).slice(0, count || 10);
-      setQuestions(shuffled);
+      // 2. Guarantee exact requested question count without underflow
+      const guaranteed = questionService.getQuestionsWithGuarantee(filterOpts, requestedCount);
+      setQuestions(guaranteed);
 
       // Load initial bookmarks
       const bMarks = userService.getBookmarks();
       const map: Record<string, boolean> = {};
-      shuffled.forEach(q => {
+      guaranteed.forEach(q => {
         map[q.id] = bMarks.some(b => b.type === 'question' && b.targetId === q.id);
       });
       setBookmarkedMap(map);

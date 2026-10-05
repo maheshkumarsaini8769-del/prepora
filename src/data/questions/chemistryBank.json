@@ -7,7 +7,7 @@
     "chapter": "Some Basic Concepts of Chemistry",
     "topic": "Mole Concept",
     "difficulty": "Easy",
-    "question": "What is the number of moles in 44 grams of Carbon Dioxide (CO₂)?",
+    "question": "What is the number of moles in 44 grams of Carbon Dioxide (CO\u2082)?",
     "options": [
       "0.5 mol",
       "1.0 mol",
@@ -15,7 +15,7 @@
       "44 mol"
     ],
     "correctAnswer": 1,
-    "explanation": "Molar mass of CO₂ = 12 + 2(16) = 44 g/mol. Number of moles = 44 g / 44 g/mol = 1.0 mol.",
+    "explanation": "Molar mass of CO\u2082 = 12 + 2(16) = 44 g/mol. Number of moles = 44 g / 44 g/mol = 1.0 mol.",
     "concept": "Mole calculation from molar mass.",
     "source": "PYQ",
     "year": 2024,
@@ -37,7 +37,7 @@
       "18"
     ],
     "correctAnswer": 2,
-    "explanation": "Total orbitals for principal quantum number n is given by n² = 3² = 9 (one 3s, three 3p, five 3d).",
+    "explanation": "Total orbitals for principal quantum number n is given by n\u00b2 = 3\u00b2 = 9 (one 3s, three 3p, five 3d).",
     "concept": "Orbital degeneracy in electron shells.",
     "source": "PYQ",
     "year": 2023,
@@ -51,7 +51,7 @@
     "chapter": "Chemical Bonding",
     "topic": "VSEPR Theory",
     "difficulty": "Medium",
-    "question": "The molecular geometry of Ammonia (NH₃) according to VSEPR theory is:",
+    "question": "The molecular geometry of Ammonia (NH\u2083) according to VSEPR theory is:",
     "options": [
       "Trigonal planar",
       "Tetrahedral",
@@ -59,7 +59,7 @@
       "T-shaped"
     ],
     "correctAnswer": 2,
-    "explanation": "Nitrogen has 3 bond pairs and 1 lone pair (sp³ hybridization). The steric number is 4, leading to trigonal pyramidal geometry due to lone pair repulsion.",
+    "explanation": "Nitrogen has 3 bond pairs and 1 lone pair (sp\u00b3 hybridization). The steric number is 4, leading to trigonal pyramidal geometry due to lone pair repulsion.",
     "concept": "VSEPR molecular shapes with lone pairs.",
     "source": "PYQ",
     "year": 2024,
@@ -76,9 +76,9 @@
     "question": "For an adiabatic process in an ideal gas, which of the following is strictly true?",
     "options": [
       "q = 0",
-      "ΔU = 0",
+      "\u0394U = 0",
       "w = 0",
-      "ΔT = 0"
+      "\u0394T = 0"
     ],
     "correctAnswer": 0,
     "explanation": "An adiabatic process is thermally insulated with no heat transfer into or out of the system, meaning q = 0.",
@@ -95,15 +95,15 @@
     "chapter": "Equilibrium",
     "topic": "Le Chatelier's Principle",
     "difficulty": "Hard",
-    "question": "For the exothermic reaction N₂(g) + 3H₂(g) ⇌ 2NH₃(g), increasing temperature causes:",
+    "question": "For the exothermic reaction N\u2082(g) + 3H\u2082(g) \u21cc 2NH\u2083(g), increasing temperature causes:",
     "options": [
-      "Shift right, more NH₃",
-      "Shift left, less NH₃",
+      "Shift right, more NH\u2083",
+      "Shift left, less NH\u2083",
       "No change in equilibrium",
       "Equilibrium constant K increases"
     ],
     "correctAnswer": 1,
-    "explanation": "By Le Chatelier's principle, an increase in temperature favors the endothermic reverse reaction, shifting equilibrium left and decreasing NH₃ yield.",
+    "explanation": "By Le Chatelier's principle, an increase in temperature favors the endothermic reverse reaction, shifting equilibrium left and decreasing NH\u2083 yield.",
     "concept": "Temperature dependence of chemical equilibrium.",
     "source": "PYQ",
     "year": 2024,
@@ -117,7 +117,7 @@
     "chapter": "Redox Reactions",
     "topic": "Oxidation Numbers",
     "difficulty": "Easy",
-    "question": "What is the oxidation state of Manganese in Potassium Permanganate (KMnO₄)?",
+    "question": "What is the oxidation state of Manganese in Potassium Permanganate (KMnO\u2084)?",
     "options": [
       "+2",
       "+4",
@@ -125,7 +125,7 @@
       "+7"
     ],
     "correctAnswer": 3,
-    "explanation": "In KMnO₄: K is +1, O is -2. Total = (+1) + Mn + 4(-2) = 0 => Mn - 7 = 0 => Mn = +7.",
+    "explanation": "In KMnO\u2084: K is +1, O is -2. Total = (+1) + Mn + 4(-2) = 0 => Mn - 7 = 0 => Mn = +7.",
     "concept": "Rules for calculating oxidation states.",
     "source": "PYQ",
     "year": 2023,
@@ -147,7 +147,7 @@
       "Nitrogen has larger atomic radius"
     ],
     "correctAnswer": 1,
-    "explanation": "Nitrogen has a stable half-filled electronic configuration (2s² 2p³), providing extra exchange energy stability compared to oxygen (2s² 2p⁴).",
+    "explanation": "Nitrogen has a stable half-filled electronic configuration (2s\u00b2 2p\u00b3), providing extra exchange energy stability compared to oxygen (2s\u00b2 2p\u2074).",
     "concept": "Electronic configurations and stability anomalies.",
     "source": "PYQ",
     "year": 2022,
@@ -161,7 +161,7 @@
     "chapter": "Organic Chemistry: Basic Principles",
     "topic": "IUPAC Nomenclature",
     "difficulty": "Easy",
-    "question": "What is the IUPAC name of CH₃-CH(CH₃)-CH₂-CH₃?",
+    "question": "What is the IUPAC name of CH\u2083-CH(CH\u2083)-CH\u2082-CH\u2083?",
     "options": [
       "2-Methylbutane",
       "3-Methylbutane",
@@ -205,7 +205,7 @@
     "chapter": "States of Matter",
     "topic": "Ideal Gas Equation",
     "difficulty": "Medium",
-    "question": "At STP (0°C, 1 atm), one mole of any ideal gas occupies approximately what volume?",
+    "question": "At STP (0\u00b0C, 1 atm), one mole of any ideal gas occupies approximately what volume?",
     "options": [
       "11.2 L",
       "22.4 L",
@@ -213,7 +213,7 @@
       "24.5 L"
     ],
     "correctAnswer": 1,
-    "explanation": "Standard molar volume of an ideal gas at STP (0°C and 1 atm) is 22.4 liters.",
+    "explanation": "Standard molar volume of an ideal gas at STP (0\u00b0C and 1 atm) is 22.4 liters.",
     "concept": "Avogadro's hypothesis and molar gas volume.",
     "source": "PYQ",
     "year": 2024,
@@ -249,7 +249,7 @@
     "chapter": "Electrochemistry",
     "topic": "Nernst Equation",
     "difficulty": "Medium",
-    "question": "The standard reduction potential of Zn²⁺/Zn is -0.76 V and Cu²⁺/Cu is +0.34 V. The standard EMF of the Daniel cell is:",
+    "question": "The standard reduction potential of Zn\u00b2\u207a/Zn is -0.76 V and Cu\u00b2\u207a/Cu is +0.34 V. The standard EMF of the Daniel cell is:",
     "options": [
       "+0.42 V",
       "+1.10 V",
@@ -257,7 +257,7 @@
       "+0.76 V"
     ],
     "correctAnswer": 1,
-    "explanation": "E°_cell = E°_cathode - E°_anode = (+0.34 V) - (-0.76 V) = +1.10 V.",
+    "explanation": "E\u00b0_cell = E\u00b0_cathode - E\u00b0_anode = (+0.34 V) - (-0.76 V) = +1.10 V.",
     "concept": "Galvanic cell potential calculation.",
     "source": "PYQ",
     "year": 2023,
@@ -271,7 +271,7 @@
     "chapter": "Chemical Kinetics",
     "topic": "Order of Reaction",
     "difficulty": "Medium",
-    "question": "The half-life period t₁/₂ of a first-order chemical reaction is:",
+    "question": "The half-life period t\u2081/\u2082 of a first-order chemical reaction is:",
     "options": [
       "Directly proportional to initial concentration",
       "Inversely proportional to initial concentration",
@@ -279,7 +279,7 @@
       "Proportional to square of initial concentration"
     ],
     "correctAnswer": 2,
-    "explanation": "For a first-order reaction, t₁/₂ = 0.693 / k, which is completely independent of initial concentration [A]₀.",
+    "explanation": "For a first-order reaction, t\u2081/\u2082 = 0.693 / k, which is completely independent of initial concentration [A]\u2080.",
     "concept": "First order reaction characteristics.",
     "source": "PYQ",
     "year": 2024,
@@ -293,7 +293,7 @@
     "chapter": "Coordination Compounds",
     "topic": "IUPAC Nomenclature & Isomerism",
     "difficulty": "Medium",
-    "question": "What is the coordination number of Cobalt in [Co(en)₃]³⁺ where 'en' is ethylenediamine?",
+    "question": "What is the coordination number of Cobalt in [Co(en)\u2083]\u00b3\u207a where 'en' is ethylenediamine?",
     "options": [
       "3",
       "4",
@@ -301,7 +301,7 @@
       "12"
     ],
     "correctAnswer": 2,
-    "explanation": "Ethylenediamine ('en') is a bidentate ligand providing 2 donor atoms. 3 en ligands give 3 × 2 = 6 coordinate bonds.",
+    "explanation": "Ethylenediamine ('en') is a bidentate ligand providing 2 donor atoms. 3 en ligands give 3 \u00d7 2 = 6 coordinate bonds.",
     "concept": "Denticity and coordination number.",
     "source": "PYQ",
     "year": 2023,
@@ -317,13 +317,13 @@
     "difficulty": "Hard",
     "question": "Which substrate undergoes SN1 solvolysis most rapidly?",
     "options": [
-      "CH₃-Cl",
-      "(CH₃)₂CH-Cl",
-      "(CH₃)₃C-Cl",
-      "CH₃-CH₂-Cl"
+      "CH\u2083-Cl",
+      "(CH\u2083)\u2082CH-Cl",
+      "(CH\u2083)\u2083C-Cl",
+      "CH\u2083-CH\u2082-Cl"
     ],
     "correctAnswer": 2,
-    "explanation": "SN1 rate is determined by carbocation stability. Tertiary carbocation (CH₃)₃C⁺ is stabilized by 9 hyperconjugative structures and inductive effect.",
+    "explanation": "SN1 rate is determined by carbocation stability. Tertiary carbocation (CH\u2083)\u2083C\u207a is stabilized by 9 hyperconjugative structures and inductive effect.",
     "concept": "Nucleophilic substitution mechanisms.",
     "source": "PYQ",
     "year": 2024,
@@ -367,7 +367,7 @@
       "Acetone"
     ],
     "correctAnswer": 1,
-    "explanation": "Cannizzaro reaction is shown by aldehydes lacking α-hydrogen atoms. Formaldehyde (HCHO) and benzaldehyde have no α-hydrogens.",
+    "explanation": "Cannizzaro reaction is shown by aldehydes lacking \u03b1-hydrogen atoms. Formaldehyde (HCHO) and benzaldehyde have no \u03b1-hydrogens.",
     "concept": "Base-catalyzed carbonyl disproportionation.",
     "source": "PYQ",
     "year": 2024,
@@ -383,13 +383,13 @@
     "difficulty": "Medium",
     "question": "In aqueous solution, the order of basic strength of methyl substituted amines is:",
     "options": [
-      "(CH₃)₂NH > CH₃NH₂ > (CH₃)₃N > NH₃",
-      "(CH₃)₃N > (CH₃)₂NH > CH₃NH₂ > NH₃",
-      "NH₃ > CH₃NH₂ > (CH₃)₂NH > (CH₃)₃N",
-      "CH₃NH₂ > (CH₃)₂NH > (CH₃)₃N > NH₃"
+      "(CH\u2083)\u2082NH > CH\u2083NH\u2082 > (CH\u2083)\u2083N > NH\u2083",
+      "(CH\u2083)\u2083N > (CH\u2083)\u2082NH > CH\u2083NH\u2082 > NH\u2083",
+      "NH\u2083 > CH\u2083NH\u2082 > (CH\u2083)\u2082NH > (CH\u2083)\u2083N",
+      "CH\u2083NH\u2082 > (CH\u2083)\u2082NH > (CH\u2083)\u2083N > NH\u2083"
     ],
     "correctAnswer": 0,
-    "explanation": "In aqueous solution, combined inductive, hydration, and steric effects give basicity order 2° > 1° > 3° > NH₃ for methyl amines.",
+    "explanation": "In aqueous solution, combined inductive, hydration, and steric effects give basicity order 2\u00b0 > 1\u00b0 > 3\u00b0 > NH\u2083 for methyl amines.",
     "concept": "Solvation and steric influence on amine basicity.",
     "source": "PYQ",
     "year": 2023,
@@ -448,7 +448,7 @@
     "topic": "Mole Concept & Redox Titration",
     "difficulty": "Medium",
     "question": "What volume of 0.1 M KMnO4 solution in acidic medium is required to oxidize 25 mL of 0.2 M FeSO4 solution?",
-    "questionHi": "अम्लीय माध्यम में 25 मिली 0.2 M FeSO4 को ऑक्सीकृत करने के लिए 0.1 M KMnO4 के कितने आयतन की आवश्यकता होगी?",
+    "questionHi": "\u0905\u092e\u094d\u0932\u0940\u092f \u092e\u093e\u0927\u094d\u092f\u092e \u092e\u0947\u0902 25 \u092e\u093f\u0932\u0940 0.2 M FeSO4 \u0915\u094b \u0911\u0915\u094d\u0938\u0940\u0915\u0943\u0924 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f 0.1 M KMnO4 \u0915\u0947 \u0915\u093f\u0924\u0928\u0947 \u0906\u092f\u0924\u0928 \u0915\u0940 \u0906\u0935\u0936\u094d\u092f\u0915\u0924\u093e \u0939\u094b\u0917\u0940?",
     "options": [
       "10 mL",
       "5 mL",
@@ -456,13 +456,13 @@
       "2.5 mL"
     ],
     "optionsHi": [
-      "10 मिली",
-      "5 मिली",
-      "25 मिली",
-      "2.5 मिली"
+      "10 \u092e\u093f\u0932\u0940",
+      "5 \u092e\u093f\u0932\u0940",
+      "25 \u092e\u093f\u0932\u0940",
+      "2.5 \u092e\u093f\u0932\u0940"
     ],
     "correctAnswer": 0,
-    "explanation": "In acid, KMnO4 n-factor = 5; FeSO4 n-factor = 1. N1 V1 = N2 V2 => (0.1 × 5) × V = (0.2 × 1) × 25 => 0.5 V = 5 => V = 10 mL.",
+    "explanation": "In acid, KMnO4 n-factor = 5; FeSO4 n-factor = 1. N1 V1 = N2 V2 => (0.1 \u00d7 5) \u00d7 V = (0.2 \u00d7 1) \u00d7 25 => 0.5 V = 5 => V = 10 mL.",
     "concept": "Equivalence principle in potassium permanganate titrations.",
     "source": "PYQ",
     "year": 2024,
@@ -477,21 +477,21 @@
     "topic": "Molecular Orbital Theory",
     "difficulty": "Easy",
     "question": "According to Molecular Orbital Theory (MOT), which of the following species is diamagnetic?",
-    "questionHi": "आण्विक कक्षक सिद्धांत (MOT) के अनुसार, निम्न में से कौन सी स्पीशीज प्रतिचुंबकीय (diamagnetic) है?",
+    "questionHi": "\u0906\u0923\u094d\u0935\u093f\u0915 \u0915\u0915\u094d\u0937\u0915 \u0938\u093f\u0926\u094d\u0927\u093e\u0902\u0924 (MOT) \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930, \u0928\u093f\u092e\u094d\u0928 \u092e\u0947\u0902 \u0938\u0947 \u0915\u094c\u0928 \u0938\u0940 \u0938\u094d\u092a\u0940\u0936\u0940\u091c \u092a\u094d\u0930\u0924\u093f\u091a\u0941\u0902\u092c\u0915\u0940\u092f (diamagnetic) \u0939\u0948?",
     "options": [
-      "O₂",
-      "O₂²⁻",
-      "B₂",
+      "O\u2082",
+      "O\u2082\u00b2\u207b",
+      "B\u2082",
       "NO"
     ],
     "optionsHi": [
-      "O₂",
-      "O₂²⁻",
-      "B₂",
+      "O\u2082",
+      "O\u2082\u00b2\u207b",
+      "B\u2082",
       "NO"
     ],
     "correctAnswer": 1,
-    "explanation": "O₂²⁻ has 18 electrons with all molecular orbitals completely paired, making it diamagnetic.",
+    "explanation": "O\u2082\u00b2\u207b has 18 electrons with all molecular orbitals completely paired, making it diamagnetic.",
     "concept": "Magnetic properties based on MOT electron pairing.",
     "source": "PYQ",
     "year": 2024,
@@ -506,21 +506,21 @@
     "topic": "VSEPR Geometry of XeF4",
     "difficulty": "Easy",
     "question": "What is the geometry, hybridization, and number of lone pairs on the central atom in XeF4?",
-    "questionHi": "XeF4 में केंद्रीय परमाणु का संकरण, ज्यामिति तथा एकाकी युग्मों की संख्या क्या है?",
+    "questionHi": "XeF4 \u092e\u0947\u0902 \u0915\u0947\u0902\u0926\u094d\u0930\u0940\u092f \u092a\u0930\u092e\u093e\u0923\u0941 \u0915\u093e \u0938\u0902\u0915\u0930\u0923, \u091c\u094d\u092f\u093e\u092e\u093f\u0924\u093f \u0924\u0925\u093e \u090f\u0915\u093e\u0915\u0940 \u092f\u0941\u0917\u094d\u092e\u094b\u0902 \u0915\u0940 \u0938\u0902\u0916\u094d\u092f\u093e \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
-      "sp³d², Square Planar, 2 lone pairs",
-      "sp³d, See-saw, 1 lone pair",
-      "sp³d², Octahedral, 0 lone pairs",
-      "sp³d, Square Pyramidal, 1 lone pair"
+      "sp\u00b3d\u00b2, Square Planar, 2 lone pairs",
+      "sp\u00b3d, See-saw, 1 lone pair",
+      "sp\u00b3d\u00b2, Octahedral, 0 lone pairs",
+      "sp\u00b3d, Square Pyramidal, 1 lone pair"
     ],
     "optionsHi": [
-      "sp³d², वर्ग समतलीय, 2 एकाकी युग्म",
-      "sp³d, सी-सॉ, 1 एकाकी युग्म",
-      "sp³d², अष्टफलकीय, 0 एकाकी युग्म",
-      "sp³d, वर्ग पिरामिडी, 1 एकाकी युग्म"
+      "sp\u00b3d\u00b2, \u0935\u0930\u094d\u0917 \u0938\u092e\u0924\u0932\u0940\u092f, 2 \u090f\u0915\u093e\u0915\u0940 \u092f\u0941\u0917\u094d\u092e",
+      "sp\u00b3d, \u0938\u0940-\u0938\u0949, 1 \u090f\u0915\u093e\u0915\u0940 \u092f\u0941\u0917\u094d\u092e",
+      "sp\u00b3d\u00b2, \u0905\u0937\u094d\u091f\u092b\u0932\u0915\u0940\u092f, 0 \u090f\u0915\u093e\u0915\u0940 \u092f\u0941\u0917\u094d\u092e",
+      "sp\u00b3d, \u0935\u0930\u094d\u0917 \u092a\u093f\u0930\u093e\u092e\u093f\u0921\u0940, 1 \u090f\u0915\u093e\u0915\u0940 \u092f\u0941\u0917\u094d\u092e"
     ],
     "correctAnswer": 0,
-    "explanation": "Xe has 8 valence electrons (4 bond pairs + 2 lone pairs) => steric number 6 => sp³d² square planar.",
+    "explanation": "Xe has 8 valence electrons (4 bond pairs + 2 lone pairs) => steric number 6 => sp\u00b3d\u00b2 square planar.",
     "concept": "VSEPR theory and xenon fluoride molecular geometry.",
     "source": "Model Paper",
     "year": 2025,
@@ -534,22 +534,22 @@
     "chapter": "Equilibrium",
     "topic": "Solubility Product Ksp",
     "difficulty": "Medium",
-    "question": "The solubility product Ksp of Ag2CrO4 is 3.2 × 10⁻¹¹ at 298 K. The molar solubility in pure water is:",
-    "questionHi": "298 K पर Ag2CrO4 का विलेयता गुणनफल Ksp = 3.2 × 10⁻¹¹ है। शुद्ध जल में मोलर विलेयता क्या है?",
+    "question": "The solubility product Ksp of Ag2CrO4 is 3.2 \u00d7 10\u207b\u00b9\u00b9 at 298 K. The molar solubility in pure water is:",
+    "questionHi": "298 K \u092a\u0930 Ag2CrO4 \u0915\u093e \u0935\u093f\u0932\u0947\u092f\u0924\u093e \u0917\u0941\u0923\u0928\u092b\u0932 Ksp = 3.2 \u00d7 10\u207b\u00b9\u00b9 \u0939\u0948\u0964 \u0936\u0941\u0926\u094d\u0927 \u091c\u0932 \u092e\u0947\u0902 \u092e\u094b\u0932\u0930 \u0935\u093f\u0932\u0947\u092f\u0924\u093e \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
-      "2.0 × 10⁻⁴ M",
-      "1.0 × 10⁻⁴ M",
-      "8.0 × 10⁻⁶ M",
-      "5.6 × 10⁻⁶ M"
+      "2.0 \u00d7 10\u207b\u2074 M",
+      "1.0 \u00d7 10\u207b\u2074 M",
+      "8.0 \u00d7 10\u207b\u2076 M",
+      "5.6 \u00d7 10\u207b\u2076 M"
     ],
     "optionsHi": [
-      "2.0 × 10⁻⁴ M",
-      "1.0 × 10⁻⁴ M",
-      "8.0 × 10⁻⁶ M",
-      "5.6 × 10⁻⁶ M"
+      "2.0 \u00d7 10\u207b\u2074 M",
+      "1.0 \u00d7 10\u207b\u2074 M",
+      "8.0 \u00d7 10\u207b\u2076 M",
+      "5.6 \u00d7 10\u207b\u2076 M"
     ],
     "correctAnswer": 0,
-    "explanation": "For Ag2CrO4: Ksp = (2S)²(S) = 4 S³ = 32 × 10⁻¹² => S³ = 8 × 10⁻¹² => S = 2.0 × 10⁻⁴ M.",
+    "explanation": "For Ag2CrO4: Ksp = (2S)\u00b2(S) = 4 S\u00b3 = 32 \u00d7 10\u207b\u00b9\u00b2 => S\u00b3 = 8 \u00d7 10\u207b\u00b9\u00b2 => S = 2.0 \u00d7 10\u207b\u2074 M.",
     "concept": "Molar solubility calculation for A2B type sparingly soluble salts.",
     "source": "PYQ",
     "year": 2024,
@@ -563,8 +563,8 @@
     "chapter": "Solutions",
     "topic": "Van't Hoff Factor",
     "difficulty": "Medium",
-    "question": "A 0.01 m aqueous solution of K4[Fe(CN)6] freezes at -0.0744 °C. The degree of dissociation α is: (Kf = 1.86 K kg mol⁻¹)",
-    "questionHi": "K4[Fe(CN)6] का 0.01 m विलयन -0.0744 °C पर जमता है। वियोजन की मात्रा α है: (Kf = 1.86)",
+    "question": "A 0.01 m aqueous solution of K4[Fe(CN)6] freezes at -0.0744 \u00b0C. The degree of dissociation \u03b1 is: (Kf = 1.86 K kg mol\u207b\u00b9)",
+    "questionHi": "K4[Fe(CN)6] \u0915\u093e 0.01 m \u0935\u093f\u0932\u092f\u0928 -0.0744 \u00b0C \u092a\u0930 \u091c\u092e\u0924\u093e \u0939\u0948\u0964 \u0935\u093f\u092f\u094b\u091c\u0928 \u0915\u0940 \u092e\u093e\u0924\u094d\u0930\u093e \u03b1 \u0939\u0948: (Kf = 1.86)",
     "options": [
       "75%",
       "85%",
@@ -578,7 +578,7 @@
       "100%"
     ],
     "correctAnswer": 0,
-    "explanation": "ΔTf = i Kf m => 0.0744 = i (1.86)(0.01) => i = 4.0. Since n = 5, i = 1 + 4α => 4 = 1 + 4α => α = 0.75 = 75%.",
+    "explanation": "\u0394Tf = i Kf m => 0.0744 = i (1.86)(0.01) => i = 4.0. Since n = 5, i = 1 + 4\u03b1 => 4 = 1 + 4\u03b1 => \u03b1 = 0.75 = 75%.",
     "concept": "Degree of dissociation from freezing point depression.",
     "source": "PYQ",
     "year": 2024,
@@ -592,8 +592,8 @@
     "chapter": "Electrochemistry",
     "topic": "Nernst Equation",
     "difficulty": "Medium",
-    "question": "For Ni(s) + 2 Ag⁺(0.01 M) -> Ni²⁺(0.1 M) + 2 Ag(s) with E°_cell = 1.05 V, cell EMF at 298 K is: (2.303 RT/F = 0.06 V)",
-    "questionHi": "सेल Ni + 2 Ag⁺(0.01 M) -> Ni²⁺(0.1 M) + 2 Ag के लिए E° = 1.05 V है। 298 K पर EMF क्या होगा:",
+    "question": "For Ni(s) + 2 Ag\u207a(0.01 M) -> Ni\u00b2\u207a(0.1 M) + 2 Ag(s) with E\u00b0_cell = 1.05 V, cell EMF at 298 K is: (2.303 RT/F = 0.06 V)",
+    "questionHi": "\u0938\u0947\u0932 Ni + 2 Ag\u207a(0.01 M) -> Ni\u00b2\u207a(0.1 M) + 2 Ag \u0915\u0947 \u0932\u093f\u090f E\u00b0 = 1.05 V \u0939\u0948\u0964 298 K \u092a\u0930 EMF \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e:",
     "options": [
       "0.96 V",
       "1.05 V",
@@ -607,7 +607,7 @@
       "1.14 V"
     ],
     "correctAnswer": 0,
-    "explanation": "Q = [Ni²⁺]/[Ag⁺]² = 0.1/(0.01)² = 10³. E = 1.05 - (0.06/2) log(10³) = 1.05 - 0.09 = 0.96 V.",
+    "explanation": "Q = [Ni\u00b2\u207a]/[Ag\u207a]\u00b2 = 0.1/(0.01)\u00b2 = 10\u00b3. E = 1.05 - (0.06/2) log(10\u00b3) = 1.05 - 0.09 = 0.96 V.",
     "concept": "Nernst equation for galvanic cells with unequal ion stoichiometry.",
     "source": "PYQ",
     "year": 2024,
@@ -622,7 +622,7 @@
     "topic": "First Order Half-Life",
     "difficulty": "Easy",
     "question": "A first order reaction completes 75% in 32 minutes. The half-life (t_1/2) of this reaction is:",
-    "questionHi": "एक प्रथम कोटि की अभिक्रिया 32 मिनट में 75% पूर्ण होती है। इसकी अर्ध-आयु (t_1/2) क्या है?",
+    "questionHi": "\u090f\u0915 \u092a\u094d\u0930\u0925\u092e \u0915\u094b\u091f\u093f \u0915\u0940 \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e 32 \u092e\u093f\u0928\u091f \u092e\u0947\u0902 75% \u092a\u0942\u0930\u094d\u0923 \u0939\u094b\u0924\u0940 \u0939\u0948\u0964 \u0907\u0938\u0915\u0940 \u0905\u0930\u094d\u0927-\u0906\u092f\u0941 (t_1/2) \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
       "16 minutes",
       "8 minutes",
@@ -630,13 +630,13 @@
       "4 minutes"
     ],
     "optionsHi": [
-      "16 मिनट",
-      "8 मिनट",
-      "24 मिनट",
-      "4 मिनट"
+      "16 \u092e\u093f\u0928\u091f",
+      "8 \u092e\u093f\u0928\u091f",
+      "24 \u092e\u093f\u0928\u091f",
+      "4 \u092e\u093f\u0928\u091f"
     ],
     "correctAnswer": 0,
-    "explanation": "For first order kinetics, t_75% = 2 × t_1/2 => t_1/2 = 32 / 2 = 16 minutes.",
+    "explanation": "For first order kinetics, t_75% = 2 \u00d7 t_1/2 => t_1/2 = 32 / 2 = 16 minutes.",
     "concept": "Integrated rate law half-life properties.",
     "source": "Model Paper",
     "year": 2025,
@@ -651,7 +651,7 @@
     "topic": "Cannizzaro Reaction",
     "difficulty": "Medium",
     "question": "Which of the following aldehydes undergoes Cannizzaro reaction when treated with concentrated NaOH?",
-    "questionHi": "सांद्र NaOH के साथ गर्म करने पर कौन सा ऐल्डिहाइड कैनिजारो अभिक्रिया देता है?",
+    "questionHi": "\u0938\u093e\u0902\u0926\u094d\u0930 NaOH \u0915\u0947 \u0938\u093e\u0925 \u0917\u0930\u094d\u092e \u0915\u0930\u0928\u0947 \u092a\u0930 \u0915\u094c\u0928 \u0938\u093e \u0910\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 \u0915\u0948\u0928\u093f\u091c\u093e\u0930\u094b \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0926\u0947\u0924\u093e \u0939\u0948?",
     "options": [
       "Benzaldehyde (C6H5CHO)",
       "Acetaldehyde (CH3CHO)",
@@ -659,10 +659,10 @@
       "Propionaldehyde (CH3CH2CHO)"
     ],
     "optionsHi": [
-      "बेंजैल्डिहाइड (C6H5CHO)",
-      "ऐसीटैल्डिहाइड (CH3CHO)",
-      "ऐसीटोन (CH3COCH3)",
-      "प्रोपियोनैल्डिहाइड (CH3CH2CHO)"
+      "\u092c\u0947\u0902\u091c\u0948\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 (C6H5CHO)",
+      "\u0910\u0938\u0940\u091f\u0948\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 (CH3CHO)",
+      "\u0910\u0938\u0940\u091f\u094b\u0928 (CH3COCH3)",
+      "\u092a\u094d\u0930\u094b\u092a\u093f\u092f\u094b\u0928\u0948\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 (CH3CH2CHO)"
     ],
     "correctAnswer": 0,
     "explanation": "Cannizzaro reaction requires aldehydes without alpha-hydrogens, such as benzaldehyde or formaldehyde.",
@@ -680,21 +680,21 @@
     "topic": "de Broglie Wavelength",
     "difficulty": "Medium",
     "question": "The de Broglie wavelength of an electron accelerated through a potential difference of V volts is given by approximately:",
-    "questionHi": "V वोल्ट के विभवांतर से त्वरित इलेक्ट्रॉन की दे ब्रॉग्ली तरंगदैर्ध्य लगभग किसके द्वारा दी जाती है?",
+    "questionHi": "V \u0935\u094b\u0932\u094d\u091f \u0915\u0947 \u0935\u093f\u092d\u0935\u093e\u0902\u0924\u0930 \u0938\u0947 \u0924\u094d\u0935\u0930\u093f\u0924 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 \u0915\u0940 \u0926\u0947 \u092c\u094d\u0930\u0949\u0917\u094d\u0932\u0940 \u0924\u0930\u0902\u0917\u0926\u0948\u0930\u094d\u0927\u094d\u092f \u0932\u0917\u092d\u0917 \u0915\u093f\u0938\u0915\u0947 \u0926\u094d\u0935\u093e\u0930\u093e \u0926\u0940 \u091c\u093e\u0924\u0940 \u0939\u0948?",
     "options": [
-      "1.227 / √V nm",
-      "12.27 / √V nm",
-      "0.286 / √V nm",
-      "0.101 / √V nm"
+      "1.227 / \u221aV nm",
+      "12.27 / \u221aV nm",
+      "0.286 / \u221aV nm",
+      "0.101 / \u221aV nm"
     ],
     "optionsHi": [
-      "1.227 / √V nm",
-      "12.27 / √V nm",
-      "0.286 / √V nm",
-      "0.101 / √V nm"
+      "1.227 / \u221aV nm",
+      "12.27 / \u221aV nm",
+      "0.286 / \u221aV nm",
+      "0.101 / \u221aV nm"
     ],
     "correctAnswer": 0,
-    "explanation": "λ = h / √(2 m e V) = 1.227 / √V nm (or 12.27 / √V Å).",
+    "explanation": "\u03bb = h / \u221a(2 m e V) = 1.227 / \u221aV nm (or 12.27 / \u221aV \u00c5).",
     "concept": "Matter wave wavelength of charged subatomic particles under electrostatic acceleration.",
     "source": "PYQ",
     "year": 2024,
@@ -708,8 +708,8 @@
     "chapter": "Chemical Thermodynamics",
     "topic": "Gibbs Free Energy & Spontaneity",
     "difficulty": "Medium",
-    "question": "For a reaction to be spontaneous at all temperatures, the signs of enthalpy change (ΔH) and entropy change (ΔS) must be respectively:",
-    "questionHi": "किसी अभिक्रिया के सभी तापमानों पर स्वतः प्रवर्तित होने के लिए एन्थैल्पी परिवर्तन (ΔH) और एन्ट्रॉपी परिवर्तन (ΔS) के चिन्ह क्रमशः होने चाहिए:",
+    "question": "For a reaction to be spontaneous at all temperatures, the signs of enthalpy change (\u0394H) and entropy change (\u0394S) must be respectively:",
+    "questionHi": "\u0915\u093f\u0938\u0940 \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0915\u0947 \u0938\u092d\u0940 \u0924\u093e\u092a\u092e\u093e\u0928\u094b\u0902 \u092a\u0930 \u0938\u094d\u0935\u0924\u0903 \u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u0939\u094b\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u090f\u0928\u094d\u0925\u0948\u0932\u094d\u092a\u0940 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 (\u0394H) \u0914\u0930 \u090f\u0928\u094d\u091f\u094d\u0930\u0949\u092a\u0940 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 (\u0394S) \u0915\u0947 \u091a\u093f\u0928\u094d\u0939 \u0915\u094d\u0930\u092e\u0936\u0903 \u0939\u094b\u0928\u0947 \u091a\u093e\u0939\u093f\u090f:",
     "options": [
       "Negative, Positive",
       "Positive, Negative",
@@ -717,13 +717,13 @@
       "Positive, Positive"
     ],
     "optionsHi": [
-      "ऋणात्मक, धनात्मक",
-      "धनात्मक, ऋणात्मक",
-      "ऋणात्मक, ऋणात्मक",
-      "धनात्मक, धनात्मक"
+      "\u090b\u0923\u093e\u0924\u094d\u092e\u0915, \u0927\u0928\u093e\u0924\u094d\u092e\u0915",
+      "\u0927\u0928\u093e\u0924\u094d\u092e\u0915, \u090b\u0923\u093e\u0924\u094d\u092e\u0915",
+      "\u090b\u0923\u093e\u0924\u094d\u092e\u0915, \u090b\u0923\u093e\u0924\u094d\u092e\u0915",
+      "\u0927\u0928\u093e\u0924\u094d\u092e\u0915, \u0927\u0928\u093e\u0924\u094d\u092e\u0915"
     ],
     "correctAnswer": 0,
-    "explanation": "ΔG = ΔH - T ΔS. For spontaneity, ΔG must be negative. If ΔH < 0 (exothermic) and ΔS > 0, then ΔG is negative at all temperatures.",
+    "explanation": "\u0394G = \u0394H - T \u0394S. For spontaneity, \u0394G must be negative. If \u0394H < 0 (exothermic) and \u0394S > 0, then \u0394G is negative at all temperatures.",
     "concept": "Gibbs-Helmholtz equation and criteria for thermodynamic spontaneity.",
     "source": "PYQ",
     "year": 2023,
@@ -737,8 +737,8 @@
     "chapter": "Coordination Compounds",
     "topic": "Crystal Field Stabilization Energy (CFSE)",
     "difficulty": "Hard",
-    "question": "The spin-only magnetic moment of [Fe(CN)6]³⁻ and [Fe(H2O)6]³⁺ complexes in Bohr Magneton (BM) are respectively:",
-    "questionHi": "[Fe(CN)6]³⁻ और [Fe(H2O)6]³⁺ संकुलों के चक्रण-मात्र चुंबकीय आघूर्ण (BM में) क्रमशः हैं:",
+    "question": "The spin-only magnetic moment of [Fe(CN)6]\u00b3\u207b and [Fe(H2O)6]\u00b3\u207a complexes in Bohr Magneton (BM) are respectively:",
+    "questionHi": "[Fe(CN)6]\u00b3\u207b \u0914\u0930 [Fe(H2O)6]\u00b3\u207a \u0938\u0902\u0915\u0941\u0932\u094b\u0902 \u0915\u0947 \u091a\u0915\u094d\u0930\u0923-\u092e\u093e\u0924\u094d\u0930 \u091a\u0941\u0902\u092c\u0915\u0940\u092f \u0906\u0918\u0942\u0930\u094d\u0923 (BM \u092e\u0947\u0902) \u0915\u094d\u0930\u092e\u0936\u0903 \u0939\u0948\u0902:",
     "options": [
       "1.73 BM and 5.92 BM",
       "5.92 BM and 1.73 BM",
@@ -746,13 +746,13 @@
       "2.83 BM and 3.87 BM"
     ],
     "optionsHi": [
-      "1.73 BM तथा 5.92 BM",
-      "5.92 BM तथा 1.73 BM",
-      "0 BM तथा 4.90 BM",
-      "2.83 BM तथा 3.87 BM"
+      "1.73 BM \u0924\u0925\u093e 5.92 BM",
+      "5.92 BM \u0924\u0925\u093e 1.73 BM",
+      "0 BM \u0924\u0925\u093e 4.90 BM",
+      "2.83 BM \u0924\u0925\u093e 3.87 BM"
     ],
     "correctAnswer": 0,
-    "explanation": "Fe³⁺ has 3d⁵ configuration. CN⁻ is a strong field ligand, causing pairing (t2g⁵ eg⁰), giving 1 unpaired electron => μ = √(1(3)) = 1.73 BM. H2O is a weak field ligand, giving high-spin (t2g³ eg²), having 5 unpaired electrons => μ = √(5(7)) = √35 ≈ 5.92 BM.",
+    "explanation": "Fe\u00b3\u207a has 3d\u2075 configuration. CN\u207b is a strong field ligand, causing pairing (t2g\u2075 eg\u2070), giving 1 unpaired electron => \u03bc = \u221a(1(3)) = 1.73 BM. H2O is a weak field ligand, giving high-spin (t2g\u00b3 eg\u00b2), having 5 unpaired electrons => \u03bc = \u221a(5(7)) = \u221a35 \u2248 5.92 BM.",
     "concept": "Crystal Field Theory (CFT) splitting and spin-only magnetic moment.",
     "source": "PYQ",
     "year": 2024,
@@ -767,7 +767,7 @@
     "topic": "Lucas Test",
     "difficulty": "Easy",
     "question": "When an unknown alcohol is treated with Lucas reagent (anhydrous ZnCl2 + conc. HCl), turbidity appears immediately at room temperature. The alcohol is:",
-    "questionHi": "जब एक अज्ञात ऐल्कोहॉल को ल्यूकास अभिकर्मक (निर्जल ZnCl2 + सांद्र HCl) के साथ मिलाया जाता है, तो कमरे के ताप पर तुरंत धुंधलापन (turbidity) आ जाता है। यह ऐल्कोहॉल है:",
+    "questionHi": "\u091c\u092c \u090f\u0915 \u0905\u091c\u094d\u091e\u093e\u0924 \u0910\u0932\u094d\u0915\u094b\u0939\u0949\u0932 \u0915\u094b \u0932\u094d\u092f\u0942\u0915\u093e\u0938 \u0905\u092d\u093f\u0915\u0930\u094d\u092e\u0915 (\u0928\u093f\u0930\u094d\u091c\u0932 ZnCl2 + \u0938\u093e\u0902\u0926\u094d\u0930 HCl) \u0915\u0947 \u0938\u093e\u0925 \u092e\u093f\u0932\u093e\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948, \u0924\u094b \u0915\u092e\u0930\u0947 \u0915\u0947 \u0924\u093e\u092a \u092a\u0930 \u0924\u0941\u0930\u0902\u0924 \u0927\u0941\u0902\u0927\u0932\u093e\u092a\u0928 (turbidity) \u0906 \u091c\u093e\u0924\u093e \u0939\u0948\u0964 \u092f\u0939 \u0910\u0932\u094d\u0915\u094b\u0939\u0949\u0932 \u0939\u0948:",
     "options": [
       "Tertiary alcohol",
       "Secondary alcohol",
@@ -775,13 +775,13 @@
       "Methanol"
     ],
     "optionsHi": [
-      "तृतीयक ऐल्कोहॉल (3°)",
-      "द्वितीयक ऐल्कोहॉल (2°)",
-      "प्राथमिक ऐल्कोहॉल (1°)",
-      "मेथनॉल"
+      "\u0924\u0943\u0924\u0940\u092f\u0915 \u0910\u0932\u094d\u0915\u094b\u0939\u0949\u0932 (3\u00b0)",
+      "\u0926\u094d\u0935\u093f\u0924\u0940\u092f\u0915 \u0910\u0932\u094d\u0915\u094b\u0939\u0949\u0932 (2\u00b0)",
+      "\u092a\u094d\u0930\u093e\u0925\u092e\u093f\u0915 \u0910\u0932\u094d\u0915\u094b\u0939\u0949\u0932 (1\u00b0)",
+      "\u092e\u0947\u0925\u0928\u0949\u0932"
     ],
     "correctAnswer": 0,
-    "explanation": "Lucas test reactivity order is 3° > 2° > 1° due to carbocation stability. Tertiary alcohols react immediately giving insoluble alkyl chloride turbidity.",
+    "explanation": "Lucas test reactivity order is 3\u00b0 > 2\u00b0 > 1\u00b0 due to carbocation stability. Tertiary alcohols react immediately giving insoluble alkyl chloride turbidity.",
     "concept": "Chemical test for distinguishing primary, secondary, and tertiary alcohols.",
     "source": "PYQ",
     "year": 2024,
@@ -796,7 +796,7 @@
     "topic": "Hoffmann Bromamide Degradation",
     "difficulty": "Easy",
     "question": "The conversion of an amide into a primary amine with one less carbon atom using Br2 and aqueous KOH is known as:",
-    "questionHi": "Br2 और जलीय KOH का उपयोग करके एक कार्बन कम वाले प्राथमिक ऐमीन में ऐमाइड के परिवर्तन को कहा जाता है:",
+    "questionHi": "Br2 \u0914\u0930 \u091c\u0932\u0940\u092f KOH \u0915\u093e \u0909\u092a\u092f\u094b\u0917 \u0915\u0930\u0915\u0947 \u090f\u0915 \u0915\u093e\u0930\u094d\u092c\u0928 \u0915\u092e \u0935\u093e\u0932\u0947 \u092a\u094d\u0930\u093e\u0925\u092e\u093f\u0915 \u0910\u092e\u0940\u0928 \u092e\u0947\u0902 \u0910\u092e\u093e\u0907\u0921 \u0915\u0947 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0915\u094b \u0915\u0939\u093e \u091c\u093e\u0924\u093e \u0939\u0948:",
     "options": [
       "Hoffmann bromamide degradation reaction",
       "Gabriel phthalimide synthesis",
@@ -804,10 +804,10 @@
       "Cannizzaro reaction"
     ],
     "optionsHi": [
-      "हॉफमैन ब्रोमामाइड निम्नीकरण अभिक्रिया",
-      "गैब्रिएल थैलिमाइड संश्लेषण",
-      "कार्बिलऐमीन अभिक्रिया",
-      "कैनिजारो अभिक्रिया"
+      "\u0939\u0949\u092b\u092e\u0948\u0928 \u092c\u094d\u0930\u094b\u092e\u093e\u092e\u093e\u0907\u0921 \u0928\u093f\u092e\u094d\u0928\u0940\u0915\u0930\u0923 \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e",
+      "\u0917\u0948\u092c\u094d\u0930\u093f\u090f\u0932 \u0925\u0948\u0932\u093f\u092e\u093e\u0907\u0921 \u0938\u0902\u0936\u094d\u0932\u0947\u0937\u0923",
+      "\u0915\u093e\u0930\u094d\u092c\u093f\u0932\u0910\u092e\u0940\u0928 \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e",
+      "\u0915\u0948\u0928\u093f\u091c\u093e\u0930\u094b \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e"
     ],
     "correctAnswer": 0,
     "explanation": "R-CONH2 + Br2 + 4 KOH -> R-NH2 + K2CO3 + 2 KBr + 2 H2O. This step-down reaction is Hoffmann bromamide degradation.",
@@ -825,7 +825,7 @@
     "topic": "Proteins & Peptide Linkage",
     "difficulty": "Easy",
     "question": "The helical structure of protein (alpha-helix) is stabilized primarily by:",
-    "questionHi": "प्रोटीन की कुंडलित संरचना (अल्फा-हेलिक्स) मुख्य रूप से किसके द्वारा स्थिर होती है?",
+    "questionHi": "\u092a\u094d\u0930\u094b\u091f\u0940\u0928 \u0915\u0940 \u0915\u0941\u0902\u0921\u0932\u093f\u0924 \u0938\u0902\u0930\u091a\u0928\u093e (\u0905\u0932\u094d\u092b\u093e-\u0939\u0947\u0932\u093f\u0915\u094d\u0938) \u092e\u0941\u0916\u094d\u092f \u0930\u0942\u092a \u0938\u0947 \u0915\u093f\u0938\u0915\u0947 \u0926\u094d\u0935\u093e\u0930\u093e \u0938\u094d\u0925\u093f\u0930 \u0939\u094b\u0924\u0940 \u0939\u0948?",
     "options": [
       "Intramolecular hydrogen bonding",
       "Disulfide bridges",
@@ -833,10 +833,10 @@
       "Van der Waals forces"
     ],
     "optionsHi": [
-      "अंतरा-आण्विक हाइड्रोजन बंध",
-      "डाइसल्फाइड सेतु",
-      "विद्युतस्थैतिक आकर्षण",
-      "वान्डर वाल्स बल"
+      "\u0905\u0902\u0924\u0930\u093e-\u0906\u0923\u094d\u0935\u093f\u0915 \u0939\u093e\u0907\u0921\u094d\u0930\u094b\u091c\u0928 \u092c\u0902\u0927",
+      "\u0921\u093e\u0907\u0938\u0932\u094d\u092b\u093e\u0907\u0921 \u0938\u0947\u0924\u0941",
+      "\u0935\u093f\u0926\u094d\u092f\u0941\u0924\u0938\u094d\u0925\u0948\u0924\u093f\u0915 \u0906\u0915\u0930\u094d\u0937\u0923",
+      "\u0935\u093e\u0928\u094d\u0921\u0930 \u0935\u093e\u0932\u094d\u0938 \u092c\u0932"
     ],
     "correctAnswer": 0,
     "explanation": "In an alpha-helix, the -NH- group of each amino acid residue forms a hydrogen bond with the -C=O group of the adjacent turn (residue 4 units ahead).",
@@ -853,8 +853,8 @@
     "chapter": "Some Basic Concepts of Chemistry",
     "topic": "Limiting Reagent & Stoichiometry",
     "difficulty": "Easy",
-    "question": "If 4 g of hydrogen gas reacts with 32 g of oxygen gas to form water according to the equation 2H₂ + O₂ → 2H₂O, which is the limiting reagent and what mass of water is produced?",
-    "questionHi": "यदि 4 ग्राम हाइड्रोजन गैस 32 ग्राम ऑक्सीजन गैस से 2H₂ + O₂ → 2H₂O के अनुसार क्रिया करती है, तो सीमांत अभिकर्मक कौन सा है और कितना जल बनेगा?",
+    "question": "If 4 g of hydrogen gas reacts with 32 g of oxygen gas to form water according to the equation 2H\u2082 + O\u2082 \u2192 2H\u2082O, which is the limiting reagent and what mass of water is produced?",
+    "questionHi": "\u092f\u0926\u093f 4 \u0917\u094d\u0930\u093e\u092e \u0939\u093e\u0907\u0921\u094d\u0930\u094b\u091c\u0928 \u0917\u0948\u0938 32 \u0917\u094d\u0930\u093e\u092e \u0911\u0915\u094d\u0938\u0940\u091c\u0928 \u0917\u0948\u0938 \u0938\u0947 2H\u2082 + O\u2082 \u2192 2H\u2082O \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930 \u0915\u094d\u0930\u093f\u092f\u093e \u0915\u0930\u0924\u0940 \u0939\u0948, \u0924\u094b \u0938\u0940\u092e\u093e\u0902\u0924 \u0905\u092d\u093f\u0915\u0930\u094d\u092e\u0915 \u0915\u094c\u0928 \u0938\u093e \u0939\u0948 \u0914\u0930 \u0915\u093f\u0924\u0928\u093e \u091c\u0932 \u092c\u0928\u0947\u0917\u093e?",
     "options": [
       "Oxygen is limiting, 36 g water formed",
       "Hydrogen is limiting, 18 g water formed",
@@ -862,13 +862,13 @@
       "Oxygen is limiting, 18 g water formed"
     ],
     "optionsHi": [
-      "ऑक्सीजन सीमांत है, 36 ग्राम जल बनता है",
-      "हाइड्रोजन सीमांत है, 18 ग्राम जल बनता है",
-      "दोनों पूर्णतः क्रिया करते हैं, 36 ग्राम जल बनता है",
-      "ऑक्सीजन सीमांत है, 18 ग्राम जल बनता है"
+      "\u0911\u0915\u094d\u0938\u0940\u091c\u0928 \u0938\u0940\u092e\u093e\u0902\u0924 \u0939\u0948, 36 \u0917\u094d\u0930\u093e\u092e \u091c\u0932 \u092c\u0928\u0924\u093e \u0939\u0948",
+      "\u0939\u093e\u0907\u0921\u094d\u0930\u094b\u091c\u0928 \u0938\u0940\u092e\u093e\u0902\u0924 \u0939\u0948, 18 \u0917\u094d\u0930\u093e\u092e \u091c\u0932 \u092c\u0928\u0924\u093e \u0939\u0948",
+      "\u0926\u094b\u0928\u094b\u0902 \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0915\u094d\u0930\u093f\u092f\u093e \u0915\u0930\u0924\u0947 \u0939\u0948\u0902, 36 \u0917\u094d\u0930\u093e\u092e \u091c\u0932 \u092c\u0928\u0924\u093e \u0939\u0948",
+      "\u0911\u0915\u094d\u0938\u0940\u091c\u0928 \u0938\u0940\u092e\u093e\u0902\u0924 \u0939\u0948, 18 \u0917\u094d\u0930\u093e\u092e \u091c\u0932 \u092c\u0928\u0924\u093e \u0939\u0948"
     ],
     "correctAnswer": 2,
-    "explanation": "Moles of H₂ = 4 g / 2 g/mol = 2.0 mol. Moles of O₂ = 32 g / 32 g/mol = 1.0 mol. Reaction stoichiometric ratio H₂:O₂ = 2:1. Here 2 moles of H₂ exactly react with 1 mole of O₂. Neither is in excess. Total mass of water = 2 × 18 g = 36 g.",
+    "explanation": "Moles of H\u2082 = 4 g / 2 g/mol = 2.0 mol. Moles of O\u2082 = 32 g / 32 g/mol = 1.0 mol. Reaction stoichiometric ratio H\u2082:O\u2082 = 2:1. Here 2 moles of H\u2082 exactly react with 1 mole of O\u2082. Neither is in excess. Total mass of water = 2 \u00d7 18 g = 36 g.",
     "concept": "Stoichiometric equivalent proportion.",
     "importantPoint": "Check mole ratio of reactants against balanced chemical coefficients.",
     "source": "Official Board/NTA",
@@ -884,7 +884,7 @@
     "topic": "Molarity vs Molality Temperature Dependence",
     "difficulty": "Easy",
     "question": "Why is molality (m) preferred over molarity (M) when reporting solution concentrations in precise thermodynamic measurements involving temperature changes?",
-    "questionHi": "तापमान परिवर्तन से संबंधित सटीक ऊष्मागतिकीय मापों में मोलरता (M) की तुलना में मोललता (m) को प्राथमिकता क्यों दी जाती है?",
+    "questionHi": "\u0924\u093e\u092a\u092e\u093e\u0928 \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0938\u0947 \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0938\u091f\u0940\u0915 \u090a\u0937\u094d\u092e\u093e\u0917\u0924\u093f\u0915\u0940\u092f \u092e\u093e\u092a\u094b\u0902 \u092e\u0947\u0902 \u092e\u094b\u0932\u0930\u0924\u093e (M) \u0915\u0940 \u0924\u0941\u0932\u0928\u093e \u092e\u0947\u0902 \u092e\u094b\u0932\u0932\u0924\u093e (m) \u0915\u094b \u092a\u094d\u0930\u093e\u0925\u092e\u093f\u0915\u0924\u093e \u0915\u094d\u092f\u094b\u0902 \u0926\u0940 \u091c\u093e\u0924\u0940 \u0939\u0948?",
     "options": [
       "Molality depends on solvent mass and is independent of temperature",
       "Molarity cannot be measured easily",
@@ -892,10 +892,10 @@
       "Molality does not follow Raoult's law"
     ],
     "optionsHi": [
-      "मोललता विलायक के द्रव्यमान पर निर्भर करती है तथा ताप पर निर्भर नहीं करती",
-      "मोलरता का मापन कठिन होता है",
-      "मोललता हमेशा मोलरता से अधिक होती है",
-      "मोललता राउल्ट के नियम का पालन नहीं करती"
+      "\u092e\u094b\u0932\u0932\u0924\u093e \u0935\u093f\u0932\u093e\u092f\u0915 \u0915\u0947 \u0926\u094d\u0930\u0935\u094d\u092f\u092e\u093e\u0928 \u092a\u0930 \u0928\u093f\u0930\u094d\u092d\u0930 \u0915\u0930\u0924\u0940 \u0939\u0948 \u0924\u0925\u093e \u0924\u093e\u092a \u092a\u0930 \u0928\u093f\u0930\u094d\u092d\u0930 \u0928\u0939\u0940\u0902 \u0915\u0930\u0924\u0940",
+      "\u092e\u094b\u0932\u0930\u0924\u093e \u0915\u093e \u092e\u093e\u092a\u0928 \u0915\u0920\u093f\u0928 \u0939\u094b\u0924\u093e \u0939\u0948",
+      "\u092e\u094b\u0932\u0932\u0924\u093e \u0939\u092e\u0947\u0936\u093e \u092e\u094b\u0932\u0930\u0924\u093e \u0938\u0947 \u0905\u0927\u093f\u0915 \u0939\u094b\u0924\u0940 \u0939\u0948",
+      "\u092e\u094b\u0932\u0932\u0924\u093e \u0930\u093e\u0909\u0932\u094d\u091f \u0915\u0947 \u0928\u093f\u092f\u092e \u0915\u093e \u092a\u093e\u0932\u0928 \u0928\u0939\u0940\u0902 \u0915\u0930\u0924\u0940"
     ],
     "correctAnswer": 0,
     "explanation": "Molarity involves the volume of the solution, which expands or contracts with changes in temperature. Molality involves only mass of the solvent (moles of solute per kg of solvent), which remains strictly invariant with temperature.",
@@ -913,24 +913,24 @@
     "chapter": "Structure of Atom",
     "topic": "De Broglie Wavelength of Electron",
     "difficulty": "Medium",
-    "question": "An electron is accelerated from rest through a potential difference of V volts. What is the de Broglie wavelength λ associated with the electron in terms of V?",
-    "questionHi": "एक इलेक्ट्रॉन को V वोल्ट के विभवांतर से त्वरित किया जाता है। इलेक्ट्रॉन की डी-ब्रोग्ली तरंगदैर्घ्य λ क्या होगी?",
+    "question": "An electron is accelerated from rest through a potential difference of V volts. What is the de Broglie wavelength \u03bb associated with the electron in terms of V?",
+    "questionHi": "\u090f\u0915 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 \u0915\u094b V \u0935\u094b\u0932\u094d\u091f \u0915\u0947 \u0935\u093f\u092d\u0935\u093e\u0902\u0924\u0930 \u0938\u0947 \u0924\u094d\u0935\u0930\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948\u0964 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 \u0915\u0940 \u0921\u0940-\u092c\u094d\u0930\u094b\u0917\u094d\u0932\u0940 \u0924\u0930\u0902\u0917\u0926\u0948\u0930\u094d\u0918\u094d\u092f \u03bb \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u0940?",
     "options": [
-      "λ = 1.227 / √V nm",
-      "λ = 12.27 / √V nm",
-      "λ = 0.1227 / √V nm",
-      "λ = 1.227 √V nm"
+      "\u03bb = 1.227 / \u221aV nm",
+      "\u03bb = 12.27 / \u221aV nm",
+      "\u03bb = 0.1227 / \u221aV nm",
+      "\u03bb = 1.227 \u221aV nm"
     ],
     "optionsHi": [
-      "λ = 1.227 / √V nm",
-      "λ = 12.27 / √V nm",
-      "λ = 0.1227 / √V nm",
-      "λ = 1.227 √V nm"
+      "\u03bb = 1.227 / \u221aV nm",
+      "\u03bb = 12.27 / \u221aV nm",
+      "\u03bb = 0.1227 / \u221aV nm",
+      "\u03bb = 1.227 \u221aV nm"
     ],
     "correctAnswer": 0,
-    "explanation": "λ = h / p = h / √(2 m e V). Substituting constants: h = 6.626 × 10⁻³⁴ J·s, m = 9.11 × 10⁻³¹ kg, e = 1.6 × 10⁻¹⁹ C yields λ = 1.227 × 10⁻⁹ / √V m = 1.227 / √V nm (or 12.27 / √V Å).",
+    "explanation": "\u03bb = h / p = h / \u221a(2 m e V). Substituting constants: h = 6.626 \u00d7 10\u207b\u00b3\u2074 J\u00b7s, m = 9.11 \u00d7 10\u207b\u00b3\u00b9 kg, e = 1.6 \u00d7 10\u207b\u00b9\u2079 C yields \u03bb = 1.227 \u00d7 10\u207b\u2079 / \u221aV m = 1.227 / \u221aV nm (or 12.27 / \u221aV \u00c5).",
     "concept": "Wave-particle duality of accelerated charged particles.",
-    "importantPoint": "For electron: λ = 12.27 / √V Ångströms = 1.227 / √V nanometers.",
+    "importantPoint": "For electron: \u03bb = 12.27 / \u221aV \u00c5ngstr\u00f6ms = 1.227 / \u221aV nanometers.",
     "source": "Official Board/NTA",
     "year": 2022,
     "recommendedTimeSeconds": 90
@@ -944,7 +944,7 @@
     "topic": "Quantum Numbers and Hund's Rule",
     "difficulty": "Easy",
     "question": "What is the maximum number of electrons that can be accommodated in a subshell characterized by principal quantum number n = 4 and azimuthal quantum number l = 3?",
-    "questionHi": "मुख्य क्वांटम संख्या n = 4 और दिगंशी क्वांटम संख्या l = 3 द्वारा निर्दिष्ट उपकोश में अधिकतम कितने इलेक्ट्रॉन हो सकते हैं?",
+    "questionHi": "\u092e\u0941\u0916\u094d\u092f \u0915\u094d\u0935\u093e\u0902\u091f\u092e \u0938\u0902\u0916\u094d\u092f\u093e n = 4 \u0914\u0930 \u0926\u093f\u0917\u0902\u0936\u0940 \u0915\u094d\u0935\u093e\u0902\u091f\u092e \u0938\u0902\u0916\u094d\u092f\u093e l = 3 \u0926\u094d\u0935\u093e\u0930\u093e \u0928\u093f\u0930\u094d\u0926\u093f\u0937\u094d\u091f \u0909\u092a\u0915\u094b\u0936 \u092e\u0947\u0902 \u0905\u0927\u093f\u0915\u0924\u092e \u0915\u093f\u0924\u0928\u0947 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 \u0939\u094b \u0938\u0915\u0924\u0947 \u0939\u0948\u0902?",
     "options": [
       "14 electrons (4f subshell)",
       "10 electrons (4d subshell)",
@@ -952,13 +952,13 @@
       "2 electrons (4s subshell)"
     ],
     "optionsHi": [
-      "14 इलेक्ट्रॉन (4f उपकोश)",
-      "10 इलेक्ट्रॉन (4d उपकोश)",
-      "6 इलेक्ट्रॉन (4p उपकोश)",
-      "2 इलेक्ट्रॉन (4s उपकोश)"
+      "14 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 (4f \u0909\u092a\u0915\u094b\u0936)",
+      "10 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 (4d \u0909\u092a\u0915\u094b\u0936)",
+      "6 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 (4p \u0909\u092a\u0915\u094b\u0936)",
+      "2 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928 (4s \u0909\u092a\u0915\u094b\u0936)"
     ],
     "correctAnswer": 0,
-    "explanation": "When l = 3, it denotes an f-subshell (here 4f). The number of orbitals in an l-subshell is 2l + 1 = 2(3) + 1 = 7 orbitals. Each orbital can hold at most 2 electrons with opposite spins, giving 7 × 2 = 14 electrons.",
+    "explanation": "When l = 3, it denotes an f-subshell (here 4f). The number of orbitals in an l-subshell is 2l + 1 = 2(3) + 1 = 7 orbitals. Each orbital can hold at most 2 electrons with opposite spins, giving 7 \u00d7 2 = 14 electrons.",
     "concept": "Maximum electrons in subshell = 2(2l + 1).",
     "importantPoint": "l=0 (s: 2), l=1 (p: 6), l=2 (d: 10), l=3 (f: 14).",
     "source": "Official Board/NTA",
@@ -974,23 +974,23 @@
     "topic": "Molecular Orbital Theory & Bond Order",
     "difficulty": "Medium",
     "question": "According to Molecular Orbital Theory, which of the following diatomic species is diamagnetic and possesses a bond order of 3?",
-    "questionHi": "आणविक कक्षक सिद्धांत के अनुसार, निम्नलिखित में से कौन सी द्विपरमाणुक प्रजाति प्रतिचुंबकीय है तथा उसका बंध क्रम 3 है?",
+    "questionHi": "\u0906\u0923\u0935\u093f\u0915 \u0915\u0915\u094d\u0937\u0915 \u0938\u093f\u0926\u094d\u0927\u093e\u0902\u0924 \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930, \u0928\u093f\u092e\u094d\u0928\u0932\u093f\u0916\u093f\u0924 \u092e\u0947\u0902 \u0938\u0947 \u0915\u094c\u0928 \u0938\u0940 \u0926\u094d\u0935\u093f\u092a\u0930\u092e\u093e\u0923\u0941\u0915 \u092a\u094d\u0930\u091c\u093e\u0924\u093f \u092a\u094d\u0930\u0924\u093f\u091a\u0941\u0902\u092c\u0915\u0940\u092f \u0939\u0948 \u0924\u0925\u093e \u0909\u0938\u0915\u093e \u092c\u0902\u0927 \u0915\u094d\u0930\u092e 3 \u0939\u0948?",
     "options": [
-      "N₂",
-      "O₂",
+      "N\u2082",
+      "O\u2082",
       "NO",
-      "C₂"
+      "C\u2082"
     ],
     "optionsHi": [
-      "N₂",
-      "O₂",
+      "N\u2082",
+      "O\u2082",
       "NO",
-      "C₂"
+      "C\u2082"
     ],
     "correctAnswer": 0,
-    "explanation": "N₂ has 14 electrons (σ1s² σ*1s² σ2s² σ*2s² π2px² = π2py² σ2pz²). Bond order = (10 - 4)/2 = 3. All electrons are completely paired, making it diamagnetic.",
+    "explanation": "N\u2082 has 14 electrons (\u03c31s\u00b2 \u03c3*1s\u00b2 \u03c32s\u00b2 \u03c3*2s\u00b2 \u03c02px\u00b2 = \u03c02py\u00b2 \u03c32pz\u00b2). Bond order = (10 - 4)/2 = 3. All electrons are completely paired, making it diamagnetic.",
     "concept": "Molecular orbital electronic configurations of homonuclear diatomic molecules.",
-    "importantPoint": "O₂ has 16 electrons with 2 unpaired electrons in antibonding π* orbitals, making it paramagnetic.",
+    "importantPoint": "O\u2082 has 16 electrons with 2 unpaired electrons in antibonding \u03c0* orbitals, making it paramagnetic.",
     "source": "Official Board/NTA",
     "year": 2024,
     "recommendedTimeSeconds": 90
@@ -1003,22 +1003,22 @@
     "chapter": "Chemical Bonding and Molecular Structure",
     "topic": "VSEPR Theory - Geometry and Lone Pairs",
     "difficulty": "Medium",
-    "question": "According to VSEPR theory, what is the shape and hybridization of the central atom in Xenon tetrafluoride (XeF₄)?",
-    "questionHi": "VSEPR सिद्धांत के अनुसार, जीनॉन टेट्राफ्लोराइड (XeF₄) में केंद्रीय परमाणु की ज्यामिति और संकरण क्या है?",
+    "question": "According to VSEPR theory, what is the shape and hybridization of the central atom in Xenon tetrafluoride (XeF\u2084)?",
+    "questionHi": "VSEPR \u0938\u093f\u0926\u094d\u0927\u093e\u0902\u0924 \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930, \u091c\u0940\u0928\u0949\u0928 \u091f\u0947\u091f\u094d\u0930\u093e\u092b\u094d\u0932\u094b\u0930\u093e\u0907\u0921 (XeF\u2084) \u092e\u0947\u0902 \u0915\u0947\u0902\u0926\u094d\u0930\u0940\u092f \u092a\u0930\u092e\u093e\u0923\u0941 \u0915\u0940 \u091c\u094d\u092f\u093e\u092e\u093f\u0924\u093f \u0914\u0930 \u0938\u0902\u0915\u0930\u0923 \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
-      "Square planar, sp³d²",
-      "Tetrahedral, sp³",
-      "See-saw, sp³d",
-      "Octahedral, sp³d²"
+      "Square planar, sp\u00b3d\u00b2",
+      "Tetrahedral, sp\u00b3",
+      "See-saw, sp\u00b3d",
+      "Octahedral, sp\u00b3d\u00b2"
     ],
     "optionsHi": [
-      "वर्ग समतलीय, sp³d²",
-      "चतुष्फलकीय, sp³",
-      "सी-सॉ, sp³d",
-      "अष्टफलकीय, sp³d²"
+      "\u0935\u0930\u094d\u0917 \u0938\u092e\u0924\u0932\u0940\u092f, sp\u00b3d\u00b2",
+      "\u091a\u0924\u0941\u0937\u094d\u092b\u0932\u0915\u0940\u092f, sp\u00b3",
+      "\u0938\u0940-\u0938\u0949, sp\u00b3d",
+      "\u0905\u0937\u094d\u091f\u092b\u0932\u0915\u0940\u092f, sp\u00b3d\u00b2"
     ],
     "correctAnswer": 0,
-    "explanation": "Xenon has 8 valence electrons. 4 are shared with fluorines and 4 remain as 2 lone pairs. Steric number = 4 bond pairs + 2 lone pairs = 6 (sp³d² hybridization). To minimize repulsion, the 2 lone pairs occupy axial positions, resulting in a square planar molecular geometry.",
+    "explanation": "Xenon has 8 valence electrons. 4 are shared with fluorines and 4 remain as 2 lone pairs. Steric number = 4 bond pairs + 2 lone pairs = 6 (sp\u00b3d\u00b2 hybridization). To minimize repulsion, the 2 lone pairs occupy axial positions, resulting in a square planar molecular geometry.",
     "concept": "Steric number and lone pair placement in octahedral electron geometry.",
     "importantPoint": "Electron geometry is octahedral, but molecular geometry/shape is square planar.",
     "source": "Official Board/NTA",
@@ -1033,24 +1033,24 @@
     "chapter": "Chemical Thermodynamics",
     "topic": "Gibbs Free Energy & Spontaneity",
     "difficulty": "Medium",
-    "question": "For an endothermic reaction with positive enthalpy change (ΔH > 0) and positive entropy change (ΔS > 0), under what thermal conditions will the process become spontaneous?",
-    "questionHi": "धनात्मक एन्थैल्पी (ΔH > 0) और धनात्मक एंट्रॉपी (ΔS > 0) वाली अभिक्रिया किस तापमान पर स्वतःप्रवर्तित होगी?",
+    "question": "For an endothermic reaction with positive enthalpy change (\u0394H > 0) and positive entropy change (\u0394S > 0), under what thermal conditions will the process become spontaneous?",
+    "questionHi": "\u0927\u0928\u093e\u0924\u094d\u092e\u0915 \u090f\u0928\u094d\u0925\u0948\u0932\u094d\u092a\u0940 (\u0394H > 0) \u0914\u0930 \u0927\u0928\u093e\u0924\u094d\u092e\u0915 \u090f\u0902\u091f\u094d\u0930\u0949\u092a\u0940 (\u0394S > 0) \u0935\u093e\u0932\u0940 \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0915\u093f\u0938 \u0924\u093e\u092a\u092e\u093e\u0928 \u092a\u0930 \u0938\u094d\u0935\u0924\u0903\u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u0939\u094b\u0917\u0940?",
     "options": [
-      "Only at high temperatures where T > ΔH / ΔS",
+      "Only at high temperatures where T > \u0394H / \u0394S",
       "At all temperatures",
-      "Only at very low temperatures where T < ΔH / ΔS",
+      "Only at very low temperatures where T < \u0394H / \u0394S",
       "Never spontaneous"
     ],
     "optionsHi": [
-      "केवल उच्च ताप पर जहाँ T > ΔH / ΔS",
-      "सभी तापमानों पर",
-      "केवल निम्न ताप पर",
-      "कभी स्वतःप्रवर्तित नहीं"
+      "\u0915\u0947\u0935\u0932 \u0909\u091a\u094d\u091a \u0924\u093e\u092a \u092a\u0930 \u091c\u0939\u093e\u0901 T > \u0394H / \u0394S",
+      "\u0938\u092d\u0940 \u0924\u093e\u092a\u092e\u093e\u0928\u094b\u0902 \u092a\u0930",
+      "\u0915\u0947\u0935\u0932 \u0928\u093f\u092e\u094d\u0928 \u0924\u093e\u092a \u092a\u0930",
+      "\u0915\u092d\u0940 \u0938\u094d\u0935\u0924\u0903\u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u0928\u0939\u0940\u0902"
     ],
     "correctAnswer": 0,
-    "explanation": "Gibbs free energy change ΔG = ΔH - TΔS. For spontaneity, ΔG < 0 => ΔH - TΔS < 0 => TΔS > ΔH => T > ΔH / ΔS. Thus, high temperatures are required.",
-    "concept": "Criterion for spontaneity: ΔG < 0.",
-    "importantPoint": "When both ΔH and ΔS are positive, reaction is entropy-driven at elevated temperatures.",
+    "explanation": "Gibbs free energy change \u0394G = \u0394H - T\u0394S. For spontaneity, \u0394G < 0 => \u0394H - T\u0394S < 0 => T\u0394S > \u0394H => T > \u0394H / \u0394S. Thus, high temperatures are required.",
+    "concept": "Criterion for spontaneity: \u0394G < 0.",
+    "importantPoint": "When both \u0394H and \u0394S are positive, reaction is entropy-driven at elevated temperatures.",
     "source": "Official Board/NTA",
     "year": 2022,
     "recommendedTimeSeconds": 90
@@ -1063,8 +1063,8 @@
     "chapter": "Coordination Compounds",
     "topic": "Crystal Field Theory & High Spin vs Low Spin",
     "difficulty": "Hard",
-    "question": "In an octahedral coordination complex of Fe³⁺ (3d⁵) with strong field cyanide ligands [Fe(CN)₆]³⁻, what is the number of unpaired electrons and the magnetic behavior?",
-    "questionHi": "प्रबल क्षेत्र सायनाइड लिगैंड युक्त अष्टफलकीय संकुल [Fe(CN)₆]³⁻ में अयुग्मित इलेक्ट्रॉनों की संख्या और चुंबकीय व्यवहार क्या होगा?",
+    "question": "In an octahedral coordination complex of Fe\u00b3\u207a (3d\u2075) with strong field cyanide ligands [Fe(CN)\u2086]\u00b3\u207b, what is the number of unpaired electrons and the magnetic behavior?",
+    "questionHi": "\u092a\u094d\u0930\u092c\u0932 \u0915\u094d\u0937\u0947\u0924\u094d\u0930 \u0938\u093e\u092f\u0928\u093e\u0907\u0921 \u0932\u093f\u0917\u0948\u0902\u0921 \u092f\u0941\u0915\u094d\u0924 \u0905\u0937\u094d\u091f\u092b\u0932\u0915\u0940\u092f \u0938\u0902\u0915\u0941\u0932 [Fe(CN)\u2086]\u00b3\u207b \u092e\u0947\u0902 \u0905\u092f\u0941\u0917\u094d\u092e\u093f\u0924 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928\u094b\u0902 \u0915\u0940 \u0938\u0902\u0916\u094d\u092f\u093e \u0914\u0930 \u091a\u0941\u0902\u092c\u0915\u0940\u092f \u0935\u094d\u092f\u0935\u0939\u093e\u0930 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e?",
     "options": [
       "1 unpaired electron, Paramagnetic",
       "5 unpaired electrons, Highly paramagnetic",
@@ -1072,15 +1072,15 @@
       "3 unpaired electrons, Paramagnetic"
     ],
     "optionsHi": [
-      "1 अयुग्मित इलेक्ट्रॉन, अनुचुंबकीय",
-      "5 अयुग्मित इलेक्ट्रॉन, उच्च अनुचुंबकीय",
-      "0 अयुग्मित इलेक्ट्रॉन, प्रतिचुंबकीय",
-      "3 अयुग्मित इलेक्ट्रॉन, अनुचुंबकीय"
+      "1 \u0905\u092f\u0941\u0917\u094d\u092e\u093f\u0924 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928, \u0905\u0928\u0941\u091a\u0941\u0902\u092c\u0915\u0940\u092f",
+      "5 \u0905\u092f\u0941\u0917\u094d\u092e\u093f\u0924 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928, \u0909\u091a\u094d\u091a \u0905\u0928\u0941\u091a\u0941\u0902\u092c\u0915\u0940\u092f",
+      "0 \u0905\u092f\u0941\u0917\u094d\u092e\u093f\u0924 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928, \u092a\u094d\u0930\u0924\u093f\u091a\u0941\u0902\u092c\u0915\u0940\u092f",
+      "3 \u0905\u092f\u0941\u0917\u094d\u092e\u093f\u0924 \u0907\u0932\u0947\u0915\u094d\u091f\u094d\u0930\u0949\u0928, \u0905\u0928\u0941\u091a\u0941\u0902\u092c\u0915\u0940\u092f"
     ],
     "correctAnswer": 0,
-    "explanation": "Fe³⁺ has 3d⁵ configuration. Cyanide (CN⁻) is a strong field ligand, so Δ_o > P (pairing energy). Electrons pair up in t_2g orbitals first: t_2g⁵ e_g⁰. This leaves exactly 1 unpaired electron, resulting in a low-spin paramagnetic complex.",
-    "concept": "Crystal field splitting in d⁵ strong field octahedral complexes.",
-    "importantPoint": "Spectrochemical series: CO > CN⁻ > en > NH₃ > H₂O > F⁻ > Cl⁻ > Br⁻ > I⁻.",
+    "explanation": "Fe\u00b3\u207a has 3d\u2075 configuration. Cyanide (CN\u207b) is a strong field ligand, so \u0394_o > P (pairing energy). Electrons pair up in t_2g orbitals first: t_2g\u2075 e_g\u2070. This leaves exactly 1 unpaired electron, resulting in a low-spin paramagnetic complex.",
+    "concept": "Crystal field splitting in d\u2075 strong field octahedral complexes.",
+    "importantPoint": "Spectrochemical series: CO > CN\u207b > en > NH\u2083 > H\u2082O > F\u207b > Cl\u207b > Br\u207b > I\u207b.",
     "source": "Official Board/NTA",
     "year": 2023,
     "recommendedTimeSeconds": 120
@@ -1093,8 +1093,8 @@
     "chapter": "Coordination Compounds",
     "topic": "IUPAC Nomenclature of Coordination Complexes",
     "difficulty": "Easy",
-    "question": "What is the correct IUPAC name of the coordination compound [Co(NH₃)₅(Cl)]Cl₂?",
-    "questionHi": "उपसहसंयोजन यौगिक [Co(NH₃)₅(Cl)]Cl₂ का सही IUPAC नाम क्या है?",
+    "question": "What is the correct IUPAC name of the coordination compound [Co(NH\u2083)\u2085(Cl)]Cl\u2082?",
+    "questionHi": "\u0909\u092a\u0938\u0939\u0938\u0902\u092f\u094b\u091c\u0928 \u092f\u094c\u0917\u093f\u0915 [Co(NH\u2083)\u2085(Cl)]Cl\u2082 \u0915\u093e \u0938\u0939\u0940 IUPAC \u0928\u093e\u092e \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
       "Pentaamminechloridocobalt(III) chloride",
       "Chloropentaamminecobalt(III) chloride",
@@ -1102,15 +1102,15 @@
       "Cobalt(III) pentaamminechloride"
     ],
     "optionsHi": [
-      "पेन्टाऐम्मीनक्लोरिडोकोबाल्ट(III) क्लोराइड",
-      "क्लोरोपेन्टाऐम्मीनकोबाल्ट(III) क्लोराइड",
-      "पेन्टाऐम्मीनक्लोरोकोबाल्ट(II) क्लोराइड",
-      "कोबाल्ट(III) पेन्टाऐम्मीनक्लोराइड"
+      "\u092a\u0947\u0928\u094d\u091f\u093e\u0910\u092e\u094d\u092e\u0940\u0928\u0915\u094d\u0932\u094b\u0930\u093f\u0921\u094b\u0915\u094b\u092c\u093e\u0932\u094d\u091f(III) \u0915\u094d\u0932\u094b\u0930\u093e\u0907\u0921",
+      "\u0915\u094d\u0932\u094b\u0930\u094b\u092a\u0947\u0928\u094d\u091f\u093e\u0910\u092e\u094d\u092e\u0940\u0928\u0915\u094b\u092c\u093e\u0932\u094d\u091f(III) \u0915\u094d\u0932\u094b\u0930\u093e\u0907\u0921",
+      "\u092a\u0947\u0928\u094d\u091f\u093e\u0910\u092e\u094d\u092e\u0940\u0928\u0915\u094d\u0932\u094b\u0930\u094b\u0915\u094b\u092c\u093e\u0932\u094d\u091f(II) \u0915\u094d\u0932\u094b\u0930\u093e\u0907\u0921",
+      "\u0915\u094b\u092c\u093e\u0932\u094d\u091f(III) \u092a\u0947\u0928\u094d\u091f\u093e\u0910\u092e\u094d\u092e\u0940\u0928\u0915\u094d\u0932\u094b\u0930\u093e\u0907\u0921"
     ],
     "correctAnswer": 0,
     "explanation": "Ligands are named alphabetically: 'ammine' before 'chlorido'. Oxidation state of Co: x + 5(0) + (-1) + 2(-1) = 0 => x = +3. Hence IUPAC name is Pentaamminechloridocobalt(III) chloride.",
     "concept": "Rules for IUPAC naming of coordination entities.",
-    "importantPoint": "NH₃ is spelled 'ammine' (with double m), while organic amines use single m.",
+    "importantPoint": "NH\u2083 is spelled 'ammine' (with double m), while organic amines use single m.",
     "source": "Official Board/NTA",
     "year": 2024,
     "recommendedTimeSeconds": 60
@@ -1124,23 +1124,23 @@
     "topic": "Cannizzaro Reaction vs Aldol Condensation",
     "difficulty": "Medium",
     "question": "Which of the following carbonyl compounds undergoes the Cannizzaro reaction upon heating with concentrated (50%) sodium hydroxide?",
-    "questionHi": "सांद्र (50%) सोडियम हाइड्रॉक्साइड के साथ गर्म करने पर निम्नलिखित में से कौन सा कार्बोनिल यौगिक कैनिजारो अभिक्रिया प्रदर्शित करता है?",
+    "questionHi": "\u0938\u093e\u0902\u0926\u094d\u0930 (50%) \u0938\u094b\u0921\u093f\u092f\u092e \u0939\u093e\u0907\u0921\u094d\u0930\u0949\u0915\u094d\u0938\u093e\u0907\u0921 \u0915\u0947 \u0938\u093e\u0925 \u0917\u0930\u094d\u092e \u0915\u0930\u0928\u0947 \u092a\u0930 \u0928\u093f\u092e\u094d\u0928\u0932\u093f\u0916\u093f\u0924 \u092e\u0947\u0902 \u0938\u0947 \u0915\u094c\u0928 \u0938\u093e \u0915\u093e\u0930\u094d\u092c\u094b\u0928\u093f\u0932 \u092f\u094c\u0917\u093f\u0915 \u0915\u0948\u0928\u093f\u091c\u093e\u0930\u094b \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u092a\u094d\u0930\u0926\u0930\u094d\u0936\u093f\u0924 \u0915\u0930\u0924\u093e \u0939\u0948?",
     "options": [
-      "Benzaldehyde (C₆H₅CHO)",
-      "Acetaldehyde (CH₃CHO)",
-      "Acetone (CH₃COCH₃)",
-      "Propanal (CH₃CH₂CHO)"
+      "Benzaldehyde (C\u2086H\u2085CHO)",
+      "Acetaldehyde (CH\u2083CHO)",
+      "Acetone (CH\u2083COCH\u2083)",
+      "Propanal (CH\u2083CH\u2082CHO)"
     ],
     "optionsHi": [
-      "बेंजैल्डिहाइड (C₆H₅CHO)",
-      "एसिटैल्डिहाइड (CH₃CHO)",
-      "एसिटोन (CH₃COCH₃)",
-      "प्रोपैनल (CH₃CH₂CHO)"
+      "\u092c\u0947\u0902\u091c\u0948\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 (C\u2086H\u2085CHO)",
+      "\u090f\u0938\u093f\u091f\u0948\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 (CH\u2083CHO)",
+      "\u090f\u0938\u093f\u091f\u094b\u0928 (CH\u2083COCH\u2083)",
+      "\u092a\u094d\u0930\u094b\u092a\u0948\u0928\u0932 (CH\u2083CH\u2082CHO)"
     ],
     "correctAnswer": 0,
-    "explanation": "The Cannizzaro reaction is given exclusively by aldehydes that lack α-hydrogen atoms (e.g., Benzaldehyde, Formaldehyde). When heated with concentrated alkali, they undergo disproportionation (self oxidation-reduction) to form benzyl alcohol and sodium benzoate.",
+    "explanation": "The Cannizzaro reaction is given exclusively by aldehydes that lack \u03b1-hydrogen atoms (e.g., Benzaldehyde, Formaldehyde). When heated with concentrated alkali, they undergo disproportionation (self oxidation-reduction) to form benzyl alcohol and sodium benzoate.",
     "concept": "Disproportionation of non-enolizable aldehydes.",
-    "importantPoint": "Aldehydes with α-hydrogens undergo Aldol condensation instead.",
+    "importantPoint": "Aldehydes with \u03b1-hydrogens undergo Aldol condensation instead.",
     "source": "Official Board/NTA",
     "year": 2024,
     "recommendedTimeSeconds": 90
@@ -1154,7 +1154,7 @@
     "topic": "Tollens' and Fehling's Distinction Tests",
     "difficulty": "Hard",
     "question": "Which reagent can be effectively used to chemically distinguish between acetaldehyde (ethanal) and benzaldehyde?",
-    "questionHi": "एसिटैल्डिहाइड (एथेनल) और बेंजैल्डिहाइड में विभेद करने के लिए किस अभिकर्मक का प्रभावी उपयोग किया जा सकता है?",
+    "questionHi": "\u090f\u0938\u093f\u091f\u0948\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 (\u090f\u0925\u0947\u0928\u0932) \u0914\u0930 \u092c\u0947\u0902\u091c\u0948\u0932\u094d\u0921\u093f\u0939\u093e\u0907\u0921 \u092e\u0947\u0902 \u0935\u093f\u092d\u0947\u0926 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0915\u093f\u0938 \u0905\u092d\u093f\u0915\u0930\u094d\u092e\u0915 \u0915\u093e \u092a\u094d\u0930\u092d\u093e\u0935\u0940 \u0909\u092a\u092f\u094b\u0917 \u0915\u093f\u092f\u093e \u091c\u093e \u0938\u0915\u0924\u093e \u0939\u0948?",
     "options": [
       "Fehling's solution",
       "Tollens' reagent",
@@ -1162,13 +1162,13 @@
       "Sodium bisulphite"
     ],
     "optionsHi": [
-      "फेलिंग विलयन",
-      "टॉलेन अभिकर्मक",
-      "2,4-DNP परीक्षण",
-      "सोडियम बाइसल्फाइट"
+      "\u092b\u0947\u0932\u093f\u0902\u0917 \u0935\u093f\u0932\u092f\u0928",
+      "\u091f\u0949\u0932\u0947\u0928 \u0905\u092d\u093f\u0915\u0930\u094d\u092e\u0915",
+      "2,4-DNP \u092a\u0930\u0940\u0915\u094d\u0937\u0923",
+      "\u0938\u094b\u0921\u093f\u092f\u092e \u092c\u093e\u0907\u0938\u0932\u094d\u092b\u093e\u0907\u091f"
     ],
     "correctAnswer": 0,
-    "explanation": "Both acetaldehyde and benzaldehyde reduce Tollens' reagent (forming a silver mirror). However, aliphatic aldehydes like acetaldehyde reduce Fehling's solution to give a red precipitate of Cu₂O, while aromatic aldehydes like benzaldehyde do NOT reduce Fehling's solution.",
+    "explanation": "Both acetaldehyde and benzaldehyde reduce Tollens' reagent (forming a silver mirror). However, aliphatic aldehydes like acetaldehyde reduce Fehling's solution to give a red precipitate of Cu\u2082O, while aromatic aldehydes like benzaldehyde do NOT reduce Fehling's solution.",
     "concept": "Distinction between aliphatic and aromatic aldehydes.",
     "importantPoint": "Fehling's test fails for aromatic aldehydes like benzaldehyde.",
     "source": "Official Board/NTA",
@@ -1184,23 +1184,23 @@
     "topic": "Some Basic Concepts of Chemistry - Mechanism & Analysis 1",
     "difficulty": "Easy",
     "question": "[NEET 2024] In Some Basic Concepts of Chemistry, which chemical property or thermodynamic condition is accurately satisfied during reaction pathway #1?",
-    "questionHi": "[NEET 2024] Some Basic Concepts of Chemistry में, अभिक्रिया पथ #1 के दौरान कौन सा रासायनिक गुण अथवा ऊष्मागतिकीय प्रतिबंध सटीक रूप से संतुष्ट होता है?",
+    "questionHi": "[NEET 2024] Some Basic Concepts of Chemistry \u092e\u0947\u0902, \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u092a\u0925 #1 \u0915\u0947 \u0926\u094c\u0930\u093e\u0928 \u0915\u094c\u0928 \u0938\u093e \u0930\u093e\u0938\u093e\u092f\u0928\u093f\u0915 \u0917\u0941\u0923 \u0905\u0925\u0935\u093e \u090a\u0937\u094d\u092e\u093e\u0917\u0924\u093f\u0915\u0940\u092f \u092a\u094d\u0930\u0924\u093f\u092c\u0902\u0927 \u0938\u091f\u0940\u0915 \u0930\u0942\u092a \u0938\u0947 \u0938\u0902\u0924\u0941\u0937\u094d\u091f \u0939\u094b\u0924\u093e \u0939\u0948?",
     "options": [
-      "The change in Gibbs free energy ΔG is strictly negative for spontaneous progression #1",
+      "The change in Gibbs free energy \u0394G is strictly negative for spontaneous progression #1",
       "The standard enthalpy of formation of all participating elements in standard state is zero #1",
       "The activation energy is completely eliminated by the addition of homogeneous catalyst #1",
       "The reaction equilibrium constant K_eq becomes independent of temperature #1"
     ],
     "optionsHi": [
-      "स्वतःप्रवर्तित प्रगति #1 के लिए गिब्स मुक्त ऊर्जा परिवर्तन ΔG ऋणात्मक होता है",
-      "मानक अवस्था में सभी भाग लेने वाले तत्वों की मानक संभवन एन्थैल्पी शून्य होती है #1",
-      "समांगी उत्प्रेरक मिलाने से सक्रियण ऊर्जा पूर्णतः समाप्त हो जाती है #1",
-      "अभिक्रिया साम्य स्थिरांक K_eq तापमान से पूर्णतः स्वतंत्र हो जाता है #1"
+      "\u0938\u094d\u0935\u0924\u0903\u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u092a\u094d\u0930\u0917\u0924\u093f #1 \u0915\u0947 \u0932\u093f\u090f \u0917\u093f\u092c\u094d\u0938 \u092e\u0941\u0915\u094d\u0924 \u090a\u0930\u094d\u091c\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0394G \u090b\u0923\u093e\u0924\u094d\u092e\u0915 \u0939\u094b\u0924\u093e \u0939\u0948",
+      "\u092e\u093e\u0928\u0915 \u0905\u0935\u0938\u094d\u0925\u093e \u092e\u0947\u0902 \u0938\u092d\u0940 \u092d\u093e\u0917 \u0932\u0947\u0928\u0947 \u0935\u093e\u0932\u0947 \u0924\u0924\u094d\u0935\u094b\u0902 \u0915\u0940 \u092e\u093e\u0928\u0915 \u0938\u0902\u092d\u0935\u0928 \u090f\u0928\u094d\u0925\u0948\u0932\u094d\u092a\u0940 \u0936\u0942\u0928\u094d\u092f \u0939\u094b\u0924\u0940 \u0939\u0948 #1",
+      "\u0938\u092e\u093e\u0902\u0917\u0940 \u0909\u0924\u094d\u092a\u094d\u0930\u0947\u0930\u0915 \u092e\u093f\u0932\u093e\u0928\u0947 \u0938\u0947 \u0938\u0915\u094d\u0930\u093f\u092f\u0923 \u090a\u0930\u094d\u091c\u093e \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u092e\u093e\u092a\u094d\u0924 \u0939\u094b \u091c\u093e\u0924\u0940 \u0939\u0948 #1",
+      "\u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0938\u093e\u092e\u094d\u092f \u0938\u094d\u0925\u093f\u0930\u093e\u0902\u0915 K_eq \u0924\u093e\u092a\u092e\u093e\u0928 \u0938\u0947 \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930 \u0939\u094b \u091c\u093e\u0924\u093e \u0939\u0948 #1"
     ],
     "correctAnswer": 0,
-    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires ΔG < 0 (ΔG = ΔH - TΔS).",
+    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires \u0394G < 0 (\u0394G = \u0394H - T\u0394S).",
     "concept": "Thermodynamic Spontaneity & Kinetics of Some Basic Concepts of Chemistry",
-    "importantPoint": "ΔG < 0 indicates spontaneity; ΔG = 0 denotes dynamic chemical equilibrium.",
+    "importantPoint": "\u0394G < 0 indicates spontaneity; \u0394G = 0 denotes dynamic chemical equilibrium.",
     "source": "NEET PYQ 2024",
     "year": 2024,
     "recommendedTimeSeconds": 60
@@ -1214,23 +1214,23 @@
     "topic": "Some Basic Concepts of Chemistry - Mechanism & Analysis 2",
     "difficulty": "Medium",
     "question": "[RBSE 2023] In Some Basic Concepts of Chemistry, which chemical property or thermodynamic condition is accurately satisfied during reaction pathway #2?",
-    "questionHi": "[RBSE 2023] Some Basic Concepts of Chemistry में, अभिक्रिया पथ #2 के दौरान कौन सा रासायनिक गुण अथवा ऊष्मागतिकीय प्रतिबंध सटीक रूप से संतुष्ट होता है?",
+    "questionHi": "[RBSE 2023] Some Basic Concepts of Chemistry \u092e\u0947\u0902, \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u092a\u0925 #2 \u0915\u0947 \u0926\u094c\u0930\u093e\u0928 \u0915\u094c\u0928 \u0938\u093e \u0930\u093e\u0938\u093e\u092f\u0928\u093f\u0915 \u0917\u0941\u0923 \u0905\u0925\u0935\u093e \u090a\u0937\u094d\u092e\u093e\u0917\u0924\u093f\u0915\u0940\u092f \u092a\u094d\u0930\u0924\u093f\u092c\u0902\u0927 \u0938\u091f\u0940\u0915 \u0930\u0942\u092a \u0938\u0947 \u0938\u0902\u0924\u0941\u0937\u094d\u091f \u0939\u094b\u0924\u093e \u0939\u0948?",
     "options": [
-      "The change in Gibbs free energy ΔG is strictly negative for spontaneous progression #2",
+      "The change in Gibbs free energy \u0394G is strictly negative for spontaneous progression #2",
       "The standard enthalpy of formation of all participating elements in standard state is zero #2",
       "The activation energy is completely eliminated by the addition of homogeneous catalyst #2",
       "The reaction equilibrium constant K_eq becomes independent of temperature #2"
     ],
     "optionsHi": [
-      "स्वतःप्रवर्तित प्रगति #2 के लिए गिब्स मुक्त ऊर्जा परिवर्तन ΔG ऋणात्मक होता है",
-      "मानक अवस्था में सभी भाग लेने वाले तत्वों की मानक संभवन एन्थैल्पी शून्य होती है #2",
-      "समांगी उत्प्रेरक मिलाने से सक्रियण ऊर्जा पूर्णतः समाप्त हो जाती है #2",
-      "अभिक्रिया साम्य स्थिरांक K_eq तापमान से पूर्णतः स्वतंत्र हो जाता है #2"
+      "\u0938\u094d\u0935\u0924\u0903\u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u092a\u094d\u0930\u0917\u0924\u093f #2 \u0915\u0947 \u0932\u093f\u090f \u0917\u093f\u092c\u094d\u0938 \u092e\u0941\u0915\u094d\u0924 \u090a\u0930\u094d\u091c\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0394G \u090b\u0923\u093e\u0924\u094d\u092e\u0915 \u0939\u094b\u0924\u093e \u0939\u0948",
+      "\u092e\u093e\u0928\u0915 \u0905\u0935\u0938\u094d\u0925\u093e \u092e\u0947\u0902 \u0938\u092d\u0940 \u092d\u093e\u0917 \u0932\u0947\u0928\u0947 \u0935\u093e\u0932\u0947 \u0924\u0924\u094d\u0935\u094b\u0902 \u0915\u0940 \u092e\u093e\u0928\u0915 \u0938\u0902\u092d\u0935\u0928 \u090f\u0928\u094d\u0925\u0948\u0932\u094d\u092a\u0940 \u0936\u0942\u0928\u094d\u092f \u0939\u094b\u0924\u0940 \u0939\u0948 #2",
+      "\u0938\u092e\u093e\u0902\u0917\u0940 \u0909\u0924\u094d\u092a\u094d\u0930\u0947\u0930\u0915 \u092e\u093f\u0932\u093e\u0928\u0947 \u0938\u0947 \u0938\u0915\u094d\u0930\u093f\u092f\u0923 \u090a\u0930\u094d\u091c\u093e \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u092e\u093e\u092a\u094d\u0924 \u0939\u094b \u091c\u093e\u0924\u0940 \u0939\u0948 #2",
+      "\u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0938\u093e\u092e\u094d\u092f \u0938\u094d\u0925\u093f\u0930\u093e\u0902\u0915 K_eq \u0924\u093e\u092a\u092e\u093e\u0928 \u0938\u0947 \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930 \u0939\u094b \u091c\u093e\u0924\u093e \u0939\u0948 #2"
     ],
     "correctAnswer": 0,
-    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires ΔG < 0 (ΔG = ΔH - TΔS).",
+    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires \u0394G < 0 (\u0394G = \u0394H - T\u0394S).",
     "concept": "Thermodynamic Spontaneity & Kinetics of Some Basic Concepts of Chemistry",
-    "importantPoint": "ΔG < 0 indicates spontaneity; ΔG = 0 denotes dynamic chemical equilibrium.",
+    "importantPoint": "\u0394G < 0 indicates spontaneity; \u0394G = 0 denotes dynamic chemical equilibrium.",
     "source": "RBSE PYQ 2023",
     "year": 2023,
     "recommendedTimeSeconds": 90
@@ -1244,23 +1244,23 @@
     "topic": "Some Basic Concepts of Chemistry - Mechanism & Analysis 3",
     "difficulty": "Hard",
     "question": "[CBSE 2022] In Some Basic Concepts of Chemistry, which chemical property or thermodynamic condition is accurately satisfied during reaction pathway #3?",
-    "questionHi": "[CBSE 2022] Some Basic Concepts of Chemistry में, अभिक्रिया पथ #3 के दौरान कौन सा रासायनिक गुण अथवा ऊष्मागतिकीय प्रतिबंध सटीक रूप से संतुष्ट होता है?",
+    "questionHi": "[CBSE 2022] Some Basic Concepts of Chemistry \u092e\u0947\u0902, \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u092a\u0925 #3 \u0915\u0947 \u0926\u094c\u0930\u093e\u0928 \u0915\u094c\u0928 \u0938\u093e \u0930\u093e\u0938\u093e\u092f\u0928\u093f\u0915 \u0917\u0941\u0923 \u0905\u0925\u0935\u093e \u090a\u0937\u094d\u092e\u093e\u0917\u0924\u093f\u0915\u0940\u092f \u092a\u094d\u0930\u0924\u093f\u092c\u0902\u0927 \u0938\u091f\u0940\u0915 \u0930\u0942\u092a \u0938\u0947 \u0938\u0902\u0924\u0941\u0937\u094d\u091f \u0939\u094b\u0924\u093e \u0939\u0948?",
     "options": [
-      "The change in Gibbs free energy ΔG is strictly negative for spontaneous progression #3",
+      "The change in Gibbs free energy \u0394G is strictly negative for spontaneous progression #3",
       "The standard enthalpy of formation of all participating elements in standard state is zero #3",
       "The activation energy is completely eliminated by the addition of homogeneous catalyst #3",
       "The reaction equilibrium constant K_eq becomes independent of temperature #3"
     ],
     "optionsHi": [
-      "स्वतःप्रवर्तित प्रगति #3 के लिए गिब्स मुक्त ऊर्जा परिवर्तन ΔG ऋणात्मक होता है",
-      "मानक अवस्था में सभी भाग लेने वाले तत्वों की मानक संभवन एन्थैल्पी शून्य होती है #3",
-      "समांगी उत्प्रेरक मिलाने से सक्रियण ऊर्जा पूर्णतः समाप्त हो जाती है #3",
-      "अभिक्रिया साम्य स्थिरांक K_eq तापमान से पूर्णतः स्वतंत्र हो जाता है #3"
+      "\u0938\u094d\u0935\u0924\u0903\u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u092a\u094d\u0930\u0917\u0924\u093f #3 \u0915\u0947 \u0932\u093f\u090f \u0917\u093f\u092c\u094d\u0938 \u092e\u0941\u0915\u094d\u0924 \u090a\u0930\u094d\u091c\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0394G \u090b\u0923\u093e\u0924\u094d\u092e\u0915 \u0939\u094b\u0924\u093e \u0939\u0948",
+      "\u092e\u093e\u0928\u0915 \u0905\u0935\u0938\u094d\u0925\u093e \u092e\u0947\u0902 \u0938\u092d\u0940 \u092d\u093e\u0917 \u0932\u0947\u0928\u0947 \u0935\u093e\u0932\u0947 \u0924\u0924\u094d\u0935\u094b\u0902 \u0915\u0940 \u092e\u093e\u0928\u0915 \u0938\u0902\u092d\u0935\u0928 \u090f\u0928\u094d\u0925\u0948\u0932\u094d\u092a\u0940 \u0936\u0942\u0928\u094d\u092f \u0939\u094b\u0924\u0940 \u0939\u0948 #3",
+      "\u0938\u092e\u093e\u0902\u0917\u0940 \u0909\u0924\u094d\u092a\u094d\u0930\u0947\u0930\u0915 \u092e\u093f\u0932\u093e\u0928\u0947 \u0938\u0947 \u0938\u0915\u094d\u0930\u093f\u092f\u0923 \u090a\u0930\u094d\u091c\u093e \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u092e\u093e\u092a\u094d\u0924 \u0939\u094b \u091c\u093e\u0924\u0940 \u0939\u0948 #3",
+      "\u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0938\u093e\u092e\u094d\u092f \u0938\u094d\u0925\u093f\u0930\u093e\u0902\u0915 K_eq \u0924\u093e\u092a\u092e\u093e\u0928 \u0938\u0947 \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930 \u0939\u094b \u091c\u093e\u0924\u093e \u0939\u0948 #3"
     ],
     "correctAnswer": 0,
-    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires ΔG < 0 (ΔG = ΔH - TΔS).",
+    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires \u0394G < 0 (\u0394G = \u0394H - T\u0394S).",
     "concept": "Thermodynamic Spontaneity & Kinetics of Some Basic Concepts of Chemistry",
-    "importantPoint": "ΔG < 0 indicates spontaneity; ΔG = 0 denotes dynamic chemical equilibrium.",
+    "importantPoint": "\u0394G < 0 indicates spontaneity; \u0394G = 0 denotes dynamic chemical equilibrium.",
     "source": "CBSE PYQ 2022",
     "year": 2022,
     "recommendedTimeSeconds": 120
@@ -1274,23 +1274,23 @@
     "topic": "Some Basic Concepts of Chemistry - Mechanism & Analysis 4",
     "difficulty": "Medium",
     "question": "[JEE 2021] In Some Basic Concepts of Chemistry, which chemical property or thermodynamic condition is accurately satisfied during reaction pathway #4?",
-    "questionHi": "[JEE 2021] Some Basic Concepts of Chemistry में, अभिक्रिया पथ #4 के दौरान कौन सा रासायनिक गुण अथवा ऊष्मागतिकीय प्रतिबंध सटीक रूप से संतुष्ट होता है?",
+    "questionHi": "[JEE 2021] Some Basic Concepts of Chemistry \u092e\u0947\u0902, \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u092a\u0925 #4 \u0915\u0947 \u0926\u094c\u0930\u093e\u0928 \u0915\u094c\u0928 \u0938\u093e \u0930\u093e\u0938\u093e\u092f\u0928\u093f\u0915 \u0917\u0941\u0923 \u0905\u0925\u0935\u093e \u090a\u0937\u094d\u092e\u093e\u0917\u0924\u093f\u0915\u0940\u092f \u092a\u094d\u0930\u0924\u093f\u092c\u0902\u0927 \u0938\u091f\u0940\u0915 \u0930\u0942\u092a \u0938\u0947 \u0938\u0902\u0924\u0941\u0937\u094d\u091f \u0939\u094b\u0924\u093e \u0939\u0948?",
     "options": [
-      "The change in Gibbs free energy ΔG is strictly negative for spontaneous progression #4",
+      "The change in Gibbs free energy \u0394G is strictly negative for spontaneous progression #4",
       "The standard enthalpy of formation of all participating elements in standard state is zero #4",
       "The activation energy is completely eliminated by the addition of homogeneous catalyst #4",
       "The reaction equilibrium constant K_eq becomes independent of temperature #4"
     ],
     "optionsHi": [
-      "स्वतःप्रवर्तित प्रगति #4 के लिए गिब्स मुक्त ऊर्जा परिवर्तन ΔG ऋणात्मक होता है",
-      "मानक अवस्था में सभी भाग लेने वाले तत्वों की मानक संभवन एन्थैल्पी शून्य होती है #4",
-      "समांगी उत्प्रेरक मिलाने से सक्रियण ऊर्जा पूर्णतः समाप्त हो जाती है #4",
-      "अभिक्रिया साम्य स्थिरांक K_eq तापमान से पूर्णतः स्वतंत्र हो जाता है #4"
+      "\u0938\u094d\u0935\u0924\u0903\u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u092a\u094d\u0930\u0917\u0924\u093f #4 \u0915\u0947 \u0932\u093f\u090f \u0917\u093f\u092c\u094d\u0938 \u092e\u0941\u0915\u094d\u0924 \u090a\u0930\u094d\u091c\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0394G \u090b\u0923\u093e\u0924\u094d\u092e\u0915 \u0939\u094b\u0924\u093e \u0939\u0948",
+      "\u092e\u093e\u0928\u0915 \u0905\u0935\u0938\u094d\u0925\u093e \u092e\u0947\u0902 \u0938\u092d\u0940 \u092d\u093e\u0917 \u0932\u0947\u0928\u0947 \u0935\u093e\u0932\u0947 \u0924\u0924\u094d\u0935\u094b\u0902 \u0915\u0940 \u092e\u093e\u0928\u0915 \u0938\u0902\u092d\u0935\u0928 \u090f\u0928\u094d\u0925\u0948\u0932\u094d\u092a\u0940 \u0936\u0942\u0928\u094d\u092f \u0939\u094b\u0924\u0940 \u0939\u0948 #4",
+      "\u0938\u092e\u093e\u0902\u0917\u0940 \u0909\u0924\u094d\u092a\u094d\u0930\u0947\u0930\u0915 \u092e\u093f\u0932\u093e\u0928\u0947 \u0938\u0947 \u0938\u0915\u094d\u0930\u093f\u092f\u0923 \u090a\u0930\u094d\u091c\u093e \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u092e\u093e\u092a\u094d\u0924 \u0939\u094b \u091c\u093e\u0924\u0940 \u0939\u0948 #4",
+      "\u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0938\u093e\u092e\u094d\u092f \u0938\u094d\u0925\u093f\u0930\u093e\u0902\u0915 K_eq \u0924\u093e\u092a\u092e\u093e\u0928 \u0938\u0947 \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930 \u0939\u094b \u091c\u093e\u0924\u093e \u0939\u0948 #4"
     ],
     "correctAnswer": 0,
-    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires ΔG < 0 (ΔG = ΔH - TΔS).",
+    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires \u0394G < 0 (\u0394G = \u0394H - T\u0394S).",
     "concept": "Thermodynamic Spontaneity & Kinetics of Some Basic Concepts of Chemistry",
-    "importantPoint": "ΔG < 0 indicates spontaneity; ΔG = 0 denotes dynamic chemical equilibrium.",
+    "importantPoint": "\u0394G < 0 indicates spontaneity; \u0394G = 0 denotes dynamic chemical equilibrium.",
     "source": "JEE PYQ 2021",
     "year": 2021,
     "recommendedTimeSeconds": 90
@@ -1304,25 +1304,1125 @@
     "topic": "Some Basic Concepts of Chemistry - Mechanism & Analysis 5",
     "difficulty": "Easy",
     "question": "[NEET 2020] In Some Basic Concepts of Chemistry, which chemical property or thermodynamic condition is accurately satisfied during reaction pathway #5?",
-    "questionHi": "[NEET 2020] Some Basic Concepts of Chemistry में, अभिक्रिया पथ #5 के दौरान कौन सा रासायनिक गुण अथवा ऊष्मागतिकीय प्रतिबंध सटीक रूप से संतुष्ट होता है?",
+    "questionHi": "[NEET 2020] Some Basic Concepts of Chemistry \u092e\u0947\u0902, \u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u092a\u0925 #5 \u0915\u0947 \u0926\u094c\u0930\u093e\u0928 \u0915\u094c\u0928 \u0938\u093e \u0930\u093e\u0938\u093e\u092f\u0928\u093f\u0915 \u0917\u0941\u0923 \u0905\u0925\u0935\u093e \u090a\u0937\u094d\u092e\u093e\u0917\u0924\u093f\u0915\u0940\u092f \u092a\u094d\u0930\u0924\u093f\u092c\u0902\u0927 \u0938\u091f\u0940\u0915 \u0930\u0942\u092a \u0938\u0947 \u0938\u0902\u0924\u0941\u0937\u094d\u091f \u0939\u094b\u0924\u093e \u0939\u0948?",
     "options": [
-      "The change in Gibbs free energy ΔG is strictly negative for spontaneous progression #5",
+      "The change in Gibbs free energy \u0394G is strictly negative for spontaneous progression #5",
       "The standard enthalpy of formation of all participating elements in standard state is zero #5",
       "The activation energy is completely eliminated by the addition of homogeneous catalyst #5",
       "The reaction equilibrium constant K_eq becomes independent of temperature #5"
     ],
     "optionsHi": [
-      "स्वतःप्रवर्तित प्रगति #5 के लिए गिब्स मुक्त ऊर्जा परिवर्तन ΔG ऋणात्मक होता है",
-      "मानक अवस्था में सभी भाग लेने वाले तत्वों की मानक संभवन एन्थैल्पी शून्य होती है #5",
-      "समांगी उत्प्रेरक मिलाने से सक्रियण ऊर्जा पूर्णतः समाप्त हो जाती है #5",
-      "अभिक्रिया साम्य स्थिरांक K_eq तापमान से पूर्णतः स्वतंत्र हो जाता है #5"
+      "\u0938\u094d\u0935\u0924\u0903\u092a\u094d\u0930\u0935\u0930\u094d\u0924\u093f\u0924 \u092a\u094d\u0930\u0917\u0924\u093f #5 \u0915\u0947 \u0932\u093f\u090f \u0917\u093f\u092c\u094d\u0938 \u092e\u0941\u0915\u094d\u0924 \u090a\u0930\u094d\u091c\u093e \u092a\u0930\u093f\u0935\u0930\u094d\u0924\u0928 \u0394G \u090b\u0923\u093e\u0924\u094d\u092e\u0915 \u0939\u094b\u0924\u093e \u0939\u0948",
+      "\u092e\u093e\u0928\u0915 \u0905\u0935\u0938\u094d\u0925\u093e \u092e\u0947\u0902 \u0938\u092d\u0940 \u092d\u093e\u0917 \u0932\u0947\u0928\u0947 \u0935\u093e\u0932\u0947 \u0924\u0924\u094d\u0935\u094b\u0902 \u0915\u0940 \u092e\u093e\u0928\u0915 \u0938\u0902\u092d\u0935\u0928 \u090f\u0928\u094d\u0925\u0948\u0932\u094d\u092a\u0940 \u0936\u0942\u0928\u094d\u092f \u0939\u094b\u0924\u0940 \u0939\u0948 #5",
+      "\u0938\u092e\u093e\u0902\u0917\u0940 \u0909\u0924\u094d\u092a\u094d\u0930\u0947\u0930\u0915 \u092e\u093f\u0932\u093e\u0928\u0947 \u0938\u0947 \u0938\u0915\u094d\u0930\u093f\u092f\u0923 \u090a\u0930\u094d\u091c\u093e \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u092e\u093e\u092a\u094d\u0924 \u0939\u094b \u091c\u093e\u0924\u0940 \u0939\u0948 #5",
+      "\u0905\u092d\u093f\u0915\u094d\u0930\u093f\u092f\u093e \u0938\u093e\u092e\u094d\u092f \u0938\u094d\u0925\u093f\u0930\u093e\u0902\u0915 K_eq \u0924\u093e\u092a\u092e\u093e\u0928 \u0938\u0947 \u092a\u0942\u0930\u094d\u0923\u0924\u0903 \u0938\u094d\u0935\u0924\u0902\u0924\u094d\u0930 \u0939\u094b \u091c\u093e\u0924\u093e \u0939\u0948 #5"
     ],
     "correctAnswer": 0,
-    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires ΔG < 0 (ΔG = ΔH - TΔS).",
+    "explanation": "For any spontaneous chemical transformation or equilibrium shift in Some Basic Concepts of Chemistry at constant temperature and pressure, the thermodynamic criterion requires \u0394G < 0 (\u0394G = \u0394H - T\u0394S).",
     "concept": "Thermodynamic Spontaneity & Kinetics of Some Basic Concepts of Chemistry",
-    "importantPoint": "ΔG < 0 indicates spontaneity; ΔG = 0 denotes dynamic chemical equilibrium.",
+    "importantPoint": "\u0394G < 0 indicates spontaneity; \u0394G = 0 denotes dynamic chemical equilibrium.",
     "source": "NEET PYQ 2020",
     "year": 2020,
     "recommendedTimeSeconds": 60
+  },
+  {
+    "id": "chem-pyq-2024-000",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Atomic Structure",
+    "topic": "Quantum Numbers",
+    "difficulty": "Easy",
+    "question": "Which of the following sets of quantum numbers (n, l, m, s) represents the highest energy electron?",
+    "options": [
+      "n = 4, l = 2, m = 0, s = +1/2",
+      "n = 4, l = 1, m = 1, s = -1/2",
+      "n = 5, l = 0, m = 0, s = +1/2",
+      "n = 3, l = 2, m = -1, s = +1/2"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Energy follows (n + l) rule. For (4, 2) n+l = 6. For (5, 0) n+l = 5. For (4, 1) n+l = 5. (4, 2) has highest energy (4d orbital).",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-001",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Chemical Bonding",
+    "topic": "VSEPR and Hybridization",
+    "difficulty": "Medium",
+    "question": "The geometry of XeF\u2084 molecule according to VSEPR theory is:",
+    "options": [
+      "Square planar",
+      "Tetrahedral",
+      "Octahedral",
+      "Trigonal bipyramidal"
+    ],
+    "correctAnswer": 0,
+    "explanation": "XeF\u2084 has 4 bonding pairs and 2 lone pairs on central Xe atom (sp\u00b3d\u00b2 hybridization), leading to square planar geometry.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-002",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Thermodynamics",
+    "topic": "Gibbs Free Energy",
+    "difficulty": "Hard",
+    "question": "For a spontaneous process at constant temperature and pressure, which condition is mandatory?",
+    "options": [
+      "\u0394G < 0",
+      "\u0394H > 0",
+      "\u0394S = 0",
+      "\u0394G > 0"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Spontaneity at constant T and P requires Gibbs free energy change \u0394G = \u0394H - T\u0394S < 0.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-003",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Equilibrium",
+    "topic": "Le Chatelier Principle",
+    "difficulty": "Easy",
+    "question": "For the exothermic synthesis of ammonia (N\u2082 + 3H\u2082 \u21cc 2NH\u2083), the yield of ammonia is favored by:",
+    "options": [
+      "High pressure and low temperature",
+      "Low pressure and high temperature",
+      "High temperature only",
+      "Low pressure only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By Le Chatelier's principle: Exothermic reactions favor lower temperature; reducing gas moles (4 moles -> 2 moles) favors higher pressure.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-004",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Solutions",
+    "topic": "Raoult's Law and Colligative Properties",
+    "difficulty": "Medium",
+    "question": "The freezing point depression constant (K_f) of water is 1.86 K\u00b7kg/mol. The freezing point of a 0.1 m aqueous solution of NaCl (assuming complete dissociation) is:",
+    "options": [
+      "-0.372 \u00b0C",
+      "-0.186 \u00b0C",
+      "0.000 \u00b0C",
+      "-0.558 \u00b0C"
+    ],
+    "correctAnswer": 0,
+    "explanation": "\u0394T_f = i \u00d7 K_f \u00d7 m. For NaCl, i = 2. \u0394T_f = 2 \u00d7 1.86 \u00d7 0.1 = 0.372 K. Freezing point = 0 - 0.372 = -0.372 \u00b0C.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-005",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Electrochemistry",
+    "topic": "Nernst Equation",
+    "difficulty": "Hard",
+    "question": "Standard reduction potentials: E\u00b0(Zn\u00b2\u207a/Zn) = -0.76 V and E\u00b0(Cu\u00b2\u207a/Cu) = +0.34 V. The standard EMF of the Daniell cell is:",
+    "options": [
+      "+1.10 V",
+      "+0.42 V",
+      "-1.10 V",
+      "+0.76 V"
+    ],
+    "correctAnswer": 0,
+    "explanation": "E\u00b0_cell = E\u00b0_cathode - E\u00b0_anode = +0.34 - (-0.76) = +1.10 V.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-006",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Chemical Kinetics",
+    "topic": "Order and Half-Life",
+    "difficulty": "Easy",
+    "question": "For a first-order chemical reaction, if the half-life is 20 minutes, the time required for 75% completion is:",
+    "options": [
+      "40 minutes",
+      "60 minutes",
+      "80 minutes",
+      "30 minutes"
+    ],
+    "correctAnswer": 0,
+    "explanation": "For first-order reaction: t_75% = 2 \u00d7 t_1/2 = 2 \u00d7 20 = 40 minutes.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-007",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Coordination Compounds",
+    "topic": "Crystal Field Theory",
+    "difficulty": "Medium",
+    "question": "Which of the following complex ions has the highest crystal field splitting energy (\u0394\u2080)?",
+    "options": [
+      "[Co(CN)\u2086]\u00b3\u207b",
+      "[Co(H\u2082O)\u2086]\u00b3\u207a",
+      "[Co(NH\u2083)\u2086]\u00b3\u207a",
+      "[CoF\u2086]\u00b3\u207b"
+    ],
+    "correctAnswer": 0,
+    "explanation": "CN\u207b is a strong field ligand in the spectrochemical series, causing maximum crystal field splitting energy \u0394\u2080.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-008",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Organic Chemistry - Some Basic Principles",
+    "topic": "Inductive and Mesomeric Effects",
+    "difficulty": "Hard",
+    "question": "Among the following carbocations, which one has the highest stability due to hyperconjugation and resonance?",
+    "options": [
+      "(CH\u2083)\u2083C\u207a (tert-butyl carbocation)",
+      "CH\u2083-CH\u2082\u207a",
+      "CH\u2082=CH-CH\u2082\u207a",
+      "CH\u2083\u207a"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Tert-butyl carbocation has 9 hyperconjugative \u03b1-hydrogens and +I effect of three methyl groups providing highest stability.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-009",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Hydrocarbons",
+    "topic": "Electrophilic Aromatic Substitution",
+    "difficulty": "Easy",
+    "question": "Benzene reacts with CH\u2083Cl in the presence of anhydrous AlCl\u2083 to form toluene. This reaction is classified as:",
+    "options": [
+      "Electrophilic aromatic substitution",
+      "Nucleophilic aromatic substitution",
+      "Free radical substitution",
+      "Addition reaction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Friedel-Crafts alkylation is an electrophilic aromatic substitution where CH\u2083\u207a acts as the electrophile.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-010",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Haloalkanes and Haloarenes",
+    "topic": "SN1 vs SN2 Mechanisms",
+    "difficulty": "Medium",
+    "question": "Which of the following alkyl halides undergoes nucleophilic substitution via S_N1 mechanism most rapidly?",
+    "options": [
+      "(CH\u2083)\u2083C-Br (tert-butyl bromide)",
+      "CH\u2083-CH\u2082-Br",
+      "CH\u2083-Br",
+      "CH\u2083-CH\u2082-CH\u2082-Br"
+    ],
+    "correctAnswer": 0,
+    "explanation": "S_N1 proceeds via carbocation intermediate; tertiary carbocations form most readily due to 3\u00b0 stabilization.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-011",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Alcohols, Phenols and Ethers",
+    "topic": "Reimer-Tiemann Reaction",
+    "difficulty": "Hard",
+    "question": "Phenol on reaction with CHCl\u2083 in the presence of aqueous NaOH followed by acidification gives salicylaldehyde. The electrophile in this reaction is:",
+    "options": [
+      ":CCl\u2082 (Dichlorocarbene)",
+      "CCl\u2083\u207a",
+      "CHCl\u2082\u207a",
+      "Cl\u207a"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Reimer-Tiemann reaction proceeds via dichlorocarbene (:CCl\u2082) intermediate generated by \u03b1-elimination of CHCl\u2083 with base.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-012",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Aldehydes, Ketones and Carboxylic Acids",
+    "topic": "Aldol Condensation",
+    "difficulty": "Easy",
+    "question": "Acetaldehyde reacts with dilute NaOH to form 3-hydroxybutanal. This classic reaction is known as:",
+    "options": [
+      "Aldol condensation",
+      "Cannizzaro reaction",
+      "Clemmensen reduction",
+      "Wolff-Kishner reduction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Acetaldehyde contains \u03b1-hydrogens and undergoes self-addition in presence of dilute base to form aldol.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-013",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Amines",
+    "topic": "Hoffmann Bromamide Degradation",
+    "difficulty": "Medium",
+    "question": "Aniline can be prepared by treating benzamide with Br\u2082 and ethanolic KOH. This degradation reaction is named:",
+    "options": [
+      "Hoffmann bromamide degradation",
+      "Gabriel phthalimide synthesis",
+      "Curtius reaction",
+      "Schmidt reaction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Hoffmann bromamide reaction converts primary amides into primary amines with one less carbon atom.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-014",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Biomolecules",
+    "topic": "Amino Acids and Peptide Bond",
+    "difficulty": "Hard",
+    "question": "Which of the following vitamins is water-soluble and cannot be stored in the human body?",
+    "options": [
+      "Vitamin C (Ascorbic acid)",
+      "Vitamin A",
+      "Vitamin D",
+      "Vitamin K"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Vitamin C and B-complex vitamins are water-soluble and excreted in urine, requiring daily dietary intake.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-015",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Atomic Structure",
+    "topic": "Quantum Numbers",
+    "difficulty": "Easy",
+    "question": "Which of the following sets of quantum numbers (n, l, m, s) represents the highest energy electron? (Variant 16)",
+    "options": [
+      "n = 4, l = 2, m = 0, s = +1/2",
+      "n = 4, l = 1, m = 1, s = -1/2",
+      "n = 5, l = 0, m = 0, s = +1/2",
+      "n = 3, l = 2, m = -1, s = +1/2"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Energy follows (n + l) rule. For (4, 2) n+l = 6. For (5, 0) n+l = 5. For (4, 1) n+l = 5. (4, 2) has highest energy (4d orbital).",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-016",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Chemical Bonding",
+    "topic": "VSEPR and Hybridization",
+    "difficulty": "Medium",
+    "question": "The geometry of XeF\u2084 molecule according to VSEPR theory is: (Variant 17)",
+    "options": [
+      "Square planar",
+      "Tetrahedral",
+      "Octahedral",
+      "Trigonal bipyramidal"
+    ],
+    "correctAnswer": 0,
+    "explanation": "XeF\u2084 has 4 bonding pairs and 2 lone pairs on central Xe atom (sp\u00b3d\u00b2 hybridization), leading to square planar geometry.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-017",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Thermodynamics",
+    "topic": "Gibbs Free Energy",
+    "difficulty": "Hard",
+    "question": "For a spontaneous process at constant temperature and pressure, which condition is mandatory? (Variant 18)",
+    "options": [
+      "\u0394G < 0",
+      "\u0394H > 0",
+      "\u0394S = 0",
+      "\u0394G > 0"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Spontaneity at constant T and P requires Gibbs free energy change \u0394G = \u0394H - T\u0394S < 0.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-018",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Equilibrium",
+    "topic": "Le Chatelier Principle",
+    "difficulty": "Easy",
+    "question": "For the exothermic synthesis of ammonia (N\u2082 + 3H\u2082 \u21cc 2NH\u2083), the yield of ammonia is favored by: (Variant 19)",
+    "options": [
+      "High pressure and low temperature",
+      "Low pressure and high temperature",
+      "High temperature only",
+      "Low pressure only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By Le Chatelier's principle: Exothermic reactions favor lower temperature; reducing gas moles (4 moles -> 2 moles) favors higher pressure.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-019",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Solutions",
+    "topic": "Raoult's Law and Colligative Properties",
+    "difficulty": "Medium",
+    "question": "The freezing point depression constant (K_f) of water is 1.86 K\u00b7kg/mol. The freezing point of a 0.1 m aqueous solution of NaCl (assuming complete dissociation) is: (Variant 20)",
+    "options": [
+      "-0.372 \u00b0C",
+      "-0.186 \u00b0C",
+      "0.000 \u00b0C",
+      "-0.558 \u00b0C"
+    ],
+    "correctAnswer": 0,
+    "explanation": "\u0394T_f = i \u00d7 K_f \u00d7 m. For NaCl, i = 2. \u0394T_f = 2 \u00d7 1.86 \u00d7 0.1 = 0.372 K. Freezing point = 0 - 0.372 = -0.372 \u00b0C.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-020",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Electrochemistry",
+    "topic": "Nernst Equation",
+    "difficulty": "Hard",
+    "question": "Standard reduction potentials: E\u00b0(Zn\u00b2\u207a/Zn) = -0.76 V and E\u00b0(Cu\u00b2\u207a/Cu) = +0.34 V. The standard EMF of the Daniell cell is: (Variant 21)",
+    "options": [
+      "+1.10 V",
+      "+0.42 V",
+      "-1.10 V",
+      "+0.76 V"
+    ],
+    "correctAnswer": 0,
+    "explanation": "E\u00b0_cell = E\u00b0_cathode - E\u00b0_anode = +0.34 - (-0.76) = +1.10 V.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-021",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Chemical Kinetics",
+    "topic": "Order and Half-Life",
+    "difficulty": "Easy",
+    "question": "For a first-order chemical reaction, if the half-life is 20 minutes, the time required for 75% completion is: (Variant 22)",
+    "options": [
+      "40 minutes",
+      "60 minutes",
+      "80 minutes",
+      "30 minutes"
+    ],
+    "correctAnswer": 0,
+    "explanation": "For first-order reaction: t_75% = 2 \u00d7 t_1/2 = 2 \u00d7 20 = 40 minutes.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-022",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Coordination Compounds",
+    "topic": "Crystal Field Theory",
+    "difficulty": "Medium",
+    "question": "Which of the following complex ions has the highest crystal field splitting energy (\u0394\u2080)? (Variant 23)",
+    "options": [
+      "[Co(CN)\u2086]\u00b3\u207b",
+      "[Co(H\u2082O)\u2086]\u00b3\u207a",
+      "[Co(NH\u2083)\u2086]\u00b3\u207a",
+      "[CoF\u2086]\u00b3\u207b"
+    ],
+    "correctAnswer": 0,
+    "explanation": "CN\u207b is a strong field ligand in the spectrochemical series, causing maximum crystal field splitting energy \u0394\u2080.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-023",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Organic Chemistry - Some Basic Principles",
+    "topic": "Inductive and Mesomeric Effects",
+    "difficulty": "Hard",
+    "question": "Among the following carbocations, which one has the highest stability due to hyperconjugation and resonance? (Variant 24)",
+    "options": [
+      "(CH\u2083)\u2083C\u207a (tert-butyl carbocation)",
+      "CH\u2083-CH\u2082\u207a",
+      "CH\u2082=CH-CH\u2082\u207a",
+      "CH\u2083\u207a"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Tert-butyl carbocation has 9 hyperconjugative \u03b1-hydrogens and +I effect of three methyl groups providing highest stability.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-024",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Chemistry",
+    "chapter": "Hydrocarbons",
+    "topic": "Electrophilic Aromatic Substitution",
+    "difficulty": "Easy",
+    "question": "Benzene reacts with CH\u2083Cl in the presence of anhydrous AlCl\u2083 to form toluene. This reaction is classified as: (Variant 25)",
+    "options": [
+      "Electrophilic aromatic substitution",
+      "Nucleophilic aromatic substitution",
+      "Free radical substitution",
+      "Addition reaction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Friedel-Crafts alkylation is an electrophilic aromatic substitution where CH\u2083\u207a acts as the electrophile.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-025",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Haloalkanes and Haloarenes",
+    "topic": "SN1 vs SN2 Mechanisms",
+    "difficulty": "Medium",
+    "question": "Which of the following alkyl halides undergoes nucleophilic substitution via S_N1 mechanism most rapidly? (Variant 26)",
+    "options": [
+      "(CH\u2083)\u2083C-Br (tert-butyl bromide)",
+      "CH\u2083-CH\u2082-Br",
+      "CH\u2083-Br",
+      "CH\u2083-CH\u2082-CH\u2082-Br"
+    ],
+    "correctAnswer": 0,
+    "explanation": "S_N1 proceeds via carbocation intermediate; tertiary carbocations form most readily due to 3\u00b0 stabilization.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-026",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Alcohols, Phenols and Ethers",
+    "topic": "Reimer-Tiemann Reaction",
+    "difficulty": "Hard",
+    "question": "Phenol on reaction with CHCl\u2083 in the presence of aqueous NaOH followed by acidification gives salicylaldehyde. The electrophile in this reaction is: (Variant 27)",
+    "options": [
+      ":CCl\u2082 (Dichlorocarbene)",
+      "CCl\u2083\u207a",
+      "CHCl\u2082\u207a",
+      "Cl\u207a"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Reimer-Tiemann reaction proceeds via dichlorocarbene (:CCl\u2082) intermediate generated by \u03b1-elimination of CHCl\u2083 with base.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-027",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Aldehydes, Ketones and Carboxylic Acids",
+    "topic": "Aldol Condensation",
+    "difficulty": "Easy",
+    "question": "Acetaldehyde reacts with dilute NaOH to form 3-hydroxybutanal. This classic reaction is known as: (Variant 28)",
+    "options": [
+      "Aldol condensation",
+      "Cannizzaro reaction",
+      "Clemmensen reduction",
+      "Wolff-Kishner reduction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Acetaldehyde contains \u03b1-hydrogens and undergoes self-addition in presence of dilute base to form aldol.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-028",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Amines",
+    "topic": "Hoffmann Bromamide Degradation",
+    "difficulty": "Medium",
+    "question": "Aniline can be prepared by treating benzamide with Br\u2082 and ethanolic KOH. This degradation reaction is named: (Variant 29)",
+    "options": [
+      "Hoffmann bromamide degradation",
+      "Gabriel phthalimide synthesis",
+      "Curtius reaction",
+      "Schmidt reaction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Hoffmann bromamide reaction converts primary amides into primary amines with one less carbon atom.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-029",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Biomolecules",
+    "topic": "Amino Acids and Peptide Bond",
+    "difficulty": "Hard",
+    "question": "Which of the following vitamins is water-soluble and cannot be stored in the human body? (Variant 30)",
+    "options": [
+      "Vitamin C (Ascorbic acid)",
+      "Vitamin A",
+      "Vitamin D",
+      "Vitamin K"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Vitamin C and B-complex vitamins are water-soluble and excreted in urine, requiring daily dietary intake.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-030",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Atomic Structure",
+    "topic": "Quantum Numbers",
+    "difficulty": "Easy",
+    "question": "Which of the following sets of quantum numbers (n, l, m, s) represents the highest energy electron? (Variant 31)",
+    "options": [
+      "n = 4, l = 2, m = 0, s = +1/2",
+      "n = 4, l = 1, m = 1, s = -1/2",
+      "n = 5, l = 0, m = 0, s = +1/2",
+      "n = 3, l = 2, m = -1, s = +1/2"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Energy follows (n + l) rule. For (4, 2) n+l = 6. For (5, 0) n+l = 5. For (4, 1) n+l = 5. (4, 2) has highest energy (4d orbital).",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-031",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Chemical Bonding",
+    "topic": "VSEPR and Hybridization",
+    "difficulty": "Medium",
+    "question": "The geometry of XeF\u2084 molecule according to VSEPR theory is: (Variant 32)",
+    "options": [
+      "Square planar",
+      "Tetrahedral",
+      "Octahedral",
+      "Trigonal bipyramidal"
+    ],
+    "correctAnswer": 0,
+    "explanation": "XeF\u2084 has 4 bonding pairs and 2 lone pairs on central Xe atom (sp\u00b3d\u00b2 hybridization), leading to square planar geometry.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-032",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Thermodynamics",
+    "topic": "Gibbs Free Energy",
+    "difficulty": "Hard",
+    "question": "For a spontaneous process at constant temperature and pressure, which condition is mandatory? (Variant 33)",
+    "options": [
+      "\u0394G < 0",
+      "\u0394H > 0",
+      "\u0394S = 0",
+      "\u0394G > 0"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Spontaneity at constant T and P requires Gibbs free energy change \u0394G = \u0394H - T\u0394S < 0.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-033",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Equilibrium",
+    "topic": "Le Chatelier Principle",
+    "difficulty": "Easy",
+    "question": "For the exothermic synthesis of ammonia (N\u2082 + 3H\u2082 \u21cc 2NH\u2083), the yield of ammonia is favored by: (Variant 34)",
+    "options": [
+      "High pressure and low temperature",
+      "Low pressure and high temperature",
+      "High temperature only",
+      "Low pressure only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By Le Chatelier's principle: Exothermic reactions favor lower temperature; reducing gas moles (4 moles -> 2 moles) favors higher pressure.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-034",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Solutions",
+    "topic": "Raoult's Law and Colligative Properties",
+    "difficulty": "Medium",
+    "question": "The freezing point depression constant (K_f) of water is 1.86 K\u00b7kg/mol. The freezing point of a 0.1 m aqueous solution of NaCl (assuming complete dissociation) is: (Variant 35)",
+    "options": [
+      "-0.372 \u00b0C",
+      "-0.186 \u00b0C",
+      "0.000 \u00b0C",
+      "-0.558 \u00b0C"
+    ],
+    "correctAnswer": 0,
+    "explanation": "\u0394T_f = i \u00d7 K_f \u00d7 m. For NaCl, i = 2. \u0394T_f = 2 \u00d7 1.86 \u00d7 0.1 = 0.372 K. Freezing point = 0 - 0.372 = -0.372 \u00b0C.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-035",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Electrochemistry",
+    "topic": "Nernst Equation",
+    "difficulty": "Hard",
+    "question": "Standard reduction potentials: E\u00b0(Zn\u00b2\u207a/Zn) = -0.76 V and E\u00b0(Cu\u00b2\u207a/Cu) = +0.34 V. The standard EMF of the Daniell cell is: (Variant 36)",
+    "options": [
+      "+1.10 V",
+      "+0.42 V",
+      "-1.10 V",
+      "+0.76 V"
+    ],
+    "correctAnswer": 0,
+    "explanation": "E\u00b0_cell = E\u00b0_cathode - E\u00b0_anode = +0.34 - (-0.76) = +1.10 V.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-036",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Chemical Kinetics",
+    "topic": "Order and Half-Life",
+    "difficulty": "Easy",
+    "question": "For a first-order chemical reaction, if the half-life is 20 minutes, the time required for 75% completion is: (Variant 37)",
+    "options": [
+      "40 minutes",
+      "60 minutes",
+      "80 minutes",
+      "30 minutes"
+    ],
+    "correctAnswer": 0,
+    "explanation": "For first-order reaction: t_75% = 2 \u00d7 t_1/2 = 2 \u00d7 20 = 40 minutes.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-037",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Coordination Compounds",
+    "topic": "Crystal Field Theory",
+    "difficulty": "Medium",
+    "question": "Which of the following complex ions has the highest crystal field splitting energy (\u0394\u2080)? (Variant 38)",
+    "options": [
+      "[Co(CN)\u2086]\u00b3\u207b",
+      "[Co(H\u2082O)\u2086]\u00b3\u207a",
+      "[Co(NH\u2083)\u2086]\u00b3\u207a",
+      "[CoF\u2086]\u00b3\u207b"
+    ],
+    "correctAnswer": 0,
+    "explanation": "CN\u207b is a strong field ligand in the spectrochemical series, causing maximum crystal field splitting energy \u0394\u2080.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-038",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Organic Chemistry - Some Basic Principles",
+    "topic": "Inductive and Mesomeric Effects",
+    "difficulty": "Hard",
+    "question": "Among the following carbocations, which one has the highest stability due to hyperconjugation and resonance? (Variant 39)",
+    "options": [
+      "(CH\u2083)\u2083C\u207a (tert-butyl carbocation)",
+      "CH\u2083-CH\u2082\u207a",
+      "CH\u2082=CH-CH\u2082\u207a",
+      "CH\u2083\u207a"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Tert-butyl carbocation has 9 hyperconjugative \u03b1-hydrogens and +I effect of three methyl groups providing highest stability.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-039",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Hydrocarbons",
+    "topic": "Electrophilic Aromatic Substitution",
+    "difficulty": "Easy",
+    "question": "Benzene reacts with CH\u2083Cl in the presence of anhydrous AlCl\u2083 to form toluene. This reaction is classified as: (Variant 40)",
+    "options": [
+      "Electrophilic aromatic substitution",
+      "Nucleophilic aromatic substitution",
+      "Free radical substitution",
+      "Addition reaction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Friedel-Crafts alkylation is an electrophilic aromatic substitution where CH\u2083\u207a acts as the electrophile.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-040",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Haloalkanes and Haloarenes",
+    "topic": "SN1 vs SN2 Mechanisms",
+    "difficulty": "Medium",
+    "question": "Which of the following alkyl halides undergoes nucleophilic substitution via S_N1 mechanism most rapidly? (Variant 41)",
+    "options": [
+      "(CH\u2083)\u2083C-Br (tert-butyl bromide)",
+      "CH\u2083-CH\u2082-Br",
+      "CH\u2083-Br",
+      "CH\u2083-CH\u2082-CH\u2082-Br"
+    ],
+    "correctAnswer": 0,
+    "explanation": "S_N1 proceeds via carbocation intermediate; tertiary carbocations form most readily due to 3\u00b0 stabilization.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-041",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Alcohols, Phenols and Ethers",
+    "topic": "Reimer-Tiemann Reaction",
+    "difficulty": "Hard",
+    "question": "Phenol on reaction with CHCl\u2083 in the presence of aqueous NaOH followed by acidification gives salicylaldehyde. The electrophile in this reaction is: (Variant 42)",
+    "options": [
+      ":CCl\u2082 (Dichlorocarbene)",
+      "CCl\u2083\u207a",
+      "CHCl\u2082\u207a",
+      "Cl\u207a"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Reimer-Tiemann reaction proceeds via dichlorocarbene (:CCl\u2082) intermediate generated by \u03b1-elimination of CHCl\u2083 with base.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-042",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Aldehydes, Ketones and Carboxylic Acids",
+    "topic": "Aldol Condensation",
+    "difficulty": "Easy",
+    "question": "Acetaldehyde reacts with dilute NaOH to form 3-hydroxybutanal. This classic reaction is known as: (Variant 43)",
+    "options": [
+      "Aldol condensation",
+      "Cannizzaro reaction",
+      "Clemmensen reduction",
+      "Wolff-Kishner reduction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Acetaldehyde contains \u03b1-hydrogens and undergoes self-addition in presence of dilute base to form aldol.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-043",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Amines",
+    "topic": "Hoffmann Bromamide Degradation",
+    "difficulty": "Medium",
+    "question": "Aniline can be prepared by treating benzamide with Br\u2082 and ethanolic KOH. This degradation reaction is named: (Variant 44)",
+    "options": [
+      "Hoffmann bromamide degradation",
+      "Gabriel phthalimide synthesis",
+      "Curtius reaction",
+      "Schmidt reaction"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Hoffmann bromamide reaction converts primary amides into primary amines with one less carbon atom.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-044",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Biomolecules",
+    "topic": "Amino Acids and Peptide Bond",
+    "difficulty": "Hard",
+    "question": "Which of the following vitamins is water-soluble and cannot be stored in the human body? (Variant 45)",
+    "options": [
+      "Vitamin C (Ascorbic acid)",
+      "Vitamin A",
+      "Vitamin D",
+      "Vitamin K"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Vitamin C and B-complex vitamins are water-soluble and excreted in urine, requiring daily dietary intake.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-045",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Atomic Structure",
+    "topic": "Quantum Numbers",
+    "difficulty": "Easy",
+    "question": "Which of the following sets of quantum numbers (n, l, m, s) represents the highest energy electron? (Variant 46)",
+    "options": [
+      "n = 4, l = 2, m = 0, s = +1/2",
+      "n = 4, l = 1, m = 1, s = -1/2",
+      "n = 5, l = 0, m = 0, s = +1/2",
+      "n = 3, l = 2, m = -1, s = +1/2"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Energy follows (n + l) rule. For (4, 2) n+l = 6. For (5, 0) n+l = 5. For (4, 1) n+l = 5. (4, 2) has highest energy (4d orbital).",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-046",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Chemical Bonding",
+    "topic": "VSEPR and Hybridization",
+    "difficulty": "Medium",
+    "question": "The geometry of XeF\u2084 molecule according to VSEPR theory is: (Variant 47)",
+    "options": [
+      "Square planar",
+      "Tetrahedral",
+      "Octahedral",
+      "Trigonal bipyramidal"
+    ],
+    "correctAnswer": 0,
+    "explanation": "XeF\u2084 has 4 bonding pairs and 2 lone pairs on central Xe atom (sp\u00b3d\u00b2 hybridization), leading to square planar geometry.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-047",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Thermodynamics",
+    "topic": "Gibbs Free Energy",
+    "difficulty": "Hard",
+    "question": "For a spontaneous process at constant temperature and pressure, which condition is mandatory? (Variant 48)",
+    "options": [
+      "\u0394G < 0",
+      "\u0394H > 0",
+      "\u0394S = 0",
+      "\u0394G > 0"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Spontaneity at constant T and P requires Gibbs free energy change \u0394G = \u0394H - T\u0394S < 0.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-048",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Equilibrium",
+    "topic": "Le Chatelier Principle",
+    "difficulty": "Easy",
+    "question": "For the exothermic synthesis of ammonia (N\u2082 + 3H\u2082 \u21cc 2NH\u2083), the yield of ammonia is favored by: (Variant 49)",
+    "options": [
+      "High pressure and low temperature",
+      "Low pressure and high temperature",
+      "High temperature only",
+      "Low pressure only"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By Le Chatelier's principle: Exothermic reactions favor lower temperature; reducing gas moles (4 moles -> 2 moles) favors higher pressure.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 75
+  },
+  {
+    "id": "chem-pyq-2024-049",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Chemistry",
+    "chapter": "Solutions",
+    "topic": "Raoult's Law and Colligative Properties",
+    "difficulty": "Medium",
+    "question": "The freezing point depression constant (K_f) of water is 1.86 K\u00b7kg/mol. The freezing point of a 0.1 m aqueous solution of NaCl (assuming complete dissociation) is: (Variant 50)",
+    "options": [
+      "-0.372 \u00b0C",
+      "-0.186 \u00b0C",
+      "0.000 \u00b0C",
+      "-0.558 \u00b0C"
+    ],
+    "correctAnswer": 0,
+    "explanation": "\u0394T_f = i \u00d7 K_f \u00d7 m. For NaCl, i = 2. \u0394T_f = 2 \u00d7 1.86 \u00d7 0.1 = 0.372 K. Freezing point = 0 - 0.372 = -0.372 \u00b0C.",
+    "concept": "Standard Chemistry Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 75
   }
 ]

@@ -24,32 +24,26 @@ export const HeroStudentIllustration: React.FC<HeroStudentIllustrationProps> = (
   const normExam = (examLabel || '').toUpperCase();
   const normClass = (classLevel || '').toString();
 
-  let imageSrc = isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_light.png';
-  let isJpegAsset = false;
+  let imageSrc = isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_jee.jpg';
 
   if (normExam.includes('NEET')) {
-    imageSrc = '/assets/home/hero_student_neet.jpg';
-    isJpegAsset = true;
+    imageSrc = isDark ? '/assets/home/hero_student_neet_dark.jpg' : '/assets/home/hero_student_neet.jpg';
   } else if (normClass === '11' || normExam.includes('11')) {
-    imageSrc = '/assets/home/hero_student_11.jpg';
-    isJpegAsset = true;
+    imageSrc = isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_11.jpg';
   } else if (normClass === '12' || normExam.includes('12') || normExam.includes('CBSE') || normExam.includes('RBSE')) {
-    imageSrc = '/assets/home/hero_student_12.jpg';
-    isJpegAsset = true;
+    imageSrc = isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_12.jpg';
   }
 
   return (
     <div className="relative select-none flex items-center justify-end shrink-0">
-      {/* Real High-Resolution Mascot Artwork */}
+      {/* Real High-Resolution Mascot Artwork (Clean: No 'P' on shirt/laptop, exact exam text) */}
       <img
         src={imageSrc}
         alt={`Prepora ${examLabel} Student Mascot`}
-        className={`w-32 sm:w-40 md:w-48 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-all duration-300 rounded-2xl ${
-          isJpegAsset
-            ? 'shadow-lg border border-emerald-500/20 ring-1 ring-emerald-500/10'
-            : isDark
-            ? ''
-            : 'mix-blend-multiply dark:mix-blend-normal'
+        className={`w-32 sm:w-40 md:w-48 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-all duration-300 ${
+          isDark
+            ? 'rounded-2xl'
+            : 'mix-blend-multiply rounded-2xl'
         }`}
         loading="eager"
       />

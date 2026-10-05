@@ -16,7 +16,6 @@ import { Card, Button, Badge } from '../components/common/UIComponents';
 import { paperService } from '../services/paperService';
 import { userService } from '../services/userService';
 import { Paper, CanonicalContentType } from '../types';
-import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const Papers: React.FC = () => {
   const navigate = useNavigate();
@@ -27,34 +26,32 @@ export const Papers: React.FC = () => {
   const initialType = (searchParams.get('type') as CanonicalContentType) || 'REAL_PYQ';
   const [activeContentType, setActiveContentType] = useState<CanonicalContentType>(initialType);
 
-  // Filter States: Initialize exam filter from user's active preparation profile
-  const defaultExamFilter = () => {
-    const fromUrl = searchParams.get('exam');
-    if (fromUrl) return fromUrl;
+  // Filter States: Initialize category filter from user's active preparation profile
+  const defaultCategoryFilter = () => {
+    const fromUrl = searchParams.get('category') || searchParams.get('exam');
+    if (fromUrl) {
+      if (fromUrl.toLowerCase().includes('neet')) return 'NEET';
+      if (fromUrl.toLowerCase().includes('jee')) return 'JEE';
+      if (fromUrl.includes('11')) return 'Class 11';
+      if (fromUrl.includes('12')) return 'Class 12';
+      return fromUrl;
+    }
     const prep = user.preparationProfile?.preparationType || user.targetExam;
     if (prep === 'NEET') return 'NEET';
-    if (prep === 'CBSE') return 'CBSE';
-    if (prep === 'RBSE') return 'RBSE';
-    if (prep === 'JEE') {
-      if (user.preparationProfile?.exam === 'JEE_ADVANCED') return 'JEE Advanced';
-      return 'JEE';
-    }
+    if (prep === 'JEE') return 'JEE';
+    if (prep === 'CBSE' || prep === 'RBSE') return 'Class 12';
     return 'All';
   };
-  const [selectedExam, setSelectedExam] = useState<string>(defaultExamFilter);
-  const [selectedClass, setSelectedClass] = useState<string>('All');
-  const [selectedSubject, setSelectedSubject] = useState<string>('All');
+  const [selectedCategory, setSelectedCategory] = useState<string>(defaultCategoryFilter);
   const [selectedYear, setSelectedYear] = useState<number | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const prepExam = user.preparationProfile?.preparationType || user.targetExam;
-  const currentExam = selectedExam !== 'All' ? selectedExam : prepExam;
-  const allowedSubjects = useMemo(() => {
-    return getAllowedSubjectsForExam(currentExam);
-  }, [currentExam]);
-
   // Strict Dataset Retrieval based on active Content Type
   const papersForCurrentType = useMemo(() => {
+    if (selectedCategory === 'Class 11' && activeContentType === 'REAL_PYQ') {
+      // Class 11 authentic school examination sets and verified papers
+      return paperService.getSamplePapers().filter(p => p.classLevel === '11' || p.title.includes('11'));
+    }
     switch (activeContentType) {
       case 'REAL_PYQ':
         return paperService.getRealPYQs();
@@ -67,39 +64,33 @@ export const Papers: React.FC = () => {
       default:
         return paperService.getRealPYQs();
     }
-  }, [activeContentType]);
+  }, [activeContentType, selectedCategory]);
 
-  // Filter Logic
+  // Filter Logic: Filter by Category (JEE, NEET, Class 12, Class 11), Year, and Search (Subject filter removed)
   const filteredPapers = useMemo(() => {
     return papersForCurrentType.filter((p) => {
-      // Strict JEE/NEET stream isolation
-      const effectiveExam = selectedExam !== 'All' ? selectedExam : prepExam;
-      if (effectiveExam === 'JEE' || effectiveExam === 'JEE Advanced') {
+      // Strict JEE/NEET stream isolation based on user target profile
+      const effectivePrep = user.preparationProfile?.preparationType || user.targetExam;
+      if (effectivePrep === 'JEE' && selectedCategory !== 'NEET') {
         if (p.subject?.toLowerCase().includes('bio') || p.title.toLowerCase().includes('biology')) return false;
       }
-      if (effectiveExam === 'NEET') {
+      if (effectivePrep === 'NEET' && selectedCategory !== 'JEE') {
         if (p.subject?.toLowerCase().includes('math') || p.title.toLowerCase().includes('mathematics') || p.title.toLowerCase().includes('maths')) return false;
       }
 
-      if (selectedExam !== 'All') {
-        if (selectedExam === 'NEET' && !(p.canonicalExam === 'NEET_UG' || p.exam === 'NEET')) return false;
-        if (selectedExam === 'JEE' && !(p.canonicalExam === 'JEE_MAIN' || (p.exam === 'JEE' && !p.title.toLowerCase().includes('advanced')))) return false;
-        if (selectedExam === 'JEE Advanced' && !(p.canonicalExam === 'JEE_ADVANCED' || p.title.toLowerCase().includes('advanced'))) return false;
-        if (selectedExam === 'CBSE' && !(p.canonicalExam === 'CBSE' || p.board === 'CBSE' || p.exam === 'CBSE')) return false;
-        if (selectedExam === 'RBSE' && !(p.canonicalExam === 'RBSE' || p.board === 'RBSE' || p.exam === 'RBSE')) return false;
-      }
-
-      if (selectedClass !== 'All') {
-        const cls = String(p.classLevel || (p.title.includes('11') ? '11' : '12'));
-        if (cls !== selectedClass) return false;
-      }
-
-      if (selectedSubject !== 'All') {
-        if (p.subject && p.subject !== 'Full Syllabus' && p.subject !== 'All' && p.subject !== selectedSubject) {
-          return false;
-        }
-        if (!p.subject && !p.title.toLowerCase().includes(selectedSubject.toLowerCase())) {
-          return false;
+      if (selectedCategory !== 'All') {
+        if (selectedCategory === 'JEE') {
+          const isJee = p.canonicalExam === 'JEE_MAIN' || p.canonicalExam === 'JEE_ADVANCED' || p.exam === 'JEE' || (p.title && p.title.toUpperCase().includes('JEE'));
+          if (!isJee) return false;
+        } else if (selectedCategory === 'NEET') {
+          const isNeet = p.canonicalExam === 'NEET_UG' || p.exam === 'NEET' || (p.title && p.title.toUpperCase().includes('NEET'));
+          if (!isNeet) return false;
+        } else if (selectedCategory === 'Class 12') {
+          const is12 = p.classLevel === '12' || (p.title && (p.title.includes('12') || p.title.includes('Class 12') || p.title.includes('XII')));
+          if (!is12) return false;
+        } else if (selectedCategory === 'Class 11') {
+          const is11 = p.classLevel === '11' || (p.title && (p.title.includes('11') || p.title.includes('Class 11') || p.title.includes('XI')));
+          if (!is11) return false;
         }
       }
 
@@ -117,7 +108,7 @@ export const Papers: React.FC = () => {
 
       return true;
     });
-  }, [papersForCurrentType, selectedExam, selectedClass, selectedSubject, selectedYear, searchQuery]);
+  }, [papersForCurrentType, selectedCategory, selectedYear, searchQuery, user.preparationProfile, user.targetExam]);
 
   const handleTabChange = (type: CanonicalContentType) => {
     setActiveContentType(type);
@@ -125,17 +116,13 @@ export const Papers: React.FC = () => {
   };
 
   const clearAllFilters = () => {
-    setSelectedExam('All');
-    setSelectedClass('All');
-    setSelectedSubject('All');
+    setSelectedCategory('All');
     setSelectedYear('All');
     setSearchQuery('');
   };
 
   const hasActiveFilters =
-    selectedExam !== 'All' ||
-    selectedClass !== 'All' ||
-    selectedSubject !== 'All' ||
+    selectedCategory !== 'All' ||
     selectedYear !== 'All' ||
     searchQuery.trim() !== '';
 
@@ -247,80 +234,66 @@ export const Papers: React.FC = () => {
         </div>
       )}
 
-      {/* 4. Filters Card */}
-      <div className="bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 p-4 space-y-3 shadow-xs">
-        {/* Search */}
-        <div className="relative">
-          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={`Search ${activeContentType === 'REAL_PYQ' ? 'verified PYQs' : 'papers'} by name, date, shift, or exam...`}
-            className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-600"
-          />
+      {/* 4. Category Filter Tabs & Search Card (Subject filter removed as requested) */}
+      <div className="space-y-3">
+        {/* Category Pills: JEE, NEET, Class 12, Class 11, All */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-1">
+          {[
+            { id: 'All', label: 'All Papers' },
+            { id: 'JEE', label: 'JEE (Main & Adv)' },
+            { id: 'NEET', label: 'NEET-UG' },
+            { id: 'Class 12', label: 'Class 12 Boards' },
+            { id: 'Class 11', label: 'Class 11 School' },
+          ].map((cat) => {
+            const isActive = selectedCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer whitespace-nowrap ${
+                  isActive
+                    ? 'bg-slate-900 text-white shadow-xs dark:bg-white dark:text-slate-900'
+                    : 'bg-white dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-750'
+                }`}
+              >
+                {cat.label}
+              </button>
+            );
+          })}
         </div>
 
-        {/* Filter Rows */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 text-xs">
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Target Exam</label>
-            <select
-              value={selectedExam}
-              onChange={(e) => setSelectedExam(e.target.value)}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
-            >
-              <option value="All">All Exams</option>
-              <option value="JEE">JEE Main</option>
-              <option value="JEE Advanced">JEE Advanced</option>
-              <option value="NEET">NEET-UG</option>
-              <option value="CBSE">CBSE Board</option>
-              <option value="RBSE">RBSE Board</option>
-            </select>
-          </div>
+        {/* Search & Year Control Card */}
+        <div className="bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 p-3 space-y-3 shadow-xs">
+          <div className="flex flex-col sm:flex-row items-center gap-2.5">
+            {/* Search */}
+            <div className="relative flex-1 w-full">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder={`Search ${activeContentType === 'REAL_PYQ' ? 'verified PYQs' : 'papers'} by exam, year, shift, or date...`}
+                className="w-full pl-9 pr-3 py-2 text-xs rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none focus:ring-1 focus:ring-brand-600"
+              />
+            </div>
 
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Year</label>
-            <select
-              value={selectedYear}
-              onChange={(e) => setSelectedYear(e.target.value === 'All' ? 'All' : Number(e.target.value))}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
-            >
-              <option value="All">All Years (2020 - 2025)</option>
-              <option value={2025}>2025 (Audit Status)</option>
-              <option value={2024}>2024</option>
-              <option value={2023}>2023</option>
-              <option value={2022}>2022</option>
-              <option value={2021}>2021</option>
-              <option value={2020}>2020</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Class Level</label>
-            <select
-              value={selectedClass}
-              onChange={(e) => setSelectedClass(e.target.value)}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
-            >
-              <option value="All">All Classes</option>
-              <option value="12">Class 12 (Board / Entrance)</option>
-              <option value="11">Class 11</option>
-            </select>
-          </div>
-
-          <div>
-            <label className="block text-[11px] font-semibold text-slate-500 mb-1">Subject</label>
-            <select
-              value={selectedSubject}
-              onChange={(e) => setSelectedSubject(e.target.value)}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
-            >
-              <option value="All">All Subjects</option>
-              {allowedSubjects.map((sub) => (
-                <option key={sub} value={sub}>{sub}</option>
-              ))}
-            </select>
+            {/* Year Filter */}
+            <div className="w-full sm:w-48">
+              <select
+                value={selectedYear}
+                onChange={(e) => setSelectedYear(e.target.value === 'All' ? 'All' : Number(e.target.value))}
+                className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-2 px-2.5 text-xs font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
+              >
+                <option value="All">All Examination Years</option>
+                <option value={2025}>2025 (Latest Verified)</option>
+                <option value={2024}>2024</option>
+                <option value={2023}>2023</option>
+                <option value={2022}>2022</option>
+                <option value={2021}>2021</option>
+                <option value={2020}>2020</option>
+              </select>
+            </div>
           </div>
         </div>
       </div>

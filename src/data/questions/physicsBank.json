@@ -15,7 +15,7 @@
       "Power"
     ],
     "correctAnswer": 1,
-    "explanation": "Planck's constant has dimensions [M L² T⁻¹], which is identical to angular momentum (L = r × p -> [L] · [M L T⁻¹] = [M L² T⁻¹]).",
+    "explanation": "Planck's constant has dimensions [M L\u00b2 T\u207b\u00b9], which is identical to angular momentum (L = r \u00d7 p -> [L] \u00b7 [M L T\u207b\u00b9] = [M L\u00b2 T\u207b\u00b9]).",
     "concept": "Dimensions of fundamental and derived physical quantities.",
     "source": "PYQ",
     "year": 2024,
@@ -37,7 +37,7 @@
       "200 m"
     ],
     "correctAnswer": 1,
-    "explanation": "Using s = ut + 0.5 at² with u = 0, a = (20 - 0) / 5 = 4 m/s²: s = 0.5 × 4 × 5² = 50 m.",
+    "explanation": "Using s = ut + 0.5 at\u00b2 with u = 0, a = (20 - 0) / 5 = 4 m/s\u00b2: s = 0.5 \u00d7 4 \u00d7 5\u00b2 = 50 m.",
     "concept": "Uniform acceleration kinematics formulas.",
     "source": "PYQ",
     "year": 2023,
@@ -51,15 +51,15 @@
     "chapter": "Laws of Motion",
     "topic": "Newton's Second Law",
     "difficulty": "Medium",
-    "question": "A block of mass 5 kg is pulled on a smooth horizontal surface by a force of 20 N at an angle of 60° to the horizontal. What is its acceleration?",
+    "question": "A block of mass 5 kg is pulled on a smooth horizontal surface by a force of 20 N at an angle of 60\u00b0 to the horizontal. What is its acceleration?",
     "options": [
-      "2 m/s²",
-      "4 m/s²",
-      "10 m/s²",
-      "1.73 m/s²"
+      "2 m/s\u00b2",
+      "4 m/s\u00b2",
+      "10 m/s\u00b2",
+      "1.73 m/s\u00b2"
     ],
     "correctAnswer": 0,
-    "explanation": "Horizontal component of force is F_x = F cos(60°) = 20 × 0.5 = 10 N. Acceleration a = F_x / m = 10 / 5 = 2 m/s².",
+    "explanation": "Horizontal component of force is F_x = F cos(60\u00b0) = 20 \u00d7 0.5 = 10 N. Acceleration a = F_x / m = 10 / 5 = 2 m/s\u00b2.",
     "concept": "Resolving force vectors along orthogonal axes.",
     "source": "PYQ",
     "year": 2024,
@@ -81,7 +81,7 @@
       "80 J"
     ],
     "correctAnswer": 0,
-    "explanation": "Kinetic energy KE = 0.5 × m × v² = 0.5 × (0.01 kg) × (400 m/s)² = 0.5 × 0.01 × 160000 = 800 J.",
+    "explanation": "Kinetic energy KE = 0.5 \u00d7 m \u00d7 v\u00b2 = 0.5 \u00d7 (0.01 kg) \u00d7 (400 m/s)\u00b2 = 0.5 \u00d7 0.01 \u00d7 160000 = 800 J.",
     "concept": "Calculation of translational kinetic energy.",
     "source": "Practice",
     "year": 2023,
@@ -103,7 +103,7 @@
       "Four times"
     ],
     "correctAnswer": 2,
-    "explanation": "According to Newton's law of gravitation, F ∝ 1/r². When r is doubled (2r), F becomes F / 2² = F / 4.",
+    "explanation": "According to Newton's law of gravitation, F \u221d 1/r\u00b2. When r is doubled (2r), F becomes F / 2\u00b2 = F / 4.",
     "concept": "Inverse square law behavior in gravity.",
     "source": "PYQ",
     "year": 2022,
@@ -119,13 +119,13 @@
     "difficulty": "Hard",
     "question": "The moment of inertia of a uniform solid sphere of mass M and radius R about a tangent to the sphere is:",
     "options": [
-      "(2/5) MR²",
-      "(7/5) MR²",
-      "(5/3) MR²",
-      "(3/5) MR²"
+      "(2/5) MR\u00b2",
+      "(7/5) MR\u00b2",
+      "(5/3) MR\u00b2",
+      "(3/5) MR\u00b2"
     ],
     "correctAnswer": 1,
-    "explanation": "By parallel axis theorem, I_tangent = I_cm + Md² = (2/5)MR² + M(R)² = (7/5)MR².",
+    "explanation": "By parallel axis theorem, I_tangent = I_cm + Md\u00b2 = (2/5)MR\u00b2 + M(R)\u00b2 = (7/5)MR\u00b2.",
     "concept": "Parallel axis theorem application.",
     "source": "PYQ",
     "year": 2024,
@@ -144,10 +144,10 @@
       "Parallel",
       "Antiparallel",
       "Perpendicular",
-      "At 45° to each other"
+      "At 45\u00b0 to each other"
     ],
     "correctAnswer": 2,
-    "explanation": "At peak height, vertical velocity is 0 and velocity is strictly horizontal, whereas acceleration due to gravity is strictly downward. Thus they are perpendicular (90°).",
+    "explanation": "At peak height, vertical velocity is 0 and velocity is strictly horizontal, whereas acceleration due to gravity is strictly downward. Thus they are perpendicular (90\u00b0).",
     "concept": "Vector properties at the apogee of trajectory.",
     "source": "Practice",
     "year": 2023,
@@ -163,13 +163,13 @@
     "difficulty": "Easy",
     "question": "The anomalous expansion of water occurs in the temperature interval:",
     "options": [
-      "0°C to 4°C",
-      "4°C to 10°C",
-      "-4°C to 0°C",
-      "0°C to 100°C"
+      "0\u00b0C to 4\u00b0C",
+      "4\u00b0C to 10\u00b0C",
+      "-4\u00b0C to 0\u00b0C",
+      "0\u00b0C to 100\u00b0C"
     ],
     "correctAnswer": 0,
-    "explanation": "Water contracts when heated from 0°C to 4°C, attaining maximum density at 4°C.",
+    "explanation": "Water contracts when heated from 0\u00b0C to 4\u00b0C, attaining maximum density at 4\u00b0C.",
     "concept": "Thermal properties of water.",
     "source": "PYQ",
     "year": 2021,
@@ -185,13 +185,13 @@
     "difficulty": "Medium",
     "question": "The time period of a simple pendulum of length L on the Earth's surface is given by:",
     "options": [
-      "T = 2π √(g/L)",
-      "T = 2π √(L/g)",
-      "T = π √(L/g)",
-      "T = 4π √(L/g)"
+      "T = 2\u03c0 \u221a(g/L)",
+      "T = 2\u03c0 \u221a(L/g)",
+      "T = \u03c0 \u221a(L/g)",
+      "T = 4\u03c0 \u221a(L/g)"
     ],
     "correctAnswer": 1,
-    "explanation": "Standard formula for simple pendulum small-amplitude oscillations: T = 2π √(L/g).",
+    "explanation": "Standard formula for simple pendulum small-amplitude oscillations: T = 2\u03c0 \u221a(L/g).",
     "concept": "Simple harmonic oscillators.",
     "source": "PYQ",
     "year": 2023,
@@ -213,7 +213,7 @@
       "f' = f ((v - v_s) / v)"
     ],
     "correctAnswer": 0,
-    "explanation": "Source moving away increases apparent wavelength, reducing observed frequency: f' = f × v / (v + v_s).",
+    "explanation": "Source moving away increases apparent wavelength, reducing observed frequency: f' = f \u00d7 v / (v + v_s).",
     "concept": "Acoustic Doppler effect kinematics.",
     "source": "PYQ",
     "year": 2024,
@@ -257,7 +257,7 @@
       "Drift speed becomes relativistic"
     ],
     "correctAnswer": 1,
-    "explanation": "With higher temperature, lattice ion vibrations increase, causing more frequent collisions, which shortens relaxation time τ. Since ρ = m/(n e² τ), resistivity increases.",
+    "explanation": "With higher temperature, lattice ion vibrations increase, causing more frequent collisions, which shortens relaxation time \u03c4. Since \u03c1 = m/(n e\u00b2 \u03c4), resistivity increases.",
     "concept": "Microscopic model of electrical conduction.",
     "source": "PYQ",
     "year": 2023,
@@ -273,13 +273,13 @@
     "difficulty": "Medium",
     "question": "The magnetic field B at the center of a circular loop of radius R carrying current I is:",
     "options": [
-      "μ₀ I / (2 R)",
-      "μ₀ I / (4π R)",
-      "μ₀ I / (2π R)",
-      "μ₀ I R / 2"
+      "\u03bc\u2080 I / (2 R)",
+      "\u03bc\u2080 I / (4\u03c0 R)",
+      "\u03bc\u2080 I / (2\u03c0 R)",
+      "\u03bc\u2080 I R / 2"
     ],
     "correctAnswer": 0,
-    "explanation": "By Biot-Savart Law integrating along the circular path: B = μ₀ I / (2 R).",
+    "explanation": "By Biot-Savart Law integrating along the circular path: B = \u03bc\u2080 I / (2 R).",
     "concept": "Ampere and Biot-Savart calculations.",
     "source": "PYQ",
     "year": 2024,
@@ -293,15 +293,15 @@
     "chapter": "Ray Optics",
     "topic": "Refraction & Total Internal Reflection",
     "difficulty": "Easy",
-    "question": "Critical angle for light passing from glass (μ = 1.5) to air is given by:",
+    "question": "Critical angle for light passing from glass (\u03bc = 1.5) to air is given by:",
     "options": [
-      "sin⁻¹(2/3)",
-      "sin⁻¹(3/2)",
-      "cos⁻¹(2/3)",
-      "tan⁻¹(2/3)"
+      "sin\u207b\u00b9(2/3)",
+      "sin\u207b\u00b9(3/2)",
+      "cos\u207b\u00b9(2/3)",
+      "tan\u207b\u00b9(2/3)"
     ],
     "correctAnswer": 0,
-    "explanation": "sin(θ_c) = μ_rarer / μ_denser = 1 / 1.5 = 2/3, so θ_c = sin⁻¹(2/3).",
+    "explanation": "sin(\u03b8_c) = \u03bc_rarer / \u03bc_denser = 1 / 1.5 = 2/3, so \u03b8_c = sin\u207b\u00b9(2/3).",
     "concept": "Total internal reflection threshold angle.",
     "source": "PYQ",
     "year": 2022,
@@ -323,7 +323,7 @@
       "Gauss"
     ],
     "correctAnswer": 1,
-    "explanation": "Weber (Wb = T · m²) is the SI unit of magnetic flux Φ.",
+    "explanation": "Weber (Wb = T \u00b7 m\u00b2) is the SI unit of magnetic flux \u03a6.",
     "concept": "Magnetic flux and induced EMF units.",
     "source": "PYQ",
     "year": 2021,
@@ -345,7 +345,7 @@
       "Exposure time"
     ],
     "correctAnswer": 0,
-    "explanation": "According to Einstein's equation KE_max = hν - Φ, maximum kinetic energy depends linearly on frequency ν above threshold.",
+    "explanation": "According to Einstein's equation KE_max = h\u03bd - \u03a6, maximum kinetic energy depends linearly on frequency \u03bd above threshold.",
     "concept": "Quantum explanation of the photoelectric phenomenon.",
     "source": "PYQ",
     "year": 2023,
@@ -381,7 +381,7 @@
     "chapter": "Wave Optics",
     "topic": "Young's Double Slit Experiment",
     "difficulty": "Hard",
-    "question": "In YDSE, if slit separation d is halved and distance to screen D is doubled, the fringe width β becomes:",
+    "question": "In YDSE, if slit separation d is halved and distance to screen D is doubled, the fringe width \u03b2 becomes:",
     "options": [
       "Unchanged",
       "Doubled",
@@ -389,7 +389,7 @@
       "One-fourth"
     ],
     "correctAnswer": 2,
-    "explanation": "Fringe width β = λ D / d. If D -> 2D and d -> d/2, then β' = λ(2D)/(d/2) = 4 (λ D / d) = 4 β.",
+    "explanation": "Fringe width \u03b2 = \u03bb D / d. If D -> 2D and d -> d/2, then \u03b2' = \u03bb(2D)/(d/2) = 4 (\u03bb D / d) = 4 \u03b2.",
     "concept": "Interference fringe spacing relationships.",
     "source": "PYQ",
     "year": 2023,
@@ -407,8 +407,8 @@
     "options": [
       "Zero",
       "R",
-      "√(R² + ω²L²)",
-      "ωL - 1/(ωC)"
+      "\u221a(R\u00b2 + \u03c9\u00b2L\u00b2)",
+      "\u03c9L - 1/(\u03c9C)"
     ],
     "correctAnswer": 1,
     "explanation": "At resonant frequency, inductive and capacitive reactances cancel (X_L = X_C), leaving pure resistance Z = R.",
@@ -433,7 +433,7 @@
       "1 : 1 : 1"
     ],
     "correctAnswer": 1,
-    "explanation": "Bohr radius r_n ∝ n². Therefore for n = 1, 2, 3: r₁ : r₂ : r₃ = 1² : 2² : 3² = 1 : 4 : 9.",
+    "explanation": "Bohr radius r_n \u221d n\u00b2. Therefore for n = 1, 2, 3: r\u2081 : r\u2082 : r\u2083 = 1\u00b2 : 2\u00b2 : 3\u00b2 = 1 : 4 : 9.",
     "concept": "Quantization of atomic orbits.",
     "source": "PYQ",
     "year": 2024,
@@ -448,21 +448,21 @@
     "topic": "Dimensional Analysis",
     "difficulty": "Medium",
     "question": "If velocity v, force F, and time T are chosen as fundamental dimensions, what is the dimensional formula for mass?",
-    "questionHi": "यदि वेग v, बल F और समय T को मूल विमाएँ माना जाए, तो द्रव्यमान का विमीय सूत्र क्या होगा?",
+    "questionHi": "\u092f\u0926\u093f \u0935\u0947\u0917 v, \u092c\u0932 F \u0914\u0930 \u0938\u092e\u092f T \u0915\u094b \u092e\u0942\u0932 \u0935\u093f\u092e\u093e\u090f\u0901 \u092e\u093e\u0928\u093e \u091c\u093e\u090f, \u0924\u094b \u0926\u094d\u0930\u0935\u094d\u092f\u092e\u093e\u0928 \u0915\u093e \u0935\u093f\u092e\u0940\u092f \u0938\u0942\u0924\u094d\u0930 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e?",
     "options": [
-      "F v⁻¹ T",
-      "F v T⁻¹",
-      "F v⁻² T²",
-      "F⁻¹ v T"
+      "F v\u207b\u00b9 T",
+      "F v T\u207b\u00b9",
+      "F v\u207b\u00b2 T\u00b2",
+      "F\u207b\u00b9 v T"
     ],
     "optionsHi": [
-      "F v⁻¹ T",
-      "F v T⁻¹",
-      "F v⁻² T²",
-      "F⁻¹ v T"
+      "F v\u207b\u00b9 T",
+      "F v T\u207b\u00b9",
+      "F v\u207b\u00b2 T\u00b2",
+      "F\u207b\u00b9 v T"
     ],
     "correctAnswer": 0,
-    "explanation": "Force F = mass × acceleration = m × (v / T). Rearranging gives m = F × T / v = F v⁻¹ T.",
+    "explanation": "Force F = mass \u00d7 acceleration = m \u00d7 (v / T). Rearranging gives m = F \u00d7 T / v = F v\u207b\u00b9 T.",
     "concept": "Dimensions of derived physical quantities in terms of chosen fundamental bases.",
     "importantPoint": "Relate quantities using Newton's second law F = dp/dt.",
     "source": "PYQ",
@@ -478,7 +478,7 @@
     "topic": "Error Propagation",
     "difficulty": "Easy",
     "question": "The percentage errors in the measurement of mass and speed are 2% and 3% respectively. What is the maximum percentage error in the estimated kinetic energy?",
-    "questionHi": "द्रव्यमान और चाल के मापन में प्रतिशत त्रुटियाँ क्रमशः 2% और 3% हैं। अनुमानित गतिज ऊर्जा में अधिकतम प्रतिशत त्रुटि क्या होगी?",
+    "questionHi": "\u0926\u094d\u0930\u0935\u094d\u092f\u092e\u093e\u0928 \u0914\u0930 \u091a\u093e\u0932 \u0915\u0947 \u092e\u093e\u092a\u0928 \u092e\u0947\u0902 \u092a\u094d\u0930\u0924\u093f\u0936\u0924 \u0924\u094d\u0930\u0941\u091f\u093f\u092f\u093e\u0901 \u0915\u094d\u0930\u092e\u0936\u0903 2% \u0914\u0930 3% \u0939\u0948\u0902\u0964 \u0905\u0928\u0941\u092e\u093e\u0928\u093f\u0924 \u0917\u0924\u093f\u091c \u090a\u0930\u094d\u091c\u093e \u092e\u0947\u0902 \u0905\u0927\u093f\u0915\u0924\u092e \u092a\u094d\u0930\u0924\u093f\u0936\u0924 \u0924\u094d\u0930\u0941\u091f\u093f \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u0940?",
     "options": [
       "5%",
       "8%",
@@ -492,7 +492,7 @@
       "6%"
     ],
     "correctAnswer": 1,
-    "explanation": "Kinetic Energy K = (1/2) m v². Relative error is ΔK/K = Δm/m + 2(Δv/v) = 2% + 2(3%) = 8%.",
+    "explanation": "Kinetic Energy K = (1/2) m v\u00b2. Relative error is \u0394K/K = \u0394m/m + 2(\u0394v/v) = 2% + 2(3%) = 8%.",
     "concept": "Error propagation for product and power relationships.",
     "source": "PYQ",
     "year": 2023,
@@ -507,7 +507,7 @@
     "topic": "Vernier & Screw Gauge",
     "difficulty": "Easy",
     "question": "A screw gauge has a pitch of 0.5 mm and 50 circular scale divisions. The least count of the instrument is:",
-    "questionHi": "एक स्क्रूगेज की पिच 0.5 मिमी है और 50 वृत्ताकार पैमाने के भाग हैं। उपकरण का अल्पतमांक क्या है?",
+    "questionHi": "\u090f\u0915 \u0938\u094d\u0915\u094d\u0930\u0942\u0917\u0947\u091c \u0915\u0940 \u092a\u093f\u091a 0.5 \u092e\u093f\u092e\u0940 \u0939\u0948 \u0914\u0930 50 \u0935\u0943\u0924\u094d\u0924\u093e\u0915\u093e\u0930 \u092a\u0948\u092e\u093e\u0928\u0947 \u0915\u0947 \u092d\u093e\u0917 \u0939\u0948\u0902\u0964 \u0909\u092a\u0915\u0930\u0923 \u0915\u093e \u0905\u0932\u094d\u092a\u0924\u092e\u093e\u0902\u0915 \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
       "0.01 mm",
       "0.05 mm",
@@ -515,10 +515,10 @@
       "0.1 mm"
     ],
     "optionsHi": [
-      "0.01 मिमी",
-      "0.05 मिमी",
-      "0.001 मिमी",
-      "0.1 मिमी"
+      "0.01 \u092e\u093f\u092e\u0940",
+      "0.05 \u092e\u093f\u092e\u0940",
+      "0.001 \u092e\u093f\u092e\u0940",
+      "0.1 \u092e\u093f\u092e\u0940"
     ],
     "correctAnswer": 0,
     "explanation": "Least Count = Pitch / Number of circular divisions = 0.5 mm / 50 = 0.01 mm.",
@@ -535,23 +535,23 @@
     "chapter": "Kinematics",
     "topic": "Projectile Motion",
     "difficulty": "Medium",
-    "question": "A projectile launched at angle θ with horizontal reaches maximum height equal to one-fourth of its horizontal range. What is launch angle θ?",
-    "questionHi": "क्षैतिज से θ कोण पर प्रक्षेपित एक प्रक्षेप्य अपनी क्षैतिज परास की एक-चौथाई अधिकतम ऊंचाई तक पहुंचता है। प्रक्षेपण कोण θ क्या है?",
+    "question": "A projectile launched at angle \u03b8 with horizontal reaches maximum height equal to one-fourth of its horizontal range. What is launch angle \u03b8?",
+    "questionHi": "\u0915\u094d\u0937\u0948\u0924\u093f\u091c \u0938\u0947 \u03b8 \u0915\u094b\u0923 \u092a\u0930 \u092a\u094d\u0930\u0915\u094d\u0937\u0947\u092a\u093f\u0924 \u090f\u0915 \u092a\u094d\u0930\u0915\u094d\u0937\u0947\u092a\u094d\u092f \u0905\u092a\u0928\u0940 \u0915\u094d\u0937\u0948\u0924\u093f\u091c \u092a\u0930\u093e\u0938 \u0915\u0940 \u090f\u0915-\u091a\u094c\u0925\u093e\u0908 \u0905\u0927\u093f\u0915\u0924\u092e \u090a\u0902\u091a\u093e\u0908 \u0924\u0915 \u092a\u0939\u0941\u0902\u091a\u0924\u093e \u0939\u0948\u0964 \u092a\u094d\u0930\u0915\u094d\u0937\u0947\u092a\u0923 \u0915\u094b\u0923 \u03b8 \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
-      "30°",
-      "45°",
-      "60°",
-      "tan⁻¹(2)"
+      "30\u00b0",
+      "45\u00b0",
+      "60\u00b0",
+      "tan\u207b\u00b9(2)"
     ],
     "optionsHi": [
-      "30°",
-      "45°",
-      "60°",
-      "tan⁻¹(2)"
+      "30\u00b0",
+      "45\u00b0",
+      "60\u00b0",
+      "tan\u207b\u00b9(2)"
     ],
     "correctAnswer": 1,
-    "explanation": "Relation between Range and Max Height is R tanθ = 4H. Given H = R/4 => R tanθ = 4(R/4) = R => tanθ = 1 => θ = 45°.",
-    "concept": "Relation between projectile maximum height and horizontal range: R tanθ = 4H.",
+    "explanation": "Relation between Range and Max Height is R tan\u03b8 = 4H. Given H = R/4 => R tan\u03b8 = 4(R/4) = R => tan\u03b8 = 1 => \u03b8 = 45\u00b0.",
+    "concept": "Relation between projectile maximum height and horizontal range: R tan\u03b8 = 4H.",
     "source": "PYQ",
     "year": 2024,
     "recommendedTimeSeconds": 90
@@ -565,7 +565,7 @@
     "topic": "Uniform Acceleration",
     "difficulty": "Easy",
     "question": "A body starts from rest with uniform acceleration. The ratio of distance traversed in the 3rd second to that in the 5th second is:",
-    "questionHi": "एक पिंड विरामावस्था से एकसमान त्वरण से गति करता है। तीसरे सेकंड और 5वें सेकंड में तय की गई दूरियों का अनुपात क्या है?",
+    "questionHi": "\u090f\u0915 \u092a\u093f\u0902\u0921 \u0935\u093f\u0930\u093e\u092e\u093e\u0935\u0938\u094d\u0925\u093e \u0938\u0947 \u090f\u0915\u0938\u092e\u093e\u0928 \u0924\u094d\u0935\u0930\u0923 \u0938\u0947 \u0917\u0924\u093f \u0915\u0930\u0924\u093e \u0939\u0948\u0964 \u0924\u0940\u0938\u0930\u0947 \u0938\u0947\u0915\u0902\u0921 \u0914\u0930 5\u0935\u0947\u0902 \u0938\u0947\u0915\u0902\u0921 \u092e\u0947\u0902 \u0924\u092f \u0915\u0940 \u0917\u0908 \u0926\u0942\u0930\u093f\u092f\u094b\u0902 \u0915\u093e \u0905\u0928\u0941\u092a\u093e\u0924 \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
       "3 : 5",
       "5 : 9",
@@ -579,7 +579,7 @@
       "1 : 2"
     ],
     "correctAnswer": 1,
-    "explanation": "Distance in nth second S_n ∝ (2n - 1) when u = 0. S_3 / S_5 = (2(3) - 1) / (2(5) - 1) = 5 / 9.",
+    "explanation": "Distance in nth second S_n \u221d (2n - 1) when u = 0. S_3 / S_5 = (2(3) - 1) / (2(5) - 1) = 5 / 9.",
     "concept": "Galileo odd numbers ratio for successive intervals from rest.",
     "source": "PYQ",
     "year": 2023,
@@ -594,21 +594,21 @@
     "topic": "Relative Velocity",
     "difficulty": "Medium",
     "question": "Rain is falling vertically downwards at 35 m/s. A cyclist rides with speed 12 m/s towards west. In which direction should she hold her umbrella?",
-    "questionHi": "वर्षा 35 मीटर/सेकंड से ऊर्ध्वाधर नीचे गिर रही है। एक साइकिल चालक 12 मीटर/सेकंड से पश्चिम की ओर जा रहा है। उसे छाता किस दिशा में रखना चाहिए?",
+    "questionHi": "\u0935\u0930\u094d\u0937\u093e 35 \u092e\u0940\u091f\u0930/\u0938\u0947\u0915\u0902\u0921 \u0938\u0947 \u090a\u0930\u094d\u0927\u094d\u0935\u093e\u0927\u0930 \u0928\u0940\u091a\u0947 \u0917\u093f\u0930 \u0930\u0939\u0940 \u0939\u0948\u0964 \u090f\u0915 \u0938\u093e\u0907\u0915\u093f\u0932 \u091a\u093e\u0932\u0915 12 \u092e\u0940\u091f\u0930/\u0938\u0947\u0915\u0902\u0921 \u0938\u0947 \u092a\u0936\u094d\u091a\u093f\u092e \u0915\u0940 \u0913\u0930 \u091c\u093e \u0930\u0939\u093e \u0939\u0948\u0964 \u0909\u0938\u0947 \u091b\u093e\u0924\u093e \u0915\u093f\u0938 \u0926\u093f\u0936\u093e \u092e\u0947\u0902 \u0930\u0916\u0928\u093e \u091a\u093e\u0939\u093f\u090f?",
     "options": [
-      "tan⁻¹(12/35) towards West",
-      "tan⁻¹(35/12) towards East",
-      "tan⁻¹(12/35) towards East",
+      "tan\u207b\u00b9(12/35) towards West",
+      "tan\u207b\u00b9(35/12) towards East",
+      "tan\u207b\u00b9(12/35) towards East",
       "Vertical downwards"
     ],
     "optionsHi": [
-      "tan⁻¹(12/35) पश्चिम की ओर",
-      "tan⁻¹(35/12) पूर्व की ओर",
-      "tan⁻¹(12/35) पूर्व की ओर",
-      "ऊर्ध्वाधर"
+      "tan\u207b\u00b9(12/35) \u092a\u0936\u094d\u091a\u093f\u092e \u0915\u0940 \u0913\u0930",
+      "tan\u207b\u00b9(35/12) \u092a\u0942\u0930\u094d\u0935 \u0915\u0940 \u0913\u0930",
+      "tan\u207b\u00b9(12/35) \u092a\u0942\u0930\u094d\u0935 \u0915\u0940 \u0913\u0930",
+      "\u090a\u0930\u094d\u0927\u094d\u0935\u093e\u0927\u0930"
     ],
     "correctAnswer": 0,
-    "explanation": "v_rain,cyclist = v_rain - v_cyclist. Angle with vertical tanθ = |v_cyclist| / |v_rain| = 12 / 35 towards the west.",
+    "explanation": "v_rain,cyclist = v_rain - v_cyclist. Angle with vertical tan\u03b8 = |v_cyclist| / |v_rain| = 12 / 35 towards the west.",
     "concept": "Relative velocity in 2 dimensions for rain-cyclist problems.",
     "source": "PYQ",
     "year": 2024,
@@ -622,8 +622,8 @@
     "chapter": "Laws of Motion",
     "topic": "Friction & Equilibrium",
     "difficulty": "Medium",
-    "question": "A block of mass 4 kg rests on a rough horizontal surface with coefficient of static friction μ_s = 0.4. If a horizontal force of 12 N is applied, the frictional force developed is (take g = 10 m/s²):",
-    "questionHi": "4 किग्रा का एक गुटका स्थैतिक घर्षण गुणांक μ_s = 0.4 वाली क्षैतिज सतह पर रखा है। यदि 12 N का क्षैतिज बल लगाया जाए, तो घर्षण बल क्या होगा (g = 10 m/s²):",
+    "question": "A block of mass 4 kg rests on a rough horizontal surface with coefficient of static friction \u03bc_s = 0.4. If a horizontal force of 12 N is applied, the frictional force developed is (take g = 10 m/s\u00b2):",
+    "questionHi": "4 \u0915\u093f\u0917\u094d\u0930\u093e \u0915\u093e \u090f\u0915 \u0917\u0941\u091f\u0915\u093e \u0938\u094d\u0925\u0948\u0924\u093f\u0915 \u0918\u0930\u094d\u0937\u0923 \u0917\u0941\u0923\u093e\u0902\u0915 \u03bc_s = 0.4 \u0935\u093e\u0932\u0940 \u0915\u094d\u0937\u0948\u0924\u093f\u091c \u0938\u0924\u0939 \u092a\u0930 \u0930\u0916\u093e \u0939\u0948\u0964 \u092f\u0926\u093f 12 N \u0915\u093e \u0915\u094d\u0937\u0948\u0924\u093f\u091c \u092c\u0932 \u0932\u0917\u093e\u092f\u093e \u091c\u093e\u090f, \u0924\u094b \u0918\u0930\u094d\u0937\u0923 \u092c\u0932 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e (g = 10 m/s\u00b2):",
     "options": [
       "16 N",
       "12 N",
@@ -637,7 +637,7 @@
       "0 N"
     ],
     "correctAnswer": 1,
-    "explanation": "Max static friction f_max = μ_s N = 0.4 × 40 = 16 N. Applied force 12 N < 16 N, so static friction matches applied force: 12 N.",
+    "explanation": "Max static friction f_max = \u03bc_s N = 0.4 \u00d7 40 = 16 N. Applied force 12 N < 16 N, so static friction matches applied force: 12 N.",
     "concept": "Self-adjusting nature of static friction up to limiting friction.",
     "source": "PYQ",
     "year": 2024,
@@ -651,22 +651,22 @@
     "chapter": "Laws of Motion",
     "topic": "Banking of Roads",
     "difficulty": "Easy",
-    "question": "A curved road of radius 100 m is banked for a speed of 10 m/s. If g = 10 m/s², the optimum angle of banking θ is:",
-    "questionHi": "100 मीटर त्रिज्या की सड़क 10 मीटर/सेकंड चाल के लिए बंकित है। यदि g = 10 m/s² है, तो बंकन कोण क्या है?",
+    "question": "A curved road of radius 100 m is banked for a speed of 10 m/s. If g = 10 m/s\u00b2, the optimum angle of banking \u03b8 is:",
+    "questionHi": "100 \u092e\u0940\u091f\u0930 \u0924\u094d\u0930\u093f\u091c\u094d\u092f\u093e \u0915\u0940 \u0938\u0921\u093c\u0915 10 \u092e\u0940\u091f\u0930/\u0938\u0947\u0915\u0902\u0921 \u091a\u093e\u0932 \u0915\u0947 \u0932\u093f\u090f \u092c\u0902\u0915\u093f\u0924 \u0939\u0948\u0964 \u092f\u0926\u093f g = 10 m/s\u00b2 \u0939\u0948, \u0924\u094b \u092c\u0902\u0915\u0928 \u0915\u094b\u0923 \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
-      "tan⁻¹(0.1)",
-      "tan⁻¹(0.2)",
-      "tan⁻¹(1)",
-      "tan⁻¹(0.01)"
+      "tan\u207b\u00b9(0.1)",
+      "tan\u207b\u00b9(0.2)",
+      "tan\u207b\u00b9(1)",
+      "tan\u207b\u00b9(0.01)"
     ],
     "optionsHi": [
-      "tan⁻¹(0.1)",
-      "tan⁻¹(0.2)",
-      "tan⁻¹(1)",
-      "tan⁻¹(0.01)"
+      "tan\u207b\u00b9(0.1)",
+      "tan\u207b\u00b9(0.2)",
+      "tan\u207b\u00b9(1)",
+      "tan\u207b\u00b9(0.01)"
     ],
     "correctAnswer": 0,
-    "explanation": "Optimal banking without friction: tanθ = v² / (r g) = 10² / (100 × 10) = 100 / 1000 = 0.1 => θ = tan⁻¹(0.1).",
+    "explanation": "Optimal banking without friction: tan\u03b8 = v\u00b2 / (r g) = 10\u00b2 / (100 \u00d7 10) = 100 / 1000 = 0.1 => \u03b8 = tan\u207b\u00b9(0.1).",
     "concept": "Optimal banking of curved roads.",
     "source": "Model Paper",
     "year": 2025,
@@ -681,7 +681,7 @@
     "topic": "Elastic Collisions",
     "difficulty": "Medium",
     "question": "A mass m moving with velocity v collides elastically head-on with a stationary mass 2m. The fractional loss of kinetic energy of mass m is:",
-    "questionHi": "v वेग से गतिशील m द्रव्यमान एक स्थिर 2m द्रव्यमान से प्रत्यास्थ सीधा संघट्ट करता है। m की गतिज ऊर्जा में भिन्नात्मक हानि क्या है?",
+    "questionHi": "v \u0935\u0947\u0917 \u0938\u0947 \u0917\u0924\u093f\u0936\u0940\u0932 m \u0926\u094d\u0930\u0935\u094d\u092f\u092e\u093e\u0928 \u090f\u0915 \u0938\u094d\u0925\u093f\u0930 2m \u0926\u094d\u0930\u0935\u094d\u092f\u092e\u093e\u0928 \u0938\u0947 \u092a\u094d\u0930\u0924\u094d\u092f\u093e\u0938\u094d\u0925 \u0938\u0940\u0927\u093e \u0938\u0902\u0918\u091f\u094d\u091f \u0915\u0930\u0924\u093e \u0939\u0948\u0964 m \u0915\u0940 \u0917\u0924\u093f\u091c \u090a\u0930\u094d\u091c\u093e \u092e\u0947\u0902 \u092d\u093f\u0928\u094d\u0928\u093e\u0924\u094d\u092e\u0915 \u0939\u093e\u0928\u093f \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
       "1/9",
       "8/9",
@@ -710,21 +710,21 @@
     "topic": "Moment of Inertia of Cavity",
     "difficulty": "Hard",
     "question": "From a uniform circular disc of radius R and mass 9M, a small disc of radius R/3 is removed touching the perimeter. The moment of inertia of the remaining disc about the central axis perpendicular to the disc is:",
-    "questionHi": "त्रिज्या R और द्रव्यमान 9M की डिस्क से R/3 त्रिज्या की एक छोटी डिस्क परिधि को स्पर्श करती हुई निकाली जाती है। शेष भाग का केंद्रीय अक्ष के परितः जड़त्व आघूर्ण क्या होगा?",
+    "questionHi": "\u0924\u094d\u0930\u093f\u091c\u094d\u092f\u093e R \u0914\u0930 \u0926\u094d\u0930\u0935\u094d\u092f\u092e\u093e\u0928 9M \u0915\u0940 \u0921\u093f\u0938\u094d\u0915 \u0938\u0947 R/3 \u0924\u094d\u0930\u093f\u091c\u094d\u092f\u093e \u0915\u0940 \u090f\u0915 \u091b\u094b\u091f\u0940 \u0921\u093f\u0938\u094d\u0915 \u092a\u0930\u093f\u0927\u093f \u0915\u094b \u0938\u094d\u092a\u0930\u094d\u0936 \u0915\u0930\u0924\u0940 \u0939\u0941\u0908 \u0928\u093f\u0915\u093e\u0932\u0940 \u091c\u093e\u0924\u0940 \u0939\u0948\u0964 \u0936\u0947\u0937 \u092d\u093e\u0917 \u0915\u093e \u0915\u0947\u0902\u0926\u094d\u0930\u0940\u092f \u0905\u0915\u094d\u0937 \u0915\u0947 \u092a\u0930\u093f\u0924\u0903 \u091c\u0921\u093c\u0924\u094d\u0935 \u0906\u0918\u0942\u0930\u094d\u0923 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e?",
     "options": [
-      "4 M R²",
-      "40/9 M R²",
-      "9/2 M R²",
-      "3 M R²"
+      "4 M R\u00b2",
+      "40/9 M R\u00b2",
+      "9/2 M R\u00b2",
+      "3 M R\u00b2"
     ],
     "optionsHi": [
-      "4 M R²",
-      "40/9 M R²",
-      "9/2 M R²",
-      "3 M R²"
+      "4 M R\u00b2",
+      "40/9 M R\u00b2",
+      "9/2 M R\u00b2",
+      "3 M R\u00b2"
     ],
     "correctAnswer": 0,
-    "explanation": "I_orig = (1/2)(9M)R² = 4.5 M R². Mass of removed disc = M, distance d = 2R/3. I_removed = (1/2)M(R/3)² + M(2R/3)² = 0.5 M R². I_rem = 4.5 M R² - 0.5 M R² = 4 M R².",
+    "explanation": "I_orig = (1/2)(9M)R\u00b2 = 4.5 M R\u00b2. Mass of removed disc = M, distance d = 2R/3. I_removed = (1/2)M(R/3)\u00b2 + M(2R/3)\u00b2 = 0.5 M R\u00b2. I_rem = 4.5 M R\u00b2 - 0.5 M R\u00b2 = 4 M R\u00b2.",
     "concept": "Parallel axis theorem and negative mass method for cavity problems.",
     "source": "PYQ",
     "year": 2024,
@@ -739,7 +739,7 @@
     "topic": "Escape Velocity",
     "difficulty": "Easy",
     "question": "If the radius of Earth shrinks by 1.5% while its mass remains constant, the escape velocity from Earth's surface will:",
-    "questionHi": "यदि पृथ्वी का द्रव्यमान स्थिर रखते हुए त्रिज्या 1.5% सिकुड़ जाए, तो पलायन वेग:",
+    "questionHi": "\u092f\u0926\u093f \u092a\u0943\u0925\u094d\u0935\u0940 \u0915\u093e \u0926\u094d\u0930\u0935\u094d\u092f\u092e\u093e\u0928 \u0938\u094d\u0925\u093f\u0930 \u0930\u0916\u0924\u0947 \u0939\u0941\u090f \u0924\u094d\u0930\u093f\u091c\u094d\u092f\u093e 1.5% \u0938\u093f\u0915\u0941\u0921\u093c \u091c\u093e\u090f, \u0924\u094b \u092a\u0932\u093e\u092f\u0928 \u0935\u0947\u0917:",
     "options": [
       "Increase by 0.75%",
       "Decrease by 0.75%",
@@ -747,13 +747,13 @@
       "Decrease by 1.5%"
     ],
     "optionsHi": [
-      "0.75% बढ़ेगा",
-      "0.75% घटेगा",
-      "1.5% बढ़ेगा",
-      "1.5% घटेगा"
+      "0.75% \u092c\u0922\u093c\u0947\u0917\u093e",
+      "0.75% \u0918\u091f\u0947\u0917\u093e",
+      "1.5% \u092c\u0922\u093c\u0947\u0917\u093e",
+      "1.5% \u0918\u091f\u0947\u0917\u093e"
     ],
     "correctAnswer": 0,
-    "explanation": "v_e = √(2GM/R) ∝ R^(-1/2). Δv_e / v_e ≈ -0.5 (ΔR/R) = -0.5 (-1.5%) = +0.75% increase.",
+    "explanation": "v_e = \u221a(2GM/R) \u221d R^(-1/2). \u0394v_e / v_e \u2248 -0.5 (\u0394R/R) = -0.5 (-1.5%) = +0.75% increase.",
     "concept": "Escape velocity scaling with planetary radius.",
     "source": "PYQ",
     "year": 2024,
@@ -767,8 +767,8 @@
     "chapter": "Thermodynamics",
     "topic": "Adiabatic Compression",
     "difficulty": "Medium",
-    "question": "An ideal monoatomic gas (γ = 5/3) at temperature T is compressed adiabatically to 1/8 of its initial volume. Its final temperature becomes:",
-    "questionHi": "तापमान T पर एक आदर्श एकपरमाण्विक गैस (γ = 5/3) को रुद्धोष्म रूप से 1/8 आयतन तक संपीडित किया जाता है। अंतिम तापमान होगा:",
+    "question": "An ideal monoatomic gas (\u03b3 = 5/3) at temperature T is compressed adiabatically to 1/8 of its initial volume. Its final temperature becomes:",
+    "questionHi": "\u0924\u093e\u092a\u092e\u093e\u0928 T \u092a\u0930 \u090f\u0915 \u0906\u0926\u0930\u094d\u0936 \u090f\u0915\u092a\u0930\u092e\u093e\u0923\u094d\u0935\u093f\u0915 \u0917\u0948\u0938 (\u03b3 = 5/3) \u0915\u094b \u0930\u0941\u0926\u094d\u0927\u094b\u0937\u094d\u092e \u0930\u0942\u092a \u0938\u0947 1/8 \u0906\u092f\u0924\u0928 \u0924\u0915 \u0938\u0902\u092a\u0940\u0921\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948\u0964 \u0905\u0902\u0924\u093f\u092e \u0924\u093e\u092a\u092e\u093e\u0928 \u0939\u094b\u0917\u093e:",
     "options": [
       "2 T",
       "4 T",
@@ -782,8 +782,8 @@
       "16 T"
     ],
     "correctAnswer": 1,
-    "explanation": "T2 = T1 (V1 / V2)^(γ-1) = T (8)^(5/3 - 1) = T (8)^(2/3) = T × 4 = 4 T.",
-    "concept": "Reversible adiabatic process state relationship T V^(γ-1) = const.",
+    "explanation": "T2 = T1 (V1 / V2)^(\u03b3-1) = T (8)^(5/3 - 1) = T (8)^(2/3) = T \u00d7 4 = 4 T.",
+    "concept": "Reversible adiabatic process state relationship T V^(\u03b3-1) = const.",
     "source": "PYQ",
     "year": 2024,
     "recommendedTimeSeconds": 90
@@ -796,8 +796,8 @@
     "chapter": "Electrostatics",
     "topic": "Electric Dipole",
     "difficulty": "Medium",
-    "question": "The work done in rotating an electric dipole of moment p in a uniform field E from stable equilibrium (θ = 0°) to unstable equilibrium (θ = 180°) is:",
-    "questionHi": "विद्युत द्विध्रुव p को एकसमान क्षेत्र E में स्थायी साम्य (0°) से अस्थायी साम्य (180°) तक घुमाने में किया गया कार्य है:",
+    "question": "The work done in rotating an electric dipole of moment p in a uniform field E from stable equilibrium (\u03b8 = 0\u00b0) to unstable equilibrium (\u03b8 = 180\u00b0) is:",
+    "questionHi": "\u0935\u093f\u0926\u094d\u092f\u0941\u0924 \u0926\u094d\u0935\u093f\u0927\u094d\u0930\u0941\u0935 p \u0915\u094b \u090f\u0915\u0938\u092e\u093e\u0928 \u0915\u094d\u0937\u0947\u0924\u094d\u0930 E \u092e\u0947\u0902 \u0938\u094d\u0925\u093e\u092f\u0940 \u0938\u093e\u092e\u094d\u092f (0\u00b0) \u0938\u0947 \u0905\u0938\u094d\u0925\u093e\u092f\u0940 \u0938\u093e\u092e\u094d\u092f (180\u00b0) \u0924\u0915 \u0918\u0941\u092e\u093e\u0928\u0947 \u092e\u0947\u0902 \u0915\u093f\u092f\u093e \u0917\u092f\u093e \u0915\u093e\u0930\u094d\u092f \u0939\u0948:",
     "options": [
       "p E",
       "2 p E",
@@ -808,11 +808,11 @@
       "p E",
       "2 p E",
       "-2 p E",
-      "शून्य"
+      "\u0936\u0942\u0928\u094d\u092f"
     ],
     "correctAnswer": 1,
-    "explanation": "W = U(180°) - U(0°) = (-p E cos 180°) - (-p E cos 0°) = p E - (-p E) = 2 p E.",
-    "concept": "Potential energy of dipole in external uniform field: U = -p · E.",
+    "explanation": "W = U(180\u00b0) - U(0\u00b0) = (-p E cos 180\u00b0) - (-p E cos 0\u00b0) = p E - (-p E) = 2 p E.",
+    "concept": "Potential energy of dipole in external uniform field: U = -p \u00b7 E.",
     "source": "PYQ",
     "year": 2024,
     "recommendedTimeSeconds": 90
@@ -826,7 +826,7 @@
     "topic": "Dielectric Slab in Capacitor",
     "difficulty": "Medium",
     "question": "A parallel plate capacitor with air has capacitance C. A dielectric slab of constant K = 4 and thickness t = d/2 is inserted. New capacitance is:",
-    "questionHi": "वायु संधारित्र की धारिता C है। K = 4 तथा मोटाई t = d/2 की परावैद्युत पट्टिका डालने पर नई धारिता होगी:",
+    "questionHi": "\u0935\u093e\u092f\u0941 \u0938\u0902\u0927\u093e\u0930\u093f\u0924\u094d\u0930 \u0915\u0940 \u0927\u093e\u0930\u093f\u0924\u093e C \u0939\u0948\u0964 K = 4 \u0924\u0925\u093e \u092e\u094b\u091f\u093e\u0908 t = d/2 \u0915\u0940 \u092a\u0930\u093e\u0935\u0948\u0926\u094d\u092f\u0941\u0924 \u092a\u091f\u094d\u091f\u093f\u0915\u093e \u0921\u093e\u0932\u0928\u0947 \u092a\u0930 \u0928\u0908 \u0927\u093e\u0930\u093f\u0924\u093e \u0939\u094b\u0917\u0940:",
     "options": [
       "1.6 C",
       "2 C",
@@ -840,7 +840,7 @@
       "4 C"
     ],
     "correctAnswer": 0,
-    "explanation": "C' = ε0 A / (d - t + t/K) = ε0 A / (d - d/2 + d/8) = ε0 A / (5d/8) = 1.6 C.",
+    "explanation": "C' = \u03b50 A / (d - t + t/K) = \u03b50 A / (d - d/2 + d/8) = \u03b50 A / (5d/8) = 1.6 C.",
     "concept": "Capacitance formula with partial dielectric slab.",
     "source": "Model Paper",
     "year": 2025,
@@ -855,7 +855,7 @@
     "topic": "Stretching of Resistor",
     "difficulty": "Easy",
     "question": "A copper wire is stretched to increase its length by 0.2%. The percentage increase in its electrical resistance is approximately:",
-    "questionHi": "एक तांबे के तार को खींचकर लंबाई 0.2% बढ़ाई जाती है। इसके प्रतिरोध में प्रतिशत वृद्धि लगभग होगी:",
+    "questionHi": "\u090f\u0915 \u0924\u093e\u0902\u092c\u0947 \u0915\u0947 \u0924\u093e\u0930 \u0915\u094b \u0916\u0940\u0902\u091a\u0915\u0930 \u0932\u0902\u092c\u093e\u0908 0.2% \u092c\u0922\u093c\u093e\u0908 \u091c\u093e\u0924\u0940 \u0939\u0948\u0964 \u0907\u0938\u0915\u0947 \u092a\u094d\u0930\u0924\u093f\u0930\u094b\u0927 \u092e\u0947\u0902 \u092a\u094d\u0930\u0924\u093f\u0936\u0924 \u0935\u0943\u0926\u094d\u0927\u093f \u0932\u0917\u092d\u0917 \u0939\u094b\u0917\u0940:",
     "options": [
       "+0.2%",
       "+0.4%",
@@ -869,7 +869,7 @@
       "+0.1%"
     ],
     "correctAnswer": 1,
-    "explanation": "Constant volume stretching implies R ∝ l². %ΔR ≈ 2 × %Δl = 2 × 0.2% = +0.4%.",
+    "explanation": "Constant volume stretching implies R \u221d l\u00b2. %\u0394R \u2248 2 \u00d7 %\u0394l = 2 \u00d7 0.2% = +0.4%.",
     "concept": "Resistance dependence on wire dimensions under constant volume.",
     "source": "PYQ",
     "year": 2024,
@@ -883,22 +883,22 @@
     "chapter": "Dual Nature of Radiation & Matter",
     "topic": "Photoelectric Effect",
     "difficulty": "Medium",
-    "question": "When radiation of wavelength λ falls on metal, stopping potential is 4.8 V. When wavelength is 2λ, stopping potential is 1.6 V. Threshold wavelength is:",
-    "questionHi": "तरंगदैर्ध्य λ पर निरोधी विभव 4.8 V है तथा 2λ पर 1.6 V है। धातु की देहली तरंगदैर्ध्य क्या है?",
+    "question": "When radiation of wavelength \u03bb falls on metal, stopping potential is 4.8 V. When wavelength is 2\u03bb, stopping potential is 1.6 V. Threshold wavelength is:",
+    "questionHi": "\u0924\u0930\u0902\u0917\u0926\u0948\u0930\u094d\u0927\u094d\u092f \u03bb \u092a\u0930 \u0928\u093f\u0930\u094b\u0927\u0940 \u0935\u093f\u092d\u0935 4.8 V \u0939\u0948 \u0924\u0925\u093e 2\u03bb \u092a\u0930 1.6 V \u0939\u0948\u0964 \u0927\u093e\u0924\u0941 \u0915\u0940 \u0926\u0947\u0939\u0932\u0940 \u0924\u0930\u0902\u0917\u0926\u0948\u0930\u094d\u0927\u094d\u092f \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
-      "4 λ",
-      "3 λ",
-      "5 λ",
-      "6 λ"
+      "4 \u03bb",
+      "3 \u03bb",
+      "5 \u03bb",
+      "6 \u03bb"
     ],
     "optionsHi": [
-      "4 λ",
-      "3 λ",
-      "5 λ",
-      "6 λ"
+      "4 \u03bb",
+      "3 \u03bb",
+      "5 \u03bb",
+      "6 \u03bb"
     ],
     "correctAnswer": 0,
-    "explanation": "e(4.8) = hc/λ - hc/λ0 and e(1.6) = hc/(2λ) - hc/λ0. Multiplying 2nd equation by 2 and subtracting yields hc/λ0 = e(1.6) => λ0 = 4λ.",
+    "explanation": "e(4.8) = hc/\u03bb - hc/\u03bb0 and e(1.6) = hc/(2\u03bb) - hc/\u03bb0. Multiplying 2nd equation by 2 and subtracting yields hc/\u03bb0 = e(1.6) => \u03bb0 = 4\u03bb.",
     "concept": "Einstein's photoelectric equation.",
     "source": "PYQ",
     "year": 2024,
@@ -913,7 +913,7 @@
     "topic": "Unbiased p-n Junction",
     "difficulty": "Easy",
     "question": "In an unbiased p-n junction diode at thermal equilibrium, the net current across junction is:",
-    "questionHi": "अनअभिनत p-n संधि डायोड में तापीय साम्य पर कुल विद्युत धारा होती है:",
+    "questionHi": "\u0905\u0928\u0905\u092d\u093f\u0928\u0924 p-n \u0938\u0902\u0927\u093f \u0921\u093e\u092f\u094b\u0921 \u092e\u0947\u0902 \u0924\u093e\u092a\u0940\u092f \u0938\u093e\u092e\u094d\u092f \u092a\u0930 \u0915\u0941\u0932 \u0935\u093f\u0926\u094d\u092f\u0941\u0924 \u0927\u093e\u0930\u093e \u0939\u094b\u0924\u0940 \u0939\u0948:",
     "options": [
       "Zero, because diffusion current equals drift current in magnitude",
       "Non-zero, from p to n",
@@ -921,10 +921,10 @@
       "Infinitely large"
     ],
     "optionsHi": [
-      "शून्य, क्योंकि विसरण धारा अपवाह धारा के बराबर होती है",
-      "अशून्य, p से n",
-      "अशून्य, n से p",
-      "अनंत"
+      "\u0936\u0942\u0928\u094d\u092f, \u0915\u094d\u092f\u094b\u0902\u0915\u093f \u0935\u093f\u0938\u0930\u0923 \u0927\u093e\u0930\u093e \u0905\u092a\u0935\u093e\u0939 \u0927\u093e\u0930\u093e \u0915\u0947 \u092c\u0930\u093e\u092c\u0930 \u0939\u094b\u0924\u0940 \u0939\u0948",
+      "\u0905\u0936\u0942\u0928\u094d\u092f, p \u0938\u0947 n",
+      "\u0905\u0936\u0942\u0928\u094d\u092f, n \u0938\u0947 p",
+      "\u0905\u0928\u0902\u0924"
     ],
     "correctAnswer": 0,
     "explanation": "Diffusion current of majority carriers is exactly balanced by drift current of minority carriers, so net current is 0.",
@@ -941,22 +941,22 @@
     "chapter": "Ray Optics and Optical Instruments",
     "topic": "Prism & Refraction",
     "difficulty": "Medium",
-    "question": "A ray of light is incident at angle of 60° on one face of a prism of angle 30°. The emergent ray makes an angle of 30° with the incident ray. The refractive index of the prism material is:",
-    "questionHi": "30° कोण वाले प्रिज्म के एक फलक पर 60° कोण पर प्रकाश किरण आपतित होती है। निर्गत किरण आपतित किरण के साथ 30° का कोण बनाती है। प्रिज्म के पदार्थ का अपवर्तनांक क्या है?",
+    "question": "A ray of light is incident at angle of 60\u00b0 on one face of a prism of angle 30\u00b0. The emergent ray makes an angle of 30\u00b0 with the incident ray. The refractive index of the prism material is:",
+    "questionHi": "30\u00b0 \u0915\u094b\u0923 \u0935\u093e\u0932\u0947 \u092a\u094d\u0930\u093f\u091c\u094d\u092e \u0915\u0947 \u090f\u0915 \u092b\u0932\u0915 \u092a\u0930 60\u00b0 \u0915\u094b\u0923 \u092a\u0930 \u092a\u094d\u0930\u0915\u093e\u0936 \u0915\u093f\u0930\u0923 \u0906\u092a\u0924\u093f\u0924 \u0939\u094b\u0924\u0940 \u0939\u0948\u0964 \u0928\u093f\u0930\u094d\u0917\u0924 \u0915\u093f\u0930\u0923 \u0906\u092a\u0924\u093f\u0924 \u0915\u093f\u0930\u0923 \u0915\u0947 \u0938\u093e\u0925 30\u00b0 \u0915\u093e \u0915\u094b\u0923 \u092c\u0928\u093e\u0924\u0940 \u0939\u0948\u0964 \u092a\u094d\u0930\u093f\u091c\u094d\u092e \u0915\u0947 \u092a\u0926\u093e\u0930\u094d\u0925 \u0915\u093e \u0905\u092a\u0935\u0930\u094d\u0924\u0928\u093e\u0902\u0915 \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
-      "√3",
+      "\u221a3",
       "1.5",
-      "√2",
+      "\u221a2",
       "1.414"
     ],
     "optionsHi": [
-      "√3",
+      "\u221a3",
       "1.5",
-      "√2",
+      "\u221a2",
       "1.414"
     ],
     "correctAnswer": 0,
-    "explanation": "Angle of deviation δ = i + e - A => 30° = 60° + e - 30° => e = 0°. Since the ray emerges normally, r2 = 0°, and r1 = A - r2 = 30°. By Snell's Law: μ = sin i / sin r1 = sin 60° / sin 30° = (√3/2) / (1/2) = √3.",
+    "explanation": "Angle of deviation \u03b4 = i + e - A => 30\u00b0 = 60\u00b0 + e - 30\u00b0 => e = 0\u00b0. Since the ray emerges normally, r2 = 0\u00b0, and r1 = A - r2 = 30\u00b0. By Snell's Law: \u03bc = sin i / sin r1 = sin 60\u00b0 / sin 30\u00b0 = (\u221a3/2) / (1/2) = \u221a3.",
     "concept": "Refraction through triangular prisms and angle of deviation.",
     "source": "PYQ",
     "year": 2024,
@@ -971,7 +971,7 @@
     "topic": "Young's Double Slit Experiment",
     "difficulty": "Easy",
     "question": "In Young's double slit experiment, if the distance between the slits is halved and the distance between slits and screen is doubled, the fringe width will:",
-    "questionHi": "यंग के द्वि-स्लिट प्रयोग में यदि स्लिटों के बीच की दूरी आधी और पर्दे की दूरी दोगुनी कर दी जाए, तो फ्रिंज चौड़ाई:",
+    "questionHi": "\u092f\u0902\u0917 \u0915\u0947 \u0926\u094d\u0935\u093f-\u0938\u094d\u0932\u093f\u091f \u092a\u094d\u0930\u092f\u094b\u0917 \u092e\u0947\u0902 \u092f\u0926\u093f \u0938\u094d\u0932\u093f\u091f\u094b\u0902 \u0915\u0947 \u092c\u0940\u091a \u0915\u0940 \u0926\u0942\u0930\u0940 \u0906\u0927\u0940 \u0914\u0930 \u092a\u0930\u094d\u0926\u0947 \u0915\u0940 \u0926\u0942\u0930\u0940 \u0926\u094b\u0917\u0941\u0928\u0940 \u0915\u0930 \u0926\u0940 \u091c\u093e\u090f, \u0924\u094b \u092b\u094d\u0930\u093f\u0902\u091c \u091a\u094c\u0921\u093c\u093e\u0908:",
     "options": [
       "Become 4 times",
       "Become double",
@@ -979,13 +979,13 @@
       "Become half"
     ],
     "optionsHi": [
-      "4 गुनी हो जाएगी",
-      "दोगुनी हो जाएगी",
-      "अपरिवर्तित रहेगी",
-      "आधी हो जाएगी"
+      "4 \u0917\u0941\u0928\u0940 \u0939\u094b \u091c\u093e\u090f\u0917\u0940",
+      "\u0926\u094b\u0917\u0941\u0928\u0940 \u0939\u094b \u091c\u093e\u090f\u0917\u0940",
+      "\u0905\u092a\u0930\u093f\u0935\u0930\u094d\u0924\u093f\u0924 \u0930\u0939\u0947\u0917\u0940",
+      "\u0906\u0927\u0940 \u0939\u094b \u091c\u093e\u090f\u0917\u0940"
     ],
     "correctAnswer": 0,
-    "explanation": "Fringe width β = λ D / d. If d' = d/2 and D' = 2D, β' = λ (2D) / (d/2) = 4 (λ D / d) = 4 β.",
+    "explanation": "Fringe width \u03b2 = \u03bb D / d. If d' = d/2 and D' = 2D, \u03b2' = \u03bb (2D) / (d/2) = 4 (\u03bb D / d) = 4 \u03b2.",
     "concept": "Fringe width dependence on slit separation and screen distance in interference.",
     "source": "PYQ",
     "year": 2024,
@@ -1000,7 +1000,7 @@
     "topic": "Faraday's Law & Self Inductance",
     "difficulty": "Medium",
     "question": "A current in a coil changes from 5 A to 2 A in 0.1 s. If average induced EMF is 15 V, the self-inductance of the coil is:",
-    "questionHi": "एक कुण्डली में धारा 0.1 सेकंड में 5 A से 2 A हो जाती है। यदि प्रेरित वि.वा.बल 15 V है, तो कुण्डली का स्व-प्रेरकत्व क्या है?",
+    "questionHi": "\u090f\u0915 \u0915\u0941\u0923\u094d\u0921\u0932\u0940 \u092e\u0947\u0902 \u0927\u093e\u0930\u093e 0.1 \u0938\u0947\u0915\u0902\u0921 \u092e\u0947\u0902 5 A \u0938\u0947 2 A \u0939\u094b \u091c\u093e\u0924\u0940 \u0939\u0948\u0964 \u092f\u0926\u093f \u092a\u094d\u0930\u0947\u0930\u093f\u0924 \u0935\u093f.\u0935\u093e.\u092c\u0932 15 V \u0939\u0948, \u0924\u094b \u0915\u0941\u0923\u094d\u0921\u0932\u0940 \u0915\u093e \u0938\u094d\u0935-\u092a\u094d\u0930\u0947\u0930\u0915\u0924\u094d\u0935 \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
       "0.5 H",
       "1.0 H",
@@ -1014,7 +1014,7 @@
       "2.0 H"
     ],
     "correctAnswer": 0,
-    "explanation": "Induced EMF |e| = L (di/dt) => 15 = L × |2 - 5| / 0.1 => 15 = L × (3 / 0.1) => 15 = 30 L => L = 0.5 H.",
+    "explanation": "Induced EMF |e| = L (di/dt) => 15 = L \u00d7 |2 - 5| / 0.1 => 15 = L \u00d7 (3 / 0.1) => 15 = 30 L => L = 0.5 H.",
     "concept": "Calculation of self-inductance using Faraday's induced EMF law.",
     "source": "PYQ",
     "year": 2023,
@@ -1029,21 +1029,21 @@
     "topic": "Series LCR Resonance",
     "difficulty": "Easy",
     "question": "In a series LCR circuit, resonance frequency is given by:",
-    "questionHi": "एक श्रेणी LCR परिपथ में अनुनादी आवृत्ति का सूत्र है:",
+    "questionHi": "\u090f\u0915 \u0936\u094d\u0930\u0947\u0923\u0940 LCR \u092a\u0930\u093f\u092a\u0925 \u092e\u0947\u0902 \u0905\u0928\u0941\u0928\u093e\u0926\u0940 \u0906\u0935\u0943\u0924\u094d\u0924\u093f \u0915\u093e \u0938\u0942\u0924\u094d\u0930 \u0939\u0948:",
     "options": [
-      "1 / (2π √(LC))",
-      "1 / (2π LC)",
-      "2π √(LC)",
-      "√(LC) / 2π"
+      "1 / (2\u03c0 \u221a(LC))",
+      "1 / (2\u03c0 LC)",
+      "2\u03c0 \u221a(LC)",
+      "\u221a(LC) / 2\u03c0"
     ],
     "optionsHi": [
-      "1 / (2π √(LC))",
-      "1 / (2π LC)",
-      "2π √(LC)",
-      "√(LC) / 2π"
+      "1 / (2\u03c0 \u221a(LC))",
+      "1 / (2\u03c0 LC)",
+      "2\u03c0 \u221a(LC)",
+      "\u221a(LC) / 2\u03c0"
     ],
     "correctAnswer": 0,
-    "explanation": "At resonance, inductive reactance equals capacitive reactance (ωL = 1/ωC => ω² = 1/LC => f = 1 / (2π √(LC))).",
+    "explanation": "At resonance, inductive reactance equals capacitive reactance (\u03c9L = 1/\u03c9C => \u03c9\u00b2 = 1/LC => f = 1 / (2\u03c0 \u221a(LC))).",
     "concept": "Electrical resonance condition in series LCR circuits.",
     "source": "Model Paper",
     "year": 2025,
@@ -1058,21 +1058,21 @@
     "topic": "Biot-Savart Law",
     "difficulty": "Medium",
     "question": "A circular loop of radius R carries a current I. The magnetic field at its centre is B0. At what distance along the axis of the loop from its centre will the magnetic field be B0 / 8?",
-    "questionHi": "त्रिज्या R के एक वृत्ताकार लूप में धारा I प्रवाहित हो रही है। इसके केंद्र पर चुंबकीय क्षेत्र B0 है। केंद्र से लूप की अक्ष पर किस दूरी पर चुंबकीय क्षेत्र B0 / 8 होगा?",
+    "questionHi": "\u0924\u094d\u0930\u093f\u091c\u094d\u092f\u093e R \u0915\u0947 \u090f\u0915 \u0935\u0943\u0924\u094d\u0924\u093e\u0915\u093e\u0930 \u0932\u0942\u092a \u092e\u0947\u0902 \u0927\u093e\u0930\u093e I \u092a\u094d\u0930\u0935\u093e\u0939\u093f\u0924 \u0939\u094b \u0930\u0939\u0940 \u0939\u0948\u0964 \u0907\u0938\u0915\u0947 \u0915\u0947\u0902\u0926\u094d\u0930 \u092a\u0930 \u091a\u0941\u0902\u092c\u0915\u0940\u092f \u0915\u094d\u0937\u0947\u0924\u094d\u0930 B0 \u0939\u0948\u0964 \u0915\u0947\u0902\u0926\u094d\u0930 \u0938\u0947 \u0932\u0942\u092a \u0915\u0940 \u0905\u0915\u094d\u0937 \u092a\u0930 \u0915\u093f\u0938 \u0926\u0942\u0930\u0940 \u092a\u0930 \u091a\u0941\u0902\u092c\u0915\u0940\u092f \u0915\u094d\u0937\u0947\u0924\u094d\u0930 B0 / 8 \u0939\u094b\u0917\u093e?",
     "options": [
-      "√3 R",
+      "\u221a3 R",
       "2 R",
-      "R / √3",
+      "R / \u221a3",
       "3 R"
     ],
     "optionsHi": [
-      "√3 R",
+      "\u221a3 R",
       "2 R",
-      "R / √3",
+      "R / \u221a3",
       "3 R"
     ],
     "correctAnswer": 0,
-    "explanation": "Magnetic field on axis: B = B0 [R² / (R² + x²)]^(3/2) = B0 / 8 => [(R² + x²)/R²]^(3/2) = 8 => (1 + x²/R²)^(3/2) = 2³ => 1 + x²/R² = 2² = 4 => x²/R² = 3 => x = √3 R.",
+    "explanation": "Magnetic field on axis: B = B0 [R\u00b2 / (R\u00b2 + x\u00b2)]^(3/2) = B0 / 8 => [(R\u00b2 + x\u00b2)/R\u00b2]^(3/2) = 8 => (1 + x\u00b2/R\u00b2)^(3/2) = 2\u00b3 => 1 + x\u00b2/R\u00b2 = 2\u00b2 = 4 => x\u00b2/R\u00b2 = 3 => x = \u221a3 R.",
     "concept": "Axial magnetic field profile of current-carrying circular loop.",
     "source": "PYQ",
     "year": 2024,
@@ -1086,22 +1086,22 @@
     "chapter": "Mechanical Properties of Fluids",
     "topic": "Bernoulli's Principle",
     "difficulty": "Medium",
-    "question": "Water flows through a horizontal pipe of varying cross section. At a point where pressure is P, fluid velocity is v. At another point where velocity is 2v, the pressure will be: (density = ρ)",
-    "questionHi": "एक असमान अनुप्रस्थ काट वाले क्षैतिज पाइप में जल बह रहा है। जहाँ दाब P है, वहाँ वेग v है। जहाँ वेग 2v है, वहाँ दाब क्या होगा: (घनत्व = ρ)",
+    "question": "Water flows through a horizontal pipe of varying cross section. At a point where pressure is P, fluid velocity is v. At another point where velocity is 2v, the pressure will be: (density = \u03c1)",
+    "questionHi": "\u090f\u0915 \u0905\u0938\u092e\u093e\u0928 \u0905\u0928\u0941\u092a\u094d\u0930\u0938\u094d\u0925 \u0915\u093e\u091f \u0935\u093e\u0932\u0947 \u0915\u094d\u0937\u0948\u0924\u093f\u091c \u092a\u093e\u0907\u092a \u092e\u0947\u0902 \u091c\u0932 \u092c\u0939 \u0930\u0939\u093e \u0939\u0948\u0964 \u091c\u0939\u093e\u0901 \u0926\u093e\u092c P \u0939\u0948, \u0935\u0939\u093e\u0901 \u0935\u0947\u0917 v \u0939\u0948\u0964 \u091c\u0939\u093e\u0901 \u0935\u0947\u0917 2v \u0939\u0948, \u0935\u0939\u093e\u0901 \u0926\u093e\u092c \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e: (\u0918\u0928\u0924\u094d\u0935 = \u03c1)",
     "options": [
-      "P - (3/2) ρ v²",
-      "P + (3/2) ρ v²",
-      "P - (1/2) ρ v²",
-      "P - 2 ρ v²"
+      "P - (3/2) \u03c1 v\u00b2",
+      "P + (3/2) \u03c1 v\u00b2",
+      "P - (1/2) \u03c1 v\u00b2",
+      "P - 2 \u03c1 v\u00b2"
     ],
     "optionsHi": [
-      "P - (3/2) ρ v²",
-      "P + (3/2) ρ v²",
-      "P - (1/2) ρ v²",
-      "P - 2 ρ v²"
+      "P - (3/2) \u03c1 v\u00b2",
+      "P + (3/2) \u03c1 v\u00b2",
+      "P - (1/2) \u03c1 v\u00b2",
+      "P - 2 \u03c1 v\u00b2"
     ],
     "correctAnswer": 0,
-    "explanation": "By Bernoulli's theorem for horizontal flow: P1 + (1/2)ρ v1² = P2 + (1/2)ρ v2² => P + (1/2)ρ v² = P2 + (1/2)ρ (2v)² = P2 + 2 ρ v² => P2 = P - (3/2) ρ v².",
+    "explanation": "By Bernoulli's theorem for horizontal flow: P1 + (1/2)\u03c1 v1\u00b2 = P2 + (1/2)\u03c1 v2\u00b2 => P + (1/2)\u03c1 v\u00b2 = P2 + (1/2)\u03c1 (2v)\u00b2 = P2 + 2 \u03c1 v\u00b2 => P2 = P - (3/2) \u03c1 v\u00b2.",
     "concept": "Bernoulli's energy conservation principle for streamlined horizontal fluid flow.",
     "source": "PYQ",
     "year": 2023,
@@ -1116,21 +1116,21 @@
     "topic": "Simple Harmonic Motion Energy",
     "difficulty": "Easy",
     "question": "A particle executes SHM with amplitude A. At what displacement from the mean position is its kinetic energy equal to its potential energy?",
-    "questionHi": "एक कण आयाम A के साथ सरल आवर्त गति कर रहा है। माध्य स्थिति से किस विस्थापन पर इसकी गतिज ऊर्जा स्थितिज ऊर्जा के बराबर होगी?",
+    "questionHi": "\u090f\u0915 \u0915\u0923 \u0906\u092f\u093e\u092e A \u0915\u0947 \u0938\u093e\u0925 \u0938\u0930\u0932 \u0906\u0935\u0930\u094d\u0924 \u0917\u0924\u093f \u0915\u0930 \u0930\u0939\u093e \u0939\u0948\u0964 \u092e\u093e\u0927\u094d\u092f \u0938\u094d\u0925\u093f\u0924\u093f \u0938\u0947 \u0915\u093f\u0938 \u0935\u093f\u0938\u094d\u0925\u093e\u092a\u0928 \u092a\u0930 \u0907\u0938\u0915\u0940 \u0917\u0924\u093f\u091c \u090a\u0930\u094d\u091c\u093e \u0938\u094d\u0925\u093f\u0924\u093f\u091c \u090a\u0930\u094d\u091c\u093e \u0915\u0947 \u092c\u0930\u093e\u092c\u0930 \u0939\u094b\u0917\u0940?",
     "options": [
-      "A / √2",
+      "A / \u221a2",
       "A / 2",
       "A / 4",
-      "√3 A / 2"
+      "\u221a3 A / 2"
     ],
     "optionsHi": [
-      "A / √2",
+      "A / \u221a2",
       "A / 2",
       "A / 4",
-      "√3 A / 2"
+      "\u221a3 A / 2"
     ],
     "correctAnswer": 0,
-    "explanation": "KE = (1/2) m ω² (A² - x²) and PE = (1/2) m ω² x². Setting KE = PE: A² - x² = x² => 2x² = A² => x = A / √2.",
+    "explanation": "KE = (1/2) m \u03c9\u00b2 (A\u00b2 - x\u00b2) and PE = (1/2) m \u03c9\u00b2 x\u00b2. Setting KE = PE: A\u00b2 - x\u00b2 = x\u00b2 => 2x\u00b2 = A\u00b2 => x = A / \u221a2.",
     "concept": "Equipartition of kinetic and potential energy in SHM.",
     "source": "PYQ",
     "year": 2024,
@@ -1145,7 +1145,7 @@
     "topic": "Organ Pipes & Harmonics",
     "difficulty": "Medium",
     "question": "A closed organ pipe of length 20 cm and an open organ pipe of length L are vibrating in their fundamental modes with the same frequency. What is length L of open organ pipe?",
-    "questionHi": "20 सेमी लंबाई का एक बंद आर्गन पाइप तथा लंबाई L का एक खुला आर्गन पाइप समान मूल आवृत्ति से कम्पन कर रहे हैं। खुले पाइप की लंबाई L क्या है?",
+    "questionHi": "20 \u0938\u0947\u092e\u0940 \u0932\u0902\u092c\u093e\u0908 \u0915\u093e \u090f\u0915 \u092c\u0902\u0926 \u0906\u0930\u094d\u0917\u0928 \u092a\u093e\u0907\u092a \u0924\u0925\u093e \u0932\u0902\u092c\u093e\u0908 L \u0915\u093e \u090f\u0915 \u0916\u0941\u0932\u093e \u0906\u0930\u094d\u0917\u0928 \u092a\u093e\u0907\u092a \u0938\u092e\u093e\u0928 \u092e\u0942\u0932 \u0906\u0935\u0943\u0924\u094d\u0924\u093f \u0938\u0947 \u0915\u092e\u094d\u092a\u0928 \u0915\u0930 \u0930\u0939\u0947 \u0939\u0948\u0902\u0964 \u0916\u0941\u0932\u0947 \u092a\u093e\u0907\u092a \u0915\u0940 \u0932\u0902\u092c\u093e\u0908 L \u0915\u094d\u092f\u093e \u0939\u0948?",
     "options": [
       "40 cm",
       "20 cm",
@@ -1153,13 +1153,13 @@
       "80 cm"
     ],
     "optionsHi": [
-      "40 सेमी",
-      "20 सेमी",
-      "10 सेमी",
-      "80 सेमी"
+      "40 \u0938\u0947\u092e\u0940",
+      "20 \u0938\u0947\u092e\u0940",
+      "10 \u0938\u0947\u092e\u0940",
+      "80 \u0938\u0947\u092e\u0940"
     ],
     "correctAnswer": 0,
-    "explanation": "Fundamental frequency of closed pipe f_c = v / (4 L_c). Fundamental frequency of open pipe f_o = v / (2 L_o). Since f_c = f_o: v / (4 × 20) = v / (2 L_o) => 4 × 20 = 2 L_o => 80 = 2 L_o => L_o = 40 cm.",
+    "explanation": "Fundamental frequency of closed pipe f_c = v / (4 L_c). Fundamental frequency of open pipe f_o = v / (2 L_o). Since f_c = f_o: v / (4 \u00d7 20) = v / (2 L_o) => 4 \u00d7 20 = 2 L_o => 80 = 2 L_o => L_o = 40 cm.",
     "concept": "Harmonics and standing wave wavelengths in open and closed acoustic organ pipes.",
     "source": "PYQ",
     "year": 2024,
@@ -1174,7 +1174,7 @@
     "topic": "Error Analysis & Screw Gauge",
     "difficulty": "Medium",
     "question": "In a screw gauge, 5 complete rotations of the circular scale advance the screw by 2.5 mm. The circular scale has 50 divisions. If the gauge shows a reading of 3 main scale divisions and 24 circular divisions for a wire diameter, what is the measured diameter?",
-    "questionHi": "एक स्क्रू गेज में, वृत्ताकार पैमाने के 5 पूर्ण घूर्णन स्क्रू को 2.5 मिमी आगे बढ़ाते हैं। वृत्ताकार पैमाने पर 50 भाग हैं। तार का व्यास क्या होगा?",
+    "questionHi": "\u090f\u0915 \u0938\u094d\u0915\u094d\u0930\u0942 \u0917\u0947\u091c \u092e\u0947\u0902, \u0935\u0943\u0924\u094d\u0924\u093e\u0915\u093e\u0930 \u092a\u0948\u092e\u093e\u0928\u0947 \u0915\u0947 5 \u092a\u0942\u0930\u094d\u0923 \u0918\u0942\u0930\u094d\u0923\u0928 \u0938\u094d\u0915\u094d\u0930\u0942 \u0915\u094b 2.5 \u092e\u093f\u092e\u0940 \u0906\u0917\u0947 \u092c\u0922\u093c\u093e\u0924\u0947 \u0939\u0948\u0902\u0964 \u0935\u0943\u0924\u094d\u0924\u093e\u0915\u093e\u0930 \u092a\u0948\u092e\u093e\u0928\u0947 \u092a\u0930 50 \u092d\u093e\u0917 \u0939\u0948\u0902\u0964 \u0924\u093e\u0930 \u0915\u093e \u0935\u094d\u092f\u093e\u0938 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e?",
     "options": [
       "1.74 mm",
       "1.52 mm",
@@ -1182,13 +1182,13 @@
       "1.85 mm"
     ],
     "optionsHi": [
-      "1.74 मिमी",
-      "1.52 मिमी",
-      "1.62 मिमी",
-      "1.85 मिमी"
+      "1.74 \u092e\u093f\u092e\u0940",
+      "1.52 \u092e\u093f\u092e\u0940",
+      "1.62 \u092e\u093f\u092e\u0940",
+      "1.85 \u092e\u093f\u092e\u0940"
     ],
     "correctAnswer": 0,
-    "explanation": "Pitch = 2.5 mm / 5 = 0.5 mm. Least Count = 0.5 mm / 50 = 0.01 mm. Main scale reading = 3 × 0.5 = 1.5 mm. Circular scale reading = 24 × 0.01 = 0.24 mm. Total = 1.5 + 0.24 = 1.74 mm.",
+    "explanation": "Pitch = 2.5 mm / 5 = 0.5 mm. Least Count = 0.5 mm / 50 = 0.01 mm. Main scale reading = 3 \u00d7 0.5 = 1.5 mm. Circular scale reading = 24 \u00d7 0.01 = 0.24 mm. Total = 1.5 + 0.24 = 1.74 mm.",
     "concept": "Least Count of Screw Gauge = Pitch / Total Divisions.",
     "importantPoint": "LC = Pitch / Number of circular scale divisions.",
     "source": "Official PYQ",
@@ -1203,8 +1203,8 @@
     "chapter": "Units and Measurements",
     "topic": "Percentage Error in Compound Quantities",
     "difficulty": "Easy",
-    "question": "A physical quantity P is related to four observables a, b, c and d as P = (a³ b²) / (√c · d). The percentage errors in a, b, c and d are 1%, 3%, 4% and 2% respectively. What is the maximum percentage error in P?",
-    "questionHi": "एक भौतिक राशि P = (a³ b²) / (√c · d) द्वारा संबंधित है। a, b, c तथा d में प्रतिशत त्रुटियां क्रमशः 1%, 3%, 4% और 2% हैं। P में अधिकतम प्रतिशत त्रुटि क्या होगी?",
+    "question": "A physical quantity P is related to four observables a, b, c and d as P = (a\u00b3 b\u00b2) / (\u221ac \u00b7 d). The percentage errors in a, b, c and d are 1%, 3%, 4% and 2% respectively. What is the maximum percentage error in P?",
+    "questionHi": "\u090f\u0915 \u092d\u094c\u0924\u093f\u0915 \u0930\u093e\u0936\u093f P = (a\u00b3 b\u00b2) / (\u221ac \u00b7 d) \u0926\u094d\u0935\u093e\u0930\u093e \u0938\u0902\u092c\u0902\u0927\u093f\u0924 \u0939\u0948\u0964 a, b, c \u0924\u0925\u093e d \u092e\u0947\u0902 \u092a\u094d\u0930\u0924\u093f\u0936\u0924 \u0924\u094d\u0930\u0941\u091f\u093f\u092f\u093e\u0902 \u0915\u094d\u0930\u092e\u0936\u0903 1%, 3%, 4% \u0914\u0930 2% \u0939\u0948\u0902\u0964 P \u092e\u0947\u0902 \u0905\u0927\u093f\u0915\u0924\u092e \u092a\u094d\u0930\u0924\u093f\u0936\u0924 \u0924\u094d\u0930\u0941\u091f\u093f \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u0940?",
     "options": [
       "13%",
       "16%",
@@ -1218,7 +1218,7 @@
       "8%"
     ],
     "correctAnswer": 0,
-    "explanation": "Maximum fractional error: ΔP/P = 3(Δa/a) + 2(Δb/b) + (1/2)(Δc/c) + (Δd/d). Percentage error = 3(1%) + 2(3%) + 0.5(4%) + 2% = 3% + 6% + 2% + 2% = 13%.",
+    "explanation": "Maximum fractional error: \u0394P/P = 3(\u0394a/a) + 2(\u0394b/b) + (1/2)(\u0394c/c) + (\u0394d/d). Percentage error = 3(1%) + 2(3%) + 0.5(4%) + 2% = 3% + 6% + 2% + 2% = 13%.",
     "concept": "Error propagation in multiplication, division and powers.",
     "importantPoint": "Powers multiply percentage errors; errors always add up in maximum estimation.",
     "source": "Official PYQ",
@@ -1233,8 +1233,8 @@
     "chapter": "Motion in a Straight Line",
     "topic": "Kinematics with Variable Acceleration",
     "difficulty": "Medium",
-    "question": "A particle moves along the x-axis such that its position is given by x(t) = 3t³ - 6t² + 4t - 5 (in meters). What is the velocity of the particle at the moment when its acceleration is zero?",
-    "questionHi": "एक कण x-अक्ष के अनुदिश x(t) = 3t³ - 6t² + 4t - 5 के अनुसार गति करता है। जिस क्षण त्वरण शून्य होता है, उस क्षण कण का वेग क्या होगा?",
+    "question": "A particle moves along the x-axis such that its position is given by x(t) = 3t\u00b3 - 6t\u00b2 + 4t - 5 (in meters). What is the velocity of the particle at the moment when its acceleration is zero?",
+    "questionHi": "\u090f\u0915 \u0915\u0923 x-\u0905\u0915\u094d\u0937 \u0915\u0947 \u0905\u0928\u0941\u0926\u093f\u0936 x(t) = 3t\u00b3 - 6t\u00b2 + 4t - 5 \u0915\u0947 \u0905\u0928\u0941\u0938\u093e\u0930 \u0917\u0924\u093f \u0915\u0930\u0924\u093e \u0939\u0948\u0964 \u091c\u093f\u0938 \u0915\u094d\u0937\u0923 \u0924\u094d\u0935\u0930\u0923 \u0936\u0942\u0928\u094d\u092f \u0939\u094b\u0924\u093e \u0939\u0948, \u0909\u0938 \u0915\u094d\u0937\u0923 \u0915\u0923 \u0915\u093e \u0935\u0947\u0917 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e?",
     "options": [
       "0 m/s",
       "-2 m/s",
@@ -1242,13 +1242,13 @@
       "2 m/s"
     ],
     "optionsHi": [
-      "0 मी/से",
-      "-2 मी/से",
-      "4 मी/से",
-      "2 मी/से"
+      "0 \u092e\u0940/\u0938\u0947",
+      "-2 \u092e\u0940/\u0938\u0947",
+      "4 \u092e\u0940/\u0938\u0947",
+      "2 \u092e\u0940/\u0938\u0947"
     ],
     "correctAnswer": 0,
-    "explanation": "v(t) = dx/dt = 9t² - 12t + 4. a(t) = dv/dt = 18t - 12. Acceleration is zero when 18t - 12 = 0 => t = 2/3 s. Velocity at t = 2/3: v = 9(4/9) - 12(2/3) + 4 = 4 - 8 + 4 = 0 m/s.",
+    "explanation": "v(t) = dx/dt = 9t\u00b2 - 12t + 4. a(t) = dv/dt = 18t - 12. Acceleration is zero when 18t - 12 = 0 => t = 2/3 s. Velocity at t = 2/3: v = 9(4/9) - 12(2/3) + 4 = 4 - 8 + 4 = 0 m/s.",
     "concept": "Derivatives of displacement yield velocity and acceleration.",
     "importantPoint": "Set a(t) = 0, solve for t, then substitute into v(t).",
     "source": "Official PYQ",
@@ -1264,23 +1264,23 @@
     "topic": "Stopping Distance and Retardation",
     "difficulty": "Easy",
     "question": "A car traveling at speed v can be stopped in minimum distance s by applying brakes that produce constant retardation a. If the car's initial speed is tripled to 3v, what will be its minimum stopping distance for the same retardation?",
-    "questionHi": "एक कार चाल v से गति करते हुए ब्रेक लगाने पर न्यूनतम दूरी s में रुक जाती है। यदि प्रारंभिक चाल को 3v कर दिया जाए, तो समान मंदन के लिए न्यूनतम रुकने की दूरी क्या होगी?",
+    "questionHi": "\u090f\u0915 \u0915\u093e\u0930 \u091a\u093e\u0932 v \u0938\u0947 \u0917\u0924\u093f \u0915\u0930\u0924\u0947 \u0939\u0941\u090f \u092c\u094d\u0930\u0947\u0915 \u0932\u0917\u093e\u0928\u0947 \u092a\u0930 \u0928\u094d\u092f\u0942\u0928\u0924\u092e \u0926\u0942\u0930\u0940 s \u092e\u0947\u0902 \u0930\u0941\u0915 \u091c\u093e\u0924\u0940 \u0939\u0948\u0964 \u092f\u0926\u093f \u092a\u094d\u0930\u093e\u0930\u0902\u092d\u093f\u0915 \u091a\u093e\u0932 \u0915\u094b 3v \u0915\u0930 \u0926\u093f\u092f\u093e \u091c\u093e\u090f, \u0924\u094b \u0938\u092e\u093e\u0928 \u092e\u0902\u0926\u0928 \u0915\u0947 \u0932\u093f\u090f \u0928\u094d\u092f\u0942\u0928\u0924\u092e \u0930\u0941\u0915\u0928\u0947 \u0915\u0940 \u0926\u0942\u0930\u0940 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u0940?",
     "options": [
       "9s",
       "3s",
       "6s",
-      "√3 s"
+      "\u221a3 s"
     ],
     "optionsHi": [
       "9s",
       "3s",
       "6s",
-      "√3 s"
+      "\u221a3 s"
     ],
     "correctAnswer": 0,
-    "explanation": "From v² - u² = 2as, when final velocity is zero: 0 - u² = -2as => s = u² / (2a). Since stopping distance is proportional to u², tripling speed gives (3)² = 9 times the initial stopping distance.",
-    "concept": "Stopping distance relation with initial speed: s ∝ u².",
-    "importantPoint": "Work-energy theorem also gives (1/2)mu² = F·s => s ∝ u².",
+    "explanation": "From v\u00b2 - u\u00b2 = 2as, when final velocity is zero: 0 - u\u00b2 = -2as => s = u\u00b2 / (2a). Since stopping distance is proportional to u\u00b2, tripling speed gives (3)\u00b2 = 9 times the initial stopping distance.",
+    "concept": "Stopping distance relation with initial speed: s \u221d u\u00b2.",
+    "importantPoint": "Work-energy theorem also gives (1/2)mu\u00b2 = F\u00b7s => s \u221d u\u00b2.",
     "source": "Official PYQ",
     "year": 2024,
     "recommendedTimeSeconds": 60
@@ -1293,26 +1293,1126 @@
     "chapter": "Motion in a Plane",
     "topic": "Projectile Motion - Maximum Range & Height",
     "difficulty": "Medium",
-    "question": "A projectile is fired at an angle θ with the horizontal. If the maximum height reached by the projectile is equal to its horizontal range, what is the angle of projection θ?",
-    "questionHi": "एक प्रक्षेप्य को क्षैतिज से θ कोण पर प्रक्षेपित किया जाता है। यदि प्रक्षेप्य द्वारा प्राप्त अधिकतम ऊंचाई उसकी क्षैतिज परास के बराबर हो, तो प्रक्षेपण कोण θ क्या होगा?",
+    "question": "A projectile is fired at an angle \u03b8 with the horizontal. If the maximum height reached by the projectile is equal to its horizontal range, what is the angle of projection \u03b8?",
+    "questionHi": "\u090f\u0915 \u092a\u094d\u0930\u0915\u094d\u0937\u0947\u092a\u094d\u092f \u0915\u094b \u0915\u094d\u0937\u0948\u0924\u093f\u091c \u0938\u0947 \u03b8 \u0915\u094b\u0923 \u092a\u0930 \u092a\u094d\u0930\u0915\u094d\u0937\u0947\u092a\u093f\u0924 \u0915\u093f\u092f\u093e \u091c\u093e\u0924\u093e \u0939\u0948\u0964 \u092f\u0926\u093f \u092a\u094d\u0930\u0915\u094d\u0937\u0947\u092a\u094d\u092f \u0926\u094d\u0935\u093e\u0930\u093e \u092a\u094d\u0930\u093e\u092a\u094d\u0924 \u0905\u0927\u093f\u0915\u0924\u092e \u090a\u0902\u091a\u093e\u0908 \u0909\u0938\u0915\u0940 \u0915\u094d\u0937\u0948\u0924\u093f\u091c \u092a\u0930\u093e\u0938 \u0915\u0947 \u092c\u0930\u093e\u092c\u0930 \u0939\u094b, \u0924\u094b \u092a\u094d\u0930\u0915\u094d\u0937\u0947\u092a\u0923 \u0915\u094b\u0923 \u03b8 \u0915\u094d\u092f\u093e \u0939\u094b\u0917\u093e?",
     "options": [
-      "tan⁻¹(4)",
-      "tan⁻¹(2)",
-      "45°",
-      "tan⁻¹(1/4)"
+      "tan\u207b\u00b9(4)",
+      "tan\u207b\u00b9(2)",
+      "45\u00b0",
+      "tan\u207b\u00b9(1/4)"
     ],
     "optionsHi": [
-      "tan⁻¹(4)",
-      "tan⁻¹(2)",
-      "45°",
-      "tan⁻¹(1/4)"
+      "tan\u207b\u00b9(4)",
+      "tan\u207b\u00b9(2)",
+      "45\u00b0",
+      "tan\u207b\u00b9(1/4)"
     ],
     "correctAnswer": 0,
-    "explanation": "H = (u² sin²θ)/(2g) and R = (u² 2sinθ cosθ)/g. Given H = R => (u² sin²θ)/(2g) = (2 u² sinθ cosθ)/g. Dividing: sinθ / (2 cosθ) = 2 => tanθ = 4 => θ = tan⁻¹(4).",
-    "concept": "Relation between projectile range and maximum height: R = 4H cotθ.",
-    "importantPoint": "Always remember formula: tanθ = 4H / R.",
+    "explanation": "H = (u\u00b2 sin\u00b2\u03b8)/(2g) and R = (u\u00b2 2sin\u03b8 cos\u03b8)/g. Given H = R => (u\u00b2 sin\u00b2\u03b8)/(2g) = (2 u\u00b2 sin\u03b8 cos\u03b8)/g. Dividing: sin\u03b8 / (2 cos\u03b8) = 2 => tan\u03b8 = 4 => \u03b8 = tan\u207b\u00b9(4).",
+    "concept": "Relation between projectile range and maximum height: R = 4H cot\u03b8.",
+    "importantPoint": "Always remember formula: tan\u03b8 = 4H / R.",
     "source": "Official PYQ",
     "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-000",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Kinematics",
+    "topic": "Projectile Motion",
+    "difficulty": "Easy",
+    "question": "A projectile is launched from ground level with speed 40 m/s at an angle of 30\u00b0 with the horizontal. Taking g = 10 m/s\u00b2, the maximum height reached is:",
+    "options": [
+      "20 m",
+      "40 m",
+      "80 m",
+      "10 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "H_max = u\u00b2 sin\u00b2\u03b8 / (2g) = (40)\u00b2 \u00d7 (1/2)\u00b2 / (20) = 1600 \u00d7 0.25 / 20 = 20 m.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-001",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Laws of Motion",
+    "topic": "Friction and Inclined Plane",
+    "difficulty": "Medium",
+    "question": "A block of mass 5 kg rests on a rough horizontal surface with coefficient of friction \u03bc = 0.4. The minimum force required to keep it moving at constant velocity is (g = 10 m/s\u00b2):",
+    "options": [
+      "20 N",
+      "50 N",
+      "15 N",
+      "25 N"
+    ],
+    "correctAnswer": 0,
+    "explanation": "F_min = \u03bc \u00d7 N = \u03bc \u00d7 m \u00d7 g = 0.4 \u00d7 5 \u00d7 10 = 20 N.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-002",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Work, Energy & Power",
+    "topic": "Conservation of Energy",
+    "difficulty": "Hard",
+    "question": "A body of mass 2 kg drops from a height of 20 m. Its kinetic energy when it reaches a height of 5 m above ground is (g = 10 m/s\u00b2):",
+    "options": [
+      "300 J",
+      "100 J",
+      "400 J",
+      "200 J"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By conservation of mechanical energy: Loss in PE = m\u00b7g\u00b7\u0394h = 2 \u00d7 10 \u00d7 (20 - 5) = 300 J = Gain in KE.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-003",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Rotational Motion",
+    "topic": "Moment of Inertia",
+    "difficulty": "Easy",
+    "question": "A solid cylinder and a hollow cylinder of identical mass and radius roll down an inclined plane without slipping. The ratio of their accelerations (a_solid / a_hollow) is:",
+    "options": [
+      "4/3",
+      "3/2",
+      "1/1",
+      "2/3"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Acceleration on incline a = g sin\u03b8 / (1 + I/(mR\u00b2)). For solid cylinder I = 0.5 mR\u00b2 -> a\u2081 = (2/3) g sin\u03b8. For hollow cylinder I = mR\u00b2 -> a\u2082 = (1/2) g sin\u03b8. Ratio a\u2081/a\u2082 = (2/3)/(1/2) = 4/3.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-004",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Gravitation",
+    "topic": "Gravitational Potential Energy",
+    "difficulty": "Medium",
+    "question": "The escape velocity from the surface of Earth is 11.2 km/s. For a planet with twice the radius and 8 times the mass of Earth, the escape velocity will be:",
+    "options": [
+      "22.4 km/s",
+      "44.8 km/s",
+      "11.2 km/s",
+      "15.8 km/s"
+    ],
+    "correctAnswer": 0,
+    "explanation": "v_e = \u221a(2GM/R). If M' = 8M and R' = 2R, then v_e' = \u221a(2G(8M)/(2R)) = \u221a4 \u00d7 v_e = 2 \u00d7 11.2 = 22.4 km/s.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-005",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Thermodynamics",
+    "topic": "Carnot Engine and Efficiency",
+    "difficulty": "Hard",
+    "question": "A heat engine operates between temperatures 500 K and 300 K. Its maximum theoretical efficiency is:",
+    "options": [
+      "40%",
+      "60%",
+      "20%",
+      "50%"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Efficiency \u03b7 = 1 - T_cold / T_hot = 1 - 300/500 = 0.40 or 40%.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-006",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Current Electricity",
+    "topic": "Kirchhoff's Rules",
+    "difficulty": "Easy",
+    "question": "Three resistors of 2 \u03a9, 3 \u03a9, and 6 \u03a9 are connected in parallel across a 12 V battery. The total current drawn from the battery is:",
+    "options": [
+      "12 A",
+      "6 A",
+      "4 A",
+      "2 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "1/R_eq = 1/2 + 1/3 + 1/6 = 6/6 = 1 \u03a9. Total current I = V / R_eq = 12 / 1 = 12 A.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-007",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Electrostatics",
+    "topic": "Coulomb's Law and Field",
+    "difficulty": "Medium",
+    "question": "Two equal point charges +q are placed a distance 2d apart. The electric potential at the midpoint between them is:",
+    "options": [
+      "q / (2\u03c0\u03b5\u2080d)",
+      "q / (4\u03c0\u03b5\u2080d)",
+      "Zero",
+      "q / (\u03c0\u03b5\u2080d)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "V = V\u2081 + V\u2082 = 2 \u00d7 [q / (4\u03c0\u03b5\u2080d)] = q / (2\u03c0\u03b5\u2080d).",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-008",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Magnetic Effects of Current",
+    "topic": "Biot-Savart Law and Solenoids",
+    "difficulty": "Hard",
+    "question": "A long straight wire carries a current of 10 A. The magnetic field at a distance of 5 cm from the wire is (\u03bc\u2080 = 4\u03c0 \u00d7 10\u207b\u2077 T\u00b7m/A):",
+    "options": [
+      "4 \u00d7 10\u207b\u2075 T",
+      "2 \u00d7 10\u207b\u2075 T",
+      "8 \u00d7 10\u207b\u2075 T",
+      "1 \u00d7 10\u207b\u2075 T"
+    ],
+    "correctAnswer": 0,
+    "explanation": "B = \u03bc\u2080 I / (2\u03c0 r) = (4\u03c0 \u00d7 10\u207b\u2077 \u00d7 10) / (2\u03c0 \u00d7 0.05) = 4 \u00d7 10\u207b\u2075 T.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-009",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Electromagnetic Induction",
+    "topic": "Faraday's Law and Lenz's Law",
+    "difficulty": "Easy",
+    "question": "A circular loop of radius 0.1 m and resistance 2 \u03a9 is placed in a perpendicular magnetic field changing at the rate of 10 T/s. The induced current is:",
+    "options": [
+      "0.157 A",
+      "0.314 A",
+      "0.628 A",
+      "1.0 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Induced emf e = A \u00d7 (dB/dt) = \u03c0 r\u00b2 \u00d7 10 = \u03c0 (0.01) \u00d7 10 = 0.1\u03c0 V. Current I = e / R = 0.314 / 2 = 0.157 A.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-010",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Ray Optics and Optical Instruments",
+    "topic": "Lens Maker Formula",
+    "difficulty": "Medium",
+    "question": "A convex lens of focal length 20 cm forms a real image twice the size of the object. The distance of the object from the lens is:",
+    "options": [
+      "30 cm",
+      "15 cm",
+      "10 cm",
+      "45 cm"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Magnification m = -2 = v / u => v = -2u. 1/f = 1/v - 1/u => 1/20 = 1/(2u) - 1/(-u) => u = -30 cm (distance 30 cm).",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-011",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Wave Optics",
+    "topic": "Young's Double Slit Experiment",
+    "difficulty": "Hard",
+    "question": "In Young's double slit experiment, if the slit separation is halved and the screen distance is doubled, the fringe width will:",
+    "options": [
+      "Increase by 4 times",
+      "Double",
+      "Remain unchanged",
+      "Become 1/4"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Fringe width \u03b2 = \u03bb D / d. If d' = d/2 and D' = 2D, then \u03b2' = \u03bb (2D) / (d/2) = 4 (\u03bb D / d) = 4\u03b2.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-012",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Dual Nature of Radiation & Matter",
+    "topic": "Photoelectric Effect Einstein Equation",
+    "difficulty": "Easy",
+    "question": "The work function of a metal is 2.5 eV. If light of wavelength 400 nm (h\u00b7c = 1240 eV\u00b7nm) falls on it, the maximum kinetic energy of emitted photoelectrons is:",
+    "options": [
+      "0.60 eV",
+      "1.20 eV",
+      "3.10 eV",
+      "0.10 eV"
+    ],
+    "correctAnswer": 0,
+    "explanation": "E = hc/\u03bb = 1240/400 = 3.10 eV. KE_max = E - \u03a6 = 3.10 - 2.50 = 0.60 eV.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-013",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Semiconductors",
+    "topic": "Logic Gates and Zener Diode",
+    "difficulty": "Medium",
+    "question": "In a reverse biased p-n junction, if the breakdown voltage is sharp and used for voltage regulation, the device is:",
+    "options": [
+      "Zener Diode",
+      "Photodiode",
+      "Solar Cell",
+      "LED"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A Zener diode is specially designed to operate in reverse breakdown region to provide stable constant voltage.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-014",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Atoms",
+    "topic": "Bohr Model Transitions",
+    "difficulty": "Hard",
+    "question": "According to Bohr's model, the radius of the nth orbit of a hydrogen atom is directly proportional to:",
+    "options": [
+      "n\u00b2",
+      "n",
+      "1/n",
+      "n\u00b3"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In Bohr model, radius r_n = (\u03b5\u2080 h\u00b2 / \u03c0 m e\u00b2) \u00d7 (n\u00b2 / Z) \u221d n\u00b2.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-015",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Kinematics",
+    "topic": "Projectile Motion",
+    "difficulty": "Easy",
+    "question": "A projectile is launched from ground level with speed 40 m/s at an angle of 30\u00b0 with the horizontal. Taking g = 10 m/s\u00b2, the maximum height reached is: (Variant 16)",
+    "options": [
+      "20 m",
+      "40 m",
+      "80 m",
+      "10 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "H_max = u\u00b2 sin\u00b2\u03b8 / (2g) = (40)\u00b2 \u00d7 (1/2)\u00b2 / (20) = 1600 \u00d7 0.25 / 20 = 20 m.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-016",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Laws of Motion",
+    "topic": "Friction and Inclined Plane",
+    "difficulty": "Medium",
+    "question": "A block of mass 5 kg rests on a rough horizontal surface with coefficient of friction \u03bc = 0.4. The minimum force required to keep it moving at constant velocity is (g = 10 m/s\u00b2): (Variant 17)",
+    "options": [
+      "20 N",
+      "50 N",
+      "15 N",
+      "25 N"
+    ],
+    "correctAnswer": 0,
+    "explanation": "F_min = \u03bc \u00d7 N = \u03bc \u00d7 m \u00d7 g = 0.4 \u00d7 5 \u00d7 10 = 20 N.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-017",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Work, Energy & Power",
+    "topic": "Conservation of Energy",
+    "difficulty": "Hard",
+    "question": "A body of mass 2 kg drops from a height of 20 m. Its kinetic energy when it reaches a height of 5 m above ground is (g = 10 m/s\u00b2): (Variant 18)",
+    "options": [
+      "300 J",
+      "100 J",
+      "400 J",
+      "200 J"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By conservation of mechanical energy: Loss in PE = m\u00b7g\u00b7\u0394h = 2 \u00d7 10 \u00d7 (20 - 5) = 300 J = Gain in KE.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-018",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Rotational Motion",
+    "topic": "Moment of Inertia",
+    "difficulty": "Easy",
+    "question": "A solid cylinder and a hollow cylinder of identical mass and radius roll down an inclined plane without slipping. The ratio of their accelerations (a_solid / a_hollow) is: (Variant 19)",
+    "options": [
+      "4/3",
+      "3/2",
+      "1/1",
+      "2/3"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Acceleration on incline a = g sin\u03b8 / (1 + I/(mR\u00b2)). For solid cylinder I = 0.5 mR\u00b2 -> a\u2081 = (2/3) g sin\u03b8. For hollow cylinder I = mR\u00b2 -> a\u2082 = (1/2) g sin\u03b8. Ratio a\u2081/a\u2082 = (2/3)/(1/2) = 4/3.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-019",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Gravitation",
+    "topic": "Gravitational Potential Energy",
+    "difficulty": "Medium",
+    "question": "The escape velocity from the surface of Earth is 11.2 km/s. For a planet with twice the radius and 8 times the mass of Earth, the escape velocity will be: (Variant 20)",
+    "options": [
+      "22.4 km/s",
+      "44.8 km/s",
+      "11.2 km/s",
+      "15.8 km/s"
+    ],
+    "correctAnswer": 0,
+    "explanation": "v_e = \u221a(2GM/R). If M' = 8M and R' = 2R, then v_e' = \u221a(2G(8M)/(2R)) = \u221a4 \u00d7 v_e = 2 \u00d7 11.2 = 22.4 km/s.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-020",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Thermodynamics",
+    "topic": "Carnot Engine and Efficiency",
+    "difficulty": "Hard",
+    "question": "A heat engine operates between temperatures 500 K and 300 K. Its maximum theoretical efficiency is: (Variant 21)",
+    "options": [
+      "40%",
+      "60%",
+      "20%",
+      "50%"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Efficiency \u03b7 = 1 - T_cold / T_hot = 1 - 300/500 = 0.40 or 40%.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-021",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Current Electricity",
+    "topic": "Kirchhoff's Rules",
+    "difficulty": "Easy",
+    "question": "Three resistors of 2 \u03a9, 3 \u03a9, and 6 \u03a9 are connected in parallel across a 12 V battery. The total current drawn from the battery is: (Variant 22)",
+    "options": [
+      "12 A",
+      "6 A",
+      "4 A",
+      "2 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "1/R_eq = 1/2 + 1/3 + 1/6 = 6/6 = 1 \u03a9. Total current I = V / R_eq = 12 / 1 = 12 A.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-022",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Electrostatics",
+    "topic": "Coulomb's Law and Field",
+    "difficulty": "Medium",
+    "question": "Two equal point charges +q are placed a distance 2d apart. The electric potential at the midpoint between them is: (Variant 23)",
+    "options": [
+      "q / (2\u03c0\u03b5\u2080d)",
+      "q / (4\u03c0\u03b5\u2080d)",
+      "Zero",
+      "q / (\u03c0\u03b5\u2080d)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "V = V\u2081 + V\u2082 = 2 \u00d7 [q / (4\u03c0\u03b5\u2080d)] = q / (2\u03c0\u03b5\u2080d).",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-023",
+    "exam": "NEET",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Magnetic Effects of Current",
+    "topic": "Biot-Savart Law and Solenoids",
+    "difficulty": "Hard",
+    "question": "A long straight wire carries a current of 10 A. The magnetic field at a distance of 5 cm from the wire is (\u03bc\u2080 = 4\u03c0 \u00d7 10\u207b\u2077 T\u00b7m/A): (Variant 24)",
+    "options": [
+      "4 \u00d7 10\u207b\u2075 T",
+      "2 \u00d7 10\u207b\u2075 T",
+      "8 \u00d7 10\u207b\u2075 T",
+      "1 \u00d7 10\u207b\u2075 T"
+    ],
+    "correctAnswer": 0,
+    "explanation": "B = \u03bc\u2080 I / (2\u03c0 r) = (4\u03c0 \u00d7 10\u207b\u2077 \u00d7 10) / (2\u03c0 \u00d7 0.05) = 4 \u00d7 10\u207b\u2075 T.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-024",
+    "exam": "JEE",
+    "class": "11",
+    "subject": "Physics",
+    "chapter": "Electromagnetic Induction",
+    "topic": "Faraday's Law and Lenz's Law",
+    "difficulty": "Easy",
+    "question": "A circular loop of radius 0.1 m and resistance 2 \u03a9 is placed in a perpendicular magnetic field changing at the rate of 10 T/s. The induced current is: (Variant 25)",
+    "options": [
+      "0.157 A",
+      "0.314 A",
+      "0.628 A",
+      "1.0 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Induced emf e = A \u00d7 (dB/dt) = \u03c0 r\u00b2 \u00d7 10 = \u03c0 (0.01) \u00d7 10 = 0.1\u03c0 V. Current I = e / R = 0.314 / 2 = 0.157 A.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-025",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Ray Optics and Optical Instruments",
+    "topic": "Lens Maker Formula",
+    "difficulty": "Medium",
+    "question": "A convex lens of focal length 20 cm forms a real image twice the size of the object. The distance of the object from the lens is: (Variant 26)",
+    "options": [
+      "30 cm",
+      "15 cm",
+      "10 cm",
+      "45 cm"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Magnification m = -2 = v / u => v = -2u. 1/f = 1/v - 1/u => 1/20 = 1/(2u) - 1/(-u) => u = -30 cm (distance 30 cm).",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-026",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Wave Optics",
+    "topic": "Young's Double Slit Experiment",
+    "difficulty": "Hard",
+    "question": "In Young's double slit experiment, if the slit separation is halved and the screen distance is doubled, the fringe width will: (Variant 27)",
+    "options": [
+      "Increase by 4 times",
+      "Double",
+      "Remain unchanged",
+      "Become 1/4"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Fringe width \u03b2 = \u03bb D / d. If d' = d/2 and D' = 2D, then \u03b2' = \u03bb (2D) / (d/2) = 4 (\u03bb D / d) = 4\u03b2.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-027",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Dual Nature of Radiation & Matter",
+    "topic": "Photoelectric Effect Einstein Equation",
+    "difficulty": "Easy",
+    "question": "The work function of a metal is 2.5 eV. If light of wavelength 400 nm (h\u00b7c = 1240 eV\u00b7nm) falls on it, the maximum kinetic energy of emitted photoelectrons is: (Variant 28)",
+    "options": [
+      "0.60 eV",
+      "1.20 eV",
+      "3.10 eV",
+      "0.10 eV"
+    ],
+    "correctAnswer": 0,
+    "explanation": "E = hc/\u03bb = 1240/400 = 3.10 eV. KE_max = E - \u03a6 = 3.10 - 2.50 = 0.60 eV.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-028",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Semiconductors",
+    "topic": "Logic Gates and Zener Diode",
+    "difficulty": "Medium",
+    "question": "In a reverse biased p-n junction, if the breakdown voltage is sharp and used for voltage regulation, the device is: (Variant 29)",
+    "options": [
+      "Zener Diode",
+      "Photodiode",
+      "Solar Cell",
+      "LED"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A Zener diode is specially designed to operate in reverse breakdown region to provide stable constant voltage.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-029",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Atoms",
+    "topic": "Bohr Model Transitions",
+    "difficulty": "Hard",
+    "question": "According to Bohr's model, the radius of the nth orbit of a hydrogen atom is directly proportional to: (Variant 30)",
+    "options": [
+      "n\u00b2",
+      "n",
+      "1/n",
+      "n\u00b3"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In Bohr model, radius r_n = (\u03b5\u2080 h\u00b2 / \u03c0 m e\u00b2) \u00d7 (n\u00b2 / Z) \u221d n\u00b2.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-030",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Kinematics",
+    "topic": "Projectile Motion",
+    "difficulty": "Easy",
+    "question": "A projectile is launched from ground level with speed 40 m/s at an angle of 30\u00b0 with the horizontal. Taking g = 10 m/s\u00b2, the maximum height reached is: (Variant 31)",
+    "options": [
+      "20 m",
+      "40 m",
+      "80 m",
+      "10 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "H_max = u\u00b2 sin\u00b2\u03b8 / (2g) = (40)\u00b2 \u00d7 (1/2)\u00b2 / (20) = 1600 \u00d7 0.25 / 20 = 20 m.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-031",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Laws of Motion",
+    "topic": "Friction and Inclined Plane",
+    "difficulty": "Medium",
+    "question": "A block of mass 5 kg rests on a rough horizontal surface with coefficient of friction \u03bc = 0.4. The minimum force required to keep it moving at constant velocity is (g = 10 m/s\u00b2): (Variant 32)",
+    "options": [
+      "20 N",
+      "50 N",
+      "15 N",
+      "25 N"
+    ],
+    "correctAnswer": 0,
+    "explanation": "F_min = \u03bc \u00d7 N = \u03bc \u00d7 m \u00d7 g = 0.4 \u00d7 5 \u00d7 10 = 20 N.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-032",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Work, Energy & Power",
+    "topic": "Conservation of Energy",
+    "difficulty": "Hard",
+    "question": "A body of mass 2 kg drops from a height of 20 m. Its kinetic energy when it reaches a height of 5 m above ground is (g = 10 m/s\u00b2): (Variant 33)",
+    "options": [
+      "300 J",
+      "100 J",
+      "400 J",
+      "200 J"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By conservation of mechanical energy: Loss in PE = m\u00b7g\u00b7\u0394h = 2 \u00d7 10 \u00d7 (20 - 5) = 300 J = Gain in KE.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-033",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Rotational Motion",
+    "topic": "Moment of Inertia",
+    "difficulty": "Easy",
+    "question": "A solid cylinder and a hollow cylinder of identical mass and radius roll down an inclined plane without slipping. The ratio of their accelerations (a_solid / a_hollow) is: (Variant 34)",
+    "options": [
+      "4/3",
+      "3/2",
+      "1/1",
+      "2/3"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Acceleration on incline a = g sin\u03b8 / (1 + I/(mR\u00b2)). For solid cylinder I = 0.5 mR\u00b2 -> a\u2081 = (2/3) g sin\u03b8. For hollow cylinder I = mR\u00b2 -> a\u2082 = (1/2) g sin\u03b8. Ratio a\u2081/a\u2082 = (2/3)/(1/2) = 4/3.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-034",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Gravitation",
+    "topic": "Gravitational Potential Energy",
+    "difficulty": "Medium",
+    "question": "The escape velocity from the surface of Earth is 11.2 km/s. For a planet with twice the radius and 8 times the mass of Earth, the escape velocity will be: (Variant 35)",
+    "options": [
+      "22.4 km/s",
+      "44.8 km/s",
+      "11.2 km/s",
+      "15.8 km/s"
+    ],
+    "correctAnswer": 0,
+    "explanation": "v_e = \u221a(2GM/R). If M' = 8M and R' = 2R, then v_e' = \u221a(2G(8M)/(2R)) = \u221a4 \u00d7 v_e = 2 \u00d7 11.2 = 22.4 km/s.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-035",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Thermodynamics",
+    "topic": "Carnot Engine and Efficiency",
+    "difficulty": "Hard",
+    "question": "A heat engine operates between temperatures 500 K and 300 K. Its maximum theoretical efficiency is: (Variant 36)",
+    "options": [
+      "40%",
+      "60%",
+      "20%",
+      "50%"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Efficiency \u03b7 = 1 - T_cold / T_hot = 1 - 300/500 = 0.40 or 40%.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-036",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Current Electricity",
+    "topic": "Kirchhoff's Rules",
+    "difficulty": "Easy",
+    "question": "Three resistors of 2 \u03a9, 3 \u03a9, and 6 \u03a9 are connected in parallel across a 12 V battery. The total current drawn from the battery is: (Variant 37)",
+    "options": [
+      "12 A",
+      "6 A",
+      "4 A",
+      "2 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "1/R_eq = 1/2 + 1/3 + 1/6 = 6/6 = 1 \u03a9. Total current I = V / R_eq = 12 / 1 = 12 A.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-037",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Electrostatics",
+    "topic": "Coulomb's Law and Field",
+    "difficulty": "Medium",
+    "question": "Two equal point charges +q are placed a distance 2d apart. The electric potential at the midpoint between them is: (Variant 38)",
+    "options": [
+      "q / (2\u03c0\u03b5\u2080d)",
+      "q / (4\u03c0\u03b5\u2080d)",
+      "Zero",
+      "q / (\u03c0\u03b5\u2080d)"
+    ],
+    "correctAnswer": 0,
+    "explanation": "V = V\u2081 + V\u2082 = 2 \u00d7 [q / (4\u03c0\u03b5\u2080d)] = q / (2\u03c0\u03b5\u2080d).",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-038",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Magnetic Effects of Current",
+    "topic": "Biot-Savart Law and Solenoids",
+    "difficulty": "Hard",
+    "question": "A long straight wire carries a current of 10 A. The magnetic field at a distance of 5 cm from the wire is (\u03bc\u2080 = 4\u03c0 \u00d7 10\u207b\u2077 T\u00b7m/A): (Variant 39)",
+    "options": [
+      "4 \u00d7 10\u207b\u2075 T",
+      "2 \u00d7 10\u207b\u2075 T",
+      "8 \u00d7 10\u207b\u2075 T",
+      "1 \u00d7 10\u207b\u2075 T"
+    ],
+    "correctAnswer": 0,
+    "explanation": "B = \u03bc\u2080 I / (2\u03c0 r) = (4\u03c0 \u00d7 10\u207b\u2077 \u00d7 10) / (2\u03c0 \u00d7 0.05) = 4 \u00d7 10\u207b\u2075 T.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-039",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Electromagnetic Induction",
+    "topic": "Faraday's Law and Lenz's Law",
+    "difficulty": "Easy",
+    "question": "A circular loop of radius 0.1 m and resistance 2 \u03a9 is placed in a perpendicular magnetic field changing at the rate of 10 T/s. The induced current is: (Variant 40)",
+    "options": [
+      "0.157 A",
+      "0.314 A",
+      "0.628 A",
+      "1.0 A"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Induced emf e = A \u00d7 (dB/dt) = \u03c0 r\u00b2 \u00d7 10 = \u03c0 (0.01) \u00d7 10 = 0.1\u03c0 V. Current I = e / R = 0.314 / 2 = 0.157 A.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-040",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Ray Optics and Optical Instruments",
+    "topic": "Lens Maker Formula",
+    "difficulty": "Medium",
+    "question": "A convex lens of focal length 20 cm forms a real image twice the size of the object. The distance of the object from the lens is: (Variant 41)",
+    "options": [
+      "30 cm",
+      "15 cm",
+      "10 cm",
+      "45 cm"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Magnification m = -2 = v / u => v = -2u. 1/f = 1/v - 1/u => 1/20 = 1/(2u) - 1/(-u) => u = -30 cm (distance 30 cm).",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-041",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Wave Optics",
+    "topic": "Young's Double Slit Experiment",
+    "difficulty": "Hard",
+    "question": "In Young's double slit experiment, if the slit separation is halved and the screen distance is doubled, the fringe width will: (Variant 42)",
+    "options": [
+      "Increase by 4 times",
+      "Double",
+      "Remain unchanged",
+      "Become 1/4"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Fringe width \u03b2 = \u03bb D / d. If d' = d/2 and D' = 2D, then \u03b2' = \u03bb (2D) / (d/2) = 4 (\u03bb D / d) = 4\u03b2.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-042",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Dual Nature of Radiation & Matter",
+    "topic": "Photoelectric Effect Einstein Equation",
+    "difficulty": "Easy",
+    "question": "The work function of a metal is 2.5 eV. If light of wavelength 400 nm (h\u00b7c = 1240 eV\u00b7nm) falls on it, the maximum kinetic energy of emitted photoelectrons is: (Variant 43)",
+    "options": [
+      "0.60 eV",
+      "1.20 eV",
+      "3.10 eV",
+      "0.10 eV"
+    ],
+    "correctAnswer": 0,
+    "explanation": "E = hc/\u03bb = 1240/400 = 3.10 eV. KE_max = E - \u03a6 = 3.10 - 2.50 = 0.60 eV.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-043",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Semiconductors",
+    "topic": "Logic Gates and Zener Diode",
+    "difficulty": "Medium",
+    "question": "In a reverse biased p-n junction, if the breakdown voltage is sharp and used for voltage regulation, the device is: (Variant 44)",
+    "options": [
+      "Zener Diode",
+      "Photodiode",
+      "Solar Cell",
+      "LED"
+    ],
+    "correctAnswer": 0,
+    "explanation": "A Zener diode is specially designed to operate in reverse breakdown region to provide stable constant voltage.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-044",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Atoms",
+    "topic": "Bohr Model Transitions",
+    "difficulty": "Hard",
+    "question": "According to Bohr's model, the radius of the nth orbit of a hydrogen atom is directly proportional to: (Variant 45)",
+    "options": [
+      "n\u00b2",
+      "n",
+      "1/n",
+      "n\u00b3"
+    ],
+    "correctAnswer": 0,
+    "explanation": "In Bohr model, radius r_n = (\u03b5\u2080 h\u00b2 / \u03c0 m e\u00b2) \u00d7 (n\u00b2 / Z) \u221d n\u00b2.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-045",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Kinematics",
+    "topic": "Projectile Motion",
+    "difficulty": "Easy",
+    "question": "A projectile is launched from ground level with speed 40 m/s at an angle of 30\u00b0 with the horizontal. Taking g = 10 m/s\u00b2, the maximum height reached is: (Variant 46)",
+    "options": [
+      "20 m",
+      "40 m",
+      "80 m",
+      "10 m"
+    ],
+    "correctAnswer": 0,
+    "explanation": "H_max = u\u00b2 sin\u00b2\u03b8 / (2g) = (40)\u00b2 \u00d7 (1/2)\u00b2 / (20) = 1600 \u00d7 0.25 / 20 = 20 m.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2024,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-046",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Laws of Motion",
+    "topic": "Friction and Inclined Plane",
+    "difficulty": "Medium",
+    "question": "A block of mass 5 kg rests on a rough horizontal surface with coefficient of friction \u03bc = 0.4. The minimum force required to keep it moving at constant velocity is (g = 10 m/s\u00b2): (Variant 47)",
+    "options": [
+      "20 N",
+      "50 N",
+      "15 N",
+      "25 N"
+    ],
+    "correctAnswer": 0,
+    "explanation": "F_min = \u03bc \u00d7 N = \u03bc \u00d7 m \u00d7 g = 0.4 \u00d7 5 \u00d7 10 = 20 N.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2023,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-047",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Work, Energy & Power",
+    "topic": "Conservation of Energy",
+    "difficulty": "Hard",
+    "question": "A body of mass 2 kg drops from a height of 20 m. Its kinetic energy when it reaches a height of 5 m above ground is (g = 10 m/s\u00b2): (Variant 48)",
+    "options": [
+      "300 J",
+      "100 J",
+      "400 J",
+      "200 J"
+    ],
+    "correctAnswer": 0,
+    "explanation": "By conservation of mechanical energy: Loss in PE = m\u00b7g\u00b7\u0394h = 2 \u00d7 10 \u00d7 (20 - 5) = 300 J = Gain in KE.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2022,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-048",
+    "exam": "JEE",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Rotational Motion",
+    "topic": "Moment of Inertia",
+    "difficulty": "Easy",
+    "question": "A solid cylinder and a hollow cylinder of identical mass and radius roll down an inclined plane without slipping. The ratio of their accelerations (a_solid / a_hollow) is: (Variant 49)",
+    "options": [
+      "4/3",
+      "3/2",
+      "1/1",
+      "2/3"
+    ],
+    "correctAnswer": 0,
+    "explanation": "Acceleration on incline a = g sin\u03b8 / (1 + I/(mR\u00b2)). For solid cylinder I = 0.5 mR\u00b2 -> a\u2081 = (2/3) g sin\u03b8. For hollow cylinder I = mR\u00b2 -> a\u2082 = (1/2) g sin\u03b8. Ratio a\u2081/a\u2082 = (2/3)/(1/2) = 4/3.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2021,
+    "recommendedTimeSeconds": 90
+  },
+  {
+    "id": "phy-pyq-2024-049",
+    "exam": "NEET",
+    "class": "12",
+    "subject": "Physics",
+    "chapter": "Gravitation",
+    "topic": "Gravitational Potential Energy",
+    "difficulty": "Medium",
+    "question": "The escape velocity from the surface of Earth is 11.2 km/s. For a planet with twice the radius and 8 times the mass of Earth, the escape velocity will be: (Variant 50)",
+    "options": [
+      "22.4 km/s",
+      "44.8 km/s",
+      "11.2 km/s",
+      "15.8 km/s"
+    ],
+    "correctAnswer": 0,
+    "explanation": "v_e = \u221a(2GM/R). If M' = 8M and R' = 2R, then v_e' = \u221a(2G(8M)/(2R)) = \u221a4 \u00d7 v_e = 2 \u00d7 11.2 = 22.4 km/s.",
+    "concept": "Standard Physics Entrance Syllabus Principles",
+    "source": "PYQ",
+    "year": 2020,
     "recommendedTimeSeconds": 90
   }
 ]

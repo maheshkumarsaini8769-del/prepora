@@ -34,7 +34,7 @@ export const BuildMyTest: React.FC = () => {
 
   // Advanced Options State (Progressive Disclosure)
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
-  const [includePYQs, setIncludePYQs] = useState<boolean>(false);
+  const [includePYQs, setIncludePYQs] = useState<boolean>(true);
   const [durationMinutes, setDurationMinutes] = useState<number>(30);
   const [negativeMarking, setNegativeMarking] = useState<boolean>(true);
   const [testTitle, setTestTitle] = useState<string>('');
@@ -74,7 +74,7 @@ export const BuildMyTest: React.FC = () => {
     return questionService
       .filterQuestions({
         exam,
-        classLevel,
+        classLevel: (exam === 'JEE' || exam === 'NEET') && (selectedChapter === 'ALL' || !selectedChapter) ? undefined : classLevel,
         difficulty: difficulty === 'Mixed' ? undefined : difficulty,
         includePYQs,
         includeModelPapers: false,
@@ -91,7 +91,7 @@ export const BuildMyTest: React.FC = () => {
     const fetchCount = async () => {
       const cnt = await questionService.getEligibleCountAsync({
         exam,
-        classLevel,
+        classLevel: (exam === 'JEE' || exam === 'NEET') && (selectedChapter === 'ALL' || !selectedChapter) ? undefined : classLevel,
         subject: selectedSubjects.length === 1 ? selectedSubjects[0] : undefined,
         chapter: selectedChapter !== 'ALL' ? selectedChapter : undefined,
         topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
@@ -106,7 +106,7 @@ export const BuildMyTest: React.FC = () => {
     return () => { isCancelled = true; };
   }, [exam, classLevel, selectedSubjects, selectedChapter, selectedTopic, difficulty, includePYQs]);
 
-  const effectiveAvailableCount = serverCount !== null ? serverCount : availablePool.length;
+  const effectiveAvailableCount = Math.max(availablePool.length, serverCount || 0);
 
   // Section 10: Deterministic Paper Blueprint Calculation
   const blueprintSubjects = useMemo(() => {
@@ -172,12 +172,6 @@ export const BuildMyTest: React.FC = () => {
     setErrorMessage(null);
     setAiSuccessMessage(null);
     const countToUse = overrideCount !== undefined ? overrideCount : Number(questionCount);
-
-    if (effectiveAvailableCount > 0 && effectiveAvailableCount < countToUse) {
-      setUnderflowInfo({ available: effectiveAvailableCount, requested: countToUse });
-      setShowUnderflowModal(true);
-      return;
-    }
 
     const result = await testService.buildCustomTestAsync({
       title: testTitle.trim() || `${exam} Custom Test (${countToUse} Questions)`,

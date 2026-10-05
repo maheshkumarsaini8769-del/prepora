@@ -164,8 +164,12 @@ function buildQuestionFilter(query: any): any {
     } else {
       filter.exam = exam;
     }
+  if (classLevel && classLevel !== 'All') {
+    const isCompetitive = exam === 'JEE' || exam === 'JEE_MAIN' || exam === 'JEE_ADVANCED' || exam === 'NEET';
+    if (!isCompetitive || (chapter && chapter !== 'All')) {
+      filter.class = classLevel;
+    }
   }
-  if (classLevel && classLevel !== 'All') filter.class = classLevel;
   if (subject && subject !== 'All') filter.subject = subject;
   if (chapter && chapter !== 'All') {
     filter.chapter = new RegExp(`^${escapeRegex(String(chapter).trim())}$`, 'i');

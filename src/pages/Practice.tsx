@@ -65,7 +65,7 @@ export const Practice: React.FC = () => {
     return () => { isCancelled = true; };
   }, [exam, classLevel, subject, chapter, topic, difficulty]);
 
-  const effectiveAvailableCount = dbCount !== null ? dbCount : matchingPool.length;
+  const effectiveAvailableCount = Math.max(matchingPool.length, dbCount || 0);
 
   const handleStartPractice = (overrideCount?: number) => {
     const finalCount = overrideCount !== undefined ? overrideCount : questionCount;

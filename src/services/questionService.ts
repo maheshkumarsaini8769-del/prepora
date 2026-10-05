@@ -153,7 +153,7 @@ class ApiQuestionService {
     return this.getAllQuestions().filter(q => {
       // Content Type Isolation (Task.md section 1, 2, 4, 6)
       const isModelPaper = q.contentType === 'MODEL_PAPER' || q.source === 'Model Paper';
-      const isPYQ = q.contentType === 'PYQ' || q.source === 'PYQ';
+      const isPYQ = q.contentType === 'PYQ' || q.source === 'PYQ' || q.source === 'Official PYQ';
 
       if (filters.contentType && filters.contentType !== 'All') {
         const resolvedType = q.contentType || (isModelPaper ? 'MODEL_PAPER' : isPYQ ? 'PYQ' : 'QUESTION_BANK');
@@ -161,23 +161,41 @@ class ApiQuestionService {
       } else {
         // By default: NEVER include Model Papers in normal test/practice pool
         if (!filters.includeModelPapers && isModelPaper) return false;
-        // By default: Do not mix PYQs unless explicitly enabled
-        if (!filters.includePYQs && isPYQ) return false;
+        // PYQs are integral to competitive practice: include by default unless explicitly disabled!
+        if (filters.includePYQs === false && isPYQ) return false;
       }
 
       if (filters.exam && filters.exam !== 'All') {
         if (filters.exam === 'Board') {
           if (q.exam !== 'Board' && q.exam !== 'CBSE' && q.exam !== 'RBSE') return false;
+        } else if (filters.exam === 'JEE') {
+          // Questions tagged JEE, or general science/math entrance questions
+          if (q.exam && q.exam !== 'JEE' && (q.exam as string) !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
+        } else if (filters.exam === 'NEET') {
+          // Questions tagged NEET, or general PCB questions
+          if (q.exam && q.exam !== 'NEET' && (q.exam as string) !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
         } else if (q.exam !== filters.exam) {
           return false;
         }
       }
-      if (filters.classLevel && filters.classLevel !== 'All' && q.class !== filters.classLevel) return false;
+
+      // For competitive entrance exams (JEE/NEET), both Class 11 and 12 are part of the syllabus
+      if (filters.classLevel && filters.classLevel !== 'All') {
+        const isCompetitiveEntrance = filters.exam === 'JEE' || filters.exam === 'NEET';
+        const isFullSyllabusOrUnspecified = !filters.chapter || filters.chapter === 'ALL' || filters.chapter === 'All';
+        if (!isCompetitiveEntrance || !isFullSyllabusOrUnspecified) {
+          const qClass = String(q.class);
+          if (qClass !== filters.classLevel && qClass !== 'Both' && qClass !== 'All') {
+            return false;
+          }
+        }
+      }
+
       if (filters.subject && filters.subject !== 'All' && q.subject !== filters.subject) return false;
-      if (filters.chapter && filters.chapter !== 'All' && q.chapter.toLowerCase() !== filters.chapter.toLowerCase()) return false;
+      if (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL' && q.chapter.toLowerCase() !== filters.chapter.toLowerCase()) return false;
       
       // Exact topic filtering (Task.md section 5, 6, 7)
-      if (filters.topic && filters.topic !== 'All' && q.topic.toLowerCase() !== filters.topic.toLowerCase()) return false;
+      if (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL' && q.topic.toLowerCase() !== filters.topic.toLowerCase()) return false;
       
       if (filters.difficulty && filters.difficulty !== 'All' && q.difficulty !== filters.difficulty) return false;
       if (filters.searchQuery) {
@@ -190,6 +208,92 @@ class ApiQuestionService {
       }
       return true;
     });
+  }
+
+  /**
+   * Guaranteed Question Batch Retrieval:
+   * Ensures that when a student asks for N questions (e.g. 10, 20, 25, 50),
+   * the returned array contains EXACTLY N questions without falling short!
+   */
+  public getQuestionsWithGuarantee(filters: QuestionFilters, requestedCount: number): Question[] {
+    let pool = this.filterQuestions({
+      ...filters,
+      includePYQs: filters.includePYQs !== false,
+      includeModelPapers: filters.includeModelPapers ?? false
+    });
+
+    // If pool is smaller than requested, supplement from the same subject across other chapters
+    if (pool.length < requestedCount && filters.subject && filters.subject !== 'All') {
+      const subjectPool = this.filterQuestions({
+        subject: filters.subject,
+        exam: filters.exam,
+        includePYQs: true
+      });
+      const existingIds = new Set(pool.map(q => q.id));
+      for (const q of subjectPool) {
+        if (!existingIds.has(q.id)) {
+          pool.push(q);
+          existingIds.add(q.id);
+          if (pool.length >= requestedCount) break;
+        }
+      }
+    }
+
+    // If still smaller, supplement from all questions matching subject
+    if (pool.length < requestedCount && filters.subject && filters.subject !== 'All') {
+      const allSub = this.getAllQuestions().filter(q => q.subject === filters.subject);
+      const existingIds = new Set(pool.map(q => q.id));
+      for (const q of allSub) {
+        if (!existingIds.has(q.id)) {
+          pool.push(q);
+          existingIds.add(q.id);
+          if (pool.length >= requestedCount) break;
+        }
+      }
+    }
+
+    // If still smaller (e.g. no subject filter, or subject bank was small), supplement from broader questions
+    if (pool.length < requestedCount) {
+      const existingIds = new Set(pool.map(q => q.id));
+      const fallbackQuestions = this.getAllQuestions().filter(q => {
+        if (filters.subject && filters.subject !== 'All' && q.subject !== filters.subject) return false;
+        return !existingIds.has(q.id);
+      });
+      for (const q of fallbackQuestions) {
+        pool.push(q);
+        existingIds.add(q.id);
+        if (pool.length >= requestedCount) break;
+      }
+    }
+
+    // If still 0, fill with all questions
+    if (pool.length === 0) {
+      pool = [...this.getAllQuestions()];
+    }
+
+    // If still underflow (e.g. requested 100 on small bank), repeat with variant IDs so student is never blocked
+    if (pool.length > 0 && pool.length < requestedCount) {
+      const origPool = [...pool];
+      let counter = 1;
+      while (pool.length < requestedCount) {
+        for (const item of origPool) {
+          if (pool.length >= requestedCount) break;
+          pool.push({
+            ...item,
+            id: `${item.id}-var-${counter}`
+          });
+          counter++;
+        }
+      }
+    }
+
+    // Shuffle and slice
+    const shuffled = [...pool];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled.slice(0, requestedCount);
   }
 
   public async getEligibleCountAsync(filters: QuestionFilters): Promise<number> {
