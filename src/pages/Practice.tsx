@@ -195,7 +195,7 @@ export const Practice: React.FC = () => {
               setChapter(e.target.value);
               setTopic('All');
             }}
-            className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-100 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900"
+            className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
           >
             {chapters.map((ch) => (
               <option key={ch} value={ch}>
@@ -214,7 +214,7 @@ export const Practice: React.FC = () => {
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
             disabled={chapter === 'All'}
-            className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-100 disabled:opacity-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-slate-900"
+            className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-100 disabled:opacity-50 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
           >
             {topics.map((t) => (
               <option key={t} value={t}>
@@ -329,7 +329,7 @@ export const Practice: React.FC = () => {
                 <select
                   value={exam}
                   onChange={(e) => setExam(e.target.value as any)}
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl p-2 text-xs font-semibold"
+                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
                 >
                   <option value="All">All Exams</option>
                   <option value="JEE">JEE Main</option>
@@ -346,7 +346,7 @@ export const Practice: React.FC = () => {
                 <select
                   value={classLevel}
                   onChange={(e) => setClassLevel(e.target.value as any)}
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl p-2 text-xs font-semibold"
+                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
                 >
                   <option value="All">All Classes</option>
                   <option value="11">Class 11</option>

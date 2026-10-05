@@ -379,7 +379,7 @@ export const BuildMyTest: React.FC = () => {
                 setSelectedChapter(e.target.value);
                 setSelectedTopic('ALL');
               }}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-900"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:outline-none focus:ring-1 focus:ring-slate-900"
             >
               <option value="ALL">All Chapters</option>
               {availableChapters.map((ch) => (
@@ -397,7 +397,7 @@ export const BuildMyTest: React.FC = () => {
             <select
               value={selectedTopic}
               onChange={(e) => setSelectedTopic(e.target.value)}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-slate-900"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:outline-none focus:ring-1 focus:ring-slate-900"
             >
               <option value="ALL">All Topics</option>
               {availableTopics.map((t) => (
