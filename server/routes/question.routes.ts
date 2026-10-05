@@ -335,22 +335,41 @@ router.post('/by-ids', async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Array of ids required.' });
     }
 
-    const questions = await Question.find({ id: { $in: ids } }).lean();
+    if (mongoose.connection.readyState === 1) {
+      const questions = await Question.find({ id: { $in: ids } }).lean();
+      if (questions.length > 0) {
+        return res.json({ success: true, questions });
+      }
+    }
+
+    const questions = questionRepo.getByIds(ids);
     res.json({ success: true, questions });
   } catch (error: any) {
-    res.status(500).json({ success: false, message: error.message });
+    const questions = questionRepo.getByIds(req.body?.ids || []);
+    res.json({ success: true, questions });
   }
 });
 
 // GET /api/questions/:id - Single question
 router.get('/:id', async (req: Request, res: Response) => {
   try {
-    const question = await Question.findOne({ id: req.params.id });
+    if (mongoose.connection.readyState === 1) {
+      const question = await Question.findOne({ id: req.params.id });
+      if (question) {
+        return res.json({ success: true, question });
+      }
+    }
+
+    const question = questionRepo.getById(req.params.id);
     if (!question) {
       return res.status(404).json({ success: false, message: 'Question not found' });
     }
     res.json({ success: true, question });
   } catch (error: any) {
+    const question = questionRepo.getById(req.params.id);
+    if (question) {
+      return res.json({ success: true, question });
+    }
     res.status(500).json({ success: false, message: error.message });
   }
 });

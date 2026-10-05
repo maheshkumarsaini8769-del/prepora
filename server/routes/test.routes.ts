@@ -143,7 +143,7 @@ router.post('/build-custom', async (req: Request, res: Response) => {
     const markPerQ = 4;
     const maxScore = questionCount * markPerQ;
 
-    const newTest = new Test({
+    const testData = {
       id: `custom-test-${Date.now()}`,
       title: title || `Custom ${exam} Test (${questionCount} Qs)`,
       exam,
@@ -157,10 +157,18 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       category: 'Custom Test',
       maxScore,
       negativeMarking
-    });
+    };
 
-    await newTest.save();
-    res.status(201).json({ success: true, test: newTest });
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const newTest = new Test(testData);
+        await newTest.save();
+      } catch (err) {
+        console.warn('Could not persist to MongoDB, serving testData directly');
+      }
+    }
+
+    res.status(201).json({ success: true, test: testData });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
