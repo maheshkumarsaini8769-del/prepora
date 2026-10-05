@@ -180,10 +180,11 @@ export const Home: React.FC = () => {
           </p>
         </div>
 
-        {/* Right: Mascot Student with Laptop & Angled "JEE 2026" Badge */}
+        {/* Right: Mascot Student with Laptop & Angled Exam Badge */}
         <div className="shrink-0">
           <HeroStudentIllustration
             examLabel={prepType}
+            classLevel={classLevel}
             year={prepProfile.targetYear || 2026}
             isDark={isDark}
           />
@@ -230,22 +231,27 @@ export const Home: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. TODAY'S PROGRESS CARD                                                 */}
+      {/* 3. TODAY'S PROGRESS & DAILY PRACTICE GOAL CARD                            */}
       {/* ========================================================================= */}
-      <div className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+      <div className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs space-y-3.5">
         {/* Header: Today's Progress & completed fraction */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-cyan-50 dark:bg-cyan-950/60 text-cyan-600 dark:text-cyan-400 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
               <Target className="w-4 h-4 stroke-[2.5]" />
             </div>
-            <span className="font-black text-sm sm:text-base text-slate-900 dark:text-white">
-              Today's Progress
-            </span>
+            <div>
+              <span className="font-black text-sm sm:text-base text-slate-900 dark:text-white block leading-tight">
+                Daily Practice Goal
+              </span>
+              <span className="text-[11px] text-slate-400 font-semibold leading-tight">
+                Target: {user.dailyGoalQuestions || 25} Questions / Day
+              </span>
+            </div>
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-xs sm:text-sm font-bold text-emerald-600 dark:text-emerald-400">
-              {completedTasksCount > 0 ? completedTasksCount : 2}/{totalTasksCount} completed
+            <span className="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400">
+              {user.todayQuestionsCount || 0}/{user.dailyGoalQuestions || 25} Qs
             </span>
             <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center">
               <ChevronRight className="w-3.5 h-3.5 stroke-[2]" />
@@ -253,28 +259,73 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        {/* 5 Segmented Rounded Pills */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
-          {[0, 1, 2, 3, 4].map((pillIdx) => {
-            const isActive = pillIdx < (completedTasksCount > 0 ? completedTasksCount : 2);
-            return (
-              <div
-                key={pillIdx}
-                className={`h-2 flex-1 rounded-full transition-all duration-300 ${
-                  isActive
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-[0_0_8px_rgba(16,185,129,0.3)]'
-                    : 'bg-slate-200 dark:bg-slate-800/80'
-                }`}
-              />
-            );
-          })}
+        {/* Progress Bar */}
+        <div className="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <div
+            className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500"
+            style={{
+              width: `${Math.min(100, Math.round(((user.todayQuestionsCount || 0) / (user.dailyGoalQuestions || 25)) * 100))}%`
+            }}
+          />
         </div>
 
-        {/* Subtitle */}
-        <p className="text-[11px] sm:text-xs text-slate-500 dark:text-slate-400 font-medium">
-          Keep going! You're on the right track.
-        </p>
+        {/* Subtitle / Status */}
+        <div className="flex items-center justify-between text-[11px] sm:text-xs">
+          <p className="text-slate-500 dark:text-slate-400 font-medium">
+            {completedTasksCount} of {totalTasksCount} daily study tasks completed
+          </p>
+          <span className="font-bold text-emerald-600 dark:text-emerald-400">
+            {Math.min(100, Math.round(((user.todayQuestionsCount || 0) / (user.dailyGoalQuestions || 25)) * 100))}% achieved
+          </span>
+        </div>
       </div>
+
+      {/* Dynamic Streak Motivation Warning or Goal Achieved Alert */}
+      {(user.todayQuestionsCount || 0) === 0 ? (
+        <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-amber-500/15 border border-amber-500/40 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-start sm:items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 text-xl font-black">
+              ⚠️
+            </div>
+            <div className="min-w-0">
+              <p className="text-sm font-black text-amber-700 dark:text-amber-400">
+                Streak toot jayegi!
+              </p>
+              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium">
+                Tumhara goal <strong>{prepType}</strong> crack karne ka hai na? 1 question solve karo aur apni streak bacha lo!
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/practice');
+            }}
+            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto"
+          >
+            Solve 1 Q Now →
+          </button>
+        </div>
+      ) : (user.todayQuestionsCount || 0) >= (user.dailyGoalQuestions || 25) ? (
+        <div className="w-full p-4 rounded-2xl bg-emerald-500/15 border border-emerald-500/40 text-emerald-950 dark:text-emerald-200 flex items-center justify-between gap-3 shadow-xs">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 text-2xl animate-bounce">
+              🎉
+            </div>
+            <div>
+              <p className="text-sm font-black text-emerald-800 dark:text-emerald-300">
+                Congratulations! Today's Goal Completed ({user.todayQuestionsCount}/{user.dailyGoalQuestions || 25} Qs)
+              </p>
+              <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">
+                Shaandar dedication! Tumhara {prepType} crack karne ka dream zaroor poora hoga!
+              </p>
+            </div>
+          </div>
+          <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs shrink-0 shadow-sm">
+            Goal Done ✓
+          </span>
+        </div>
+      ) : null}
 
       {/* ========================================================================= */}
       {/* 4. MOTIVATIONAL SCENIC BANNER CARD                                       */}
@@ -547,61 +598,85 @@ export const Home: React.FC = () => {
         </div>
 
         {/* 3 Subject Cards Side-by-Side */}
-        <div className="grid grid-cols-3 gap-2 sm:gap-3">
-          {/* Subject 1: Physics */}
-          <div
-            onClick={() => navigate('/practice?subject=Physics')}
-            className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
-          >
-            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-900/40 text-[11px] sm:text-xs font-black">
-              <AtomIcon className="w-3.5 h-3.5" />
-              <span>Physics</span>
-            </div>
-            <RadialProgress percentage={62} size={64} />
-            <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
-              320/520
-            </div>
-          </div>
+        {(() => {
+          const realAttempts = testService.getAllAttempts();
+          const realMistakes = userService.getMistakes();
 
-          {/* Subject 2: Chemistry */}
-          <div
-            onClick={() => navigate('/practice?subject=Chemistry')}
-            className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
-          >
-            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-900/40 text-[11px] sm:text-xs font-black">
-              <FlaskIcon className="w-3.5 h-3.5" />
-              <span>Chemistry</span>
-            </div>
-            <RadialProgress percentage={48} size={64} />
-            <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
-              250/520
-            </div>
-          </div>
+          const getSubjMetric = (subName: string) => {
+            const fromMistakes = realMistakes.filter(m => m.subject === subName).length;
+            const fromAttempts = realAttempts.reduce((acc, a) => {
+              const match = a.subjectBreakdown?.find(sb => sb.subject === subName);
+              return acc + (match ? (match.correct + match.wrong) : 0);
+            }, 0);
+            const count = fromMistakes + fromAttempts;
+            const target = 500;
+            const pct = Math.min(100, Math.round((count / target) * 100));
+            return { count, target, pct };
+          };
 
-          {/* Subject 3: Maths or Biology */}
-          <div
-            onClick={() => navigate(`/practice?subject=${prepType === 'NEET' ? 'Biology' : 'Mathematics'}`)}
-            className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
-          >
-            <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-900/40 text-[11px] sm:text-xs font-black">
-              {prepType === 'NEET' ? (
-                <>
-                  <DnaIcon className="w-3.5 h-3.5" />
-                  <span>Biology</span>
-                </>
-              ) : (
-                <>
-                  <SigmaIcon className="w-3.5 h-3.5" />
-                  <span>Maths</span>
-                </>
-              )}
+          const physicsMetric = getSubjMetric('Physics');
+          const chemistryMetric = getSubjMetric('Chemistry');
+          const thirdSubjName = prepType === 'NEET' ? 'Biology' : 'Mathematics';
+          const thirdMetric = getSubjMetric(thirdSubjName);
+
+          return (
+            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+              {/* Subject 1: Physics */}
+              <div
+                onClick={() => navigate('/practice?subject=Physics')}
+                className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
+              >
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-rose-50 dark:bg-rose-950/50 text-rose-600 dark:text-rose-400 border border-rose-200/60 dark:border-rose-900/40 text-[11px] sm:text-xs font-black">
+                  <AtomIcon className="w-3.5 h-3.5" />
+                  <span>Physics</span>
+                </div>
+                <RadialProgress percentage={physicsMetric.pct} size={64} />
+                <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
+                  {physicsMetric.count}/{physicsMetric.target}
+                </div>
+              </div>
+
+              {/* Subject 2: Chemistry */}
+              <div
+                onClick={() => navigate('/practice?subject=Chemistry')}
+                className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
+              >
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 border border-emerald-200/60 dark:border-emerald-900/40 text-[11px] sm:text-xs font-black">
+                  <FlaskIcon className="w-3.5 h-3.5" />
+                  <span>Chemistry</span>
+                </div>
+                <RadialProgress percentage={chemistryMetric.pct} size={64} />
+                <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
+                  {chemistryMetric.count}/{chemistryMetric.target}
+                </div>
+              </div>
+
+              {/* Subject 3: Maths or Biology */}
+              <div
+                onClick={() => navigate(`/practice?subject=${prepType === 'NEET' ? 'Biology' : 'Mathematics'}`)}
+                className="p-2.5 sm:p-3.5 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col items-center text-center space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.98] group"
+              >
+                <div className="flex items-center gap-1.5 px-2 py-0.5 rounded-lg bg-blue-50 dark:bg-blue-950/50 text-blue-600 dark:text-blue-400 border border-blue-200/60 dark:border-blue-900/40 text-[11px] sm:text-xs font-black">
+                  {prepType === 'NEET' ? (
+                    <>
+                      <DnaIcon className="w-3.5 h-3.5" />
+                      <span>Biology</span>
+                    </>
+                  ) : (
+                    <>
+                      <SigmaIcon className="w-3.5 h-3.5" />
+                      <span>Maths</span>
+                    </>
+                  )}
+                </div>
+                <RadialProgress percentage={thirdMetric.pct} size={64} />
+                <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
+                  {thirdMetric.count}/{thirdMetric.target}
+                </div>
+              </div>
             </div>
-            <RadialProgress percentage={55} size={64} />
-            <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
-              290/520
-            </div>
-          </div>
-        </div>
+          );
+        })()}
       </div>
 
       {/* ========================================================================= */}
@@ -621,38 +696,37 @@ export const Home: React.FC = () => {
               Study Streak
             </div>
             <div className="text-lg sm:text-xl font-black text-amber-600 dark:text-amber-400 leading-tight">
-              {user.streakDays || 12} days
+              {user.streakDays || 0} {user.streakDays === 1 ? 'day' : 'days'}
             </div>
             <div className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 leading-tight">
-              Keep it going!
+              {(user.streakDays || 0) > 0 ? 'Keep the fire burning!' : 'Start your streak today!'}
             </div>
           </div>
         </div>
 
         {/* Right: Weekday Checkmark Indicators M T W T F S S */}
         <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {[
-            { day: 'M', completed: true },
-            { day: 'T', completed: true },
-            { day: 'W', completed: true },
-            { day: 'T', completed: true },
-            { day: 'F', completed: true },
-            { day: 'S', completed: true },
-            { day: 'S', completed: false }
-          ].map((item, idx) => (
-            <div key={idx} className="flex flex-col items-center gap-1">
-              <span className="text-[10px] sm:text-[11px] font-bold text-slate-400 dark:text-slate-500">
-                {item.day}
-              </span>
-              {item.completed ? (
-                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-2xs">
-                  <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
-                </div>
-              ) : (
-                <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 border-slate-300 dark:border-slate-700 bg-transparent" />
-              )}
-            </div>
-          ))}
+          {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, idx) => {
+            const todayDayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+            const isToday = idx === todayDayIdx;
+            const isCompleted = isToday
+              ? (user.todayQuestionsCount || 0) > 0
+              : (user.streakDays || 0) > (todayDayIdx - idx) && idx < todayDayIdx;
+            return (
+              <div key={idx} className="flex flex-col items-center gap-1">
+                <span className={`text-[10px] sm:text-[11px] font-bold ${isToday ? 'text-amber-500 font-black' : 'text-slate-400 dark:text-slate-500'}`}>
+                  {day}
+                </span>
+                {isCompleted ? (
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-2xs">
+                    <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+                  </div>
+                ) : (
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 ${isToday ? 'border-amber-400 animate-pulse' : 'border-slate-300 dark:border-slate-700'} bg-transparent`} />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 

@@ -395,20 +395,32 @@ class MockEcosystemService {
   // -------------------------------------------------------------
   public getExamReadiness(exam: ExamType = 'JEE'): ExamReadiness {
     const attempts = testService.getAllAttempts();
-    const avgAcc = attempts.length > 0 
-      ? Math.round(attempts.reduce((sum, a) => sum + a.accuracyPercentage, 0) / attempts.length)
-      : 71;
+    if (attempts.length === 0) {
+      return {
+        exam,
+        score: 0,
+        concepts: 0,
+        accuracy: 0,
+        speed: 0,
+        consistency: 0,
+        hardQuestions: 0,
+        biggestImprovementArea: 'Baseline Diagnostic Needed',
+        recommendedAction: 'Solve your first practice questions or take a diagnostic mock drill to calibrate your readiness index.'
+      };
+    }
+
+    const avgAcc = Math.round(attempts.reduce((sum, a) => sum + a.accuracyPercentage, 0) / attempts.length);
 
     return {
       exam,
       score: Math.min(94, Math.max(45, Math.round(avgAcc * 0.9 + 5))),
-      concepts: 74,
+      concepts: Math.min(95, Math.max(20, Math.round(avgAcc * 0.95))),
       accuracy: avgAcc,
-      speed: 58,
-      consistency: 76,
-      hardQuestions: 49,
-      biggestImprovementArea: 'Speed & Time Management',
-      recommendedAction: 'Complete 3 speed-practice sessions to reduce time drainers in calculation questions.'
+      speed: Math.min(90, Math.max(25, Math.round(avgAcc * 0.8))),
+      consistency: Math.min(95, Math.max(20, Math.round(avgAcc * 0.85))),
+      hardQuestions: Math.min(90, Math.max(15, Math.round(avgAcc * 0.7))),
+      biggestImprovementArea: avgAcc < 50 ? 'Core Conceptual Foundation' : 'Speed & Time Management',
+      recommendedAction: avgAcc < 50 ? 'Review fundamental theory and formula flashcards.' : 'Complete 3 speed-practice sessions to reduce time drainers in calculation questions.'
     };
   }
 
@@ -416,17 +428,18 @@ class MockEcosystemService {
   // 6. WEEKLY STUDY REPORT
   // -------------------------------------------------------------
   public getWeeklyReport(): WeeklyReport {
+    const userProfile = userService.getProfile();
     const attempts = testService.getAllAttempts();
-    const totalQ = attempts.reduce((sum, a) => sum + a.totalQuestions, 0) + 72;
-    const totalSecs = attempts.reduce((sum, a) => sum + a.timeTakenSeconds, 0) + 12000;
+    const totalQ = attempts.reduce((sum, a) => sum + a.totalQuestions, 0) + (userProfile.todayQuestionsCount || 0);
+    const totalSecs = attempts.reduce((sum, a) => sum + a.timeTakenSeconds, 0);
     const avgAcc = attempts.length > 0
       ? Math.round(attempts.reduce((sum, a) => sum + a.accuracyPercentage, 0) / attempts.length)
-      : 72;
+      : (userProfile.overallAccuracy || 0);
 
     return {
-      weekStartDate: 'Monday, 8 Sep 2026',
+      weekStartDate: 'This Week',
       totalQuestions: totalQ,
-      totalTests: Math.max(1, attempts.length),
+      totalTests: attempts.length,
       overallAccuracy: avgAcc,
       totalStudyTimeMinutes: Math.round(totalSecs / 60),
       strongestSubject: 'Chemistry',

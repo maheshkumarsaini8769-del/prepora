@@ -172,9 +172,26 @@ class MockUserService {
     const today = new Date().toISOString().split('T')[0];
 
     profile.lastActiveDate = today;
-    profile.todayQuestionsCount = (profile.todayQuestionsCount || 0) + 1;
+    const prevCount = profile.todayQuestionsCount || 0;
+    profile.todayQuestionsCount = prevCount + 1;
     if (!profile.streakDays || profile.streakDays === 0) {
       profile.streakDays = 1;
+    }
+
+    const dailyTarget = profile.dailyGoalQuestions || 25;
+    if (prevCount < dailyTarget && profile.todayQuestionsCount >= dailyTarget) {
+      this.addNotification({
+        title: '🎉 Daily Goal Completed!',
+        message: `Congratulations! You have completed today's target of ${dailyTarget} questions for ${profile.targetExam}. Outstanding dedication!`,
+        type: 'achievement',
+        isRead: false,
+        timestamp: 'Just now'
+      });
+      window.dispatchEvent(
+        new CustomEvent('prepora:daily_goal_reached', {
+          detail: { goal: dailyTarget, exam: profile.targetExam }
+        })
+      );
     }
 
     // Handle mistake tracking
@@ -283,6 +300,22 @@ class MockUserService {
       }
     ];
     return getStorageItem<NotificationItem[]>(StorageKeys.NOTIFICATIONS, welcomeNotifs);
+  }
+
+  public addNotification(notification: Omit<NotificationItem, 'id'> & { id?: string }): void {
+    const list = this.getNotifications();
+    const newNotif: NotificationItem = {
+      id: notification.id || `notif-${Date.now()}`,
+      title: notification.title,
+      message: notification.message,
+      timestamp: notification.timestamp || 'Just now',
+      isRead: notification.isRead ?? false,
+      type: notification.type || 'practice',
+      actionUrl: notification.actionUrl
+    };
+    list.unshift(newNotif);
+    setStorageItem(StorageKeys.NOTIFICATIONS, list);
+    window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
   }
 
   public markNotificationAsRead(id: string): void {

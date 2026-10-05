@@ -37,9 +37,24 @@ export const ExamReadinessPage: React.FC = () => {
   ];
 
   const subjectBreakdown = [
-    { subject: 'Physics', score: Math.round(readiness.score * 0.92), status: 'Needs Focus', weakTopic: 'Rotational Motion' },
-    { subject: 'Chemistry', score: Math.min(95, Math.round(readiness.score * 1.08)), status: 'Strong', weakTopic: 'Ionic Equilibrium' },
-    { subject: user.targetExam === 'NEET' ? 'Biology' : 'Mathematics', score: Math.round(readiness.score * 0.98), status: 'Stable', weakTopic: user.targetExam === 'NEET' ? 'Genetics' : 'Integral Calculus' }
+    {
+      subject: 'Physics',
+      score: readiness.score === 0 ? 0 : Math.round(readiness.score * 0.92),
+      status: readiness.score === 0 ? 'Diagnostic Needed' : (readiness.score > 75 ? 'Strong' : 'Needs Focus'),
+      weakTopic: readiness.score === 0 ? 'Complete 1st drill' : 'Rotational Motion'
+    },
+    {
+      subject: 'Chemistry',
+      score: readiness.score === 0 ? 0 : Math.min(95, Math.round(readiness.score * 1.08)),
+      status: readiness.score === 0 ? 'Diagnostic Needed' : (readiness.score > 75 ? 'Strong' : 'In Progress'),
+      weakTopic: readiness.score === 0 ? 'Complete 1st drill' : 'Ionic Equilibrium'
+    },
+    {
+      subject: user.targetExam === 'NEET' ? 'Biology' : 'Mathematics',
+      score: readiness.score === 0 ? 0 : Math.round(readiness.score * 0.98),
+      status: readiness.score === 0 ? 'Diagnostic Needed' : 'Stable',
+      weakTopic: readiness.score === 0 ? 'Complete 1st drill' : (user.targetExam === 'NEET' ? 'Genetics' : 'Integral Calculus')
+    }
   ];
 
   return (

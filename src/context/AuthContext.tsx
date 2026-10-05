@@ -451,15 +451,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const canonicalExam = targetExam === 'NEET' ? 'NEET_UG' : targetExam === 'CBSE' ? 'CBSE' : targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
       const activeSubjects = targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'];
 
+      localStorage.removeItem('prepora_test_attempts');
+      localStorage.removeItem('prepora_mistakes');
+
       const authenticatedUser: UserProfile = {
-        ...userService.getProfile(),
         id: fallbackId,
         name: metadata?.name || (cleanPhone ? `Student ${cleanPhone.slice(-4)}` : cleanEmail.split('@')[0]),
         email: cleanEmail,
+        avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
         targetExam,
         classLevel,
         targetYear: metadata?.targetYear || 2026,
-        streakDays: 12,
+        streakDays: 1,
+        todayQuestionsCount: 0,
+        overallAccuracy: 0,
+        testsCompletedCount: 0,
+        dailyGoalQuestions: (metadata as any)?.dailyGoalQuestions || 25,
+        lastActiveDate: new Date().toISOString().split('T')[0],
         preparationProfile: {
           userId: fallbackId,
           preparationType: targetExam,

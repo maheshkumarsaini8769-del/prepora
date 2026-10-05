@@ -18,6 +18,7 @@ import { userService } from '../services/userService';
 import { aiDoubtSolver } from '../services/aiDoubtSolver';
 import { SubjectName, Question } from '../types';
 import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
+import { classifyAcademicQuery } from '../utils/aiAcademicClassifier';
 
 export type TutorMode =
   | 'Learn'
@@ -114,13 +115,7 @@ export const AITeacherPage: React.FC = () => {
 
     const currentMode = modeOverride || activeMode;
 
-    const mismatch = detectSubjectMismatch(textToSend, selectedSubject);
-    if (mismatch) {
-      setMismatchWarning(`Your question mentions "${mismatch.term}", which typically belongs to ${mismatch.detected}. Current subject is ${selectedSubject}.`);
-      setSuggestedSubject(mismatch.detected);
-    } else {
-      setMismatchWarning(null);
-    }
+    const classification = classifyAcademicQuery(textToSend, selectedSubject, user.targetExam);
 
     const studentMsg: ChatMessage = {
       id: `student-${Date.now()}`,
@@ -129,6 +124,30 @@ export const AITeacherPage: React.FC = () => {
       mode: currentMode,
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
     };
+
+    if (classification.isBlockedByExamPolicy) {
+      const blockedReply: ChatMessage = {
+        id: `tutor-blocked-${Date.now()}`,
+        sender: 'tutor',
+        text: `🚫 **Syllabus Policy Alert**: ${classification.blockedPolicyMessage}`,
+        mode: currentMode,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+      };
+      setMessages((prev) => [...prev, studentMsg, blockedReply]);
+      setInputText('');
+      setMismatchWarning(null);
+      return;
+    }
+
+    let activeSubj = selectedSubject;
+    if (classification.autoSubjectConverted) {
+      activeSubj = classification.detectedSubject;
+      setSelectedSubject(classification.detectedSubject);
+      setSelectedChapter(classification.detectedChapter);
+      setMismatchWarning(`Question ${classification.detectedSubject} ka hai! Subject automatically ${classification.detectedSubject} me convert kar diya gaya hai (${classification.detectedChapter}).`);
+    } else {
+      setMismatchWarning(null);
+    }
 
     setMessages((prev) => [...prev, studentMsg]);
     setInputText('');

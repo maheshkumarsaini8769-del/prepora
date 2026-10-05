@@ -43,7 +43,6 @@ import { useAuth } from '../context/AuthContext';
 import { GlobalQuickActionModal } from '../components/common/GlobalQuickActionModal';
 import { StudySessionModal } from '../components/common/StudySessionModal';
 import { ReportTechnicalProblemModal } from '../components/common/ReportTechnicalProblemModal';
-import { ThemeSelector } from '../components/common/ThemeSelector';
 import { NotificationDropdown } from '../components/common/NotificationDropdown';
 import { InstallAppBanner } from '../components/common/InstallAppBanner';
 import { soundFeedback } from '../utils/audioFeedback';
@@ -78,7 +77,20 @@ export const MainLayout: React.FC = () => {
   const { user: authUser, isAuthenticated, logout, setAuthModalOpen, setAuthModalMode } = useAuth();
   const user = authUser || userService.getProfile();
   const [unreadCount, setUnreadCount] = useState<number>(() => userService.getNotifications().filter(n => !n.isRead).length);
+  const [dailyGoalCelebration, setDailyGoalCelebration] = useState<{ open: boolean; goal: number; exam: string } | null>(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleGoalReached = (e: Event) => {
+      const ce = e as CustomEvent<{ goal: number; exam: string }>;
+      if (ce.detail) {
+        soundFeedback.playSuccess();
+        setDailyGoalCelebration({ open: true, goal: ce.detail.goal, exam: ce.detail.exam });
+      }
+    };
+    window.addEventListener('prepora:daily_goal_reached', handleGoalReached);
+    return () => window.removeEventListener('prepora:daily_goal_reached', handleGoalReached);
+  }, []);
 
   // Task 5 Minimal Navigation Hierarchy: 5 Core Primary + Secondary Tools
   const primaryNav = [
@@ -255,22 +267,12 @@ export const MainLayout: React.FC = () => {
             >
               <Menu className="w-5 h-5" />
             </button>
-            <Link to="/" className="flex items-center gap-1.5">
+            <Link to="/" className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
                 P
               </div>
               <span className="font-black text-base tracking-tight text-slate-900 dark:text-white">PREPORA</span>
             </Link>
-            
-            {/* Pill button matching screenshot: JEE ⌵ */}
-            <button
-              type="button"
-              onClick={() => setExamSwitcherOpen(true)}
-              className="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200/80 dark:border-emerald-500/40 text-[11px] font-extrabold hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors"
-            >
-              <span>{user.targetExam || 'JEE'}</span>
-              <ChevronDown className="w-3 h-3 opacity-70" />
-            </button>
           </div>
 
           {/* Desktop Search / Quick Action Trigger */}
@@ -290,7 +292,7 @@ export const MainLayout: React.FC = () => {
             </button>
           </div>
 
-          {/* Right Controls: Dark/Light Mode, Notifications, Profile (Exact Match to Screenshot) */}
+          {/* Right Controls: Dark/Light Mode, Notifications, Profile */}
           <div className="flex items-center gap-2 sm:gap-3">
             {/* Dark / Light Mode Switcher (Moon/Sun) */}
             <button
@@ -305,22 +307,6 @@ export const MainLayout: React.FC = () => {
               ) : (
                 <Moon className="w-4 h-4 text-slate-600" />
               )}
-            </button>
-
-            {/* Live Theme Color Switcher (Desktop) */}
-            <div className="hidden sm:block">
-              <ThemeSelector />
-            </div>
-
-            {/* Target Exam Switcher / Tag (Desktop) */}
-            <button
-              type="button"
-              onClick={() => setExamSwitcherOpen(true)}
-              className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-400 border border-emerald-200/70 dark:border-emerald-500/30 text-xs font-bold hover:bg-emerald-100 dark:hover:bg-emerald-900/40 transition-colors"
-            >
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-              <span>Target: {user.targetExam || 'JEE'} {user.targetYear || 2026}</span>
-              <ChevronDown className="w-3 h-3 text-emerald-600/70" />
             </button>
 
             {/* Quick Action Button */}
@@ -507,20 +493,17 @@ export const MainLayout: React.FC = () => {
               </button>
             </div>
 
-            {/* Mobile Color Mode & Theme Switcher Bar */}
+            {/* Mobile Color Mode Switcher Bar */}
             <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Appearance</span>
-              <div className="flex items-center gap-2">
-                <button
-                  type="button"
-                  onClick={handleToggleColorMode}
-                  className="p-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1"
-                >
-                  {colorMode === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
-                  <span>{colorMode === 'dark' ? 'Dark' : 'Light'}</span>
-                </button>
-                <ThemeSelector compact />
-              </div>
+              <button
+                type="button"
+                onClick={handleToggleColorMode}
+                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1.5"
+              >
+                {colorMode === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
+                <span>{colorMode === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
+              </button>
             </div>
 
             {/* Mobile Nav Links */}
@@ -672,10 +655,31 @@ export const MainLayout: React.FC = () => {
         isOpen={studySessionOpen}
         onClose={() => setStudySessionOpen(false)}
       />
-      <ReportTechnicalProblemModal
-        isOpen={reportTechOpen}
-        onClose={() => setReportTechOpen(false)}
-      />
+      {/* Daily Goal Completed Celebration Modal */}
+      {dailyGoalCelebration?.open && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="bg-white dark:bg-[#0e1620] rounded-3xl p-6 sm:p-8 max-w-sm w-full text-center space-y-4 border border-emerald-500/40 shadow-2xl animate-in zoom-in-95 duration-200">
+            <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-900/50 text-emerald-600 dark:text-emerald-400 mx-auto flex items-center justify-center text-3xl animate-bounce">
+              🎉
+            </div>
+            <div>
+              <h3 className="text-xl font-black text-slate-900 dark:text-white">
+                Daily Goal Completed!
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
+                Congratulations {user.name.split(' ')[0]}! Aaj ka daily goal of <strong>{dailyGoalCelebration.goal} questions</strong> complete ho gaya hai. Tumhara <strong>{dailyGoalCelebration.exam}</strong> crack karne ka sapna zaroor poora hoga! 🚀
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setDailyGoalCelebration(null)}
+              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md transition-all cursor-pointer"
+            >
+              Keep Learning
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* PWA Mobile Install Prompt */}
       <InstallAppBanner />

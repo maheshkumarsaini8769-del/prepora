@@ -2,43 +2,57 @@ import React from 'react';
 
 export interface HeroStudentIllustrationProps {
   examLabel?: string;
+  classLevel?: string;
   year?: number | string;
   isDark?: boolean;
 }
 
 /**
  * Authentic Prepora Student Mascot Illustration
- * Uses the exact digital artwork extracted from the reference design mockup:
- * - Light Mode: Student studying with laptop, books & emerald aura
- * - Dark Mode: Student in obsidian room with neon teal aura & laptop
+ * Supports 4 customized exam avatars:
+ * 1. NEET 2026: Medical student with NCERT Biology, stethoscope, and mint glow
+ * 2. Class 11: Foundation student with Class 11 backpack, books, and notebook
+ * 3. Class 12: Board & Entrance exam student with desk setup, guidebooks, and laptop
+ * 4. JEE Main/Advanced: Classic Prepora mascot with laptop and target badge
  */
 export const HeroStudentIllustration: React.FC<HeroStudentIllustrationProps> = ({
   examLabel = 'JEE',
+  classLevel = '12',
   year = 2026,
   isDark = false,
 }) => {
-  const isCustomExam = examLabel && examLabel !== 'JEE';
+  const normExam = (examLabel || '').toUpperCase();
+  const normClass = (classLevel || '').toString();
+
+  let imageSrc = isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_light.png';
+  let isJpegAsset = false;
+
+  if (normExam.includes('NEET')) {
+    imageSrc = '/assets/home/hero_student_neet.jpg';
+    isJpegAsset = true;
+  } else if (normClass === '11' || normExam.includes('11')) {
+    imageSrc = '/assets/home/hero_student_11.jpg';
+    isJpegAsset = true;
+  } else if (normClass === '12' || normExam.includes('12') || normExam.includes('CBSE') || normExam.includes('RBSE')) {
+    imageSrc = '/assets/home/hero_student_12.jpg';
+    isJpegAsset = true;
+  }
 
   return (
     <div className="relative select-none flex items-center justify-end shrink-0">
       {/* Real High-Resolution Mascot Artwork */}
       <img
-        src={isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_light.png'}
-        alt="Prepora Student Mascot"
-        className={`w-32 sm:w-40 md:w-44 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-all duration-300 rounded-2xl ${
-          isDark ? '' : 'mix-blend-multiply dark:mix-blend-normal'
+        src={imageSrc}
+        alt={`Prepora ${examLabel} Student Mascot`}
+        className={`w-32 sm:w-40 md:w-48 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-all duration-300 rounded-2xl ${
+          isJpegAsset
+            ? 'shadow-lg border border-emerald-500/20 ring-1 ring-emerald-500/10'
+            : isDark
+            ? ''
+            : 'mix-blend-multiply dark:mix-blend-normal'
         }`}
         loading="eager"
       />
-
-      {/* Dynamic Target Exam badge overlay if student is preparing for NEET/CBSE/RBSE instead of JEE */}
-      {isCustomExam && (
-        <div
-          className="absolute top-2 left-1 rotate-[-12deg] bg-emerald-600/95 dark:bg-emerald-500/95 text-white font-black text-[10px] sm:text-xs px-2 py-0.5 rounded-md shadow-md backdrop-blur-xs select-none pointer-events-none tracking-tight animate-in fade-in zoom-in-95 duration-200"
-        >
-          {examLabel} {year}
-        </div>
-      )}
     </div>
   );
 };

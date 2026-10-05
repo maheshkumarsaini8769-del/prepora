@@ -26,6 +26,7 @@ export const AuthModal: React.FC = () => {
 
   const [targetExam, setTargetExam] = useState<PreparationType>('JEE');
   const [classLevel, setClassLevel] = useState<ClassLevel | 'Dropper'>('12');
+  const [dailyGoal, setDailyGoal] = useState<number>(25);
 
   const [step, setStep] = useState<'enter-identifier' | 'enter-otp'>('enter-identifier');
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -79,8 +80,9 @@ export const AuthModal: React.FC = () => {
       const res = await verifyOtp(identifier, otp.trim(), {
         targetExam,
         classLevel: classLevel as any,
-        targetYear: 2026
-      });
+        targetYear: 2026,
+        dailyGoalQuestions: dailyGoal
+      } as any);
       setIsLoading(false);
 
       if (res.success) {
@@ -253,6 +255,29 @@ export const AuthModal: React.FC = () => {
                       }`}
                     >
                       {lvl === 'Dropper' ? 'Dropper' : `Class ${lvl}`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
+                <span className="flex items-center gap-1">
+                  <Zap className="w-3.5 h-3.5 text-amber-500" />
+                  Daily Goal:
+                </span>
+                <div className="flex gap-1">
+                  {[15, 25, 50, 100].map((dg) => (
+                    <button
+                      key={dg}
+                      type="button"
+                      onClick={() => setDailyGoal(dg)}
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
+                        dailyGoal === dg
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+                      }`}
+                    >
+                      {dg} Qs
                     </button>
                   ))}
                 </div>

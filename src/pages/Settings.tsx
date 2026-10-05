@@ -21,18 +21,19 @@ import { Card, Badge, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
 import { ExamType, ClassLevel } from '../types';
-import { THEME_OPTIONS, ThemeKey, getSavedTheme, applyTheme } from '../utils/theme';
+import { getColorMode, applyColorMode, ColorMode } from '../utils/theme';
+import { getAllowedSubjectsForExam } from '../utils/examUtils';
 
 export const Settings: React.FC = () => {
   const navigate = useNavigate();
   const profile = userService.getProfile();
-  const [activeTheme, setActiveTheme] = useState<ThemeKey>(getSavedTheme());
+  const [currColorMode, setCurrColorMode] = useState<ColorMode>(getColorMode);
 
   const [name, setName] = useState(profile.name);
   const [exam, setExam] = useState<ExamType>(profile.targetExam);
   const [classLevel, setClassLevel] = useState<ClassLevel>(profile.classLevel);
   const [targetYear, setTargetYear] = useState<number>(profile.targetYear);
-  const [dailyGoal, setDailyGoal] = useState<number>(profile.dailyGoalQuestions);
+  const [dailyGoal, setDailyGoal] = useState<number>(profile.dailyGoalQuestions || 25);
   const [savedSuccess, setSavedSuccess] = useState(false);
 
   const handleSave = () => {
@@ -123,34 +124,79 @@ export const Settings: React.FC = () => {
           />
         </div>
 
-        {/* Target Exam */}
+        {/* Primary Target Exam Selector (Full Stream Support) */}
         <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
-            Primary Target Examination
+          <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-2">
+            Target Examination & Syllabus Stream
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {(['JEE', 'NEET', 'CBSE', 'RBSE'] as ExamType[]).map((e) => (
-              <button
-                key={e}
-                type="button"
-                onClick={() => setExam(e)}
-                className={`py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
-                  exam === e
-                    ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
-                    : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
-                }`}
-              >
-                {e}
-              </button>
-            ))}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+            {[
+              {
+                id: 'JEE',
+                title: 'JEE (Main & Advanced)',
+                desc: 'Physics • Chemistry • Mathematics (Engineering)',
+                badge: 'PCM'
+              },
+              {
+                id: 'NEET',
+                title: 'NEET (UG)',
+                desc: 'Physics • Chemistry • Biology (Medical)',
+                badge: 'PCB'
+              },
+              {
+                id: 'CBSE',
+                title: 'CBSE Board',
+                desc: 'Central Board of Secondary Education Class 11 & 12',
+                badge: 'CBSE'
+              },
+              {
+                id: 'RBSE',
+                title: 'RBSE Board',
+                desc: 'Rajasthan Board of Secondary Education Class 11 & 12',
+                badge: 'RBSE'
+              }
+            ].map((e) => {
+              const isSelected = exam === e.id;
+              return (
+                <button
+                  key={e.id}
+                  type="button"
+                  onClick={() => setExam(e.id as ExamType)}
+                  className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+                    isSelected
+                      ? 'bg-emerald-50/90 dark:bg-emerald-950/60 border-emerald-500 ring-2 ring-emerald-500/20 shadow-xs'
+                      : 'bg-white dark:bg-[#0c131a] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                  }`}
+                >
+                  <div className="space-y-0.5">
+                    <div className="flex items-center gap-2">
+                      <span className={`text-xs font-black ${isSelected ? 'text-emerald-900 dark:text-emerald-300' : 'text-slate-800 dark:text-slate-200'}`}>
+                        {e.title}
+                      </span>
+                      <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                        {e.badge}
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                      {e.desc}
+                    </p>
+                  </div>
+                  {isSelected && (
+                    <div className="w-5 h-5 rounded-full bg-emerald-600 text-white flex items-center justify-center shrink-0">
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
+                    </div>
+                  )}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Class Level */}
+        {/* Class Level & Target Year */}
         <div className="grid grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
-              Class
+              Class Level
             </label>
             <div className="grid grid-cols-2 gap-2">
               {(['11', '12'] as ClassLevel[]).map((c) => (
@@ -158,10 +204,10 @@ export const Settings: React.FC = () => {
                   key={c}
                   type="button"
                   onClick={() => setClassLevel(c)}
-                  className={`py-2 rounded-xl text-xs font-bold border transition-all ${
+                  className={`py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
                     classLevel === c
-                      ? 'bg-brand-50 border-brand-500 text-brand-700 shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-800 dark:text-emerald-300 shadow-sm'
+                      : 'bg-white dark:bg-[#0c131a] border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50'
                   }`}
                 >
                   Class {c}
@@ -178,85 +224,117 @@ export const Settings: React.FC = () => {
               type="number"
               value={targetYear}
               onChange={(e) => setTargetYear(parseInt(e.target.value, 10))}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
+              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
             />
           </div>
         </div>
 
         {/* Daily Goal */}
-        <div>
-          <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider mb-1.5">
-            Daily Practice Target ({dailyGoal} questions / day)
-          </label>
+        <div className="space-y-2">
+          <div className="flex items-center justify-between">
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider">
+              Daily Practice Target
+            </label>
+            <span className="text-xs font-black text-emerald-600 dark:text-emerald-400">
+              {dailyGoal} questions / day
+            </span>
+          </div>
+
+          <div className="grid grid-cols-4 gap-2">
+            {[15, 25, 50, 100].map((goalNum) => (
+              <button
+                key={goalNum}
+                type="button"
+                onClick={() => setDailyGoal(goalNum)}
+                className={`py-2 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                  dailyGoal === goalNum
+                    ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-800 dark:text-emerald-300 shadow-xs'
+                    : 'bg-white dark:bg-[#0c131a] border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50'
+                }`}
+              >
+                {goalNum} Qs {goalNum === 25 ? '⭐' : ''}
+              </button>
+            ))}
+          </div>
+
           <input
             type="range"
             min={5}
-            max={50}
+            max={100}
             step={5}
             value={dailyGoal}
             onChange={(e) => setDailyGoal(parseInt(e.target.value, 10))}
-            className="w-full accent-brand-600"
+            className="w-full accent-emerald-600 mt-2"
           />
         </div>
 
-        <div className="pt-4 border-t border-slate-100 flex justify-end">
+        <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-end">
           <Button variant="primary" onClick={handleSave} className="font-bold text-xs px-6">
             <Save className="w-4 h-4" /> Save Preferences
           </Button>
         </div>
       </Card>
 
-      {/* Website Appearance & Color Theme */}
+      {/* Website Appearance: Light & Dark Theme */}
       <Card className="space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 pb-3">
-          <div>
-            <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
-              <Palette className="w-4 h-4 text-brand-600" />
-              <span>Website Theme & Accent Colors</span>
-            </h3>
-            <p className="text-xs text-slate-500 mt-0.5">
-              Choose your preferred visual palette. Updates buttons, badges, navigation, and charts instantly across PREPORA.
-            </p>
-          </div>
-          <Badge variant="brand" size="sm">Active: {THEME_OPTIONS.find(t => t.key === activeTheme)?.name}</Badge>
+        <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
+          <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
+            <Moon className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+            <span>Appearance & Display Mode</span>
+          </h3>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Switch between crisp daytime light theme and eye-friendly deep dark mode.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-          {THEME_OPTIONS.map((theme) => {
-            const isSelected = activeTheme === theme.key;
-            return (
-              <button
-                key={theme.key}
-                type="button"
-                onClick={() => {
-                  applyTheme(theme.key);
-                  setActiveTheme(theme.key);
-                }}
-                className={`p-3 rounded-xl border text-left transition-all flex items-center justify-between ${
-                  isSelected
-                    ? 'border-brand-600 bg-brand-50/80 text-brand-950 ring-2 ring-brand-500/20 shadow-xs font-bold'
-                    : 'border-slate-200 hover:border-slate-300 bg-white text-slate-700'
-                }`}
-              >
-                <div className="flex items-center gap-2.5">
-                  <span
-                    className="w-6 h-6 rounded-lg shadow-2xs shrink-0 ring-1 ring-black/10 flex items-center justify-center text-white text-xs font-bold"
-                    style={{ backgroundColor: theme.primaryColor }}
-                  >
-                    {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                  </span>
-                  <div>
-                    <div className="text-xs font-bold leading-tight">{theme.name}</div>
-                    <div className="text-[10px] text-slate-400 mt-0.5 leading-tight">{theme.subtitle}</div>
-                  </div>
-                </div>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              applyColorMode('light');
+              setCurrColorMode('light');
+            }}
+            className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+              currColorMode === 'light'
+                ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-500 ring-2 ring-emerald-500/20 font-bold'
+                : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg">
+                ☀️
+              </div>
+              <div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">Light Mode</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">Crisp daytime clarity</div>
+              </div>
+            </div>
+            {currColorMode === 'light' && <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />}
+          </button>
 
-                {isSelected && (
-                  <span className="text-[11px] font-black text-brand-600">Selected</span>
-                )}
-              </button>
-            );
-          })}
+          <button
+            type="button"
+            onClick={() => {
+              applyColorMode('dark');
+              setCurrColorMode('dark');
+            }}
+            className={`p-4 rounded-2xl border text-left transition-all cursor-pointer flex items-center justify-between ${
+              currColorMode === 'dark'
+                ? 'bg-emerald-50/80 dark:bg-emerald-950/40 border-emerald-500 ring-2 ring-emerald-500/20 font-bold'
+                : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300'
+            }`}
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-indigo-950/80 text-indigo-400 flex items-center justify-center text-lg">
+                🌙
+              </div>
+              <div>
+                <div className="text-xs font-bold text-slate-900 dark:text-white">Dark Mode</div>
+                <div className="text-[10px] text-slate-400 mt-0.5">Deep obsidian contrast</div>
+              </div>
+            </div>
+            {currColorMode === 'dark' && <Check className="w-4 h-4 text-emerald-600 stroke-[3]" />}
+          </button>
         </div>
       </Card>
 

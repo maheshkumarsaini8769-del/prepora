@@ -21,6 +21,7 @@ import { DoubtItem, SubjectName } from '../types';
 import { MathRenderer } from '../components/common/MathRenderer';
 import { userService } from '../services/userService';
 import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
+import { classifyAcademicQuery } from '../utils/aiAcademicClassifier';
 
 export const DoubtCenter: React.FC = () => {
   const navigate = useNavigate();
@@ -38,6 +39,9 @@ export const DoubtCenter: React.FC = () => {
   const [aiSubject, setAiSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
   const [aiChapter, setAiChapter] = useState('Kinematics');
   const [isSolving, setIsSolving] = useState(false);
+  const [policyBlockedError, setPolicyBlockedError] = useState<string | null>(null);
+  const [autoSwitchedNotice, setAutoSwitchedNotice] = useState<string | null>(null);
+  const [detectedChapterTag, setDetectedChapterTag] = useState<string>('Auto-detected by AI');
   const [currentSolution, setCurrentSolution] = useState<SolvedDoubtResponse | null>(null);
   const [savedToNotesMsg, setSavedToNotesMsg] = useState(false);
   const [addedToRevisionMsg, setAddedToRevisionMsg] = useState(false);
@@ -80,18 +84,40 @@ export const DoubtCenter: React.FC = () => {
     const query = customQuery || aiQuestion;
     if (!query.trim() && !uploadedImage) return;
 
+    setPolicyBlockedError(null);
+    setAutoSwitchedNotice(null);
+
+    // AI Academic Classification & Policy Verification
+    const classification = classifyAcademicQuery(query, aiSubject, user.targetExam);
+
+    if (classification.isBlockedByExamPolicy) {
+      setPolicyBlockedError(classification.blockedPolicyMessage || 'Exam syllabus restriction.');
+      return;
+    }
+
+    let effectiveSubject = aiSubject;
+    if (classification.autoSubjectConverted) {
+      effectiveSubject = classification.detectedSubject;
+      setAiSubject(classification.detectedSubject);
+      setAutoSwitchedNotice(`Question ${classification.detectedSubject} ka hai! Subject automatically ${classification.detectedSubject} me convert ho gaya (${classification.detectedChapter}).`);
+    }
+
+    const effectiveChapter = classification.detectedChapter || aiChapter || 'Fundamental Principles';
+    setDetectedChapterTag(effectiveChapter);
+    setAiChapter(effectiveChapter);
+
     setIsSolving(true);
     setSavedToNotesMsg(false);
     setAddedToRevisionMsg(false);
 
     try {
       if (solverMode === 'hints') {
-        const hints = await aiDoubtSolver.getProgressiveHintsOnline(query, aiSubject, aiChapter);
+        const hints = await aiDoubtSolver.getProgressiveHintsOnline(query, effectiveSubject, effectiveChapter);
         setHintsData(hints);
         setCurrentHintLevel(1);
       }
 
-      const solution = await aiDoubtSolver.solveDoubtOnline(query, aiSubject, aiChapter, {
+      const solution = await aiDoubtSolver.solveDoubtOnline(query, effectiveSubject, effectiveChapter, {
         imageBase64: uploadedImage || undefined,
         followUpMode: followUpPrompt
       });
@@ -228,12 +254,36 @@ export const DoubtCenter: React.FC = () => {
                 </div>
               </div>
 
+              {/* Policy Blocked Error Alert (e.g. JEE student asking Bio) */}
+              {policyBlockedError && (
+                <div className="p-3.5 rounded-2xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900/60 text-rose-800 dark:text-rose-200 text-xs flex items-start gap-2.5 animate-in fade-in duration-200">
+                  <span className="text-base shrink-0">🚫</span>
+                  <div>
+                    <strong className="block font-black text-rose-900 dark:text-rose-100 mb-0.5">Syllabus Restriction</strong>
+                    <span className="leading-relaxed">{policyBlockedError}</span>
+                  </div>
+                </div>
+              )}
+
+              {/* Auto-Switched Notice (e.g. user selected Physics but asked Chemistry) */}
+              {autoSwitchedNotice && (
+                <div className="p-3 rounded-2xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-200 text-xs flex items-center gap-2 animate-in fade-in duration-200">
+                  <span className="text-base shrink-0">🔄</span>
+                  <span className="font-semibold leading-relaxed">{autoSwitchedNotice}</span>
+                </div>
+              )}
+
+              {/* Simplified Selection: Student chooses Subject, AI Auto-Detects Chapter */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                 <div>
-                  <label className="block font-semibold text-slate-600 mb-1">Subject</label>
+                  <label className="block font-semibold text-slate-600 dark:text-slate-300 mb-1">Select Subject</label>
                   <select
                     value={aiSubject}
-                    onChange={(e) => setAiSubject(e.target.value as SubjectName)}
+                    onChange={(e) => {
+                      setAiSubject(e.target.value as SubjectName);
+                      setPolicyBlockedError(null);
+                      setAutoSwitchedNotice(null);
+                    }}
                     className="w-full font-medium px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
                   >
                     {allowedSubjects.map((s) => (
@@ -243,14 +293,13 @@ export const DoubtCenter: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block font-semibold text-slate-600 mb-1">Chapter</label>
-                  <input
-                    type="text"
-                    value={aiChapter}
-                    onChange={(e) => setAiChapter(e.target.value)}
-                    placeholder="e.g. Kinematics, Thermodynamics..."
-                    className="w-full font-medium px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
-                  />
+                  <label className="block font-semibold text-slate-600 dark:text-slate-300 mb-1">
+                    AI Chapter Auto-Detection
+                  </label>
+                  <div className="w-full flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 font-semibold truncate">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 animate-pulse" />
+                    <span className="truncate">{detectedChapterTag}</span>
+                  </div>
                 </div>
               </div>
 
