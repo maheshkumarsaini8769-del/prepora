@@ -129,7 +129,7 @@ export const ChapterDetail: React.FC = () => {
               size="sm"
               variant="primary"
               onClick={() => navigate(`/practice?chapter=${encodeURIComponent(chapterName)}`)}
-              className="py-2 px-3 bg-slate-900 hover:bg-black text-white font-semibold text-xs rounded-lg"
+              className="py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg cursor-pointer shadow-sm shadow-emerald-600/20"
             >
               Practice Chapter
             </Button>
@@ -409,7 +409,7 @@ export const ChapterDetail: React.FC = () => {
                             `/practice?chapter=${encodeURIComponent(chapterName)}&topic=${encodeURIComponent(t)}`
                           )
                         }
-                        className="py-1.5 px-3 bg-slate-900 hover:bg-black text-white font-semibold text-xs rounded-lg"
+                        className="py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg cursor-pointer shadow-sm shadow-emerald-600/20"
                       >
                         Practice Topic
                       </Button>

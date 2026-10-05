@@ -1027,7 +1027,7 @@ export const ExamSession: React.FC = () => {
               variant="primary"
               size="sm"
               onClick={() => setShowTabWarningModal(false)}
-              className="w-full bg-slate-900 hover:bg-black text-white font-bold py-2.5 rounded-xl justify-center"
+              className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2.5 rounded-xl justify-center cursor-pointer shadow-md shadow-emerald-600/20"
             >
               I Understand, Resume Exam
             </Button>

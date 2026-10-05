@@ -328,9 +328,9 @@ export const BuildMyTest: React.FC = () => {
                 key={e}
                 type="button"
                 onClick={() => handleExamChange(e)}
-                className={`py-2 px-3 rounded-lg text-xs font-semibold border transition-all ${
+                className={`py-2 px-3 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                   exam === e
-                    ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
                     : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                 }`}
               >
@@ -353,9 +353,9 @@ export const BuildMyTest: React.FC = () => {
                   key={sub}
                   type="button"
                   onClick={() => toggleSubject(sub)}
-                  className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all flex items-center justify-between ${
+                  className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all flex items-center justify-between cursor-pointer ${
                     isSelected
-                      ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                      ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
                       : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                   }`}
                 >
@@ -414,9 +414,9 @@ export const BuildMyTest: React.FC = () => {
                 key={d}
                 type="button"
                 onClick={() => setDifficulty(d)}
-                className={`py-2 px-2 rounded-lg text-xs font-semibold border transition-all ${
+                className={`py-2 px-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                   difficulty === d
-                    ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
                     : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                 }`}
               >
@@ -437,9 +437,9 @@ export const BuildMyTest: React.FC = () => {
                 key={num}
                 type="button"
                 onClick={() => handleQuestionCountSelect(num)}
-                className={`py-2 rounded-lg text-xs font-semibold border transition-all ${
+                className={`py-2 rounded-lg text-xs font-semibold border transition-all cursor-pointer ${
                   questionCount === num && !customCountInput
-                    ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
                     : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                 }`}
               >
@@ -513,7 +513,7 @@ export const BuildMyTest: React.FC = () => {
             variant="primary"
             onClick={() => handleGenerateTest()}
             disabled={effectiveAvailableCount === 0}
-            className="w-full py-3 bg-slate-900 hover:bg-black text-white font-bold rounded-xl flex items-center justify-center gap-2"
+            className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-emerald-600/20"
           >
             <span>Start Test</span>
             <ArrowRight className="w-4 h-4" />
@@ -525,7 +525,7 @@ export const BuildMyTest: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowAdvanced(!showAdvanced)}
-            className="w-full flex items-center justify-between text-xs font-semibold text-slate-500 hover:text-slate-800 py-1"
+            className="w-full flex items-center justify-between text-xs font-semibold text-slate-500 hover:text-slate-800 py-1 cursor-pointer"
           >
             <span className="flex items-center gap-1.5">
               <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -550,9 +550,9 @@ export const BuildMyTest: React.FC = () => {
                           setSelectedChapter('ALL');
                           setSelectedTopic('ALL');
                         }}
-                        className={`py-1.5 rounded-lg border text-xs font-semibold ${
+                        className={`py-1.5 rounded-lg border text-xs font-semibold cursor-pointer ${
                           classLevel === c
-                            ? 'bg-slate-900 text-white border-slate-900'
+                            ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
                             : 'bg-white border-slate-200 text-slate-700'
                         }`}
                       >
@@ -571,9 +571,9 @@ export const BuildMyTest: React.FC = () => {
                         key={mins}
                         type="button"
                         onClick={() => setDurationMinutes(mins)}
-                        className={`py-1.5 rounded-lg border text-xs font-semibold ${
+                        className={`py-1.5 rounded-lg border text-xs font-semibold cursor-pointer ${
                           durationMinutes === mins
-                            ? 'bg-slate-900 text-white border-slate-900'
+                            ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
                             : 'bg-white border-slate-200 text-slate-700'
                         }`}
                       >
@@ -665,7 +665,7 @@ export const BuildMyTest: React.FC = () => {
                 type="button"
                 disabled={isGeneratingAI}
                 onClick={handleGenerateMoreWithAI}
-                className="w-full py-2.5 px-3 rounded-lg bg-slate-900 hover:bg-black text-white font-semibold text-xs flex items-center justify-between transition-colors"
+                className="w-full py-2.5 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs flex items-center justify-between transition-colors cursor-pointer shadow-md shadow-emerald-600/20"
               >
                 <span className="flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5" />

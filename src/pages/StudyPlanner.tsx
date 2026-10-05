@@ -269,7 +269,7 @@ export const StudyPlanner: React.FC = () => {
             size="sm"
             variant="primary"
             onClick={handleOpenAdd}
-            className="text-xs font-semibold py-2 px-3 bg-slate-900 hover:bg-black text-white flex items-center gap-1.5"
+            className="text-xs font-semibold py-2 px-3 bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 cursor-pointer shadow-sm shadow-emerald-600/20"
           >
             <Plus className="w-3.5 h-3.5" />
             <span>Add Task</span>
@@ -522,7 +522,7 @@ export const StudyPlanner: React.FC = () => {
             <Button variant="outline" size="sm" onClick={() => setShowAddModal(false)}>
               Cancel
             </Button>
-            <Button variant="primary" size="sm" onClick={handleAddTask} className="bg-slate-900 hover:bg-black text-white">
+            <Button variant="primary" size="sm" onClick={handleAddTask} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer">
               {editingTaskId ? 'Save Changes' : 'Add Slot'}
             </Button>
           </div>

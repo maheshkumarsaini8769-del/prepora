@@ -382,7 +382,7 @@ export const DoubtCenter: React.FC = () => {
                   type="submit"
                   variant="primary"
                   disabled={isSolving || (!aiQuestion.trim() && !uploadedImage)}
-                  className="w-full sm:w-auto bg-slate-900 hover:bg-black text-white font-bold text-xs py-2.5 px-6 rounded-xl flex items-center justify-center gap-1.5 shadow-xs"
+                  className="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs py-2.5 px-6 rounded-xl flex items-center justify-center gap-1.5 shadow-md shadow-emerald-600/20 cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
                   <span>{isSolving ? 'Solving Doubt...' : 'Solve with AI'}</span>
@@ -552,7 +552,7 @@ export const DoubtCenter: React.FC = () => {
             <Button
               variant="primary"
               onClick={() => setShowAskModal(true)}
-              className="font-semibold text-xs py-1.5 px-3 bg-slate-900 hover:bg-black text-white"
+              className="font-semibold text-xs py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer"
             >
               <Plus className="w-3.5 h-3.5 mr-1" /> Ask Question
             </Button>
@@ -604,7 +604,7 @@ export const DoubtCenter: React.FC = () => {
             <Button variant="outline" onClick={() => setShowAskModal(false)}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handlePostDoubt} className="bg-slate-900 hover:bg-black text-white">
+            <Button variant="primary" onClick={handlePostDoubt} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer">
               Submit
             </Button>
           </div>

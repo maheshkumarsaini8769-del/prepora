@@ -231,10 +231,10 @@ export const Practice: React.FC = () => {
                 key={d}
                 type="button"
                 onClick={() => setDifficulty(d)}
-                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center ${
+                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center cursor-pointer ${
                   difficulty === d
-                    ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-600/20'
+                    : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
               >
                 {d}
@@ -257,10 +257,10 @@ export const Practice: React.FC = () => {
                   setQuestionCount(num);
                   setCustomCountInput('');
                 }}
-                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center ${
+                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center cursor-pointer ${
                   questionCount === num && customCountInput === ''
-                    ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-600/20'
+                    : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
                 }`}
               >
                 {num} Qs
@@ -272,10 +272,10 @@ export const Practice: React.FC = () => {
                 if (!customCountInput) setCustomCountInput('40');
                 setQuestionCount(Number(customCountInput) || 40);
               }}
-              className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center ${
+              className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center cursor-pointer ${
                 customCountInput !== ''
-                  ? 'bg-slate-900 border-slate-900 text-white shadow-xs'
-                  : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-600/20'
+                  : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
               }`}
             >
               Custom
@@ -385,7 +385,7 @@ export const Practice: React.FC = () => {
                 variant="primary"
                 onClick={handleGenerateMoreWithAI}
                 disabled={isGeneratingAI}
-                className="text-xs font-bold bg-amber-900 hover:bg-black text-white flex items-center gap-1.5"
+                className="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-600/20"
               >
                 <Sparkles className="w-3.5 h-3.5" />
                 <span>{isGeneratingAI ? 'Generating...' : `Generate ${questionCount - effectiveAvailableCount} More`}</span>
@@ -406,7 +406,7 @@ export const Practice: React.FC = () => {
             variant="primary"
             onClick={() => handleStartPractice()}
             disabled={effectiveAvailableCount === 0}
-            className="w-full sm:w-auto font-bold text-xs bg-slate-900 hover:bg-slate-800 text-white px-8 py-3 shadow-xs flex items-center justify-center gap-2"
+            className="w-full sm:w-auto font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 shadow-md shadow-emerald-600/25 flex items-center justify-center gap-2 cursor-pointer"
           >
             <span>Start Practice</span>
             <ArrowRight className="w-4 h-4" />

@@ -10,18 +10,18 @@ export interface ThemeOption {
 
 export const THEME_OPTIONS: ThemeOption[] = [
   {
-    key: 'black',
-    name: 'Monochrome Minimalist (Default)',
-    subtitle: 'High contrast clean slate & black per design reference',
-    primaryColor: '#111111',
-    previewGradient: 'from-zinc-900 to-zinc-700',
-  },
-  {
     key: 'emerald',
-    name: 'Emerald Mint',
+    name: 'Emerald Mint (Default)',
     subtitle: 'High Calm & Exam Focus • Medical/NEET & JEE',
     primaryColor: '#059669',
     previewGradient: 'from-emerald-600 to-teal-600',
+  },
+  {
+    key: 'black',
+    name: 'Monochrome Minimalist',
+    subtitle: 'High contrast clean slate & black per design reference',
+    primaryColor: '#111111',
+    previewGradient: 'from-zinc-900 to-zinc-700',
   },
   {
     key: 'blue',
@@ -53,16 +53,16 @@ export const THEME_OPTIONS: ThemeOption[] = [
   },
 ];
 
-const VERSION_KEY = 'prepora_theme_version_v6';
+const VERSION_KEY = 'prepora_theme_version_v7_emerald';
 const STORAGE_KEY = 'prepora_color_theme';
 
 export function getSavedTheme(): ThemeKey {
   try {
     const v = localStorage.getItem(VERSION_KEY);
-    if (v !== '6.0_monochrome') {
-      localStorage.setItem(VERSION_KEY, '6.0_monochrome');
-      localStorage.setItem(STORAGE_KEY, 'black');
-      return 'black';
+    if (v !== '7.0_emerald_green') {
+      localStorage.setItem(VERSION_KEY, '7.0_emerald_green');
+      localStorage.setItem(STORAGE_KEY, 'emerald');
+      return 'emerald';
     }
     const saved = localStorage.getItem(STORAGE_KEY) as ThemeKey;
     if (saved && THEME_OPTIONS.some(t => t.key === saved)) {
@@ -71,7 +71,7 @@ export function getSavedTheme(): ThemeKey {
   } catch (e) {
     // fallback
   }
-  return 'black';
+  return 'emerald';
 }
 
 export function applyTheme(themeKey: ThemeKey) {

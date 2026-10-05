@@ -112,7 +112,7 @@ export const MistakeBook: React.FC = () => {
             variant="primary"
             size="sm"
             onClick={() => navigate('/practice?fixWeakness=true')}
-            className="text-xs font-semibold py-2 px-3.5 bg-slate-900 hover:bg-black text-white flex items-center gap-1.5"
+            className="text-xs font-semibold py-2 px-3.5 bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 cursor-pointer shadow-sm shadow-emerald-600/20"
           >
             <span>Fix My Weakness</span>
             <ArrowRight className="w-3.5 h-3.5" />
@@ -270,7 +270,7 @@ export const MistakeBook: React.FC = () => {
                       variant="primary"
                       size="sm"
                       onClick={() => handleStartRetry(m)}
-                      className="text-xs font-semibold py-1 px-3 bg-slate-900 hover:bg-black text-white"
+                      className="text-xs font-semibold py-1 px-3 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer shadow-sm shadow-emerald-600/20"
                     >
                       <RotateCcw className="w-3.5 h-3.5 mr-1" /> Retry
                     </Button>
@@ -345,7 +345,7 @@ export const MistakeBook: React.FC = () => {
                 variant="primary"
                 onClick={handleCheckRetry}
                 disabled={retryAnswer === null}
-                className="font-semibold bg-slate-900 hover:bg-black text-white"
+                className="font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer"
               >
                 Check Answer
               </Button>
@@ -428,7 +428,7 @@ export const MistakeBook: React.FC = () => {
             <Button variant="outline" onClick={() => setEditingMistake(null)}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSaveTag} className="bg-slate-900 hover:bg-black text-white">
+            <Button variant="primary" onClick={handleSaveTag} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer">
               Save
             </Button>
           </div>

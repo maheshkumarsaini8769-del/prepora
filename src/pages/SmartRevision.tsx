@@ -272,7 +272,7 @@ export const SmartRevision: React.FC = () => {
                   size="sm"
                   variant="primary"
                   onClick={() => navigate('/practice/session?count=5')}
-                  className="text-xs font-semibold py-1.5 px-3 bg-slate-900 hover:bg-black text-white flex items-center gap-1.5"
+                  className="text-xs font-semibold py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 cursor-pointer shadow-sm shadow-emerald-600/20"
                 >
                   <span>Revise All ({dueTodayItems.length})</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -326,7 +326,7 @@ export const SmartRevision: React.FC = () => {
                             `/practice?chapter=${encodeURIComponent(item.chapter)}&topic=${encodeURIComponent(item.topic)}`
                           )
                         }
-                        className="text-xs font-semibold py-1 px-3 bg-slate-900 hover:bg-black text-white"
+                        className="text-xs font-semibold py-1 px-3 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer shadow-sm shadow-emerald-600/20"
                       >
                         Revise
                       </Button>

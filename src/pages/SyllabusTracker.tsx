@@ -386,7 +386,7 @@ export const SyllabusTracker: React.FC = () => {
                       size="sm"
                       variant="primary"
                       onClick={() => navigate(`/practice?chapter=${encodeURIComponent(ch.name)}&subject=${ch.subjectId}`)}
-                      className="text-[11px] font-bold py-1 px-1 rounded-lg bg-slate-900 hover:bg-black text-white"
+                      className="text-[11px] font-bold py-1 px-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer shadow-sm shadow-emerald-600/20"
                     >
                       Practice
                     </Button>

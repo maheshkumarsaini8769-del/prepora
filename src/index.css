@@ -4,22 +4,6 @@
 
 @layer base {
   :root,
-  [data-theme="black"],
-  html[data-theme="black"],
-  body[data-theme="black"] {
-    --color-brand-50: 247 247 247;
-    --color-brand-100: 229 229 229;
-    --color-brand-200: 212 212 216;
-    --color-brand-300: 161 161 170;
-    --color-brand-400: 115 115 115;
-    --color-brand-500: 82 82 91;
-    --color-brand-600: 24 24 27;
-    --color-brand-700: 17 17 17;
-    --color-brand-800: 10 10 10;
-    --color-brand-900: 10 10 10;
-    --color-brand-950: 0 0 0;
-  }
-
   [data-theme="emerald"],
   html[data-theme="emerald"],
   body[data-theme="emerald"] {
@@ -34,6 +18,22 @@
     --color-brand-800: 6 95 70;
     --color-brand-900: 6 78 59;
     --color-brand-950: 2 44 34;
+  }
+
+  [data-theme="black"],
+  html[data-theme="black"],
+  body[data-theme="black"] {
+    --color-brand-50: 247 247 247;
+    --color-brand-100: 229 229 229;
+    --color-brand-200: 212 212 216;
+    --color-brand-300: 161 161 170;
+    --color-brand-400: 115 115 115;
+    --color-brand-500: 82 82 91;
+    --color-brand-600: 24 24 27;
+    --color-brand-700: 17 17 17;
+    --color-brand-800: 10 10 10;
+    --color-brand-900: 10 10 10;
+    --color-brand-950: 0 0 0;
   }
 
   [data-theme="blue"],

@@ -457,7 +457,7 @@ export const AITeacherPage: React.FC = () => {
           size="sm"
           onClick={() => handleSendMessage()}
           disabled={!inputText.trim() || isLoading}
-          className="px-4 py-2 bg-slate-900 hover:bg-black text-white font-semibold text-xs rounded-lg"
+          className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs rounded-lg cursor-pointer shadow-sm shadow-emerald-600/20"
         >
           <span>Send</span>
           <Send className="w-3.5 h-3.5 ml-1.5" />
