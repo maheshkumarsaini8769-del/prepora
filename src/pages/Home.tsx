@@ -177,152 +177,163 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md sm:max-w-xl md:max-w-3xl mx-auto space-y-4 sm:space-y-5 pb-16 px-1 sm:px-2 animate-in fade-in duration-200">
+    <div className="max-w-md sm:max-w-xl md:max-w-3xl lg:max-w-6xl xl:max-w-7xl mx-auto space-y-5 sm:space-y-6 pb-16 px-2 sm:px-4 lg:px-6 animate-in fade-in duration-200">
 
       {/* ========================================================================= */}
-      {/* 1. HERO GREETING SECTION (Left Text + Right Student Mascot Art)           */}
+      {/* 1 & 2. TOP HERO ROW (Greeting & Mascot on Left + Countdown Card on Right) */}
       {/* ========================================================================= */}
-      <div className="flex items-center justify-between gap-2 pt-1 pb-1">
-        {/* Left: Greeting & Motivational Quote */}
-        <div className="space-y-1.5 max-w-[62%] sm:max-w-md">
-          <div className="text-base sm:text-lg font-medium text-slate-700 dark:text-slate-300">
-            {getGreeting()},
-          </div>
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-slate-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-emerald-400 dark:to-teal-300">
-            {studentName} <span className="inline-block animate-bounce">👋</span>
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic font-medium leading-relaxed pt-0.5">
-            &ldquo;{isDark ? 'Consistent effort today builds the rank tomorrow.' : 'Discipline today creates your success tomorrow.'}&rdquo;
-          </p>
-        </div>
-
-        {/* Right: Mascot Student with Laptop & Angled Exam Badge */}
-        <div className="shrink-0">
-          <HeroStudentIllustration
-            examLabel={prepType}
-            classLevel={classLevel}
-            year={prepProfile.targetYear || 2026}
-            isDark={isDark}
-          />
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* 2. TARGET COUNTDOWN CARD                                                 */}
-      {/* ========================================================================= */}
-      <div
-        onClick={() => setShowPrepProfileModal(true)}
-        className="w-full p-3.5 sm:p-4 rounded-2xl cursor-pointer transition-all duration-200 active:scale-[0.99] bg-gradient-to-r from-emerald-100/90 to-teal-50/90 dark:from-[#0d231d] dark:to-[#081814] border border-emerald-300 dark:border-emerald-500/50 shadow-sm dark:shadow-[0_0_20px_rgba(16,185,129,0.18)] flex items-center justify-between gap-3 group"
-      >
-        {/* Left: Target Bullseye Icon */}
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-full bg-emerald-500/20 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
-            <Target className="w-5 h-5 stroke-[2.5]" />
-          </div>
-          <div className="min-w-0">
-            <div className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white truncate">
-              {prepType} Main • {classLevel === 'Dropper' ? 'Dropper' : `Class ${classLevel}`}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-3.5 sm:gap-4 items-stretch">
+        {/* 1. HERO GREETING (Left Text + Right Student Mascot Art) */}
+        <div className="lg:col-span-7 xl:col-span-8 flex items-center justify-between gap-3 p-3.5 sm:p-5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent dark:from-emerald-950/30 dark:via-transparent dark:to-transparent border border-emerald-500/20 dark:border-emerald-500/10">
+          {/* Left: Greeting & Motivational Quote */}
+          <div className="space-y-1.5 max-w-[62%] sm:max-w-md lg:max-w-lg">
+            <div className="text-sm sm:text-base font-medium text-slate-700 dark:text-slate-300">
+              {getGreeting()},
             </div>
-            <div className="text-[11px] sm:text-xs font-semibold text-emerald-700 dark:text-emerald-400">
-              Target {prepProfile.targetYear || 2026}
-            </div>
+            <h1 className="text-xl sm:text-3xl lg:text-4xl font-black tracking-tight text-slate-900 dark:text-transparent dark:bg-clip-text dark:bg-gradient-to-r dark:from-emerald-400 dark:to-teal-300">
+              {studentName} <span className="inline-block animate-bounce">👋</span>
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 italic font-medium leading-relaxed pt-0.5">
+              &ldquo;{isDark ? 'Consistent effort today builds the rank tomorrow.' : 'Discipline today creates your success tomorrow.'}&rdquo;
+            </p>
+          </div>
+
+          {/* Right: Mascot Student with Laptop & Angled Exam Badge */}
+          <div className="shrink-0">
+            <HeroStudentIllustration
+              examLabel={prepType}
+              classLevel={classLevel}
+              year={prepProfile.targetYear || 2026}
+              isDark={isDark}
+            />
           </div>
         </div>
 
-        {/* Middle & Right: Divider, Days Left, and Chevron */}
-        <div className="flex items-center gap-3 sm:gap-4 shrink-0">
-          <div className="h-8 w-px bg-emerald-300 dark:bg-emerald-800/80" />
-          <div className="text-right">
-            <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-none">
-              {examDaysRemaining}
-            </div>
-            <div className="text-[10px] sm:text-xs font-semibold text-emerald-700 dark:text-emerald-400/90 leading-tight">
-              days left
-            </div>
-          </div>
-          <div className="w-7 h-7 rounded-full bg-emerald-200/60 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
-            <ChevronRight className="w-4 h-4 stroke-[2.5]" />
-          </div>
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
-      {/* 3. TODAY'S PROGRESS & DAILY PRACTICE GOAL CARD                            */}
-      {/* ========================================================================= */}
-      <div className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs space-y-3.5">
-        {/* Header: Today's Progress & completed fraction */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-7 h-7 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
-              <Target className="w-4 h-4 stroke-[2.5]" />
-            </div>
-            <div>
-              <span className="font-black text-sm sm:text-base text-slate-900 dark:text-white block leading-tight">
-                Daily Practice Goal
-              </span>
-              <span className="text-[11px] text-slate-400 font-semibold leading-tight">
-                Target: {user.dailyGoalQuestions || 25} Questions / Day
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400">
-              {user.todayQuestionsCount || 0}/{user.dailyGoalQuestions || 25} Qs
-            </span>
-            <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center">
-              <ChevronRight className="w-3.5 h-3.5 stroke-[2]" />
-            </div>
-          </div>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
-          <div
-            className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500"
-            style={{
-              width: `${Math.min(100, Math.round(((user.todayQuestionsCount || 0) / (user.dailyGoalQuestions || 25)) * 100))}%`
-            }}
-          />
-        </div>
-
-        {/* Subtitle / Status */}
-        <div className="flex items-center justify-between text-[11px] sm:text-xs">
-          <p className="text-slate-500 dark:text-slate-400 font-medium">
-            {completedTasksCount} of {totalTasksCount} daily study tasks completed
-          </p>
-          <span className="font-bold text-emerald-600 dark:text-emerald-400">
-            {Math.min(100, Math.round(((user.todayQuestionsCount || 0) / (user.dailyGoalQuestions || 25)) * 100))}% achieved
-          </span>
-        </div>
-      </div>
-
-      {/* Dynamic Streak Motivation Warning / In-Progress Tracker / Goal Achieved Alert */}
-      {(user.todayQuestionsCount || 0) === 0 ? (
-        <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-amber-500/15 border border-amber-500/40 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
-          <div className="flex items-start sm:items-center gap-3 min-w-0">
-            <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 text-xl font-black">
-              ⚠️
+        {/* 2. TARGET COUNTDOWN CARD */}
+        <div
+          onClick={() => setShowPrepProfileModal(true)}
+          className="lg:col-span-5 xl:col-span-4 p-4 sm:p-5 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-[1.01] active:scale-[0.99] bg-gradient-to-r lg:bg-gradient-to-br from-emerald-100/90 to-teal-50/90 dark:from-[#0d231d] dark:to-[#081814] border border-emerald-300 dark:border-emerald-500/50 shadow-sm dark:shadow-[0_0_20px_rgba(16,185,129,0.18)] flex items-center justify-between gap-3 group"
+        >
+          {/* Left: Target Bullseye Icon */}
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-emerald-500/20 dark:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
+              <Target className="w-5 h-5 sm:w-6 sm:h-6 stroke-[2.5]" />
             </div>
             <div className="min-w-0">
-              <p className="text-sm font-black text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
-                <span>Streak toot jayegi!</span>
-                <span className="text-[10px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">Action Required</span>
-              </p>
-              <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
-                Tumhara goal <strong>{prepType}</strong> todna hai na? Aaj ke <strong>{user.dailyGoalQuestions || 25} sawal</strong> abhi start karo aur apni streak bachao!
-              </p>
+              <div className="font-extrabold text-sm sm:text-base text-slate-900 dark:text-white truncate">
+                {prepType} Main • {classLevel === 'Dropper' ? 'Dropper' : `Class ${classLevel}`}
+              </div>
+              <div className="text-[11px] sm:text-xs font-semibold text-emerald-700 dark:text-emerald-400">
+                Target {prepProfile.targetYear || 2026}
+              </div>
             </div>
           </div>
-          <button
-            onClick={() => {
-              soundFeedback.playClick();
-              navigate('/practice');
-            }}
-            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
-          >
-            Daily Goal Start Karo ({user.dailyGoalQuestions || 25} Qs) →
-          </button>
+
+          {/* Middle & Right: Divider, Days Left, and Chevron */}
+          <div className="flex items-center gap-3 sm:gap-4 shrink-0">
+            <div className="h-8 w-px bg-emerald-300 dark:bg-emerald-800/80" />
+            <div className="text-right">
+              <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-none">
+                {examDaysRemaining}
+              </div>
+              <div className="text-[10px] sm:text-xs font-semibold text-emerald-700 dark:text-emerald-400/90 leading-tight">
+                days left
+              </div>
+            </div>
+            <div className="w-7 h-7 rounded-full bg-emerald-200/60 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
+              <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+            </div>
+          </div>
         </div>
+      </div>
+
+
+      {/* ========================================================================= */}
+      {/* MAIN RESPONSIVE DASHBOARD GRID (Two Columns on Laptops/Desktops)           */}
+      {/* ========================================================================= */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 items-start">
+        {/* ===================================================================== */}
+        {/* LEFT COLUMN: PRIMARY PRACTICE & ACTION STREAM (8 Cols on Laptop)     */}
+        {/* ===================================================================== */}
+        <div className="lg:col-span-7 xl:col-span-8 space-y-4 sm:space-y-5">
+
+          {/* ========================================================================= */}
+          {/* 3. TODAY'S PROGRESS & DAILY PRACTICE GOAL CARD                            */}
+          {/* ========================================================================= */}
+          <div className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs space-y-3.5">
+            {/* Header: Today's Progress & completed fraction */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <Target className="w-4 h-4 stroke-[2.5]" />
+                </div>
+                <div>
+                  <span className="font-black text-sm sm:text-base text-slate-900 dark:text-white block leading-tight">
+                    Daily Practice Goal
+                  </span>
+                  <span className="text-[11px] text-slate-400 font-semibold leading-tight">
+                    Target: {user.dailyGoalQuestions || 25} Questions / Day
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs sm:text-sm font-black text-emerald-600 dark:text-emerald-400">
+                  {user.todayQuestionsCount || 0}/{user.dailyGoalQuestions || 25} Qs
+                </span>
+                <div className="w-6 h-6 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 flex items-center justify-center">
+                  <ChevronRight className="w-3.5 h-3.5 stroke-[2]" />
+                </div>
+              </div>
+            </div>
+
+            {/* Progress Bar */}
+            <div className="w-full h-2.5 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+              <div
+                className="h-full bg-gradient-to-r from-emerald-500 to-teal-400 rounded-full transition-all duration-500"
+                style={{
+                  width: `${Math.min(100, Math.round(((user.todayQuestionsCount || 0) / (user.dailyGoalQuestions || 25)) * 100))}%`
+                }}
+              />
+            </div>
+
+            {/* Subtitle / Status */}
+            <div className="flex items-center justify-between text-[11px] sm:text-xs">
+              <p className="text-slate-500 dark:text-slate-400 font-medium">
+                {completedTasksCount} of {totalTasksCount} daily study tasks completed
+              </p>
+              <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                {Math.min(100, Math.round(((user.todayQuestionsCount || 0) / (user.dailyGoalQuestions || 25)) * 100))}% achieved
+              </span>
+            </div>
+          </div>
+
+          {/* Dynamic Streak Motivation Warning / In-Progress Tracker / Goal Achieved Alert */}
+          {(user.todayQuestionsCount || 0) === 0 ? (
+            <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-amber-500/15 border border-amber-500/40 dark:border-amber-500/25 text-slate-900 dark:text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+              <div className="flex items-start sm:items-center gap-3 min-w-0">
+                <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 text-xl font-black">
+                  ⚠️
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-black text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
+                    <span>Streak toot jayegi!</span>
+                    <span className="text-[10px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">Action Required</span>
+                  </p>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
+                    Tumhara goal <strong>{prepType}</strong> todna hai na? Aaj ke <strong>{user.dailyGoalQuestions || 25} sawal</strong> abhi start karo aur apni streak bachao!
+                  </p>
+                </div>
+              </div>
+              <button
+                onClick={() => {
+                  soundFeedback.playClick();
+                  navigate('/practice');
+                }}
+                className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
+              >
+                Daily Goal Start Karo ({user.dailyGoalQuestions || 25} Qs) →
+              </button>
+            </div>
       ) : (user.todayQuestionsCount || 0) < (user.dailyGoalQuestions || 25) ? (
         <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-teal-500/15 via-emerald-500/10 to-teal-500/15 border border-teal-500/40 dark:border-teal-500/30 text-slate-900 dark:text-slate-100 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
           <div className="flex items-start sm:items-center gap-3 min-w-0">
@@ -373,79 +384,6 @@ export const Home: React.FC = () => {
       )}
 
       {/* ========================================================================= */}
-      {/* 4. MOTIVATIONAL SCENIC BANNER CARD                                       */}
-      {/* ========================================================================= */}
-      <ScenicMountainBanner
-        isDark={isDark}
-        onActionClick={() => navigate('/practice')}
-      />
-
-      {/* ========================================================================= */}
-      {/* 4.5 DAILY HIGH-YIELD CHALLENGE & COHORT LEADERBOARD WIDGET               */}
-      {/* ========================================================================= */}
-      <div className="w-full p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-emerald-500/10 dark:from-[#1b1706] dark:to-[#081f17] border border-amber-300/80 dark:border-amber-500/30 shadow-xs space-y-3">
-        {/* Top: Header with Trophy, Streak Saver XP, and Active status */}
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
-              <Trophy className="w-4 h-4 stroke-[2.5]" />
-            </div>
-            <div>
-              <span className="font-black text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
-                <span>Daily Challenge Question</span>
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-              </span>
-            </div>
-          </div>
-          <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-400 font-extrabold text-[10px] border border-amber-500/30">
-            +50 XP • Protects Streak 🔥
-          </span>
-        </div>
-
-        {/* Middle: Challenge Topic tailored to student target */}
-        <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-amber-200/60 dark:border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
-          <div className="space-y-0.5 min-w-0">
-            <div className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
-              {prepType === 'NEET' ? 'NEET 2024 High-Yield Biology' : prepType === 'CBSE' || prepType === 'RBSE' ? `${prepType} Board Core Problem` : 'JEE Main 2024 Hot Topic'}
-            </div>
-            <div className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
-              {prepType === 'NEET' ? 'Genetics: Dihybrid Cross Linkage Ratio' : 'Kinematics: Velocity Vector on Inclined Plane'}
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              soundFeedback.playClick();
-              navigate('/practice/session?subject=Physics&chapter=Kinematics');
-            }}
-            className="px-3.5 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 shrink-0 shadow-sm"
-          >
-            <Zap className="w-3.5 h-3.5 fill-current" />
-            <span>Solve Now</span>
-          </button>
-        </div>
-
-        {/* Bottom Strip: Cohort Standing */}
-        <div className="flex items-center justify-between pt-1 border-t border-amber-200/40 dark:border-slate-800/80 text-[11px]">
-          <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-semibold">
-            <Crown className="w-3.5 h-3.5 text-amber-500" />
-            <span>Rank <strong>#4</strong> in {prepType} {classLevel} Batch</span>
-            <span className="text-slate-400 dark:text-slate-500">• Top 3%</span>
-          </div>
-
-          <Link
-            to="/leaderboard"
-            onClick={() => soundFeedback.playClick()}
-            className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline flex items-center gap-0.5"
-          >
-            <span>Leaderboard</span>
-            <ChevronRight className="w-3 h-3 stroke-[2.5]" />
-          </Link>
-        </div>
-      </div>
-
-      {/* ========================================================================= */}
       {/* 5. DAILY ACTION CENTER (6 Action Cards in 2 Columns)                     */}
       {/* ========================================================================= */}
       <div className="space-y-3 pt-1">
@@ -465,7 +403,7 @@ export const Home: React.FC = () => {
         </div>
 
         {/* 6 Action Cards in 2 columns */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 sm:gap-3">
           {/* 1. Practice */}
           <div
             onClick={() => {
@@ -612,6 +550,14 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
+      {/* ========================================================================= */}
+      {/* 4. MOTIVATIONAL SCENIC BANNER CARD                                       */}
+      {/* ========================================================================= */}
+      <ScenicMountainBanner
+        isDark={isDark}
+        onActionClick={() => navigate('/practice')}
+      />
+
       {/* Formula & Short Notes Hub Banner */}
       <div
         onClick={() => {
@@ -636,6 +582,128 @@ export const Home: React.FC = () => {
         </div>
         <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 group-hover:translate-x-1 transition-transform">
           <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-white stroke-[2.5]" />
+        </div>
+      </div>
+
+        </div>
+
+        {/* ===================================================================== */}
+        {/* RIGHT COLUMN: PERFORMANCE, STREAK & CHALLENGES (4-5 Cols on Laptop) */}
+        {/* ===================================================================== */}
+        <div className="lg:col-span-5 xl:col-span-4 space-y-4 sm:space-y-5">
+      {/* ========================================================================= */}
+      {/* 4.5 DAILY HIGH-YIELD CHALLENGE & COHORT LEADERBOARD WIDGET               */}
+      {/* ========================================================================= */}
+      <div className="w-full p-3.5 sm:p-4 rounded-2xl bg-gradient-to-br from-amber-500/10 via-amber-500/5 to-emerald-500/10 dark:from-[#1b1706] dark:to-[#081f17] border border-amber-300/80 dark:border-amber-500/30 shadow-xs space-y-3">
+        {/* Top: Header with Trophy, Streak Saver XP, and Active status */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 rounded-xl bg-amber-500 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Trophy className="w-4 h-4 stroke-[2.5]" />
+            </div>
+            <div>
+              <span className="font-black text-xs sm:text-sm text-slate-900 dark:text-white flex items-center gap-1.5">
+                <span>Daily Challenge Question</span>
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
+              </span>
+            </div>
+          </div>
+          <span className="px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-700 dark:text-amber-400 font-extrabold text-[10px] border border-amber-500/30">
+            +50 XP • Protects Streak 🔥
+          </span>
+        </div>
+
+        {/* Middle: Challenge Topic tailored to student target */}
+        <div className="p-3 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-amber-200/60 dark:border-amber-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5">
+          <div className="space-y-0.5 min-w-0">
+            <div className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+              {prepType === 'NEET' ? 'NEET 2024 High-Yield Biology' : prepType === 'CBSE' || prepType === 'RBSE' ? `${prepType} Board Core Problem` : 'JEE Main 2024 Hot Topic'}
+            </div>
+            <div className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white truncate">
+              {prepType === 'NEET' ? 'Genetics: Dihybrid Cross Linkage Ratio' : 'Kinematics: Velocity Vector on Inclined Plane'}
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => {
+              soundFeedback.playClick();
+              navigate('/practice/session?subject=Physics&chapter=Kinematics');
+            }}
+            className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition-all active:scale-95 flex items-center justify-center gap-1.5 shrink-0 shadow-xs"
+          >
+            <Zap className="w-3.5 h-3.5 fill-current" />
+            <span>Solve Now</span>
+          </button>
+        </div>
+
+        {/* Bottom Strip: Cohort Standing */}
+        <div className="flex items-center justify-between pt-1 border-t border-amber-200/40 dark:border-slate-800/80 text-[11px]">
+          <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-semibold">
+            <Crown className="w-3.5 h-3.5 text-amber-500" />
+            <span>Rank <strong>#4</strong> in {prepType} {classLevel} Batch</span>
+            <span className="text-slate-400 dark:text-slate-500">• Top 3%</span>
+          </div>
+
+          <Link
+            to="/leaderboard"
+            onClick={() => soundFeedback.playClick()}
+            className="text-emerald-700 dark:text-emerald-400 font-bold hover:underline flex items-center gap-0.5"
+          >
+            <span>Leaderboard</span>
+            <ChevronRight className="w-3 h-3 stroke-[2.5]" />
+          </Link>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 7. STUDY STREAK CARD                                                     */}
+      {/* ========================================================================= */}
+      <div
+        onClick={() => navigate('/performance')}
+        className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-3 cursor-pointer hover:border-amber-400/50 transition-all active:scale-[0.99]"
+      >
+        {/* Left: Flame Icon & Streak Days */}
+        <div className="flex items-center gap-3">
+          <div className="w-11 h-11 rounded-2xl bg-amber-500/15 dark:bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
+            <Flame className="w-6 h-6 fill-amber-500 animate-pulse" />
+          </div>
+          <div>
+            <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 leading-tight">
+              Study Streak
+            </div>
+            <div className="text-lg sm:text-xl font-black text-amber-600 dark:text-amber-400 leading-tight">
+              {user.streakDays || 0} {user.streakDays === 1 ? 'day' : 'days'}
+            </div>
+            <div className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 leading-tight">
+              {(user.streakDays || 0) > 0 ? 'Keep the fire burning!' : 'Start your streak today!'}
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Weekday Checkmark Indicators M T W T F S S */}
+        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
+          {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, idx) => {
+            const todayDayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
+            const isToday = idx === todayDayIdx;
+            const isCompleted = isToday
+              ? (user.todayQuestionsCount || 0) > 0
+              : (user.streakDays || 0) > (todayDayIdx - idx) && idx < todayDayIdx;
+            return (
+              <div key={idx} className="flex flex-col items-center gap-1">
+                <span className={`text-[10px] sm:text-[11px] font-bold ${isToday ? 'text-amber-500 font-black' : 'text-slate-400 dark:text-slate-500'}`}>
+                  {day}
+                </span>
+                {isCompleted ? (
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-2xs">
+                    <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
+                  </div>
+                ) : (
+                  <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 ${isToday ? 'border-amber-400 animate-pulse' : 'border-slate-300 dark:border-slate-700'} bg-transparent`} />
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
 
@@ -702,7 +770,7 @@ export const Home: React.FC = () => {
                   <AtomIcon className="w-3.5 h-3.5" />
                   <span>Physics</span>
                 </div>
-                <RadialProgress percentage={physicsMetric.pct} size={64} />
+                <RadialProgress percentage={physicsMetric.pct} size={58} />
                 <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
                   {physicsMetric.count}/{physicsMetric.target}
                 </div>
@@ -717,7 +785,7 @@ export const Home: React.FC = () => {
                   <FlaskIcon className="w-3.5 h-3.5" />
                   <span>Chemistry</span>
                 </div>
-                <RadialProgress percentage={chemistryMetric.pct} size={64} />
+                <RadialProgress percentage={chemistryMetric.pct} size={58} />
                 <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
                   {chemistryMetric.count}/{chemistryMetric.target}
                 </div>
@@ -741,7 +809,7 @@ export const Home: React.FC = () => {
                     </>
                   )}
                 </div>
-                <RadialProgress percentage={thirdMetric.pct} size={64} />
+                <RadialProgress percentage={thirdMetric.pct} size={58} />
                 <div className="text-[10px] sm:text-xs font-bold text-slate-500 dark:text-slate-400">
                   {thirdMetric.count}/{thirdMetric.target}
                 </div>
@@ -751,54 +819,6 @@ export const Home: React.FC = () => {
         })()}
       </div>
 
-      {/* ========================================================================= */}
-      {/* 7. STUDY STREAK CARD                                                     */}
-      {/* ========================================================================= */}
-      <div
-        onClick={() => navigate('/performance')}
-        className="w-full p-4 rounded-2xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between gap-3 cursor-pointer hover:border-amber-400/50 transition-all active:scale-[0.99]"
-      >
-        {/* Left: Flame Icon & Streak Days */}
-        <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-amber-500/15 dark:bg-amber-500/20 text-amber-500 flex items-center justify-center shrink-0">
-            <Flame className="w-6 h-6 fill-amber-500 animate-pulse" />
-          </div>
-          <div>
-            <div className="text-[11px] font-bold text-slate-500 dark:text-slate-400 leading-tight">
-              Study Streak
-            </div>
-            <div className="text-lg sm:text-xl font-black text-amber-600 dark:text-amber-400 leading-tight">
-              {user.streakDays || 0} {user.streakDays === 1 ? 'day' : 'days'}
-            </div>
-            <div className="text-[10px] font-semibold text-slate-400 dark:text-slate-500 leading-tight">
-              {(user.streakDays || 0) > 0 ? 'Keep the fire burning!' : 'Start your streak today!'}
-            </div>
-          </div>
-        </div>
-
-        {/* Right: Weekday Checkmark Indicators M T W T F S S */}
-        <div className="flex items-center gap-1.5 sm:gap-2.5 shrink-0">
-          {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, idx) => {
-            const todayDayIdx = new Date().getDay() === 0 ? 6 : new Date().getDay() - 1;
-            const isToday = idx === todayDayIdx;
-            const isCompleted = isToday
-              ? (user.todayQuestionsCount || 0) > 0
-              : (user.streakDays || 0) > (todayDayIdx - idx) && idx < todayDayIdx;
-            return (
-              <div key={idx} className="flex flex-col items-center gap-1">
-                <span className={`text-[10px] sm:text-[11px] font-bold ${isToday ? 'text-amber-500 font-black' : 'text-slate-400 dark:text-slate-500'}`}>
-                  {day}
-                </span>
-                {isCompleted ? (
-                  <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-2xs">
-                    <Check className="w-3 h-3 sm:w-3.5 sm:h-3.5 stroke-[3]" />
-                  </div>
-                ) : (
-                  <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 ${isToday ? 'border-amber-400 animate-pulse' : 'border-slate-300 dark:border-slate-700'} bg-transparent`} />
-                )}
-              </div>
-            );
-          })}
         </div>
       </div>
 
