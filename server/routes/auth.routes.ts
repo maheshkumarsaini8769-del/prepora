@@ -39,14 +39,18 @@ function parseDeviceInfo(req: Request) {
   return { device, browser, os, userAgent, ipAddress };
 }
 
-// Helper: Ensure single active device/session lock per account.
-// When an account is logged in on a phone or laptop, any previous active session is automatically revoked.
+// Helper: Manage active student sessions across personal study devices (phone, laptop, tablet).
+// Allows students to study seamlessly across devices (up to 5 concurrent devices) without being aggressively logged out.
 async function createSingleActiveSession(user: { id: string; email: string; role: string }, req: Request) {
-  // Revoke all existing active sessions for this user on any other phone, laptop, or browser
-  await Session.updateMany(
-    { userId: user.id, isRevoked: false },
-    { $set: { isRevoked: true, revocationReason: 'LOGGED_IN_ON_ANOTHER_DEVICE' } }
-  );
+  // Allow up to 5 personal devices; revoke only excess older sessions
+  const activeSessions = await Session.find({ userId: user.id, isRevoked: false }).sort({ createdAt: -1 });
+  if (activeSessions.length >= 5) {
+    const toRevoke = activeSessions.slice(4);
+    await Session.updateMany(
+      { _id: { $in: toRevoke.map(s => s._id) } },
+      { $set: { isRevoked: true, revocationReason: 'DEVICE_LIMIT_EXCEEDED' } }
+    );
+  }
 
   const sessionId = `sess-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`;
   const token = jwt.sign(

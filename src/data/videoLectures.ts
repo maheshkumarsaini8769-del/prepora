@@ -156,7 +156,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Mechanical Properties of Solids",
     subject: "Physics",
     title: "Mechanical Properties of Solids (Physics) High-Yield One-Shot",
-    youtubeId: "d8U3f7Jk4L1",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Mechanical Properties of Solids."
@@ -166,7 +166,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Mechanical Properties of Solids",
     subject: "Physics",
     title: "Mechanical Properties of Solids Complete High-Yield One-Shot Revision",
-    youtubeId: "d8U3f7Jk4L1",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Mechanical Properties of Solids."
@@ -176,7 +176,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Mechanical Properties of Fluids",
     subject: "Physics",
     title: "Mechanical Properties of Fluids (Physics) High-Yield One-Shot",
-    youtubeId: "f9K2vL7mX4P",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Mechanical Properties of Fluids."
@@ -186,7 +186,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Mechanical Properties of Fluids",
     subject: "Physics",
     title: "Mechanical Properties of Fluids Complete High-Yield One-Shot Revision",
-    youtubeId: "f9K2vL7mX4P",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Mechanical Properties of Fluids."
@@ -196,7 +196,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Thermal Properties of Matter",
     subject: "Physics",
     title: "Thermal Properties of Matter (Physics) High-Yield One-Shot",
-    youtubeId: "t8N4vL2pK9X",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Thermal Properties of Matter."
@@ -206,7 +206,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Thermal Properties of Matter",
     subject: "Physics",
     title: "Thermal Properties of Matter Complete High-Yield One-Shot Revision",
-    youtubeId: "t8N4vL2pK9X",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Thermal Properties of Matter."
@@ -216,7 +216,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Thermodynamics",
     subject: "Physics",
     title: "Thermodynamics (Physics) High-Yield One-Shot",
-    youtubeId: "x2P6m9V4L8q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Thermodynamics."
@@ -226,7 +226,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Thermodynamics",
     subject: "Physics",
     title: "Thermodynamics Complete High-Yield One-Shot Revision",
-    youtubeId: "x2P6m9V4L8q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Thermodynamics."
@@ -236,7 +236,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Kinetic Theory of Gases",
     subject: "Physics",
     title: "Kinetic Theory of Gases (Physics) High-Yield One-Shot",
-    youtubeId: "k4N7xP9bL2K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Kinetic Theory of Gases."
@@ -246,7 +246,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Kinetic Theory of Gases",
     subject: "Physics",
     title: "Kinetic Theory of Gases Complete High-Yield One-Shot Revision",
-    youtubeId: "k4N7xP9bL2K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Kinetic Theory of Gases."
@@ -256,7 +256,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Oscillations",
     subject: "Physics",
     title: "Oscillations (Physics) High-Yield One-Shot",
-    youtubeId: "y3R7t1K9P4Q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Oscillations."
@@ -266,7 +266,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Oscillations",
     subject: "Physics",
     title: "Oscillations Complete High-Yield One-Shot Revision",
-    youtubeId: "y3R7t1K9P4Q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Oscillations."
@@ -276,7 +276,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Waves",
     subject: "Physics",
     title: "Waves (Physics) High-Yield One-Shot",
-    youtubeId: "w8N2qL9pX3K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Waves."
@@ -286,7 +286,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Waves",
     subject: "Physics",
     title: "Waves Complete High-Yield One-Shot Revision",
-    youtubeId: "w8N2qL9pX3K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Waves."
@@ -296,7 +296,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electric Charges and Fields",
     subject: "Physics",
     title: "Electric Charges and Fields (Physics) High-Yield One-Shot",
-    youtubeId: "k7T8y9mN1wE",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electric Charges and Fields."
@@ -306,7 +306,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electric Charges and Fields",
     subject: "Physics",
     title: "Electric Charges and Fields Complete High-Yield One-Shot Revision",
-    youtubeId: "k7T8y9mN1wE",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electric Charges and Fields."
@@ -316,7 +316,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electrostatic Potential and Capacitance",
     subject: "Physics",
     title: "Electrostatic Potential and Capacitance (Physics) High-Yield One-Shot",
-    youtubeId: "c8N3pK1vL7Q",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electrostatic Potential and Capacitance."
@@ -326,7 +326,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electrostatic Potential and Capacitance",
     subject: "Physics",
     title: "Electrostatic Potential and Capacitance Complete High-Yield One-Shot Revision",
-    youtubeId: "c8N3pK1vL7Q",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electrostatic Potential and Capacitance."
@@ -336,7 +336,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Current Electricity",
     subject: "Physics",
     title: "Current Electricity (Physics) High-Yield One-Shot",
-    youtubeId: "v8N2qL9pX3K",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Current Electricity."
@@ -346,7 +346,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Current Electricity",
     subject: "Physics",
     title: "Current Electricity Complete High-Yield One-Shot Revision",
-    youtubeId: "v8N2qL9pX3K",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Current Electricity."
@@ -356,7 +356,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Moving Charges and Magnetism",
     subject: "Physics",
     title: "Moving Charges and Magnetism (Physics) High-Yield One-Shot",
-    youtubeId: "m4P7kX2vL9Q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Moving Charges and Magnetism."
@@ -366,7 +366,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Moving Charges and Magnetism",
     subject: "Physics",
     title: "Moving Charges and Magnetism Complete High-Yield One-Shot Revision",
-    youtubeId: "m4P7kX2vL9Q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Moving Charges and Magnetism."
@@ -376,7 +376,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Magnetism and Matter",
     subject: "Physics",
     title: "Magnetism and Matter (Physics) High-Yield One-Shot",
-    youtubeId: "m7N4vL9pX2K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Magnetism and Matter."
@@ -386,7 +386,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Magnetism and Matter",
     subject: "Physics",
     title: "Magnetism and Matter Complete High-Yield One-Shot Revision",
-    youtubeId: "m7N4vL9pX2K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Magnetism and Matter."
@@ -396,7 +396,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electromagnetic Induction",
     subject: "Physics",
     title: "Electromagnetic Induction (Physics) High-Yield One-Shot",
-    youtubeId: "e8N3pK1vL7Q",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electromagnetic Induction."
@@ -406,7 +406,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electromagnetic Induction",
     subject: "Physics",
     title: "Electromagnetic Induction Complete High-Yield One-Shot Revision",
-    youtubeId: "e8N3pK1vL7Q",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electromagnetic Induction."
@@ -416,7 +416,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Alternating Current",
     subject: "Physics",
     title: "Alternating Current (Physics) High-Yield One-Shot",
-    youtubeId: "a8N3pK1vL7Q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 55m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Alternating Current."
@@ -426,7 +426,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Alternating Current",
     subject: "Physics",
     title: "Alternating Current Complete High-Yield One-Shot Revision",
-    youtubeId: "a8N3pK1vL7Q",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 55m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Alternating Current."
@@ -436,7 +436,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electromagnetic Waves",
     subject: "Physics",
     title: "Electromagnetic Waves (Physics) High-Yield One-Shot",
-    youtubeId: "w5M2vL9pK4X",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electromagnetic Waves."
@@ -446,7 +446,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electromagnetic Waves",
     subject: "Physics",
     title: "Electromagnetic Waves Complete High-Yield One-Shot Revision",
-    youtubeId: "w5M2vL9pK4X",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electromagnetic Waves."
@@ -456,7 +456,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Ray Optics and Optical Instruments",
     subject: "Physics",
     title: "Ray Optics and Optical Instruments (Physics) High-Yield One-Shot",
-    youtubeId: "q9N4vL2pK7X",
+    youtubeId: "thnDxFdkzZs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "3h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Ray Optics and Optical Instruments."
@@ -466,7 +466,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Ray Optics and Optical Instruments",
     subject: "Physics",
     title: "Ray Optics and Optical Instruments Complete High-Yield One-Shot Revision",
-    youtubeId: "q9N4vL2pK7X",
+    youtubeId: "thnDxFdkzZs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "3h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Ray Optics and Optical Instruments."
@@ -476,7 +476,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Wave Optics",
     subject: "Physics",
     title: "Wave Optics (Physics) High-Yield One-Shot",
-    youtubeId: "o9N2vL7pK4X",
+    youtubeId: "thnDxFdkzZs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Wave Optics."
@@ -486,7 +486,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Wave Optics",
     subject: "Physics",
     title: "Wave Optics Complete High-Yield One-Shot Revision",
-    youtubeId: "o9N2vL7pK4X",
+    youtubeId: "thnDxFdkzZs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Wave Optics."
@@ -496,7 +496,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Dual Nature of Radiation and Matter",
     subject: "Physics",
     title: "Dual Nature of Radiation and Matter (Physics) High-Yield One-Shot",
-    youtubeId: "d7N4vL9pX2K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Dual Nature of Radiation and Matter."
@@ -506,7 +506,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Dual Nature of Radiation and Matter",
     subject: "Physics",
     title: "Dual Nature of Radiation and Matter Complete High-Yield One-Shot Revision",
-    youtubeId: "d7N4vL9pX2K",
+    youtubeId: "7JlR8gNRQIs",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Dual Nature of Radiation and Matter."
@@ -516,7 +516,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Atoms",
     subject: "Physics",
     title: "Atoms (Physics) High-Yield One-Shot",
-    youtubeId: "b7V9kX3nP1L",
+    youtubeId: "0RRVV4Diomg",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Atoms."
@@ -526,7 +526,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Atoms",
     subject: "Physics",
     title: "Atoms Complete High-Yield One-Shot Revision",
-    youtubeId: "b7V9kX3nP1L",
+    youtubeId: "0RRVV4Diomg",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Atoms."
@@ -536,7 +536,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Nuclei",
     subject: "Physics",
     title: "Nuclei (Physics) High-Yield One-Shot",
-    youtubeId: "n9N2vL7pK4X",
+    youtubeId: "0RRVV4Diomg",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Nuclei."
@@ -546,7 +546,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Nuclei",
     subject: "Physics",
     title: "Nuclei Complete High-Yield One-Shot Revision",
-    youtubeId: "n9N2vL7pK4X",
+    youtubeId: "0RRVV4Diomg",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "1h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Nuclei."
@@ -556,7 +556,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Semiconductor Electronics",
     subject: "Physics",
     title: "Semiconductor Electronics (Physics) High-Yield One-Shot",
-    youtubeId: "s9N2vL7pK4X",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Semiconductor Electronics."
@@ -566,7 +566,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Semiconductor Electronics",
     subject: "Physics",
     title: "Semiconductor Electronics Complete High-Yield One-Shot Revision",
-    youtubeId: "s9N2vL7pK4X",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Semiconductor Electronics."
@@ -576,7 +576,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Some Basic Concepts of Chemistry",
     subject: "Chemistry",
     title: "Some Basic Concepts of Chemistry (Chemistry) High-Yield One-Shot",
-    youtubeId: "mX9vL2bKp8Q",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Some Basic Concepts of Chemistry."
@@ -586,7 +586,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Some Basic Concepts of Chemistry",
     subject: "Chemistry",
     title: "Some Basic Concepts of Chemistry Complete High-Yield One-Shot Revision",
-    youtubeId: "mX9vL2bKp8Q",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Some Basic Concepts of Chemistry."
@@ -656,7 +656,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Thermodynamics",
     subject: "Chemistry",
     title: "Chemical Thermodynamics (Chemistry) High-Yield One-Shot",
-    youtubeId: "w5N8kP2qX4V",
+    youtubeId: "CGA8sRwqIFg",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Thermodynamics."
@@ -666,7 +666,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Thermodynamics",
     subject: "Chemistry",
     title: "Chemical Thermodynamics Complete High-Yield One-Shot Revision",
-    youtubeId: "w5N8kP2qX4V",
+    youtubeId: "CGA8sRwqIFg",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Thermodynamics."
@@ -676,7 +676,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Thermodynamics",
     subject: "Chemistry",
     title: "Chemical Thermodynamics (Chemistry) High-Yield One-Shot",
-    youtubeId: "w5N8kP2qX4V",
+    youtubeId: "CGA8sRwqIFg",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Thermodynamics."
@@ -686,7 +686,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Equilibrium",
     subject: "Chemistry",
     title: "Equilibrium (Chemistry) High-Yield One-Shot",
-    youtubeId: "e7P2vL9kX4M",
+    youtubeId: "URUJD5NEXC8",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Equilibrium."
@@ -696,7 +696,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Equilibrium",
     subject: "Chemistry",
     title: "Equilibrium Complete High-Yield One-Shot Revision",
-    youtubeId: "e7P2vL9kX4M",
+    youtubeId: "URUJD5NEXC8",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Equilibrium."
@@ -706,7 +706,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Redox Reactions",
     subject: "Chemistry",
     title: "Redox Reactions (Chemistry) High-Yield One-Shot",
-    youtubeId: "r8N4vL2pK9X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Redox Reactions."
@@ -716,7 +716,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Redox Reactions",
     subject: "Chemistry",
     title: "Redox Reactions Complete High-Yield One-Shot Revision",
-    youtubeId: "r8N4vL2pK9X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Redox Reactions."
@@ -726,7 +726,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Organic Chemistry: Basic Principles and Techniques",
     subject: "Chemistry",
     title: "Organic Chemistry: Basic Principles and Techniques (Chemistry) High-Yield One-Shot",
-    youtubeId: "g9N2vL7pK4X",
+    youtubeId: "RTKuB9dHfIw",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Organic Chemistry: Basic Principles and Techniques."
@@ -736,7 +736,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Organic Chemistry: Basic Principles and Techniques",
     subject: "Chemistry",
     title: "Organic Chemistry: Basic Principles and Techniques Complete High-Yield One-Shot Revision",
-    youtubeId: "g9N2vL7pK4X",
+    youtubeId: "RTKuB9dHfIw",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Organic Chemistry: Basic Principles and Techniques."
@@ -746,7 +746,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Hydrocarbons",
     subject: "Chemistry",
     title: "Hydrocarbons (Chemistry) High-Yield One-Shot",
-    youtubeId: "h8N3pK1vL7Q",
+    youtubeId: "RTKuB9dHfIw",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Hydrocarbons."
@@ -756,7 +756,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Hydrocarbons",
     subject: "Chemistry",
     title: "Hydrocarbons Complete High-Yield One-Shot Revision",
-    youtubeId: "h8N3pK1vL7Q",
+    youtubeId: "RTKuB9dHfIw",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Hydrocarbons."
@@ -786,7 +786,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electrochemistry",
     subject: "Chemistry",
     title: "Electrochemistry (Chemistry) High-Yield One-Shot",
-    youtubeId: "k8N3pK1vL7Q",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electrochemistry."
@@ -796,7 +796,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electrochemistry",
     subject: "Chemistry",
     title: "Electrochemistry Complete High-Yield One-Shot Revision",
-    youtubeId: "k8N3pK1vL7Q",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Electrochemistry."
@@ -806,7 +806,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Kinetics",
     subject: "Chemistry",
     title: "Chemical Kinetics (Chemistry) High-Yield One-Shot",
-    youtubeId: "c4N7xP9bL2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Kinetics."
@@ -816,7 +816,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Kinetics",
     subject: "Chemistry",
     title: "Chemical Kinetics Complete High-Yield One-Shot Revision",
-    youtubeId: "c4N7xP9bL2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Kinetics."
@@ -826,7 +826,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "The d- and f-Block Elements",
     subject: "Chemistry",
     title: "The d- and f-Block Elements (Chemistry) High-Yield One-Shot",
-    youtubeId: "d9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for The d- and f-Block Elements."
@@ -836,7 +836,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "The d- and f-Block Elements",
     subject: "Chemistry",
     title: "The d- and f-Block Elements Complete High-Yield One-Shot Revision",
-    youtubeId: "d9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for The d- and f-Block Elements."
@@ -846,7 +846,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Coordination Compounds",
     subject: "Chemistry",
     title: "Coordination Compounds (Chemistry) High-Yield One-Shot",
-    youtubeId: "m7N4vL9pX2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Coordination Compounds."
@@ -856,7 +856,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Coordination Compounds",
     subject: "Chemistry",
     title: "Coordination Compounds Complete High-Yield One-Shot Revision",
-    youtubeId: "m7N4vL9pX2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Coordination Compounds."
@@ -866,7 +866,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Haloalkanes and Haloarenes",
     subject: "Chemistry",
     title: "Haloalkanes and Haloarenes (Chemistry) High-Yield One-Shot",
-    youtubeId: "h9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Haloalkanes and Haloarenes."
@@ -876,7 +876,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Haloalkanes and Haloarenes",
     subject: "Chemistry",
     title: "Haloalkanes and Haloarenes Complete High-Yield One-Shot Revision",
-    youtubeId: "h9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Haloalkanes and Haloarenes."
@@ -886,7 +886,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Alcohols, Phenols and Ethers",
     subject: "Chemistry",
     title: "Alcohols, Phenols and Ethers (Chemistry) High-Yield One-Shot",
-    youtubeId: "a7N4vL9pX2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Alcohols, Phenols and Ethers."
@@ -896,7 +896,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Alcohols, Phenols and Ethers",
     subject: "Chemistry",
     title: "Alcohols, Phenols and Ethers Complete High-Yield One-Shot Revision",
-    youtubeId: "a7N4vL9pX2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Alcohols, Phenols and Ethers."
@@ -906,7 +906,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Aldehydes, Ketones and Carboxylic Acids",
     subject: "Chemistry",
     title: "Aldehydes, Ketones and Carboxylic Acids (Chemistry) High-Yield One-Shot",
-    youtubeId: "k9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Aldehydes, Ketones and Carboxylic Acids."
@@ -916,7 +916,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Aldehydes, Ketones and Carboxylic Acids",
     subject: "Chemistry",
     title: "Aldehydes, Ketones and Carboxylic Acids Complete High-Yield One-Shot Revision",
-    youtubeId: "k9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Aldehydes, Ketones and Carboxylic Acids."
@@ -926,7 +926,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Amines",
     subject: "Chemistry",
     title: "Amines (Chemistry) High-Yield One-Shot",
-    youtubeId: "n7N4vL9pX2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Amines."
@@ -936,7 +936,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Amines",
     subject: "Chemistry",
     title: "Amines Complete High-Yield One-Shot Revision",
-    youtubeId: "n7N4vL9pX2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Amines."
@@ -946,7 +946,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biomolecules",
     subject: "Chemistry",
     title: "Biomolecules (Chemistry) High-Yield One-Shot",
-    youtubeId: "b9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biomolecules."
@@ -956,7 +956,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biomolecules",
     subject: "Chemistry",
     title: "Biomolecules Complete High-Yield One-Shot Revision",
-    youtubeId: "b9N2vL7pK4X",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biomolecules."
@@ -966,7 +966,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Sets",
     subject: "Mathematics",
     title: "Sets (Mathematics) High-Yield One-Shot",
-    youtubeId: "s8N2qL9pX3K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Sets."
@@ -976,7 +976,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Sets",
     subject: "Mathematics",
     title: "Sets Complete High-Yield One-Shot Revision",
-    youtubeId: "s8N2qL9pX3K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Sets."
@@ -986,7 +986,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Relations and Functions",
     subject: "Mathematics",
     title: "Relations and Functions (Mathematics) High-Yield One-Shot",
-    youtubeId: "r8V2nL9qX4P",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Relations and Functions."
@@ -996,7 +996,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Relations and Functions",
     subject: "Mathematics",
     title: "Relations and Functions Complete High-Yield One-Shot Revision",
-    youtubeId: "r8V2nL9qX4P",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Relations and Functions."
@@ -1006,7 +1006,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Trigonometric Functions",
     subject: "Mathematics",
     title: "Trigonometric Functions (Mathematics) High-Yield One-Shot",
-    youtubeId: "t9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Trigonometric Functions."
@@ -1016,7 +1016,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Trigonometric Functions",
     subject: "Mathematics",
     title: "Trigonometric Functions Complete High-Yield One-Shot Revision",
-    youtubeId: "t9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Trigonometric Functions."
@@ -1026,7 +1026,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Complex Numbers and Quadratic Equations",
     subject: "Mathematics",
     title: "Complex Numbers and Quadratic Equations (Mathematics) High-Yield One-Shot",
-    youtubeId: "y7N4vL9pX2K",
+    youtubeId: "vWSu-O6MVBI",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Complex Numbers and Quadratic Equations."
@@ -1036,7 +1036,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Complex Numbers and Quadratic Equations",
     subject: "Mathematics",
     title: "Complex Numbers and Quadratic Equations Complete High-Yield One-Shot Revision",
-    youtubeId: "y7N4vL9pX2K",
+    youtubeId: "vWSu-O6MVBI",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Complex Numbers and Quadratic Equations."
@@ -1046,7 +1046,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Linear Inequalities",
     subject: "Mathematics",
     title: "Linear Inequalities (Mathematics) High-Yield One-Shot",
-    youtubeId: "l7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Linear Inequalities."
@@ -1056,7 +1056,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Linear Inequalities",
     subject: "Mathematics",
     title: "Linear Inequalities Complete High-Yield One-Shot Revision",
-    youtubeId: "l7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Linear Inequalities."
@@ -1066,7 +1066,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Permutations and Combinations",
     subject: "Mathematics",
     title: "Permutations and Combinations (Mathematics) High-Yield One-Shot",
-    youtubeId: "p9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Permutations and Combinations."
@@ -1076,7 +1076,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Permutations and Combinations",
     subject: "Mathematics",
     title: "Permutations and Combinations Complete High-Yield One-Shot Revision",
-    youtubeId: "p9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Permutations and Combinations."
@@ -1086,7 +1086,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Binomial Theorem",
     subject: "Mathematics",
     title: "Binomial Theorem (Mathematics) High-Yield One-Shot",
-    youtubeId: "b8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Binomial Theorem."
@@ -1096,7 +1096,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Binomial Theorem",
     subject: "Mathematics",
     title: "Binomial Theorem Complete High-Yield One-Shot Revision",
-    youtubeId: "b8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Binomial Theorem."
@@ -1106,7 +1106,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Sequences and Series",
     subject: "Mathematics",
     title: "Sequences and Series (Mathematics) High-Yield One-Shot",
-    youtubeId: "s9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Sequences and Series."
@@ -1116,7 +1116,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Sequences and Series",
     subject: "Mathematics",
     title: "Sequences and Series Complete High-Yield One-Shot Revision",
-    youtubeId: "s9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Sequences and Series."
@@ -1126,7 +1126,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Straight Lines",
     subject: "Mathematics",
     title: "Straight Lines (Mathematics) High-Yield One-Shot",
-    youtubeId: "l9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Straight Lines."
@@ -1136,7 +1136,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Straight Lines",
     subject: "Mathematics",
     title: "Straight Lines Complete High-Yield One-Shot Revision",
-    youtubeId: "l9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Straight Lines."
@@ -1146,7 +1146,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Conic Sections",
     subject: "Mathematics",
     title: "Conic Sections (Mathematics) High-Yield One-Shot",
-    youtubeId: "c8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Conic Sections."
@@ -1156,7 +1156,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Conic Sections",
     subject: "Mathematics",
     title: "Conic Sections Complete High-Yield One-Shot Revision",
-    youtubeId: "c8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Conic Sections."
@@ -1166,7 +1166,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Introduction to Three Dimensional Geometry",
     subject: "Mathematics",
     title: "Introduction to Three Dimensional Geometry (Mathematics) High-Yield One-Shot",
-    youtubeId: "t8N4vL2pK9X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Introduction to Three Dimensional Geometry."
@@ -1176,7 +1176,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Introduction to Three Dimensional Geometry",
     subject: "Mathematics",
     title: "Introduction to Three Dimensional Geometry Complete High-Yield One-Shot Revision",
-    youtubeId: "t8N4vL2pK9X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Introduction to Three Dimensional Geometry."
@@ -1186,7 +1186,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Limits and Derivatives",
     subject: "Mathematics",
     title: "Limits and Derivatives (Mathematics) High-Yield One-Shot",
-    youtubeId: "d9N4vL2pK7X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Limits and Derivatives."
@@ -1196,7 +1196,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Limits and Derivatives",
     subject: "Mathematics",
     title: "Limits and Derivatives Complete High-Yield One-Shot Revision",
-    youtubeId: "d9N4vL2pK7X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Limits and Derivatives."
@@ -1206,7 +1206,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Statistics",
     subject: "Mathematics",
     title: "Statistics (Mathematics) High-Yield One-Shot",
-    youtubeId: "s7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Statistics."
@@ -1216,7 +1216,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Statistics",
     subject: "Mathematics",
     title: "Statistics Complete High-Yield One-Shot Revision",
-    youtubeId: "s7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 35m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Statistics."
@@ -1226,7 +1226,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Probability",
     subject: "Mathematics",
     title: "Probability (Mathematics) High-Yield One-Shot",
-    youtubeId: "p8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Probability."
@@ -1236,7 +1236,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Probability",
     subject: "Mathematics",
     title: "Probability Complete High-Yield One-Shot Revision",
-    youtubeId: "p8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Probability."
@@ -1246,7 +1246,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Inverse Trigonometric Functions",
     subject: "Mathematics",
     title: "Inverse Trigonometric Functions (Mathematics) High-Yield One-Shot",
-    youtubeId: "i9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Inverse Trigonometric Functions."
@@ -1256,7 +1256,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Inverse Trigonometric Functions",
     subject: "Mathematics",
     title: "Inverse Trigonometric Functions Complete High-Yield One-Shot Revision",
-    youtubeId: "i9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Inverse Trigonometric Functions."
@@ -1306,7 +1306,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Continuity and Differentiability",
     subject: "Mathematics",
     title: "Continuity and Differentiability (Mathematics) High-Yield One-Shot",
-    youtubeId: "c9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Continuity and Differentiability."
@@ -1316,7 +1316,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Continuity and Differentiability",
     subject: "Mathematics",
     title: "Continuity and Differentiability Complete High-Yield One-Shot Revision",
-    youtubeId: "c9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Continuity and Differentiability."
@@ -1326,7 +1326,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Application of Derivatives",
     subject: "Mathematics",
     title: "Application of Derivatives (Mathematics) High-Yield One-Shot",
-    youtubeId: "a8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Application of Derivatives."
@@ -1336,7 +1336,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Application of Derivatives",
     subject: "Mathematics",
     title: "Application of Derivatives Complete High-Yield One-Shot Revision",
-    youtubeId: "a8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Application of Derivatives."
@@ -1346,7 +1346,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Integrals",
     subject: "Mathematics",
     title: "Integrals (Mathematics) High-Yield One-Shot",
-    youtubeId: "u9X3pL7bK2N",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "3h 00m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Integrals."
@@ -1356,7 +1356,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Integrals",
     subject: "Mathematics",
     title: "Integrals Complete High-Yield One-Shot Revision",
-    youtubeId: "u9X3pL7bK2N",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "3h 00m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Integrals."
@@ -1366,7 +1366,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Applications of Integrals",
     subject: "Mathematics",
     title: "Applications of Integrals (Mathematics) High-Yield One-Shot",
-    youtubeId: "a7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Applications of Integrals."
@@ -1376,7 +1376,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Applications of Integrals",
     subject: "Mathematics",
     title: "Applications of Integrals Complete High-Yield One-Shot Revision",
-    youtubeId: "a7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Applications of Integrals."
@@ -1386,7 +1386,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Differential Equations",
     subject: "Mathematics",
     title: "Differential Equations (Mathematics) High-Yield One-Shot",
-    youtubeId: "d7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Differential Equations."
@@ -1396,7 +1396,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Differential Equations",
     subject: "Mathematics",
     title: "Differential Equations Complete High-Yield One-Shot Revision",
-    youtubeId: "d7N4vL9pX2K",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Differential Equations."
@@ -1406,7 +1406,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Vector Algebra",
     subject: "Mathematics",
     title: "Vector Algebra (Mathematics) High-Yield One-Shot",
-    youtubeId: "v9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 00m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Vector Algebra."
@@ -1416,7 +1416,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Vector Algebra",
     subject: "Mathematics",
     title: "Vector Algebra Complete High-Yield One-Shot Revision",
-    youtubeId: "v9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 00m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Vector Algebra."
@@ -1426,7 +1426,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Three Dimensional Geometry",
     subject: "Mathematics",
     title: "Three Dimensional Geometry (Mathematics) High-Yield One-Shot",
-    youtubeId: "t9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Three Dimensional Geometry."
@@ -1436,7 +1436,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Three Dimensional Geometry",
     subject: "Mathematics",
     title: "Three Dimensional Geometry Complete High-Yield One-Shot Revision",
-    youtubeId: "t9N2vL7pK4X",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Three Dimensional Geometry."
@@ -1446,7 +1446,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Linear Programming",
     subject: "Mathematics",
     title: "Linear Programming (Mathematics) High-Yield One-Shot",
-    youtubeId: "l8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Linear Programming."
@@ -1456,7 +1456,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Linear Programming",
     subject: "Mathematics",
     title: "Linear Programming Complete High-Yield One-Shot Revision",
-    youtubeId: "l8N3pK1vL7Q",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Linear Programming."
@@ -1466,7 +1466,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "The Living World",
     subject: "Biology",
     title: "The Living World (Biology) High-Yield One-Shot",
-    youtubeId: "v8N2pL9qX3K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for The Living World."
@@ -1476,7 +1476,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "The Living World",
     subject: "Biology",
     title: "The Living World Complete High-Yield One-Shot Revision",
-    youtubeId: "v8N2pL9qX3K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for The Living World."
@@ -1486,7 +1486,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biological Classification",
     subject: "Biology",
     title: "Biological Classification (Biology) High-Yield One-Shot",
-    youtubeId: "b8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biological Classification."
@@ -1496,7 +1496,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biological Classification",
     subject: "Biology",
     title: "Biological Classification Complete High-Yield One-Shot Revision",
-    youtubeId: "b8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biological Classification."
@@ -1506,7 +1506,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Plant Kingdom",
     subject: "Biology",
     title: "Plant Kingdom (Biology) High-Yield One-Shot",
-    youtubeId: "p8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Plant Kingdom."
@@ -1516,7 +1516,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Plant Kingdom",
     subject: "Biology",
     title: "Plant Kingdom Complete High-Yield One-Shot Revision",
-    youtubeId: "p8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Plant Kingdom."
@@ -1526,7 +1526,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Animal Kingdom",
     subject: "Biology",
     title: "Animal Kingdom (Biology) High-Yield One-Shot",
-    youtubeId: "a8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Animal Kingdom."
@@ -1536,7 +1536,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Animal Kingdom",
     subject: "Biology",
     title: "Animal Kingdom Complete High-Yield One-Shot Revision",
-    youtubeId: "a8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Animal Kingdom."
@@ -1546,7 +1546,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Morphology of Flowering Plants",
     subject: "Biology",
     title: "Morphology of Flowering Plants (Biology) High-Yield One-Shot",
-    youtubeId: "m8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 00m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Morphology of Flowering Plants."
@@ -1556,7 +1556,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Morphology of Flowering Plants",
     subject: "Biology",
     title: "Morphology of Flowering Plants Complete High-Yield One-Shot Revision",
-    youtubeId: "m8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 00m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Morphology of Flowering Plants."
@@ -1566,7 +1566,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Anatomy of Flowering Plants",
     subject: "Biology",
     title: "Anatomy of Flowering Plants (Biology) High-Yield One-Shot",
-    youtubeId: "a7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Anatomy of Flowering Plants."
@@ -1576,7 +1576,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Anatomy of Flowering Plants",
     subject: "Biology",
     title: "Anatomy of Flowering Plants Complete High-Yield One-Shot Revision",
-    youtubeId: "a7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Anatomy of Flowering Plants."
@@ -1586,7 +1586,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Structural Organisation in Animals",
     subject: "Biology",
     title: "Structural Organisation in Animals (Biology) High-Yield One-Shot",
-    youtubeId: "s8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Structural Organisation in Animals."
@@ -1596,7 +1596,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Structural Organisation in Animals",
     subject: "Biology",
     title: "Structural Organisation in Animals Complete High-Yield One-Shot Revision",
-    youtubeId: "s8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Structural Organisation in Animals."
@@ -1656,7 +1656,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Photosynthesis in Higher Plants",
     subject: "Biology",
     title: "Photosynthesis in Higher Plants (Biology) High-Yield One-Shot",
-    youtubeId: "r8N4vL2pK9X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Photosynthesis in Higher Plants."
@@ -1666,7 +1666,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Photosynthesis in Higher Plants",
     subject: "Biology",
     title: "Photosynthesis in Higher Plants Complete High-Yield One-Shot Revision",
-    youtubeId: "r8N4vL2pK9X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Photosynthesis in Higher Plants."
@@ -1676,7 +1676,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Respiration in Plants",
     subject: "Biology",
     title: "Respiration in Plants (Biology) High-Yield One-Shot",
-    youtubeId: "r9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Respiration in Plants."
@@ -1686,7 +1686,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Respiration in Plants",
     subject: "Biology",
     title: "Respiration in Plants Complete High-Yield One-Shot Revision",
-    youtubeId: "r9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Respiration in Plants."
@@ -1696,7 +1696,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Plant Growth and Development",
     subject: "Biology",
     title: "Plant Growth and Development (Biology) High-Yield One-Shot",
-    youtubeId: "p9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Plant Growth and Development."
@@ -1706,7 +1706,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Plant Growth and Development",
     subject: "Biology",
     title: "Plant Growth and Development Complete High-Yield One-Shot Revision",
-    youtubeId: "p9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Plant Growth and Development."
@@ -1716,7 +1716,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Breathing and Exchange of Gases",
     subject: "Biology",
     title: "Breathing and Exchange of Gases (Biology) High-Yield One-Shot",
-    youtubeId: "b9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Breathing and Exchange of Gases."
@@ -1726,7 +1726,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Breathing and Exchange of Gases",
     subject: "Biology",
     title: "Breathing and Exchange of Gases Complete High-Yield One-Shot Revision",
-    youtubeId: "b9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Breathing and Exchange of Gases."
@@ -1736,7 +1736,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Body Fluids and Circulation",
     subject: "Biology",
     title: "Body Fluids and Circulation (Biology) High-Yield One-Shot",
-    youtubeId: "c7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Body Fluids and Circulation."
@@ -1746,7 +1746,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Body Fluids and Circulation",
     subject: "Biology",
     title: "Body Fluids and Circulation Complete High-Yield One-Shot Revision",
-    youtubeId: "c7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Body Fluids and Circulation."
@@ -1756,7 +1756,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Excretory Products and their Elimination",
     subject: "Biology",
     title: "Excretory Products and their Elimination (Biology) High-Yield One-Shot",
-    youtubeId: "e7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Excretory Products and their Elimination."
@@ -1766,7 +1766,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Excretory Products and their Elimination",
     subject: "Biology",
     title: "Excretory Products and their Elimination Complete High-Yield One-Shot Revision",
-    youtubeId: "e7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Excretory Products and their Elimination."
@@ -1776,7 +1776,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Locomotion and Movement",
     subject: "Biology",
     title: "Locomotion and Movement (Biology) High-Yield One-Shot",
-    youtubeId: "l7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Locomotion and Movement."
@@ -1786,7 +1786,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Locomotion and Movement",
     subject: "Biology",
     title: "Locomotion and Movement Complete High-Yield One-Shot Revision",
-    youtubeId: "l7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Locomotion and Movement."
@@ -1796,7 +1796,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Neural Control and Coordination",
     subject: "Biology",
     title: "Neural Control and Coordination (Biology) High-Yield One-Shot",
-    youtubeId: "n7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Neural Control and Coordination."
@@ -1806,7 +1806,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Neural Control and Coordination",
     subject: "Biology",
     title: "Neural Control and Coordination Complete High-Yield One-Shot Revision",
-    youtubeId: "n7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Neural Control and Coordination."
@@ -1816,7 +1816,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Coordination and Integration",
     subject: "Biology",
     title: "Chemical Coordination and Integration (Biology) High-Yield One-Shot",
-    youtubeId: "c8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 55m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Coordination and Integration."
@@ -1826,7 +1826,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Coordination and Integration",
     subject: "Biology",
     title: "Chemical Coordination and Integration Complete High-Yield One-Shot Revision",
-    youtubeId: "c8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 55m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Coordination and Integration."
@@ -1836,7 +1836,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Sexual Reproduction in Flowering Plants",
     subject: "Biology",
     title: "Sexual Reproduction in Flowering Plants (Biology) High-Yield One-Shot",
-    youtubeId: "s9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Sexual Reproduction in Flowering Plants."
@@ -1846,7 +1846,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Sexual Reproduction in Flowering Plants",
     subject: "Biology",
     title: "Sexual Reproduction in Flowering Plants Complete High-Yield One-Shot Revision",
-    youtubeId: "s9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Sexual Reproduction in Flowering Plants."
@@ -1856,7 +1856,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Human Reproduction",
     subject: "Biology",
     title: "Human Reproduction (Biology) High-Yield One-Shot",
-    youtubeId: "h9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Human Reproduction."
@@ -1866,7 +1866,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Human Reproduction",
     subject: "Biology",
     title: "Human Reproduction Complete High-Yield One-Shot Revision",
-    youtubeId: "h9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Human Reproduction."
@@ -1876,7 +1876,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Reproductive Health",
     subject: "Biology",
     title: "Reproductive Health (Biology) High-Yield One-Shot",
-    youtubeId: "r7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Reproductive Health."
@@ -1886,7 +1886,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Reproductive Health",
     subject: "Biology",
     title: "Reproductive Health Complete High-Yield One-Shot Revision",
-    youtubeId: "r7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Reproductive Health."
@@ -1936,7 +1936,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Evolution",
     subject: "Biology",
     title: "Evolution (Biology) High-Yield One-Shot",
-    youtubeId: "e8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Evolution."
@@ -1946,7 +1946,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Evolution",
     subject: "Biology",
     title: "Evolution Complete High-Yield One-Shot Revision",
-    youtubeId: "e8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 05m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Evolution."
@@ -1956,7 +1956,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Human Health and Disease",
     subject: "Biology",
     title: "Human Health and Disease (Biology) High-Yield One-Shot",
-    youtubeId: "h8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Human Health and Disease."
@@ -1966,7 +1966,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Human Health and Disease",
     subject: "Biology",
     title: "Human Health and Disease Complete High-Yield One-Shot Revision",
-    youtubeId: "h8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 20m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Human Health and Disease."
@@ -1976,7 +1976,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Microbes in Human Welfare",
     subject: "Biology",
     title: "Microbes in Human Welfare (Biology) High-Yield One-Shot",
-    youtubeId: "m8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Microbes in Human Welfare."
@@ -1986,7 +1986,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Microbes in Human Welfare",
     subject: "Biology",
     title: "Microbes in Human Welfare Complete High-Yield One-Shot Revision",
-    youtubeId: "m8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Microbes in Human Welfare."
@@ -1996,7 +1996,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biotechnology: Principles and Processes",
     subject: "Biology",
     title: "Biotechnology: Principles and Processes (Biology) High-Yield One-Shot",
-    youtubeId: "b9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biotechnology: Principles and Processes."
@@ -2006,7 +2006,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biotechnology: Principles and Processes",
     subject: "Biology",
     title: "Biotechnology: Principles and Processes Complete High-Yield One-Shot Revision",
-    youtubeId: "b9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biotechnology: Principles and Processes."
@@ -2016,7 +2016,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biotechnology and its Applications",
     subject: "Biology",
     title: "Biotechnology and its Applications (Biology) High-Yield One-Shot",
-    youtubeId: "b8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biotechnology and its Applications."
@@ -2026,7 +2026,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biotechnology and its Applications",
     subject: "Biology",
     title: "Biotechnology and its Applications Complete High-Yield One-Shot Revision",
-    youtubeId: "b8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biotechnology and its Applications."
@@ -2036,7 +2036,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Organisms and Populations",
     subject: "Biology",
     title: "Organisms and Populations (Biology) High-Yield One-Shot",
-    youtubeId: "o8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Organisms and Populations."
@@ -2046,7 +2046,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Organisms and Populations",
     subject: "Biology",
     title: "Organisms and Populations Complete High-Yield One-Shot Revision",
-    youtubeId: "o8N3pK1vL7Q",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Organisms and Populations."
@@ -2056,7 +2056,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Ecosystem",
     subject: "Biology",
     title: "Ecosystem (Biology) High-Yield One-Shot",
-    youtubeId: "e9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Ecosystem."
@@ -2066,7 +2066,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Ecosystem",
     subject: "Biology",
     title: "Ecosystem Complete High-Yield One-Shot Revision",
-    youtubeId: "e9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Ecosystem."
@@ -2076,7 +2076,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biodiversity and Conservation",
     subject: "Biology",
     title: "Biodiversity and Conservation (Biology) High-Yield One-Shot",
-    youtubeId: "b7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biodiversity and Conservation."
@@ -2086,7 +2086,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biodiversity and Conservation",
     subject: "Biology",
     title: "Biodiversity and Conservation Complete High-Yield One-Shot Revision",
-    youtubeId: "b7N4vL9pX2K",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biodiversity and Conservation."
@@ -2096,7 +2096,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Kinematics in 1D & 2D Complete High-Yield One-Shot",
     subject: "Physics",
     title: "Kinematics in 1D & 2D Complete High-Yield One-Shot",
-    youtubeId: "z68-X4L1eFw",
+    youtubeId: "j5oop-6-2p4",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 15m",
     description: "Targeted high-yield revision for Kinematics in 1D & 2D Complete High-Yield One-Shot."
@@ -2106,7 +2106,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Mole Concept & Stoichiometry One-Shot",
     subject: "Chemistry",
     title: "Mole Concept & Stoichiometry One-Shot",
-    youtubeId: "mX9vL2bKp8Q",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 10m",
     description: "Targeted high-yield revision for Mole Concept & Stoichiometry One-Shot."
@@ -2116,7 +2116,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Bonding & VSEPR Super One-Shot",
     subject: "Chemistry",
     title: "Chemical Bonding & VSEPR Super One-Shot",
-    youtubeId: "q4V7xP9bL2K",
+    youtubeId: "V7IhNvWMO0A",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 40m",
     description: "Targeted high-yield revision for Chemical Bonding & VSEPR Super One-Shot."
@@ -2126,7 +2126,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "General Organic Chemistry (GOC) Masterclass",
     subject: "Chemistry",
     title: "General Organic Chemistry (GOC) Masterclass",
-    youtubeId: "g9N2vL7pK4X",
+    youtubeId: "RTKuB9dHfIw",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 45m",
     description: "Targeted high-yield revision for General Organic Chemistry (GOC) Masterclass."
@@ -2136,7 +2136,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "General Organic Chemistry (GOC) Masterclass",
     subject: "Chemistry",
     title: "General Organic Chemistry (GOC) Masterclass",
-    youtubeId: "g9N2vL7pK4X",
+    youtubeId: "RTKuB9dHfIw",
     channelName: "Pankaj Sir Chemistry",
     duration: "2h 45m",
     description: "Targeted high-yield revision for General Organic Chemistry (GOC) Masterclass."
@@ -2146,7 +2146,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Rotational Motion & Moment of Inertia One-Shot",
     subject: "Physics",
     title: "Rotational Motion & Moment of Inertia One-Shot",
-    youtubeId: "zY8vU4_kQ9A",
+    youtubeId: "3f0u4L-lyyw",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "3h 10m",
     description: "Targeted high-yield revision for Rotational Motion & Moment of Inertia One-Shot."
@@ -2156,7 +2156,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Electrostatics Complete Concept Revision",
     subject: "Physics",
     title: "Electrostatics Complete Concept Revision",
-    youtubeId: "k7T8y9mN1wE",
+    youtubeId: "PyNboHgtYzM",
     channelName: "Physics Galaxy (Ashish Arora Sir)",
     duration: "2h 45m",
     description: "Targeted high-yield revision for Electrostatics Complete Concept Revision."
@@ -2166,7 +2166,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Quadratic Equations Masterclass",
     subject: "Mathematics",
     title: "Quadratic Equations Masterclass",
-    youtubeId: "y7N4vL9pX2K",
+    youtubeId: "vWSu-O6MVBI",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 35m",
     description: "Targeted high-yield revision for Quadratic Equations Masterclass."
@@ -2176,7 +2176,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Complex Numbers Complete Revision",
     subject: "Mathematics",
     title: "Complex Numbers Complete Revision",
-    youtubeId: "y7N4vL9pX2K",
+    youtubeId: "vWSu-O6MVBI",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "2h 35m",
     description: "Targeted high-yield revision for Complex Numbers Complete Revision."
@@ -2186,7 +2186,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Definite Integration & Properties One-Shot",
     subject: "Mathematics",
     title: "Definite Integration & Properties One-Shot",
-    youtubeId: "u9X3pL7bK2N",
+    youtubeId: "gRHZwJ9O2Ow",
     channelName: "Mohit Tyagi (Competishun)",
     duration: "3h 00m",
     description: "Targeted high-yield revision for Definite Integration & Properties One-Shot."
@@ -2196,7 +2196,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Cell Biology & Organelles One-Shot",
     subject: "Biology",
     title: "Cell Biology & Organelles One-Shot",
-    youtubeId: "p7K3vL9nX2M",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 25m",
     description: "Targeted high-yield revision for Cell Biology & Organelles One-Shot."
@@ -2206,7 +2206,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Genetics & Inheritance Complete NCERT Decode",
     subject: "Biology",
     title: "Genetics & Inheritance Complete NCERT Decode",
-    youtubeId: "g9N2vL7pK4X",
+    youtubeId: "f2hYBE7oEpk",
     channelName: "Tarun Sir Biology",
     duration: "2h 45m",
     description: "Targeted high-yield revision for Genetics & Inheritance Complete NCERT Decode."

@@ -67,6 +67,54 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
     'Relative Motion & Frame Analysis'
   ];
 
+  const getSubjectFormula = (subj: SubjectName, ch: string, subName: string, idx: number): string => {
+    const chLower = ch.toLowerCase();
+    if (subj === 'Chemistry') {
+      if (chLower.includes('thermo')) return idx % 2 === 0 ? 'ΔG° = ΔH° - TΔS°,  ΔG = -nFE°_cell' : 'ΔU = q + w,  w = -P_ext ΔV';
+      if (chLower.includes('equilibrium')) return idx % 2 === 0 ? 'K_p = K_c (RT)^Δn_g,  pH = -log₁₀[H⁺]' : 'pH = pK_a + log([Salt]/[Acid])';
+      if (chLower.includes('kinetics')) return idx % 2 === 0 ? 'k = (2.303/t) log([A]₀/[A]_t),  t₁/₂ = 0.693/k' : 'k = A e^(-Ea / RT)';
+      if (chLower.includes('bonding')) return idx % 2 === 0 ? 'Bond Order = ½(N_b - N_a)' : 'μ = q × d (Dipole Moment in Debye)';
+      if (chLower.includes('atom')) return idx % 2 === 0 ? 'r_n = 0.529 (n²/Z) Å,  E_n = -13.6 (Z²/n²) eV' : 'λ = h / (m v) = h / p';
+      if (chLower.includes('solution') || chLower.includes('mole')) return idx % 2 === 0 ? 'P_A = P_A° X_A,  ΔT_b = K_b · m · i' : 'π = i C R T,  ΔT_f = K_f · m · i';
+      if (chLower.includes('electrochem')) return idx % 2 === 0 ? 'E_cell = E°_cell - (0.0591/n) log Q' : 'Λ_m = (κ × 1000) / Molarity';
+      return idx % 2 === 0 ? 'n = Mass / Molar Mass,  PV = nRT' : 'K_eq = [Products]^c / [Reactants]^a';
+    }
+
+    if (subj === 'Mathematics') {
+      if (chLower.includes('calculus') || chLower.includes('diff') || chLower.includes('limit')) {
+        return idx % 2 === 0 ? 'd/dx(u/v) = (v u\' - u v\') / v²' : 'lim_{x→0} (sin x)/x = 1,  d/dx(e^x) = e^x';
+      }
+      if (chLower.includes('integ')) return idx % 2 === 0 ? '∫ u v dx = u ∫v dx - ∫ (u\' ∫v dx) dx' : '∫ (1 / √(a² - x²)) dx = sin⁻¹(x/a) + C';
+      if (chLower.includes('matrix') || chLower.includes('determ')) return idx % 2 === 0 ? 'A · adj(A) = |A| I,  A⁻¹ = adj(A) / |A|' : 'det(AB) = det(A) · det(B)';
+      if (chLower.includes('quad') || chLower.includes('complex')) return idx % 2 === 0 ? 'x = (-b ± √(b² - 4ac)) / (2a)' : '|z| = √(x² + y²),  z = r(cos θ + i sin θ)';
+      if (chLower.includes('progression') || chLower.includes('series')) return idx % 2 === 0 ? 'T_n = a + (n-1)d,  S_n = (n/2)[2a + (n-1)d]' : 'S_∞ = a / (1 - r) for |r| < 1';
+      if (chLower.includes('vector') || chLower.includes('3d')) return idx % 2 === 0 ? 'a · b = |a||b| cos θ,  |a × b| = |a||b| sin θ' : 'cos²α + cos²β + cos²γ = 1';
+      if (chLower.includes('prob')) return idx % 2 === 0 ? 'P(A|B) = P(A ∩ B) / P(B)' : 'P(E) = n(E) / n(S),  P(A∪B) = P(A)+P(B)-P(A∩B)';
+      return idx % 2 === 0 ? '(a + b)ⁿ = ∑ ⁿC_r aⁿ⁻ʳ bʳ' : 'sin²θ + cos²θ = 1,  tan 2θ = 2 tan θ / (1 - tan²θ)';
+    }
+
+    if (subj === 'Biology') {
+      if (chLower.includes('genetics') || chLower.includes('inher')) return idx % 2 === 0 ? 'Mendelian Dihybrid Ratio: 9:3:3:1' : 'Chargaff Rule: A=T (2 H-bonds), G≡C (3 H-bonds)';
+      if (chLower.includes('cell')) return idx % 2 === 0 ? 'Fluid Mosaic Model: Phospholipid bilayer' : 'Cell Cycle: G1 → S (Replication) → G2 → M Phase';
+      if (chLower.includes('photo')) return idx % 2 === 0 ? '6CO₂ + 12H₂O + Light → C₆H₁₂O₆ + 6O₂ + 6H₂O' : 'Calvin Cycle: Rubisco fixes CO₂ in C3 pathway';
+      if (chLower.includes('respir')) return idx % 2 === 0 ? 'Glycolysis: Net 2 ATP + 2 NADH from 1 Glucose' : 'TCA Cycle: Mitochondrial matrix oxidation';
+      if (chLower.includes('human') || chLower.includes('physio')) return idx % 2 === 0 ? 'Cardiac Output = Stroke Volume × Heart Rate ≈ 5 L/min' : 'GFR ≈ 125 mL/min (180 L/day)';
+      return idx % 2 === 0 ? 'NCERT Core Theorem: Structure-function unity' : 'Key Biological Classification: Domain → Kingdom → Phylum';
+    }
+
+    // Physics
+    if (chLower.includes('electrostat') || chLower.includes('potential')) return idx % 2 === 0 ? 'F = (1/4πε₀) · (q₁q₂ / r²),  V = (1/4πε₀)(q/r)' : 'C = ε₀A / d,  U = ½ C V² = Q² / (2C)';
+    if (chLower.includes('current')) return idx % 2 === 0 ? 'V = I R,  P = I²R = V²/R,  R = ρ L / A' : 'Wheatstone: P/Q = R/S (balanced), Kirchhoff: ∑I = 0';
+    if (chLower.includes('magnet')) return idx % 2 === 0 ? 'F = q(v × B) + qE (Lorentz),  r = mv / (qB)' : 'Biot-Savart: dB = (μ₀/4π) · (I dl × r̂) / r²';
+    if (chLower.includes('optic')) return idx % 2 === 0 ? '1/f = 1/v - 1/u (Lens),  1/f = (μ-1)(1/R₁ - 1/R₂)' : 'Snell Law: μ₁ sin i = μ₂ sin r,  β = λ D / d';
+    if (chLower.includes('modern') || chLower.includes('atom') || chLower.includes('photo')) return idx % 2 === 0 ? 'E = hν = hc/λ,  K_max = hν - Φ' : 'λ_deBroglie = h / p = h / √(2mE)';
+    if (chLower.includes('rotat')) return idx % 2 === 0 ? 'τ = I α,  L = I ω,  K_rot = ½ I ω²' : 'Parallel Axis: I = I_cm + Md²';
+    if (chLower.includes('gravit')) return idx % 2 === 0 ? 'F = G m₁m₂ / r²,  g = GM / R²' : 'v_escape = √(2GM / R),  v_orbital = √(GM / r)';
+    if (chLower.includes('thermo')) return idx % 2 === 0 ? 'ΔQ = ΔU + ΔW,  ΔW = P ΔV' : 'Carnot Efficiency: η = 1 - T_c / T_h';
+
+    return idx % 2 === 0 ? 'v = u + at,  s = ut + ½at²,  v² = u² + 2as' : 'F = m a,  p = m v,  Work = F · d cos θ';
+  };
+
   const subtopicMap: Record<string, string[]> = {
     '1D Rectilinear Motion': ['Distance & Displacement', 'Average Speed & Velocity', 'Uniform Acceleration Equations', 'Free Fall under Gravity'],
     'Velocity & Acceleration Graphs': ['x-t Graph Slopes & Tangents', 'v-t Graph Area (Displacement)', 'a-t Graph Integrals', 'Curvature & Inflection'],
@@ -100,8 +148,8 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
         lastPracticed: sIdx === 0 ? 'Yesterday' : '3 days ago',
         nextRevision: subStatus === 'Weak' ? 'Today' : 'in 4 days',
         status: subStatus,
-        conceptNotes: `Governing physical relations and vector resolution for ${subName}. Ensure standard SI unit consistency before algebraic substitution.`,
-        keyFormula: sIdx % 2 === 0 ? 'v = u + at,  s = ut + ½at²' : 'R = (u² sin 2θ) / g,  H = (u² sin²θ) / 2g'
+        conceptNotes: `Governing academic principles and key problem-solving heuristics for ${subName} in ${subject} (${chapterName}). Master core NCERT definitions and standard formula variants.`,
+        keyFormula: getSubjectFormula(subject, chapterName, subName, sIdx)
       };
     });
 

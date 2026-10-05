@@ -154,11 +154,15 @@ export const AITeacherPage: React.FC = () => {
     setIsLoading(true);
 
     if (currentMode === 'Practice') {
-      const bankQs = questionService.filterQuestions({
-        subject: selectedSubject,
-        chapter: selectedChapter
+      const targetChapter = classification.detectedChapter || selectedChapter;
+      let bankQs = questionService.filterQuestions({
+        subject: activeSubj,
+        chapter: targetChapter
       });
-      const q = bankQs[Math.floor(Math.random() * bankQs.length)] || bankQs[0];
+      if (bankQs.length === 0) {
+        bankQs = questionService.filterQuestions({ subject: activeSubj });
+      }
+      const q = bankQs[Math.floor(Math.random() * bankQs.length)] || questionService.getAllQuestions()[0];
 
       setTimeout(() => {
         setIsLoading(false);

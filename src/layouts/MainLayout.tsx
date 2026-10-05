@@ -143,20 +143,17 @@ export const MainLayout: React.FC = () => {
           </Link>
         </div>
 
-        {/* Minimal Streak & Target Pill */}
+        {/* Minimal Streak & Target Badge (Exam switcher moved to Settings as requested) */}
         <div className="mx-3.5 my-3 p-2.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 rounded-xl flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
             <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{user.streakDays || 12} Day Streak</span>
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{user.streakDays || 0} Day Streak</span>
           </div>
-          <button
-            type="button"
-            onClick={() => setExamSwitcherOpen(true)}
-            className="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md hover:border-emerald-500 transition-colors flex items-center gap-1"
+          <span
+            className="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md"
           >
-            <span>{user.targetExam || 'JEE'}</span>
-            <ChevronDown className="w-2.5 h-2.5" />
-          </button>
+            {user.targetExam || 'JEE'}
+          </span>
         </div>
 
         {/* Navigation */}
