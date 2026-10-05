@@ -313,7 +313,7 @@ export const BuildMyTest: React.FC = () => {
                 className={`py-2 px-3 rounded-lg text-xs font-semibold border transition-all ${
                   exam === e
                     ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                 }`}
               >
                 {e}
@@ -338,7 +338,7 @@ export const BuildMyTest: React.FC = () => {
                   className={`py-2 px-3 rounded-lg border text-xs font-semibold transition-all flex items-center justify-between ${
                     isSelected
                       ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
-                      : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                      : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                   }`}
                 >
                   <span>{sub}</span>
@@ -405,7 +405,7 @@ export const BuildMyTest: React.FC = () => {
                 className={`py-2 px-2 rounded-lg text-xs font-semibold border transition-all ${
                   difficulty === d
                     ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                 }`}
               >
                 {d}
@@ -428,7 +428,7 @@ export const BuildMyTest: React.FC = () => {
                 className={`py-2 rounded-lg text-xs font-semibold border transition-all ${
                   questionCount === num && !customCountInput
                     ? 'bg-slate-900 border-slate-900 text-white shadow-sm'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
                 }`}
               >
                 {num} Qs
@@ -439,9 +439,9 @@ export const BuildMyTest: React.FC = () => {
 
         {/* Real-time Inventory Availability Banner */}
         <div className="p-3.5 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
-          <div className="text-slate-600">
+          <div className="text-slate-600 dark:text-slate-300">
             <span className="font-semibold text-slate-900 dark:text-white">{difficulty}</span> •{' '}
-            <span className={effectiveAvailableCount < questionCount ? 'text-amber-600 font-bold' : 'text-slate-700 font-semibold'}>
+            <span className={effectiveAvailableCount < questionCount ? 'text-amber-600 font-bold' : 'text-slate-700 dark:text-slate-200 font-semibold'}>
               {effectiveAvailableCount} questions available
             </span>
           </div>

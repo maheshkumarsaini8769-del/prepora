@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { rateLimit } from '../middleware/rateLimit.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
@@ -7,6 +8,10 @@ import { AuthorizedAdmin } from '../models/Admin.js';
 import { JWT_SECRET, authenticateUser, AuthRequest, hashToken } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// SECURITY: brute-force protection on credential endpoints (per IP)
+const authLimiter = rateLimit(12, 60 * 1000); // 12 attempts per minute
+const otpLimiter = rateLimit(6, 60 * 1000); // 6 OTP sends per minute
 
 // Helper to parse device info from User-Agent
 function parseDeviceInfo(req: Request) {
@@ -133,31 +138,36 @@ router.post('/register', async (req: Request, res: Response) => {
   }
 });
 
-// POST /api/auth/login
-router.post('/login', async (req: Request, res: Response) => {
+// POST /api/auth/login - Mobile number OR email + password
+router.post('/login', authLimiter, async (req: Request, res: Response) => {
   try {
-    const { email, password } = req.body;
+    const { identifier, email, phone, password } = req.body;
+    const raw = String(identifier || email || phone || '').trim();
 
-    if (!email || !password) {
-      return res.status(400).json({ success: false, message: 'Email and password are required.' });
+    if (!raw || !password) {
+      return res.status(400).json({ success: false, message: 'Mobile number/email and password are required.' });
     }
 
-    const normalizedEmail = email.toLowerCase().trim();
-    const user = await User.findOne({ email: normalizedEmail });
+    const isPhone = /^\+?[0-9\s-]{8,15}$/.test(raw) || (!raw.includes('@') && /^\d+$/.test(raw));
+    const normalizedPhone = isPhone ? raw.replace(/[^0-9]/g, '').slice(-10) : undefined;
+    const normalizedEmail = !isPhone ? raw.toLowerCase().trim() : undefined;
+
+    const user = normalizedPhone
+      ? await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] })
+      : await User.findOne({ email: normalizedEmail });
+
     if (!user) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+      return res.status(401).json({ success: false, message: 'Invalid mobile number/email or password.' });
     }
 
-    if (user.passwordHash) {
-      const isMatch = await bcrypt.compare(password, user.passwordHash);
-      if (!isMatch) {
-        return res.status(401).json({ success: false, message: 'Invalid email or password.' });
-      }
-    } else {
-      // If user had no password yet (e.g. seeded), set password on first login
-      const salt = await bcrypt.genSalt(10);
-      user.passwordHash = await bcrypt.hash(password, salt);
-      await user.save();
+    if (!user.passwordHash) {
+      // OTP-only account: password must be created after an OTP login, never guessed here
+      return res.status(401).json({ success: false, message: 'Is account me password set nahi hai. Pehle OTP se login karein, phir password create karein.' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    if (!isMatch) {
+      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
     }
 
     const { token, session } = await createSingleActiveSession(user, req);
@@ -165,6 +175,7 @@ router.post('/login', async (req: Request, res: Response) => {
     const userObj = user.toObject();
     delete userObj.passwordHash;
     delete userObj.otpCode;
+    (userObj as any).hasPassword = true;
 
     res.json({
       success: true,
@@ -178,48 +189,24 @@ router.post('/login', async (req: Request, res: Response) => {
   }
 });
 
-// POST /api/auth/demo - Quick Demo Session with real signed JWT & Session lock
-router.post('/demo', async (req: Request, res: Response) => {
+// POST /api/auth/set-password - Create/update password for the logged-in user (after OTP login)
+router.post('/set-password', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const { role = 'student' } = req.body;
-    const isAdm = role === 'admin';
-    const email = isAdm ? 'maheshkumarsaini8769@gmail.com' : 'aman.sharma@example.com';
-    const name = isAdm ? 'Mahesh Kumar (System Owner)' : 'Aman Sharma';
+    const { password } = req.body;
 
-    let user = await User.findOne({ email });
-    if (!user) {
-      user = new User({
-        id: isAdm ? 'usr_admin_mahesh' : 'usr_default_aman',
-        name,
-        email,
-        role: isAdm ? 'admin' : 'student',
-        targetExam: 'JEE',
-        classLevel: '12',
-        targetYear: 2026,
-        dreamScore: 280,
-        status: 'active'
-      });
-      await user.save();
-    } else {
-      if (isAdm && user.role !== 'admin') {
-        user.role = 'admin';
-        await user.save();
-      }
+    if (!password || typeof password !== 'string' || password.length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long.' });
     }
 
-    const { token, session } = await createSingleActiveSession(user, req);
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(password, salt);
 
-    const userObj = user.toObject();
-    delete userObj.passwordHash;
-    delete userObj.otpCode;
+    await User.findOneAndUpdate(
+      { id: req.user!.id },
+      { $set: { passwordHash } }
+    );
 
-    res.json({
-      success: true,
-      token,
-      user: userObj,
-      sessionId: session.id,
-      message: `${isAdm ? 'Admin' : 'Student'} demo session created.`
-    });
+    res.json({ success: true, message: 'Password saved. Ab aap password se directly login kar sakte hain.' });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -308,7 +295,7 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
 });
 
 // POST /api/auth/send-otp
-router.post('/send-otp', async (req: Request, res: Response) => {
+router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
   try {
     const { email, phone, identifier } = req.body;
     const targetIdentifier = (identifier || phone || email || '').trim();
@@ -328,8 +315,10 @@ router.post('/send-otp', async (req: Request, res: Response) => {
       user = await User.findOne({ email: normalizedEmail });
     }
 
-    // Set demo OTP to 9999 per configuration
-    const otp = '9999';
+    // SECURITY: fixed demo OTP (9999) only outside production; production uses a random OTP
+    const otp = process.env.NODE_ENV === 'production'
+      ? String(Math.floor(1000 + Math.random() * 9000))
+      : '9999';
     const expires = new Date(Date.now() + 60 * 60 * 1000); // 1 hour
 
     if (!user) {
@@ -368,7 +357,7 @@ router.post('/send-otp', async (req: Request, res: Response) => {
 });
 
 // POST /api/auth/verify-otp
-router.post('/verify-otp', async (req: Request, res: Response) => {
+router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
   try {
     const { email, phone, identifier, otp, name, targetExam = 'JEE', classLevel = '12', targetYear = 2026 } = req.body;
     const targetIdentifier = (identifier || phone || email || '').trim();
@@ -388,8 +377,9 @@ router.post('/verify-otp', async (req: Request, res: Response) => {
       user = await User.findOne({ email: normalizedEmail });
     }
 
-    // Demo OTP check: accept '9999' or matching user.otpCode
-    const isValidOtp = otp.trim() === '9999' || (user && user.otpCode === otp.trim() && user.otpExpires && new Date() <= user.otpExpires);
+    // SECURITY: the universal demo OTP is accepted only outside production
+    const isDemoOtp = process.env.NODE_ENV !== 'production' && otp.trim() === '9999';
+    const isValidOtp = isDemoOtp || (user && user.otpCode === otp.trim() && user.otpExpires && new Date() <= user.otpExpires);
 
     if (!isValidOtp) {
       return res.status(400).json({ success: false, message: 'Invalid OTP code. Please use demo OTP: 9999.' });
@@ -450,6 +440,7 @@ router.post('/verify-otp', async (req: Request, res: Response) => {
     const { token, session } = await createSingleActiveSession(user, req);
 
     const userObj = user.toObject();
+    (userObj as any).hasPassword = !!user.passwordHash;
     delete userObj.passwordHash;
     delete userObj.otpCode;
 
@@ -466,7 +457,7 @@ router.post('/verify-otp', async (req: Request, res: Response) => {
 });
 
 // POST /api/auth/forgot-password
-router.post('/forgot-password', async (req: Request, res: Response) => {
+router.post('/forgot-password', otpLimiter, async (req: Request, res: Response) => {
   try {
     const { email } = req.body;
     if (!email) {
@@ -498,7 +489,7 @@ router.post('/forgot-password', async (req: Request, res: Response) => {
 });
 
 // POST /api/auth/reset-password
-router.post('/reset-password', async (req: Request, res: Response) => {
+router.post('/reset-password', authLimiter, async (req: Request, res: Response) => {
   try {
     const { email, otp, newPassword } = req.body;
     if (!email || !otp || !newPassword) {
@@ -539,6 +530,7 @@ router.post('/reset-password', async (req: Request, res: Response) => {
 router.get('/me', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
     const userObj = req.user!.toObject();
+    (userObj as any).hasPassword = !!req.user!.passwordHash;
     delete userObj.passwordHash;
     delete userObj.otpCode;
     res.json({ success: true, user: userObj });

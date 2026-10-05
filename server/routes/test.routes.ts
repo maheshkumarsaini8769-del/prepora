@@ -89,36 +89,49 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       filter.source = { $nin: ['Model Paper', 'PYQ'] };
     }
 
-    let pool: any[] = [];
+    // Repo-first: expanded in-memory bank (~1 lakh) is the canonical source
+    let pool: any[] = questionRepo.filter({
+      exam,
+      subjects,
+      chapters,
+      topics: activeTopics || undefined,
+      topic,
+      difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+      includePYQs,
+      includeModelPapers: false
+    });
+
+    // Mongo overlay: admin-created questions not present in the file bank
     if (mongoose.connection.readyState === 1) {
       try {
-        pool = await Question.find(filter);
-      } catch (err) {
-        pool = [];
-      }
-    }
-
-    // High-performance fallback or supplement from 51,665 repository
-    if (pool.length < questionCount) {
-      const existingIds = new Set(pool.map(q => String(q.id || q._id)));
-      const repoQuestions = questionRepo.filter({
-        exam,
-        subjects,
-        chapters,
-        topic,
-        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
-        includePYQs
-      });
-
-      for (const q of repoQuestions) {
-        if (!existingIds.has(q.id)) {
-          pool.push(q);
-          existingIds.add(q.id);
-          if (pool.length >= questionCount) break;
+        const seen = new Set(pool.map(q => String(q.id || q._id)));
+        const mongoExtra = await Question.find(filter);
+        for (const q of mongoExtra) {
+          const qid = String((q as any).id || q._id);
+          if (!seen.has(qid)) {
+            pool.push(q);
+            seen.add(qid);
+          }
         }
+      } catch {
+        // repo pool already sufficient
       }
     }
 
+    // Chapter/topic-specific tests must NEVER include off-chapter/off-topic questions.
+    // If the bank is short, surface underflow to the UI (Continue with N / Generate more with AI).
+    const hasChapterOrTopic = (chapters && chapters.length > 0) || !!(activeTopics && activeTopics.length > 0);
+    if (pool.length < questionCount && hasChapterOrTopic) {
+      return res.json({
+        success: true,
+        isUnderflow: true,
+        availableCount: pool.length,
+        requestedCount: questionCount,
+        message: `Only ${pool.length} questions available for the selected chapter/topic.`
+      });
+    }
+
+    // Subject-wide tests (no chapter/topic) may pad from the broader subject pool
     if (pool.length < questionCount) {
       const existingIds = new Set(pool.map(q => String(q.id || q._id)));
       const broader = questionRepo.filter({ exam, subjects });

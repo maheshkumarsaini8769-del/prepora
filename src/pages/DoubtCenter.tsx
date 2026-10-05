@@ -235,7 +235,7 @@ export const DoubtCenter: React.FC = () => {
                     className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                       solverMode === 'direct'
                         ? 'bg-slate-900 text-white'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                     }`}
                   >
                     Full Solution
@@ -246,7 +246,7 @@ export const DoubtCenter: React.FC = () => {
                     className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all ${
                       solverMode === 'hints'
                         ? 'bg-slate-900 text-white'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                     }`}
                   >
                     Progressive Hints
@@ -312,7 +312,7 @@ export const DoubtCenter: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                <label className="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1">
                   Question or Concept Statement
                 </label>
                 <textarea

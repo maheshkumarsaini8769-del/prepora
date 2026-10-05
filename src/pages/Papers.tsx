@@ -161,7 +161,7 @@ export const Papers: React.FC = () => {
           <button
             type="button"
             onClick={clearAllFilters}
-            className="flex items-center gap-1.5 text-xs text-slate-600 hover:text-slate-900 font-medium self-start sm:self-auto"
+            className="flex items-center gap-1.5 text-xs text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white font-medium self-start sm:self-auto"
           >
             <RotateCcw className="w-3.5 h-3.5" />
             <span>Reset filters</span>

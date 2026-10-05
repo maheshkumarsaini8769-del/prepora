@@ -301,7 +301,7 @@ export const Settings: React.FC = () => {
             }`}
           >
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-amber-100 text-amber-600 flex items-center justify-center text-lg">
+              <div className="w-10 h-10 rounded-xl bg-amber-100 dark:bg-amber-500/15 text-amber-600 dark:text-amber-400 flex items-center justify-center text-lg">
                 ☀️
               </div>
               <div>
@@ -342,8 +342,8 @@ export const Settings: React.FC = () => {
       <SecurityActiveDevicesCard />
 
       {/* Danger Zone: Reset Local Data */}
-      <Card className="border-rose-100 bg-rose-50/20 space-y-3">
-        <h3 className="font-bold text-sm text-rose-800">Demo Prototype Storage Reset</h3>
+      <Card className="border-rose-100 dark:border-rose-900/50 bg-rose-50/20 dark:bg-rose-950/20 space-y-3">
+        <h3 className="font-bold text-sm text-rose-800 dark:text-rose-300">Demo Prototype Storage Reset</h3>
         <p className="text-xs text-slate-500 leading-relaxed">
           Clear test attempts, custom created tests, study notes, and mistake book back to the initial pristine state.
         </p>
@@ -431,7 +431,7 @@ const SecurityActiveDevicesCard: React.FC = () => {
             <button
               onClick={handleLogoutOther}
               disabled={loading}
-              className="text-purple-600 hover:underline text-[11px] lowercase first-letter:uppercase font-medium"
+              className="text-purple-600 dark:text-purple-300 hover:underline text-[11px] lowercase first-letter:uppercase font-medium"
             >
               {loading ? 'Logging out...' : 'Log out other devices'}
             </button>

@@ -1511,5 +1511,136 @@ router.delete('/papers/:id', async (req: AuthRequest, res: Response) => {
   }
 });
 
+// ==========================================
+// USERS & LOGIN OVERVIEW — total users, who logged in, numbers + names
+// ==========================================
+router.get('/users-overview', async (req: AuthRequest, res: Response) => {
+  try {
+    const { search } = req.query;
+    const query: any = {};
+    if (search) {
+      query.$or = [
+        { name: { $regex: String(search), $options: 'i' } },
+        { phone: { $regex: String(search), $options: 'i' } },
+        { email: { $regex: String(search), $options: 'i' } }
+      ];
+    }
+
+    const [users, totalUsers, withPassword, sessions] = await Promise.all([
+      User.find(query)
+        .select('id name phone email role status passwordHash createdAt targetExam classLevel')
+        .sort({ createdAt: -1 })
+        .limit(500)
+        .lean(),
+      User.countDocuments(query),
+      User.countDocuments({ ...query, passwordHash: { $exists: true, $nin: [null, ''] } }),
+      Session.find({ isRevoked: { $ne: true } })
+        .select('userId lastActive createdAt deviceInfo ipAddress')
+        .sort({ lastActive: -1, createdAt: -1 })
+        .limit(5000)
+        .lean()
+    ]);
+
+    // Login stats per user from sessions (count + last login + device)
+    const loginMap = new Map<string, { count: number; lastLogin: any; device: string; ip: string }>();
+    (sessions as any[]).forEach(s => {
+      const uid = String(s.userId || '');
+      if (!uid) return;
+      const entry = loginMap.get(uid) || { count: 0, lastLogin: null, device: '', ip: '' };
+      entry.count += 1;
+      const when = s.lastActive || s.createdAt;
+      if (when && (!entry.lastLogin || new Date(when) > new Date(entry.lastLogin))) {
+        entry.lastLogin = when;
+        entry.device = s.deviceInfo?.device || s.deviceInfo?.browser || 'Web';
+        entry.ip = s.ipAddress || '';
+      }
+      loginMap.set(uid, entry);
+    });
+
+    const list = (users as any[]).map((u, i) => {
+      const stat = loginMap.get(String(u.id)) || { count: 0, lastLogin: null, device: '', ip: '' };
+      return {
+        sno: i + 1,
+        id: u.id,
+        name: u.name || '—',
+        phone: u.phone || '',
+        email: u.email || '',
+        role: u.role || 'student',
+        status: u.status || 'active',
+        hasPassword: !!u.passwordHash,
+        loginCount: stat.count,
+        lastLogin: stat.lastLogin,
+        lastDevice: stat.device,
+        lastIp: stat.ip,
+        createdAt: u.createdAt,
+        targetExam: u.targetExam || '',
+        classLevel: u.classLevel || ''
+      };
+    });
+
+    const loggedInCount = list.filter(u => u.loginCount > 0).length;
+
+    // Recent logins — who logged in just now (name, number, time, device)
+    const recentLogins = (sessions as any[]).slice(0, 12).map(s => {
+      const u = (users as any[]).find(x => String(x.id) === String(s.userId));
+      return {
+        name: u?.name || 'Unknown',
+        phone: u?.phone || '',
+        when: s.lastActive || s.createdAt,
+        device: s.deviceInfo?.device || s.deviceInfo?.browser || 'Web',
+        ip: s.ipAddress || ''
+      };
+    });
+
+    res.json({
+      success: true,
+      stats: {
+        totalUsers,
+        withPassword,
+        loggedIn: loggedInCount,
+        neverLoggedIn: totalUsers - loggedInCount,
+        totalSessions: sessions.length
+      },
+      users: list,
+      recentLogins
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ==========================================
+// SET / RESET any user's password (admin action)
+// ==========================================
+router.post('/users/:id/set-password', async (req: AuthRequest, res: Response) => {
+  try {
+    const { password } = req.body;
+    if (!password || String(password).length < 6) {
+      return res.status(400).json({ success: false, message: 'Password must be at least 6 characters.' });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const passwordHash = await bcrypt.hash(String(password), salt);
+    const user = await User.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: { passwordHash } },
+      { new: true }
+    ).select('-passwordHash -otpCode');
+    if (!user) return res.status(404).json({ success: false, message: 'User not found.' });
+    await AuditLog.create({
+      id: `aud-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+      adminId: 'admin',
+      adminEmail: req.user?.email || 'admin',
+      adminRole: 'admin',
+      action: 'SET_USER_PASSWORD',
+      entityType: 'User',
+      entityId: String(req.params.id),
+      metadata: { by: req.user?.email }
+    }).catch(() => null);
+    res.json({ success: true, message: 'Password set successfully.', user });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 export default router;
 

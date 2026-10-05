@@ -107,7 +107,7 @@ export const VideoLecturesPage: React.FC = () => {
         };
       case 'Mathematics':
         return {
-          badge: 'bg-indigo-500/10 text-indigo-700 border-indigo-300',
+          badge: 'bg-indigo-500/10 text-indigo-700 dark:text-indigo-300 border-indigo-300 dark:border-indigo-800',
           dot: 'bg-indigo-500',
           accent: 'from-indigo-600 to-violet-700'
         };

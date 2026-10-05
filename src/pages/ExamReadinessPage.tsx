@@ -92,13 +92,13 @@ export const ExamReadinessPage: React.FC = () => {
       </div>
 
       {/* Mandatory Disclaimer (task4.md Section 16 & 32 - No Official Claims) */}
-      <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-3">
+      <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-300 text-xs flex items-start gap-3">
         <Info className="w-5 h-5 text-amber-700 shrink-0 mt-0.5" />
         <div>
-          <strong className="font-bold text-amber-900 block text-xs mb-0.5">
+          <strong className="font-bold text-amber-900 dark:text-amber-300 block text-xs mb-0.5">
             Diagnostic & Pedagogical Estimate (Not an Official Rank or Score):
           </strong>
-          <p className="text-amber-800 leading-relaxed text-[11px]">
+          <p className="text-amber-800 dark:text-amber-300 leading-relaxed text-[11px]">
             The PREPORA Readiness Score is an internal algorithmic benchmark calibrated to guide your study priorities. It does not constitute an official NTA/CBSE percentile guarantee.
           </p>
         </div>
@@ -126,13 +126,13 @@ export const ExamReadinessPage: React.FC = () => {
       </div>
 
       {/* BIGGEST IMPROVEMENT AREA CARD (task4.md Section 16) */}
-      <div className="p-6 rounded-3xl bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-purple-500/10 border-2 border-amber-300 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5">
+      <div className="p-6 rounded-3xl bg-gradient-to-r from-amber-500/15 via-rose-500/10 to-purple-500/10 dark:from-amber-500/10 dark:via-rose-500/10 dark:to-purple-500/10 border-2 border-amber-300 dark:border-amber-800/60 shadow-sm flex flex-col sm:flex-row sm:items-center justify-between gap-5">
         <div className="flex items-start gap-4">
-          <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-500/15 text-amber-800 dark:text-amber-300 flex items-center justify-center shrink-0">
             <Zap className="w-6 h-6 text-amber-600" />
           </div>
           <div className="space-y-1">
-            <span className="text-[11px] font-black uppercase tracking-wider text-amber-900">
+            <span className="text-[11px] font-black uppercase tracking-wider text-amber-900 dark:text-amber-300">
               ⚡ Biggest Improvement Opportunity
             </span>
             <h3 className="text-lg font-black text-slate-900 dark:text-white">

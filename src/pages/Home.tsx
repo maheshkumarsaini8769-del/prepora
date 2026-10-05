@@ -317,7 +317,7 @@ export const Home: React.FC = () => {
               soundFeedback.playClick();
               navigate('/practice');
             }}
-            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
+            className="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-600 text-amber-950 font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
           >
             Daily Goal Start Karo ({user.dailyGoalQuestions || 25} Qs) →
           </button>

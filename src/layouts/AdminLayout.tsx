@@ -26,7 +26,8 @@ import {
   FolderTree,
   SlidersHorizontal,
   Compass,
-  KeyRound
+  KeyRound,
+  UserCheck
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { adminFetch } from '../utils/adminApi';
@@ -93,6 +94,7 @@ export const AdminLayout: React.FC = () => {
       title: 'STUDENTS & QUALITY',
       subtitle: 'Students & Quality Assurance',
       items: [
+        { name: 'Users & Logins', path: '/admin/users', icon: UserCheck, desc: 'Users, numbers & login activity' },
         { name: 'Students Directory', path: '/admin/students', icon: Users, desc: 'Student profiles & progress' },
         { name: 'Reports & Doubts', path: '/admin/reports', icon: AlertTriangle, badge: stats.pendingReports > 0 ? `${stats.pendingReports}` : undefined, badgeColor: 'bg-rose-500', desc: 'Reported disputes & doubts' },
         { name: 'Analytics & Insights', path: '/admin/analytics', icon: BarChart3, desc: 'Performance & telemetry data' },

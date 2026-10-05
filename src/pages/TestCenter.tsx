@@ -122,7 +122,7 @@ export const TestCenter: React.FC = () => {
 
                 <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {test.subjects.map(s => (
-                    <span key={s} className="text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 px-2 py-0.5 rounded-md">
+                    <span key={s} className="text-[11px] font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 px-2 py-0.5 rounded-md">
                       {s}
                     </span>
                   ))}

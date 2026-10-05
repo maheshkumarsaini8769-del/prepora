@@ -110,8 +110,14 @@ class ApiTestService {
       }
 
       if (data && data.isUnderflow) {
-        // Fall back to local builder which supplements from broader pool so test generation always succeeds
-        return this.buildCustomTest(options);
+        // Chapter/topic-specific underflow: surface to UI (its underflow modal offers
+        // "Continue with N" / "Generate more with AI"). Never pad off-chapter here.
+        return {
+          success: false,
+          isUnderflow: true,
+          availableCount: data.availableCount ?? 0,
+          requestedCount: data.requestedCount ?? options.questionCount
+        };
       }
 
       if (error || (data && !data.success)) {
@@ -141,10 +147,26 @@ class ApiTestService {
       topic: options.topic && options.topic !== 'All' ? options.topic : undefined
     }).filter(q => {
       if (!options.subjects.includes(q.subject)) return false;
-      if (options.chapters && options.chapters.length > 0 && !options.chapters.includes('ALL') && !options.chapters.includes(q.chapter)) return false;
-      if (options.topics && options.topics.length > 0 && !options.topics.includes('ALL') && !options.topics.includes(q.topic)) return false;
+      if (options.chapters && options.chapters.length > 0 && !options.chapters.includes('ALL') && !options.chapters.some(c => c.toLowerCase() === (q.chapter || '').toLowerCase())) return false;
+      if (options.topics && options.topics.length > 0 && !options.topics.includes('ALL') && !options.topics.some(t => t.toLowerCase() === (q.topic || '').toLowerCase())) return false;
       return true;
     });
+
+    const hasChapterOrTopic =
+      (options.chapters && options.chapters.length > 0 && !options.chapters.includes('ALL')) ||
+      (options.topics && options.topics.length > 0 && !options.topics.includes('ALL')) ||
+      !!(options.topic && options.topic !== 'All' && options.topic !== 'ALL');
+
+    // Chapter/topic-specific tests must NEVER pad with off-chapter/off-topic questions —
+    // surface underflow to the UI modal (Continue with N / Generate more with AI) instead.
+    if (pool.length < options.questionCount && hasChapterOrTopic) {
+      return {
+        success: false,
+        isUnderflow: true,
+        availableCount: pool.length,
+        requestedCount: options.questionCount
+      };
+    }
 
     // Supplement from broader subject pool if exact criteria is underflow, so student test generation never fails
     if (pool.length < options.questionCount) {

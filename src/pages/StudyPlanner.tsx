@@ -237,14 +237,14 @@ export const StudyPlanner: React.FC = () => {
               className={`p-2.5 rounded-xl border text-left transition-all ${
                 isSelected
                   ? 'bg-slate-900 border-slate-900 text-white'
-                  : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
               }`}
             >
               <div className="flex items-center justify-between text-xs">
                 <span className="font-bold">{day.slice(0, 3)}</span>
                 <span
                   className={`text-[10px] font-semibold px-1.5 py-0.2 rounded-full ${
-                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                    isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
                   }`}
                 >
                   {dayDone}/{dayCount}
@@ -276,7 +276,7 @@ export const StudyPlanner: React.FC = () => {
               <div
                 key={t.id}
                 className={`p-3.5 rounded-xl border transition-all flex items-center justify-between gap-3 text-xs ${
-                  t.completed ? 'bg-slate-50 border-slate-200 opacity-60' : 'bg-white border-slate-200 hover:border-slate-300'
+                  t.completed ? 'bg-slate-50 dark:bg-slate-800/60 border-slate-200 dark:border-slate-800 opacity-60' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
                 }`}
               >
                 <div className="flex items-center gap-3 min-w-0">
@@ -286,7 +286,7 @@ export const StudyPlanner: React.FC = () => {
                     className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${
                       t.completed
                         ? 'bg-slate-900 border-slate-900 text-white'
-                        : 'border-slate-300 hover:border-slate-500 bg-white'
+                        : 'border-slate-300 dark:border-slate-700 hover:border-slate-500 dark:hover:border-slate-500 bg-white dark:bg-slate-900'
                     }`}
                   >
                     {t.completed && <Check className="w-3.5 h-3.5 stroke-[3]" />}

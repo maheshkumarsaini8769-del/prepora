@@ -69,6 +69,7 @@ const VideoLecturesPage = lazyPage(() => import('./pages/VideoLecturesPage'), 'V
 // Admin Pages (Loaded ONLY on demand when admin routes are visited)
 const AdminDashboard = lazyPage(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
 const AdminStudents = lazyPage(() => import('./pages/admin/AdminStudents'), 'AdminStudents');
+const AdminUsers = lazyPage(() => import('./pages/admin/AdminUsers'), 'AdminUsers');
 const AdminContentHierarchy = lazyPage(() => import('./pages/admin/AdminContentHierarchy'), 'AdminContentHierarchy');
 const AdminQuestions = lazyPage(() => import('./pages/admin/AdminQuestions'), 'AdminQuestions');
 const AdminTests = lazyPage(() => import('./pages/admin/AdminTests'), 'AdminTests');
@@ -182,6 +183,7 @@ export const App: React.FC = () => {
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/admin/authority" element={<AdminAuthorityPage />} />
               <Route path="/admin/students" element={<AdminStudents />} />
+              <Route path="/admin/users" element={<AdminUsers />} />
               <Route path="/admin/content" element={<AdminContentHierarchy />} />
               <Route path="/admin/questions" element={<AdminQuestions />} />
               <Route path="/admin/tests" element={<AdminTests />} />

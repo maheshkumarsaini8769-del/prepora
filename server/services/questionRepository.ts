@@ -91,13 +91,17 @@ export class QuestionRepository {
       chapter,
       chapters,
       topic,
+      topics,
       difficulty,
+      status,
+      contentType,
       includePYQs,
       includeModelPapers,
       search
     } = filters;
 
     const isCompetitive = exam === 'JEE' || exam === 'JEE_MAIN' || exam === 'JEE_ADVANCED' || exam === 'NEET';
+    const norm = (v: any) => String(v ?? '').trim().toLowerCase();
 
     return this.questions.filter(q => {
       // Content type / model paper
@@ -125,19 +129,20 @@ export class QuestionRepository {
       }
 
       // Subject matching
-      if (subject && subject !== 'All' && q.subject !== subject) return false;
-      if (subjects && subjects.length > 0 && !subjects.includes(q.subject)) return false;
+      if (subject && subject !== 'All' && norm(q.subject) !== norm(subject)) return false;
+      if (subjects && subjects.length > 0 && !subjects.some(s => norm(s) === norm(q.subject))) return false;
 
-      // Chapter matching
+      // Chapter matching (case-insensitive — UI syllabus names may differ in case from bank)
       if (chapter && chapter !== 'All' && chapter !== 'ALL') {
-        if (!q.chapter || q.chapter.toLowerCase() !== chapter.toLowerCase()) return false;
+        if (!q.chapter || norm(q.chapter) !== norm(chapter)) return false;
       }
-      if (chapters && chapters.length > 0 && !chapters.includes(q.chapter)) return false;
+      if (chapters && chapters.length > 0 && !chapters.includes('ALL') && !chapters.some(c => norm(c) === norm(q.chapter))) return false;
 
-      // Topic matching
+      // Topic matching (singular + array, case-insensitive)
       if (topic && topic !== 'All' && topic !== 'ALL') {
-        if (!q.topic || q.topic.toLowerCase() !== topic.toLowerCase()) return false;
+        if (!q.topic || norm(q.topic) !== norm(topic)) return false;
       }
+      if (topics && topics.length > 0 && !topics.includes('ALL') && !topics.some(t => norm(t) === norm(q.topic))) return false;
 
       // ClassLevel: only apply if explicitly non-competitive boards
       if (classLevel && classLevel !== 'All' && !isCompetitive) {
@@ -146,6 +151,13 @@ export class QuestionRepository {
 
       // Difficulty
       if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed' && q.difficulty !== difficulty) return false;
+
+      // Status & content type
+      if (status && status !== 'All' && (q.status || 'Approved') !== status) return false;
+      if (contentType && contentType !== 'All') {
+        const resolved = q.contentType || (isModel ? 'MODEL_PAPER' : isPYQ ? 'PYQ' : 'QUESTION_BANK');
+        if (resolved !== contentType) return false;
+      }
 
       // Search query
       if (search && typeof search === 'string' && search.trim()) {
@@ -158,6 +170,42 @@ export class QuestionRepository {
 
       return true;
     });
+  }
+
+  // Admin-created questions join the in-memory bank so every endpoint (count/list/build) sees them instantly
+  public add(question: any): void {
+    this.load();
+    if (!question || !question.id) return;
+    if (this.idMap.has(question.id)) return;
+    this.questions.push(question);
+    this.idMap.set(question.id, question);
+  }
+
+  public addMany(questions: any[]): void {
+    for (const q of questions || []) this.add(q);
+  }
+
+  // Startup hydration: pull Mongo-only questions (admin-created, persisted across restarts) into the bank
+  public async hydrateFromMongo(model: any): Promise<number> {
+    this.load();
+    try {
+      const repoIds = new Set(this.questions.map(q => q.id));
+      const mongoOnly = await model.find({ id: { $nin: Array.from(repoIds) } }).lean();
+      let added = 0;
+      for (const doc of mongoOnly) {
+        const q = { ...doc, id: doc.id || String(doc._id) };
+        if (!this.idMap.has(q.id)) {
+          this.questions.push(q);
+          this.idMap.set(q.id, q);
+          added++;
+        }
+      }
+      if (added > 0) console.log(`[QuestionRepository] Hydrated ${added} Mongo-only questions into memory bank.`);
+      return added;
+    } catch (err) {
+      console.warn('[QuestionRepository] Mongo hydration skipped:', err);
+      return 0;
+    }
   }
 
   public getInventoryStats(): {

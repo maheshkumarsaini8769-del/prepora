@@ -216,6 +216,12 @@ function buildQuestionFilter(query: any): any {
 // GET /api/questions/count - Fast count for arbitrary filter combinations
 router.get('/count', async (req: Request, res: Response) => {
   try {
+    // Repo-first: the expanded in-memory bank (~1 lakh) is the canonical source,
+    // so counts stay correct without inflating MongoDB storage.
+    const repoCount = questionRepo.count(req.query as any);
+    if (repoCount > 0) {
+      return res.json({ success: true, count: repoCount, filter: req.query });
+    }
     if (mongoose.connection.readyState === 1) {
       const filter = buildQuestionFilter(req.query);
       const count = await Question.countDocuments(filter);
@@ -223,9 +229,7 @@ router.get('/count', async (req: Request, res: Response) => {
         return res.json({ success: true, count, filter });
       }
     }
-    // High-performance repository fallback across all 51,665 questions
-    const count = questionRepo.count(req.query as any);
-    res.json({ success: true, count, filter: req.query });
+    res.json({ success: true, count: 0, filter: req.query });
   } catch (error: any) {
     const count = questionRepo.count(req.query as any);
     res.json({ success: true, count, filter: req.query });
@@ -237,6 +241,23 @@ router.get('/', async (req: Request, res: Response) => {
   try {
     const pageNum = parseInt(req.query.page as string, 10) || 1;
     const limitNum = Math.min(parseInt(req.query.limit as string, 10) || 50, 500);
+
+    // Repo-first: expanded in-memory bank (~1 lakh) is the canonical source
+    const repoPool = questionRepo.filter(req.query as any);
+    if (repoPool.length > 0) {
+      const sorted = [...repoPool].sort((a, b) =>
+        String(b.createdAt || '').localeCompare(String(a.createdAt || ''))
+      );
+      const total = sorted.length;
+      const startIndex = (pageNum - 1) * limitNum;
+      return res.json({
+        success: true,
+        questions: sorted.slice(startIndex, startIndex + limitNum),
+        total,
+        page: pageNum,
+        totalPages: Math.ceil(total / limitNum)
+      });
+    }
 
     if (mongoose.connection.readyState === 1) {
       const filter = buildQuestionFilter(req.query);
@@ -257,18 +278,12 @@ router.get('/', async (req: Request, res: Response) => {
       }
     }
 
-    // High-performance repository fallback across all 51,665 questions
-    const pool = questionRepo.filter(req.query as any);
-    const total = pool.length;
-    const startIndex = (pageNum - 1) * limitNum;
-    const questions = pool.slice(startIndex, startIndex + limitNum);
-
     res.json({
       success: true,
-      questions,
-      total,
+      questions: [],
+      total: 0,
       page: pageNum,
-      totalPages: Math.ceil(total / limitNum)
+      totalPages: 0
     });
   } catch (error: any) {
     const pageNum = parseInt(req.query.page as string, 10) || 1;

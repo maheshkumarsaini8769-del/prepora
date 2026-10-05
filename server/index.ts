@@ -23,7 +23,10 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 // Security & middlewares
-app.use(cors({ origin: '*' }));
+// SECURITY: set ALLOWED_ORIGIN (comma-separated domains) in production to lock
+// the API to your frontend. Unset = permissive (local dev).
+const allowedOrigins = (process.env.ALLOWED_ORIGIN || '').split(',').map(s => s.trim()).filter(Boolean);
+app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : true }));
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
 

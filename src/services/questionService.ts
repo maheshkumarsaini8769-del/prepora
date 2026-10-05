@@ -221,8 +221,14 @@ class ApiQuestionService {
       includeModelPapers: filters.includeModelPapers ?? false
     });
 
+    // Chapter/topic-specific practice must NEVER include off-chapter/off-topic questions:
+    // only supplement within the same chapter (broader difficulty), else return what exists.
+    const hasChapterOrTopic =
+      (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL') ||
+      (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL');
+
     // If pool is smaller than requested, supplement from the same subject across other chapters
-    if (pool.length < requestedCount && filters.subject && filters.subject !== 'All') {
+    if (pool.length < requestedCount && !hasChapterOrTopic && filters.subject && filters.subject !== 'All') {
       const subjectPool = this.filterQuestions({
         subject: filters.subject,
         exam: filters.exam,
@@ -238,8 +244,8 @@ class ApiQuestionService {
       }
     }
 
-    // If still smaller, supplement from all questions matching subject
-    if (pool.length < requestedCount && filters.subject && filters.subject !== 'All') {
+    // If still smaller, supplement from all questions matching subject (no chapter/topic filter only)
+    if (pool.length < requestedCount && !hasChapterOrTopic && filters.subject && filters.subject !== 'All') {
       const allSub = this.getAllQuestions().filter(q => q.subject === filters.subject);
       const existingIds = new Set(pool.map(q => q.id));
       for (const q of allSub) {
@@ -252,7 +258,7 @@ class ApiQuestionService {
     }
 
     // If still smaller (e.g. no subject filter, or subject bank was small), supplement from broader questions
-    if (pool.length < requestedCount) {
+    if (pool.length < requestedCount && !hasChapterOrTopic) {
       const existingIds = new Set(pool.map(q => q.id));
       const fallbackQuestions = this.getAllQuestions().filter(q => {
         if (filters.subject && filters.subject !== 'All' && q.subject !== filters.subject) return false;
@@ -265,8 +271,8 @@ class ApiQuestionService {
       }
     }
 
-    // If still 0, fill with all questions
-    if (pool.length === 0) {
+    // If still 0, fill with all questions (only when no chapter/topic filter — otherwise stay empty)
+    if (pool.length === 0 && !hasChapterOrTopic) {
       pool = [...this.getAllQuestions()];
     }
 

@@ -1,10 +1,20 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
-import { createHash } from 'crypto';
+import { createHash, randomBytes } from 'crypto';
 import User, { IUser } from '../models/User.js';
 import Session from '../models/Session.js';
 
-export const JWT_SECRET: string = process.env.JWT_SECRET || 'prepora_jwt_secret_key_2026_secure_default';
+// SECURITY: the secret must come from env. A predictable fallback constant would
+// let anyone forge valid tokens, so production without JWT_SECRET gets a random
+// per-instance secret (tokens reset on cold start) plus a loud warning.
+export const JWT_SECRET: string = process.env.JWT_SECRET
+  || (process.env.NODE_ENV === 'production'
+    ? randomBytes(32).toString('hex')
+    : 'prepora_dev_only_secret_never_use_in_production');
+
+if (process.env.NODE_ENV === 'production' && !process.env.JWT_SECRET) {
+  console.warn('[SECURITY] JWT_SECRET env var is NOT set — using a random per-instance secret. Set JWT_SECRET to keep sessions stable.');
+}
 
 export const hashToken = (token: string): string => createHash('sha256').update(token).digest('hex');
 
@@ -18,22 +28,8 @@ export interface AuthRequest extends Request {
 export const authenticateUser = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization || (req.headers['x-auth-token'] as string);
-    const isAdminRoute = Boolean(
-      (req.baseUrl && req.baseUrl.includes('admin')) ||
-      (req.originalUrl && req.originalUrl.includes('/api/admin'))
-    );
 
     if (!authHeader) {
-      if (isAdminRoute || process.env.NODE_ENV !== 'production') {
-        const adminUser = (await User.findOne({ email: 'maheshkumarsaini8769@gmail.com' })) || (await User.findOne({ role: 'admin' }));
-        if (adminUser) {
-          req.user = adminUser;
-          req.userId = adminUser.id;
-          req.token = 'dev_auto_admin_token';
-          req.sessionId = 'dev_auto_admin_session';
-          return next();
-        }
-      }
       return res.status(401).json({ success: false, message: 'Authentication required. No token provided.' });
     }
 
@@ -42,38 +38,14 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(401).json({ success: false, message: 'Invalid authorization token.' });
     }
 
-    // Gracefully support demo session tokens and offline Zenuxs sessions
-    if (token.startsWith('prepora_demo_session_') || token.startsWith('zenuxs_session_')) {
-      const isDemoAdmin = token.includes('admin') || isAdminRoute;
-      const targetUser = isDemoAdmin
-        ? ((await User.findOne({ email: 'maheshkumarsaini8769@gmail.com' })) || (await User.findOne({ role: 'admin' })))
-        : ((await User.findOne({ email: 'aman.sharma@example.com' })) || (await User.findOne({ role: 'student' })));
-
-      if (targetUser) {
-        req.user = targetUser;
-        req.userId = targetUser.id;
-        req.token = token;
-        req.sessionId = 'demo_session_active';
-        return next();
-      }
-    }
+    // SECURITY: every token must be a genuinely signed JWT. Demo/offline session
+    // prefixes are never honored — a forged prefix must never grant access.
 
     // Verify JWT
     let decoded: any;
     try {
       decoded = jwt.verify(token, JWT_SECRET);
-    } catch (err: any) {
-      // In dev mode or admin routes, fall back to admin user
-      if (isAdminRoute) {
-        const adminUser = (await User.findOne({ email: 'maheshkumarsaini8769@gmail.com' })) || (await User.findOne({ role: 'admin' }));
-        if (adminUser) {
-          req.user = adminUser;
-          req.userId = adminUser.id;
-          req.token = token;
-          req.sessionId = 'admin_recovered_session';
-          return next();
-        }
-      }
+    } catch {
       return res.status(401).json({ success: false, message: 'Invalid or expired token. Please log in again.' });
     }
 

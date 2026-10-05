@@ -24,18 +24,18 @@ export interface AuthContextType {
   authModalMode: 'login' | 'register' | 'otp' | 'forgot';
   setAuthModalOpen: (open: boolean) => void;
   setAuthModalMode: (mode: 'login' | 'register' | 'otp' | 'forgot') => void;
-  login: (email: string, password: string) => Promise<{ success: boolean; message?: string }>;
+  login: (identifier: string, password: string) => Promise<{ success: boolean; message?: string }>;
   loginWithZenuxs: (payload: { sub?: string; email?: string; name?: string; picture?: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   register: (data: { name: string; email: string; password: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   sendOtp: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string }>;
-  verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string }>;
+  verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string; hasPassword?: boolean }>;
+  setPassword: (password: string) => Promise<{ success: boolean; message?: string }>;
   forgotPassword: (email: string) => Promise<{ success: boolean; message?: string; debugOtp?: string }>;
   resetPassword: (email: string, otp: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
   logout: () => Promise<void>;
   logoutOtherDevices: () => Promise<{ success: boolean; message?: string }>;
   fetchSessions: (authToken?: string) => Promise<void>;
   updateUser: (updates: Partial<UserProfile>) => Promise<void>;
-  loginDemo: (role?: 'student' | 'admin') => void;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -313,12 +313,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [fetchSessions]);
 
-  const login = useCallback(async (email: string, password: string): Promise<{ success: boolean; message?: string }> => {
+  const login = useCallback(async (identifier: string, password: string): Promise<{ success: boolean; message?: string }> => {
     try {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ identifier, password })
       });
 
       const data = await res.json();
@@ -328,6 +328,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       setToken(data.token);
       localStorage.setItem(TOKEN_KEY, data.token);
+
+      // Admins skip the student onboarding gate
+      if (data.user?.role === 'admin') {
+        localStorage.setItem('prepora_onboarding_completed', 'true');
+      }
 
       const updatedUser: UserProfile = {
         ...userService.getProfile(),
@@ -408,7 +413,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     identifier: string,
     otp: string,
     metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }
-  ): Promise<{ success: boolean; message?: string }> => {
+  ): Promise<{ success: boolean; message?: string; hasPassword?: boolean }> => {
     try {
       const res = await fetch('/api/auth/verify-otp', {
         method: 'POST',
@@ -432,7 +437,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         fetchSessions(data.token);
         setAuthModalOpen(false);
 
-        return { success: true };
+        return { success: true, hasPassword: !!data.user?.hasPassword };
       }
     } catch (err) {
       console.warn('Network call failed, using verified local session for demo OTP:', err);
@@ -486,10 +491,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       userService.updateProfile(authenticatedUser);
       setAuthModalOpen(false);
 
-      return { success: true };
+      return { success: true, hasPassword: false };
     }
 
     return { success: false, message: 'Invalid OTP. Please enter demo OTP: 9999' };
+  };
+
+  const setPassword = async (password: string): Promise<{ success: boolean; message?: string }> => {
+    const t = localStorage.getItem(TOKEN_KEY);
+    if (!t) return { success: false, message: 'Not logged in.' };
+
+    try {
+      const res = await fetch('/api/auth/set-password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
+        body: JSON.stringify({ password })
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        return { success: true, message: data.message || 'Password created successfully.' };
+      }
+      return { success: false, message: data.message || 'Could not create password.' };
+    } catch (err: any) {
+      return { success: false, message: err?.message || 'Network connection error.' };
+    }
   };
 
   const forgotPassword = async (email: string): Promise<{ success: boolean; message?: string; debugOtp?: string }> => {
@@ -591,56 +616,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const loginDemo = useCallback(async (role: 'student' | 'admin' = 'student') => {
-    const isAdm = role === 'admin';
-    const email = isAdm ? 'maheshkumarsaini8769@gmail.com' : 'aman.sharma@example.com';
-    const name = isAdm ? 'Mahesh Kumar (Admin)' : 'Aman Sharma';
-
-    try {
-      const res = await fetch('/api/auth/demo', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role })
-      });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.success && data.token) {
-          setToken(data.token);
-          localStorage.setItem(TOKEN_KEY, data.token);
-          localStorage.setItem('prepora_onboarding_completed', 'true');
-          const merged: UserProfile & { role?: 'student' | 'admin' } = {
-            ...userService.getProfile(),
-            ...data.user,
-            role: isAdm ? 'admin' : 'student'
-          };
-          setUser(merged);
-          userService.updateProfile(merged);
-          setAuthModalOpen(false);
-          return;
-        }
-      }
-    } catch {
-      // Offline fallback
-    }
-
-    const demoToken = 'prepora_demo_session_' + (isAdm ? 'admin_' : '') + Date.now();
-    setToken(demoToken);
-    localStorage.setItem(TOKEN_KEY, demoToken);
-    localStorage.setItem('prepora_onboarding_completed', 'true');
-
-    const demoUser: UserProfile & { role?: 'student' | 'admin' } = {
-      ...userService.getProfile(),
-      id: isAdm ? 'usr_admin_mahesh' : 'usr_default_aman',
-      email,
-      name,
-      role: isAdm ? 'admin' : 'student'
-    };
-    setUser(demoUser);
-    userService.updateProfile(demoUser);
-    setAuthModalOpen(false);
-  }, []);
-
   return (
+
     <AuthContext.Provider
       value={{
         user,
@@ -656,13 +633,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         register,
         sendOtp,
         verifyOtp,
+        setPassword,
         forgotPassword,
         resetPassword,
         logout,
         logoutOtherDevices,
         fetchSessions,
-        updateUser,
-        loginDemo
+        updateUser
       }}
     >
       {children}

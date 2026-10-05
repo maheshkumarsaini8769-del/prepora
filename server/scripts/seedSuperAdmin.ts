@@ -9,9 +9,9 @@ async function seedSuperAdmin() {
   await mongoose.connect(MONGODB_URI);
   console.log('[Seed] Connected to MongoDB');
 
-  const defaultPassword = 'AdminPassword123!';
+  const ownerPassword = 'mahesh99830';
   const salt = await bcrypt.genSalt(10);
-  const passwordHash = await bcrypt.hash(defaultPassword, salt);
+  const ownerPasswordHash = await bcrypt.hash(ownerPassword, salt);
 
   const adminProfiles = [
     {
@@ -20,7 +20,7 @@ async function seedSuperAdmin() {
       email: 'maheshkumarsaini8769@gmail.com',
       role: 'admin' as const,
       status: 'active' as const,
-      passwordHash,
+      passwordHash: ownerPasswordHash,
       targetExam: 'JEE' as const,
       classLevel: '12' as const,
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=maheshkumarsaini8769'
@@ -31,7 +31,7 @@ async function seedSuperAdmin() {
       email: 'admin@prepora.com',
       role: 'admin' as const,
       status: 'active' as const,
-      passwordHash,
+      passwordHash: ownerPasswordHash,
       targetExam: 'JEE' as const,
       classLevel: '12' as const,
       avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=admin_master'
@@ -43,9 +43,9 @@ async function seedSuperAdmin() {
     if (existing) {
       existing.role = 'admin';
       existing.status = 'active';
-      if (!existing.passwordHash) existing.passwordHash = passwordHash;
+      existing.passwordHash = ownerPasswordHash;
       await existing.save();
-      console.log(`[Seed] Updated existing user to admin: ${adm.email}`);
+      console.log(`[Seed] Updated existing user to admin (password reset): ${adm.email}`);
     } else {
       await User.create(adm);
       console.log(`[Seed] Created new admin user: ${adm.email}`);
