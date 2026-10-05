@@ -97,7 +97,6 @@ class WhatsAppOTPService {
         if (!response.ok) {
           const errData = await response.json().catch(() => ({}));
           console.error('[WhatsApp Cloud API Error]', errData);
-          // If template not approved, fallback message logged for dev only
           if (process.env.NODE_ENV !== 'production') {
             console.log(`[DEV WhatsApp OTP] Mobile: ${cleanMobile} -> OTP: ${rawOtp}`);
           }
@@ -109,7 +108,6 @@ class WhatsAppOTPService {
         }
       }
     } else {
-      // In dev or test environment without live credentials, log safely for developer test
       if (process.env.NODE_ENV !== 'production') {
         console.log(`[DEV WhatsApp OTP] Mobile: ${cleanMobile} -> OTP: ${rawOtp}`);
       }
@@ -135,13 +133,6 @@ class WhatsAppOTPService {
       return { success: false, message: 'Mobile number and OTP are required.' };
     }
 
-    // In dev / demo testing fallback if enabled
-    if (process.env.NODE_ENV !== 'production' && (cleanOtp === '9999' || cleanOtp === '999999')) {
-      this.otpStore.delete(cleanMobile);
-      this.cooldownStore.delete(cleanMobile);
-      return { success: true, message: 'OTP verified successfully.' };
-    }
-
     const stored = this.otpStore.get(cleanMobile);
     if (!stored) {
       return { success: false, message: 'No active OTP found. Please request a new OTP.' };
@@ -157,6 +148,13 @@ class WhatsAppOTPService {
       return { success: false, message: 'Too many incorrect attempts. Please request a new OTP.' };
     }
 
+    // In dev / demo testing fallback if enabled and an active OTP session exists
+    if (process.env.NODE_ENV !== 'production' && (cleanOtp === '9999' || cleanOtp === '999999')) {
+      this.otpStore.delete(cleanMobile);
+      this.cooldownStore.delete(cleanMobile);
+      return { success: true, message: 'OTP verified successfully.' };
+    }
+
     const inputHash = this.hashOTP(cleanOtp);
     if (inputHash !== stored.hashedOTP) {
       stored.attempts += 1;
@@ -164,7 +162,7 @@ class WhatsAppOTPService {
       return { success: false, message: `Invalid OTP. ${remaining} attempt(s) remaining.` };
     }
 
-    // Burn OTP immediately after successful verification
+    // Burn OTP immediately after successful verification (single-use enforcement)
     this.otpStore.delete(cleanMobile);
     this.cooldownStore.delete(cleanMobile);
     return { success: true, message: 'OTP verified successfully.' };

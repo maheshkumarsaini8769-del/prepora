@@ -185,7 +185,21 @@ router.post('/tasks', authenticateUser, async (req: AuthRequest, res: Response) 
     // Update DailyProgress
     await DailyProgress.findOneAndUpdate(
       { studentId, date },
-      { $inc: { tasksTotal: 1 } },
+      {
+        $inc: { tasksTotal: 1 },
+        $setOnInsert: {
+          id: `dp_${Date.now()}_${randomBytes(3).toString('hex')}`,
+          studentId,
+          date,
+          tasksCompleted: 0,
+          studyTimeMinutes: 0,
+          questionsSolved: 0,
+          accuracyPercentage: 0,
+          streakDays: 1,
+          goalsCompleted: 0,
+          goalsTotal: 0
+        }
+      },
       { upsert: true }
     );
 
@@ -235,7 +249,18 @@ router.put('/tasks/:taskId', authenticateUser, async (req: AuthRequest, res: Res
       await DailyProgress.findOneAndUpdate(
         { studentId, date },
         {
-          $inc: { tasksCompleted: 1, studyTimeMinutes: addedMinutes }
+          $inc: { tasksCompleted: 1, studyTimeMinutes: addedMinutes },
+          $setOnInsert: {
+            id: `dp_${Date.now()}_${randomBytes(3).toString('hex')}`,
+            studentId,
+            date,
+            tasksTotal: 1,
+            questionsSolved: 0,
+            accuracyPercentage: 0,
+            streakDays: 1,
+            goalsCompleted: 0,
+            goalsTotal: 0
+          }
         },
         { upsert: true }
       );
@@ -250,7 +275,21 @@ router.put('/tasks/:taskId', authenticateUser, async (req: AuthRequest, res: Res
     } else if (prevCompleted && isCompleted === false) {
       await DailyProgress.findOneAndUpdate(
         { studentId, date },
-        { $inc: { tasksCompleted: -1 } },
+        {
+          $inc: { tasksCompleted: -1 },
+          $setOnInsert: {
+            id: `dp_${Date.now()}_${randomBytes(3).toString('hex')}`,
+            studentId,
+            date,
+            tasksTotal: 1,
+            studyTimeMinutes: 0,
+            questionsSolved: 0,
+            accuracyPercentage: 0,
+            streakDays: 1,
+            goalsCompleted: 0,
+            goalsTotal: 0
+          }
+        },
         { upsert: true }
       );
     }

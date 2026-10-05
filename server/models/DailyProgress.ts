@@ -18,7 +18,13 @@ export interface IDailyProgress extends Document {
 
 const DailyProgressSchema = new Schema(
   {
-    id: { type: String, required: true, unique: true, index: true },
+    id: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      default: () => `dp_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`
+    },
     studentId: { type: String, required: true, index: true },
     date: { type: String, required: true, index: true },
     tasksTotal: { type: Number, default: 0 },

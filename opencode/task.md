@@ -1258,3 +1258,897 @@ OTP
 Used only when actually required, not on every normal login.
 
 Build this as a production-quality authentication and student-management architecture, not as a demo-only implementation.
+## 34. MAXIMUM SECURITY / ANTI-BYPASS AUDIT
+
+Treat security as a first-class requirement.
+
+The application must remain secure even if an attacker:
+
+- Downloads/views all frontend JavaScript
+- Opens browser DevTools
+- Inspects network requests
+- Modifies frontend JavaScript
+- Calls APIs directly using Postman/cURL
+- Changes request parameters
+- Changes studentId values
+- Changes role values
+- Deletes cookies
+- Modifies localStorage/sessionStorage
+- Replays requests
+- Attempts to reuse expired sessions
+- Attempts to access admin APIs as a student
+- Attempts to access another student's data
+- Tries to bypass frontend route protection
+- Tries to call hidden/unlinked API endpoints
+- Attempts brute-force login/OTP
+- Tries parameter manipulation
+- Attempts NoSQL injection
+- Attempts XSS
+- Attempts CSRF
+- Attempts session fixation/hijacking
+- Attempts privilege escalation
+
+IMPORTANT:
+
+Never depend on frontend code for security.
+
+Frontend protection is ONLY UX.
+
+Backend authorization is the actual security boundary.
+
+==================================================
+35. NEVER PUT SECRETS IN FRONTEND
+==================================================
+
+Absolutely NEVER expose:
+
+- MongoDB URI
+- Database credentials
+- JWT/session secrets
+- WhatsApp API secret
+- WhatsApp access token
+- Admin secret
+- Encryption keys
+- Internal API credentials
+- Service account credentials
+
+inside:
+
+React code
+Vite variables
+public/
+JavaScript bundles
+HTML
+GitHub repository
+
+Anything beginning with a secret/private credential must remain server-side.
+
+If a VITE_ variable contains a secret, redesign it.
+
+==================================================
+36. ASSUME FRONTEND CODE IS PUBLIC
+==================================================
+
+Design the system under this assumption:
+
+"An attacker can download and inspect every byte of the frontend."
+
+Therefore:
+
+Even if attacker modifies:
+
+isAdmin = true
+
+or:
+
+studentId = anotherStudent
+
+or:
+
+authenticated = true
+
+the backend must reject unauthorized requests.
+
+Never implement:
+
+if (user.isAdmin) {
+   showAdmin();
+}
+
+as the security mechanism.
+
+Instead:
+
+Frontend:
+show/hide UI
+
+Backend:
+verify authenticated session
+verify server-side role
+verify authorization
+execute request only if allowed
+
+==================================================
+37. BACKEND AUTHORIZATION
+==================================================
+
+Every protected endpoint must use authorization middleware.
+
+Example:
+
+requireAuth
+requireStudent
+requireAdmin
+requireSuperAdmin
+
+For every request:
+
+1. Validate session
+2. Validate session expiration
+3. Validate session revocation
+4. Load authenticated user server-side
+5. Determine role server-side
+6. Authorize requested resource
+7. Execute database query
+
+Never trust:
+
+req.body.studentId
+req.query.studentId
+req.params.studentId
+req.body.role
+req.body.isAdmin
+
+for authorization.
+
+==================================================
+38. PREVENT STUDENT DATA BYPASS
+==================================================
+
+A student must NEVER be able to access another student's data.
+
+Bad:
+
+GET /api/students/:studentId/planner
+
+where student can simply change:
+
+/students/STUDENT_B/planner
+
+If such endpoint exists, authorization MUST verify ownership.
+
+Prefer:
+
+GET /api/my/planner
+
+Backend derives student ID from authenticated session.
+
+For admin:
+
+GET /api/admin/students/:studentId/planner
+
+Backend verifies:
+
+authenticatedUser.role === ADMIN or SUPER_ADMIN
+
+before accessing the requested student.
+
+==================================================
+39. IDOR / BROKEN ACCESS CONTROL TEST
+==================================================
+
+Perform explicit IDOR testing.
+
+Create:
+
+Student A
+Student B
+
+Login as Student A.
+
+Try to access:
+
+Student B profile
+Student B planner
+Student B tasks
+Student B progress
+Student B activity
+Student B session
+Student B login history
+
+by changing:
+
+IDs
+UUIDs
+MongoDB IDs
+query parameters
+request bodies
+URLs
+
+EVERY attempt must return:
+
+403 Forbidden
+
+or:
+
+404 Not Found
+
+without leaking private information.
+
+==================================================
+40. ADMIN BYPASS TEST
+==================================================
+
+Login as Student.
+
+Attempt:
+
+/api/admin/*
+/admin/*
+admin endpoints
+admin actions
+
+using:
+
+browser
+Postman
+cURL
+modified headers
+modified request body
+
+Expected:
+
+403 Forbidden.
+
+Changing frontend JavaScript must NOT grant admin access.
+
+Changing:
+
+role=ADMIN
+
+in request body must NOT work.
+
+==================================================
+41. SESSION SECURITY
+==================================================
+
+Session IDs must be:
+
+- Cryptographically random
+- High entropy
+- Unpredictable
+- Server validated
+- Expirable
+- Revocable
+- Rotated when required
+
+Do not use:
+
+timestamp
+mobile number
+studentId
+email
+incrementing IDs
+
+as session IDs.
+
+If a session is revoked, it must remain unusable even if attacker possesses the old cookie/token.
+
+Implement server-side session invalidation.
+
+==================================================
+42. SESSION HIJACKING PROTECTION
+==================================================
+
+Use:
+
+HttpOnly
+Secure
+SameSite
+
+cookies.
+
+Regenerate/rotate session identifiers after authentication where appropriate.
+
+Set reasonable:
+
+session expiration
+idle timeout
+
+Do not create permanent authentication sessions by default.
+
+For sensitive account changes:
+
+Require re-authentication or OTP when appropriate.
+
+==================================================
+43. CSRF PROTECTION
+==================================================
+
+If cookie-based authentication is used:
+
+Implement appropriate CSRF protection for state-changing requests.
+
+Protect:
+
+POST
+PUT
+PATCH
+DELETE
+
+requests.
+
+Use:
+
+SameSite cookies
+
+plus appropriate CSRF strategy.
+
+Do not assume CORS alone is CSRF protection.
+
+==================================================
+44. CORS
+==================================================
+
+Never use:
+
+Access-Control-Allow-Origin: *
+
+for authenticated production APIs unless there is a specific reason.
+
+Allow only trusted production frontend origins.
+
+Example:
+
+https://your-production-domain.com
+
+Do not dynamically reflect arbitrary Origin headers.
+
+Do not allow credentials from unknown origins.
+
+==================================================
+45. RATE LIMITING
+==================================================
+
+Implement separate rate limits for:
+
+Login
+OTP send
+OTP verification
+Password reset
+Password change
+Registration
+Admin login
+Sensitive APIs
+
+Example conceptual policy:
+
+Login:
+limited attempts per IP + account
+
+OTP:
+limited sends per mobile + IP
+
+OTP verification:
+limited attempts per OTP session
+
+Do not make rate limits so aggressive that normal students are constantly blocked.
+
+Add temporary cooldown after repeated failures.
+
+==================================================
+46. BRUTE FORCE PROTECTION
+==================================================
+
+Prevent:
+
+Password brute force
+OTP brute force
+Credential stuffing
+
+After repeated failed attempts:
+
+- Rate-limit
+- Temporary cooldown
+- Log security event
+
+Never reveal:
+
+"Mobile exists"
+"Password is wrong"
+
+in a way that allows account enumeration.
+
+Use generic authentication error messages where appropriate.
+
+==================================================
+47. OTP SECURITY
+==================================================
+
+OTP must:
+
+- Expire quickly
+- Be single-use
+- Have attempt limits
+- Have resend cooldown
+- Be rate-limited
+- Never appear in frontend API response
+- Never appear in production logs
+- Never be stored as plaintext if avoidable
+
+Do not accept old OTPs.
+
+Do not accept an OTP twice.
+
+Invalidate previous OTP when a new OTP is issued.
+
+==================================================
+48. PASSWORD SECURITY
+==================================================
+
+Use Argon2id or strong bcrypt configuration.
+
+Never store:
+
+password
+
+in plaintext.
+
+Never return:
+
+passwordHash
+
+through an API.
+
+Never log passwords.
+
+Generated passwords must use a cryptographically secure random generator.
+
+Do not use predictable passwords based on:
+
+mobile number
+name
+DOB
+student ID
+9999
+123456
+password
+
+==================================================
+49. INPUT VALIDATION
+==================================================
+
+Validate all input server-side.
+
+Do not trust frontend validation.
+
+Validate:
+
+mobile
+name
+password
+studentId
+dates
+planner data
+task data
+admin parameters
+
+Reject unexpected fields where appropriate.
+
+Use schemas such as:
+
+Zod
+Joi
+express-validator
+
+or an equivalent robust validation layer.
+
+==================================================
+50. NoSQL INJECTION
+==================================================
+
+Because MongoDB is being used:
+
+Protect against NoSQL injection.
+
+Never blindly pass user-controlled objects into MongoDB queries.
+
+Example dangerous pattern:
+
+Model.find(req.body)
+
+Do NOT do this.
+
+Explicitly construct allowed query fields.
+
+Sanitize/filter MongoDB operators such as:
+
+$ne
+$gt
+$gte
+$lt
+$in
+$where
+
+where appropriate.
+
+==================================================
+51. XSS PROTECTION
+==================================================
+
+Protect against stored and reflected XSS.
+
+User-generated:
+
+names
+notes
+tasks
+descriptions
+comments
+
+must never be blindly rendered as HTML.
+
+Do not use dangerouslySetInnerHTML unless absolutely required and sanitized with a trusted sanitizer.
+
+Apply proper output encoding.
+
+Set security headers.
+
+==================================================
+52. SECURITY HEADERS
+==================================================
+
+Implement appropriate production security headers, for example through Helmet or equivalent:
+
+Content-Security-Policy
+X-Content-Type-Options
+Referrer-Policy
+Frame protection
+Strict-Transport-Security in HTTPS production
+appropriate Permissions-Policy
+
+Do not blindly copy an unsafe CSP.
+
+Test the actual application after applying CSP.
+
+==================================================
+53. CLICKJACKING
+==================================================
+
+Prevent sensitive pages from being embedded in unauthorized iframes.
+
+Protect:
+
+Admin
+Student dashboard
+Account
+Settings
+Authentication
+
+using appropriate frame protections.
+
+==================================================
+54. API RESPONSE SECURITY
+==================================================
+
+Never return unnecessary sensitive information.
+
+Student API should NOT return:
+
+passwordHash
+session secrets
+internal credentials
+OTP
+database internals
+other students' data
+
+Admin APIs should return only information required for the admin UI.
+
+==================================================
+55. ERROR HANDLING
+==================================================
+
+Production errors must not expose:
+
+Stack traces
+MongoDB queries
+Database connection strings
+Environment variables
+Internal filesystem paths
+Secrets
+Internal architecture details
+
+Return safe error messages.
+
+Log detailed errors server-side.
+
+==================================================
+56. DATABASE SECURITY
+==================================================
+
+MongoDB must NOT be publicly exposed to the internet.
+
+Use:
+
+MongoDB authentication
+Network restrictions
+Strong credentials
+TLS where appropriate
+Least-privilege database user
+
+Application should use a database user with only required permissions.
+
+Do not use MongoDB root/admin credentials for normal application queries.
+
+==================================================
+57. SERVER SECURITY
+==================================================
+
+Production server must use:
+
+HTTPS
+Secure environment variables
+Firewall/network restrictions
+Updated dependencies
+Secure Node.js configuration
+No debug mode
+No exposed development ports
+
+Do not expose:
+
+MongoDB
+Redis
+internal admin services
+debug endpoints
+
+to the public internet unnecessarily.
+
+==================================================
+58. API DISCOVERY DOES NOT EQUAL SECURITY
+==================================================
+
+Assume attackers will discover all API endpoints.
+
+Even if an endpoint is:
+
+hidden
+unused in frontend
+not linked
+obfuscated
+
+it must still require proper authentication and authorization.
+
+Security must NOT depend on hidden URLs.
+
+==================================================
+59. DO NOT RELY ON OBFUSCATION
+==================================================
+
+Do not attempt to protect business logic by:
+
+- Obfuscated URLs
+- Hidden frontend buttons
+- Random API paths
+- Hidden routes
+- Minified JavaScript
+
+Minification is NOT security.
+
+Real security must be server-side.
+
+==================================================
+60. SOURCE CODE PROTECTION
+==================================================
+
+The frontend JavaScript delivered to browsers is inherently accessible to users.
+
+Therefore:
+
+DO NOT put proprietary secrets in frontend code.
+
+DO NOT put database credentials in frontend.
+
+DO NOT put private API keys in frontend.
+
+For backend source code:
+
+- Keep repository private if possible
+- Use GitHub secrets/environment variables
+- Never commit .env
+- Add .env to .gitignore
+- Rotate any credential accidentally committed
+
+Important:
+
+A private repository reduces source-code exposure but does NOT replace application security.
+
+==================================================
+61. DEPENDENCY SECURITY
+==================================================
+
+Audit npm dependencies.
+
+Run:
+
+npm audit
+
+and appropriate dependency checks.
+
+Remove unnecessary packages.
+
+Keep security-sensitive packages updated.
+
+Do not blindly upgrade everything without testing.
+
+Check for known vulnerabilities before production deployment.
+
+==================================================
+62. FILE UPLOAD SECURITY
+==================================================
+
+If the application supports profile/image/document uploads:
+
+Validate:
+
+file type
+file size
+extension
+MIME type
+
+Do not trust filename extensions.
+
+Do not execute uploaded files.
+
+Store uploads outside executable directories or use trusted object storage.
+
+Generate safe server-side filenames.
+
+==================================================
+63. SECURITY LOGGING
+==================================================
+
+Log important security events:
+
+Login success
+Login failure
+OTP request
+OTP failure
+Password reset
+Password change
+Session revoked
+Admin force logout
+Admin privilege changes
+Suspicious authorization attempts
+
+Never log:
+
+Passwords
+OTP values
+Session secrets
+API keys
+
+==================================================
+64. SECURITY AUDIT ENDPOINT
+==================================================
+
+Do NOT create a public security test endpoint.
+
+If diagnostic endpoints are required:
+
+- Admin-only
+- Disabled in production unless necessary
+- No sensitive output
+
+==================================================
+65. AUTOMATED SECURITY TESTS
+==================================================
+
+Create automated tests for:
+
+Authentication bypass
+Authorization bypass
+IDOR
+Role escalation
+Session revocation
+Password reset
+OTP abuse
+Brute force
+NoSQL injection
+XSS
+CSRF
+CORS
+Expired sessions
+Invalid sessions
+Admin endpoints
+
+Especially test:
+
+"Can Student A access Student B?"
+
+"Can Student modify role=ADMIN?"
+
+"Can Student use old session after new login?"
+
+"Can Student access admin API directly?"
+
+"Can attacker change studentId?"
+
+"Can attacker reuse OTP?"
+
+"Can attacker brute-force OTP?"
+
+==================================================
+66. FINAL RED-TEAM CHECK
+==================================================
+
+Before declaring the feature complete, act like an attacker.
+
+Assume:
+
+I can see the complete frontend source.
+I can use DevTools.
+I can modify every frontend request.
+I can call every API manually.
+I know MongoDB document IDs.
+I know API endpoint names.
+I can create fake JSON requests.
+I can change cookies.
+I can change headers.
+I can change student IDs.
+I can change role values.
+
+Try to bypass:
+
+Student authentication
+Student data isolation
+Admin authorization
+Session revocation
+Password protection
+OTP protection
+
+Fix every vulnerability discovered.
+
+Do not claim "100% secure".
+
+Instead provide a final security audit report with:
+
+PASS
+FAIL
+WARNING
+NOT APPLICABLE
+
+for every major security category.
+
+==================================================
+67. FINAL SECURITY REPORT
+==================================================
+
+At the end provide:
+
+Security Score:
+[realistic assessment]
+
+Critical vulnerabilities:
+[list]
+
+High vulnerabilities:
+[list]
+
+Medium vulnerabilities:
+[list]
+
+Low vulnerabilities:
+[list]
+
+Security improvements implemented:
+[list]
+
+Remaining risks:
+[list]
+
+Production requirements:
+[list]
+
+Most importantly:
+
+DO NOT declare the application production-ready if a critical authentication or authorization bypass remains.

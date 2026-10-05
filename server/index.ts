@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import connectDB from './config/db.js';
@@ -18,18 +18,30 @@ import aiRoutes from './routes/ai.routes.js';
 import syllabusRoutes from './routes/syllabus.routes.js';
 import plannerRoutes from './routes/planner.routes.js';
 
+import { securityHeaders } from './middleware/securityHeaders.js';
+import { mongoSanitizer } from './middleware/mongoSanitizer.js';
+
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Security & middlewares
-// SECURITY: set ALLOWED_ORIGIN (comma-separated domains) in production to lock
-// the API to your frontend. Unset = permissive (local dev).
+// Security Headers (Clickjacking DENY, nosniff, HSTS, CSP frame-ancestors)
+app.use(securityHeaders);
+
+// CORS Policy
 const allowedOrigins = (process.env.ALLOWED_ORIGIN || '').split(',').map(s => s.trim()).filter(Boolean);
-app.use(cors({ origin: allowedOrigins.length ? allowedOrigins : true }));
+app.use(cors({
+  origin: allowedOrigins.length ? allowedOrigins : true,
+  credentials: true
+}));
+
+// Body parsing with limits
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true }));
+
+// NoSQL Injection Sanitization (Task.md Section 50)
+app.use(mongoSanitizer);
 
 // Connect to MongoDB
 connectDB();
@@ -53,13 +65,23 @@ app.use('/api/audit', auditRoutes);
 app.use('/api', entitiesRoutes);
 
 // Root fallback
-app.get('/', (req, res) => {
+app.get('/', (_req, res) => {
   res.json({
     name: 'PREPORA Backend API',
     status: 'Running',
     version: '1.0.0',
     docs: '/api/health'
   });
+});
+
+// Production Safe Error Handling (Task.md Section 55: Never leak internal traces or secrets)
+app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  console.error('[SERVER_ERROR]', err);
+  const status = typeof err.status === 'number' ? err.status : 500;
+  const message = process.env.NODE_ENV === 'production'
+    ? 'An unexpected error occurred. Please try again later.'
+    : (err.message || 'Internal server error');
+  res.status(status).json({ success: false, message });
 });
 
 if (process.env.NODE_ENV !== 'production' || process.env.RENDER || !process.env.VERCEL) {
