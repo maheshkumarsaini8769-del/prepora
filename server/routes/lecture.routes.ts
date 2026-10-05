@@ -61,7 +61,8 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
     return res.json({
       success: true,
       count: lectures.length,
-      lectures
+      lectures,
+      data: lectures
     });
   } catch (err: any) {
     console.error('[LECTURE_FETCH_ERROR]', err);

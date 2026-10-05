@@ -53,7 +53,8 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
     return res.json({
       success: true,
       count: formulas.length,
-      formulas
+      formulas,
+      data: formulas
     });
   } catch (err: any) {
     console.error('[FORMULA_QUERY_ERROR]', err);
@@ -83,7 +84,8 @@ router.get('/quick-revision/:chapter', optionalAuth, async (req: Request, res: R
       success: true,
       chapter,
       count: formulas.length,
-      formulas
+      formulas,
+      data: formulas
     });
   } catch (err: any) {
     console.error('[QUICK_REVISION_ERROR]', err);

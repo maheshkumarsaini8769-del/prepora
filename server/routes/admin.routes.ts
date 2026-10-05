@@ -296,7 +296,9 @@ router.post('/students/:id/force-logout', async (req: Request, res: Response) =>
     const adminUser = (req as AuthRequest).user;
     const now = new Date();
 
-    const targetUser = await User.findOne({ $or: [{ id }, { studentId: id }] });
+    const targetUser = await User.findOne({
+      $or: [{ id }, { studentId: id }, { mobile: id }, { phone: id }]
+    });
     if (!targetUser) {
       return res.status(404).json({ success: false, message: 'Student not found.' });
     }
