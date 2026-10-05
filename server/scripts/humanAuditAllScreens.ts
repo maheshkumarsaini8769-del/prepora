@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 const API_BASE = 'http://localhost:5001/api';
-const FRONTEND_BASE = 'http://localhost:5173';
+const FRONTEND_BASE = 'http://localhost:5555';
 
 interface TestResult {
   screenNumber: number;
