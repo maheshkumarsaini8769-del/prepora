@@ -96,8 +96,8 @@ export const App: React.FC = () => {
   return (
     <AuthProvider>
       <NetworkBanner />
-      <AuthModal />
       <BrowserRouter>
+        <AuthModal />
         <OAuthCallbackWatcher />
         <Suspense fallback={<PageFallback />}>
           <Routes>
