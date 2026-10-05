@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BookOpen, ArrowRight, SlidersHorizontal, ChevronDown, ChevronUp, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
-import { Card, Button } from '../components/common/UIComponents';
+import { Card, Button, CustomSelect } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question } from '../types';
@@ -183,26 +183,24 @@ export const Practice: React.FC = () => {
               <button
                 type="button"
                 onClick={() => navigate(`/chapters/${encodeURIComponent(chapter)}`)}
-                className="text-[11px] font-semibold text-slate-500 hover:text-slate-900"
+                className="text-[11px] font-semibold text-slate-500 hover:text-slate-900 cursor-pointer"
               >
                 View Chapter Overview →
               </button>
             )}
           </div>
-          <select
+          <CustomSelect
             value={chapter}
-            onChange={(e) => {
-              setChapter(e.target.value);
+            onChange={(val) => {
+              setChapter(val);
               setTopic('All');
             }}
-            className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
-          >
-            {chapters.map((ch) => (
-              <option key={ch} value={ch}>
-                {ch}
-              </option>
-            ))}
-          </select>
+            options={chapters.map((ch) => ({
+              value: ch,
+              label: ch === 'All' ? 'All Chapters' : ch,
+            }))}
+            className="py-2.5 font-bold"
+          />
         </div>
 
         {/* Step 3: Topic */}
@@ -210,18 +208,16 @@ export const Practice: React.FC = () => {
           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
             3. Topic (Optional)
           </label>
-          <select
+          <CustomSelect
             value={topic}
-            onChange={(e) => setTopic(e.target.value)}
+            onChange={(val) => setTopic(val)}
             disabled={chapter === 'All'}
-            className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 dark:text-slate-100 disabled:opacity-50 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
-          >
-            {topics.map((t) => (
-              <option key={t} value={t}>
-                {t}
-              </option>
-            ))}
-          </select>
+            options={topics.map((t) => ({
+              value: t,
+              label: t === 'All' ? 'All Topics' : t,
+            }))}
+            className="py-2.5 font-bold"
+          />
         </div>
 
         {/* Step 4: Difficulty */}
@@ -326,32 +322,32 @@ export const Practice: React.FC = () => {
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
                   Target Exam
                 </label>
-                <select
+                <CustomSelect
                   value={exam}
-                  onChange={(e) => setExam(e.target.value as any)}
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
-                >
-                  <option value="All">All Exams</option>
-                  <option value="JEE">JEE Main</option>
-                  <option value="NEET">NEET UG</option>
-                  <option value="CBSE">CBSE Board</option>
-                  <option value="RBSE">RBSE Board</option>
-                </select>
+                  onChange={(val) => setExam(val as any)}
+                  options={[
+                    { value: 'All', label: 'All Exams' },
+                    { value: 'JEE', label: 'JEE Main' },
+                    { value: 'NEET', label: 'NEET UG' },
+                    { value: 'CBSE', label: 'CBSE Board' },
+                    { value: 'RBSE', label: 'RBSE Board' },
+                  ]}
+                />
               </div>
 
               <div>
                 <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
                   Class Level
                 </label>
-                <select
+                <CustomSelect
                   value={classLevel}
-                  onChange={(e) => setClassLevel(e.target.value as any)}
-                  className="w-full bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-semibold text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:bg-white dark:focus:bg-slate-800 focus:outline-none focus:ring-2 focus:ring-slate-900"
-                >
-                  <option value="All">All Classes</option>
-                  <option value="11">Class 11</option>
-                  <option value="12">Class 12</option>
-                </select>
+                  onChange={(val) => setClassLevel(val as any)}
+                  options={[
+                    { value: 'All', label: 'All Classes' },
+                    { value: '11', label: 'Class 11' },
+                    { value: '12', label: 'Class 12' },
+                  ]}
+                />
               </div>
             </div>
           )}

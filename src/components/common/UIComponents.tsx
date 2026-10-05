@@ -171,3 +171,7 @@ export const Modal: React.FC<ModalProps> = ({
     </div>
   );
 };
+
+export { CustomSelect } from './CustomSelect';
+export type { CustomSelectProps, SelectOption } from './CustomSelect';
+

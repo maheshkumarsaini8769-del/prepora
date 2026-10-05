@@ -12,7 +12,7 @@ import {
   X,
   SlidersHorizontal
 } from 'lucide-react';
-import { Card, Button } from '../components/common/UIComponents';
+import { Card, Button, CustomSelect } from '../components/common/UIComponents';
 import { testService } from '../services/testService';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
@@ -373,39 +373,33 @@ export const BuildMyTest: React.FC = () => {
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               3. Chapter
             </label>
-            <select
+            <CustomSelect
               value={selectedChapter}
-              onChange={(e) => {
-                setSelectedChapter(e.target.value);
+              onChange={(val) => {
+                setSelectedChapter(val);
                 setSelectedTopic('ALL');
               }}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:outline-none focus:ring-1 focus:ring-slate-900"
-            >
-              <option value="ALL">All Chapters</option>
-              {availableChapters.map((ch) => (
-                <option key={ch} value={ch}>
-                  {ch}
-                </option>
-              ))}
-            </select>
+              options={[
+                { value: 'ALL', label: 'All Chapters' },
+                ...availableChapters.map((ch) => ({ value: ch, label: ch }))
+              ]}
+              className="bg-white dark:bg-[#0c131a]"
+            />
           </div>
 
           <div>
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
               4. Topic
             </label>
-            <select
+            <CustomSelect
               value={selectedTopic}
-              onChange={(e) => setSelectedTopic(e.target.value)}
-              className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs font-medium text-slate-800 dark:text-slate-100 hover:border-slate-300 dark:hover:border-slate-700 transition cursor-pointer focus:outline-none focus:ring-1 focus:ring-slate-900"
-            >
-              <option value="ALL">All Topics</option>
-              {availableTopics.map((t) => (
-                <option key={t} value={t}>
-                  {t}
-                </option>
-              ))}
-            </select>
+              onChange={(val) => setSelectedTopic(val)}
+              options={[
+                { value: 'ALL', label: 'All Topics' },
+                ...availableTopics.map((t) => ({ value: t, label: t }))
+              ]}
+              className="bg-white dark:bg-[#0c131a]"
+            />
           </div>
         </div>
 
