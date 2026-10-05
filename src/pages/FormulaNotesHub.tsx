@@ -21,11 +21,14 @@ import {
   HelpCircle,
   Clock,
   Eye,
-  EyeOff
+  EyeOff,
+  Tv,
+  Calendar
 } from 'lucide-react';
 import { Card, Button, Badge } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
 import { userService } from '../services/userService';
+import { ecosystemService } from '../services/ecosystemService';
 import { questionService } from '../services/questionService';
 import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 import { SubjectName, ClassLevel, Question } from '../types';
@@ -57,8 +60,28 @@ export const FormulaNotesHub: React.FC = () => {
   });
 
   const [copiedFormulaName, setCopiedFormulaName] = useState<string | null>(null);
+  const [plannerMsg, setPlannerMsg] = useState<string | null>(null);
   const [showQuestionsForTopic, setShowQuestionsForTopic] = useState<boolean>(true);
   const [revealedSolutions, setRevealedSolutions] = useState<Record<string, boolean>>({});
+
+  const handleAddToPlanner = (chapterName: string, topicName?: string) => {
+    const days: ('Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday')[] = [
+      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+    ];
+    const currentDay = days[new Date().getDay()];
+
+    ecosystemService.addPlannerTask({
+      day: currentDay,
+      subject: selectedSubject,
+      chapter: chapterName,
+      taskType: 'Revision',
+      durationMinutes: 45,
+      completed: false,
+      notes: `Formula sheet revision: ${topicName || chapterName}`
+    });
+    setPlannerMsg(`Added "${topicName || chapterName}" to your Study Planner!`);
+    setTimeout(() => setPlannerMsg(null), 3000);
+  };
 
   // Filter items matching subject and exam guard
   const subjectItems = useMemo(() => {
@@ -207,6 +230,14 @@ export const FormulaNotesHub: React.FC = () => {
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200 pb-16 max-w-7xl mx-auto">
+      {/* Toast Notification */}
+      {plannerMsg && (
+        <div className="fixed top-20 right-6 z-50 bg-emerald-600 text-white px-4 py-3 rounded-2xl shadow-xl flex items-center gap-2 text-xs font-bold animate-in fade-in slide-in-from-top-4">
+          <Check className="w-4 h-4" />
+          <span>{plannerMsg}</span>
+        </div>
+      )}
+
       {/* Top Hero Banner - Emerald Soft Glow Theme */}
       <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-950 text-white p-6 sm:p-8 shadow-xl shadow-emerald-950/20 border border-emerald-700/40">
         <div className="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
@@ -381,7 +412,27 @@ export const FormulaNotesHub: React.FC = () => {
                     </h2>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => navigate(`/lectures?subject=${encodeURIComponent(activeTopicItem.subject)}&chapter=${encodeURIComponent(activeTopicItem.chapter)}`)}
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors"
+                      title="Watch best YouTube lecture for this chapter"
+                    >
+                      <Tv className="w-3.5 h-3.5 text-emerald-500" />
+                      <span>Watch Lecture</span>
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={() => handleAddToPlanner(activeTopicItem.chapter, activeTopicItem.topic)}
+                      className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors"
+                      title="Add to study planner"
+                    >
+                      <Calendar className="w-3.5 h-3.5 text-emerald-500" />
+                      <span>+ Add to Planner</span>
+                    </button>
+
                     <Button
                       variant="primary"
                       size="sm"

@@ -118,7 +118,15 @@ export const requireStudent = async (req: AuthRequest, res: Response, next: Next
 };
 
 export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
-  if (!req.user || req.user.role !== 'admin') {
+  if (!req.user) {
+    const authHeader = req.headers.authorization || (req.headers['x-auth-token'] as string);
+    if (authHeader) {
+      return authenticateUser(req, res, () => requireAdmin(req, res, next));
+    }
+    return res.status(401).json({ success: false, message: 'Authentication required.' });
+  }
+
+  if (req.user.role !== 'admin') {
     if (
       (req.user?.email && (req.user.email === 'maheshkumarsaini8769@gmail.com' || req.user.email === 'admin@prepora.com')) ||
       (req.user?.phone && (req.user.phone === '7742735762' || req.user.phone.endsWith('7742735762')))

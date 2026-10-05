@@ -103,9 +103,10 @@ export const MainLayout: React.FC = () => {
   ];
 
   const secondaryNav = [
-    { name: 'Video Lectures', path: '/videos', icon: Tv },
+    { name: 'Lectures', path: '/lectures', icon: Tv },
+    { name: 'Formula Sheet', path: '/formula-sheet', icon: BookMarked },
+    { name: 'Study Search', path: '/search', icon: Search },
     { name: 'Performance', path: '/performance', icon: BarChart2 },
-    { name: 'Short Notes & Formulas', path: '/formula-notes', icon: BookMarked },
     { name: 'Revision', path: '/revision', icon: Repeat },
     { name: 'Mind Map', path: '/mind-map', icon: Sparkles },
     { name: 'Previous Papers', path: '/papers', icon: FileText },
@@ -278,12 +279,12 @@ export const MainLayout: React.FC = () => {
           <div className="hidden md:flex items-center flex-1 max-w-md">
             <button
               type="button"
-              onClick={() => setQuickActionOpen(true)}
+              onClick={() => navigate('/search')}
               className="w-full flex items-center justify-between px-3.5 py-2 rounded-xl bg-slate-100/80 dark:bg-slate-800/80 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200/60 dark:border-slate-700 text-xs text-slate-400 font-medium transition-all"
             >
               <span className="flex items-center gap-2">
-                <Search className="w-3.5 h-3.5 text-slate-400" />
-                <span>Search questions, chapters, formulas...</span>
+                <Search className="w-3.5 h-3.5 text-emerald-500" />
+                <span>Search topics, formulas, chapters, lectures...</span>
               </span>
               <kbd className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 text-slate-500 dark:text-slate-400 shadow-2xs">
                 ⌘K

@@ -82,6 +82,7 @@ const AdminReports = lazyPage(() => import('./pages/admin/AdminReports'), 'Admin
 const AdminSystemSecurity = lazyPage(() => import('./pages/admin/AdminSystemSecurity'), 'AdminSystemSecurity');
 const AdminSettingsPage = lazyPage(() => import('./pages/admin/AdminSettingsPage'), 'AdminSettingsPage');
 const AdminAuthorityPage = lazyPage(() => import('./pages/admin/AdminAuthorityPage'), 'AdminAuthorityPage');
+const AdminLectureDiscovery = lazyPage(() => import('./pages/admin/AdminLectureDiscovery'), 'AdminLectureDiscovery');
 
 const PageFallback: React.FC = () => (
   <div className="flex items-center justify-center min-h-[50vh] p-8">
@@ -142,8 +143,9 @@ export const App: React.FC = () => {
               <Route path="/papers" element={<Papers />} />
               <Route path="/papers/:id" element={<PaperDetail />} />
               <Route path="/chapters/:id" element={<ChapterDetail />} />
+              <Route path="/lectures" element={<VideoLecturesPage />} />
               <Route path="/videos" element={<VideoLecturesPage />} />
-              <Route path="/video-lectures" element={<Navigate to="/videos" replace />} />
+              <Route path="/video-lectures" element={<Navigate to="/lectures" replace />} />
               <Route path="/study-hub" element={<StudyHub />} />
               <Route path="/syllabus" element={<SyllabusTracker />} />
               <Route path="/planner" element={<StudyPlanner />} />
@@ -161,9 +163,10 @@ export const App: React.FC = () => {
               <Route path="/mistakes" element={<MistakeBook />} />
               <Route path="/weakness" element={<FixMyWeakness />} />
               <Route path="/revision" element={<SmartRevision />} />
+              <Route path="/formula-sheet" element={<FormulaNotesHub />} />
               <Route path="/formula-notes" element={<FormulaNotesHub />} />
-              <Route path="/formulas" element={<Navigate to="/formula-notes" replace />} />
-              <Route path="/short-notes" element={<Navigate to="/formula-notes" replace />} />
+              <Route path="/formulas" element={<Navigate to="/formula-sheet" replace />} />
+              <Route path="/short-notes" element={<Navigate to="/formula-sheet" replace />} />
               <Route path="/performance" element={<Performance />} />
               <Route path="/weekly-report" element={<WeeklyReportPage />} />
               <Route path="/leaderboard" element={<Leaderboard />} />
@@ -189,6 +192,7 @@ export const App: React.FC = () => {
               <Route path="/admin/students" element={<AdminStudents />} />
               <Route path="/admin/users" element={<AdminUsers />} />
               <Route path="/admin/content" element={<AdminContentHierarchy />} />
+              <Route path="/admin/lectures" element={<AdminLectureDiscovery />} />
               <Route path="/admin/questions" element={<AdminQuestions />} />
               <Route path="/admin/tests" element={<AdminTests />} />
               <Route path="/admin/papers" element={<AdminPapers />} />

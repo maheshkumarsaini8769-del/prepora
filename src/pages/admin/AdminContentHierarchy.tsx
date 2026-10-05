@@ -12,9 +12,11 @@ import {
   FileText,
   CreditCard,
   RefreshCw,
-  X
+  X,
+  Tv
 } from 'lucide-react';
 import { adminFetch } from '../../utils/adminApi';
+import { AdminLectureDiscovery } from './AdminLectureDiscovery';
 
 interface HierarchyItem {
   _id: string;
@@ -44,7 +46,7 @@ interface FlashcardItem {
 }
 
 export const AdminContentHierarchy: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'hierarchy' | 'flashcards'>('hierarchy');
+  const [activeTab, setActiveTab] = useState<'hierarchy' | 'flashcards' | 'lectures'>('hierarchy');
   const [hierarchy, setHierarchy] = useState<HierarchyItem[]>([]);
   const [flashcards, setFlashcards] = useState<FlashcardItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -200,18 +202,19 @@ export const AdminContentHierarchy: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-2">
-          {activeTab === 'hierarchy' ? (
+          {activeTab === 'hierarchy' && (
             <button
               onClick={() => setNodeModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold transition shadow-lg shadow-brand-600/30"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-lg shadow-emerald-600/30"
             >
               <Plus className="w-4 h-4" />
               <span>Add Syllabus Node</span>
             </button>
-          ) : (
+          )}
+          {activeTab === 'flashcards' && (
             <button
               onClick={() => setCardModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold transition shadow-lg shadow-brand-600/30"
+              className="flex items-center gap-2 px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition shadow-lg shadow-emerald-600/30"
             >
               <Plus className="w-4 h-4" />
               <span>Create Card</span>
@@ -244,45 +247,58 @@ export const AdminContentHierarchy: React.FC = () => {
           <CreditCard className="w-4 h-4" />
           <span>Formulas & Flashcards Repository</span>
         </button>
-      </div>
-
-      {/* Filter Row */}
-      <div className="flex flex-wrap items-center gap-3 p-4 rounded-xl bg-slate-900 border border-slate-800">
-        <div className="flex items-center gap-2 text-xs text-slate-400 font-semibold">
-          <span>Target Exam:</span>
-          <select
-            value={selectedExam}
-            onChange={(e) => setSelectedExam(e.target.value)}
-            className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-brand-500"
-          >
-            <option value="JEE">JEE Main & Advanced</option>
-            <option value="NEET">NEET UG</option>
-            <option value="Board">CBSE / State Board</option>
-          </select>
-        </div>
-
-        <div className="flex items-center gap-2 text-xs text-slate-400 font-semibold">
-          <span>Subject:</span>
-          <select
-            value={selectedSubject}
-            onChange={(e) => setSelectedSubject(e.target.value)}
-            className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-brand-500"
-          >
-            <option value="Physics">Physics</option>
-            <option value="Chemistry">Chemistry</option>
-            <option value="Mathematics">Mathematics</option>
-            <option value="Biology">Biology</option>
-          </select>
-        </div>
-
         <button
-          onClick={() => (activeTab === 'hierarchy' ? fetchHierarchy() : fetchFlashcards())}
-          className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-750"
+          onClick={() => setActiveTab('lectures')}
+          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition ${
+            activeTab === 'lectures'
+              ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40'
+              : 'text-slate-400 hover:text-white'
+          }`}
         >
-          <RefreshCw className="w-3.5 h-3.5" />
-          <span>Reload</span>
+          <Tv className="w-4 h-4 text-emerald-400" />
+          <span>Lecture Discovery & YouTube Management</span>
         </button>
       </div>
+
+      {/* Filter Row (Only for hierarchy & flashcards) */}
+      {activeTab !== 'lectures' && (
+        <div className="flex flex-wrap items-center gap-3 p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div className="flex items-center gap-2 text-xs text-slate-400 font-semibold">
+            <span>Target Exam:</span>
+            <select
+              value={selectedExam}
+              onChange={(e) => setSelectedExam(e.target.value)}
+              className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-brand-500"
+            >
+              <option value="JEE">JEE Main & Advanced</option>
+              <option value="NEET">NEET UG</option>
+              <option value="Board">CBSE / State Board</option>
+            </select>
+          </div>
+
+          <div className="flex items-center gap-2 text-xs text-slate-400 font-semibold">
+            <span>Subject:</span>
+            <select
+              value={selectedSubject}
+              onChange={(e) => setSelectedSubject(e.target.value)}
+              className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-xs text-white focus:outline-none focus:border-brand-500"
+            >
+              <option value="Physics">Physics</option>
+              <option value="Chemistry">Chemistry</option>
+              <option value="Mathematics">Mathematics</option>
+              <option value="Biology">Biology</option>
+            </select>
+          </div>
+
+          <button
+            onClick={() => (activeTab === 'hierarchy' ? fetchHierarchy() : fetchFlashcards())}
+            className="ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 text-slate-300 text-xs font-semibold hover:bg-slate-750"
+          >
+            <RefreshCw className="w-3.5 h-3.5" />
+            <span>Reload</span>
+          </button>
+        </div>
+      )}
 
       {/* Tab 1: Hierarchy Tree */}
       {activeTab === 'hierarchy' && (
@@ -387,6 +403,9 @@ export const AdminContentHierarchy: React.FC = () => {
           )}
         </div>
       )}
+
+      {/* Tab 3: Lecture Discovery & YouTube Management */}
+      {activeTab === 'lectures' && <AdminLectureDiscovery />}
 
       {/* Node Modal */}
       {nodeModalOpen && (

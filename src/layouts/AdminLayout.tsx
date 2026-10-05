@@ -27,7 +27,8 @@ import {
   SlidersHorizontal,
   Compass,
   KeyRound,
-  UserCheck
+  UserCheck,
+  Tv
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { adminFetch } from '../utils/adminApi';
@@ -88,6 +89,7 @@ export const AdminLayout: React.FC = () => {
         { name: 'Questions Bank', path: '/admin/questions', icon: HelpCircle, badge: stats.pendingReviews > 0 ? `${stats.pendingReviews}` : undefined, desc: 'Question repository & review' },
         { name: 'Tests & Mock Papers', path: '/admin/tests', icon: FileCheck2, desc: 'Mock test builder & blueprints' },
         { name: 'Previous Year Papers', path: '/admin/papers', icon: FileText, desc: 'PYQ papers & solutions' },
+        { name: 'Lecture Discovery', path: '/admin/lectures', icon: Tv, desc: 'Smart YouTube lecture curator' },
       ]
     },
     {
