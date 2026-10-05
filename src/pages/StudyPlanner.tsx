@@ -294,7 +294,7 @@ export const StudyPlanner: React.FC = () => {
         </div>
         <div className="w-full bg-slate-100 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
           <div
-            className="bg-slate-900 h-full rounded-full transition-all duration-300"
+            className="bg-emerald-600 h-full rounded-full transition-all duration-300"
             style={{ width: `${weeklyProgress}%` }}
           />
         </div>
@@ -313,7 +313,7 @@ export const StudyPlanner: React.FC = () => {
               onClick={() => setSelectedDay(day)}
               className={`p-2.5 rounded-xl border text-left transition-all ${
                 isSelected
-                  ? 'bg-slate-900 border-slate-900 text-white'
+                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
                   : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
               }`}
             >
@@ -362,7 +362,7 @@ export const StudyPlanner: React.FC = () => {
                     onClick={() => handleToggleTask(t.id)}
                     className={`w-5 h-5 rounded border flex items-center justify-center transition-colors ${
                       t.completed
-                        ? 'bg-slate-900 border-slate-900 text-white'
+                        ? 'bg-emerald-600 border-emerald-600 text-white'
                         : 'border-slate-300 dark:border-slate-700 hover:border-slate-500 dark:hover:border-slate-500 bg-white dark:bg-slate-900'
                     }`}
                   >

@@ -160,7 +160,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const errData = await res.json().catch(() => null);
           localStorage.removeItem(TOKEN_KEY);
           setToken(null);
-          if (errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE') {
+          if (errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' || errData?.code === 'SESSION_REVOKED') {
             setSessionRevokedAlert({
               open: true,
               message: errData.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device par session band kar diya gaya hai.'
@@ -798,7 +798,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                 setSessionRevokedAlert({ open: false, message: '' });
                 setAuthModalOpen(true);
               }}
-              className="w-full py-3 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold rounded-xl shadow-lg shadow-cyan-500/25 transition-all"
+              className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/25 transition-all cursor-pointer"
             >
               Wapas Login Karein
             </button>

@@ -129,6 +129,15 @@ export class FallbackProvider implements IAIProvider {
       steps.push("3. Conventional current flows from higher electric potential (positive) to lower electric potential (negative).");
       trap = "Drift velocity is very slow (order of ~1 mm/s), but electric signals propagate nearly at the speed of light!";
       tip = "Ohm's Law (V = IR) holds only under constant temperature and physical dimensions.";
+    } else if (Boolean(req.imageBase64) || qLower.includes('question in this image') || qLower.includes('in this image')) {
+      concept = `Visual Question in ${subject} (${chapter})`;
+      answer = `Visual Question Breakdown (${subject} • ${chapter}): Use the following standard entrance-examination method to solve this diagram problem step-by-step.`;
+      steps.push("1. Given Data & Geometry: Extract labeled values, angles, vectors, and boundary conditions directly from the problem diagram.");
+      steps.push(`2. Governing Principle: State the core ${subject} law governing ${chapter} (e.g., conservation laws, equations of motion, Kirchhoff's rules, or equilibrium).`);
+      steps.push("3. Equation Formulation: Set up the algebraic balance equations and substitute given values using strict SI units.");
+      steps.push("4. Calculation & Verification: Solve for the required unknown and verify algebraic signs and dimensional units.");
+      trap = "In diagram/geometry problems, verify whether given angles are with the horizontal or vertical axis, and double-check vector directions.";
+      tip = "Always redraw the diagram on rough paper, marking all given values and unknowns clearly before calculation.";
     } else {
       answer = `${q} is an important concept in ${subject}. Understanding its core definitions and underlying principles provides the foundation for exam problem-solving.`;
       steps.push("1. Identify the fundamental definition and governing physical/chemical principle.");

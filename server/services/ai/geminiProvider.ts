@@ -84,8 +84,8 @@ export class GeminiProvider implements IAIProvider {
       const mime = req.imageMimeType || 'image/jpeg';
       const cleanBase64 = req.imageBase64.includes('base64,') ? req.imageBase64.split('base64,')[1] : req.imageBase64;
       parts.push({
-        inline_data: {
-          mime_type: mime,
+        inlineData: {
+          mimeType: mime,
           data: cleanBase64
         }
       });
