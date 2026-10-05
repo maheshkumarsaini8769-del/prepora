@@ -17,6 +17,7 @@ import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { aiDoubtSolver } from '../services/aiDoubtSolver';
 import { SubjectName, Question } from '../types';
+import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 
 export type TutorMode =
   | 'Learn'
@@ -43,9 +44,11 @@ interface ChatMessage {
 export const AITeacherPage: React.FC = () => {
   const [searchParams] = useSearchParams();
   const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
 
+  const rawSubject = (searchParams.get('subject') as SubjectName) || allowedSubjects[0];
   const [selectedSubject, setSelectedSubject] = useState<SubjectName>(
-    (searchParams.get('subject') as SubjectName) || 'Physics'
+    sanitizeSubjectForExam(rawSubject, user.targetExam)
   );
   const chapters = questionService.getChapters(selectedSubject, user.classLevel as any);
   const [selectedChapter, setSelectedChapter] = useState<string>(
@@ -248,7 +251,7 @@ export const AITeacherPage: React.FC = () => {
             onChange={(e) => handleSubjectChange(e.target.value as SubjectName)}
             className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-1 focus:ring-slate-900"
           >
-            {(['Physics', 'Chemistry', 'Mathematics', 'Biology'] as SubjectName[]).map((s) => (
+            {allowedSubjects.map((s) => (
               <option key={s} value={s}>
                 {s}
               </option>

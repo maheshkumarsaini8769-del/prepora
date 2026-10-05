@@ -129,26 +129,26 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
   const getStatusColor = (st: MindMapNode['status']) => {
     switch (st) {
       case 'Mastered':
-        return 'border-emerald-500/80 bg-emerald-50/70 text-emerald-950 ring-emerald-500/20';
+        return 'border-emerald-500/80 dark:border-emerald-500/60 bg-emerald-50/70 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-200 ring-emerald-500/20';
       case 'Learning':
-        return 'border-blue-500/80 bg-blue-50/70 text-blue-950 ring-blue-500/20';
+        return 'border-blue-500/80 dark:border-blue-500/60 bg-blue-50/70 dark:bg-blue-950/40 text-blue-950 dark:text-blue-200 ring-blue-500/20';
       case 'Weak':
-        return 'border-rose-500/80 bg-rose-50/70 text-rose-950 ring-rose-500/20';
+        return 'border-rose-500/80 dark:border-rose-500/60 bg-rose-50/70 dark:bg-rose-950/40 text-rose-950 dark:text-rose-200 ring-rose-500/20';
       default:
-        return 'border-slate-300 bg-slate-50 text-slate-800 ring-slate-300/20';
+        return 'border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/60 text-slate-800 dark:text-slate-200 ring-slate-300/20';
     }
   };
 
   const getStatusBadge = (st: MindMapNode['status']) => {
     switch (st) {
       case 'Mastered':
-        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">🟢 Mastered</span>;
+        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950/70 border border-emerald-300 dark:border-emerald-800/80 px-2 py-0.5 rounded-full">🟢 Mastered</span>;
       case 'Learning':
-        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-700 bg-blue-100 px-2 py-0.5 rounded-full">🟡 Learning</span>;
+        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-blue-700 dark:text-blue-300 bg-blue-100 dark:bg-blue-950/70 border border-blue-300 dark:border-blue-800/80 px-2 py-0.5 rounded-full">🟡 Learning</span>;
       case 'Weak':
-        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-700 bg-rose-100 px-2 py-0.5 rounded-full">🔴 Weak Concept</span>;
+        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-700 dark:text-rose-300 bg-rose-100 dark:bg-rose-950/70 border border-rose-300 dark:border-rose-800/80 px-2 py-0.5 rounded-full">🔴 Weak Concept</span>;
       default:
-        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-500 bg-slate-200 px-2 py-0.5 rounded-full">⚪ Not Started</span>;
+        return <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-500 dark:text-slate-400 bg-slate-200 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 px-2 py-0.5 rounded-full">⚪ Not Started</span>;
     }
   };
 
@@ -203,21 +203,21 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
       </div>
 
       {/* Legend */}
-      <div className="flex flex-wrap items-center gap-3 px-2 text-xs text-slate-600">
+      <div className="flex flex-wrap items-center gap-3 px-2 text-xs text-slate-600 dark:text-slate-400">
         <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Legend:</span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
           <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> &gt;75% Mastered
         </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 dark:text-blue-300">
           <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> 50-75% Practicing
         </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-700">
+        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-700 dark:text-rose-300">
           <span className="w-2.5 h-2.5 rounded-full bg-rose-500" /> &lt;50% Weak Bottleneck
         </span>
       </div>
 
       {/* Mind Map Canvas */}
-      <div className="bg-slate-900/5 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 overflow-x-auto min-h-[460px] flex items-center justify-start sm:justify-center">
+      <div className="bg-slate-900/5 dark:bg-[#070c12] rounded-3xl p-6 border border-slate-200 dark:border-slate-800/80 overflow-x-auto min-h-[460px] flex items-center justify-start sm:justify-center">
         <div
           style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'top center' }}
           className="transition-transform duration-200 flex flex-col md:flex-row items-center gap-8 py-4 px-2"
@@ -255,7 +255,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
           </div>
 
           {/* Connecting Spine */}
-          <div className="hidden md:block w-8 h-0.5 bg-slate-300" />
+          <div className="hidden md:block w-8 h-0.5 bg-slate-300 dark:bg-slate-700" />
 
           {/* Topics & Subtopics Hierarchy */}
           <div className="flex flex-col gap-4 max-w-xl w-full">
@@ -271,7 +271,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
                       onClick={() => setSelectedNode(top)}
                       className="flex items-center gap-3 flex-1 min-w-0"
                     >
-                      <div className="w-8 h-8 rounded-xl bg-white/80 border border-slate-200 dark:border-slate-800 flex items-center justify-center shrink-0 font-black text-xs text-slate-800 dark:text-slate-100">
+                      <div className="w-8 h-8 rounded-xl bg-white/80 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700 flex items-center justify-center shrink-0 font-black text-xs text-slate-800 dark:text-slate-100">
                         {top.mastery}%
                       </div>
                       <div className="truncate">
@@ -290,7 +290,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
                           e.stopPropagation();
                           toggleTopic(top.id);
                         }}
-                        className="p-1 rounded-lg hover:bg-black/5 text-slate-600 transition-colors cursor-pointer"
+                        className="p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 transition-colors cursor-pointer"
                       >
                         {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                       </button>
@@ -299,7 +299,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
 
                   {/* Subtopics Children Nodes */}
                   {isExpanded && top.children && (
-                    <div className="pl-6 border-l-2 border-dashed border-purple-300/80 space-y-2 pt-1 ml-4">
+                    <div className="pl-6 border-l-2 border-dashed border-purple-300/80 dark:border-purple-700/60 space-y-2 pt-1 ml-4">
                       {top.children.map(sub => (
                         <div
                           key={sub.id}
@@ -313,7 +313,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
                           <div className="flex items-center gap-2 shrink-0">
                             <span className="font-mono font-bold text-[11px]">{sub.mastery}%</span>
                             {sub.mistakesCount > 0 && (
-                              <span className="px-1.5 py-0.5 rounded bg-rose-200/80 text-rose-900 font-bold text-[10px]">
+                              <span className="px-1.5 py-0.5 rounded bg-rose-200/80 dark:bg-rose-950/80 text-rose-900 dark:text-rose-200 border border-rose-300 dark:border-rose-800/60 font-bold text-[10px]">
                                 {sub.mistakesCount} err
                               </span>
                             )}
@@ -376,15 +376,15 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
             <div className="grid grid-cols-3 gap-2 text-center">
               <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">Mastery</span>
-                <span className="text-lg font-black text-purple-700">{selectedNode.mastery}%</span>
+                <span className="text-lg font-black text-purple-700 dark:text-purple-400">{selectedNode.mastery}%</span>
               </div>
               <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">Accuracy</span>
-                <span className="text-lg font-black text-emerald-700">{selectedNode.accuracy}%</span>
+                <span className="text-lg font-black text-emerald-700 dark:text-emerald-400">{selectedNode.accuracy}%</span>
               </div>
               <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800">
                 <span className="text-[10px] uppercase font-bold text-slate-400 block">Mistakes</span>
-                <span className={`text-lg font-black ${selectedNode.mistakesCount > 0 ? 'text-rose-600' : 'text-slate-700'}`}>
+                <span className={`text-lg font-black ${selectedNode.mistakesCount > 0 ? 'text-rose-600 dark:text-rose-400' : 'text-slate-700 dark:text-slate-300'}`}>
                   {selectedNode.mistakesCount}
                 </span>
               </div>
@@ -392,12 +392,12 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
 
             {/* Concept Summary */}
             {selectedNode.conceptNotes && (
-              <div className="p-3.5 rounded-2xl bg-purple-50/60 border border-purple-100 space-y-1">
-                <div className="flex items-center gap-1.5 font-bold text-purple-900 text-xs">
-                  <BookOpen className="w-3.5 h-3.5 text-purple-600" />
+              <div className="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-900/50 space-y-1">
+                <div className="flex items-center gap-1.5 font-bold text-purple-900 dark:text-purple-300 text-xs">
+                  <BookOpen className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
                   <span>Concept Summary</span>
                 </div>
-                <p className="text-xs text-purple-950 leading-relaxed">
+                <p className="text-xs text-purple-950 dark:text-purple-200 leading-relaxed">
                   {selectedNode.conceptNotes}
                 </p>
               </div>
@@ -405,7 +405,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
 
             {/* Key Formula */}
             {selectedNode.keyFormula && (
-              <div className="p-3.5 rounded-2xl bg-slate-900 text-white space-y-1">
+              <div className="p-3.5 rounded-2xl bg-slate-900 dark:bg-black border border-slate-800 dark:border-slate-700 text-white space-y-1">
                 <span className="text-[10px] uppercase font-bold tracking-wider text-purple-300 block">
                   Governing Equation
                 </span>
@@ -416,8 +416,8 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
             )}
 
             {/* Action Recommendations */}
-            <div className="p-3 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs flex items-start gap-2">
-              <Clock className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
+            <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900/50 text-amber-900 dark:text-amber-200 text-xs flex items-start gap-2">
+              <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0 mt-0.5" />
               <div>
                 <span className="font-bold">Spaced Repetition: </span>
                 <span>Scheduled for review {selectedNode.nextRevision}. Last practiced {selectedNode.lastPracticed}.</span>

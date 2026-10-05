@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   HelpCircle,
@@ -19,10 +19,15 @@ import { ecosystemService } from '../services/ecosystemService';
 import { aiDoubtSolver, SolvedDoubtResponse, ProgressiveHintsData } from '../services/aiDoubtSolver';
 import { DoubtItem, SubjectName } from '../types';
 import { MathRenderer } from '../components/common/MathRenderer';
+import { userService } from '../services/userService';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const DoubtCenter: React.FC = () => {
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
+  const subjects: (SubjectName | 'All')[] = ['All', ...allowedSubjects];
 
   const [activeMode, setActiveMode] = useState<'ai-solver' | 'community'>('ai-solver');
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
@@ -30,7 +35,7 @@ export const DoubtCenter: React.FC = () => {
 
   // AI Solver State
   const [aiQuestion, setAiQuestion] = useState('');
-  const [aiSubject, setAiSubject] = useState<SubjectName>('Physics');
+  const [aiSubject, setAiSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
   const [aiChapter, setAiChapter] = useState('Kinematics');
   const [isSolving, setIsSolving] = useState(false);
   const [currentSolution, setCurrentSolution] = useState<SolvedDoubtResponse | null>(null);
@@ -45,11 +50,12 @@ export const DoubtCenter: React.FC = () => {
 
   // Ask doubt modal state
   const [showAskModal, setShowAskModal] = useState<boolean>(false);
-  const [newSubject, setNewSubject] = useState<SubjectName>('Physics');
+  const [newSubject, setNewSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
   const [newChapter, setNewChapter] = useState<string>('Kinematics');
   const [newQuestionText, setNewQuestionText] = useState<string>('');
 
   const filteredDoubts = doubts.filter((d) => {
+    if (!isSubjectAllowedForExam(d.subject, user.targetExam)) return false;
     if (selectedSubject !== 'All' && d.subject !== selectedSubject) return false;
     return true;
   });
@@ -137,12 +143,21 @@ export const DoubtCenter: React.FC = () => {
     setShowAskModal(false);
   };
 
-  const sampleQuestions = [
-    { text: 'What is gravity?', sub: 'Physics' as SubjectName, chap: 'Gravitation' },
-    { text: 'Why does current flow?', sub: 'Physics' as SubjectName, chap: 'Current Electricity' },
-    { text: 'Explain photosynthesis.', sub: 'Biology' as SubjectName, chap: 'Photosynthesis' },
-    { text: 'Solve 2x + 5 = 15.', sub: 'Mathematics' as SubjectName, chap: 'Linear Equations' }
-  ];
+  interface SampleQuestion {
+    text: string;
+    sub: SubjectName;
+    chap: string;
+  }
+
+  const sampleQuestions = useMemo<SampleQuestion[]>(() => {
+    const list: SampleQuestion[] = [
+      { text: 'What is gravity?', sub: 'Physics' as SubjectName, chap: 'Gravitation' },
+      { text: 'Why does current flow?', sub: 'Physics' as SubjectName, chap: 'Current Electricity' },
+      { text: 'Explain photosynthesis.', sub: 'Biology' as SubjectName, chap: 'Photosynthesis' },
+      { text: 'Solve 2x + 5 = 15.', sub: 'Mathematics' as SubjectName, chap: 'Linear Equations' }
+    ];
+    return list.filter((sq) => allowedSubjects.includes(sq.sub));
+  }, [allowedSubjects]);
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200 pb-16">
@@ -221,10 +236,9 @@ export const DoubtCenter: React.FC = () => {
                     onChange={(e) => setAiSubject(e.target.value as SubjectName)}
                     className="w-full font-medium px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg focus:outline-none focus:ring-1 focus:ring-slate-900"
                   >
-                    <option value="Physics">Physics</option>
-                    <option value="Chemistry">Chemistry</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Biology">Biology</option>
+                    {allowedSubjects.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
                   </select>
                 </div>
 
@@ -471,14 +485,14 @@ export const DoubtCenter: React.FC = () => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5 overflow-x-auto">
-              {(['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'] as (SubjectName | 'All')[]).map((sub) => (
+              {subjects.map((sub) => (
                 <button
                   key={sub}
                   onClick={() => setSelectedSubject(sub)}
                   className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
                     selectedSubject === sub
-                      ? 'bg-slate-900 text-white'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-slate-900 dark:bg-emerald-600 text-white'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {sub}
@@ -553,12 +567,11 @@ export const DoubtCenter: React.FC = () => {
             <select
               value={newSubject}
               onChange={(e) => setNewSubject(e.target.value as SubjectName)}
-              className="w-full px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg"
+              className="w-full px-3 py-2 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg text-slate-800 dark:text-slate-100"
             >
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Mathematics">Mathematics</option>
-              <option value="Biology">Biology</option>
+              {allowedSubjects.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
             </select>
           </div>
 

@@ -16,6 +16,7 @@ import { Card, Button, Badge } from '../components/common/UIComponents';
 import { paperService } from '../services/paperService';
 import { userService } from '../services/userService';
 import { Paper, CanonicalContentType } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const Papers: React.FC = () => {
   const navigate = useNavigate();
@@ -46,6 +47,12 @@ export const Papers: React.FC = () => {
   const [selectedYear, setSelectedYear] = useState<number | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
+  const prepExam = user.preparationProfile?.preparationType || user.targetExam;
+  const currentExam = selectedExam !== 'All' ? selectedExam : prepExam;
+  const allowedSubjects = useMemo(() => {
+    return getAllowedSubjectsForExam(currentExam);
+  }, [currentExam]);
+
   // Strict Dataset Retrieval based on active Content Type
   const papersForCurrentType = useMemo(() => {
     switch (activeContentType) {
@@ -65,6 +72,15 @@ export const Papers: React.FC = () => {
   // Filter Logic
   const filteredPapers = useMemo(() => {
     return papersForCurrentType.filter((p) => {
+      // Strict JEE/NEET stream isolation
+      const effectiveExam = selectedExam !== 'All' ? selectedExam : prepExam;
+      if (effectiveExam === 'JEE' || effectiveExam === 'JEE Advanced') {
+        if (p.subject?.toLowerCase().includes('bio') || p.title.toLowerCase().includes('biology')) return false;
+      }
+      if (effectiveExam === 'NEET') {
+        if (p.subject?.toLowerCase().includes('math') || p.title.toLowerCase().includes('mathematics') || p.title.toLowerCase().includes('maths')) return false;
+      }
+
       if (selectedExam !== 'All') {
         if (selectedExam === 'NEET' && !(p.canonicalExam === 'NEET_UG' || p.exam === 'NEET')) return false;
         if (selectedExam === 'JEE' && !(p.canonicalExam === 'JEE_MAIN' || (p.exam === 'JEE' && !p.title.toLowerCase().includes('advanced')))) return false;
@@ -301,10 +317,9 @@ export const Papers: React.FC = () => {
               className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2 font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-1 focus:ring-brand-600"
             >
               <option value="All">All Subjects</option>
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Mathematics">Mathematics</option>
-              <option value="Biology">Biology</option>
+              {allowedSubjects.map((sub) => (
+                <option key={sub} value={sub}>{sub}</option>
+              ))}
             </select>
           </div>
         </div>

@@ -18,9 +18,14 @@ import { userService } from '../services/userService';
 import { questionService } from '../services/questionService';
 import { testService } from '../services/testService';
 import { MistakeItem, Question, SubjectName, MistakeReason } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const MistakeBook: React.FC = () => {
   const navigate = useNavigate();
+  const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
+  const subjects: (SubjectName | 'All')[] = ['All', ...allowedSubjects];
+
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
   const [activeSolutionQ, setActiveSolutionQ] = useState<Question | null>(null);
 
@@ -39,6 +44,7 @@ export const MistakeBook: React.FC = () => {
   const [mistakesList, setMistakesList] = useState<MistakeItem[]>(() => userService.getMistakes());
 
   const filteredMistakes = mistakesList.filter((m) => {
+    if (!isSubjectAllowedForExam(m.subject, user.targetExam)) return false;
     if (selectedSubject !== 'All' && m.subject !== selectedSubject) return false;
     return true;
   });
@@ -46,6 +52,7 @@ export const MistakeBook: React.FC = () => {
   // Calculate repeated topic mistakes (failed >= 2 times)
   const topicMistakeCounts: Record<string, { count: number; chapter: string; subject: SubjectName }> = {};
   mistakesList.forEach((m) => {
+    if (!isSubjectAllowedForExam(m.subject, user.targetExam)) return;
     if (!topicMistakeCounts[m.topic]) {
       topicMistakeCounts[m.topic] = { count: 0, chapter: m.chapter, subject: m.subject };
     }
@@ -159,14 +166,14 @@ export const MistakeBook: React.FC = () => {
 
       {/* 3. Subject Filter Tabs */}
       <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3 overflow-x-auto">
-        {(['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'] as (SubjectName | 'All')[]).map((sub) => (
+        {subjects.map((sub) => (
           <button
             key={sub}
             onClick={() => setSelectedSubject(sub)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
               selectedSubject === sub
-                ? 'bg-slate-900 text-white'
-                : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                ? 'bg-slate-900 dark:bg-emerald-600 text-white'
+                : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
             }`}
           >
             {sub}

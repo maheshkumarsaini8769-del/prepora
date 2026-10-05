@@ -22,16 +22,24 @@ import { Badge, Button, Modal } from '../components/common/UIComponents';
 import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { DailyPlan, DailyPlanItem, SubjectName } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const DailyPlanPage: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
-  const [dailyPlan, setDailyPlan] = useState<DailyPlan>(() => ecosystemService.getDailyPlan());
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
+  const [dailyPlan, setDailyPlan] = useState<DailyPlan>(() => {
+    const raw = ecosystemService.getDailyPlan();
+    return {
+      ...raw,
+      items: raw.items.filter(it => !it.subject || isSubjectAllowedForExam(it.subject, user.targetExam))
+    };
+  });
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
 
   // New task form state
   const [newTitle, setNewTitle] = useState('');
-  const [newSubject, setNewSubject] = useState<SubjectName>('Physics');
+  const [newSubject, setNewSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
   const [newChapter, setNewChapter] = useState('');
   const [newMinutes, setNewMinutes] = useState(20);
   const [newQuestions, setNewQuestions] = useState(15);
@@ -346,10 +354,9 @@ export const DailyPlanPage: React.FC = () => {
                 onChange={e => setNewSubject(e.target.value as SubjectName)}
                 className="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-xl text-xs focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 outline-none bg-white dark:bg-[#0c131a]"
               >
-                <option value="Physics">Physics</option>
-                <option value="Chemistry">Chemistry</option>
-                <option value="Mathematics">Mathematics</option>
-                <option value="Biology">Biology</option>
+                {allowedSubjects.map(s => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
               </select>
             </div>
 

@@ -17,14 +17,21 @@ import {
 import { getAllCuratedVideos, VideoResource } from '../data/videoLectures';
 import { SubjectName } from '../types';
 import { userService } from '../services/userService';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const VideoLecturesPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const allVideos = useMemo(() => getAllCuratedVideos(), []);
+  const user = userService.getProfile();
+  const targetExam = user.targetExam || 'JEE';
+  const allowedSubjects = useMemo(() => getAllowedSubjectsForExam(targetExam), [targetExam]);
+
+  const allVideos = useMemo(() => {
+    return getAllCuratedVideos().filter(v => isSubjectAllowedForExam(v.subject, targetExam));
+  }, [targetExam]);
   
   const paramSubject = searchParams.get('subject') as SubjectName | null;
-  const initialSubject = paramSubject && ['Physics', 'Chemistry', 'Mathematics', 'Biology'].includes(paramSubject)
+  const initialSubject = paramSubject && allowedSubjects.includes(paramSubject)
     ? paramSubject
     : 'All';
 
@@ -35,10 +42,12 @@ export const VideoLecturesPage: React.FC = () => {
   // Sync state if URL query param changes
   useEffect(() => {
     const sub = searchParams.get('subject') as SubjectName | null;
-    if (sub && ['Physics', 'Chemistry', 'Mathematics', 'Biology'].includes(sub)) {
+    if (sub && allowedSubjects.includes(sub)) {
       setSelectedSubject(sub);
+    } else if (sub && !allowedSubjects.includes(sub)) {
+      setSelectedSubject('All');
     }
-  }, [searchParams]);
+  }, [searchParams, allowedSubjects]);
 
   const handleSelectSubject = (sub: SubjectName | 'All') => {
     setSelectedSubject(sub);
@@ -50,7 +59,7 @@ export const VideoLecturesPage: React.FC = () => {
     }
   };
 
-  const subjects: (SubjectName | 'All')[] = ['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'];
+  const subjects: (SubjectName | 'All')[] = ['All', ...allowedSubjects];
 
   const filteredVideos = useMemo(() => {
     return allVideos.filter((v) => {
@@ -325,15 +334,27 @@ export const VideoLecturesPage: React.FC = () => {
 
             {/* Modal Footer Controls */}
             <div className="p-3.5 sm:p-4 bg-slate-900 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
-              <a
-                href={`https://www.youtube.com/watch?v=${activeVideo.youtubeId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-xs text-slate-300 hover:text-white font-semibold"
-              >
-                <ExternalLink className="w-3.5 h-3.5 text-rose-400" />
-                <span>Open in YouTube App</span>
-              </a>
+              <div className="flex items-center gap-2">
+                <a
+                  href={`https://www.youtube.com/watch?v=${activeVideo.youtubeId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-rose-600/20 hover:bg-rose-600/30 text-rose-300 hover:text-white border border-rose-500/30 rounded-lg text-xs font-bold transition-colors"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-rose-400" />
+                  <span>Open in YouTube App</span>
+                </a>
+
+                <a
+                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(activeVideo.chapter + ' ' + activeVideo.subject + ' one shot revision')}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-2.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs font-semibold transition-colors"
+                >
+                  <Search className="w-3 h-3 text-slate-400" />
+                  <span>Search on YouTube</span>
+                </a>
+              </div>
 
               <div className="flex items-center gap-2">
                 <button

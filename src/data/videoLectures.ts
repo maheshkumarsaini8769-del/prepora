@@ -16,9 +16,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Units and Measurements",
     subject: "Physics",
     title: "Units and Measurements (Physics) High-Yield One-Shot",
-    youtubeId: "3U4xG8hJdD4",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "1h 45m",
+    youtubeId: "j5oop-6-2p4",
+    channelName: "SUNIL BAGDA - NEET & JEE PHYSICS",
+    duration: "45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Units and Measurements."
   },
   "units and measurements": {
@@ -26,9 +26,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Units and Measurements",
     subject: "Physics",
     title: "Units and Measurements Complete High-Yield One-Shot Revision",
-    youtubeId: "3U4xG8hJdD4",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "1h 45m",
+    youtubeId: "j5oop-6-2p4",
+    channelName: "SUNIL BAGDA - NEET & JEE PHYSICS",
+    duration: "45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Units and Measurements."
   },
   "physics:motion in a straight line": {
@@ -36,9 +36,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Motion in a Straight Line",
     subject: "Physics",
     title: "Motion in a Straight Line (Physics) High-Yield One-Shot",
-    youtubeId: "z68-X4L1eFw",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "2h 15m",
+    youtubeId: "4_Zo5WhMf7w",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Motion in a Straight Line."
   },
   "motion in a straight line": {
@@ -46,9 +46,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Motion in a Straight Line",
     subject: "Physics",
     title: "Motion in a Straight Line Complete High-Yield One-Shot Revision",
-    youtubeId: "z68-X4L1eFw",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "2h 15m",
+    youtubeId: "4_Zo5WhMf7w",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "1h 15m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Motion in a Straight Line."
   },
   "physics:motion in a plane": {
@@ -56,9 +56,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Motion in a Plane",
     subject: "Physics",
     title: "Motion in a Plane (Physics) High-Yield One-Shot",
-    youtubeId: "L2J_z9f_dF8",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "2h 30m",
+    youtubeId: "4_Zo5WhMf7w",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Motion in a Plane."
   },
   "motion in a plane": {
@@ -66,9 +66,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Motion in a Plane",
     subject: "Physics",
     title: "Motion in a Plane Complete High-Yield One-Shot Revision",
-    youtubeId: "L2J_z9f_dF8",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "2h 30m",
+    youtubeId: "4_Zo5WhMf7w",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "1h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Motion in a Plane."
   },
   "physics:laws of motion": {
@@ -76,9 +76,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Laws of Motion",
     subject: "Physics",
     title: "Laws of Motion (Physics) High-Yield One-Shot",
-    youtubeId: "1f4e5Q9GqWc",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "2h 30m",
+    youtubeId: "7JlR8gNRQIs",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Laws of Motion."
   },
   "laws of motion": {
@@ -86,9 +86,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Laws of Motion",
     subject: "Physics",
     title: "Laws of Motion Complete High-Yield One-Shot Revision",
-    youtubeId: "1f4e5Q9GqWc",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "2h 30m",
+    youtubeId: "7JlR8gNRQIs",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Laws of Motion."
   },
   "physics:work, energy and power": {
@@ -96,8 +96,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Work, Energy and Power",
     subject: "Physics",
     title: "Work, Energy and Power (Physics) High-Yield One-Shot",
-    youtubeId: "pS9qY8v2VnM",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
+    youtubeId: "3f0u4L-lyyw",
+    channelName: "Eduniti - Physics by Mohit Goenka",
     duration: "1h 55m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Work, Energy and Power."
   },
@@ -106,8 +106,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Work, Energy and Power",
     subject: "Physics",
     title: "Work, Energy and Power Complete High-Yield One-Shot Revision",
-    youtubeId: "pS9qY8v2VnM",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
+    youtubeId: "3f0u4L-lyyw",
+    channelName: "Eduniti - Physics by Mohit Goenka",
     duration: "1h 55m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Work, Energy and Power."
   },
@@ -116,9 +116,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "System of Particles and Rotational Motion",
     subject: "Physics",
     title: "System of Particles and Rotational Motion (Physics) High-Yield One-Shot",
-    youtubeId: "zY8vU4_kQ9A",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "3h 10m",
+    youtubeId: "ZUQ1hfF7Ov4",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for System of Particles and Rotational Motion."
   },
   "system of particles and rotational motion": {
@@ -126,9 +126,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "System of Particles and Rotational Motion",
     subject: "Physics",
     title: "System of Particles and Rotational Motion Complete High-Yield One-Shot Revision",
-    youtubeId: "zY8vU4_kQ9A",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "3h 10m",
+    youtubeId: "ZUQ1hfF7Ov4",
+    channelName: "Eduniti - Physics by Mohit Goenka",
+    duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for System of Particles and Rotational Motion."
   },
   "physics:gravitation": {
@@ -136,8 +136,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Gravitation",
     subject: "Physics",
     title: "Gravitation (Physics) High-Yield One-Shot",
-    youtubeId: "kY0Q7rG_g9A",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
+    youtubeId: "PyNboHgtYzM",
+    channelName: "Eduniti - Physics by Mohit Goenka",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Gravitation."
   },
@@ -146,8 +146,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Gravitation",
     subject: "Physics",
     title: "Gravitation Complete High-Yield One-Shot Revision",
-    youtubeId: "kY0Q7rG_g9A",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
+    youtubeId: "PyNboHgtYzM",
+    channelName: "Eduniti - Physics by Mohit Goenka",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Gravitation."
   },
@@ -596,8 +596,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Structure of Atom",
     subject: "Chemistry",
     title: "Structure of Atom (Chemistry) High-Yield One-Shot",
-    youtubeId: "b7V9kX3nP1L",
-    channelName: "Pankaj Sir Chemistry",
+    youtubeId: "thnDxFdkzZs",
+    channelName: "CrashCourse Chemistry",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Structure of Atom."
   },
@@ -606,8 +606,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Structure of Atom",
     subject: "Chemistry",
     title: "Structure of Atom Complete High-Yield One-Shot Revision",
-    youtubeId: "b7V9kX3nP1L",
-    channelName: "Pankaj Sir Chemistry",
+    youtubeId: "thnDxFdkzZs",
+    channelName: "CrashCourse Chemistry",
     duration: "1h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Structure of Atom."
   },
@@ -616,8 +616,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Classification of Elements and Periodicity",
     subject: "Chemistry",
     title: "Classification of Elements and Periodicity (Chemistry) High-Yield One-Shot",
-    youtubeId: "c9N2vL7pK4X",
-    channelName: "Pankaj Sir Chemistry",
+    youtubeId: "0RRVV4Diomg",
+    channelName: "CrashCourse Chemistry",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Classification of Elements and Periodicity."
   },
@@ -626,8 +626,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Classification of Elements and Periodicity",
     subject: "Chemistry",
     title: "Classification of Elements and Periodicity Complete High-Yield One-Shot Revision",
-    youtubeId: "c9N2vL7pK4X",
-    channelName: "Pankaj Sir Chemistry",
+    youtubeId: "0RRVV4Diomg",
+    channelName: "CrashCourse Chemistry",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Classification of Elements and Periodicity."
   },
@@ -636,8 +636,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Bonding and Molecular Structure",
     subject: "Chemistry",
     title: "Chemical Bonding and Molecular Structure (Chemistry) High-Yield One-Shot",
-    youtubeId: "q4V7xP9bL2K",
-    channelName: "Pankaj Sir Chemistry",
+    youtubeId: "CGA8sRwqIFg",
+    channelName: "Khan Academy India",
     duration: "2h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Bonding and Molecular Structure."
   },
@@ -646,8 +646,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Chemical Bonding and Molecular Structure",
     subject: "Chemistry",
     title: "Chemical Bonding and Molecular Structure Complete High-Yield One-Shot Revision",
-    youtubeId: "q4V7xP9bL2K",
-    channelName: "Pankaj Sir Chemistry",
+    youtubeId: "CGA8sRwqIFg",
+    channelName: "Khan Academy India",
     duration: "2h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Chemical Bonding and Molecular Structure."
   },
@@ -766,9 +766,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Solutions",
     subject: "Chemistry",
     title: "Solutions (Chemistry) High-Yield One-Shot",
-    youtubeId: "s7N4vL9pX2K",
-    channelName: "Pankaj Sir Chemistry",
-    duration: "2h 15m",
+    youtubeId: "V7IhNvWMO0A",
+    channelName: "JEE Wallah (Pankaj Sir)",
+    duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Solutions."
   },
   "solutions": {
@@ -776,9 +776,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Solutions",
     subject: "Chemistry",
     title: "Solutions Complete High-Yield One-Shot Revision",
-    youtubeId: "s7N4vL9pX2K",
-    channelName: "Pankaj Sir Chemistry",
-    duration: "2h 15m",
+    youtubeId: "V7IhNvWMO0A",
+    channelName: "JEE Wallah (Pankaj Sir)",
+    duration: "2h 30m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Solutions."
   },
   "chemistry:electrochemistry": {
@@ -1266,9 +1266,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Matrices",
     subject: "Mathematics",
     title: "Matrices (Mathematics) High-Yield One-Shot",
-    youtubeId: "m9N2vL7pK4X",
-    channelName: "Mohit Tyagi (Competishun)",
-    duration: "1h 50m",
+    youtubeId: "gRHZwJ9O2Ow",
+    channelName: "Vedantu JEE (Arvind Kalia Sir)",
+    duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Matrices."
   },
   "matrices": {
@@ -1276,9 +1276,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Matrices",
     subject: "Mathematics",
     title: "Matrices Complete High-Yield One-Shot Revision",
-    youtubeId: "m9N2vL7pK4X",
-    channelName: "Mohit Tyagi (Competishun)",
-    duration: "1h 50m",
+    youtubeId: "gRHZwJ9O2Ow",
+    channelName: "Vedantu JEE (Arvind Kalia Sir)",
+    duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Matrices."
   },
   "mathematics:determinants": {
@@ -1286,9 +1286,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Determinants",
     subject: "Mathematics",
     title: "Determinants (Mathematics) High-Yield One-Shot",
-    youtubeId: "d8N3pK1vL7Q",
-    channelName: "Mohit Tyagi (Competishun)",
-    duration: "1h 55m",
+    youtubeId: "gRHZwJ9O2Ow",
+    channelName: "Vedantu JEE (Arvind Kalia Sir)",
+    duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Determinants."
   },
   "determinants": {
@@ -1296,9 +1296,9 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Determinants",
     subject: "Mathematics",
     title: "Determinants Complete High-Yield One-Shot Revision",
-    youtubeId: "d8N3pK1vL7Q",
-    channelName: "Mohit Tyagi (Competishun)",
-    duration: "1h 55m",
+    youtubeId: "gRHZwJ9O2Ow",
+    channelName: "Vedantu JEE (Arvind Kalia Sir)",
+    duration: "2h 10m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Determinants."
   },
   "mathematics:continuity and differentiability": {
@@ -1606,8 +1606,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Cell: The Unit of Life",
     subject: "Biology",
     title: "Cell: The Unit of Life (Biology) High-Yield One-Shot",
-    youtubeId: "p7K3vL9nX2M",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "f2hYBE7oEpk",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Cell: The Unit of Life."
   },
@@ -1616,8 +1616,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Cell: The Unit of Life",
     subject: "Biology",
     title: "Cell: The Unit of Life Complete High-Yield One-Shot Revision",
-    youtubeId: "p7K3vL9nX2M",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "f2hYBE7oEpk",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "2h 25m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Cell: The Unit of Life."
   },
@@ -1626,8 +1626,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Biomolecules",
     subject: "Biology",
     title: "Biomolecules (Biology) High-Yield One-Shot",
-    youtubeId: "p7K3vL9nX2M",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "URUJD5NEXC8",
+    channelName: "Nucleus Medical Media",
     duration: "1h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Biomolecules."
   },
@@ -1636,8 +1636,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Cell Cycle and Cell Division",
     subject: "Biology",
     title: "Cell Cycle and Cell Division (Biology) High-Yield One-Shot",
-    youtubeId: "c8N3pK1vL7Q",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "RTKuB9dHfIw",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Cell Cycle and Cell Division."
   },
@@ -1646,8 +1646,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Cell Cycle and Cell Division",
     subject: "Biology",
     title: "Cell Cycle and Cell Division Complete High-Yield One-Shot Revision",
-    youtubeId: "c8N3pK1vL7Q",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "RTKuB9dHfIw",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "1h 40m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Cell Cycle and Cell Division."
   },
@@ -1896,8 +1896,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Principles of Inheritance and Variation",
     subject: "Biology",
     title: "Principles of Inheritance and Variation (Biology) High-Yield One-Shot",
-    youtubeId: "g9N2vL7pK4X",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "vWSu-O6MVBI",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Principles of Inheritance and Variation."
   },
@@ -1906,8 +1906,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Principles of Inheritance and Variation",
     subject: "Biology",
     title: "Principles of Inheritance and Variation Complete High-Yield One-Shot Revision",
-    youtubeId: "g9N2vL7pK4X",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "vWSu-O6MVBI",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "2h 45m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Principles of Inheritance and Variation."
   },
@@ -1916,8 +1916,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Molecular Basis of Inheritance",
     subject: "Biology",
     title: "Molecular Basis of Inheritance (Biology) High-Yield One-Shot",
-    youtubeId: "m9N2vL7pK4X",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "07DRdzSlWYw",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "2h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Molecular Basis of Inheritance."
   },
@@ -1926,8 +1926,8 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     chapter: "Molecular Basis of Inheritance",
     subject: "Biology",
     title: "Molecular Basis of Inheritance Complete High-Yield One-Shot Revision",
-    youtubeId: "m9N2vL7pK4X",
-    channelName: "Tarun Sir Biology",
+    youtubeId: "07DRdzSlWYw",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
     duration: "2h 50m",
     description: "Comprehensive NCERT and entrance exam theory, derivations, and high-yield problem solving for Molecular Basis of Inheritance."
   },
@@ -2215,24 +2215,24 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
 
 const DEFAULT_SUBJECT_VIDEOS: Record<string, { youtubeId: string; channelName: string; duration: string }> = {
   Physics: {
-    youtubeId: "3U4xG8hJdD4",
-    channelName: "Physics Galaxy (Ashish Arora Sir)",
-    duration: "2h 15m"
+    youtubeId: "7JlR8gNRQIs",
+    channelName: "Eduniti - Mohit Goenka Sir",
+    duration: "1h 45m"
   },
   Chemistry: {
-    youtubeId: "mX9vL2bKp8Q",
-    channelName: "Pankaj Sir Chemistry",
-    duration: "2h 20m"
+    youtubeId: "V7IhNvWMO0A",
+    channelName: "JEE Wallah (Pankaj Sir)",
+    duration: "2h 30m"
   },
   Mathematics: {
-    youtubeId: "r8V2nL9qX4P",
-    channelName: "Mohit Tyagi (Competishun)",
+    youtubeId: "gRHZwJ9O2Ow",
+    channelName: "Vedantu JEE (Arvind Kalia Sir)",
     duration: "2h 10m"
   },
   Biology: {
-    youtubeId: "p7K3vL9nX2M",
-    channelName: "Tarun Sir Biology",
-    duration: "2h 15m"
+    youtubeId: "f2hYBE7oEpk",
+    channelName: "Sankalp NEET Vedantu (Tarun Sir)",
+    duration: "2h 45m"
   }
 };
 

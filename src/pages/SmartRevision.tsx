@@ -13,7 +13,9 @@ import {
 } from 'lucide-react';
 import { Card, Button } from '../components/common/UIComponents';
 import { progressService } from '../services/progressService';
+import { userService } from '../services/userService';
 import { SubjectName } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 interface Flashcard {
   id: string;
@@ -164,6 +166,10 @@ const INITIAL_FLASHCARDS: Flashcard[] = [
 
 export const SmartRevision: React.FC = () => {
   const navigate = useNavigate();
+  const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
+  const subjects: (SubjectName | 'All')[] = ['All', ...allowedSubjects];
+
   const [activeSection, setActiveSection] = useState<'due' | 'flashcards'>('due');
   const [showUpcoming, setShowUpcoming] = useState<boolean>(false);
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
@@ -205,6 +211,7 @@ export const SmartRevision: React.FC = () => {
   };
 
   const filteredCards = cards.filter((c) => {
+    if (!isSubjectAllowedForExam(c.subject, user.targetExam)) return false;
     if (selectedSubject !== 'All' && c.subject !== selectedSubject) return false;
     return true;
   });
@@ -390,14 +397,14 @@ export const SmartRevision: React.FC = () => {
             </div>
 
             <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              {(['All', 'Physics', 'Chemistry', 'Biology', 'Mathematics'] as (SubjectName | 'All')[]).map((sub) => (
+              {subjects.map((sub) => (
                 <button
                   key={sub}
                   onClick={() => setSelectedSubject(sub)}
                   className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
                     selectedSubject === sub
-                      ? 'bg-slate-900 text-white'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-slate-900 dark:bg-emerald-600 text-white'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {sub}

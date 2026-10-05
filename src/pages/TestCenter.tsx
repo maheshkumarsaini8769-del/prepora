@@ -13,11 +13,15 @@ import {
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { testService } from '../services/testService';
+import { userService } from '../services/userService';
 import { Test, ExamType } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const TestCenter: React.FC = () => {
   const navigate = useNavigate();
-  const [selectedExam, setSelectedExam] = useState<ExamType | 'All'>('All');
+  const user = userService.getProfile();
+  const defaultExam: ExamType | 'All' = user.targetExam === 'NEET' ? 'NEET' : user.targetExam === 'JEE' ? 'JEE' : 'All';
+  const [selectedExam, setSelectedExam] = useState<ExamType | 'All'>(defaultExam);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
 
   const allTests = testService.getAllTests();
@@ -25,6 +29,11 @@ export const TestCenter: React.FC = () => {
   const filteredTests = allTests.filter(t => {
     if (selectedExam !== 'All' && t.exam !== selectedExam) return false;
     if (selectedCategory !== 'All' && t.category !== selectedCategory) return false;
+    // Don't show tests containing subjects from forbidden streams
+    if (t.subjects && t.subjects.length > 0) {
+      const hasForbidden = t.subjects.some(s => !isSubjectAllowedForExam(s, user.targetExam));
+      if (hasForbidden && (selectedExam === 'All' || selectedExam === user.targetExam)) return false;
+    }
     return true;
   });
 
@@ -63,8 +72,8 @@ export const TestCenter: React.FC = () => {
               onClick={() => setSelectedCategory(cat)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 selectedCategory === cat
-                  ? 'bg-brand-600 text-white shadow-sm'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
               }`}
             >
               {cat}
@@ -80,8 +89,8 @@ export const TestCenter: React.FC = () => {
               onClick={() => setSelectedExam(e)}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
                 selectedExam === e
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  ? 'bg-slate-900 dark:bg-emerald-600 text-white'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
               }`}
             >
               {e}

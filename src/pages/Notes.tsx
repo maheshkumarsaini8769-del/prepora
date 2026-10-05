@@ -13,8 +13,13 @@ import {
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { StudyNote, SubjectName } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const Notes: React.FC = () => {
+  const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
+  const subjects: (SubjectName | 'All')[] = ['All', ...allowedSubjects];
+
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
   const [editingNote, setEditingNote] = useState<StudyNote | null>(null);
@@ -22,7 +27,7 @@ export const Notes: React.FC = () => {
 
   // Form state
   const [formTitle, setFormTitle] = useState('');
-  const [formSubject, setFormSubject] = useState<SubjectName>('Physics');
+  const [formSubject, setFormSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
   const [formChapter, setFormChapter] = useState('');
   const [formContent, setFormContent] = useState('');
   const [formTags, setFormTags] = useState('');
@@ -30,6 +35,7 @@ export const Notes: React.FC = () => {
   const notes = userService.getNotes();
 
   const filteredNotes = notes.filter((n) => {
+    if (!isSubjectAllowedForExam(n.subject, user.targetExam)) return false;
     if (selectedSubject !== 'All' && n.subject !== selectedSubject) return false;
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -121,14 +127,14 @@ export const Notes: React.FC = () => {
         </div>
 
         <div className="flex items-center gap-1.5 self-start sm:self-auto overflow-x-auto w-full sm:w-auto">
-          {(['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'] as (SubjectName | 'All')[]).map((sub) => (
+          {subjects.map((sub) => (
             <button
               key={sub}
               onClick={() => setSelectedSubject(sub)}
               className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 selectedSubject === sub
-                  ? 'bg-brand-600 text-white shadow-sm'
-                  : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                  ? 'bg-emerald-600 text-white shadow-sm'
+                  : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
               }`}
             >
               {sub}
@@ -243,7 +249,7 @@ export const Notes: React.FC = () => {
                 onChange={(e) => setFormSubject(e.target.value as SubjectName)}
                 className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs sm:text-sm font-semibold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
-                {['Physics', 'Chemistry', 'Mathematics', 'Biology'].map((s) => (
+                {allowedSubjects.map((s) => (
                   <option key={s} value={s}>{s}</option>
                 ))}
               </select>

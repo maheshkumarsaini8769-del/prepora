@@ -48,6 +48,7 @@ import { NotificationDropdown } from '../components/common/NotificationDropdown'
 import { InstallAppBanner } from '../components/common/InstallAppBanner';
 import { soundFeedback } from '../utils/audioFeedback';
 import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
+import { getAllowedSubjectsForExam } from '../utils/examUtils';
 
 export const MainLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -103,9 +104,16 @@ export const MainLayout: React.FC = () => {
   const [moreOpen, setMoreOpen] = useState(true);
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#080d12] flex flex-col md:flex-row font-sans text-slate-800 dark:text-slate-100 transition-colors">
+    <div className="min-h-screen bg-[#f8faf9] dark:bg-[#080d12] flex flex-col md:flex-row font-sans text-slate-800 dark:text-slate-100 transition-colors relative overflow-x-hidden">
+      {/* Global Ambient Emerald Atmosphere - Soft Green Glow Across All Pages */}
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden" aria-hidden="true">
+        <div className="absolute -top-32 -right-32 w-96 h-96 sm:w-[560px] sm:h-[560px] bg-emerald-400/12 dark:bg-emerald-500/8 rounded-full blur-[130px]" />
+        <div className="absolute top-1/3 -left-32 w-80 h-80 sm:w-[500px] sm:h-[500px] bg-teal-400/10 dark:bg-teal-500/6 rounded-full blur-[140px]" />
+        <div className="absolute -bottom-32 right-1/4 w-96 h-96 sm:w-[520px] sm:h-[520px] bg-emerald-500/10 dark:bg-emerald-600/5 rounded-full blur-[150px]" />
+      </div>
+
       {/* Desktop Left Sidebar - Clean Minimal Monochrome */}
-      <aside className="hidden md:flex flex-col w-64 bg-white dark:bg-[#0c131a] border-r border-slate-200/90 dark:border-slate-800/80 fixed inset-y-0 left-0 z-30">
+      <aside className="hidden md:flex flex-col w-64 bg-white/95 dark:bg-[#0c131a]/95 backdrop-blur-md border-r border-slate-200/90 dark:border-slate-800/80 fixed inset-y-0 left-0 z-30">
         {/* Brand Header */}
         <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
           <Link to="/" className="flex items-center gap-2.5">
@@ -235,7 +243,7 @@ export const MainLayout: React.FC = () => {
       </aside>
 
       {/* Main Content Area */}
-      <div className="flex-1 md:ml-64 flex flex-col min-h-screen">
+      <div className="flex-1 md:ml-64 flex flex-col min-h-screen relative z-10">
         {/* Top Navbar */}
         <header className="h-16 bg-white/90 dark:bg-[#0c131a]/90 backdrop-blur-md border-b border-slate-200/80 dark:border-slate-800 sticky top-0 z-20 px-3 sm:px-6 lg:px-8 flex items-center justify-between shadow-xs">
           {/* Mobile Brand & Hamburger (Exact Match to Reference Screenshot) */}
@@ -619,7 +627,19 @@ export const MainLayout: React.FC = () => {
                 <button
                   key={ex.key}
                   onClick={() => {
-                    userService.updateProfile({ targetExam: ex.key as any });
+                    const newSubjects = getAllowedSubjectsForExam(ex.key as any);
+                    userService.updateProfile({
+                      targetExam: ex.key as any,
+                      preparationProfile: {
+                        userId: user.id || 'usr-default',
+                        classLevel: user.preparationProfile?.classLevel || '12',
+                        onboardingCompleted: true,
+                        ...(user.preparationProfile || {}),
+                        preparationType: ex.key as any,
+                        exam: ex.key as any,
+                        subjects: newSubjects
+                      }
+                    });
                     setExamSwitcherOpen(false);
                     window.location.reload();
                   }}

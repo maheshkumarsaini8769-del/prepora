@@ -16,9 +16,14 @@ import { testService } from '../services/testService';
 import { paperService } from '../services/paperService';
 import { userService } from '../services/userService';
 import { ExamType, SubjectName } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 export const Search: React.FC = () => {
   const navigate = useNavigate();
+  const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
+  const subjects: (SubjectName | 'All')[] = ['All', ...allowedSubjects];
+
   const [query, setQuery] = useState('');
   const [selectedType, setSelectedType] = useState<'all' | 'questions' | 'tests' | 'papers' | 'notes'>('all');
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
@@ -26,7 +31,7 @@ export const Search: React.FC = () => {
   const questions = questionService.filterQuestions({
     subject: selectedSubject !== 'All' ? selectedSubject : undefined,
     searchQuery: query.trim() || undefined
-  });
+  }).filter(q => isSubjectAllowedForExam(q.subject, user.targetExam));
 
   const tests = testService.getAllTests().filter(t => {
     if (!query) return true;
@@ -102,14 +107,16 @@ export const Search: React.FC = () => {
           </div>
 
           {/* Subject Filter */}
-          <div className="flex items-center gap-1.5">
+          <div className="flex items-center gap-1.5 overflow-x-auto">
             <span className="text-xs font-semibold text-slate-400">Subject:</span>
-            {(['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'] as (SubjectName | 'All')[]).map((s) => (
+            {subjects.map((s) => (
               <button
                 key={s}
                 onClick={() => setSelectedSubject(s)}
-                className={`px-2 py-0.5 rounded-lg text-xs font-semibold ${
-                  selectedSubject === s ? 'bg-slate-900 text-white' : 'bg-slate-100 text-slate-600'
+                className={`px-2.5 py-1 rounded-lg text-xs font-semibold transition-colors ${
+                  selectedSubject === s
+                    ? 'bg-slate-900 dark:bg-emerald-600 text-white'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
                 {s}

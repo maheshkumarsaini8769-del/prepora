@@ -7,13 +7,16 @@ import { questionService } from '../services/questionService';
 import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { SubjectName } from '../types';
+import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 
 export const MindMapPage: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
   const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
 
-  const initialSubject = (searchParams.get('subject') as SubjectName) || 'Physics';
+  const rawSubject = (searchParams.get('subject') as SubjectName) || allowedSubjects[0];
+  const initialSubject = sanitizeSubjectForExam(rawSubject, user.targetExam);
   const [selectedSubject, setSelectedSubject] = useState<SubjectName>(initialSubject);
 
   const chapters = questionService.getChapters(selectedSubject, user.classLevel as any);
@@ -53,7 +56,7 @@ export const MindMapPage: React.FC = () => {
             onChange={(e) => handleSubjectChange(e.target.value as SubjectName)}
             className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-1 focus:ring-slate-900"
           >
-            {(['Physics', 'Chemistry', 'Mathematics', 'Biology'] as SubjectName[]).map((subj) => (
+            {allowedSubjects.map((subj) => (
               <option key={subj} value={subj}>
                 {subj}
               </option>

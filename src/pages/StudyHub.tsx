@@ -24,17 +24,18 @@ import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { getChapterVideo } from '../data/videoLectures';
 import { SubjectName, ExamType } from '../types';
+import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 
 export const StudyHub: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
+  const subjects: SubjectName[] = getAllowedSubjectsForExam(user.targetExam);
 
-  const [activeSubject, setActiveSubject] = useState<SubjectName>('Physics');
+  const [activeSubject, setActiveSubject] = useState<SubjectName>(subjects[0] || 'Physics');
   const [selectedChapter, setSelectedChapter] = useState<string>('Kinematics');
   const [activeTab, setActiveTab] = useState<'notes' | 'formulas' | 'flashcards' | 'pyqs' | 'tests' | 'video'>('notes');
   const [searchQuery, setSearchQuery] = useState<string>('');
 
-  const subjects: SubjectName[] = ['Physics', 'Chemistry', 'Mathematics', 'Biology'];
   const chapters = questionService.getChapters(activeSubject, user.classLevel as any);
   const effectiveChapter = chapters.includes(selectedChapter) ? selectedChapter : (chapters[0] || 'Kinematics');
 

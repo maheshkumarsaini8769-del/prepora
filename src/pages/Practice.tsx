@@ -3,14 +3,19 @@ import { useNavigate, useSearchParams } from 'react-router-dom';
 import { BookOpen, ArrowRight, SlidersHorizontal, ChevronDown, ChevronUp, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Card, Button } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
+import { userService } from '../services/userService';
 import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question } from '../types';
+import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 
 export const Practice: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
+  const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
 
   // Primary Selection States
-  const [subject, setSubject] = useState<SubjectName>((searchParams.get('subject') as SubjectName) || 'Physics');
+  const rawSubject = (searchParams.get('subject') as SubjectName) || allowedSubjects[0];
+  const [subject, setSubject] = useState<SubjectName>(sanitizeSubjectForExam(rawSubject, user.targetExam));
   const [chapter, setChapter] = useState<string>(searchParams.get('chapter') || 'All');
   const [topic, setTopic] = useState<string>('All');
   const [difficulty, setDifficulty] = useState<DifficultyLevel | 'All'>('All');
@@ -146,8 +151,8 @@ export const Practice: React.FC = () => {
           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
             1. Subject
           </label>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5">
-            {(['Physics', 'Chemistry', 'Mathematics', 'Biology'] as SubjectName[]).map((sub) => (
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+            {allowedSubjects.map((sub) => (
               <button
                 key={sub}
                 type="button"
@@ -158,8 +163,8 @@ export const Practice: React.FC = () => {
                 }}
                 className={`py-3 px-3 rounded-xl font-bold text-xs border text-center transition-all ${
                   subject === sub
-                    ? 'bg-brand-600 border-brand-600 text-white shadow-xs'
-                    : 'bg-white border-slate-200 text-slate-700 hover:bg-slate-50'
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-750'
                 }`}
               >
                 {sub}

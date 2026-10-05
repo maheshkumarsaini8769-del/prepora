@@ -18,6 +18,7 @@ import { Card, Button, Modal } from '../components/common/UIComponents';
 import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { PlannerTask, SubjectName } from '../types';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 
 interface PlannerConfig {
   targetExam: string;
@@ -33,6 +34,7 @@ const PLANNER_CONFIG_KEY = 'prepora_planner_config';
 export const StudyPlanner: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
+  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
 
   const [config, setConfig] = useState<PlannerConfig>(() => {
     const saved = localStorage.getItem(PLANNER_CONFIG_KEY);
@@ -62,7 +64,7 @@ export const StudyPlanner: React.FC = () => {
   const [showConfig, setShowConfig] = useState<boolean>(false);
 
   // Form state
-  const [newTaskSubject, setNewTaskSubject] = useState<SubjectName>('Physics');
+  const [newTaskSubject, setNewTaskSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
   const [newTaskChapter, setNewTaskChapter] = useState<string>('Kinematics');
   const [newTaskType, setNewTaskType] = useState<PlannerTask['taskType']>('Practice');
   const [newTaskDuration, setNewTaskDuration] = useState<number>(30);
@@ -455,12 +457,11 @@ export const StudyPlanner: React.FC = () => {
             <select
               value={newTaskSubject}
               onChange={(e) => setNewTaskSubject(e.target.value as SubjectName)}
-              className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a]"
+              className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100"
             >
-              <option value="Physics">Physics</option>
-              <option value="Chemistry">Chemistry</option>
-              <option value="Mathematics">Mathematics</option>
-              <option value="Biology">Biology</option>
+              {allowedSubjects.map((s) => (
+                <option key={s} value={s}>{s}</option>
+              ))}
             </select>
           </div>
 
