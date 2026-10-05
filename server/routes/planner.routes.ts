@@ -101,9 +101,9 @@ router.get('/', authenticateUser, async (req: AuthRequest, res: Response) => {
             tasksTotal: initialTasks.length,
             tasksCompleted: 0,
             studyTimeMinutes: 0,
-            questionsSolved: req.user?.todayQuestionsCount || 0,
-            accuracyPercentage: req.user?.overallAccuracy || 0,
-            streakDays: req.user?.streakDays || 1,
+            questionsSolved: (req.user as any)?.todayQuestionsCount || 0,
+            accuracyPercentage: (req.user as any)?.overallAccuracy || 0,
+            streakDays: (req.user as any)?.streakDays || 1,
             goalsCompleted: 0,
             goalsTotal: 3
           }
