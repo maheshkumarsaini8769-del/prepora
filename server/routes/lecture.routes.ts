@@ -1,9 +1,28 @@
 import express, { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
 import Lecture from '../models/Lecture.js';
 import YouTubeDiscoveryService from '../services/youtubeDiscoveryService.js';
 import { requireAdmin, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
+
+async function ensureSeededLectures() {
+  try {
+    const count = await Lecture.countDocuments();
+    if (count === 0) {
+      const p = path.resolve('server/data/curatedLectures.json');
+      if (fs.existsSync(p)) {
+        const raw = fs.readFileSync(p, 'utf8');
+        const lectures = JSON.parse(raw);
+        await Lecture.insertMany(lectures);
+        console.log(`[AutoSeed] Seeded ${lectures.length} curated lectures into MongoDB.`);
+      }
+    }
+  } catch (e) {
+    console.warn('[AutoSeed Lectures Error]', e);
+  }
+}
 
 /**
  * Helper to extract YouTube video ID from various URL formats
@@ -23,6 +42,7 @@ function extractYouTubeId(urlOrId: string): string | null {
 // ==========================================
 router.get('/', optionalAuth, async (req: Request, res: Response) => {
   try {
+    await ensureSeededLectures();
     const { subject, chapter, topic, type } = req.query;
 
     const query: any = { isActive: true };

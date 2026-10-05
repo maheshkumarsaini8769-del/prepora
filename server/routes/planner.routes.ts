@@ -351,9 +351,9 @@ router.get('/progress/today', authenticateUser, async (req: AuthRequest, res: Re
         tasksTotal,
         tasksCompleted,
         studyTimeMinutes: tasksCompleted * 30,
-        questionsSolved: req.user?.todayQuestionsCount || 0,
-        accuracyPercentage: req.user?.overallAccuracy || 0,
-        streakDays: req.user?.streakDays || 1,
+        questionsSolved: (req.user as any)?.todayQuestionsCount || 0,
+        accuracyPercentage: (req.user as any)?.overallAccuracy || 0,
+        streakDays: (req.user as any)?.streakDays || 1,
         goalsCompleted: tasksCompleted >= 3 ? 3 : tasksCompleted,
         goalsTotal: 3
       });

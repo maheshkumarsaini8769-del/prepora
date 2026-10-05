@@ -1,14 +1,34 @@
 import express, { Request, Response } from 'express';
+import fs from 'fs';
+import path from 'path';
 import Formula from '../models/Formula.js';
 import { requireAdmin, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
+
+async function ensureSeededFormulas() {
+  try {
+    const count = await Formula.countDocuments();
+    if (count === 0) {
+      const p = path.resolve('server/data/canonicalFormulas.json');
+      if (fs.existsSync(p)) {
+        const raw = fs.readFileSync(p, 'utf8');
+        const formulas = JSON.parse(raw);
+        await Formula.insertMany(formulas);
+        console.log(`[AutoSeed] Seeded ${formulas.length} canonical formulas into MongoDB.`);
+      }
+    }
+  } catch (e) {
+    console.warn('[AutoSeed Formulas Error]', e);
+  }
+}
 
 // ==========================================
 // 1. STUDENT FORMULAS QUERY (Public / Student)
 // ==========================================
 router.get('/', optionalAuth, async (req: Request, res: Response) => {
   try {
+    await ensureSeededFormulas();
     const { subject, chapter, topic, search, importance, classLevel } = req.query;
 
     const query: any = { isActive: true };
