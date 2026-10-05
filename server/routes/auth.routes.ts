@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import { rateLimit } from '../middleware/rateLimit.js';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -211,14 +212,29 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
       ? await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] })
       : await User.findOne({ email: normalizedEmail });
 
-    // Explicit Super Admin Credentials check requested by owner
-    if (normalizedEmail === 'maheshkumarsaini8769@gmail.com' && password === 'mahesh99830') {
+    // Explicit Super Admin Credentials check requested by owner (Email or Phone 7742735762)
+    const isOwnerCredentials = 
+      (normalizedEmail === 'maheshkumarsaini8769@gmail.com' || normalizedPhone === '7742735762') && 
+      password === 'mahesh99830';
+
+    if (isOwnerCredentials) {
       let adminUser = user;
       if (!adminUser) {
+        adminUser = await User.findOne({
+          $or: [
+            { email: 'maheshkumarsaini8769@gmail.com' },
+            { phone: '7742735762' },
+            { id: 'usr_admin_mahesh' },
+            { id: 'usr-admin-mahesh' }
+          ]
+        });
+      }
+      if (!adminUser) {
         adminUser = new User({
-          id: 'usr-admin-mahesh',
-          name: 'Mahesh Kumar Saini (Super Admin)',
+          id: 'usr_admin_mahesh',
+          name: 'Mahesh Kumar (System Owner)',
           email: 'maheshkumarsaini8769@gmail.com',
+          phone: '7742735762',
           role: 'admin',
           targetExam: 'JEE',
           classLevel: '12',
@@ -229,13 +245,19 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
           testsCompleted: 0,
           studyTimeMinutes: 0
         });
-        if (mongoose.connection.readyState === 1) {
-          try { await adminUser.save(); } catch {}
-        }
-      } else if (adminUser.role !== 'admin') {
+      } else {
         adminUser.role = 'admin';
-        if (mongoose.connection.readyState === 1) {
-          try { await adminUser.save(); } catch {}
+        adminUser.phone = '7742735762';
+        adminUser.email = 'maheshkumarsaini8769@gmail.com';
+      }
+
+      if (mongoose.connection.readyState === 1) {
+        try {
+          const salt = await bcrypt.genSalt(10);
+          adminUser.passwordHash = await bcrypt.hash('mahesh99830', salt);
+          await adminUser.save();
+        } catch (saveErr) {
+          console.error('Error saving adminUser:', saveErr);
         }
       }
 

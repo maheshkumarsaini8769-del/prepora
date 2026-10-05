@@ -121,7 +121,8 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       if (res.success) {
         setSuccessMsg('Logged in successfully!');
         setTimeout(() => {
-          if (identifier.trim().toLowerCase() === 'maheshkumarsaini8769@gmail.com') {
+          const clean = identifier.replace(/[^0-9]/g, '').slice(-10);
+          if (identifier.trim().toLowerCase() === 'maheshkumarsaini8769@gmail.com' || clean === '7742735762') {
             navigate('/admin', { replace: true });
           } else {
             navigate(redirectTo, { replace: true });

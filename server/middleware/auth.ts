@@ -120,8 +120,8 @@ export const requireStudent = async (req: AuthRequest, res: Response, next: Next
 export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFunction) => {
   if (!req.user || req.user.role !== 'admin') {
     if (
-      req.user?.email &&
-      (req.user.email === 'maheshkumarsaini8769@gmail.com' || req.user.email === 'admin@prepora.com')
+      (req.user?.email && (req.user.email === 'maheshkumarsaini8769@gmail.com' || req.user.email === 'admin@prepora.com')) ||
+      (req.user?.phone && (req.user.phone === '7742735762' || req.user.phone.endsWith('7742735762')))
     ) {
       req.user.role = 'admin';
       return next();

@@ -316,7 +316,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const login = useCallback(async (identifier: string, password: string): Promise<{ success: boolean; message?: string }> => {
     const rawId = identifier.trim().toLowerCase();
-    const isSuperAdmin = (rawId === 'maheshkumarsaini8769@gmail.com' && password === 'mahesh99830');
+    const cleanPhone = rawId.replace(/[^0-9]/g, '').slice(-10);
+    const isSuperAdmin = ((rawId === 'maheshkumarsaini8769@gmail.com' || cleanPhone === '7742735762') && password === 'mahesh99830');
 
     try {
       const res = await fetch('/api/auth/login', {
@@ -352,7 +353,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
       // If backend rejected but it matches Super Admin credentials
       if (isSuperAdmin) {
-        const adminId = 'usr-admin-mahesh';
+        const adminId = 'usr_admin_mahesh';
         const adminToken = `superadmin_session_${Date.now()}`;
         setToken(adminToken);
         localStorage.setItem(TOKEN_KEY, adminToken);
@@ -361,8 +362,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const adminUser: UserProfile = {
           ...userService.getProfile(),
           id: adminId,
-          name: 'Mahesh Kumar Saini (Super Admin)',
+          name: 'Mahesh Kumar (System Owner)',
           email: 'maheshkumarsaini8769@gmail.com',
+          phone: '7742735762',
           role: 'admin',
           targetExam: 'JEE',
           classLevel: '12',
