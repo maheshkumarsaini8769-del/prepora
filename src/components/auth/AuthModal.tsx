@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import {
   X,
   Phone,
-  Mail,
   CheckCircle2,
   AlertCircle,
   ArrowRight,
@@ -11,66 +11,140 @@ import {
   GraduationCap,
   KeyRound,
   RotateCw,
-  Zap,
-  Lock
+  Lock,
+  Eye,
+  EyeOff,
+  Copy,
+  Check,
+  User,
+  ShieldCheck
 } from 'lucide-react';
 import { PreparationType, ClassLevel } from '../../types';
 
-export const AuthModal: React.FC = () => {
-  const { authModalOpen, setAuthModalOpen, sendOtp, verifyOtp, setPassword, login } = useAuth();
+type FlowStep = 'login' | 'register' | 'enter-otp' | 'account-created' | 'forgot-password' | 'reset-password';
 
-  const [loginMode, setLoginMode] = useState<'otp' | 'password'>('otp');
-  const [authMethod, setAuthMethod] = useState<'phone' | 'email'>('phone');
+export const AuthModal: React.FC = () => {
+  const {
+    authModalOpen,
+    setAuthModalOpen,
+    authModalMode,
+    sendOtp,
+    verifyOtp,
+    login,
+    forgotPassword,
+    resetPassword
+  } = useAuth();
+
+  const navigate = useNavigate();
+
+  // Active step in modal
+  const [step, setStep] = useState<FlowStep>('login');
+
+  // Input states
+  const [name, setName] = useState<string>('');
   const [phone, setPhone] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
   const [password, setPasswordInput] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
   const [confirmPassword, setConfirmPassword] = useState<string>('');
   const [otp, setOtp] = useState<string>('');
 
+  // Password visibility
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  // Generated password on first-time registration
+  const [generatedPassword, setGeneratedPassword] = useState<string>('');
+  const [copied, setCopied] = useState<boolean>(false);
+
+  // Setup options
   const [targetExam, setTargetExam] = useState<PreparationType>('JEE');
   const [classLevel, setClassLevel] = useState<ClassLevel | 'Dropper'>('12');
-  const [dailyGoal, setDailyGoal] = useState<number>(25);
 
-  // OTP mode flow step
-  const [step, setStep] = useState<'enter-identifier' | 'enter-otp' | 'create-password'>('enter-identifier');
+  // Cooldown timer
+  const [cooldown, setCooldown] = useState<number>(0);
+
+  // Status
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
+  // Sync modal step when opened based on authModalMode
+  useEffect(() => {
+    if (authModalOpen) {
+      if (authModalMode === 'register') {
+        setStep('register');
+      } else if (authModalMode === 'forgot') {
+        setStep('forgot-password');
+      } else {
+        setStep('login');
+      }
+      setError(null);
+      setSuccessMsg(null);
+    }
+  }, [authModalOpen, authModalMode]);
+
+  // Cooldown timer effect
+  useEffect(() => {
+    if (cooldown <= 0) return;
+    const timer = setInterval(() => {
+      setCooldown((prev) => (prev > 0 ? prev - 1 : 0));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
   if (!authModalOpen) return null;
+
+  const cleanMobileDigits = (num: string) => num.replace(/[^0-9]/g, '').slice(-10);
 
   const close = () => {
     setAuthModalOpen(false);
-    setStep('enter-identifier');
     setError(null);
     setSuccessMsg(null);
+    setPasswordInput('');
     setNewPassword('');
     setConfirmPassword('');
+    setOtp('');
   };
 
+  const handleCopyPassword = () => {
+    if (!generatedPassword) return;
+    navigator.clipboard.writeText(generatedPassword);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  // 1. NORMAL LOGIN (Mobile Number / Email + Password)
   const handlePasswordLogin = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
     setSuccessMsg(null);
 
-    if (!email.trim() || !password) {
-      setError('Enter email and password.');
+    const isEmail = phone.includes('@');
+    const identifier = isEmail ? phone.trim() : cleanMobileDigits(phone);
+
+    if (!identifier || !password) {
+      setError('Please enter your mobile number (or email) and password.');
+      return;
+    }
+    if (!isEmail && identifier.length !== 10) {
+      setError('Please enter a valid 10-digit mobile number.');
       return;
     }
 
     setIsLoading(true);
     try {
-      const res = await login(email.trim(), password);
+      const res = await login(identifier, password);
       setIsLoading(false);
 
       if (res.success) {
         setSuccessMsg('Logged in successfully!');
         setTimeout(() => {
           setAuthModalOpen(false);
+          if (identifier.trim().toLowerCase() === 'maheshkumarsaini8769@gmail.com') {
+            navigate('/admin');
+          }
         }, 300);
       } else {
-        setError(res.message || 'Invalid email or password.');
+        setError(res.message || 'Invalid mobile number or password.');
       }
     } catch (err: any) {
       setIsLoading(false);
@@ -78,27 +152,29 @@ export const AuthModal: React.FC = () => {
     }
   };
 
-  const handleRequestOtp = async (e?: React.FormEvent) => {
+  // 2. FIRST-TIME REGISTRATION: Send WhatsApp OTP
+  const handleRegisterSendOtp = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
     setSuccessMsg(null);
 
-    const identifier = authMethod === 'phone' ? phone.trim() : email.trim();
-    if (!identifier) {
-      setError(authMethod === 'phone' ? 'Enter mobile number.' : 'Enter email address.');
+    const clean = cleanMobileDigits(phone);
+    if (!clean || clean.length !== 10) {
+      setError('Please enter a valid 10-digit WhatsApp mobile number.');
       return;
     }
 
     setIsLoading(true);
     try {
-      const res = await sendOtp(identifier);
+      const res = await sendOtp(clean);
       setIsLoading(false);
       if (res.success) {
         setStep('enter-otp');
-        setOtp(res.debugOtp || res.otp || '9999');
-        setSuccessMsg(`Verification code sent to ${identifier}`);
+        setOtp(res.debugOtp || res.otp || '');
+        setCooldown(res.cooldownSeconds || 60);
+        setSuccessMsg(`WhatsApp OTP sent to +91 ${clean}`);
       } else {
-        setError(res.message || 'Could not send OTP.');
+        setError(res.message || 'Could not send WhatsApp OTP.');
       }
     } catch (err: any) {
       setIsLoading(false);
@@ -106,33 +182,34 @@ export const AuthModal: React.FC = () => {
     }
   };
 
+  // 3. VERIFY OTP: First-time Registration & Password Generation
   const handleVerifyOtp = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
     setSuccessMsg(null);
 
+    const clean = cleanMobileDigits(phone);
     if (!otp.trim()) {
-      setError('Please enter the 4-digit OTP.');
+      setError('Please enter the 4-digit OTP code.');
       return;
     }
 
-    const identifier = authMethod === 'phone' ? phone.trim() : email.trim();
     setIsLoading(true);
-
     try {
-      const res = await verifyOtp(identifier, otp.trim(), {
+      const res = await verifyOtp(clean, otp.trim(), {
+        name: name.trim() || undefined,
         targetExam,
         classLevel: classLevel as any,
-        targetYear: 2026,
-        dailyGoalQuestions: dailyGoal
-      } as any);
+        targetYear: 2026
+      });
       setIsLoading(false);
 
       if (res.success) {
-        // First-time OTP login: offer password creation so next logins need no OTP
-        if (res.hasPassword === false) {
-          setSuccessMsg('Verified! Ab password bana lein.');
-          setStep('create-password');
+        if (res.isNewUser && res.generatedPassword) {
+          // Task.md Section 3: Show generated password once with Copy Password button
+          setGeneratedPassword(res.generatedPassword);
+          setStep('account-created');
+          setSuccessMsg('Account created successfully!');
         } else {
           setSuccessMsg('Verified successfully!');
           setTimeout(() => {
@@ -140,7 +217,7 @@ export const AuthModal: React.FC = () => {
           }, 300);
         }
       } else {
-        setError(res.message || 'Incorrect OTP code. Use demo OTP: 9999');
+        setError(res.message || 'Incorrect OTP code. Please enter the code sent to your WhatsApp.');
       }
     } catch (err: any) {
       setIsLoading(false);
@@ -148,11 +225,47 @@ export const AuthModal: React.FC = () => {
     }
   };
 
-  const handleCreatePassword = async (e?: React.FormEvent) => {
+  // 4. FORGOT PASSWORD: Send OTP via WhatsApp
+  const handleForgotPasswordSendOtp = async (e?: React.FormEvent) => {
     if (e) e.preventDefault();
     setError(null);
     setSuccessMsg(null);
 
+    const clean = cleanMobileDigits(phone);
+    if (!clean || clean.length !== 10) {
+      setError('Please enter your registered 10-digit mobile number.');
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      const res = await forgotPassword(clean);
+      setIsLoading(false);
+      if (res.success) {
+        setStep('reset-password');
+        setOtp(res.debugOtp || '');
+        setCooldown(res.cooldownSeconds || 60);
+        setSuccessMsg(res.message || `Password recovery OTP sent to +91 ${clean}`);
+      } else {
+        setError(res.message || 'Could not send recovery OTP.');
+      }
+    } catch (err: any) {
+      setIsLoading(false);
+      setError(err?.message || 'Server connection error.');
+    }
+  };
+
+  // 5. RESET PASSWORD: Submit OTP + New Password
+  const handleResetPasswordSubmit = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    setError(null);
+    setSuccessMsg(null);
+
+    const clean = cleanMobileDigits(phone);
+    if (!otp.trim()) {
+      setError('Please enter the OTP received on WhatsApp.');
+      return;
+    }
     if (newPassword.length < 6) {
       setError('Password must be at least 6 characters long.');
       return;
@@ -164,20 +277,23 @@ export const AuthModal: React.FC = () => {
 
     setIsLoading(true);
     try {
-      const res = await setPassword(newPassword);
+      const res = await resetPassword(clean, otp.trim(), newPassword);
       setIsLoading(false);
-
       if (res.success) {
-        setSuccessMsg('Password created!');
+        setSuccessMsg(res.message || 'Password reset successfully! Please log in.');
+        setPasswordInput(newPassword);
         setTimeout(() => {
-          setAuthModalOpen(false);
-        }, 500);
+          setStep('login');
+          setOtp('');
+          setNewPassword('');
+          setConfirmPassword('');
+        }, 1200);
       } else {
-        setError(res.message || 'Could not create password. You can skip.');
+        setError(res.message || 'Password reset failed.');
       }
     } catch (err: any) {
       setIsLoading(false);
-      setError(err?.message || 'Error creating password. You can skip.');
+      setError(err?.message || 'Network error.');
     }
   };
 
@@ -188,6 +304,7 @@ export const AuthModal: React.FC = () => {
         <button
           onClick={close}
           className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-full transition cursor-pointer"
+          aria-label="Close"
         >
           <X className="w-5 h-5" />
         </button>
@@ -198,45 +315,57 @@ export const AuthModal: React.FC = () => {
             P
           </div>
           <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
-            Student Sign In
+            {step === 'login' && 'Student Sign In'}
+            {step === 'register' && 'New Student Registration'}
+            {step === 'enter-otp' && 'WhatsApp OTP Verification'}
+            {step === 'account-created' && 'Account Created Successfully'}
+            {step === 'forgot-password' && 'Recover Account Password'}
+            {step === 'reset-password' && 'Set New Password'}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            {step === 'create-password' ? 'Password bana lein — agli baar direct login' : 'OTP se login karein ya password se direct entry'}
+            {step === 'login' && 'Mobile number + password se login karein (no OTP required)'}
+            {step === 'register' && 'WhatsApp OTP se pehli baar verify karein'}
+            {step === 'enter-otp' && `Enter the 4-digit code sent to +91 ${cleanMobileDigits(phone)}`}
+            {step === 'account-created' && 'Save your unique generated password safely for future logins'}
+            {step === 'forgot-password' && 'Enter your registered mobile number for WhatsApp OTP'}
+            {step === 'reset-password' && 'Verify WhatsApp OTP and create a new password'}
           </p>
         </div>
 
-        {/* Login Mode Tabs */}
-        {step !== 'create-password' && (
+        {/* Mode Toggle Tabs (Password Login vs WhatsApp Register) */}
+        {(step === 'login' || step === 'register') && (
           <div className="flex p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">
             <button
               type="button"
               onClick={() => {
-                setLoginMode('otp');
+                setStep('login');
                 setError(null);
+                setSuccessMsg(null);
               }}
               className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                loginMode === 'otp'
+                step === 'login'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
-                  : 'text-slate-500'
+                  : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <KeyRound className="w-3.5 h-3.5 text-emerald-600" />
-              <span>OTP</span>
+              <Lock className="w-3.5 h-3.5 text-emerald-600" />
+              <span>Password Login</span>
             </button>
             <button
               type="button"
               onClick={() => {
-                setLoginMode('password');
+                setStep('register');
                 setError(null);
+                setSuccessMsg(null);
               }}
               className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
-                loginMode === 'password'
+                step === 'register'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
-                  : 'text-slate-500'
+                  : 'text-slate-500 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <Lock className="w-3.5 h-3.5 text-indigo-600" />
-              <span>Password</span>
+              <KeyRound className="w-3.5 h-3.5 text-blue-600" />
+              <span>Register (WhatsApp OTP)</span>
             </button>
           </div>
         )}
@@ -256,35 +385,64 @@ export const AuthModal: React.FC = () => {
           </div>
         )}
 
-        {/* PASSWORD LOGIN */}
-        {loginMode === 'password' && step !== 'create-password' ? (
+        {/* VIEW 1: NORMAL LOGIN (MOBILE NUMBER OR EMAIL + PASSWORD) */}
+        {step === 'login' && (
           <form onSubmit={handlePasswordLogin} className="space-y-3.5">
             <div className="space-y-1">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
-                Email Address
+                Mobile Number (or Email)
               </label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="you@example.com"
-                required
-                autoFocus
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
-              />
+              <div className="relative flex items-center">
+                <span className="absolute left-3 text-xs font-bold text-slate-500 border-r border-slate-200 dark:border-slate-700 pr-2">
+                  +91
+                </span>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="98XXXXXXXX"
+                  required
+                  autoFocus
+                  className="w-full pl-14 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
+                />
+              </div>
             </div>
+
             <div className="space-y-1">
-              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
-                Password
-              </label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPasswordInput(e.target.value)}
-                placeholder="Enter your password"
-                required
-                className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
-              />
+              <div className="flex items-center justify-between">
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                  Password
+                </label>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setStep('forgot-password');
+                    setError(null);
+                    setSuccessMsg(null);
+                  }}
+                  className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline"
+                >
+                  Forgot Password?
+                </button>
+              </div>
+              <div className="relative flex items-center">
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  value={password}
+                  onChange={(e) => setPasswordInput(e.target.value)}
+                  placeholder="Enter your password"
+                  required
+                  className="w-full pl-3 pr-10 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold font-mono"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                  aria-label="Toggle password visibility"
+                >
+                  {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                </button>
+              </div>
             </div>
 
             <button
@@ -297,35 +455,320 @@ export const AuthModal: React.FC = () => {
             </button>
 
             <p className="text-[11px] text-slate-400 text-center">
-              Password nahi hai?{' '}
+              Pehli baar login kar rahe hain?{' '}
               <button
                 type="button"
                 onClick={() => {
-                  setLoginMode('otp');
+                  setStep('register');
                   setError(null);
+                  setSuccessMsg(null);
                 }}
                 className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
               >
-                OTP se login karein
+                WhatsApp OTP se register karein
               </button>
             </p>
           </form>
-        ) : step === 'create-password' ? (
-          /* CREATE PASSWORD STEP */
-          <form onSubmit={handleCreatePassword} className="space-y-3.5 animate-in fade-in duration-150">
-            <div className="text-center space-y-1">
-              <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/60 flex items-center justify-center mx-auto">
-                <Lock className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+        )}
+
+        {/* VIEW 2: REGISTER (WHATSAPP OTP) */}
+        {step === 'register' && (
+          <form onSubmit={handleRegisterSendOtp} className="space-y-3.5">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                Student Name
+              </label>
+              <div className="relative flex items-center">
+                <User className="absolute left-3 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Enter full name"
+                  required
+                  autoFocus
+                  className="w-full pl-10 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
+                />
               </div>
-              <h3 className="font-black text-slate-900 dark:text-white text-sm">
-                Create Your Password
-              </h3>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Agli baar seedha email + password se login karein.
-              </p>
             </div>
 
             <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                WhatsApp Mobile Number
+              </label>
+              <div className="relative flex items-center">
+                <span className="absolute left-3 text-xs font-bold text-slate-500 border-r border-slate-200 dark:border-slate-700 pr-2">
+                  +91
+                </span>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))}
+                  placeholder="98XXXXXXXX"
+                  maxLength={10}
+                  required
+                  className="w-full pl-14 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
+                />
+              </div>
+            </div>
+
+            {/* Exam & Class Selection */}
+            <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
+                <span className="flex items-center gap-1">
+                  <Target className="w-3.5 h-3.5 text-emerald-500" />
+                  Target Exam:
+                </span>
+                <div className="flex gap-1">
+                  {(['JEE', 'NEET', 'CBSE'] as const).map((ex) => (
+                    <button
+                      key={ex}
+                      type="button"
+                      onClick={() => setTargetExam(ex as PreparationType)}
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-bold cursor-pointer ${
+                        targetExam === ex
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+                      }`}
+                    >
+                      {ex}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
+                <span className="flex items-center gap-1">
+                  <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />
+                  Class:
+                </span>
+                <div className="flex gap-1">
+                  {(['11', '12', 'Dropper'] as const).map((lvl) => (
+                    <button
+                      key={lvl}
+                      type="button"
+                      onClick={() => setClassLevel(lvl)}
+                      className={`px-2 py-0.5 rounded-md text-[11px] font-bold cursor-pointer ${
+                        classLevel === lvl
+                          ? 'bg-emerald-600 text-white'
+                          : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
+                      }`}
+                    >
+                      {lvl}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+            >
+              <span>Send WhatsApp OTP</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
+            <p className="text-[11px] text-slate-400 text-center">
+              Already registered?{' '}
+              <button
+                type="button"
+                onClick={() => {
+                  setStep('login');
+                  setError(null);
+                  setSuccessMsg(null);
+                }}
+                className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
+              >
+                Sign in with Password
+              </button>
+            </p>
+          </form>
+        )}
+
+        {/* VIEW 3: OTP VERIFICATION */}
+        {step === 'enter-otp' && (
+          <form onSubmit={handleVerifyOtp} className="space-y-3.5 animate-in fade-in duration-150">
+            <div className="space-y-1 text-center">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                Enter 4-Digit Code (+91 {cleanMobileDigits(phone)})
+              </label>
+              <input
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
+                placeholder="9999"
+                maxLength={4}
+                required
+                autoFocus
+                className="w-full py-2.5 text-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xl font-mono font-black tracking-widest"
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+            >
+              <span>Verify & Create Account</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
+            <div className="flex items-center justify-between text-[11px] pt-1">
+              <button
+                type="button"
+                onClick={() => handleRegisterSendOtp()}
+                disabled={cooldown > 0}
+                className="text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 font-semibold disabled:opacity-50 cursor-pointer"
+              >
+                {cooldown > 0 ? `Resend in ${cooldown}s` : 'Resend OTP'}
+              </button>
+              <button
+                type="button"
+                onClick={() => setStep('register')}
+                className="text-emerald-600 font-bold hover:underline cursor-pointer"
+              >
+                Change Mobile
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* VIEW 4: ACCOUNT CREATED SUCCESSFULLY (TASK.MD REQUIREMENT 3) */}
+        {step === 'account-created' && (
+          <div className="space-y-4 animate-in fade-in duration-150">
+            <div className="text-center space-y-1.5">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 text-emerald-600 flex items-center justify-center mx-auto shadow-md shadow-emerald-500/10">
+                <ShieldCheck className="w-6 h-6" />
+              </div>
+              <h3 className="text-base font-black text-slate-900 dark:text-white">
+                Account Created Successfully
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Your PREPORA student account has been created.
+              </p>
+            </div>
+
+            <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 space-y-2.5">
+              <div>
+                <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider">
+                  Mobile Number:
+                </span>
+                <span className="text-xs font-black text-slate-900 dark:text-white">
+                  +91 {cleanMobileDigits(phone)}
+                </span>
+              </div>
+
+              <div className="pt-2 border-t border-slate-200/80 dark:border-slate-800">
+                <span className="block text-[10px] font-bold uppercase text-slate-400 tracking-wider mb-1">
+                  Your Generated Password:
+                </span>
+                <div className="flex items-center justify-between gap-2 p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-emerald-400/50">
+                  <span className="font-mono text-sm font-black tracking-wider text-emerald-600 dark:text-emerald-400 select-all">
+                    {generatedPassword}
+                  </span>
+                  <button
+                    type="button"
+                    onClick={handleCopyPassword}
+                    className="px-2.5 py-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1 transition cursor-pointer shadow-xs"
+                  >
+                    {copied ? (
+                      <>
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Copied!</span>
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-3.5 h-3.5" />
+                        <span>Copy Password</span>
+                      </>
+                    )}
+                  </button>
+                </div>
+              </div>
+
+              <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 text-amber-800 dark:text-amber-300 text-[10px] leading-relaxed">
+                ⚠️ <strong>Save this password safely.</strong> Use your mobile number and this password for future logins without OTP.
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={close}
+              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
+            >
+              <span>Continue to PREPORA</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        )}
+
+        {/* VIEW 5: FORGOT PASSWORD */}
+        {step === 'forgot-password' && (
+          <form onSubmit={handleForgotPasswordSendOtp} className="space-y-3.5 animate-in fade-in duration-150">
+            <div className="space-y-1">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                Registered Mobile Number
+              </label>
+              <div className="relative flex items-center">
+                <span className="absolute left-3 text-xs font-bold text-slate-500 border-r border-slate-200 dark:border-slate-700 pr-2">
+                  +91
+                </span>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))}
+                  placeholder="98XXXXXXXX"
+                  maxLength={10}
+                  required
+                  autoFocus
+                  className="w-full pl-14 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
+            >
+              <span>Send Recovery WhatsApp OTP</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+
+            <p className="text-[11px] text-slate-400 text-center">
+              <button
+                type="button"
+                onClick={() => setStep('login')}
+                className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
+              >
+                Back to Sign In
+              </button>
+            </p>
+          </form>
+        )}
+
+        {/* VIEW 6: RESET PASSWORD */}
+        {step === 'reset-password' && (
+          <form onSubmit={handleResetPasswordSubmit} className="space-y-3.5 animate-in fade-in duration-150">
+            <div className="space-y-1 text-center">
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
+                Enter WhatsApp OTP (+91 {cleanMobileDigits(phone)})
+              </label>
+              <input
+                type="text"
+                value={otp}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
+                placeholder="9999"
+                maxLength={4}
+                required
+                autoFocus
+                className="w-full py-2 text-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-lg font-mono font-black tracking-widest"
+              />
+            </div>
+
+            <div className="space-y-2">
               <input
                 type="password"
                 value={newPassword}
@@ -333,14 +776,13 @@ export const AuthModal: React.FC = () => {
                 placeholder="New password (min 6 characters)"
                 required
                 minLength={6}
-                autoFocus
                 className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
               />
               <input
                 type="password"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                placeholder="Confirm password"
+                placeholder="Confirm new password"
                 required
                 minLength={6}
                 className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
@@ -352,221 +794,10 @@ export const AuthModal: React.FC = () => {
               disabled={isLoading}
               className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
             >
-              <span>Save Password & Continue</span>
+              <span>Save & Reset Password</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
-
-            <button
-              type="button"
-              onClick={() => setAuthModalOpen(false)}
-              className="w-full text-center text-[11px] font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition"
-            >
-              Skip for now
-            </button>
           </form>
-        ) : (
-          /* OTP FLOW */
-          <>
-            {/* Tabs */}
-            {step === 'enter-identifier' && (
-              <div className="flex p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold">
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAuthMethod('phone');
-                    setError(null);
-                  }}
-                  className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
-                    authMethod === 'phone'
-                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
-                      : 'text-slate-500'
-                  }`}
-                >
-                  <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Mobile</span>
-                </button>
-                <button
-                  type="button"
-                  onClick={() => {
-                    setAuthMethod('email');
-                    setError(null);
-                  }}
-                  className={`flex-1 py-1.5 rounded-lg flex items-center justify-center gap-1.5 transition-all ${
-                    authMethod === 'email'
-                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
-                      : 'text-slate-500'
-                  }`}
-                >
-                  <Mail className="w-3.5 h-3.5 text-blue-600" />
-                  <span>Email</span>
-                </button>
-              </div>
-            )}
-
-            {step === 'enter-identifier' ? (
-              <form onSubmit={handleRequestOtp} className="space-y-3.5">
-                {authMethod === 'phone' ? (
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
-                      Mobile Number
-                    </label>
-                    <div className="relative flex items-center">
-                      <span className="absolute left-3 text-xs font-bold text-slate-500 border-r border-slate-200 dark:border-slate-700 pr-2">
-                        +91
-                      </span>
-                      <input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value.replace(/[^0-9]/g, '').slice(0, 10))}
-                        placeholder="9876543210"
-                        maxLength={10}
-                        required
-                        className="w-full pl-14 pr-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <div className="space-y-1">
-                    <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
-                      Email Address
-                    </label>
-                    <input
-                      type="email"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      placeholder="you@example.com"
-                      required
-                      className="w-full px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold"
-                    />
-                  </div>
-                )}
-
-                {/* Exam & Class Selection */}
-                <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-2">
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300">
-                    <span className="flex items-center gap-1">
-                      <Target className="w-3.5 h-3.5 text-emerald-500" />
-                      Target Exam:
-                    </span>
-                    <div className="flex gap-1">
-                      {(['JEE', 'NEET', 'CBSE'] as const).map((ex) => (
-                        <button
-                          key={ex}
-                          type="button"
-                          onClick={() => setTargetExam(ex as PreparationType)}
-                          className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
-                            targetExam === ex
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
-                          }`}
-                        >
-                          {ex}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
-                    <span className="flex items-center gap-1">
-                      <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />
-                      Class:
-                    </span>
-                    <div className="flex gap-1">
-                      {(['11', '12', 'Dropper'] as const).map((lvl) => (
-                        <button
-                          key={lvl}
-                          type="button"
-                          onClick={() => setClassLevel(lvl)}
-                          className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
-                            classLevel === lvl
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
-                          }`}
-                        >
-                          {lvl}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-300 pt-1.5 border-t border-slate-200/80 dark:border-slate-800">
-                    <span className="flex items-center gap-1">
-                      <Zap className="w-3.5 h-3.5 text-amber-500" />
-                      Daily Goal:
-                    </span>
-                    <div className="flex gap-1">
-                      {[15, 25, 50, 100].map((dg) => (
-                        <button
-                          key={dg}
-                          type="button"
-                          onClick={() => setDailyGoal(dg)}
-                          className={`px-2 py-0.5 rounded-md text-[11px] font-bold ${
-                            dailyGoal === dg
-                              ? 'bg-emerald-600 text-white'
-                              : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700'
-                          }`}
-                        >
-                          {dg} Qs
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
-                >
-                  <span>Get OTP</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-              </form>
-            ) : (
-              <form onSubmit={handleVerifyOtp} className="space-y-3.5 animate-in fade-in duration-150">
-                <div className="space-y-1 text-center">
-                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
-                    Enter 4-Digit Code
-                  </label>
-                  <input
-                    type="text"
-                    value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                    placeholder="9999"
-                    maxLength={4}
-                    required
-                    className="w-full py-2.5 text-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xl font-mono font-black tracking-widest"
-                  />
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={isLoading}
-                  className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer disabled:opacity-60"
-                >
-                  <span>Verify & Sign In</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </button>
-
-                <div className="flex items-center justify-between text-[11px] pt-1">
-                  <button
-                    type="button"
-                    onClick={() => handleRequestOtp()}
-                    className="text-slate-500 hover:text-slate-800 font-semibold"
-                  >
-                    Resend OTP
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setStep('enter-identifier')}
-                    className="text-emerald-600 font-bold hover:underline"
-                  >
-                    Change {authMethod}
-                  </button>
-                </div>
-              </form>
-            )}
-          </>
         )}
       </div>
     </div>
