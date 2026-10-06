@@ -308,7 +308,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
     if (!isMatch) {
-      return res.status(401).json({ success: false, message: 'Invalid email or password.' });
+      return res.status(401).json({ success: false, message: 'Invalid mobile number/email or password.' });
     }
 
     const { token, session } = await createSingleActiveSession(user, req);
@@ -333,17 +333,17 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
 // POST /api/auth/set-password - Create/update password for the logged-in user (after OTP login)
 router.post('/set-password', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const { password } = req.body;
+    const rawPassword = req.body.password || req.body.newPassword;
 
-    if (!password || typeof password !== 'string' || password.length < 6) {
+    if (!rawPassword || typeof rawPassword !== 'string' || rawPassword.length < 6) {
       return res.status(400).json({ success: false, message: 'Password must be at least 6 characters long.' });
     }
 
     const salt = await bcrypt.genSalt(10);
-    const passwordHash = await bcrypt.hash(password, salt);
+    const passwordHash = await bcrypt.hash(rawPassword, salt);
 
     await User.findOneAndUpdate(
-      { id: req.user!.id },
+      { _id: req.user!._id },
       { $set: { passwordHash } }
     );
 
@@ -661,6 +661,50 @@ router.post('/change-password', authenticateUser, async (req: AuthRequest, res: 
     res.json({
       success: true,
       message: 'Password changed successfully. Please log in again.'
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// POST /api/auth/forgot-password - Email OTP dispatch for password recovery
+router.post('/forgot-password', otpLimiter, async (req: Request, res: Response) => {
+  try {
+    const { email } = req.body;
+    if (!email || typeof email !== 'string' || !email.includes('@')) {
+      return res.status(400).json({ success: false, message: 'Valid email address is required.' });
+    }
+
+    const normalizedEmail = email.toLowerCase().trim();
+    const user = await User.findOne({ email: normalizedEmail });
+
+    // Consistent response so as not to leak user enumeration
+    if (!user) {
+      return res.json({
+        success: true,
+        message: 'If this email is registered, a password reset OTP has been sent.',
+        cooldownSeconds: 60
+      });
+    }
+
+    if (user.status === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        message: 'This account has been suspended by the administrator.'
+      });
+    }
+
+    // Generate 6-digit numeric OTP code
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    user.otpCode = otp;
+    user.otpExpires = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes expiry
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Password reset OTP has been sent to your registered email.',
+      cooldownSeconds: 60,
+      debugOtp: process.env.NODE_ENV !== 'production' ? otp : undefined
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
