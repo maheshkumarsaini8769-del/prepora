@@ -73,22 +73,49 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             if (data.attempts) localStorage.setItem('prepora_test_attempts', JSON.stringify(data.attempts));
           }
         }),
-        fetch(`/api/entities/bookmarks?userId=${studentId}`, {
+        fetch(`/api/bookmarks?userId=${studentId}`, {
           headers: { Authorization: `Bearer ${authToken}` },
           signal: controller.signal
         }).then(async (res) => {
           if (res.ok) {
             const data = await res.json();
-            if (data.bookmarks) localStorage.setItem('prepora_bookmarks', JSON.stringify(data.bookmarks));
+            if (data.bookmarks && Array.isArray(data.bookmarks)) {
+              const normalized = data.bookmarks.map((b: any) => ({
+                id: b.id || b._id,
+                type: b.type || b.itemType || 'question',
+                targetId: b.targetId || b.itemId,
+                title: b.title || 'Saved Item',
+                subtitle: b.subtitle,
+                dateAdded: b.dateAdded || (b.createdAt ? new Date(b.createdAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0])
+              }));
+              localStorage.setItem('prepora_bookmarks', JSON.stringify(normalized));
+            }
           }
         }),
-        fetch(`/api/entities/mistakes?userId=${studentId}`, {
+        fetch(`/api/mistakes?userId=${studentId}`, {
           headers: { Authorization: `Bearer ${authToken}` },
           signal: controller.signal
         }).then(async (res) => {
           if (res.ok) {
             const data = await res.json();
-            if (data.mistakes) localStorage.setItem('prepora_mistakes', JSON.stringify(data.mistakes));
+            if (data.mistakes && Array.isArray(data.mistakes)) {
+              const normalized = data.mistakes.map((m: any) => ({
+                id: m.id || m._id,
+                questionId: m.questionId,
+                exam: m.exam || m.question?.exam || 'JEE',
+                subject: m.subject || m.question?.subject || 'Physics',
+                chapter: m.chapter || m.question?.chapter || 'General',
+                topic: m.topic || m.question?.topic || 'General',
+                lastAttemptedDate: m.lastAttemptedDate || (m.updatedAt ? new Date(m.updatedAt).toISOString().split('T')[0] : new Date().toISOString().split('T')[0]),
+                userWrongAnswer: m.userWrongAnswer ?? 0,
+                correctAnswer: m.correctAnswer ?? 0,
+                mistakeCount: m.mistakeCount || m.repeatedCount || 1,
+                resolved: m.resolved ?? false,
+                mistakeReason: m.mistakeReason || 'Calculation Error',
+                mistakeNote: m.mistakeNote || ''
+              }));
+              localStorage.setItem('prepora_mistakes', JSON.stringify(normalized));
+            }
           }
         })
       ]);

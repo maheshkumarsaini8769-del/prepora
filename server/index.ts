@@ -82,6 +82,7 @@ app.use('/api/attempts', attemptRoutes);
 app.use('/api/reports', reportRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api', entitiesRoutes);
+app.use('/api/entities', entitiesRoutes);
 
 // Root fallback
 app.get('/', (_req, res) => {
