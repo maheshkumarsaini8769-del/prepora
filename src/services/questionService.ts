@@ -390,13 +390,14 @@ class ApiQuestionService {
     return ['Physics', 'Chemistry', 'Mathematics', 'Biology'];
   }
 
-  public getChapters(subject?: SubjectName, classLevel?: ClassLevel | 'All'): string[] {
+  public getChapters(subject?: SubjectName, classLevel?: ClassLevel | 'All' | 'Dropper' | string): string[] {
     const chapters = new Set<string>();
+    const isAllClasses = !classLevel || classLevel === 'All' || classLevel === 'Dropper';
 
     // 0. From canonical syllabus (comprehensive NTA syllabus for JEE/NEET/Boards)
     canonicalSyllabus.forEach(ch => {
       if (subject && !matchesFuzzy(ch.subjectName, subject)) return;
-      if (classLevel && classLevel !== 'All' && String(ch.classLevel) !== String(classLevel)) return;
+      if (!isAllClasses && String(ch.classLevel) !== String(classLevel)) return;
       if (ch.name) chapters.add(ch.name);
     });
 
@@ -406,7 +407,7 @@ class ApiQuestionService {
       if (Array.isArray(savedSyllabus)) {
         savedSyllabus.forEach((ch: any) => {
           if (subject && !matchesFuzzy(ch.subject, subject)) return;
-          if (classLevel && classLevel !== 'All' && ch.classLevel !== classLevel) return;
+          if (!isAllClasses && ch.classLevel !== classLevel) return;
           if (ch.name) chapters.add(ch.name);
         });
       }
@@ -417,7 +418,7 @@ class ApiQuestionService {
     // 2. From all questions
     this.getAllQuestions().forEach(q => {
       if (subject && !matchesFuzzy(q.subject, subject)) return;
-      if (classLevel && classLevel !== 'All' && q.class !== classLevel) return;
+      if (!isAllClasses && q.class !== classLevel) return;
       if (q.chapter) chapters.add(q.chapter);
     });
 
@@ -425,15 +426,13 @@ class ApiQuestionService {
   }
 
   public getTopics(chapter: string): string[] {
-    const topics = new Set<string>();
-
-    // 0. From canonical syllabus
+    // 0. From canonical syllabus (highest priority for clean curriculum topics)
     const foundChapter = canonicalSyllabus.find(c => matchesFuzzy(c.name, chapter));
-    if (foundChapter && Array.isArray(foundChapter.topics)) {
-      foundChapter.topics.forEach((t: any) => {
-        if (t?.name) topics.add(t.name);
-      });
+    if (foundChapter && Array.isArray(foundChapter.topics) && foundChapter.topics.length > 0) {
+      return foundChapter.topics.map((t: any) => t.name).filter(Boolean);
     }
+
+    const topics = new Set<string>();
 
     // 1. Full syllabus hierarchy topics (Task.md section 5)
     try {

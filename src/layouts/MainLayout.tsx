@@ -44,6 +44,7 @@ import { useAuth } from '../context/AuthContext';
 import { GlobalQuickActionModal } from '../components/common/GlobalQuickActionModal';
 import { StudySessionModal } from '../components/common/StudySessionModal';
 import { ReportTechnicalProblemModal } from '../components/common/ReportTechnicalProblemModal';
+import { StudentFeedbackModal } from '../components/common/StudentFeedbackModal';
 import { NotificationDropdown } from '../components/common/NotificationDropdown';
 import { InstallAppBanner } from '../components/common/InstallAppBanner';
 import { soundFeedback } from '../utils/audioFeedback';
@@ -680,6 +681,9 @@ export const MainLayout: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Student Feedback & Mistake Reporting System */}
+      <StudentFeedbackModal />
 
       {/* PWA Mobile Install Prompt */}
       <InstallAppBanner />

@@ -1,6 +1,7 @@
 import express, { Request, Response } from 'express';
 import { QuestionReport } from '../models/Entities.js';
 import TechnicalReport from '../models/TechnicalReport.js';
+import StudentFeedback from '../models/StudentFeedback.js';
 import Question from '../models/Question.js';
 import AuditLog from '../models/AuditLog.js';
 
@@ -300,6 +301,136 @@ router.patch('/technical/:id', async (req: Request, res: Response) => {
     );
 
     res.json({ success: true, report: updated });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// -------------------------------------------------------------
+// STUDENT FEEDBACK & MISTAKE REPORTING (Task & User Feature)
+// -------------------------------------------------------------
+
+// POST /api/reports/feedback - Student submits a suggestion or mistake report
+router.post('/feedback', async (req: Request, res: Response) => {
+  try {
+    const {
+      title,
+      description,
+      type = 'SUGGESTION',
+      category = 'General',
+      userId = 'anonymous',
+      userName = 'Student',
+      userEmail = '',
+      userPhone = '',
+      pageUrl = '',
+      screenshotUrl = ''
+    } = req.body;
+
+    if (!title || !description) {
+      return res.status(400).json({ success: false, message: 'Title and description are required.' });
+    }
+
+    const feedback = new StudentFeedback({
+      id: `fb-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      userId,
+      userName: userName || 'Student',
+      userEmail: userEmail || '',
+      userPhone: userPhone || '',
+      type: ['SUGGESTION', 'MISTAKE', 'GENERAL'].includes(type) ? type : 'SUGGESTION',
+      category: category || 'General',
+      title,
+      description,
+      pageUrl: pageUrl || '',
+      screenshotUrl: screenshotUrl || '',
+      status: 'Pending'
+    });
+
+    await feedback.save();
+
+    res.status(201).json({
+      success: true,
+      feedback,
+      message: 'Feedback submitted successfully! Our team will review it soon.'
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// GET /api/reports/feedback - List student feedbacks (Admin)
+router.get('/feedback', async (req: Request, res: Response) => {
+  try {
+    const { status, type, category, search, page = '1', limit = '50' } = req.query;
+
+    const filter: any = {};
+    if (status && status !== 'All') filter.status = status;
+    if (type && type !== 'All') filter.type = type;
+    if (category && category !== 'All') filter.category = category;
+
+    if (search) {
+      const searchRegex = new RegExp(search as string, 'i');
+      filter.$or = [
+        { title: searchRegex },
+        { description: searchRegex },
+        { userName: searchRegex },
+        { userEmail: searchRegex },
+        { userPhone: searchRegex }
+      ];
+    }
+
+    const pageNum = parseInt(page as string, 10) || 1;
+    const limitNum = Math.min(parseInt(limit as string, 10) || 50, 100);
+
+    const feedbacks = await StudentFeedback.find(filter)
+      .sort({ createdAt: -1 })
+      .skip((pageNum - 1) * limitNum)
+      .limit(limitNum);
+
+    const total = await StudentFeedback.countDocuments(filter);
+
+    res.json({
+      success: true,
+      feedbacks,
+      total,
+      page: pageNum,
+      totalPages: Math.ceil(total / limitNum)
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// PATCH /api/reports/feedback/:id - Update student feedback status (Admin)
+router.patch('/feedback/:id', async (req: Request, res: Response) => {
+  try {
+    const { status, adminNotes, adminEmail } = req.body;
+
+    const existing = await StudentFeedback.findOne({ id: req.params.id });
+    if (!existing) {
+      return res.status(404).json({ success: false, message: 'Feedback entry not found.' });
+    }
+
+    const updates: any = {};
+    if (status) updates.status = status;
+    if (adminNotes !== undefined) updates.adminNotes = adminNotes;
+    if (status === 'Resolved') updates.resolvedAt = new Date();
+
+    const updated = await StudentFeedback.findOneAndUpdate(
+      { id: req.params.id },
+      { $set: updates },
+      { new: true }
+    );
+
+    await recordAudit(
+      adminEmail || 'admin@prepora.internal',
+      status === 'Resolved' ? 'Resolve Student Feedback' : 'Update Student Feedback',
+      'Report',
+      existing.id,
+      existing.toObject(),
+      updated!.toObject()
+    );
+
+    res.json({ success: true, feedback: updated });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }

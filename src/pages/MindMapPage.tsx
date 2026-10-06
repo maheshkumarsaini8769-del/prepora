@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, BookOpen, Layers, Sparkles, Tv, BrainCircuit } from 'lucide-react';
 import { Button } from '../components/common/UIComponents';
 import { InteractiveMindMap } from '../components/common/InteractiveMindMap';
 import { questionService } from '../services/questionService';
 import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
-import { SubjectName } from '../types';
+import { SubjectName, ClassLevel } from '../types';
 import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 
 export const MindMapPage: React.FC = () => {
@@ -18,17 +18,28 @@ export const MindMapPage: React.FC = () => {
   const rawSubject = (searchParams.get('subject') as SubjectName) || allowedSubjects[0];
   const initialSubject = sanitizeSubjectForExam(rawSubject, user.targetExam);
   const [selectedSubject, setSelectedSubject] = useState<SubjectName>(initialSubject);
+  const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>('All');
 
-  const chapters = questionService.getChapters(selectedSubject, user.classLevel as any);
+  // Load chapters for this subject & class level
+  const chapters = useMemo(() => {
+    const list = questionService.getChapters(selectedSubject, selectedClass);
+    return list.length > 0 ? list : ['Units and Measurements', 'Kinematics', 'Laws of Motion'];
+  }, [selectedSubject, selectedClass]);
+
   const initialChapter = searchParams.get('chapter') || chapters[0] || 'Kinematics';
   const [selectedChapter, setSelectedChapter] = useState<string>(initialChapter);
 
-  const masteryData = ecosystemService.getChapterMastery(selectedChapter);
+  // Auto-sync selectedChapter when chapters change
+  useEffect(() => {
+    if (chapters.length > 0 && !chapters.includes(selectedChapter)) {
+      setSelectedChapter(chapters[0]);
+    }
+  }, [chapters, selectedChapter]);
 
   const handleSubjectChange = (subj: SubjectName) => {
     setSelectedSubject(subj);
-    const chs = questionService.getChapters(subj, user.classLevel as any);
-    const newCh = chs[0] || 'Core Mechanics';
+    const chs = questionService.getChapters(subj, selectedClass);
+    const newCh = chs[0] || 'Kinematics';
     setSelectedChapter(newCh);
     setSearchParams({ subject: subj, chapter: newCh });
   };
@@ -39,34 +50,82 @@ export const MindMapPage: React.FC = () => {
   };
 
   return (
-    <div className="max-w-7xl mx-auto space-y-4 pb-16 animate-in fade-in duration-200">
-      {/* 1. Header with Controls */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Mind Map</h1>
-          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Interactive knowledge graph connecting concepts, formulas, and topics.
-          </p>
+    <div className="max-w-7xl mx-auto space-y-5 pb-16 animate-in fade-in duration-200">
+      {/* 1. Top Hero Header */}
+      <div className="bg-gradient-to-br from-purple-900 via-indigo-900 to-slate-900 text-white p-5 sm:p-7 rounded-3xl shadow-lg border border-purple-800/40 space-y-2 relative overflow-hidden">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 relative z-10">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-bold backdrop-blur-md mb-2">
+              <BrainCircuit className="w-3.5 h-3.5 text-amber-300" />
+              <span>Interactive Visual Concept Tree</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+              Concept Mind Map
+            </h1>
+            <p className="text-xs sm:text-sm text-purple-200/90 max-w-xl">
+              Visual knowledge graph connecting topics, subtopics, and mathematical equations. Kisi bhi node par click karein aur uske formulas, telemetry aur direct practice questions dekhein!
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => navigate(`/chapters/${encodeURIComponent(selectedChapter)}?subject=${encodeURIComponent(selectedSubject)}`)}
+              className="text-xs font-bold py-2 px-3 text-white border-white/30 hover:bg-white/10 flex items-center gap-1.5"
+            >
+              <span>Chapter Hub</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Button>
+          </div>
+        </div>
+      </div>
+
+      {/* 2. Control Bar: Subject Tabs, Class Level & Chapter Selector */}
+      <div className="bg-white dark:bg-[#0e1620] p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3">
+        {/* Subject Tabs */}
+        <div className="flex flex-wrap items-center gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80">
+          {allowedSubjects.map((sub) => (
+            <button
+              key={sub}
+              type="button"
+              onClick={() => handleSubjectChange(sub)}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                selectedSubject === sub
+                  ? 'bg-purple-600 text-white shadow-xs font-black'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              {sub}
+            </button>
+          ))}
         </div>
 
-        {/* Compact Filters & Link */}
+        {/* Class Filter & Chapter Selector */}
         <div className="flex flex-wrap items-center gap-2">
-          <select
-            value={selectedSubject}
-            onChange={(e) => handleSubjectChange(e.target.value as SubjectName)}
-            className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 focus:outline-none focus:ring-1 focus:ring-slate-900"
-          >
-            {allowedSubjects.map((subj) => (
-              <option key={subj} value={subj}>
-                {subj}
-              </option>
+          {/* Class Selector */}
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80">
+            {(['All', '11', '12'] as const).map((cls) => (
+              <button
+                key={cls}
+                type="button"
+                onClick={() => setSelectedClass(cls)}
+                className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  selectedClass === cls
+                    ? 'bg-purple-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
+                }`}
+              >
+                {cls === 'All' ? 'All Classes' : `Class ${cls}`}
+              </button>
             ))}
-          </select>
+          </div>
 
+          {/* Chapter Selector Dropdown */}
           <select
             value={selectedChapter}
             onChange={(e) => handleChapterChange(e.target.value)}
-            className="text-xs font-semibold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg py-1.5 px-2.5 max-w-[200px] truncate focus:outline-none focus:ring-1 focus:ring-slate-900"
+            className="text-xs font-bold text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-xl py-2 px-3 focus:outline-none focus:ring-2 focus:ring-purple-500 max-w-[240px] truncate"
           >
             {chapters.map((ch) => (
               <option key={ch} value={ch}>
@@ -74,21 +133,11 @@ export const MindMapPage: React.FC = () => {
               </option>
             ))}
           </select>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => navigate(`/chapters/${encodeURIComponent(selectedChapter)}`)}
-            className="text-xs font-semibold py-1.5 px-3 text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700 flex items-center gap-1"
-          >
-            <span>Chapter Hub</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Button>
         </div>
       </div>
 
-      {/* 2. Main Full-Screen Mind Map Canvas */}
-      <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800 shadow-xs">
+      {/* 3. Main Mind Map Canvas */}
+      <div className="bg-white dark:bg-[#0e1620] rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs">
         <InteractiveMindMap
           chapterName={selectedChapter}
           subject={selectedSubject}
@@ -97,3 +146,5 @@ export const MindMapPage: React.FC = () => {
     </div>
   );
 };
+
+export default MindMapPage;

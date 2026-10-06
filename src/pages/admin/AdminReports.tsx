@@ -14,14 +14,19 @@ import {
   ChevronRight,
   Filter,
   Check,
-  Edit2
+  Edit2,
+  Lightbulb,
+  Phone,
+  ExternalLink,
+  MessageSquare,
+  Sparkles
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../../components/common/UIComponents';
 import { Link } from 'react-router-dom';
 import { adminFetch } from '../../utils/adminApi';
 
 export const AdminReports: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'questions' | 'technical' | 'audit'>('questions');
+  const [activeTab, setActiveTab] = useState<'questions' | 'feedback' | 'technical' | 'audit'>('questions');
 
   // Question Reports State
   const [qReports, setQReports] = useState<any[]>([]);
@@ -32,6 +37,15 @@ export const AdminReports: React.FC = () => {
   const [reviewNotes, setReviewNotes] = useState('');
   const [correctedAnswer, setCorrectedAnswer] = useState<number | undefined>(undefined);
   const [correctedExplanation, setCorrectedExplanation] = useState<string>('');
+
+  // Student Feedback & Suggestions State
+  const [feedbacks, setFeedbacks] = useState<any[]>([]);
+  const [fbStatusFilter, setFbStatusFilter] = useState<string>('All');
+  const [fbTypeFilter, setFbTypeFilter] = useState<string>('All');
+  const [fbSearch, setFbSearch] = useState<string>('');
+  const [selectedFeedback, setSelectedFeedback] = useState<any | null>(null);
+  const [fbModalOpen, setFbModalOpen] = useState(false);
+  const [fbAdminNote, setFbAdminNote] = useState('');
 
   // Technical Reports State
   const [techReports, setTechReports] = useState<any[]>([]);
@@ -46,9 +60,20 @@ export const AdminReports: React.FC = () => {
   // Load Data
   useEffect(() => {
     fetchQuestionReports();
+    fetchFeedbacks();
     fetchTechnicalReports();
     fetchAuditLogs();
   }, []);
+
+  const fetchFeedbacks = async () => {
+    try {
+      const res = await adminFetch('/api/reports/feedback?limit=100');
+      const data = await res.json();
+      if (data.success) {
+        setFeedbacks(data.feedbacks || []);
+      }
+    } catch {}
+  };
 
   const fetchQuestionReports = async () => {
     try {
@@ -126,6 +151,41 @@ export const AdminReports: React.FC = () => {
     } catch {}
   };
 
+  const handleUpdateFeedbackStatus = async (id: string, status: string, notes?: string) => {
+    try {
+      const res = await adminFetch(`/api/reports/feedback/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status,
+          adminNotes: notes ?? fbAdminNote,
+          adminEmail: 'admin@prepora.internal'
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        fetchFeedbacks();
+        fetchAuditLogs();
+        setFbModalOpen(false);
+      }
+    } catch {
+      alert('Failed to update feedback status.');
+    }
+  };
+
+  // Filtered Student Feedbacks
+  const filteredFeedbacks = feedbacks.filter(fb => {
+    const matchStatus = fbStatusFilter === 'All' || fb.status === fbStatusFilter;
+    const matchType = fbTypeFilter === 'All' || fb.type === fbTypeFilter;
+    const matchSearch = !fbSearch ||
+      fb.title?.toLowerCase().includes(fbSearch.toLowerCase()) ||
+      fb.description?.toLowerCase().includes(fbSearch.toLowerCase()) ||
+      fb.userName?.toLowerCase().includes(fbSearch.toLowerCase()) ||
+      fb.userPhone?.toLowerCase().includes(fbSearch.toLowerCase()) ||
+      fb.category?.toLowerCase().includes(fbSearch.toLowerCase());
+    return matchStatus && matchType && matchSearch;
+  });
+
   // Filtered Question Reports
   const filteredQReports = qReports.filter(r => {
     const matchStatus = qStatusFilter === 'All' || r.status === qStatusFilter;
@@ -177,7 +237,7 @@ export const AdminReports: React.FC = () => {
         </div>
 
         {/* Global Tabs */}
-        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl border border-slate-200/80 text-xs font-bold">
+        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl border border-slate-200/80 text-xs font-bold flex-wrap gap-1">
           <button
             onClick={() => setActiveTab('questions')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
@@ -185,6 +245,19 @@ export const AdminReports: React.FC = () => {
             }`}
           >
             Question Reports ({qReports.filter(r => r.status === 'Pending').length})
+          </button>
+          <button
+            onClick={() => setActiveTab('feedback')}
+            className={`px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 ${
+              activeTab === 'feedback' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
+            }`}
+          >
+            <span>Student Feedback & Mistakes</span>
+            {feedbacks.filter(f => f.status === 'Pending').length > 0 && (
+              <span className="px-1.5 py-0.5 bg-amber-500 text-white rounded-full text-2xs font-extrabold">
+                {feedbacks.filter(f => f.status === 'Pending').length}
+              </span>
+            )}
           </button>
           <button
             onClick={() => setActiveTab('technical')}
@@ -301,6 +374,278 @@ export const AdminReports: React.FC = () => {
                 </div>
               ))
             )}
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* TAB: STUDENT SUGGESTIONS & MISTAKES (Task & User Feature) */}
+      {/* ========================================================= */}
+      {activeTab === 'feedback' && (
+        <div className="space-y-4">
+          {/* Controls & Filter Bar */}
+          <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3 text-xs">
+            <div className="flex items-center gap-2 flex-wrap">
+              {/* Type Switcher */}
+              <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => setFbTypeFilter('All')}
+                  className={`px-3 py-1 rounded-lg font-bold transition-all ${
+                    fbTypeFilter === 'All' ? 'bg-white text-slate-900 shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  All ({feedbacks.length})
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFbTypeFilter('SUGGESTION')}
+                  className={`px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1 ${
+                    fbTypeFilter === 'SUGGESTION' ? 'bg-amber-500 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <Lightbulb className="w-3.5 h-3.5" />
+                  <span>Suggestions ({feedbacks.filter(f => f.type === 'SUGGESTION').length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFbTypeFilter('MISTAKE')}
+                  className={`px-3 py-1 rounded-lg font-bold transition-all flex items-center gap-1 ${
+                    fbTypeFilter === 'MISTAKE' ? 'bg-rose-500 text-white shadow-xs' : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>Mistakes ({feedbacks.filter(f => f.type === 'MISTAKE').length})</span>
+                </button>
+              </div>
+
+              {/* Status Filter */}
+              <div className="flex items-center gap-1">
+                {(['All', 'Pending', 'In Review', 'Resolved'] as const).map(st => (
+                  <button
+                    key={st}
+                    type="button"
+                    onClick={() => setFbStatusFilter(st)}
+                    className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+                      fbStatusFilter === st
+                        ? 'bg-slate-900 text-white shadow-xs'
+                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                    }`}
+                  >
+                    {st}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Search */}
+            <div className="relative min-w-[220px]">
+              <Search className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
+              <input
+                type="text"
+                value={fbSearch}
+                onChange={e => setFbSearch(e.target.value)}
+                placeholder="Search student, phone, title..."
+                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 focus:bg-white focus:outline-none"
+              />
+            </div>
+          </div>
+
+          {/* Feedback Cards List */}
+          <div className="space-y-3">
+            {filteredFeedbacks.length === 0 ? (
+              <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 space-y-2">
+                <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
+                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Koi Report Ya Suggestion Pending Nahi Hai!</h3>
+                <p className="text-xs text-slate-500">Jab students koi naya feature request karenge ya mistake batayenge, vo yahan turant dikhega.</p>
+              </div>
+            ) : (
+              filteredFeedbacks.map(fb => (
+                <div
+                  key={fb.id}
+                  className="bg-white dark:bg-[#0c131a] rounded-2xl p-5 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-3.5 hover:border-slate-300 dark:hover:border-slate-700 transition-all"
+                >
+                  {/* Top Meta */}
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      {fb.type === 'SUGGESTION' ? (
+                        <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center gap-1.5">
+                          <Lightbulb className="w-3.5 h-3.5" />
+                          <span>Kuch Naya Add Karwana Hai</span>
+                        </span>
+                      ) : (
+                        <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center gap-1.5">
+                          <AlertTriangle className="w-3.5 h-3.5" />
+                          <span>Mistake / Galti Mili Hai</span>
+                        </span>
+                      )}
+
+                      <span className="px-2 py-0.5 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
+                        {fb.category || 'General'}
+                      </span>
+
+                      <span
+                        className={`px-2 py-0.5 rounded-lg text-xs font-extrabold ${
+                          fb.status === 'Resolved'
+                            ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950/60 dark:text-emerald-300 border border-emerald-300'
+                            : fb.status === 'In Review'
+                            ? 'bg-blue-50 text-blue-700 dark:bg-blue-950/60 dark:text-blue-300 border border-blue-300'
+                            : 'bg-amber-50 text-amber-700 dark:bg-amber-950/60 dark:text-amber-300 border border-amber-300'
+                        }`}
+                      >
+                        {fb.status}
+                      </span>
+                    </div>
+
+                    <span className="text-2xs text-slate-400 font-mono">
+                      {new Date(fb.createdAt).toLocaleString('en-IN', {
+                        day: 'numeric',
+                        month: 'short',
+                        hour: '2-digit',
+                        minute: '2-digit'
+                      })}
+                    </span>
+                  </div>
+
+                  {/* Title & Description */}
+                  <div>
+                    <h4 className="text-sm font-black text-slate-900 dark:text-white mb-1">
+                      {fb.title}
+                    </h4>
+                    <p className="text-xs text-slate-700 dark:text-slate-200 bg-slate-50 dark:bg-slate-800/50 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800 leading-relaxed whitespace-pre-wrap">
+                      {fb.description}
+                    </p>
+                  </div>
+
+                  {/* Student Details & Page Context */}
+                  <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-xs">
+                    <div className="flex flex-wrap items-center gap-3 text-slate-600 dark:text-slate-400">
+                      <span>
+                        Student: <strong className="text-slate-900 dark:text-white">{fb.userName || 'Anonymous Student'}</strong>
+                      </span>
+
+                      {fb.userPhone && (
+                        <span className="flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-semibold">
+                          <Phone className="w-3.5 h-3.5" />
+                          <a href={`tel:${fb.userPhone}`} className="hover:underline">
+                            {fb.userPhone}
+                          </a>
+                          <a
+                            href={`https://wa.me/${fb.userPhone.replace(/\D/g, '')}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="ml-1 text-2xs px-1.5 py-0.5 rounded bg-emerald-100 dark:bg-emerald-950 text-emerald-700 font-bold hover:bg-emerald-200"
+                            title="Chat on WhatsApp"
+                          >
+                            WhatsApp
+                          </a>
+                        </span>
+                      )}
+
+                      {fb.userEmail && (
+                        <span className="text-slate-500">
+                          {fb.userEmail}
+                        </span>
+                      )}
+
+                      {fb.pageUrl && (
+                        <span className="flex items-center gap-1 text-purple-600 dark:text-purple-400">
+                          <ExternalLink className="w-3 h-3" />
+                          <a href={fb.pageUrl} target="_blank" rel="noreferrer" className="hover:underline">
+                            Page: {fb.pageUrl}
+                          </a>
+                        </span>
+                      )}
+                    </div>
+
+                    {/* Action Controls */}
+                    <div className="flex items-center gap-1.5">
+                      {fb.status !== 'In Review' && fb.status !== 'Resolved' && (
+                        <button
+                          type="button"
+                          onClick={() => handleUpdateFeedbackStatus(fb.id, 'In Review')}
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 transition-colors"
+                        >
+                          Mark In Review
+                        </button>
+                      )}
+
+                      {fb.status !== 'Resolved' && (
+                        <button
+                          type="button"
+                          onClick={() => handleUpdateFeedbackStatus(fb.id, 'Resolved')}
+                          className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors"
+                        >
+                          Mark Resolved
+                        </button>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedFeedback(fb);
+                          setFbAdminNote(fb.adminNotes || '');
+                          setFbModalOpen(true);
+                        }}
+                        className="px-2.5 py-1 rounded-lg text-xs font-bold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 flex items-center gap-1 transition-colors"
+                      >
+                        <Edit2 className="w-3 h-3" />
+                        <span>Admin Note</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Admin Notes Display if present */}
+                  {fb.adminNotes && (
+                    <div className="text-2xs bg-purple-50 dark:bg-purple-950/40 p-2.5 rounded-xl border border-purple-200 dark:border-purple-900/60 text-purple-800 dark:text-purple-300">
+                      <strong>Admin Note:</strong> {fb.adminNotes}
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Admin Feedback Note Modal */}
+      {fbModalOpen && selectedFeedback && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white dark:bg-[#0e1620] rounded-3xl p-6 max-w-md w-full border border-slate-200 dark:border-slate-800 shadow-2xl space-y-4">
+            <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <Edit2 className="w-4 h-4 text-purple-600" />
+              <span>Admin Note for: {selectedFeedback.title}</span>
+            </h3>
+
+            <p className="text-xs text-slate-500">
+              Student: <strong>{selectedFeedback.userName}</strong> ({selectedFeedback.userPhone || selectedFeedback.userEmail || 'No contact info'})
+            </p>
+
+            <textarea
+              rows={3}
+              value={fbAdminNote}
+              onChange={e => setFbAdminNote(e.target.value)}
+              placeholder="Aapne is feedback par kya action liya..."
+              className="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white focus:outline-none"
+            />
+
+            <div className="flex items-center justify-end gap-2 pt-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFbModalOpen(false)}
+                className="text-xs font-bold"
+              >
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => handleUpdateFeedbackStatus(selectedFeedback.id, selectedFeedback.status, fbAdminNote)}
+                className="text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white"
+              >
+                Save Note
+              </Button>
+            </div>
           </div>
         </div>
       )}
