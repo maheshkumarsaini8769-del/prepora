@@ -3,17 +3,17 @@ const BASE_URL = 'http://localhost:5001';
 async function testAdmin() {
   console.log('=== PREPORA ADMIN PORTAL COMPREHENSIVE TEST ===\n');
 
-  // Step 1: Demo Admin Login
-  console.log('1. Testing POST /api/auth/demo (role: "admin")...');
-  const loginRes = await fetch(`${BASE_URL}/api/auth/demo`, {
+  // Step 1: Admin Login
+  console.log('1. Testing POST /api/auth/login (admin@prepora.com)...');
+  const loginRes = await fetch(`${BASE_URL}/api/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ role: 'admin' })
+    body: JSON.stringify({ email: 'admin@prepora.com', password: 'mahesh99830' })
   });
 
   const loginData: any = await loginRes.json();
   if (!loginRes.ok || !loginData.success || !loginData.token) {
-    throw new Error(`Demo login failed: ${JSON.stringify(loginData)}`);
+    throw new Error(`Admin login failed: ${JSON.stringify(loginData)}`);
   }
   const token = loginData.token;
   console.log(`✓ Admin authenticated successfully! (User: ${loginData.user.email}, Role: ${loginData.user.role})`);
@@ -70,14 +70,14 @@ async function testAdmin() {
 
   console.log(`\nPassed ${passCount}/${endpoints.length} endpoints with Bearer Token.`);
 
-  // Step 3: Test Dev Auto-Fallback for Admin Routes (Without Token Header)
-  console.log('\n3. Testing Admin Routes Graceful Fallback (Without Authorization header)...');
+  // Step 3: Verify Security Protection for Admin Routes (Without Authorization Header)
+  console.log('\n3. Testing Admin Security Enforcement (Without Authorization header)...');
   const noTokenRes = await fetch(`${BASE_URL}/api/admin/stats`);
   const noTokenData: any = await noTokenRes.json();
-  if (noTokenRes.ok && noTokenData.success) {
-    console.log(`  ✓ [${noTokenRes.status}] /api/admin/stats gracefully loaded without crash! (DB Status: ${noTokenData.data?.system?.database})`);
+  if (noTokenRes.status === 401) {
+    console.log(`  ✓ [401] Unauthorized access properly blocked! Security guard active.`);
   } else {
-    console.error(`  ✗ Dev fallback failed:`, noTokenData);
+    console.warn(`  ⚠️ Security check unexpected status:`, noTokenRes.status, noTokenData);
   }
 
   console.log('\n=== ALL ADMIN TESTS COMPLETED SUCCESSFULLY! ===');

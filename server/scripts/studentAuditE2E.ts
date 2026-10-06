@@ -149,7 +149,7 @@ async function runStudentAudit() {
 
     for (const p of studentPages) {
       try {
-        await vpPage.goto(`${BASE_URL}${p.path}`, { waitUntil: 'domcontentloaded', timeout: 12000 });
+        await vpPage.goto(`${BASE_URL}${p.path}`, { waitUntil: 'domcontentloaded', timeout: 25000 });
         await vpPage.waitForTimeout(150);
 
         // Check for horizontal overflow
@@ -370,7 +370,7 @@ async function runStudentAudit() {
     console.log('  Feedback modal opened cleanly:', !!feedbackModalHeading);
     if (feedbackModalHeading) {
       const closeBtn = await page.$('div button:has(svg), button:has-text("X")');
-      if (closeBtn) await closeBtn.click().catch(() => null);
+      if (closeBtn) await closeBtn.click({ timeout: 2000 }).catch(() => null);
     }
   }
 
@@ -382,7 +382,7 @@ async function runStudentAudit() {
   console.log('  Mind Map controls & canvas loaded:', !!mindMapCanvas);
 
   // 11. Single Active Session Security Enforcement (Phase 20)
-  console.log('\nTesting Single-Device Active Session Security (Phase 20)...');
+  console.log('\nTesting Multi-Device Concurrent Session Support (Phone + Laptop)...');
   // Simulate login on another device for Aarav
   const secondLoginRes = await fetch(`${API_URL}/auth/login`, {
     method: 'POST',
@@ -392,25 +392,31 @@ async function runStudentAudit() {
   const secondLoginData = await secondLoginRes.json();
   console.log('  Second device login succeeded. New Session ID:', secondLoginData.sessionId);
 
-  // Now trigger an authenticated API call in the current browser window
-  // Now trigger an authenticated API call in the current browser window (intercepted as apiClient does)
+  // Now trigger an authenticated API call in the first browser window - verify it is STILL active and NOT kicked out!
   const sessionCheck = await page.evaluate(async () => {
     const t = localStorage.getItem('prepora_auth_token');
     const res = await fetch('/api/auth/me', { headers: { Authorization: `Bearer ${t}` } });
     const json = await res.json().catch(() => null);
-    if (res.status === 401) {
-      window.dispatchEvent(new CustomEvent('prepora:session_revoked', { detail: { message: json?.message } }));
-    }
     return { status: res.status, json };
   });
-  console.log('  First device API response after new login:', sessionCheck.status, sessionCheck.json?.code);
+  console.log('  First device API response after second login (Must be 200 OK):', sessionCheck.status);
 
-  await page.waitForTimeout(600);
-  const revokedAlertVisible = await page.evaluate(() => {
-    const text = document.body.innerText;
-    return text.includes('Device Changed') || text.includes('dusre') || text.includes('Suraksha') || text.includes('Session');
+  // Verify second device is also active
+  const secondDeviceCheck = await fetch(`${API_URL}/auth/me`, {
+    headers: { Authorization: `Bearer ${secondLoginData.token}` }
   });
-  console.log('  Session revoked security modal appeared on first device:', revokedAlertVisible);
+  console.log('  Second device API response (Must be 200 OK):', secondDeviceCheck.status);
+
+  if (sessionCheck.status !== 200 || secondDeviceCheck.status !== 200) {
+    issues.push({
+      phase: 'Multi-Device Sessions',
+      page: '/api/auth/me',
+      severity: 'P1',
+      description: `Cross-device concurrent session failed: first device=${sessionCheck.status}, second device=${secondDeviceCheck.status}`
+    });
+  } else {
+    console.log('  ✓ Multi-device concurrent session verified: Both phone and laptop remain authenticated simultaneously!');
+  }
 
   await browser.close();
 

@@ -321,38 +321,41 @@ router.get('/', optionalAuth, async (req: AuthRequest, res: Response) => {
     // ----------------------------------------------------
     let planner: any[] = [];
     if (type === 'all' || type === 'planner') {
-      const matchedSubject = formulas[0]?.subject || lectures[0]?.subject || notes[0]?.subject || 'Physics';
-      const matchedChapter = formulas[0]?.chapter || lectures[0]?.chapter || notes[0]?.chapter || rawQ;
+      const matchedSubject = formulas[0]?.subject || lectures[0]?.subject || notes[0]?.subject;
+      const matchedChapter = formulas[0]?.chapter || lectures[0]?.chapter || notes[0]?.chapter;
 
-      planner = [
-        {
-          id: `plan_rev_${Date.now()}_1`,
-          title: `Revise ${matchedChapter} High-Yield Formulas`,
-          subject: matchedSubject,
-          chapter: matchedChapter,
-          topic: rawQ,
-          suggestedDuration: '30 mins',
-          type: 'Revision'
-        },
-        {
-          id: `plan_rev_${Date.now()}_2`,
-          title: `Solve 15 Target PYQ Questions on ${rawQ}`,
-          subject: matchedSubject,
-          chapter: matchedChapter,
-          topic: rawQ,
-          suggestedDuration: '45 mins',
-          type: 'Practice'
-        },
-        {
-          id: `plan_rev_${Date.now()}_3`,
-          title: `Watch One-Shot Video Lecture for ${matchedChapter}`,
-          subject: matchedSubject,
-          chapter: matchedChapter,
-          topic: rawQ,
-          suggestedDuration: '60 mins',
-          type: 'Lecture'
-        }
-      ];
+      // Only generate planner task suggestions if a real curriculum resource was actually found
+      if (matchedChapter && matchedSubject) {
+        planner = [
+          {
+            id: `plan_rev_${Date.now()}_1`,
+            title: `Revise ${matchedChapter} High-Yield Formulas`,
+            subject: matchedSubject,
+            chapter: matchedChapter,
+            topic: rawQ,
+            suggestedDuration: '30 mins',
+            type: 'Revision'
+          },
+          {
+            id: `plan_rev_${Date.now()}_2`,
+            title: `Solve 15 Target PYQ Questions on ${matchedChapter}`,
+            subject: matchedSubject,
+            chapter: matchedChapter,
+            topic: rawQ,
+            suggestedDuration: '45 mins',
+            type: 'Practice'
+          },
+          {
+            id: `plan_rev_${Date.now()}_3`,
+            title: `Watch One-Shot Video Lecture for ${matchedChapter}`,
+            subject: matchedSubject,
+            chapter: matchedChapter,
+            topic: rawQ,
+            suggestedDuration: '60 mins',
+            type: 'Lecture'
+          }
+        ];
+      }
     }
 
     // ----------------------------------------------------
