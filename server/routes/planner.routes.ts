@@ -166,16 +166,17 @@ router.post('/tasks', authenticateUser, async (req: AuthRequest, res: Response) 
     }
 
     const newTask: IPlannerTaskItem = {
-      id: `task_${Date.now()}_${randomBytes(3).toString('hex')}`,
+      id: req.body.id || `task_${Date.now()}_${randomBytes(3).toString('hex')}`,
       title: title.trim(),
       subject,
       chapter,
       topic,
       taskType,
       durationMinutes: Number(durationMinutes) || 30,
-      isCompleted: false,
+      isCompleted: Boolean(req.body.isCompleted || false),
       notes,
       timeSlot,
+      day: req.body.day || '',
       order: planner.tasks.length + 1
     };
 
@@ -225,7 +226,11 @@ router.put('/tasks/:taskId', authenticateUser, async (req: AuthRequest, res: Res
     const { taskId } = req.params;
     const { isCompleted, notes, title, durationMinutes, date = getTodayString() } = req.body || {};
 
-    const planner = await Planner.findOne({ studentId, date });
+    // 1. First look up planner having this task ID directly across all records for this student
+    let planner = await Planner.findOne({ studentId, 'tasks.id': taskId });
+    if (!planner) {
+      planner = await Planner.findOne({ studentId, date });
+    }
     if (!planner) {
       return res.status(404).json({ success: false, message: 'Planner not found.' });
     }
@@ -240,6 +245,7 @@ router.put('/tasks/:taskId', authenticateUser, async (req: AuthRequest, res: Res
     if (notes !== undefined) planner.tasks[taskIndex].notes = notes;
     if (title) planner.tasks[taskIndex].title = title;
     if (durationMinutes) planner.tasks[taskIndex].durationMinutes = Number(durationMinutes);
+    if (req.body.day) planner.tasks[taskIndex].day = req.body.day;
 
     await planner.save();
 
@@ -307,7 +313,10 @@ router.delete('/tasks/:taskId', authenticateUser, async (req: AuthRequest, res: 
     const { taskId } = req.params;
     const date = (req.query.date as string) || getTodayString();
 
-    const planner = await Planner.findOne({ studentId, date });
+    let planner = await Planner.findOne({ studentId, 'tasks.id': taskId });
+    if (!planner) {
+      planner = await Planner.findOne({ studentId, date });
+    }
     if (!planner) {
       return res.status(404).json({ success: false, message: 'Planner not found.' });
     }

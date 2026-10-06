@@ -542,9 +542,46 @@ export const FormulaNotesHub: React.FC = () => {
     }));
   }, [filteredItems]);
 
-  // Initialize expanded chapters & topics (default: open first chapter and first topic)
+  // Initialize expanded chapters & topics with deep URL query & chapter linking
+  useEffect(() => {
+    // 1. Sync Subject from query param if changed
+    const paramSub = searchParams.get('subject');
+    if (paramSub) {
+      const matchSub = allowedSubjects.find(s => s.toLowerCase() === paramSub.toLowerCase());
+      if (matchSub && matchSub !== selectedSubject) {
+        setSelectedSubject(matchSub);
+      }
+    }
+
+    // 2. Sync Search Query from query param if provided
+    const paramQ = searchParams.get('q');
+    if (paramQ && paramQ !== searchQuery) {
+      setSearchQuery(paramQ);
+    }
+  }, [searchParams, allowedSubjects]);
+
   useEffect(() => {
     if (distinctChapters.length > 0) {
+      const targetChapterParam = searchParams.get('chapter');
+      
+      if (targetChapterParam) {
+        const cleanTarget = targetChapterParam.toLowerCase().trim();
+        const matchedChapterObj = distinctChapters.find(
+          c => c.chapter.toLowerCase() === cleanTarget ||
+               c.chapter.toLowerCase().includes(cleanTarget) ||
+               cleanTarget.includes(c.chapter.toLowerCase())
+        );
+
+        if (matchedChapterObj) {
+          const matchedChName = matchedChapterObj.chapter;
+          setExpandedChapters(new Set([matchedChName]));
+          const matchedTopicIds = new Set(matchedChapterObj.items.map(it => it.id));
+          setExpandedTopics(matchedTopicIds);
+          setActiveChapter(matchedChName);
+          return;
+        }
+      }
+
       if (searchQuery.trim()) {
         // Auto-expand all matching chapters and topics when searching
         const allMatchingChs = new Set(distinctChapters.map((c) => c.chapter));
@@ -570,7 +607,7 @@ export const FormulaNotesHub: React.FC = () => {
       setExpandedTopics(new Set());
       setActiveChapter('');
     }
-  }, [distinctChapters.length, selectedSubject, selectedClass, searchQuery]);
+  }, [distinctChapters.length, selectedSubject, selectedClass, searchQuery, searchParams]);
 
   // Studio Mode: Current Chapter Topics
   const currentChapterTopics = useMemo(() => {

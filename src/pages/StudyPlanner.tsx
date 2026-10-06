@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { apiRequest } from '../services/apiClient';
@@ -59,7 +59,28 @@ export const StudyPlanner: React.FC = () => {
 
   const { isAuthenticated, token } = useAuth();
   const [tasks, setTasks] = useState<PlannerTask[]>(() => ecosystemService.getPlannerTasks());
-  const [selectedDay, setSelectedDay] = useState<PlannerTask['day']>('Monday');
+
+  const daysOfWeek: PlannerTask['day'][] = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday'
+  ];
+
+  const currentDayOfWeek = useMemo<PlannerTask['day']>(() => {
+    const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' }) as PlannerTask['day'];
+    return daysOfWeek.includes(todayName) ? todayName : 'Monday';
+  }, []);
+
+  const [selectedDay, setSelectedDay] = useState<PlannerTask['day']>(() => {
+    const todayName = new Date().toLocaleDateString('en-US', { weekday: 'long' }) as PlannerTask['day'];
+    return ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].includes(todayName)
+      ? todayName
+      : 'Monday';
+  });
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [editingTaskId, setEditingTaskId] = useState<string | null>(null);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -77,7 +98,7 @@ export const StudyPlanner: React.FC = () => {
         if (data && data.success && data.data?.tasks && isMounted) {
           const apiTasks = (data.data.tasks || []).map((t: any) => ({
             id: t.id,
-            day: selectedDay,
+            day: (t.day as PlannerTask['day']) || currentDayOfWeek,
             subject: (t.subject as SubjectName) || 'Physics',
             chapter: t.chapter || t.title,
             taskType: (t.taskType as PlannerTask['taskType']) || 'Practice',
@@ -86,7 +107,18 @@ export const StudyPlanner: React.FC = () => {
             notes: t.notes
           }));
           if (apiTasks.length > 0) {
-            setTasks(apiTasks);
+            setTasks((prev) => {
+              const merged = [...prev];
+              apiTasks.forEach((serverTask: PlannerTask) => {
+                const idx = merged.findIndex((m) => m.id === serverTask.id);
+                if (idx >= 0) {
+                  merged[idx] = { ...merged[idx], ...serverTask };
+                } else {
+                  merged.push(serverTask);
+                }
+              });
+              return merged;
+            });
           }
         }
       } catch (err) {
@@ -96,7 +128,7 @@ export const StudyPlanner: React.FC = () => {
 
     fetchStudentPlanner();
     return () => { isMounted = false; };
-  }, [isAuthenticated, token]);
+  }, [isAuthenticated, token, currentDayOfWeek]);
 
   // Form state
   const [newTaskSubject, setNewTaskSubject] = useState<SubjectName>(allowedSubjects[0] || 'Physics');
@@ -104,16 +136,6 @@ export const StudyPlanner: React.FC = () => {
   const [newTaskType, setNewTaskType] = useState<PlannerTask['taskType']>('Practice');
   const [newTaskDuration, setNewTaskDuration] = useState<number>(30);
   const [newTaskNotes, setNewTaskNotes] = useState<string>('');
-
-  const daysOfWeek: PlannerTask['day'][] = [
-    'Monday',
-    'Tuesday',
-    'Wednesday',
-    'Thursday',
-    'Friday',
-    'Saturday',
-    'Sunday'
-  ];
 
   const handleSaveConfig = (newConfig: Partial<PlannerConfig>) => {
     const updated = { ...config, ...newConfig };
@@ -146,7 +168,10 @@ export const StudyPlanner: React.FC = () => {
     if (isAuthenticated && targetTask) {
       apiRequest(`/planner/tasks/${id}`, {
         method: 'PUT',
-        body: JSON.stringify({ isCompleted: !targetTask.completed })
+        body: JSON.stringify({
+          isCompleted: !targetTask.completed,
+          day: targetTask.day
+        })
       }).catch(() => null);
     }
   };
@@ -203,6 +228,7 @@ export const StudyPlanner: React.FC = () => {
             chapter: newTaskChapter.trim() || 'General Revision',
             taskType: newTaskType,
             durationMinutes: newTaskDuration,
+            day: selectedDay,
             notes: newTaskNotes.trim() || undefined
           })
         }).catch(() => null);
@@ -223,6 +249,8 @@ export const StudyPlanner: React.FC = () => {
         apiRequest('/planner/tasks', {
           method: 'POST',
           body: JSON.stringify({
+            id: created.id,
+            day: selectedDay,
             title: `${newTaskSubject} — ${newTaskChapter.trim() || 'General Revision'}`,
             subject: newTaskSubject,
             chapter: newTaskChapter.trim() || 'General Revision',

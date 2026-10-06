@@ -22,6 +22,7 @@ import { Card, Badge, Button } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
 import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
+import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
 
 export const GlobalSearch: React.FC = () => {
   const navigate = useNavigate();
@@ -92,7 +93,7 @@ export const GlobalSearch: React.FC = () => {
       .catch(() => setSuggestions([]));
   }, [query]);
 
-  // Fetch unified search results
+  // Fetch unified search results with resilient curriculum fallback
   useEffect(() => {
     if (!debouncedQuery) {
       setResults({ formulas: [], lectures: [], notes: [], planner: [], relatedTopics: [] });
@@ -105,11 +106,78 @@ export const GlobalSearch: React.FC = () => {
       .then(data => {
         setIsLoading(false);
         if (data.success && data.results) {
-          setResults(data.results);
+          const resObj = { ...data.results };
+
+          // If server notes are empty, augment with curriculum notes from client bank
+          if (!resObj.notes || resObj.notes.length === 0) {
+            const qLower = debouncedQuery.toLowerCase();
+            const localCurriculumNotes = comprehensiveFormulaNotes
+              .filter(
+                (item) =>
+                  item.chapter.toLowerCase().includes(qLower) ||
+                  item.topic.toLowerCase().includes(qLower) ||
+                  item.concept.toLowerCase().includes(qLower) ||
+                  item.shortNotes.some((s) => s.toLowerCase().includes(qLower))
+              )
+              .slice(0, 10)
+              .map((item) => ({
+                id: item.id,
+                title: `${item.chapter}: ${item.topic}`,
+                subject: item.subject,
+                chapter: item.chapter,
+                topic: item.topic,
+                content: item.concept,
+                bullets: item.shortNotes,
+                keyPoints: item.keyPoints,
+                classLevel: item.classLevel,
+                isCurriculumNote: true
+              }));
+            resObj.notes = localCurriculumNotes;
+          }
+
+          setResults(resObj);
         }
       })
       .catch(() => {
         setIsLoading(false);
+        // Resilient client-side curriculum fallback
+        const qLower = debouncedQuery.toLowerCase();
+        const matched = comprehensiveFormulaNotes.filter(
+          (item) =>
+            item.chapter.toLowerCase().includes(qLower) ||
+            item.topic.toLowerCase().includes(qLower) ||
+            item.concept.toLowerCase().includes(qLower)
+        );
+
+        const localFormulas = matched.flatMap((m) =>
+          m.formulas.map((f) => ({
+            title: f.name,
+            formula: f.formula,
+            variables: f.variables,
+            subject: m.subject,
+            chapter: m.chapter,
+            classLevel: m.classLevel
+          }))
+        ).slice(0, 12);
+
+        const localNotes = matched.slice(0, 8).map((m) => ({
+          id: m.id,
+          title: `${m.chapter}: ${m.topic}`,
+          subject: m.subject,
+          chapter: m.chapter,
+          topic: m.topic,
+          content: m.concept,
+          bullets: m.shortNotes,
+          keyPoints: m.keyPoints,
+          classLevel: m.classLevel,
+          isCurriculumNote: true
+        }));
+
+        setResults((prev) => ({
+          ...prev,
+          formulas: localFormulas.length > 0 ? localFormulas : prev.formulas,
+          notes: localNotes.length > 0 ? localNotes : prev.notes
+        }));
       });
   }, [debouncedQuery, activeFilter]);
 
@@ -425,23 +493,72 @@ export const GlobalSearch: React.FC = () => {
               <div className="space-y-3">
                 <div className="flex items-center gap-2 text-xs font-bold text-slate-800 dark:text-white uppercase tracking-wider">
                   <FileText className="w-4 h-4 text-emerald-500" />
-                  <span>Personal Study Notes ({results.notes.length})</span>
+                  <span>High-Yield Revision & Study Notes ({results.notes.length})</span>
                 </div>
 
-                <div className="grid grid-cols-1 gap-2">
-                  {results.notes.map((note, i) => (
-                    <Card
-                      key={i}
-                      className="p-3.5 hover:border-emerald-300 cursor-pointer transition-all flex items-center justify-between"
-                      onClick={() => navigate('/notes')}
-                    >
-                      <div>
-                        <h4 className="font-bold text-xs text-slate-900 dark:text-white">{note.title}</h4>
-                        <p className="text-[11px] text-slate-500 line-clamp-1">{note.content}</p>
-                      </div>
-                      <ArrowRight className="w-4 h-4 text-emerald-600" />
-                    </Card>
-                  ))}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  {results.notes.map((note, i) => {
+                    const bullets = note.bullets || note.bulletPoints || note.shortNotes || [];
+                    const noteSubject = note.subject || 'Curriculum';
+                    const noteChapter = note.chapter || '';
+                    const noteTopic = note.topic || note.title || '';
+                    return (
+                      <Card
+                        key={i}
+                        className="p-4 border-slate-200 dark:border-slate-800 flex flex-col justify-between space-y-3 hover:border-emerald-300 transition-all shadow-xs"
+                      >
+                        <div className="space-y-2">
+                          <div className="flex items-center justify-between gap-2">
+                            <Badge variant="brand" size="sm">{noteSubject}</Badge>
+                            <span className="text-[10px] font-bold text-slate-400">
+                              {noteChapter}
+                            </span>
+                          </div>
+
+                          <h4 className="font-extrabold text-sm text-slate-900 dark:text-white leading-snug">
+                            {noteTopic}
+                          </h4>
+
+                          <p className="text-xs text-slate-600 dark:text-slate-300 line-clamp-3 leading-relaxed bg-slate-50 dark:bg-slate-900/50 p-2.5 rounded-xl border border-slate-100 dark:border-slate-800">
+                            {note.content}
+                          </p>
+
+                          {Array.isArray(bullets) && bullets.length > 0 && (
+                            <ul className="space-y-1 text-[11px] text-slate-500 pt-1">
+                              {bullets.slice(0, 2).map((b: string, bIdx: number) => (
+                                <li key={bIdx} className="flex items-start gap-1">
+                                  <span className="text-emerald-500 font-bold">•</span>
+                                  <span className="line-clamp-1">{b}</span>
+                                </li>
+                              ))}
+                            </ul>
+                          )}
+                        </div>
+
+                        <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between gap-2">
+                          <button
+                            onClick={() =>
+                              navigate(
+                                `/notes?subject=${encodeURIComponent(noteSubject)}&chapter=${encodeURIComponent(noteChapter)}&q=${encodeURIComponent(noteTopic)}`
+                              )
+                            }
+                            className="px-3 py-1.5 bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-xl flex items-center gap-1 transition-colors"
+                          >
+                            <span>Open in Notes</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+
+                          <button
+                            onClick={() => handleAddToPlanner(`Revise: ${noteTopic}`, noteSubject, noteChapter)}
+                            className="px-2.5 py-1.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl flex items-center gap-1 transition-colors"
+                          >
+                            <Calendar className="w-3 h-3 text-emerald-500" />
+                            <span>Add to Plan</span>
+                          </button>
+                        </div>
+                      </Card>
+                    );
+                  })}
                 </div>
               </div>
             )}

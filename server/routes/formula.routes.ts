@@ -9,12 +9,19 @@ const router = express.Router();
 async function ensureSeededFormulas() {
   try {
     const count = await Formula.countDocuments();
-    if (count === 0) {
+    if (count < 500) {
       const p = path.resolve('server/data/canonicalFormulas.json');
       if (fs.existsSync(p)) {
         const raw = fs.readFileSync(p, 'utf8');
         const formulas = JSON.parse(raw);
-        await Formula.insertMany(formulas);
+        const ops = formulas.map((f: any) => ({
+          updateOne: {
+            filter: { id: f.id },
+            update: { $set: f },
+            upsert: true
+          }
+        }));
+        await Formula.bulkWrite(ops, { ordered: false });
         console.log(`[AutoSeed] Seeded ${formulas.length} canonical formulas into MongoDB.`);
       }
     }
@@ -49,7 +56,28 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
     }
 
     const limitNum = Math.min(Number(req.query.limit) || 1000, 1000);
-    const formulas = await Formula.find(query).sort({ order: 1, importance: -1, createdAt: 1 }).limit(limitNum);
+    let formulas = await Formula.find(query).sort({ order: 1, importance: -1, createdAt: 1 }).limit(limitNum).lean();
+
+    // In-memory fallback from canonicalFormulas.json if MongoDB returns empty
+    if (formulas.length === 0) {
+      try {
+        const p = path.resolve('server/data/canonicalFormulas.json');
+        if (fs.existsSync(p)) {
+          const raw = JSON.parse(fs.readFileSync(p, 'utf8'));
+          formulas = raw.filter((f: any) => {
+            if (subject && !new RegExp(`^${String(subject).trim()}$`, 'i').test(f.subject)) return false;
+            if (chapter && !new RegExp(`^${String(chapter).trim()}$`, 'i').test(f.chapter)) return false;
+            if (topic && !new RegExp(`^${String(topic).trim()}$`, 'i').test(f.topic)) return false;
+            if (classLevel && String(f.classLevel) !== String(classLevel)) return false;
+            if (search) {
+              const qRegex = new RegExp(String(search).trim(), 'i');
+              return qRegex.test(f.title) || qRegex.test(f.formula) || qRegex.test(f.explanation);
+            }
+            return true;
+          }).slice(0, limitNum);
+        }
+      } catch {}
+    }
 
     return res.json({
       success: true,
