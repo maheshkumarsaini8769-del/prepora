@@ -28,18 +28,29 @@ interface LoginProps {
 type FlowStep = 'login' | 'register' | 'enter-otp' | 'create-password' | 'account-created' | 'forgot-password' | 'reset-password';
 
 export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
-  const { sendOtp, verifyOtp, setPassword, login, forgotPassword, resetPassword, isAuthenticated } = useAuth();
+  const { sendOtp, verifyOtp, setPassword, login, forgotPassword, resetPassword, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Active step in the authentication flow
+  const queryParams = new URLSearchParams(location.search);
+  const redirectTo = queryParams.get('redirect') || '/planner';
+
+  // Active step in the authentication flow (honors URL param ?step=create-password)
   const [step, setStep] = useState<FlowStep>(() => {
+    const params = new URLSearchParams(window.location.search);
+    const urlStep = params.get('step') as FlowStep | null;
+    if (urlStep === 'create-password' || urlStep === 'register' || urlStep === 'login') {
+      return urlStep;
+    }
     return defaultTab === 'register' ? 'register' : 'login';
   });
 
   // Input states
   const [name, setName] = useState<string>('');
-  const [phone, setPhone] = useState<string>('');
+  const [phone, setPhone] = useState<string>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('phone') || '';
+  });
   const [email, setEmail] = useState<string>('');
   const [password, setPasswordInput] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
@@ -66,15 +77,25 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
 
-  const queryParams = new URLSearchParams(location.search);
-  const redirectTo = queryParams.get('redirect') || '/planner';
-
-  // Bounce already-authenticated visitors on mount
+  // Bounce already-authenticated visitors on mount (ensure student creates password first)
   useEffect(() => {
-    if (isAuthenticated && step !== 'account-created') {
-      navigate(redirectTo, { replace: true });
+    if (isAuthenticated) {
+      if (user?.role !== 'admin' && user?.hasPassword === false) {
+        if (step !== 'create-password') {
+          setStep('create-password');
+        }
+        return;
+      }
+
+      if (step === 'create-password') {
+        return;
+      }
+
+      if (step !== 'account-created') {
+        navigate(redirectTo, { replace: true });
+      }
     }
-  }, [isAuthenticated, navigate, redirectTo, step]);
+  }, [isAuthenticated, user?.role, user?.hasPassword, navigate, redirectTo, step]);
 
   // Cooldown countdown effect
   useEffect(() => {
@@ -190,7 +211,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       setIsLoading(false);
 
       if (res.success) {
-        if (res.isNewUser || !res.hasPassword) {
+        if (res.isNewUser || !res.hasPassword || res.requiresPasswordCreation) {
           // First-time registration or account without password: create password
           setStep('create-password');
           setSuccessMsg('WhatsApp OTP verified successfully! Create your password below.');

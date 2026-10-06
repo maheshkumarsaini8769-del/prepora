@@ -345,12 +345,22 @@ router.post('/set-password', authenticateUser, async (req: AuthRequest, res: Res
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(rawPassword, salt);
 
-    await User.findOneAndUpdate(
-      { _id: req.user!._id },
-      { $set: { passwordHash } }
+    const updatedUser = await User.findOneAndUpdate(
+      { $or: [{ _id: req.user!._id }, { id: req.user!.id }, ...(req.user!.studentId ? [{ studentId: req.user!.studentId }] : [])] },
+      { $set: { passwordHash } },
+      { new: true }
     );
 
-    res.json({ success: true, message: 'Password saved. Ab aap password se directly login kar sakte hain.' });
+    const userObj = (updatedUser || req.user!).toObject();
+    delete userObj.passwordHash;
+    delete userObj.otpCode;
+    (userObj as any).hasPassword = true;
+
+    res.json({
+      success: true,
+      message: 'Password created successfully. Ab aap is password se seedha login kar sakte hain.',
+      user: userObj
+    });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
@@ -541,7 +551,6 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       });
     }
 
-    let generatedPassword = '';
     let isNewUser = false;
 
     const canonicalExam = targetExam === 'NEET' ? 'NEET_UG' : targetExam === 'CBSE' ? 'CBSE' : targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
@@ -549,13 +558,16 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
 
     if (!user) {
       // First-time registration:
-      // Automatically create student account, generate unique cryptographically secure password
+      // Create student account WITHOUT auto-generated dummy password so student sets their own password
       isNewUser = true;
-      generatedPassword = generateSecurePassword(10);
-      const salt = await bcrypt.genSalt(10);
-      const passwordHash = await bcrypt.hash(generatedPassword, salt);
       const studentId = isOwnerNumber ? 'usr_admin_mahesh' : `STU_${Date.now().toString(36).toUpperCase()}${randomBytes(2).toString('hex').toUpperCase()}`;
       const assignedEmail = isOwnerNumber ? 'maheshkumarsaini8769@gmail.com' : `phone_${cleanMobile}@prepora.student`;
+
+      let ownerPasswordHash: string | undefined = undefined;
+      if (isOwnerNumber) {
+        const salt = await bcrypt.genSalt(10);
+        ownerPasswordHash = await bcrypt.hash('mahesh99830', salt);
+      }
 
       user = new User({
         id: studentId,
@@ -564,7 +576,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
         email: assignedEmail,
         phone: cleanMobile,
         mobile: cleanMobile,
-        passwordHash,
+        passwordHash: ownerPasswordHash,
         whatsappVerified: true,
         role: isOwnerNumber ? 'admin' : 'student',
         targetExam,
@@ -593,39 +605,42 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       if (isOwnerNumber) {
         user.role = 'admin';
         user.email = 'maheshkumarsaini8769@gmail.com';
+        if (!user.passwordHash) {
+          const salt = await bcrypt.genSalt(10);
+          user.passwordHash = await bcrypt.hash('mahesh99830', salt);
+        }
       }
       if (name && (!user.name || user.name.startsWith('Student ') || user.name.startsWith('usr-'))) {
         user.name = name.trim();
       }
 
-      // If existing user had no password yet, generate and save one
-      if (!user.passwordHash) {
-        generatedPassword = generateSecurePassword(10);
-        const salt = await bcrypt.genSalt(10);
-        user.passwordHash = await bcrypt.hash(generatedPassword, salt);
-        isNewUser = true;
-      }
+      // Existing students without password: do NOT set dummy password! Let them set their own password.
       await user.save();
     }
 
     // Create strictly single active session (revokes any previous session on another device/browser)
     const { token, session } = await createSingleActiveSession(user, req);
 
+    const hasRealPassword = !!(user.passwordHash && user.passwordHash.length > 0);
     const userObj = user.toObject();
     delete userObj.passwordHash;
     delete userObj.otpCode;
-    (userObj as any).hasPassword = true;
+    (userObj as any).hasPassword = hasRealPassword;
+    (userObj as any).requiresPasswordCreation = !hasRealPassword;
 
     res.json({
       success: true,
       isNewUser,
-      generatedPassword: generatedPassword || undefined,
+      hasPassword: hasRealPassword,
+      requiresPasswordCreation: !hasRealPassword,
       token,
       user: userObj,
       sessionId: session.id,
       message: isNewUser
-        ? 'Account created successfully! Save your unique password safely.'
-        : 'Logged in successfully.'
+        ? 'Account registered successfully! Please create your password.'
+        : hasRealPassword
+        ? 'Logged in successfully.'
+        : 'Please create your password to secure your account.'
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });

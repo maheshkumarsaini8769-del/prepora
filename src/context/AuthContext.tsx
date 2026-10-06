@@ -28,7 +28,7 @@ export interface AuthContextType {
   loginWithZenuxs: (payload: { sub?: string; email?: string; name?: string; picture?: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   register: (data: { name: string; email: string; password: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   sendOtp: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number }>;
-  verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; generatedPassword?: string }>;
+  verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; requiresPasswordCreation?: boolean; generatedPassword?: string }>;
   setPassword: (password: string) => Promise<{ success: boolean; message?: string }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
   forgotPassword: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; cooldownSeconds?: number }>;
@@ -542,7 +542,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     identifier: string,
     otp: string,
     metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }
-  ): Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; generatedPassword?: string }> => {
+  ): Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; requiresPasswordCreation?: boolean; generatedPassword?: string }> => {
     try {
       const res = await fetch('/api/auth/verify-otp', {
         method: 'POST',
@@ -555,9 +555,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem(TOKEN_KEY, data.token);
         localStorage.setItem('prepora_onboarding_completed', 'true');
 
+        const isUserPasswordSet = Boolean(data.hasPassword ?? data.user?.hasPassword);
         const updatedUser: UserProfile = {
           ...userService.getProfile(),
           ...data.user,
+          hasPassword: isUserPasswordSet,
           avatarUrl: data.user.avatar || userService.getProfile().avatarUrl
         };
         setUser(updatedUser);
@@ -568,8 +570,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         return {
           success: true,
-          hasPassword: !!data.user?.hasPassword,
+          hasPassword: isUserPasswordSet,
           isNewUser: !!data.isNewUser,
+          requiresPasswordCreation: !isUserPasswordSet,
           generatedPassword: data.generatedPassword
         };
       }
@@ -610,6 +613,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         testsCompletedCount: 0,
         dailyGoalQuestions: (metadata as any)?.dailyGoalQuestions || 25,
         lastActiveDate: new Date().toISOString().split('T')[0],
+        hasPassword: false,
         preparationProfile: {
           userId: fallbackId,
           preparationType: targetExam,
@@ -628,7 +632,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       userService.updateProfile(authenticatedUser);
       // Modal lifecycle is handled by caller (AuthModal transitions to create-password)
 
-      return { success: true, hasPassword: false };
+      return { success: true, hasPassword: false, requiresPasswordCreation: true };
     }
 
     return { success: false, message: 'Invalid OTP. Please enter demo OTP: 9999' };
@@ -644,7 +648,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.setItem('prepora_pwd_' + currentUser.phone.replace(/[^0-9]/g, '').slice(-10), password);
     }
 
-    if (!t) return { success: true, message: 'Password saved locally.' };
+    if (!t) {
+      const updatedUser: UserProfile = {
+        ...userService.getProfile(),
+        hasPassword: true
+      };
+      setUser(updatedUser);
+      userService.updateProfile(updatedUser);
+      return { success: true, message: 'Password saved locally.' };
+    }
 
     try {
       const res = await fetch('/api/auth/set-password', {
@@ -654,10 +666,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       });
       const data = await res.json();
       if (res.ok && data.success) {
+        const updatedUser: UserProfile = {
+          ...userService.getProfile(),
+          ...(data.user || {}),
+          hasPassword: true
+        };
+        setUser(updatedUser);
+        userService.updateProfile(updatedUser);
         return { success: true, message: data.message || 'Password created successfully.' };
       }
       return { success: true, message: 'Password saved successfully.' };
     } catch (err: any) {
+      const updatedUser: UserProfile = {
+        ...userService.getProfile(),
+        hasPassword: true
+      };
+      setUser(updatedUser);
+      userService.updateProfile(updatedUser);
       return { success: true, message: 'Password created locally. Agli baar seedha login karein.' };
     }
   };

@@ -254,6 +254,8 @@ export interface UserProfile {
   lastStreakWarningDate?: string;
   role?: 'student' | 'admin';
   phone?: string;
+  mobile?: string;
+  hasPassword?: boolean;
   password?: string;
 }
 

@@ -46,6 +46,17 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
     return <Navigate to="/onboarding" replace />;
   }
 
+  // 4. Force password creation if student hasn't set a password yet (register krne ke baad website tab tak open na ho jab tak password create na karein)
+  if (user && user.role !== 'admin' && user.hasPassword === false && location.pathname !== '/login') {
+    const studentPhone = user.phone || user.mobile || '';
+    return (
+      <Navigate
+        to={`/login?step=create-password&phone=${encodeURIComponent(studentPhone)}&redirect=${encodeURIComponent(location.pathname + location.search)}`}
+        replace
+      />
+    );
+  }
+
   return <>{children}</>;
 };
 
