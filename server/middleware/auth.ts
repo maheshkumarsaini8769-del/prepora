@@ -4,10 +4,13 @@ import { createHash, randomBytes } from 'crypto';
 import User, { IUser } from '../models/User.js';
 import Session from '../models/Session.js';
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 // Stable secret fallback: Prevents serverless lambda cold starts from generating
 // disparate secrets that immediately revoke active student sessions.
 export const JWT_SECRET: string = process.env.JWT_SECRET
-  || 'prepora_super_secret_jwt_key_2026_secure';
+  || 'prepora_jwt_secret_dev_key_2026_super_secure';
 
 export const hashToken = (token: string): string => createHash('sha256').update(token).digest('hex');
 
@@ -114,10 +117,12 @@ export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFu
   }
 
   if (req.user.role !== 'admin') {
-    if (
-      (req.user?.email && (req.user.email === 'maheshkumarsaini8769@gmail.com' || req.user.email === 'admin@prepora.com')) ||
-      (req.user?.phone && (req.user.phone === '7742735762' || req.user.phone.endsWith('7742735762')))
-    ) {
+    const userEmail = (req.user?.email || '').toLowerCase().trim();
+    const rawPhoneDigits = (req.user?.phone || (req.user as any)?.mobile || '').replace(/[^0-9]/g, '');
+    const isOwnerPhone = rawPhoneDigits === '7742735762' || rawPhoneDigits === '917742735762' || rawPhoneDigits === '07742735762';
+    const isOwner = userEmail === 'maheshkumarsaini8769@gmail.com' || isOwnerPhone;
+
+    if (isOwner) {
       req.user.role = 'admin';
       return next();
     }

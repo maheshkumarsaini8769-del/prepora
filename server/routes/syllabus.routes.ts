@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import SyllabusChapter from '../models/Syllabus.js';
+import { authenticateUser, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -173,7 +174,7 @@ router.get('/:exam/:class/:subject/:chapter', async (req: Request, res: Response
 });
 
 // ADMIN: POST /api/syllabus - Create new chapter
-router.post('/', async (req: Request, res: Response): Promise<void> => {
+router.post('/', authenticateUser, requireAdmin, async (req: Request, res: Response): Promise<void> => {
   try {
     const body = req.body;
     const chapterId = body.chapterId || body.name.toUpperCase().replace(/[^A-Z0-9]+/g, '_');
@@ -187,7 +188,7 @@ router.post('/', async (req: Request, res: Response): Promise<void> => {
 });
 
 // ADMIN: PUT /api/syllabus/:id - Update chapter
-router.put('/:id', async (req: Request, res: Response): Promise<void> => {
+router.put('/:id', authenticateUser, requireAdmin, async (req: Request, res: Response): Promise<void> => {
   try {
     const updated = await SyllabusChapter.findOneAndUpdate(
       { $or: [{ id: req.params.id }, { _id: req.params.id }] },

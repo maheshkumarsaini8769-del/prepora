@@ -4,7 +4,7 @@ import Test from '../models/Test.js';
 import Question from '../models/Question.js';
 import TestAttempt from '../models/TestAttempt.js';
 import { questionRepo } from '../services/questionRepository.js';
-import { optionalAuth, AuthRequest } from '../middleware/auth.js';
+import { optionalAuth, AuthRequest, authenticateUser, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -279,7 +279,7 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
 });
 
 // POST /api/tests - Create test (Admin)
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const data = req.body;
     const id = data.id || `test-${Date.now()}`;

@@ -2,7 +2,7 @@ import express, { Request, Response } from 'express';
 import fs from 'fs';
 import path from 'path';
 import Formula from '../models/Formula.js';
-import { requireAdmin, optionalAuth } from '../middleware/auth.js';
+import { authenticateUser, requireAdmin, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -125,7 +125,7 @@ router.get('/quick-revision/:chapter', optionalAuth, async (req: Request, res: R
 // ==========================================
 // 3. ADMIN: ADD FORMULA
 // ==========================================
-router.post('/', optionalAuth, async (req: Request, res: Response) => {
+router.post('/', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const {
       title,
@@ -182,7 +182,7 @@ router.post('/', optionalAuth, async (req: Request, res: Response) => {
 // ==========================================
 // 4. ADMIN: UPDATE / DELETE FORMULA
 // ==========================================
-router.put('/:id', optionalAuth, async (req: Request, res: Response) => {
+router.put('/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const updated = await Formula.findOneAndUpdate(
@@ -199,7 +199,7 @@ router.put('/:id', optionalAuth, async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/:id', optionalAuth, async (req: Request, res: Response) => {
+router.delete('/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await Formula.findOneAndDelete({ $or: [{ id }, { _id: id }] });

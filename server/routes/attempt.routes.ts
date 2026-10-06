@@ -5,16 +5,23 @@ import Test from '../models/Test.js';
 import Question from '../models/Question.js';
 import User from '../models/User.js';
 import { Mistake } from '../models/Entities.js';
-import { optionalAuth, AuthRequest } from '../middleware/auth.js';
+import { authenticateUser, optionalAuth, AuthRequest } from '../middleware/auth.js';
 import { questionRepo } from '../services/questionRepository.js';
 
 const router = express.Router();
 
-// GET /api/attempts - Get all attempts for user
-router.get('/', optionalAuth, async (req: AuthRequest, res: Response) => {
+// GET /api/attempts - Get all attempts for user (Enforce strict user isolation)
+router.get('/', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = req.userId || (req.query.userId as string);
-    const filter = userId ? { userId } : {};
+    const isAdmin = req.user?.role === 'admin';
+    let filter: Record<string, any> = {};
+    if (isAdmin) {
+      if (req.query.userId) {
+        filter.userId = req.query.userId as string;
+      }
+    } else {
+      filter.userId = req.userId;
+    }
     const attempts = await TestAttempt.find(filter).sort({ createdAt: -1 });
     res.json({ success: true, attempts });
   } catch (error: any) {
@@ -22,12 +29,16 @@ router.get('/', optionalAuth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-// GET /api/attempts/:id - Get specific attempt
-router.get('/:id', async (req: Request, res: Response) => {
+// GET /api/attempts/:id - Get specific attempt with strict authorization
+router.get('/:id', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
     const attempt = await TestAttempt.findOne({ id: req.params.id });
     if (!attempt) {
       return res.status(404).json({ success: false, message: 'Attempt not found' });
+    }
+    const isAdmin = req.user?.role === 'admin';
+    if (!isAdmin && attempt.userId !== req.userId) {
+      return res.status(403).json({ success: false, message: 'Forbidden: You do not have permission to access this test attempt.' });
     }
     res.json({ success: true, attempt });
   } catch (error: any) {
@@ -40,14 +51,17 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
   try {
     const {
       testId,
-      userId = 'usr-default',
+      userId = 'guest',
       answers = {},
       timeTakenSeconds = 0,
       idempotencyKey,
       clientSyncId
     } = req.body;
 
-    const effectiveUserId = req.userId || userId;
+    // Secure effectiveUserId: Never allow an unauthenticated client to spoof a real user ID
+    const effectiveUserId = req.userId
+      ? req.userId
+      : (typeof userId === 'string' && userId.startsWith('guest_') ? userId : `guest_${Date.now()}`);
 
     const effectiveKey = idempotencyKey || clientSyncId;
 

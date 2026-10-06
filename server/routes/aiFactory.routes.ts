@@ -15,8 +15,13 @@ import { calculateQuestionAllocation } from '../services/topicWeightService.js';
 import { BIOLOGY_CHAPTER_1_TOPICS } from '../services/biologyChapter1Bank.js';
 import { extractHeadingsFromText } from '../services/pdfKnowledgeExtractor.js';
 import { aiService } from '../services/ai/aiService.js';
+import { authenticateUser, requireAdmin } from '../middleware/auth.js';
 
 const router = Router();
+
+// CRITICAL SECURITY GUARD: AI Factory is restricted exclusively to authenticated Admins
+router.use(authenticateUser);
+router.use(requireAdmin);
 
 // ==========================================
 // 1. AI CONTENT FACTORY DASHBOARD STATS

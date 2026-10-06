@@ -3,7 +3,7 @@ import { Mistake, Bookmark, Note, Doubt, QuestionReport, Goal } from '../models/
 import Question from '../models/Question.js';
 import User from '../models/User.js';
 import VideoWatchLog from '../models/VideoWatchLog.js';
-import { optionalAuth, AuthRequest } from '../middleware/auth.js';
+import { authenticateUser, requireAdmin, optionalAuth, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -21,9 +21,11 @@ function pickFields(obj: Record<string, any>, allowed: string[]): Record<string,
 }
 
 // --- MISTAKES ---
-router.get('/mistakes', optionalAuth, async (req: AuthRequest, res: Response) => {
+// GET /mistakes - Retrieve mistakes with strict ownership isolation
+router.get('/mistakes', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = req.userId || (req.query.userId as string) || 'usr-default';
+    const isAdmin = req.user?.role === 'admin';
+    const userId = (isAdmin && req.query.userId) ? (req.query.userId as string) : req.userId;
     const mistakes = await Mistake.find({ userId, resolved: false }).sort({ updatedAt: -1 });
     const qIds = mistakes.map(m => m.questionId);
     const questions = await Question.find({ id: { $in: qIds } });
@@ -40,22 +42,34 @@ router.get('/mistakes', optionalAuth, async (req: AuthRequest, res: Response) =>
   }
 });
 
-router.patch('/mistakes/:id', async (req: Request, res: Response) => {
+// PATCH /mistakes/:id - Update mistake only if caller owns it or is admin
+router.patch('/mistakes/:id', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
+    const isAdmin = req.user?.role === 'admin';
+    const filter = isAdmin ? { id: req.params.id } : { id: req.params.id, userId: req.userId };
     const updated = await Mistake.findOneAndUpdate(
-      { id: req.params.id },
+      filter,
       { $set: pickFields(req.body, MISTAKE_FIELDS) },
       { new: true }
     );
+    if (!updated) {
+      return res.status(404).json({ success: false, message: 'Mistake record not found or unauthorized' });
+    }
     res.json({ success: true, mistake: updated });
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
   }
 });
 
-router.delete('/mistakes/:id', async (req: Request, res: Response) => {
+// DELETE /mistakes/:id - Delete mistake only if caller owns it or is admin
+router.delete('/mistakes/:id', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    await Mistake.findOneAndDelete({ id: req.params.id });
+    const isAdmin = req.user?.role === 'admin';
+    const filter = isAdmin ? { id: req.params.id } : { id: req.params.id, userId: req.userId };
+    const deleted = await Mistake.findOneAndDelete(filter);
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Mistake record not found or unauthorized' });
+    }
     res.json({ success: true, message: 'Mistake removed' });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -63,9 +77,11 @@ router.delete('/mistakes/:id', async (req: Request, res: Response) => {
 });
 
 // --- BOOKMARKS ---
-router.get('/bookmarks', optionalAuth, async (req: AuthRequest, res: Response) => {
+// GET /bookmarks - Retrieve bookmarks with strict user isolation
+router.get('/bookmarks', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = req.userId || (req.query.userId as string) || 'usr-default';
+    const isAdmin = req.user?.role === 'admin';
+    const userId = (isAdmin && req.query.userId) ? (req.query.userId as string) : req.userId;
     const bookmarks = await Bookmark.find({ userId }).sort({ createdAt: -1 });
     res.json({ success: true, bookmarks });
   } catch (error: any) {
@@ -73,10 +89,14 @@ router.get('/bookmarks', optionalAuth, async (req: AuthRequest, res: Response) =
   }
 });
 
-router.post('/bookmarks', optionalAuth, async (req: AuthRequest, res: Response) => {
+// POST /bookmarks - Toggle bookmark for authenticated caller
+router.post('/bookmarks', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
     const { itemType, itemId } = req.body;
-    const userId = req.userId || req.body.userId || 'usr-default';
+    if (!itemType || !itemId) {
+      return res.status(400).json({ success: false, message: 'itemType and itemId are required' });
+    }
+    const userId = req.userId;
     const existing = await Bookmark.findOne({ userId, itemType, itemId });
     if (existing) {
       await Bookmark.deleteOne({ _id: existing._id });
@@ -96,9 +116,11 @@ router.post('/bookmarks', optionalAuth, async (req: AuthRequest, res: Response) 
 });
 
 // --- NOTES ---
-router.get('/notes', optionalAuth, async (req: AuthRequest, res: Response) => {
+// GET /notes - Retrieve notes for authenticated caller
+router.get('/notes', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = req.userId || (req.query.userId as string) || 'usr-default';
+    const isAdmin = req.user?.role === 'admin';
+    const userId = (isAdmin && req.query.userId) ? (req.query.userId as string) : req.userId;
     const notes = await Note.find({ userId }).sort({ updatedAt: -1 });
     res.json({ success: true, notes });
   } catch (error: any) {
@@ -106,10 +128,11 @@ router.get('/notes', optionalAuth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.post('/notes', optionalAuth, async (req: AuthRequest, res: Response) => {
+// POST /notes - Create note for authenticated caller
+router.post('/notes', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
     const { title, content, subject, chapter, topic } = req.body;
-    const userId = req.userId || req.body.userId || 'usr-default';
+    const userId = req.userId;
     const note = new Note({
       id: `note-${Date.now()}`,
       userId,
@@ -126,9 +149,15 @@ router.post('/notes', optionalAuth, async (req: AuthRequest, res: Response) => {
   }
 });
 
-router.delete('/notes/:id', async (req: Request, res: Response) => {
+// DELETE /notes/:id - Delete note only if caller owns it or is admin
+router.delete('/notes/:id', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    await Note.findOneAndDelete({ id: req.params.id });
+    const isAdmin = req.user?.role === 'admin';
+    const filter = isAdmin ? { id: req.params.id } : { id: req.params.id, userId: req.userId };
+    const deleted = await Note.findOneAndDelete(filter);
+    if (!deleted) {
+      return res.status(404).json({ success: false, message: 'Note not found or unauthorized' });
+    }
     res.json({ success: true, message: 'Note deleted' });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -136,22 +165,25 @@ router.delete('/notes/:id', async (req: Request, res: Response) => {
 });
 
 // --- DOUBTS ---
-router.get('/doubts', async (req: Request, res: Response) => {
+// GET /doubts - Retrieve doubts for caller
+router.get('/doubts', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.query.userId as string) || 'usr-default';
-    const doubts = await Doubt.find({ userId }).sort({ createdAt: -1 });
+    const isAdmin = req.user?.role === 'admin';
+    const filter = isAdmin && req.query.userId ? { userId: req.query.userId as string } : (isAdmin ? {} : { userId: req.userId });
+    const doubts = await Doubt.find(filter).sort({ createdAt: -1 });
     res.json({ success: true, doubts });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
 });
 
-router.post('/doubts', async (req: Request, res: Response) => {
+// POST /doubts - Submit doubt for authenticated caller
+router.post('/doubts', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const { userId = 'usr-default', questionId, subject, chapter, topic, message } = req.body;
+    const { questionId, subject, chapter, topic, message } = req.body;
     const doubt = new Doubt({
       id: `dbt-${Date.now()}`,
-      userId,
+      userId: req.userId,
       questionId,
       subject,
       chapter,
@@ -167,7 +199,8 @@ router.post('/doubts', async (req: Request, res: Response) => {
 });
 
 // --- REPORTS ---
-router.get('/reports', async (req: Request, res: Response) => {
+// GET /reports - Admin only inspection of question reports
+router.get('/reports', authenticateUser, requireAdmin, async (_req: Request, res: Response) => {
   try {
     const reports = await QuestionReport.find().sort({ createdAt: -1 });
     res.json({ success: true, reports });
@@ -176,9 +209,11 @@ router.get('/reports', async (req: Request, res: Response) => {
   }
 });
 
-router.post('/reports', async (req: Request, res: Response) => {
+// POST /reports - Report a question
+router.post('/reports', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
-    const { userId = 'usr-default', questionId, reason, message } = req.body;
+    const { questionId, reason, message } = req.body;
+    const userId = req.userId || 'anonymous';
     const report = new QuestionReport({
       id: `rep-${Date.now()}`,
       userId,
@@ -194,7 +229,8 @@ router.post('/reports', async (req: Request, res: Response) => {
   }
 });
 
-router.patch('/reports/:id', async (req: Request, res: Response) => {
+// PATCH /reports/:id - Admin only resolution of question reports
+router.patch('/reports/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const allowed = pickFields(req.body, REPORT_FIELDS);
     if (req.body.status === 'Resolved') allowed.resolvedAt = new Date();
@@ -203,6 +239,9 @@ router.patch('/reports/:id', async (req: Request, res: Response) => {
       { $set: allowed },
       { new: true }
     );
+    if (!report) {
+      return res.status(404).json({ success: false, message: 'Report not found' });
+    }
     res.json({ success: true, report });
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
@@ -210,21 +249,14 @@ router.patch('/reports/:id', async (req: Request, res: Response) => {
 });
 
 // --- USER & PROFILE ---
-router.get('/user/profile', async (req: Request, res: Response) => {
+// GET /user/profile - Safe profile retrieval for authenticated user
+router.get('/user/profile', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.query.userId as string) || 'usr-default';
-    let user = await User.findOne({ id: userId });
+    const isAdmin = req.user?.role === 'admin';
+    const targetUserId = (isAdmin && req.query.userId) ? (req.query.userId as string) : req.userId;
+    const user = await User.findOne({ id: targetUserId });
     if (!user) {
-      user = new User({
-        id: userId,
-        name: 'Aman Sharma',
-        email: 'aman.sharma@example.com',
-        targetExam: 'JEE',
-        classLevel: '12',
-        dreamScore: 280,
-        streakDays: 12
-      });
-      await user.save();
+      return res.status(404).json({ success: false, message: 'User not found' });
     }
     res.json({ success: true, user });
   } catch (error: any) {
@@ -232,15 +264,20 @@ router.get('/user/profile', async (req: Request, res: Response) => {
   }
 });
 
-router.patch('/user/profile', async (req: Request, res: Response) => {
+// PATCH /user/profile - Safe profile update (isolated to caller, mass assignment protected)
+router.patch('/user/profile', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
-    const userId = (req.body.userId as string) || 'usr-default';
-    // Only allow safe profile fields — never role, passwordHash, otpCode, etc.
+    const isAdmin = req.user?.role === 'admin';
+    const targetUserId = (isAdmin && req.body.userId) ? (req.body.userId as string) : req.userId;
+    // Only allow safe profile fields — never role, passwordHash, otpCode, sessions, etc.
     const user = await User.findOneAndUpdate(
-      { id: userId },
+      { id: targetUserId },
       { $set: pickFields(req.body, PROFILE_FIELDS) },
-      { new: true, upsert: true }
+      { new: true }
     );
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
     res.json({ success: true, user });
   } catch (error: any) {
     res.status(400).json({ success: false, message: error.message });
@@ -277,8 +314,8 @@ router.post('/video-views/track', optionalAuth, async (req: AuthRequest, res: Re
   }
 });
 
-// --- VIDEO LECTURE STATS (FOR ADMIN ANALYTICS) ---
-router.get('/video-views/stats', async (req: Request, res: Response) => {
+// --- VIDEO LECTURE STATS (FOR ADMIN ANALYTICS ONLY) ---
+router.get('/video-views/stats', authenticateUser, requireAdmin, async (_req: Request, res: Response) => {
   try {
     const totalViews = await VideoWatchLog.countDocuments();
 

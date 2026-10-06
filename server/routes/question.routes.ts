@@ -5,6 +5,7 @@ import QuestionVersion from '../models/QuestionVersion.js';
 import AuditLog from '../models/AuditLog.js';
 import { compareQuestions } from '../utils/similarity.js';
 import { questionRepo } from '../services/questionRepository.js';
+import { authenticateUser, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -439,7 +440,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // POST /api/questions - Create new question (Admin)
-router.post('/', async (req: Request, res: Response) => {
+router.post('/', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const data = req.body;
     const id = data.id || `q-mongo-${Date.now()}`;
@@ -465,7 +466,7 @@ router.post('/', async (req: Request, res: Response) => {
 });
 
 // PATCH /api/questions/bulk-edit - Bulk edit multiple questions (MUST be before /:id route)
-router.patch('/bulk-edit', async (req: Request, res: Response) => {
+router.patch('/bulk-edit', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { questionIds, updates, adminEmail } = req.body;
 
@@ -510,7 +511,7 @@ router.patch('/bulk-edit', async (req: Request, res: Response) => {
 });
 
 // PATCH /api/questions/:id - Update question with versioning & audit trail
-router.patch('/:id', async (req: Request, res: Response) => {
+router.patch('/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const existing = await Question.findOne({ id: req.params.id });
     if (!existing) {
@@ -576,7 +577,7 @@ router.patch('/:id', async (req: Request, res: Response) => {
 });
 
 // POST /api/questions/bulk-import - Bulk import questions with validation
-router.post('/bulk-import', async (req: Request, res: Response) => {
+router.post('/bulk-import', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { questions, adminEmail } = req.body;
 
@@ -699,7 +700,7 @@ router.post('/bulk-import', async (req: Request, res: Response) => {
 });
 
 // DELETE /api/questions/:id - Delete question (Admin)
-router.delete('/:id', async (req: Request, res: Response) => {
+router.delete('/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const deleted = await Question.findOneAndDelete({ id: req.params.id });
     if (!deleted) {

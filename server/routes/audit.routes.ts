@@ -1,7 +1,12 @@
 import express, { Request, Response } from 'express';
 import AuditLog from '../models/AuditLog.js';
+import { authenticateUser, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
+
+// CRITICAL SECURITY GUARD: Audit logs are sensitive internal records
+router.use(authenticateUser);
+router.use(requireAdmin);
 
 // GET /api/audit - List audit logs with filters & search
 router.get('/', async (req: Request, res: Response) => {

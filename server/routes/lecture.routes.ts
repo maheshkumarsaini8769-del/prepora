@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import Lecture from '../models/Lecture.js';
 import YouTubeDiscoveryService from '../services/youtubeDiscoveryService.js';
-import { requireAdmin, optionalAuth } from '../middleware/auth.js';
+import { authenticateUser, requireAdmin, optionalAuth } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -105,7 +105,7 @@ router.get('/discovery', optionalAuth, async (req: Request, res: Response) => {
 // ==========================================
 // 3. ADMIN: APPROVE CANDIDATE LECTURE
 // ==========================================
-router.post('/approve', requireAdmin, async (req: Request, res: Response) => {
+router.post('/approve', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const {
       youtubeVideoId,
@@ -177,7 +177,7 @@ router.post('/approve', requireAdmin, async (req: Request, res: Response) => {
 // ==========================================
 // 4. ADMIN: MANUAL LECTURE ADD BY URL
 // ==========================================
-router.post('/manual', requireAdmin, async (req: Request, res: Response) => {
+router.post('/manual', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const {
       youtubeUrl,
@@ -250,7 +250,7 @@ router.post('/manual', requireAdmin, async (req: Request, res: Response) => {
 // ==========================================
 // 5. ADMIN: LECTURE HEALTH DASHBOARD STATS
 // ==========================================
-router.get('/health', requireAdmin, async (_req: Request, res: Response) => {
+router.get('/health', authenticateUser, requireAdmin, async (_req: Request, res: Response) => {
   try {
     const total = await Lecture.countDocuments();
     const approved = await Lecture.countDocuments({ approvalStatus: 'APPROVED' });
@@ -277,7 +277,7 @@ router.get('/health', requireAdmin, async (_req: Request, res: Response) => {
 // ==========================================
 // 6. ADMIN: UPDATE / DELETE LECTURE
 // ==========================================
-router.put('/:id', requireAdmin, async (req: Request, res: Response) => {
+router.put('/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const updated = await Lecture.findOneAndUpdate(
@@ -294,7 +294,7 @@ router.put('/:id', requireAdmin, async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/:id', requireAdmin, async (req: Request, res: Response) => {
+router.delete('/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await Lecture.findOneAndDelete({ $or: [{ id }, { _id: id }] });
