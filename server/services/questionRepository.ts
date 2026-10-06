@@ -67,18 +67,6 @@ export class QuestionRepository {
               if (q && q.id) {
                 this.questions.push(q);
                 this.idMap.set(q.id, q);
-
-                // Deterministic high-yield practice variant: expands bank to 1 Lakh+ (103,330 Qs)
-                // without consuming any MongoDB storage or extra disk space!
-                const variantId = `${q.id}-v2`;
-                const variantQ = {
-                  ...q,
-                  id: variantId,
-                  source: q.source === 'Official PYQ' ? 'PYQ Practice Variant' : (q.source || 'Prepora Question Bank'),
-                  isVariant: true
-                };
-                this.questions.push(variantQ);
-                this.idMap.set(variantId, variantQ);
               }
             }
           }
@@ -89,7 +77,7 @@ export class QuestionRepository {
     }
 
     this.isLoaded = true;
-    console.log(`[QuestionRepository] Successfully indexed ${this.questions.length} questions in memory (Expanded 1 Lakh+ Bank).`);
+    console.log(`[QuestionRepository] Successfully indexed ${this.questions.length} questions in memory (Question Bank).`);
   }
 
   public getAll(): any[] {
@@ -99,12 +87,26 @@ export class QuestionRepository {
 
   public getById(id: string): any | undefined {
     this.load();
-    return this.idMap.get(id);
+    const direct = this.idMap.get(id);
+    if (direct) return direct;
+    if (id && id.endsWith('-v2')) {
+      const baseId = id.slice(0, -3);
+      const base = this.idMap.get(baseId);
+      if (base) {
+        return {
+          ...base,
+          id,
+          source: base.source === 'Official PYQ' ? 'PYQ Practice Variant' : (base.source || 'Prepora Question Bank'),
+          isVariant: true
+        };
+      }
+    }
+    return undefined;
   }
 
   public getByIds(ids: string[]): any[] {
     this.load();
-    return ids.map(id => this.idMap.get(id)).filter(Boolean);
+    return ids.map(id => this.getById(id)).filter(Boolean);
   }
 
   public count(filters: QuestionFilterOptions = {}): number {
@@ -224,15 +226,25 @@ export class QuestionRepository {
   public async hydrateFromMongo(model: any): Promise<number> {
     this.load();
     try {
-      const repoIds = new Set(this.questions.map(q => q.id));
-      const mongoOnly = await model.find({ id: { $nin: Array.from(repoIds) } }).lean();
       let added = 0;
-      for (const doc of mongoOnly) {
-        const q = { ...doc, id: doc.id || String(doc._id) };
-        if (!this.idMap.has(q.id)) {
-          this.questions.push(q);
-          this.idMap.set(q.id, q);
-          added++;
+      // Projection with cursor to avoid memory spikes
+      const cursor = model.find({}, { id: 1 }).cursor();
+      const missingIds: string[] = [];
+      for await (const doc of cursor) {
+        const id = doc.id || String(doc._id);
+        if (!this.idMap.has(id)) {
+          missingIds.push(id);
+        }
+      }
+      if (missingIds.length > 0) {
+        const mongoOnly = await model.find({ id: { $in: missingIds } }).lean();
+        for (const doc of mongoOnly) {
+          const q = { ...doc, id: doc.id || String(doc._id) };
+          if (!this.idMap.has(q.id)) {
+            this.questions.push(q);
+            this.idMap.set(q.id, q);
+            added++;
+          }
         }
       }
       if (added > 0) console.log(`[QuestionRepository] Hydrated ${added} Mongo-only questions into memory bank.`);

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -71,7 +71,22 @@ export const TestReview: React.FC = () => {
     );
   }
 
-  const allQuestions = questionService.getQuestionsByIds(Object.keys(attempt.answers));
+  const [asyncQuestions, setAsyncQuestions] = useState<Question[]>(() =>
+    questionService.getQuestionsByIds(Object.keys(attempt.answers))
+  );
+
+  useEffect(() => {
+    const qIds = Object.keys(attempt.answers);
+    if (asyncQuestions.length < qIds.length) {
+      questionService.getQuestionsByIdsAsync(qIds).then(qs => {
+        if (qs && qs.length > 0) setAsyncQuestions(qs);
+      });
+    }
+  }, [attempt.answers]);
+
+  const allQuestions = asyncQuestions.length > 0
+    ? asyncQuestions
+    : questionService.getQuestionsByIds(Object.keys(attempt.answers));
 
   // Filter questions
   const filteredQuestions = allQuestions.filter(q => {

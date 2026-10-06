@@ -1,10 +1,12 @@
 import express, { Request, Response } from 'express';
+import mongoose from 'mongoose';
 import TestAttempt from '../models/TestAttempt.js';
 import Test from '../models/Test.js';
 import Question from '../models/Question.js';
 import User from '../models/User.js';
 import { Mistake } from '../models/Entities.js';
 import { optionalAuth, AuthRequest } from '../middleware/auth.js';
+import { questionRepo } from '../services/questionRepository.js';
 
 const router = express.Router();
 
@@ -67,8 +69,26 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
       return res.status(404).json({ success: false, message: 'Test not found' });
     }
 
-    const questions = await Question.find({ id: { $in: test.questionIds } });
-    const questionMap = new Map(questions.map(q => [q.id, q]));
+    // 1. Populate from in-memory questionRepo (covers all bank questions & -v2 variants)
+    const repoQuestions = questionRepo.getByIds(test.questionIds);
+    const questionMap = new Map<string, any>();
+    for (const q of repoQuestions) {
+      if (q && q.id) questionMap.set(String(q.id), q);
+    }
+
+    // 2. Overlay from MongoDB Question collection (for admin-created/edited questions)
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const mongoQuestions = await Question.find({ id: { $in: test.questionIds } }).lean();
+        for (const q of mongoQuestions) {
+          if (q && (q as any).id) {
+            questionMap.set(String((q as any).id), q);
+          }
+        }
+      } catch (err) {
+        console.warn('[Attempt] MongoDB question lookup warning:', err);
+      }
+    }
 
     let correctCount = 0;
     let wrongCount = 0;

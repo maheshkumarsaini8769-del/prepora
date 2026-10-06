@@ -4,6 +4,7 @@ import Test from '../models/Test.js';
 import Question from '../models/Question.js';
 import TestAttempt from '../models/TestAttempt.js';
 import { questionRepo } from '../services/questionRepository.js';
+import { optionalAuth, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -30,12 +31,29 @@ router.get('/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ success: false, message: 'Test not found' });
     }
 
-    // Populate question objects
-    const questions = await Question.find({ id: { $in: test.questionIds } });
-    
-    // Maintain test question order
-    const qMap = new Map(questions.map(q => [q.id, q]));
-    const orderedQuestions = test.questionIds.map(id => qMap.get(id)).filter(Boolean);
+    // 1. Populate from in-memory questionRepo (covers all bank questions & -v2 variants)
+    const repoQuestions = questionRepo.getByIds(test.questionIds);
+    const qMap = new Map<string, any>();
+    for (const q of repoQuestions) {
+      if (q && q.id) qMap.set(String(q.id), q);
+    }
+
+    // 2. Overlay from MongoDB Question collection (for admin-created/edited questions)
+    if (mongoose.connection.readyState === 1) {
+      try {
+        const mongoQuestions = await Question.find({ id: { $in: test.questionIds } }).lean();
+        for (const q of mongoQuestions) {
+          if (q && (q as any).id) {
+            qMap.set(String((q as any).id), q);
+          }
+        }
+      } catch (err) {
+        console.warn('[Tests] MongoDB overlay query warning:', err);
+      }
+    }
+
+    // Maintain test question order and ensure every question is present
+    const orderedQuestions = test.questionIds.map(id => qMap.get(String(id))).filter(Boolean);
 
     res.json({ success: true, test, questions: orderedQuestions });
   } catch (error: any) {
@@ -44,7 +62,7 @@ router.get('/:id', async (req: Request, res: Response) => {
 });
 
 // POST /api/tests/build-custom - Dynamic test creation
-router.post('/build-custom', async (req: Request, res: Response) => {
+router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Response) => {
   try {
     const {
       title,

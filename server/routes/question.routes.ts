@@ -385,15 +385,29 @@ router.post('/by-ids', async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Array of ids required.' });
     }
 
+    // 1. Populate from in-memory questionRepo (all bank questions & -v2 variants)
+    const repoQuestions = questionRepo.getByIds(ids);
+    const qMap = new Map<string, any>();
+    for (const q of repoQuestions) {
+      if (q && q.id) qMap.set(String(q.id), q);
+    }
+
+    // 2. Overlay from MongoDB Question collection (for admin-created/edited/AI questions)
     if (mongoose.connection.readyState === 1) {
-      const questions = await Question.find({ id: { $in: ids } }).lean();
-      if (questions.length > 0) {
-        return res.json({ success: true, questions });
+      try {
+        const mongoQuestions = await Question.find({ id: { $in: ids } }).lean();
+        for (const q of mongoQuestions) {
+          if (q && (q as any).id) {
+            qMap.set(String((q as any).id), q);
+          }
+        }
+      } catch (err) {
+        console.warn('[Questions] MongoDB overlay query warning:', err);
       }
     }
 
-    const questions = questionRepo.getByIds(ids);
-    res.json({ success: true, questions });
+    const orderedQuestions = ids.map(id => qMap.get(String(id))).filter(Boolean);
+    res.json({ success: true, questions: orderedQuestions });
   } catch (error: any) {
     const questions = questionRepo.getByIds(req.body?.ids || []);
     res.json({ success: true, questions });

@@ -37,8 +37,19 @@ export const ExamSession: React.FC = () => {
   const navigate = useNavigate();
   const { user, token } = useAuth();
 
-  // Memoize test lookup strictly by id so reference does not change on re-render
-  const test = useMemo(() => testService.getTestById(id || ''), [id]);
+  // Test state with fallback to server fetch if not in local memory
+  const [test, setTest] = useState<Test | undefined>(() => testService.getTestById(id || ''));
+
+  useEffect(() => {
+    if (!test && id) {
+      testService.getTestByIdAsync(id).then(res => {
+        if (res?.test) {
+          setTest(res.test);
+        }
+      });
+    }
+  }, [id, test]);
+
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [answers, setAnswers] = useState<Record<string, TestAnswer>>({});
@@ -75,7 +86,12 @@ export const ExamSession: React.FC = () => {
     const loadExamQuestions = async () => {
       let qs: Question[] = [];
       if (test.questionIds && test.questionIds.length > 0) {
-        qs = await questionService.getQuestionsByIdsAsync(test.questionIds);
+        const testData = await testService.getTestByIdAsync(test.id);
+        if (testData?.questions && testData.questions.length > 0) {
+          qs = testData.questions;
+        } else {
+          qs = await questionService.getQuestionsByIdsAsync(test.questionIds);
+        }
         qs = qs.slice(0, test.totalQuestions);
       }
 

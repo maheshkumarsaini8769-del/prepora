@@ -443,9 +443,13 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Mobile number is required.' });
     }
 
-    const cleanMobile = targetIdentifier.replace(/[^0-9]/g, '').slice(-10);
-    if (!cleanMobile || cleanMobile.length !== 10) {
+    const digitsOnly = targetIdentifier.replace(/[^0-9]/g, '');
+    if (digitsOnly.length < 10 || digitsOnly.length > 13) {
       return res.status(400).json({ success: false, message: 'Please provide a valid 10-digit mobile number for WhatsApp verification.' });
+    }
+    const cleanMobile = digitsOnly.slice(-10);
+    if (/^(\d)\1{9}$/.test(cleanMobile)) {
+      return res.status(400).json({ success: false, message: 'Please provide a valid 10-digit mobile number (repeated digits not allowed).' });
     }
 
     // Check if mobile number is suspended/blocked by admin
@@ -490,9 +494,13 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Mobile number and OTP are required.' });
     }
 
-    const cleanMobile = targetIdentifier.replace(/[^0-9]/g, '').slice(-10);
-    if (!cleanMobile || cleanMobile.length !== 10) {
+    const digitsOnly = targetIdentifier.replace(/[^0-9]/g, '');
+    if (digitsOnly.length < 10 || digitsOnly.length > 13) {
       return res.status(400).json({ success: false, message: 'Valid 10-digit mobile number is required.' });
+    }
+    const cleanMobile = digitsOnly.slice(-10);
+    if (/^(\d)\1{9}$/.test(cleanMobile)) {
+      return res.status(400).json({ success: false, message: 'Please enter a valid mobile number (repeated digits not allowed).' });
     }
 
     const verifyResult = whatsappOTPService.verifyOTP(cleanMobile, otp);
