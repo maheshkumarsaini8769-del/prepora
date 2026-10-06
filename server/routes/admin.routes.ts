@@ -148,16 +148,38 @@ router.get('/stats', async (req: Request, res: Response) => {
         }).select('id studentId name phone mobile email targetExam classLevel avatar role studyTimeMinutes').lean()
       : [];
 
-    const liveStudents = (onlineSessionsDocs as any[]).map(s => {
+    // Enrich live online students (deduplicate strictly by phone and exclude admin accounts)
+    const seenLivePhones = new Set<string>();
+    const seenLiveUserIds = new Set<string>();
+    const liveStudents: any[] = [];
+
+    for (const s of (onlineSessionsDocs as any[])) {
       const u = onlineUsers.find(user => user.id === s.userId || user.studentId === s.studentId);
-      const sessionDurationMinutes = Math.max(1, Math.round((new Date(s.lastActive).getTime() - new Date(s.createdAt).getTime()) / 60000));
+      const cleanPhone = (u?.mobile || u?.phone || s.mobile || s.phone || '').replace(/[^0-9]/g, '').slice(-10);
+
+      // Exclude admin accounts and owner phone from student monitoring table
+      if (u?.role === 'admin' || cleanPhone === '7742735762') {
+        continue;
+      }
+
+      const uid = String(u?.id || s.userId || '');
+      if (cleanPhone.length === 10) {
+        if (seenLivePhones.has(cleanPhone)) continue;
+        seenLivePhones.add(cleanPhone);
+      } else if (uid) {
+        if (seenLiveUserIds.has(uid)) continue;
+        seenLiveUserIds.add(uid);
+      }
+
+      const sessionDurationMinutes = Math.max(1, Math.round((new Date(s.lastActive || Date.now()).getTime() - new Date(s.createdAt).getTime()) / 60000));
       const lastActiveAgoSeconds = Math.max(0, Math.round((Date.now() - new Date(s.lastActive).getTime()) / 1000));
-      return {
+
+      liveStudents.push({
         sessionId: s.id,
         userId: u?.id || s.userId,
         studentId: u?.studentId || s.studentId || s.userId,
         name: u?.name || 'Student',
-        phone: u?.mobile || u?.phone || s.mobile || s.phone || '',
+        phone: cleanPhone || u?.mobile || u?.phone || '',
         email: u?.email || '',
         targetExam: u?.targetExam || 'JEE',
         classLevel: u?.classLevel || '12',
@@ -169,8 +191,8 @@ router.get('/stats', async (req: Request, res: Response) => {
         lastActiveAgoSeconds,
         lastActive: s.lastActive,
         startedAt: s.createdAt
-      };
-    });
+      });
+    }
 
     // Calculate aggregate score & accuracy
     const attemptsAgg = await TestAttempt.aggregate([
@@ -515,31 +537,47 @@ router.post('/students/:id/force-logout', async (req: Request, res: Response) =>
     const adminUser = (req as AuthRequest).user;
     const now = new Date();
 
-    const targetUser = await User.findOne({
-      $or: [{ id }, { studentId: id }, { mobile: id }, { phone: id }]
+    let targetUser = await User.findOne({
+      $or: [{ id }, { studentId: id }, { mobile: id }, { phone: id }, { mobile: { $regex: id + '$' } }]
     });
+
     if (!targetUser) {
-      return res.status(404).json({ success: false, message: 'Student not found.' });
+      const sess = await Session.findOne({ $or: [{ id }, { sessionId: id }] });
+      if (sess) {
+        targetUser = await User.findOne({
+          $or: [{ id: sess.userId }, { studentId: sess.userId }, { id: sess.studentId }, { studentId: sess.studentId }]
+        });
+      }
     }
 
-    const cleanPhone = (targetUser.mobile || targetUser.phone || '').replace(/[^0-9]/g, '').slice(-10);
     const revokeOr: any[] = [
-      { userId: targetUser.id },
-      { studentId: targetUser.id }
+      { id },
+      { sessionId: id }
     ];
-    if (targetUser.studentId) {
-      revokeOr.push({ userId: targetUser.studentId }, { studentId: targetUser.studentId });
-    }
-    if (cleanPhone.length === 10) {
+
+    if (targetUser) {
+      const cleanPhone = (targetUser.mobile || targetUser.phone || '').replace(/[^0-9]/g, '').slice(-10);
       revokeOr.push(
-        { phone: cleanPhone },
-        { mobile: cleanPhone },
-        { phone: { $regex: cleanPhone + '$' } },
-        { mobile: { $regex: cleanPhone + '$' } }
+        { userId: targetUser.id },
+        { studentId: targetUser.id }
       );
+      if (targetUser.studentId) {
+        revokeOr.push({ userId: targetUser.studentId }, { studentId: targetUser.studentId });
+      }
+      if (targetUser._id) {
+        revokeOr.push({ userId: String(targetUser._id) });
+      }
+      if (cleanPhone.length === 10) {
+        revokeOr.push(
+          { phone: cleanPhone },
+          { mobile: cleanPhone },
+          { phone: { $regex: cleanPhone + '$' } },
+          { mobile: { $regex: cleanPhone + '$' } }
+        );
+      }
     }
 
-    // Revoke all active sessions for this student across userId, studentId, and phone
+    // Revoke all active sessions immediately
     const revokedResult = await Session.updateMany(
       { $or: revokeOr, isRevoked: false },
       {
@@ -2276,17 +2314,30 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
 
     const loggedInCount = list.filter(u => u.loginCount > 0).length;
 
-    // Recent logins — who logged in just now (name, number, time, device)
-    const recentLogins = (sessions as any[]).slice(0, 12).map(s => {
+    // Recent logins — who logged in just now (strictly deduplicated by phone and userId so same user never appears twice)
+    const recentLogins: any[] = [];
+    const seenRecentPhones = new Set<string>();
+    const seenRecentUserIds = new Set<string>();
+    for (const s of (sessions as any[])) {
       const u = dedupedUsers.find(x => String(x.id) === String(s.userId) || String(x.studentId) === String(s.studentId));
-      return {
-        name: u?.name || 'Unknown',
-        phone: u?.mobile || u?.phone || '',
+      const p = (u?.mobile || u?.phone || s.mobile || s.phone || '').replace(/[^0-9]/g, '').slice(-10);
+      const uid = String(u?.id || s.userId || u?.studentId || s.studentId || '');
+      if (p.length === 10) {
+        if (seenRecentPhones.has(p)) continue;
+        seenRecentPhones.add(p);
+      } else if (uid) {
+        if (seenRecentUserIds.has(uid)) continue;
+        seenRecentUserIds.add(uid);
+      }
+      recentLogins.push({
+        name: u?.name || (p ? `User ${p.slice(-4)}` : 'Unknown'),
+        phone: p || u?.mobile || u?.phone || '',
         when: s.lastActive || s.createdAt,
         device: s.deviceInfo?.device || s.deviceInfo?.browser || 'Web',
         ip: s.ipAddress || ''
-      };
-    });
+      });
+      if (recentLogins.length >= 12) break;
+    }
 
     res.json({
       success: true,

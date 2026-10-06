@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { Users, KeyRound, UserCheck, UserX, RefreshCw, Search } from 'lucide-react';
-import { adminFetch } from '../../utils/adminApi';
+import { adminFetch, getAdminCachedData, setAdminCachedData } from '../../utils/adminApi';
 
 interface U {
   sno: number; id: string; name: string; phone: string; email: string;
@@ -9,18 +9,31 @@ interface U {
 }
 
 const AdminUsers: React.FC = () => {
-  const [stats, setStats] = useState<any>(null);
-  const [users, setUsers] = useState<U[]>([]);
-  const [recent, setRecent] = useState<any[]>([]);
+  const [stats, setStats] = useState<any>(() => getAdminCachedData('admin_users_stats'));
+  const [users, setUsers] = useState<U[]>(() => getAdminCachedData<U[]>('admin_users_list') || []);
+  const [recent, setRecent] = useState<any[]>(() => getAdminCachedData<any[]>('admin_users_recent') || []);
   const [q, setQ] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => !getAdminCachedData('admin_users_list'));
 
   const load = useCallback(async (search?: string) => {
-    setLoading(true);
+    const cacheKeyUsers = search ? `admin_users_list_${search.trim()}` : 'admin_users_list';
+    const cachedUsers = getAdminCachedData<U[]>(cacheKeyUsers);
+    if (cachedUsers && cachedUsers.length > 0) {
+      setUsers(cachedUsers);
+    } else {
+      setLoading(true);
+    }
     try {
       const res = await adminFetch(`/api/admin/users-overview${search ? `?search=${encodeURIComponent(search)}` : ''}`);
       const d = await res.json();
-      setStats(d.stats); setUsers(d.users || []); setRecent(d.recentLogins || []);
+      setStats(d.stats);
+      setUsers(d.users || []);
+      setRecent(d.recentLogins || []);
+      if (!search) {
+        setAdminCachedData('admin_users_stats', d.stats);
+        setAdminCachedData('admin_users_recent', d.recentLogins || []);
+      }
+      setAdminCachedData(cacheKeyUsers, d.users || []);
     } catch { /* keep old data */ }
     setLoading(false);
   }, []);

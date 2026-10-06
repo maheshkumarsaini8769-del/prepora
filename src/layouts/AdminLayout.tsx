@@ -76,6 +76,31 @@ export const AdminLayout: React.FC = () => {
     return () => clearInterval(timer);
   }, []);
 
+  // Preload all admin sub-page chunks in background so tab switching is instantaneous (0ms loading)
+  useEffect(() => {
+    const preloadAdminPages = () => {
+      import('../pages/admin/AdminDashboard');
+      import('../pages/admin/AdminStudents');
+      import('../pages/admin/AdminUsers');
+      import('../pages/admin/AdminQuestions');
+      import('../pages/admin/AdminTests');
+      import('../pages/admin/AdminPapers');
+      import('../pages/admin/AdminAIFactory');
+      import('../pages/admin/AdminAnalytics');
+      import('../pages/admin/AdminReports');
+      import('../pages/admin/AdminSystemSecurity');
+      import('../pages/admin/AdminSettingsPage');
+    };
+
+    if (typeof window !== 'undefined') {
+      if ('requestIdleCallback' in window) {
+        (window as any).requestIdleCallback(preloadAdminPages);
+      } else {
+        setTimeout(preloadAdminPages, 80);
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const handleColorModeChange = (e: Event) => {
       const customEvent = e as CustomEvent<ColorMode>;

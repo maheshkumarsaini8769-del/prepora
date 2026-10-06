@@ -206,6 +206,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const handleRevoked = (e: any) => {
       const msg = e?.detail?.message || 'Your session has ended or was terminated by an administrator. Please log in again.';
       localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem('prepora_token');
       setToken(null);
       setUser(userService.getProfile());
       setSessionRevokedAlert({ open: true, message: msg });
@@ -213,6 +214,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const handleStorageChange = (e: StorageEvent) => {
       if (e.key === 'prepora_logout_signal' || (e.key === TOKEN_KEY && !e.newValue)) {
+        localStorage.removeItem(TOKEN_KEY);
+        localStorage.removeItem('prepora_token');
         setToken(null);
         setUser(userService.getProfile());
         setSessionRevokedAlert({
@@ -230,12 +233,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, []);
 
-  // Periodic and tab-visibility heartbeat session check (5s fast check for real-time single device enforcement & instant force logout)
+  // Fast 2s heartbeat session check for real-time instant force logout
   useEffect(() => {
     if (!token) return;
 
     const checkActiveSession = async () => {
-      const currentToken = localStorage.getItem(TOKEN_KEY);
+      const currentToken = localStorage.getItem(TOKEN_KEY) || localStorage.getItem('prepora_token');
       if (!currentToken) return;
 
       try {
@@ -246,6 +249,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           const errData = await res.json().catch(() => null);
           const msg = errData?.message || 'Your session has ended or was terminated by an administrator. Please log in again.';
           localStorage.removeItem(TOKEN_KEY);
+          localStorage.removeItem('prepora_token');
           try {
             localStorage.setItem('prepora_logout_signal', String(Date.now()));
           } catch {}
@@ -258,7 +262,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     };
 
-    const interval = setInterval(checkActiveSession, 5000);
+    const interval = setInterval(checkActiveSession, 2000);
 
     const handleVisibility = () => {
       if (document.visibilityState === 'visible') {

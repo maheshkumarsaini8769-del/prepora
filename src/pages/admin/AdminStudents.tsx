@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { adminFetch } from '../../utils/adminApi';
+import { adminFetch, getAdminCachedData, setAdminCachedData } from '../../utils/adminApi';
 import {
   Users,
   Search,
@@ -116,8 +116,12 @@ interface StudentDetailData {
 }
 
 export const AdminStudents: React.FC = () => {
-  const [students, setStudents] = useState<StudentListItem[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
+  const [students, setStudents] = useState<StudentListItem[]>(() => {
+    return getAdminCachedData<StudentListItem[]>('admin_students_list_all_all_') || [];
+  });
+  const [loading, setLoading] = useState<boolean>(() => {
+    return !getAdminCachedData<StudentListItem[]>('admin_students_list_all_all_');
+  });
   const [search, setSearch] = useState<string>('');
   const [examFilter, setExamFilter] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>(() => {
@@ -142,8 +146,14 @@ export const AdminStudents: React.FC = () => {
   const [blockReasonInput, setBlockReasonInput] = useState<string>('');
   const [blockingLoading, setBlockingLoading] = useState<boolean>(false);
 
-  const fetchStudents = async () => {
-    setLoading(true);
+  const fetchStudents = async (forceShowLoading = false) => {
+    const cacheKey = `admin_students_list_${examFilter}_${statusFilter}_${search.trim()}`;
+    const cached = getAdminCachedData<StudentListItem[]>(cacheKey);
+    if (cached && cached.length > 0) {
+      setStudents(cached);
+    } else if (forceShowLoading || students.length === 0) {
+      setLoading(true);
+    }
     setActionError('');
     try {
       const query = new URLSearchParams();
@@ -155,6 +165,7 @@ export const AdminStudents: React.FC = () => {
       const data = await res.json();
       if (data.success) {
         setStudents(data.data || []);
+        setAdminCachedData(cacheKey, data.data || []);
       }
     } catch (e: any) {
       setActionError('Failed to load students: ' + e.message);
@@ -315,7 +326,7 @@ export const AdminStudents: React.FC = () => {
         </div>
 
         <button
-          onClick={fetchStudents}
+          onClick={() => fetchStudents(true)}
           className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-200 dark:border-slate-700 transition active:scale-95 shadow-xs"
         >
           <RefreshCw className="w-3.5 h-3.5" />
@@ -442,7 +453,7 @@ export const AdminStudents: React.FC = () => {
           </select>
 
           <button
-            onClick={fetchStudents}
+            onClick={() => fetchStudents(true)}
             className="px-4 py-2.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl transition shadow-xs shrink-0"
           >
             Apply Filters

@@ -26,6 +26,7 @@ export async function apiRequest<T>(
 
       if (isAuthError && typeof window !== 'undefined') {
         localStorage.removeItem('prepora_auth_token');
+        localStorage.removeItem('prepora_token');
         try {
           localStorage.setItem('prepora_logout_signal', String(Date.now()));
         } catch {}

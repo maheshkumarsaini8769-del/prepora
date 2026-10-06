@@ -27,23 +27,25 @@ import {
   MessageSquarePlus,
   ArrowDownRight,
   ExternalLink,
-  CheckCircle2
+  CheckCircle2,
+  LogOut
 } from 'lucide-react';
-import { adminFetch } from '../../utils/adminApi';
+import { adminFetch, getAdminCachedData, setAdminCachedData } from '../../utils/adminApi';
 
 export const AdminDashboard: React.FC = () => {
-  const [loading, setLoading] = useState(true);
-  const [stats, setStats] = useState<any>(null);
+  const [stats, setStats] = useState<any>(() => getAdminCachedData('admin_stats'));
+  const [loading, setLoading] = useState<boolean>(() => !getAdminCachedData('admin_stats'));
   const [actionMessage, setActionMessage] = useState<string>('');
   const [refreshing, setRefreshing] = useState(false);
 
-  const fetchStats = async () => {
-    setRefreshing(true);
+  const fetchStats = async (isManual = false) => {
+    if (isManual) setRefreshing(true);
     try {
       const res = await adminFetch('/api/admin/stats');
       const data = await res.json();
       if (data.success) {
         setStats(data.data);
+        setAdminCachedData('admin_stats', data.data);
       }
     } catch (e) {
       console.error('Failed to fetch admin stats', e);
@@ -55,26 +57,26 @@ export const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchStats();
-    // Live telemetry heartbeat every 20 seconds
+    // Fast live telemetry heartbeat every 5 seconds so active students appear instantly
     const interval = setInterval(() => {
-      fetchStats();
-    }, 20000);
+      fetchStats(false);
+    }, 5000);
     return () => clearInterval(interval);
   }, []);
 
   const handleForceLogout = async (userId: string, studentName: string) => {
-    if (!window.confirm(`Are you sure you want to force logout ${studentName}? Their active session will terminate immediately.`)) {
+    if (!window.confirm(`Kya aap sach me ${studentName} ko force logout karna chahte hain? Unka active session turant terminate ho jayega.`)) {
       return;
     }
     try {
       const res = await adminFetch(`/api/admin/students/${userId}/force-logout`, { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        setActionMessage(`Student ${studentName} was forcefully logged out successfully.`);
-        fetchStats();
+        setActionMessage(`Student ${studentName} ko safaltapoorvak force logout kar diya gaya.`);
+        fetchStats(true);
         setTimeout(() => setActionMessage(''), 5000);
       } else {
-        alert(data.message || 'Failed to force logout');
+        alert(data.message || 'Force logout nahi ho paya');
       }
     } catch (e: any) {
       alert('Error: ' + e.message);
@@ -82,112 +84,29 @@ export const AdminDashboard: React.FC = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-300 pb-12">
+    <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-200 pb-12">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 shadow-xl">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-bold mb-2">
-            <Shield className="w-3.5 h-3.5" />
-            <span>PREPORA Mission Control</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black mb-2">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span>SUPER ADMIN CONTROL CENTER</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Admin Overview & Control Center</h1>
-          <p className="text-sm text-slate-400 mt-1 max-w-2xl">
-            Mission Control: Upload curriculum PDFs to generate questions, manage mock test blueprints, and track student mastery telemetry.
+          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
+            Live student telemetry monitor, curriculum questions bank, mock test management aur active session controls.
           </p>
         </div>
 
-        <button
-          onClick={fetchStats}
-          disabled={refreshing}
-          className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition self-start sm:self-auto"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin' : ''}`} />
-          <span>{refreshing ? 'Refreshing...' : 'Refresh Metrics'}</span>
-        </button>
-      </div>
-
-      {/* 3-STEP QUICK START WORKFLOW BANNER */}
-      <div className="p-6 rounded-2xl bg-gradient-to-r from-brand-950/60 via-slate-900 to-indigo-950/60 border border-brand-500/30 shadow-xl relative overflow-hidden">
-        <div className="flex items-center justify-between flex-wrap gap-2 mb-4">
-          <div>
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-brand-500/20 text-brand-300 text-[11px] font-black uppercase tracking-wider mb-1">
-              <Zap className="w-3.5 h-3.5" />
-              Admin Workflow (3 Simple Steps)
-            </div>
-            <h2 className="text-lg font-black text-white">How to Create Tests & Questions</h2>
-          </div>
-          <span className="text-xs text-slate-400">Follow these 3 simple steps:</span>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          {/* Step 1 */}
-          <Link
-            to="/admin/ai-factory"
-            className="p-4 rounded-xl bg-slate-900/90 border border-slate-750 hover:border-brand-500 hover:bg-slate-850/90 transition group flex flex-col justify-between relative"
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => fetchStats(true)}
+            disabled={refreshing}
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition cursor-pointer self-start sm:self-auto shadow-sm"
           >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="w-7 h-7 rounded-lg bg-brand-600/20 border border-brand-500/40 text-brand-400 text-xs font-black flex items-center justify-center">
-                  1
-                </span>
-                <UploadCloud className="w-5 h-5 text-brand-400 group-hover:scale-110 transition-transform" />
-              </div>
-              <h3 className="font-bold text-sm text-white group-hover:text-brand-300 transition">Step 1: Upload Source PDF</h3>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                Upload chapter textbook or notes PDF. AI automatically extracts core concepts and generates realistic questions.
-              </p>
-            </div>
-            <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] font-bold text-brand-400 flex items-center gap-1">
-              <span>Open AI Content Factory</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-
-          {/* Step 2 */}
-          <Link
-            to="/admin/questions"
-            className="p-4 rounded-xl bg-slate-900/90 border border-slate-750 hover:border-indigo-500 hover:bg-slate-850/90 transition group flex flex-col justify-between relative"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="w-7 h-7 rounded-lg bg-indigo-600/20 border border-indigo-500/40 text-indigo-400 text-xs font-black flex items-center justify-center">
-                  2
-                </span>
-                <ClipboardList className="w-5 h-5 text-indigo-400 group-hover:scale-110 transition-transform" />
-              </div>
-              <h3 className="font-bold text-sm text-white group-hover:text-indigo-300 transition">Step 2: Review & Approve Questions</h3>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                Inspect synthesized questions, verify 4 distinct options, edit explanations, and 1-click Approve to publish.
-              </p>
-            </div>
-            <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] font-bold text-indigo-400 flex items-center gap-1">
-              <span>Open Question Bank</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
-
-          {/* Step 3 */}
-          <Link
-            to="/admin/tests"
-            className="p-4 rounded-xl bg-slate-900/90 border border-slate-750 hover:border-emerald-500 hover:bg-slate-850/90 transition group flex flex-col justify-between relative"
-          >
-            <div>
-              <div className="flex items-center justify-between mb-3">
-                <span className="w-7 h-7 rounded-lg bg-emerald-600/20 border border-emerald-500/40 text-emerald-400 text-xs font-black flex items-center justify-center">
-                  3
-                </span>
-                <PlayCircle className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform" />
-              </div>
-              <h3 className="font-bold text-sm text-white group-hover:text-emerald-300 transition">Step 3: Create & Publish Mock Tests</h3>
-              <p className="text-xs text-slate-400 mt-1 leading-relaxed">
-                Assemble chapter-wise or full-length mock tests. Students immediately access and attempt them in real-time.
-              </p>
-            </div>
-            <div className="mt-3 pt-3 border-t border-slate-800 text-[11px] font-bold text-emerald-400 flex items-center gap-1">
-              <span>Open Tests & Mock Papers</span>
-              <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-            </div>
-          </Link>
+            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin text-emerald-400' : ''}`} />
+            <span>{refreshing ? 'Refreshing...' : 'Refresh Metrics'}</span>
+          </button>
         </div>
       </div>
 
@@ -377,11 +296,12 @@ export const AdminDashboard: React.FC = () => {
                       <div className="text-[10px] text-slate-400">{st.browser || 'Web Browser'}</div>
                     </td>
                     <td className="px-3.5 py-3">
-                      <div className="font-black text-emerald-600 dark:text-emerald-400">
-                        {st.sessionDurationMinutes} min{st.sessionDurationMinutes === 1 ? '' : 's'}
+                      <div className="font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                        <Clock className="w-3.5 h-3.5" />
+                        <span>{st.sessionDurationMinutes >= 60 ? `${Math.floor(st.sessionDurationMinutes / 60)}h ${st.sessionDurationMinutes % 60}m active` : `${st.sessionDurationMinutes} min se active`}</span>
                       </div>
                       <div className="text-[10px] text-slate-400 mt-0.5">
-                        Today: {st.todayStudyTimeMinutes || 0} mins study
+                        Aaj: {st.todayStudyTimeMinutes || 0} mins padhai
                       </div>
                     </td>
                     <td className="px-3.5 py-3 text-slate-500 dark:text-slate-400">
@@ -389,22 +309,23 @@ export const AdminDashboard: React.FC = () => {
                         st.lastActiveAgoSeconds < 30 ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                            Active now ({st.lastActiveAgoSeconds}s)
+                            Active now ({st.lastActiveAgoSeconds}s pehle)
                           </span>
                         ) : (
                           <span>{Math.round(st.lastActiveAgoSeconds / 60)} min pehle</span>
                         )
                       ) : (
-                        'Active just now'
+                        'Abhi active'
                       )}
                     </td>
                     <td className="px-3.5 py-3 text-right">
                       <button
-                        onClick={() => handleForceLogout(st.userId || st.studentId, st.name)}
-                        className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-300 font-black text-[10px] transition cursor-pointer border border-rose-200 dark:border-rose-900/60"
+                        onClick={() => handleForceLogout(st.userId || st.studentId || st.sessionId, st.name)}
+                        className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-300 font-black text-[10px] transition cursor-pointer border border-rose-200 dark:border-rose-900/60 flex items-center gap-1 ml-auto"
                         title="Is student ko turant logout karein"
                       >
-                        ⚡ Force Logout
+                        <LogOut className="w-3 h-3" />
+                        <span>Force Logout</span>
                       </button>
                     </td>
                   </tr>
@@ -413,6 +334,73 @@ export const AdminDashboard: React.FC = () => {
             </table>
           </div>
         )}
+      </div>
+
+      {/* Quick Mission Operations (Compact 4-Card Action Grid) */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
+        <Link
+          to="/admin/ai-factory"
+          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500 hover:shadow-md transition group flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between">
+            <span className="w-8 h-8 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-black">
+              <UploadCloud className="w-4 h-4" />
+            </span>
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400">PDF AI</span>
+          </div>
+          <div className="mt-3">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 transition">AI Content Factory</h3>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">PDF se question generate karein</p>
+          </div>
+        </Link>
+
+        <Link
+          to="/admin/questions"
+          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500 hover:shadow-md transition group flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between">
+            <span className="w-8 h-8 rounded-xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-black">
+              <ClipboardList className="w-4 h-4" />
+            </span>
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400">Review</span>
+          </div>
+          <div className="mt-3">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 transition">Question Bank</h3>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Questions check & approve karein</p>
+          </div>
+        </Link>
+
+        <Link
+          to="/admin/tests"
+          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500 hover:shadow-md transition group flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between">
+            <span className="w-8 h-8 rounded-xl bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-black">
+              <FileCheck2 className="w-4 h-4" />
+            </span>
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400">Mocks</span>
+          </div>
+          <div className="mt-3">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 transition">Tests & Mock Papers</h3>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Chapter-wise & full tests</p>
+          </div>
+        </Link>
+
+        <Link
+          to="/admin/students"
+          className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500 hover:shadow-md transition group flex flex-col justify-between"
+        >
+          <div className="flex items-center justify-between">
+            <span className="w-8 h-8 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black">
+              <Users className="w-4 h-4" />
+            </span>
+            <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400">Students</span>
+          </div>
+          <div className="mt-3">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 transition">Students Directory</h3>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Progress history & controls</p>
+          </div>
+        </Link>
       </div>
 
       {/* Grid: Content Health & Student Activity */}
