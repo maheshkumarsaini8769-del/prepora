@@ -2040,1374 +2040,6 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "verificationStatus": "VERIFIED"
   },
   {
-    "id": "JEE_MAIN|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "name": "Some Basic Concepts of Chemistry",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 1,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
-        "name": "Mole Concept & Molar Mass",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Mole Concept & Molar Mass - Core Theory & Derivation",
-          "Mole Concept & Molar Mass - Standard Formula Drill",
-          "Mole Concept & Molar Mass - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
-        "name": "Stoichiometry & Limiting Reagent",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stoichiometry & Limiting Reagent - Core Theory & Derivation",
-          "Stoichiometry & Limiting Reagent - Standard Formula Drill",
-          "Stoichiometry & Limiting Reagent - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
-        "name": "Empirical & Molecular Formula",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Empirical & Molecular Formula - Core Theory & Derivation",
-          "Empirical & Molecular Formula - Standard Formula Drill",
-          "Empirical & Molecular Formula - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLARITY_MOLALITY",
-        "name": "Molarity & Molality",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molarity & Molality - Core Theory & Derivation",
-          "Molarity & Molality - Standard Formula Drill",
-          "Molarity & Molality - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAW_OF_CHEMICAL_COMBINATION",
-        "name": "Law of Chemical Combination",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Law of Chemical Combination - Core Theory & Derivation",
-          "Law of Chemical Combination - Standard Formula Drill",
-          "Law of Chemical Combination - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|STRUCTURE_OF_ATOM",
-    "chapterId": "STRUCTURE_OF_ATOM",
-    "name": "Structure of Atom",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 2,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "STRUCTURE_OF_ATOM|BOHR_S_MODEL_RADII",
-        "name": "Bohr's Model & Radii",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Bohr's Model & Radii - Core Theory & Derivation",
-          "Bohr's Model & Radii - Standard Formula Drill",
-          "Bohr's Model & Radii - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|DE_BROGLIE_RELATION",
-        "name": "De Broglie Relation",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "De Broglie Relation - Core Theory & Derivation",
-          "De Broglie Relation - Standard Formula Drill",
-          "De Broglie Relation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|HEISENBERG_UNCERTAINTY_PRINCIPLE",
-        "name": "Heisenberg Uncertainty Principle",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heisenberg Uncertainty Principle - Core Theory & Derivation",
-          "Heisenberg Uncertainty Principle - Standard Formula Drill",
-          "Heisenberg Uncertainty Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|QUANTUM_NUMBERS",
-        "name": "Quantum Numbers",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Quantum Numbers - Core Theory & Derivation",
-          "Quantum Numbers - Standard Formula Drill",
-          "Quantum Numbers - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|AUFBAU_PAULI_HUND_S_RULE",
-        "name": "Aufbau, Pauli & Hund's Rule",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aufbau, Pauli & Hund's Rule - Core Theory & Derivation",
-          "Aufbau, Pauli & Hund's Rule - Standard Formula Drill",
-          "Aufbau, Pauli & Hund's Rule - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "chapterId": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "name": "Classification of Elements and Periodicity",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 3,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|MODERN_PERIODIC_TABLE",
-        "name": "Modern Periodic Table",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Modern Periodic Table - Core Theory & Derivation",
-          "Modern Periodic Table - Standard Formula Drill",
-          "Modern Periodic Table - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ATOMIC_IONIC_RADII_TRENDS",
-        "name": "Atomic & Ionic Radii Trends",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Atomic & Ionic Radii Trends - Core Theory & Derivation",
-          "Atomic & Ionic Radii Trends - Standard Formula Drill",
-          "Atomic & Ionic Radii Trends - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|IONIZATION_ENTHALPY",
-        "name": "Ionization Enthalpy",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ionization Enthalpy - Core Theory & Derivation",
-          "Ionization Enthalpy - Standard Formula Drill",
-          "Ionization Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRON_GAIN_ENTHALPY",
-        "name": "Electron Gain Enthalpy",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electron Gain Enthalpy - Core Theory & Derivation",
-          "Electron Gain Enthalpy - Standard Formula Drill",
-          "Electron Gain Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRONEGATIVITY_TRENDS",
-        "name": "Electronegativity Trends",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronegativity Trends - Core Theory & Derivation",
-          "Electronegativity Trends - Standard Formula Drill",
-          "Electronegativity Trends - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "chapterId": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "name": "Chemical Bonding and Molecular Structure",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 4,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|LEWIS_DOT_STRUCTURES",
-        "name": "Lewis Dot Structures",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Lewis Dot Structures - Core Theory & Derivation",
-          "Lewis Dot Structures - Standard Formula Drill",
-          "Lewis Dot Structures - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|VSEPR_THEORY_SHAPES",
-        "name": "VSEPR Theory & Shapes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "VSEPR Theory & Shapes - Core Theory & Derivation",
-          "VSEPR Theory & Shapes - Standard Formula Drill",
-          "VSEPR Theory & Shapes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYBRIDIZATION_SP_SP2_SP3_SP3D",
-        "name": "Hybridization (sp, sp2, sp3, sp3d)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hybridization (sp, sp2, sp3, sp3d) - Core Theory & Derivation",
-          "Hybridization (sp, sp2, sp3, sp3d) - Standard Formula Drill",
-          "Hybridization (sp, sp2, sp3, sp3d) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|MOLECULAR_ORBITAL_THEORY_MOT",
-        "name": "Molecular Orbital Theory (MOT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molecular Orbital Theory (MOT) - Core Theory & Derivation",
-          "Molecular Orbital Theory (MOT) - Standard Formula Drill",
-          "Molecular Orbital Theory (MOT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYDROGEN_BONDING_DIPOLE_MOMENT",
-        "name": "Hydrogen Bonding & Dipole Moment",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hydrogen Bonding & Dipole Moment - Core Theory & Derivation",
-          "Hydrogen Bonding & Dipole Moment - Standard Formula Drill",
-          "Hydrogen Bonding & Dipole Moment - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
-    "chapterId": "CHEMICAL_THERMODYNAMICS",
-    "name": "Chemical Thermodynamics",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 5,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HESS_S_LAW",
-        "name": "Enthalpy & Hess's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Enthalpy & Hess's Law - Core Theory & Derivation",
-          "Enthalpy & Hess's Law - Standard Formula Drill",
-          "Enthalpy & Hess's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTROPY_SECOND_LAW",
-        "name": "Entropy & Second Law",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Entropy & Second Law - Core Theory & Derivation",
-          "Entropy & Second Law - Standard Formula Drill",
-          "Entropy & Second Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_SPONTANEITY",
-        "name": "Gibbs Free Energy & Spontaneity",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Gibbs Free Energy & Spontaneity - Core Theory & Derivation",
-          "Gibbs Free Energy & Spontaneity - Standard Formula Drill",
-          "Gibbs Free Energy & Spontaneity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|HEAT_CAPACITY_CALORIMETRY",
-        "name": "Heat Capacity & Calorimetry",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heat Capacity & Calorimetry - Core Theory & Derivation",
-          "Heat Capacity & Calorimetry - Standard Formula Drill",
-          "Heat Capacity & Calorimetry - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|EQUILIBRIUM",
-    "chapterId": "EQUILIBRIUM",
-    "name": "Equilibrium",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 6,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "EQUILIBRIUM|LAW_OF_CHEMICAL_EQUILIBRIUM",
-        "name": "Law of Chemical Equilibrium",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Law of Chemical Equilibrium - Core Theory & Derivation",
-          "Law of Chemical Equilibrium - Standard Formula Drill",
-          "Law of Chemical Equilibrium - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
-        "name": "Le Chatelier's Principle",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Le Chatelier's Principle - Core Theory & Derivation",
-          "Le Chatelier's Principle - Standard Formula Drill",
-          "Le Chatelier's Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|ACID_BASE_CONCEPTS_ARRHENIUS_BRONSTED_LEWIS",
-        "name": "Acid-Base Concepts (Arrhenius, Bronsted, Lewis)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Core Theory & Derivation",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Standard Formula Drill",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|PH_BUFFER_SOLUTIONS",
-        "name": "pH & Buffer Solutions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "pH & Buffer Solutions - Core Theory & Derivation",
-          "pH & Buffer Solutions - Standard Formula Drill",
-          "pH & Buffer Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_KSP",
-        "name": "Solubility Product Ksp",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Solubility Product Ksp - Core Theory & Derivation",
-          "Solubility Product Ksp - Standard Formula Drill",
-          "Solubility Product Ksp - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|REDOX_REACTIONS",
-    "chapterId": "REDOX_REACTIONS",
-    "name": "Redox Reactions",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 7,
-    "weightage": "Low",
-    "topics": [
-      {
-        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_RULES",
-        "name": "Oxidation Numbers Rules",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Oxidation Numbers Rules - Core Theory & Derivation",
-          "Oxidation Numbers Rules - Standard Formula Drill",
-          "Oxidation Numbers Rules - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|BALANCING_REDOX_REACTIONS",
-        "name": "Balancing Redox Reactions",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Balancing Redox Reactions - Core Theory & Derivation",
-          "Balancing Redox Reactions - Standard Formula Drill",
-          "Balancing Redox Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|ELECTROCHEMICAL_SERIES",
-        "name": "Electrochemical Series",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electrochemical Series - Core Theory & Derivation",
-          "Electrochemical Series - Standard Formula Drill",
-          "Electrochemical Series - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|OXIDIZING_REDUCING_AGENTS",
-        "name": "Oxidizing & Reducing Agents",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Oxidizing & Reducing Agents - Core Theory & Derivation",
-          "Oxidizing & Reducing Agents - Standard Formula Drill",
-          "Oxidizing & Reducing Agents - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|DISPROPORTIONATION_REACTIONS",
-        "name": "Disproportionation Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Disproportionation Reactions - Core Theory & Derivation",
-          "Disproportionation Reactions - Standard Formula Drill",
-          "Disproportionation Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "name": "Organic Chemistry: Basic Principles and Techniques",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 8,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|IUPAC_NOMENCLATURE",
-        "name": "IUPAC Nomenclature",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Nomenclature - Core Theory & Derivation",
-          "IUPAC Nomenclature - Standard Formula Drill",
-          "IUPAC Nomenclature - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ISOMERISM_STRUCTURAL_STEREO",
-        "name": "Isomerism (Structural & Stereo)",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Isomerism (Structural & Stereo) - Core Theory & Derivation",
-          "Isomerism (Structural & Stereo) - Standard Formula Drill",
-          "Isomerism (Structural & Stereo) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ELECTRONIC_EFFECTS_INDUCTIVE_RESONANCE_HYPERCONJUGATION",
-        "name": "Electronic Effects (Inductive, Resonance, Hyperconjugation)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Core Theory & Derivation",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Standard Formula Drill",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|CARBOCATION_CARBANION_STABILITY",
-        "name": "Carbocation & Carbanion Stability",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbocation & Carbanion Stability - Core Theory & Derivation",
-          "Carbocation & Carbanion Stability - Standard Formula Drill",
-          "Carbocation & Carbanion Stability - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|PURIFICATION_QUALITATIVE_ANALYSIS",
-        "name": "Purification & Qualitative Analysis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Purification & Qualitative Analysis - Core Theory & Derivation",
-          "Purification & Qualitative Analysis - Standard Formula Drill",
-          "Purification & Qualitative Analysis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|11|HYDROCARBONS",
-    "chapterId": "HYDROCARBONS",
-    "name": "Hydrocarbons",
-    "examId": "JEE_MAIN",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 9,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "HYDROCARBONS|ALKANES_HALOGENATION_MECHANISM",
-        "name": "Alkanes Halogenation Mechanism",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkanes Halogenation Mechanism - Core Theory & Derivation",
-          "Alkanes Halogenation Mechanism - Standard Formula Drill",
-          "Alkanes Halogenation Mechanism - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKENES_MARKOVNIKOV_ANTI_MARKOVNIKOV_ADDITION",
-        "name": "Alkenes Markovnikov & Anti-Markovnikov Addition",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Core Theory & Derivation",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Standard Formula Drill",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|OZONOLYSIS_OF_ALKENES",
-        "name": "Ozonolysis of Alkenes",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ozonolysis of Alkenes - Core Theory & Derivation",
-          "Ozonolysis of Alkenes - Standard Formula Drill",
-          "Ozonolysis of Alkenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKYNES_ACIDITY_ADDITION",
-        "name": "Alkynes Acidity & Addition",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Alkynes Acidity & Addition - Core Theory & Derivation",
-          "Alkynes Acidity & Addition - Standard Formula Drill",
-          "Alkynes Acidity & Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|AROMATICITY_ELECTROPHILIC_SUBSTITUTION",
-        "name": "Aromaticity & Electrophilic Substitution",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aromaticity & Electrophilic Substitution - Core Theory & Derivation",
-          "Aromaticity & Electrophilic Substitution - Standard Formula Drill",
-          "Aromaticity & Electrophilic Substitution - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|SOLUTIONS",
-    "chapterId": "SOLUTIONS",
-    "name": "Solutions",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 10,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "SOLUTIONS|TYPES_OF_SOLUTIONS_SOLUBILITY",
-        "name": "Types of Solutions & Solubility",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Types of Solutions & Solubility - Core Theory & Derivation",
-          "Types of Solutions & Solubility - Standard Formula Drill",
-          "Types of Solutions & Solubility - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
-        "name": "Henry's Law & Raoult's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Henry's Law & Raoult's Law - Core Theory & Derivation",
-          "Henry's Law & Raoult's Law - Standard Formula Drill",
-          "Henry's Law & Raoult's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|IDEAL_NON_IDEAL_SOLUTIONS",
-        "name": "Ideal & Non-ideal Solutions",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ideal & Non-ideal Solutions - Core Theory & Derivation",
-          "Ideal & Non-ideal Solutions - Standard Formula Drill",
-          "Ideal & Non-ideal Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES_BOILING_FREEZING_OSMOTIC",
-        "name": "Colligative Properties (Boiling/Freezing/Osmotic)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Core Theory & Derivation",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Standard Formula Drill",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_I",
-        "name": "Van 't Hoff Factor i",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Van 't Hoff Factor i - Core Theory & Derivation",
-          "Van 't Hoff Factor i - Standard Formula Drill",
-          "Van 't Hoff Factor i - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|ELECTROCHEMISTRY",
-    "chapterId": "ELECTROCHEMISTRY",
-    "name": "Electrochemistry",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 11,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_CELL_POTENTIAL",
-        "name": "Galvanic Cells & Cell Potential",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Galvanic Cells & Cell Potential - Core Theory & Derivation",
-          "Galvanic Cells & Cell Potential - Standard Formula Drill",
-          "Galvanic Cells & Cell Potential - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|NERNST_EQUATION_APPLICATIONS",
-        "name": "Nernst Equation Applications",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nernst Equation Applications - Core Theory & Derivation",
-          "Nernst Equation Applications - Standard Formula Drill",
-          "Nernst Equation Applications - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|KOHLRAUSCH_S_LAW_OF_INDEPENDENT_MIGRATION",
-        "name": "Kohlrausch's Law of Independent Migration",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Kohlrausch's Law of Independent Migration - Core Theory & Derivation",
-          "Kohlrausch's Law of Independent Migration - Standard Formula Drill",
-          "Kohlrausch's Law of Independent Migration - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|FARADAY_S_LAWS_OF_ELECTROLYSIS",
-        "name": "Faraday's Laws of Electrolysis",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Faraday's Laws of Electrolysis - Core Theory & Derivation",
-          "Faraday's Laws of Electrolysis - Standard Formula Drill",
-          "Faraday's Laws of Electrolysis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
-        "name": "Batteries, Fuel Cells & Corrosion",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Batteries, Fuel Cells & Corrosion - Core Theory & Derivation",
-          "Batteries, Fuel Cells & Corrosion - Standard Formula Drill",
-          "Batteries, Fuel Cells & Corrosion - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|CHEMICAL_KINETICS",
-    "chapterId": "CHEMICAL_KINETICS",
-    "name": "Chemical Kinetics",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 12,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_RATE_LAW",
-        "name": "Rate of Reaction & Rate Law",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Rate of Reaction & Rate Law - Core Theory & Derivation",
-          "Rate of Reaction & Rate Law - Standard Formula Drill",
-          "Rate of Reaction & Rate Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ORDER_MOLECULARITY",
-        "name": "Order & Molecularity",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Order & Molecularity - Core Theory & Derivation",
-          "Order & Molecularity - Standard Formula Drill",
-          "Order & Molecularity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_ZERO_FIRST_ORDER",
-        "name": "Integrated Rate Laws (Zero & First Order)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Integrated Rate Laws (Zero & First Order) - Core Theory & Derivation",
-          "Integrated Rate Laws (Zero & First Order) - Standard Formula Drill",
-          "Integrated Rate Laws (Zero & First Order) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|HALF_LIFE_PERIOD",
-        "name": "Half-Life Period",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Half-Life Period - Core Theory & Derivation",
-          "Half-Life Period - Standard Formula Drill",
-          "Half-Life Period - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
-        "name": "Arrhenius Equation & Activation Energy",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Arrhenius Equation & Activation Energy - Core Theory & Derivation",
-          "Arrhenius Equation & Activation Energy - Standard Formula Drill",
-          "Arrhenius Equation & Activation Energy - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|THE_D_AND_F_BLOCK_ELEMENTS",
-    "chapterId": "THE_D_AND_F_BLOCK_ELEMENTS",
-    "name": "The d- and f-Block Elements",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 13,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|TRANSITION_METAL_PROPERTIES",
-        "name": "Transition Metal Properties",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Transition Metal Properties - Core Theory & Derivation",
-          "Transition Metal Properties - Standard Formula Drill",
-          "Transition Metal Properties - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|VARIABLE_OXIDATION_STATES",
-        "name": "Variable Oxidation States",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Variable Oxidation States - Core Theory & Derivation",
-          "Variable Oxidation States - Standard Formula Drill",
-          "Variable Oxidation States - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|LANTHANOID_CONTRACTION",
-        "name": "Lanthanoid Contraction",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lanthanoid Contraction - Core Theory & Derivation",
-          "Lanthanoid Contraction - Standard Formula Drill",
-          "Lanthanoid Contraction - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|MAGNETIC_PROPERTIES_COLORED_IONS",
-        "name": "Magnetic Properties & Colored Ions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Magnetic Properties & Colored Ions - Core Theory & Derivation",
-          "Magnetic Properties & Colored Ions - Standard Formula Drill",
-          "Magnetic Properties & Colored Ions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|POTASSIUM_DICHROMATE_PERMANGANATE",
-        "name": "Potassium Dichromate & Permanganate",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Potassium Dichromate & Permanganate - Core Theory & Derivation",
-          "Potassium Dichromate & Permanganate - Standard Formula Drill",
-          "Potassium Dichromate & Permanganate - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|COORDINATION_COMPOUNDS",
-    "chapterId": "COORDINATION_COMPOUNDS",
-    "name": "Coordination Compounds",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 14,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "COORDINATION_COMPOUNDS|WERNER_S_COORDINATION_THEORY",
-        "name": "Werner's Coordination Theory",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Werner's Coordination Theory - Core Theory & Derivation",
-          "Werner's Coordination Theory - Standard Formula Drill",
-          "Werner's Coordination Theory - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|IUPAC_NAMING_OF_COMPLEXES",
-        "name": "IUPAC Naming of Complexes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Naming of Complexes - Core Theory & Derivation",
-          "IUPAC Naming of Complexes - Standard Formula Drill",
-          "IUPAC Naming of Complexes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
-        "name": "Isomerism in Coordination Compounds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Isomerism in Coordination Compounds - Core Theory & Derivation",
-          "Isomerism in Coordination Compounds - Standard Formula Drill",
-          "Isomerism in Coordination Compounds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|VALENCE_BOND_THEORY_VBT",
-        "name": "Valence Bond Theory (VBT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Valence Bond Theory (VBT) - Core Theory & Derivation",
-          "Valence Bond Theory (VBT) - Standard Formula Drill",
-          "Valence Bond Theory (VBT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|CRYSTAL_FIELD_THEORY_CFT",
-        "name": "Crystal Field Theory (CFT)",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Crystal Field Theory (CFT) - Core Theory & Derivation",
-          "Crystal Field Theory (CFT) - Standard Formula Drill",
-          "Crystal Field Theory (CFT) - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
-    "chapterId": "HALOALKANES_AND_HALOARENES",
-    "name": "Haloalkanes and Haloarenes",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 15,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "HALOALKANES_AND_HALOARENES|SN1_VS_SN2_MECHANISMS",
-        "name": "SN1 vs SN2 Mechanisms",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "SN1 vs SN2 Mechanisms - Core Theory & Derivation",
-          "SN1 vs SN2 Mechanisms - Standard Formula Drill",
-          "SN1 vs SN2 Mechanisms - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|STEREOCHEMISTRY_INVERSION",
-        "name": "Stereochemistry & Inversion",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stereochemistry & Inversion - Core Theory & Derivation",
-          "Stereochemistry & Inversion - Standard Formula Drill",
-          "Stereochemistry & Inversion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_VS_SUBSTITUTION",
-        "name": "Elimination vs Substitution",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Elimination vs Substitution - Core Theory & Derivation",
-          "Elimination vs Substitution - Standard Formula Drill",
-          "Elimination vs Substitution - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES",
-        "name": "Reactions of Haloarenes",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reactions of Haloarenes - Core Theory & Derivation",
-          "Reactions of Haloarenes - Standard Formula Drill",
-          "Reactions of Haloarenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|POLYHALOGEN_COMPOUNDS",
-        "name": "Polyhalogen Compounds",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Polyhalogen Compounds - Core Theory & Derivation",
-          "Polyhalogen Compounds - Standard Formula Drill",
-          "Polyhalogen Compounds - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
-    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
-    "name": "Alcohols, Phenols and Ethers",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 16,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CLASSIFICATION_PREPARATION",
-        "name": "Classification & Preparation",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Classification & Preparation - Core Theory & Derivation",
-          "Classification & Preparation - Standard Formula Drill",
-          "Classification & Preparation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ACIDITY_OF_ALCOHOLS_PHENOLS",
-        "name": "Acidity of Alcohols & Phenols",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Acidity of Alcohols & Phenols - Core Theory & Derivation",
-          "Acidity of Alcohols & Phenols - Standard Formula Drill",
-          "Acidity of Alcohols & Phenols - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|LUCAS_TEST_OXIDATION",
-        "name": "Lucas Test & Oxidation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lucas Test & Oxidation - Core Theory & Derivation",
-          "Lucas Test & Oxidation - Standard Formula Drill",
-          "Lucas Test & Oxidation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REIMER_TIEMANN_KOLBE_REACTIONS",
-        "name": "Reimer-Tiemann & Kolbe Reactions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reimer-Tiemann & Kolbe Reactions - Core Theory & Derivation",
-          "Reimer-Tiemann & Kolbe Reactions - Standard Formula Drill",
-          "Reimer-Tiemann & Kolbe Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|WILLIAMSON_ETHER_SYNTHESIS",
-        "name": "Williamson Ether Synthesis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Williamson Ether Synthesis - Core Theory & Derivation",
-          "Williamson Ether Synthesis - Standard Formula Drill",
-          "Williamson Ether Synthesis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "chapterId": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "name": "Aldehydes, Ketones and Carboxylic Acids",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 17,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
-        "name": "Nucleophilic Addition Reactions",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nucleophilic Addition Reactions - Core Theory & Derivation",
-          "Nucleophilic Addition Reactions - Standard Formula Drill",
-          "Nucleophilic Addition Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|TOLLENS_FEHLING_S_IODOFORM_TESTS",
-        "name": "Tollens', Fehling's & Iodoform Tests",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Tollens', Fehling's & Iodoform Tests - Core Theory & Derivation",
-          "Tollens', Fehling's & Iodoform Tests - Standard Formula Drill",
-          "Tollens', Fehling's & Iodoform Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ALDOL_CONDENSATION_CANNIZZARO",
-        "name": "Aldol Condensation & Cannizzaro",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aldol Condensation & Cannizzaro - Core Theory & Derivation",
-          "Aldol Condensation & Cannizzaro - Standard Formula Drill",
-          "Aldol Condensation & Cannizzaro - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ACIDITY_OF_CARBOXYLIC_ACIDS",
-        "name": "Acidity of Carboxylic Acids",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acidity of Carboxylic Acids - Core Theory & Derivation",
-          "Acidity of Carboxylic Acids - Standard Formula Drill",
-          "Acidity of Carboxylic Acids - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|HVZ_REACTION_DECARBOXYLATION",
-        "name": "HVZ Reaction & Decarboxylation",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "HVZ Reaction & Decarboxylation - Core Theory & Derivation",
-          "HVZ Reaction & Decarboxylation - Standard Formula Drill",
-          "HVZ Reaction & Decarboxylation - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|AMINES",
-    "chapterId": "AMINES",
-    "name": "Amines",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 18,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "AMINES|BASICITY_OF_AMINES_IN_AQUEOUS_PHASE",
-        "name": "Basicity of Amines in Aqueous Phase",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Basicity of Amines in Aqueous Phase - Core Theory & Derivation",
-          "Basicity of Amines in Aqueous Phase - Standard Formula Drill",
-          "Basicity of Amines in Aqueous Phase - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|GABRIEL_PHTHALIMIDE_SYNTHESIS",
-        "name": "Gabriel Phthalimide Synthesis",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Gabriel Phthalimide Synthesis - Core Theory & Derivation",
-          "Gabriel Phthalimide Synthesis - Standard Formula Drill",
-          "Gabriel Phthalimide Synthesis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|HOFFMANN_BROMAMIDE_DEGRADATION",
-        "name": "Hoffmann Bromamide Degradation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hoffmann Bromamide Degradation - Core Theory & Derivation",
-          "Hoffmann Bromamide Degradation - Standard Formula Drill",
-          "Hoffmann Bromamide Degradation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|CARBYLAMINE_HINSBERG_TESTS",
-        "name": "Carbylamine & Hinsberg Tests",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbylamine & Hinsberg Tests - Core Theory & Derivation",
-          "Carbylamine & Hinsberg Tests - Standard Formula Drill",
-          "Carbylamine & Hinsberg Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|DIAZONIUM_SALTS_COUPLING_REACTIONS",
-        "name": "Diazonium Salts & Coupling Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Diazonium Salts & Coupling Reactions - Core Theory & Derivation",
-          "Diazonium Salts & Coupling Reactions - Standard Formula Drill",
-          "Diazonium Salts & Coupling Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_MAIN|CHEMISTRY|12|BIOMOLECULES",
-    "chapterId": "BIOMOLECULES",
-    "name": "Biomolecules",
-    "examId": "JEE_MAIN",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 19,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "BIOMOLECULES|MONOSACCHARIDES_STRUCTURE_GLUCOSE_FRUCTOSE",
-        "name": "Monosaccharides Structure (Glucose & Fructose)",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Monosaccharides Structure (Glucose & Fructose) - Core Theory & Derivation",
-          "Monosaccharides Structure (Glucose & Fructose) - Standard Formula Drill",
-          "Monosaccharides Structure (Glucose & Fructose) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
-        "name": "Disaccharides & Polysaccharides",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Disaccharides & Polysaccharides - Core Theory & Derivation",
-          "Disaccharides & Polysaccharides - Standard Formula Drill",
-          "Disaccharides & Polysaccharides - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDE_BONDS",
-        "name": "Amino Acids & Peptide Bonds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Amino Acids & Peptide Bonds - Core Theory & Derivation",
-          "Amino Acids & Peptide Bonds - Standard Formula Drill",
-          "Amino Acids & Peptide Bonds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|STRUCTURE_OF_PROTEINS_PRIMARY_TO_QUATERNARY",
-        "name": "Structure of Proteins (Primary to Quaternary)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Structure of Proteins (Primary to Quaternary) - Core Theory & Derivation",
-          "Structure of Proteins (Primary to Quaternary) - Standard Formula Drill",
-          "Structure of Proteins (Primary to Quaternary) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|NUCLEIC_ACIDS_DNA_RNA_VITAMINS",
-        "name": "Nucleic Acids (DNA & RNA) & Vitamins",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Nucleic Acids (DNA & RNA) & Vitamins - Core Theory & Derivation",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Standard Formula Drill",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
     "id": "JEE_MAIN|MATHEMATICS|11|SETS",
     "chapterId": "SETS",
     "name": "Sets",
@@ -7357,1374 +5989,6 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "verificationStatus": "VERIFIED"
   },
   {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "name": "Some Basic Concepts of Chemistry",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 1,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
-        "name": "Mole Concept & Molar Mass",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Mole Concept & Molar Mass - Core Theory & Derivation",
-          "Mole Concept & Molar Mass - Standard Formula Drill",
-          "Mole Concept & Molar Mass - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
-        "name": "Stoichiometry & Limiting Reagent",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stoichiometry & Limiting Reagent - Core Theory & Derivation",
-          "Stoichiometry & Limiting Reagent - Standard Formula Drill",
-          "Stoichiometry & Limiting Reagent - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
-        "name": "Empirical & Molecular Formula",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Empirical & Molecular Formula - Core Theory & Derivation",
-          "Empirical & Molecular Formula - Standard Formula Drill",
-          "Empirical & Molecular Formula - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLARITY_MOLALITY",
-        "name": "Molarity & Molality",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molarity & Molality - Core Theory & Derivation",
-          "Molarity & Molality - Standard Formula Drill",
-          "Molarity & Molality - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAW_OF_CHEMICAL_COMBINATION",
-        "name": "Law of Chemical Combination",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Law of Chemical Combination - Core Theory & Derivation",
-          "Law of Chemical Combination - Standard Formula Drill",
-          "Law of Chemical Combination - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|STRUCTURE_OF_ATOM",
-    "chapterId": "STRUCTURE_OF_ATOM",
-    "name": "Structure of Atom",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 2,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "STRUCTURE_OF_ATOM|BOHR_S_MODEL_RADII",
-        "name": "Bohr's Model & Radii",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Bohr's Model & Radii - Core Theory & Derivation",
-          "Bohr's Model & Radii - Standard Formula Drill",
-          "Bohr's Model & Radii - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|DE_BROGLIE_RELATION",
-        "name": "De Broglie Relation",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "De Broglie Relation - Core Theory & Derivation",
-          "De Broglie Relation - Standard Formula Drill",
-          "De Broglie Relation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|HEISENBERG_UNCERTAINTY_PRINCIPLE",
-        "name": "Heisenberg Uncertainty Principle",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heisenberg Uncertainty Principle - Core Theory & Derivation",
-          "Heisenberg Uncertainty Principle - Standard Formula Drill",
-          "Heisenberg Uncertainty Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|QUANTUM_NUMBERS",
-        "name": "Quantum Numbers",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Quantum Numbers - Core Theory & Derivation",
-          "Quantum Numbers - Standard Formula Drill",
-          "Quantum Numbers - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|AUFBAU_PAULI_HUND_S_RULE",
-        "name": "Aufbau, Pauli & Hund's Rule",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aufbau, Pauli & Hund's Rule - Core Theory & Derivation",
-          "Aufbau, Pauli & Hund's Rule - Standard Formula Drill",
-          "Aufbau, Pauli & Hund's Rule - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "chapterId": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "name": "Classification of Elements and Periodicity",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 3,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|MODERN_PERIODIC_TABLE",
-        "name": "Modern Periodic Table",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Modern Periodic Table - Core Theory & Derivation",
-          "Modern Periodic Table - Standard Formula Drill",
-          "Modern Periodic Table - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ATOMIC_IONIC_RADII_TRENDS",
-        "name": "Atomic & Ionic Radii Trends",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Atomic & Ionic Radii Trends - Core Theory & Derivation",
-          "Atomic & Ionic Radii Trends - Standard Formula Drill",
-          "Atomic & Ionic Radii Trends - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|IONIZATION_ENTHALPY",
-        "name": "Ionization Enthalpy",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ionization Enthalpy - Core Theory & Derivation",
-          "Ionization Enthalpy - Standard Formula Drill",
-          "Ionization Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRON_GAIN_ENTHALPY",
-        "name": "Electron Gain Enthalpy",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electron Gain Enthalpy - Core Theory & Derivation",
-          "Electron Gain Enthalpy - Standard Formula Drill",
-          "Electron Gain Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRONEGATIVITY_TRENDS",
-        "name": "Electronegativity Trends",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronegativity Trends - Core Theory & Derivation",
-          "Electronegativity Trends - Standard Formula Drill",
-          "Electronegativity Trends - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "chapterId": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "name": "Chemical Bonding and Molecular Structure",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 4,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|LEWIS_DOT_STRUCTURES",
-        "name": "Lewis Dot Structures",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Lewis Dot Structures - Core Theory & Derivation",
-          "Lewis Dot Structures - Standard Formula Drill",
-          "Lewis Dot Structures - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|VSEPR_THEORY_SHAPES",
-        "name": "VSEPR Theory & Shapes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "VSEPR Theory & Shapes - Core Theory & Derivation",
-          "VSEPR Theory & Shapes - Standard Formula Drill",
-          "VSEPR Theory & Shapes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYBRIDIZATION_SP_SP2_SP3_SP3D",
-        "name": "Hybridization (sp, sp2, sp3, sp3d)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hybridization (sp, sp2, sp3, sp3d) - Core Theory & Derivation",
-          "Hybridization (sp, sp2, sp3, sp3d) - Standard Formula Drill",
-          "Hybridization (sp, sp2, sp3, sp3d) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|MOLECULAR_ORBITAL_THEORY_MOT",
-        "name": "Molecular Orbital Theory (MOT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molecular Orbital Theory (MOT) - Core Theory & Derivation",
-          "Molecular Orbital Theory (MOT) - Standard Formula Drill",
-          "Molecular Orbital Theory (MOT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYDROGEN_BONDING_DIPOLE_MOMENT",
-        "name": "Hydrogen Bonding & Dipole Moment",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hydrogen Bonding & Dipole Moment - Core Theory & Derivation",
-          "Hydrogen Bonding & Dipole Moment - Standard Formula Drill",
-          "Hydrogen Bonding & Dipole Moment - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
-    "chapterId": "CHEMICAL_THERMODYNAMICS",
-    "name": "Chemical Thermodynamics",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 5,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HESS_S_LAW",
-        "name": "Enthalpy & Hess's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Enthalpy & Hess's Law - Core Theory & Derivation",
-          "Enthalpy & Hess's Law - Standard Formula Drill",
-          "Enthalpy & Hess's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTROPY_SECOND_LAW",
-        "name": "Entropy & Second Law",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Entropy & Second Law - Core Theory & Derivation",
-          "Entropy & Second Law - Standard Formula Drill",
-          "Entropy & Second Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_SPONTANEITY",
-        "name": "Gibbs Free Energy & Spontaneity",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Gibbs Free Energy & Spontaneity - Core Theory & Derivation",
-          "Gibbs Free Energy & Spontaneity - Standard Formula Drill",
-          "Gibbs Free Energy & Spontaneity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|HEAT_CAPACITY_CALORIMETRY",
-        "name": "Heat Capacity & Calorimetry",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heat Capacity & Calorimetry - Core Theory & Derivation",
-          "Heat Capacity & Calorimetry - Standard Formula Drill",
-          "Heat Capacity & Calorimetry - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|EQUILIBRIUM",
-    "chapterId": "EQUILIBRIUM",
-    "name": "Equilibrium",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 6,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "EQUILIBRIUM|LAW_OF_CHEMICAL_EQUILIBRIUM",
-        "name": "Law of Chemical Equilibrium",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Law of Chemical Equilibrium - Core Theory & Derivation",
-          "Law of Chemical Equilibrium - Standard Formula Drill",
-          "Law of Chemical Equilibrium - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
-        "name": "Le Chatelier's Principle",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Le Chatelier's Principle - Core Theory & Derivation",
-          "Le Chatelier's Principle - Standard Formula Drill",
-          "Le Chatelier's Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|ACID_BASE_CONCEPTS_ARRHENIUS_BRONSTED_LEWIS",
-        "name": "Acid-Base Concepts (Arrhenius, Bronsted, Lewis)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Core Theory & Derivation",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Standard Formula Drill",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|PH_BUFFER_SOLUTIONS",
-        "name": "pH & Buffer Solutions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "pH & Buffer Solutions - Core Theory & Derivation",
-          "pH & Buffer Solutions - Standard Formula Drill",
-          "pH & Buffer Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_KSP",
-        "name": "Solubility Product Ksp",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Solubility Product Ksp - Core Theory & Derivation",
-          "Solubility Product Ksp - Standard Formula Drill",
-          "Solubility Product Ksp - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|REDOX_REACTIONS",
-    "chapterId": "REDOX_REACTIONS",
-    "name": "Redox Reactions",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 7,
-    "weightage": "Low",
-    "topics": [
-      {
-        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_RULES",
-        "name": "Oxidation Numbers Rules",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Oxidation Numbers Rules - Core Theory & Derivation",
-          "Oxidation Numbers Rules - Standard Formula Drill",
-          "Oxidation Numbers Rules - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|BALANCING_REDOX_REACTIONS",
-        "name": "Balancing Redox Reactions",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Balancing Redox Reactions - Core Theory & Derivation",
-          "Balancing Redox Reactions - Standard Formula Drill",
-          "Balancing Redox Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|ELECTROCHEMICAL_SERIES",
-        "name": "Electrochemical Series",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electrochemical Series - Core Theory & Derivation",
-          "Electrochemical Series - Standard Formula Drill",
-          "Electrochemical Series - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|OXIDIZING_REDUCING_AGENTS",
-        "name": "Oxidizing & Reducing Agents",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Oxidizing & Reducing Agents - Core Theory & Derivation",
-          "Oxidizing & Reducing Agents - Standard Formula Drill",
-          "Oxidizing & Reducing Agents - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|DISPROPORTIONATION_REACTIONS",
-        "name": "Disproportionation Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Disproportionation Reactions - Core Theory & Derivation",
-          "Disproportionation Reactions - Standard Formula Drill",
-          "Disproportionation Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "name": "Organic Chemistry: Basic Principles and Techniques",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 8,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|IUPAC_NOMENCLATURE",
-        "name": "IUPAC Nomenclature",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Nomenclature - Core Theory & Derivation",
-          "IUPAC Nomenclature - Standard Formula Drill",
-          "IUPAC Nomenclature - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ISOMERISM_STRUCTURAL_STEREO",
-        "name": "Isomerism (Structural & Stereo)",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Isomerism (Structural & Stereo) - Core Theory & Derivation",
-          "Isomerism (Structural & Stereo) - Standard Formula Drill",
-          "Isomerism (Structural & Stereo) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ELECTRONIC_EFFECTS_INDUCTIVE_RESONANCE_HYPERCONJUGATION",
-        "name": "Electronic Effects (Inductive, Resonance, Hyperconjugation)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Core Theory & Derivation",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Standard Formula Drill",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|CARBOCATION_CARBANION_STABILITY",
-        "name": "Carbocation & Carbanion Stability",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbocation & Carbanion Stability - Core Theory & Derivation",
-          "Carbocation & Carbanion Stability - Standard Formula Drill",
-          "Carbocation & Carbanion Stability - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|PURIFICATION_QUALITATIVE_ANALYSIS",
-        "name": "Purification & Qualitative Analysis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Purification & Qualitative Analysis - Core Theory & Derivation",
-          "Purification & Qualitative Analysis - Standard Formula Drill",
-          "Purification & Qualitative Analysis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|11|HYDROCARBONS",
-    "chapterId": "HYDROCARBONS",
-    "name": "Hydrocarbons",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 9,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "HYDROCARBONS|ALKANES_HALOGENATION_MECHANISM",
-        "name": "Alkanes Halogenation Mechanism",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkanes Halogenation Mechanism - Core Theory & Derivation",
-          "Alkanes Halogenation Mechanism - Standard Formula Drill",
-          "Alkanes Halogenation Mechanism - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKENES_MARKOVNIKOV_ANTI_MARKOVNIKOV_ADDITION",
-        "name": "Alkenes Markovnikov & Anti-Markovnikov Addition",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Core Theory & Derivation",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Standard Formula Drill",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|OZONOLYSIS_OF_ALKENES",
-        "name": "Ozonolysis of Alkenes",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ozonolysis of Alkenes - Core Theory & Derivation",
-          "Ozonolysis of Alkenes - Standard Formula Drill",
-          "Ozonolysis of Alkenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKYNES_ACIDITY_ADDITION",
-        "name": "Alkynes Acidity & Addition",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Alkynes Acidity & Addition - Core Theory & Derivation",
-          "Alkynes Acidity & Addition - Standard Formula Drill",
-          "Alkynes Acidity & Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|AROMATICITY_ELECTROPHILIC_SUBSTITUTION",
-        "name": "Aromaticity & Electrophilic Substitution",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aromaticity & Electrophilic Substitution - Core Theory & Derivation",
-          "Aromaticity & Electrophilic Substitution - Standard Formula Drill",
-          "Aromaticity & Electrophilic Substitution - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|SOLUTIONS",
-    "chapterId": "SOLUTIONS",
-    "name": "Solutions",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 10,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "SOLUTIONS|TYPES_OF_SOLUTIONS_SOLUBILITY",
-        "name": "Types of Solutions & Solubility",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Types of Solutions & Solubility - Core Theory & Derivation",
-          "Types of Solutions & Solubility - Standard Formula Drill",
-          "Types of Solutions & Solubility - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
-        "name": "Henry's Law & Raoult's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Henry's Law & Raoult's Law - Core Theory & Derivation",
-          "Henry's Law & Raoult's Law - Standard Formula Drill",
-          "Henry's Law & Raoult's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|IDEAL_NON_IDEAL_SOLUTIONS",
-        "name": "Ideal & Non-ideal Solutions",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ideal & Non-ideal Solutions - Core Theory & Derivation",
-          "Ideal & Non-ideal Solutions - Standard Formula Drill",
-          "Ideal & Non-ideal Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES_BOILING_FREEZING_OSMOTIC",
-        "name": "Colligative Properties (Boiling/Freezing/Osmotic)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Core Theory & Derivation",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Standard Formula Drill",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_I",
-        "name": "Van 't Hoff Factor i",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Van 't Hoff Factor i - Core Theory & Derivation",
-          "Van 't Hoff Factor i - Standard Formula Drill",
-          "Van 't Hoff Factor i - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|ELECTROCHEMISTRY",
-    "chapterId": "ELECTROCHEMISTRY",
-    "name": "Electrochemistry",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 11,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_CELL_POTENTIAL",
-        "name": "Galvanic Cells & Cell Potential",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Galvanic Cells & Cell Potential - Core Theory & Derivation",
-          "Galvanic Cells & Cell Potential - Standard Formula Drill",
-          "Galvanic Cells & Cell Potential - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|NERNST_EQUATION_APPLICATIONS",
-        "name": "Nernst Equation Applications",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nernst Equation Applications - Core Theory & Derivation",
-          "Nernst Equation Applications - Standard Formula Drill",
-          "Nernst Equation Applications - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|KOHLRAUSCH_S_LAW_OF_INDEPENDENT_MIGRATION",
-        "name": "Kohlrausch's Law of Independent Migration",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Kohlrausch's Law of Independent Migration - Core Theory & Derivation",
-          "Kohlrausch's Law of Independent Migration - Standard Formula Drill",
-          "Kohlrausch's Law of Independent Migration - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|FARADAY_S_LAWS_OF_ELECTROLYSIS",
-        "name": "Faraday's Laws of Electrolysis",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Faraday's Laws of Electrolysis - Core Theory & Derivation",
-          "Faraday's Laws of Electrolysis - Standard Formula Drill",
-          "Faraday's Laws of Electrolysis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
-        "name": "Batteries, Fuel Cells & Corrosion",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Batteries, Fuel Cells & Corrosion - Core Theory & Derivation",
-          "Batteries, Fuel Cells & Corrosion - Standard Formula Drill",
-          "Batteries, Fuel Cells & Corrosion - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|CHEMICAL_KINETICS",
-    "chapterId": "CHEMICAL_KINETICS",
-    "name": "Chemical Kinetics",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 12,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_RATE_LAW",
-        "name": "Rate of Reaction & Rate Law",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Rate of Reaction & Rate Law - Core Theory & Derivation",
-          "Rate of Reaction & Rate Law - Standard Formula Drill",
-          "Rate of Reaction & Rate Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ORDER_MOLECULARITY",
-        "name": "Order & Molecularity",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Order & Molecularity - Core Theory & Derivation",
-          "Order & Molecularity - Standard Formula Drill",
-          "Order & Molecularity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_ZERO_FIRST_ORDER",
-        "name": "Integrated Rate Laws (Zero & First Order)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Integrated Rate Laws (Zero & First Order) - Core Theory & Derivation",
-          "Integrated Rate Laws (Zero & First Order) - Standard Formula Drill",
-          "Integrated Rate Laws (Zero & First Order) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|HALF_LIFE_PERIOD",
-        "name": "Half-Life Period",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Half-Life Period - Core Theory & Derivation",
-          "Half-Life Period - Standard Formula Drill",
-          "Half-Life Period - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
-        "name": "Arrhenius Equation & Activation Energy",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Arrhenius Equation & Activation Energy - Core Theory & Derivation",
-          "Arrhenius Equation & Activation Energy - Standard Formula Drill",
-          "Arrhenius Equation & Activation Energy - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|THE_D_AND_F_BLOCK_ELEMENTS",
-    "chapterId": "THE_D_AND_F_BLOCK_ELEMENTS",
-    "name": "The d- and f-Block Elements",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 13,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|TRANSITION_METAL_PROPERTIES",
-        "name": "Transition Metal Properties",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Transition Metal Properties - Core Theory & Derivation",
-          "Transition Metal Properties - Standard Formula Drill",
-          "Transition Metal Properties - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|VARIABLE_OXIDATION_STATES",
-        "name": "Variable Oxidation States",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Variable Oxidation States - Core Theory & Derivation",
-          "Variable Oxidation States - Standard Formula Drill",
-          "Variable Oxidation States - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|LANTHANOID_CONTRACTION",
-        "name": "Lanthanoid Contraction",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lanthanoid Contraction - Core Theory & Derivation",
-          "Lanthanoid Contraction - Standard Formula Drill",
-          "Lanthanoid Contraction - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|MAGNETIC_PROPERTIES_COLORED_IONS",
-        "name": "Magnetic Properties & Colored Ions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Magnetic Properties & Colored Ions - Core Theory & Derivation",
-          "Magnetic Properties & Colored Ions - Standard Formula Drill",
-          "Magnetic Properties & Colored Ions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|POTASSIUM_DICHROMATE_PERMANGANATE",
-        "name": "Potassium Dichromate & Permanganate",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Potassium Dichromate & Permanganate - Core Theory & Derivation",
-          "Potassium Dichromate & Permanganate - Standard Formula Drill",
-          "Potassium Dichromate & Permanganate - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|COORDINATION_COMPOUNDS",
-    "chapterId": "COORDINATION_COMPOUNDS",
-    "name": "Coordination Compounds",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 14,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "COORDINATION_COMPOUNDS|WERNER_S_COORDINATION_THEORY",
-        "name": "Werner's Coordination Theory",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Werner's Coordination Theory - Core Theory & Derivation",
-          "Werner's Coordination Theory - Standard Formula Drill",
-          "Werner's Coordination Theory - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|IUPAC_NAMING_OF_COMPLEXES",
-        "name": "IUPAC Naming of Complexes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Naming of Complexes - Core Theory & Derivation",
-          "IUPAC Naming of Complexes - Standard Formula Drill",
-          "IUPAC Naming of Complexes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
-        "name": "Isomerism in Coordination Compounds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Isomerism in Coordination Compounds - Core Theory & Derivation",
-          "Isomerism in Coordination Compounds - Standard Formula Drill",
-          "Isomerism in Coordination Compounds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|VALENCE_BOND_THEORY_VBT",
-        "name": "Valence Bond Theory (VBT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Valence Bond Theory (VBT) - Core Theory & Derivation",
-          "Valence Bond Theory (VBT) - Standard Formula Drill",
-          "Valence Bond Theory (VBT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|CRYSTAL_FIELD_THEORY_CFT",
-        "name": "Crystal Field Theory (CFT)",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Crystal Field Theory (CFT) - Core Theory & Derivation",
-          "Crystal Field Theory (CFT) - Standard Formula Drill",
-          "Crystal Field Theory (CFT) - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
-    "chapterId": "HALOALKANES_AND_HALOARENES",
-    "name": "Haloalkanes and Haloarenes",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 15,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "HALOALKANES_AND_HALOARENES|SN1_VS_SN2_MECHANISMS",
-        "name": "SN1 vs SN2 Mechanisms",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "SN1 vs SN2 Mechanisms - Core Theory & Derivation",
-          "SN1 vs SN2 Mechanisms - Standard Formula Drill",
-          "SN1 vs SN2 Mechanisms - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|STEREOCHEMISTRY_INVERSION",
-        "name": "Stereochemistry & Inversion",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stereochemistry & Inversion - Core Theory & Derivation",
-          "Stereochemistry & Inversion - Standard Formula Drill",
-          "Stereochemistry & Inversion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_VS_SUBSTITUTION",
-        "name": "Elimination vs Substitution",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Elimination vs Substitution - Core Theory & Derivation",
-          "Elimination vs Substitution - Standard Formula Drill",
-          "Elimination vs Substitution - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES",
-        "name": "Reactions of Haloarenes",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reactions of Haloarenes - Core Theory & Derivation",
-          "Reactions of Haloarenes - Standard Formula Drill",
-          "Reactions of Haloarenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|POLYHALOGEN_COMPOUNDS",
-        "name": "Polyhalogen Compounds",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Polyhalogen Compounds - Core Theory & Derivation",
-          "Polyhalogen Compounds - Standard Formula Drill",
-          "Polyhalogen Compounds - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
-    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
-    "name": "Alcohols, Phenols and Ethers",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 16,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CLASSIFICATION_PREPARATION",
-        "name": "Classification & Preparation",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Classification & Preparation - Core Theory & Derivation",
-          "Classification & Preparation - Standard Formula Drill",
-          "Classification & Preparation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ACIDITY_OF_ALCOHOLS_PHENOLS",
-        "name": "Acidity of Alcohols & Phenols",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Acidity of Alcohols & Phenols - Core Theory & Derivation",
-          "Acidity of Alcohols & Phenols - Standard Formula Drill",
-          "Acidity of Alcohols & Phenols - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|LUCAS_TEST_OXIDATION",
-        "name": "Lucas Test & Oxidation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lucas Test & Oxidation - Core Theory & Derivation",
-          "Lucas Test & Oxidation - Standard Formula Drill",
-          "Lucas Test & Oxidation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REIMER_TIEMANN_KOLBE_REACTIONS",
-        "name": "Reimer-Tiemann & Kolbe Reactions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reimer-Tiemann & Kolbe Reactions - Core Theory & Derivation",
-          "Reimer-Tiemann & Kolbe Reactions - Standard Formula Drill",
-          "Reimer-Tiemann & Kolbe Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|WILLIAMSON_ETHER_SYNTHESIS",
-        "name": "Williamson Ether Synthesis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Williamson Ether Synthesis - Core Theory & Derivation",
-          "Williamson Ether Synthesis - Standard Formula Drill",
-          "Williamson Ether Synthesis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "chapterId": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "name": "Aldehydes, Ketones and Carboxylic Acids",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 17,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
-        "name": "Nucleophilic Addition Reactions",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nucleophilic Addition Reactions - Core Theory & Derivation",
-          "Nucleophilic Addition Reactions - Standard Formula Drill",
-          "Nucleophilic Addition Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|TOLLENS_FEHLING_S_IODOFORM_TESTS",
-        "name": "Tollens', Fehling's & Iodoform Tests",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Tollens', Fehling's & Iodoform Tests - Core Theory & Derivation",
-          "Tollens', Fehling's & Iodoform Tests - Standard Formula Drill",
-          "Tollens', Fehling's & Iodoform Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ALDOL_CONDENSATION_CANNIZZARO",
-        "name": "Aldol Condensation & Cannizzaro",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aldol Condensation & Cannizzaro - Core Theory & Derivation",
-          "Aldol Condensation & Cannizzaro - Standard Formula Drill",
-          "Aldol Condensation & Cannizzaro - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ACIDITY_OF_CARBOXYLIC_ACIDS",
-        "name": "Acidity of Carboxylic Acids",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acidity of Carboxylic Acids - Core Theory & Derivation",
-          "Acidity of Carboxylic Acids - Standard Formula Drill",
-          "Acidity of Carboxylic Acids - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|HVZ_REACTION_DECARBOXYLATION",
-        "name": "HVZ Reaction & Decarboxylation",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "HVZ Reaction & Decarboxylation - Core Theory & Derivation",
-          "HVZ Reaction & Decarboxylation - Standard Formula Drill",
-          "HVZ Reaction & Decarboxylation - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|AMINES",
-    "chapterId": "AMINES",
-    "name": "Amines",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 18,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "AMINES|BASICITY_OF_AMINES_IN_AQUEOUS_PHASE",
-        "name": "Basicity of Amines in Aqueous Phase",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Basicity of Amines in Aqueous Phase - Core Theory & Derivation",
-          "Basicity of Amines in Aqueous Phase - Standard Formula Drill",
-          "Basicity of Amines in Aqueous Phase - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|GABRIEL_PHTHALIMIDE_SYNTHESIS",
-        "name": "Gabriel Phthalimide Synthesis",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Gabriel Phthalimide Synthesis - Core Theory & Derivation",
-          "Gabriel Phthalimide Synthesis - Standard Formula Drill",
-          "Gabriel Phthalimide Synthesis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|HOFFMANN_BROMAMIDE_DEGRADATION",
-        "name": "Hoffmann Bromamide Degradation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hoffmann Bromamide Degradation - Core Theory & Derivation",
-          "Hoffmann Bromamide Degradation - Standard Formula Drill",
-          "Hoffmann Bromamide Degradation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|CARBYLAMINE_HINSBERG_TESTS",
-        "name": "Carbylamine & Hinsberg Tests",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbylamine & Hinsberg Tests - Core Theory & Derivation",
-          "Carbylamine & Hinsberg Tests - Standard Formula Drill",
-          "Carbylamine & Hinsberg Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|DIAZONIUM_SALTS_COUPLING_REACTIONS",
-        "name": "Diazonium Salts & Coupling Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Diazonium Salts & Coupling Reactions - Core Theory & Derivation",
-          "Diazonium Salts & Coupling Reactions - Standard Formula Drill",
-          "Diazonium Salts & Coupling Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "JEE_ADVANCED|CHEMISTRY|12|BIOMOLECULES",
-    "chapterId": "BIOMOLECULES",
-    "name": "Biomolecules",
-    "examId": "JEE_ADVANCED",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 19,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "BIOMOLECULES|MONOSACCHARIDES_STRUCTURE_GLUCOSE_FRUCTOSE",
-        "name": "Monosaccharides Structure (Glucose & Fructose)",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Monosaccharides Structure (Glucose & Fructose) - Core Theory & Derivation",
-          "Monosaccharides Structure (Glucose & Fructose) - Standard Formula Drill",
-          "Monosaccharides Structure (Glucose & Fructose) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
-        "name": "Disaccharides & Polysaccharides",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Disaccharides & Polysaccharides - Core Theory & Derivation",
-          "Disaccharides & Polysaccharides - Standard Formula Drill",
-          "Disaccharides & Polysaccharides - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDE_BONDS",
-        "name": "Amino Acids & Peptide Bonds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Amino Acids & Peptide Bonds - Core Theory & Derivation",
-          "Amino Acids & Peptide Bonds - Standard Formula Drill",
-          "Amino Acids & Peptide Bonds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|STRUCTURE_OF_PROTEINS_PRIMARY_TO_QUATERNARY",
-        "name": "Structure of Proteins (Primary to Quaternary)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Structure of Proteins (Primary to Quaternary) - Core Theory & Derivation",
-          "Structure of Proteins (Primary to Quaternary) - Standard Formula Drill",
-          "Structure of Proteins (Primary to Quaternary) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|NUCLEIC_ACIDS_DNA_RNA_VITAMINS",
-        "name": "Nucleic Acids (DNA & RNA) & Vitamins",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Nucleic Acids (DNA & RNA) & Vitamins - Core Theory & Derivation",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Standard Formula Drill",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "IIT Joint Admission Board (JAB)",
-    "sourceURL": "https://jeeadv.ac.in/syllabus",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
     "id": "JEE_ADVANCED|MATHEMATICS|11|SETS",
     "chapterId": "SETS",
     "name": "Sets",
@@ -12665,1374 +9929,6 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
           "Logic Gates (AND, OR, NOT, NAND, NOR) - Core Theory & Derivation",
           "Logic Gates (AND, OR, NOT, NAND, NOR) - Standard Formula Drill",
           "Logic Gates (AND, OR, NOT, NAND, NOR) - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "name": "Some Basic Concepts of Chemistry",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 1,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
-        "name": "Mole Concept & Molar Mass",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Mole Concept & Molar Mass - Core Theory & Derivation",
-          "Mole Concept & Molar Mass - Standard Formula Drill",
-          "Mole Concept & Molar Mass - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
-        "name": "Stoichiometry & Limiting Reagent",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stoichiometry & Limiting Reagent - Core Theory & Derivation",
-          "Stoichiometry & Limiting Reagent - Standard Formula Drill",
-          "Stoichiometry & Limiting Reagent - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
-        "name": "Empirical & Molecular Formula",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Empirical & Molecular Formula - Core Theory & Derivation",
-          "Empirical & Molecular Formula - Standard Formula Drill",
-          "Empirical & Molecular Formula - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLARITY_MOLALITY",
-        "name": "Molarity & Molality",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molarity & Molality - Core Theory & Derivation",
-          "Molarity & Molality - Standard Formula Drill",
-          "Molarity & Molality - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAW_OF_CHEMICAL_COMBINATION",
-        "name": "Law of Chemical Combination",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Law of Chemical Combination - Core Theory & Derivation",
-          "Law of Chemical Combination - Standard Formula Drill",
-          "Law of Chemical Combination - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|STRUCTURE_OF_ATOM",
-    "chapterId": "STRUCTURE_OF_ATOM",
-    "name": "Structure of Atom",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 2,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "STRUCTURE_OF_ATOM|BOHR_S_MODEL_RADII",
-        "name": "Bohr's Model & Radii",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Bohr's Model & Radii - Core Theory & Derivation",
-          "Bohr's Model & Radii - Standard Formula Drill",
-          "Bohr's Model & Radii - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|DE_BROGLIE_RELATION",
-        "name": "De Broglie Relation",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "De Broglie Relation - Core Theory & Derivation",
-          "De Broglie Relation - Standard Formula Drill",
-          "De Broglie Relation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|HEISENBERG_UNCERTAINTY_PRINCIPLE",
-        "name": "Heisenberg Uncertainty Principle",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heisenberg Uncertainty Principle - Core Theory & Derivation",
-          "Heisenberg Uncertainty Principle - Standard Formula Drill",
-          "Heisenberg Uncertainty Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|QUANTUM_NUMBERS",
-        "name": "Quantum Numbers",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Quantum Numbers - Core Theory & Derivation",
-          "Quantum Numbers - Standard Formula Drill",
-          "Quantum Numbers - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|AUFBAU_PAULI_HUND_S_RULE",
-        "name": "Aufbau, Pauli & Hund's Rule",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aufbau, Pauli & Hund's Rule - Core Theory & Derivation",
-          "Aufbau, Pauli & Hund's Rule - Standard Formula Drill",
-          "Aufbau, Pauli & Hund's Rule - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "chapterId": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "name": "Classification of Elements and Periodicity",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 3,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|MODERN_PERIODIC_TABLE",
-        "name": "Modern Periodic Table",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Modern Periodic Table - Core Theory & Derivation",
-          "Modern Periodic Table - Standard Formula Drill",
-          "Modern Periodic Table - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ATOMIC_IONIC_RADII_TRENDS",
-        "name": "Atomic & Ionic Radii Trends",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Atomic & Ionic Radii Trends - Core Theory & Derivation",
-          "Atomic & Ionic Radii Trends - Standard Formula Drill",
-          "Atomic & Ionic Radii Trends - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|IONIZATION_ENTHALPY",
-        "name": "Ionization Enthalpy",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ionization Enthalpy - Core Theory & Derivation",
-          "Ionization Enthalpy - Standard Formula Drill",
-          "Ionization Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRON_GAIN_ENTHALPY",
-        "name": "Electron Gain Enthalpy",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electron Gain Enthalpy - Core Theory & Derivation",
-          "Electron Gain Enthalpy - Standard Formula Drill",
-          "Electron Gain Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRONEGATIVITY_TRENDS",
-        "name": "Electronegativity Trends",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronegativity Trends - Core Theory & Derivation",
-          "Electronegativity Trends - Standard Formula Drill",
-          "Electronegativity Trends - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "chapterId": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "name": "Chemical Bonding and Molecular Structure",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 4,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|LEWIS_DOT_STRUCTURES",
-        "name": "Lewis Dot Structures",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Lewis Dot Structures - Core Theory & Derivation",
-          "Lewis Dot Structures - Standard Formula Drill",
-          "Lewis Dot Structures - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|VSEPR_THEORY_SHAPES",
-        "name": "VSEPR Theory & Shapes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "VSEPR Theory & Shapes - Core Theory & Derivation",
-          "VSEPR Theory & Shapes - Standard Formula Drill",
-          "VSEPR Theory & Shapes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYBRIDIZATION_SP_SP2_SP3_SP3D",
-        "name": "Hybridization (sp, sp2, sp3, sp3d)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hybridization (sp, sp2, sp3, sp3d) - Core Theory & Derivation",
-          "Hybridization (sp, sp2, sp3, sp3d) - Standard Formula Drill",
-          "Hybridization (sp, sp2, sp3, sp3d) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|MOLECULAR_ORBITAL_THEORY_MOT",
-        "name": "Molecular Orbital Theory (MOT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molecular Orbital Theory (MOT) - Core Theory & Derivation",
-          "Molecular Orbital Theory (MOT) - Standard Formula Drill",
-          "Molecular Orbital Theory (MOT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYDROGEN_BONDING_DIPOLE_MOMENT",
-        "name": "Hydrogen Bonding & Dipole Moment",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hydrogen Bonding & Dipole Moment - Core Theory & Derivation",
-          "Hydrogen Bonding & Dipole Moment - Standard Formula Drill",
-          "Hydrogen Bonding & Dipole Moment - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
-    "chapterId": "CHEMICAL_THERMODYNAMICS",
-    "name": "Chemical Thermodynamics",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 5,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HESS_S_LAW",
-        "name": "Enthalpy & Hess's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Enthalpy & Hess's Law - Core Theory & Derivation",
-          "Enthalpy & Hess's Law - Standard Formula Drill",
-          "Enthalpy & Hess's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTROPY_SECOND_LAW",
-        "name": "Entropy & Second Law",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Entropy & Second Law - Core Theory & Derivation",
-          "Entropy & Second Law - Standard Formula Drill",
-          "Entropy & Second Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_SPONTANEITY",
-        "name": "Gibbs Free Energy & Spontaneity",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Gibbs Free Energy & Spontaneity - Core Theory & Derivation",
-          "Gibbs Free Energy & Spontaneity - Standard Formula Drill",
-          "Gibbs Free Energy & Spontaneity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|HEAT_CAPACITY_CALORIMETRY",
-        "name": "Heat Capacity & Calorimetry",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heat Capacity & Calorimetry - Core Theory & Derivation",
-          "Heat Capacity & Calorimetry - Standard Formula Drill",
-          "Heat Capacity & Calorimetry - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|EQUILIBRIUM",
-    "chapterId": "EQUILIBRIUM",
-    "name": "Equilibrium",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 6,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "EQUILIBRIUM|LAW_OF_CHEMICAL_EQUILIBRIUM",
-        "name": "Law of Chemical Equilibrium",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Law of Chemical Equilibrium - Core Theory & Derivation",
-          "Law of Chemical Equilibrium - Standard Formula Drill",
-          "Law of Chemical Equilibrium - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
-        "name": "Le Chatelier's Principle",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Le Chatelier's Principle - Core Theory & Derivation",
-          "Le Chatelier's Principle - Standard Formula Drill",
-          "Le Chatelier's Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|ACID_BASE_CONCEPTS_ARRHENIUS_BRONSTED_LEWIS",
-        "name": "Acid-Base Concepts (Arrhenius, Bronsted, Lewis)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Core Theory & Derivation",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Standard Formula Drill",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|PH_BUFFER_SOLUTIONS",
-        "name": "pH & Buffer Solutions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "pH & Buffer Solutions - Core Theory & Derivation",
-          "pH & Buffer Solutions - Standard Formula Drill",
-          "pH & Buffer Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_KSP",
-        "name": "Solubility Product Ksp",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Solubility Product Ksp - Core Theory & Derivation",
-          "Solubility Product Ksp - Standard Formula Drill",
-          "Solubility Product Ksp - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|REDOX_REACTIONS",
-    "chapterId": "REDOX_REACTIONS",
-    "name": "Redox Reactions",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 7,
-    "weightage": "Low",
-    "topics": [
-      {
-        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_RULES",
-        "name": "Oxidation Numbers Rules",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Oxidation Numbers Rules - Core Theory & Derivation",
-          "Oxidation Numbers Rules - Standard Formula Drill",
-          "Oxidation Numbers Rules - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|BALANCING_REDOX_REACTIONS",
-        "name": "Balancing Redox Reactions",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Balancing Redox Reactions - Core Theory & Derivation",
-          "Balancing Redox Reactions - Standard Formula Drill",
-          "Balancing Redox Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|ELECTROCHEMICAL_SERIES",
-        "name": "Electrochemical Series",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electrochemical Series - Core Theory & Derivation",
-          "Electrochemical Series - Standard Formula Drill",
-          "Electrochemical Series - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|OXIDIZING_REDUCING_AGENTS",
-        "name": "Oxidizing & Reducing Agents",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Oxidizing & Reducing Agents - Core Theory & Derivation",
-          "Oxidizing & Reducing Agents - Standard Formula Drill",
-          "Oxidizing & Reducing Agents - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|DISPROPORTIONATION_REACTIONS",
-        "name": "Disproportionation Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Disproportionation Reactions - Core Theory & Derivation",
-          "Disproportionation Reactions - Standard Formula Drill",
-          "Disproportionation Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "name": "Organic Chemistry: Basic Principles and Techniques",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 8,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|IUPAC_NOMENCLATURE",
-        "name": "IUPAC Nomenclature",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Nomenclature - Core Theory & Derivation",
-          "IUPAC Nomenclature - Standard Formula Drill",
-          "IUPAC Nomenclature - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ISOMERISM_STRUCTURAL_STEREO",
-        "name": "Isomerism (Structural & Stereo)",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Isomerism (Structural & Stereo) - Core Theory & Derivation",
-          "Isomerism (Structural & Stereo) - Standard Formula Drill",
-          "Isomerism (Structural & Stereo) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ELECTRONIC_EFFECTS_INDUCTIVE_RESONANCE_HYPERCONJUGATION",
-        "name": "Electronic Effects (Inductive, Resonance, Hyperconjugation)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Core Theory & Derivation",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Standard Formula Drill",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|CARBOCATION_CARBANION_STABILITY",
-        "name": "Carbocation & Carbanion Stability",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbocation & Carbanion Stability - Core Theory & Derivation",
-          "Carbocation & Carbanion Stability - Standard Formula Drill",
-          "Carbocation & Carbanion Stability - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|PURIFICATION_QUALITATIVE_ANALYSIS",
-        "name": "Purification & Qualitative Analysis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Purification & Qualitative Analysis - Core Theory & Derivation",
-          "Purification & Qualitative Analysis - Standard Formula Drill",
-          "Purification & Qualitative Analysis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|11|HYDROCARBONS",
-    "chapterId": "HYDROCARBONS",
-    "name": "Hydrocarbons",
-    "examId": "NEET_UG",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 9,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "HYDROCARBONS|ALKANES_HALOGENATION_MECHANISM",
-        "name": "Alkanes Halogenation Mechanism",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkanes Halogenation Mechanism - Core Theory & Derivation",
-          "Alkanes Halogenation Mechanism - Standard Formula Drill",
-          "Alkanes Halogenation Mechanism - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKENES_MARKOVNIKOV_ANTI_MARKOVNIKOV_ADDITION",
-        "name": "Alkenes Markovnikov & Anti-Markovnikov Addition",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Core Theory & Derivation",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Standard Formula Drill",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|OZONOLYSIS_OF_ALKENES",
-        "name": "Ozonolysis of Alkenes",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ozonolysis of Alkenes - Core Theory & Derivation",
-          "Ozonolysis of Alkenes - Standard Formula Drill",
-          "Ozonolysis of Alkenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKYNES_ACIDITY_ADDITION",
-        "name": "Alkynes Acidity & Addition",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Alkynes Acidity & Addition - Core Theory & Derivation",
-          "Alkynes Acidity & Addition - Standard Formula Drill",
-          "Alkynes Acidity & Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|AROMATICITY_ELECTROPHILIC_SUBSTITUTION",
-        "name": "Aromaticity & Electrophilic Substitution",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aromaticity & Electrophilic Substitution - Core Theory & Derivation",
-          "Aromaticity & Electrophilic Substitution - Standard Formula Drill",
-          "Aromaticity & Electrophilic Substitution - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|SOLUTIONS",
-    "chapterId": "SOLUTIONS",
-    "name": "Solutions",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 10,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "SOLUTIONS|TYPES_OF_SOLUTIONS_SOLUBILITY",
-        "name": "Types of Solutions & Solubility",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Types of Solutions & Solubility - Core Theory & Derivation",
-          "Types of Solutions & Solubility - Standard Formula Drill",
-          "Types of Solutions & Solubility - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
-        "name": "Henry's Law & Raoult's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Henry's Law & Raoult's Law - Core Theory & Derivation",
-          "Henry's Law & Raoult's Law - Standard Formula Drill",
-          "Henry's Law & Raoult's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|IDEAL_NON_IDEAL_SOLUTIONS",
-        "name": "Ideal & Non-ideal Solutions",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ideal & Non-ideal Solutions - Core Theory & Derivation",
-          "Ideal & Non-ideal Solutions - Standard Formula Drill",
-          "Ideal & Non-ideal Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES_BOILING_FREEZING_OSMOTIC",
-        "name": "Colligative Properties (Boiling/Freezing/Osmotic)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Core Theory & Derivation",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Standard Formula Drill",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_I",
-        "name": "Van 't Hoff Factor i",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Van 't Hoff Factor i - Core Theory & Derivation",
-          "Van 't Hoff Factor i - Standard Formula Drill",
-          "Van 't Hoff Factor i - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|ELECTROCHEMISTRY",
-    "chapterId": "ELECTROCHEMISTRY",
-    "name": "Electrochemistry",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 11,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_CELL_POTENTIAL",
-        "name": "Galvanic Cells & Cell Potential",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Galvanic Cells & Cell Potential - Core Theory & Derivation",
-          "Galvanic Cells & Cell Potential - Standard Formula Drill",
-          "Galvanic Cells & Cell Potential - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|NERNST_EQUATION_APPLICATIONS",
-        "name": "Nernst Equation Applications",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nernst Equation Applications - Core Theory & Derivation",
-          "Nernst Equation Applications - Standard Formula Drill",
-          "Nernst Equation Applications - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|KOHLRAUSCH_S_LAW_OF_INDEPENDENT_MIGRATION",
-        "name": "Kohlrausch's Law of Independent Migration",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Kohlrausch's Law of Independent Migration - Core Theory & Derivation",
-          "Kohlrausch's Law of Independent Migration - Standard Formula Drill",
-          "Kohlrausch's Law of Independent Migration - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|FARADAY_S_LAWS_OF_ELECTROLYSIS",
-        "name": "Faraday's Laws of Electrolysis",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Faraday's Laws of Electrolysis - Core Theory & Derivation",
-          "Faraday's Laws of Electrolysis - Standard Formula Drill",
-          "Faraday's Laws of Electrolysis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
-        "name": "Batteries, Fuel Cells & Corrosion",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Batteries, Fuel Cells & Corrosion - Core Theory & Derivation",
-          "Batteries, Fuel Cells & Corrosion - Standard Formula Drill",
-          "Batteries, Fuel Cells & Corrosion - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|CHEMICAL_KINETICS",
-    "chapterId": "CHEMICAL_KINETICS",
-    "name": "Chemical Kinetics",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 12,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_RATE_LAW",
-        "name": "Rate of Reaction & Rate Law",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Rate of Reaction & Rate Law - Core Theory & Derivation",
-          "Rate of Reaction & Rate Law - Standard Formula Drill",
-          "Rate of Reaction & Rate Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ORDER_MOLECULARITY",
-        "name": "Order & Molecularity",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Order & Molecularity - Core Theory & Derivation",
-          "Order & Molecularity - Standard Formula Drill",
-          "Order & Molecularity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_ZERO_FIRST_ORDER",
-        "name": "Integrated Rate Laws (Zero & First Order)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Integrated Rate Laws (Zero & First Order) - Core Theory & Derivation",
-          "Integrated Rate Laws (Zero & First Order) - Standard Formula Drill",
-          "Integrated Rate Laws (Zero & First Order) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|HALF_LIFE_PERIOD",
-        "name": "Half-Life Period",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Half-Life Period - Core Theory & Derivation",
-          "Half-Life Period - Standard Formula Drill",
-          "Half-Life Period - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
-        "name": "Arrhenius Equation & Activation Energy",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Arrhenius Equation & Activation Energy - Core Theory & Derivation",
-          "Arrhenius Equation & Activation Energy - Standard Formula Drill",
-          "Arrhenius Equation & Activation Energy - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|THE_D_AND_F_BLOCK_ELEMENTS",
-    "chapterId": "THE_D_AND_F_BLOCK_ELEMENTS",
-    "name": "The d- and f-Block Elements",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 13,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|TRANSITION_METAL_PROPERTIES",
-        "name": "Transition Metal Properties",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Transition Metal Properties - Core Theory & Derivation",
-          "Transition Metal Properties - Standard Formula Drill",
-          "Transition Metal Properties - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|VARIABLE_OXIDATION_STATES",
-        "name": "Variable Oxidation States",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Variable Oxidation States - Core Theory & Derivation",
-          "Variable Oxidation States - Standard Formula Drill",
-          "Variable Oxidation States - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|LANTHANOID_CONTRACTION",
-        "name": "Lanthanoid Contraction",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lanthanoid Contraction - Core Theory & Derivation",
-          "Lanthanoid Contraction - Standard Formula Drill",
-          "Lanthanoid Contraction - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|MAGNETIC_PROPERTIES_COLORED_IONS",
-        "name": "Magnetic Properties & Colored Ions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Magnetic Properties & Colored Ions - Core Theory & Derivation",
-          "Magnetic Properties & Colored Ions - Standard Formula Drill",
-          "Magnetic Properties & Colored Ions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|POTASSIUM_DICHROMATE_PERMANGANATE",
-        "name": "Potassium Dichromate & Permanganate",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Potassium Dichromate & Permanganate - Core Theory & Derivation",
-          "Potassium Dichromate & Permanganate - Standard Formula Drill",
-          "Potassium Dichromate & Permanganate - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|COORDINATION_COMPOUNDS",
-    "chapterId": "COORDINATION_COMPOUNDS",
-    "name": "Coordination Compounds",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 14,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "COORDINATION_COMPOUNDS|WERNER_S_COORDINATION_THEORY",
-        "name": "Werner's Coordination Theory",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Werner's Coordination Theory - Core Theory & Derivation",
-          "Werner's Coordination Theory - Standard Formula Drill",
-          "Werner's Coordination Theory - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|IUPAC_NAMING_OF_COMPLEXES",
-        "name": "IUPAC Naming of Complexes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Naming of Complexes - Core Theory & Derivation",
-          "IUPAC Naming of Complexes - Standard Formula Drill",
-          "IUPAC Naming of Complexes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
-        "name": "Isomerism in Coordination Compounds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Isomerism in Coordination Compounds - Core Theory & Derivation",
-          "Isomerism in Coordination Compounds - Standard Formula Drill",
-          "Isomerism in Coordination Compounds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|VALENCE_BOND_THEORY_VBT",
-        "name": "Valence Bond Theory (VBT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Valence Bond Theory (VBT) - Core Theory & Derivation",
-          "Valence Bond Theory (VBT) - Standard Formula Drill",
-          "Valence Bond Theory (VBT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|CRYSTAL_FIELD_THEORY_CFT",
-        "name": "Crystal Field Theory (CFT)",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Crystal Field Theory (CFT) - Core Theory & Derivation",
-          "Crystal Field Theory (CFT) - Standard Formula Drill",
-          "Crystal Field Theory (CFT) - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
-    "chapterId": "HALOALKANES_AND_HALOARENES",
-    "name": "Haloalkanes and Haloarenes",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 15,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "HALOALKANES_AND_HALOARENES|SN1_VS_SN2_MECHANISMS",
-        "name": "SN1 vs SN2 Mechanisms",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "SN1 vs SN2 Mechanisms - Core Theory & Derivation",
-          "SN1 vs SN2 Mechanisms - Standard Formula Drill",
-          "SN1 vs SN2 Mechanisms - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|STEREOCHEMISTRY_INVERSION",
-        "name": "Stereochemistry & Inversion",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stereochemistry & Inversion - Core Theory & Derivation",
-          "Stereochemistry & Inversion - Standard Formula Drill",
-          "Stereochemistry & Inversion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_VS_SUBSTITUTION",
-        "name": "Elimination vs Substitution",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Elimination vs Substitution - Core Theory & Derivation",
-          "Elimination vs Substitution - Standard Formula Drill",
-          "Elimination vs Substitution - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES",
-        "name": "Reactions of Haloarenes",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reactions of Haloarenes - Core Theory & Derivation",
-          "Reactions of Haloarenes - Standard Formula Drill",
-          "Reactions of Haloarenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|POLYHALOGEN_COMPOUNDS",
-        "name": "Polyhalogen Compounds",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Polyhalogen Compounds - Core Theory & Derivation",
-          "Polyhalogen Compounds - Standard Formula Drill",
-          "Polyhalogen Compounds - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
-    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
-    "name": "Alcohols, Phenols and Ethers",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 16,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CLASSIFICATION_PREPARATION",
-        "name": "Classification & Preparation",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Classification & Preparation - Core Theory & Derivation",
-          "Classification & Preparation - Standard Formula Drill",
-          "Classification & Preparation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ACIDITY_OF_ALCOHOLS_PHENOLS",
-        "name": "Acidity of Alcohols & Phenols",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Acidity of Alcohols & Phenols - Core Theory & Derivation",
-          "Acidity of Alcohols & Phenols - Standard Formula Drill",
-          "Acidity of Alcohols & Phenols - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|LUCAS_TEST_OXIDATION",
-        "name": "Lucas Test & Oxidation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lucas Test & Oxidation - Core Theory & Derivation",
-          "Lucas Test & Oxidation - Standard Formula Drill",
-          "Lucas Test & Oxidation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REIMER_TIEMANN_KOLBE_REACTIONS",
-        "name": "Reimer-Tiemann & Kolbe Reactions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reimer-Tiemann & Kolbe Reactions - Core Theory & Derivation",
-          "Reimer-Tiemann & Kolbe Reactions - Standard Formula Drill",
-          "Reimer-Tiemann & Kolbe Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|WILLIAMSON_ETHER_SYNTHESIS",
-        "name": "Williamson Ether Synthesis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Williamson Ether Synthesis - Core Theory & Derivation",
-          "Williamson Ether Synthesis - Standard Formula Drill",
-          "Williamson Ether Synthesis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "chapterId": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "name": "Aldehydes, Ketones and Carboxylic Acids",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 17,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
-        "name": "Nucleophilic Addition Reactions",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nucleophilic Addition Reactions - Core Theory & Derivation",
-          "Nucleophilic Addition Reactions - Standard Formula Drill",
-          "Nucleophilic Addition Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|TOLLENS_FEHLING_S_IODOFORM_TESTS",
-        "name": "Tollens', Fehling's & Iodoform Tests",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Tollens', Fehling's & Iodoform Tests - Core Theory & Derivation",
-          "Tollens', Fehling's & Iodoform Tests - Standard Formula Drill",
-          "Tollens', Fehling's & Iodoform Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ALDOL_CONDENSATION_CANNIZZARO",
-        "name": "Aldol Condensation & Cannizzaro",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aldol Condensation & Cannizzaro - Core Theory & Derivation",
-          "Aldol Condensation & Cannizzaro - Standard Formula Drill",
-          "Aldol Condensation & Cannizzaro - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ACIDITY_OF_CARBOXYLIC_ACIDS",
-        "name": "Acidity of Carboxylic Acids",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acidity of Carboxylic Acids - Core Theory & Derivation",
-          "Acidity of Carboxylic Acids - Standard Formula Drill",
-          "Acidity of Carboxylic Acids - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|HVZ_REACTION_DECARBOXYLATION",
-        "name": "HVZ Reaction & Decarboxylation",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "HVZ Reaction & Decarboxylation - Core Theory & Derivation",
-          "HVZ Reaction & Decarboxylation - Standard Formula Drill",
-          "HVZ Reaction & Decarboxylation - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|AMINES",
-    "chapterId": "AMINES",
-    "name": "Amines",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 18,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "AMINES|BASICITY_OF_AMINES_IN_AQUEOUS_PHASE",
-        "name": "Basicity of Amines in Aqueous Phase",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Basicity of Amines in Aqueous Phase - Core Theory & Derivation",
-          "Basicity of Amines in Aqueous Phase - Standard Formula Drill",
-          "Basicity of Amines in Aqueous Phase - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|GABRIEL_PHTHALIMIDE_SYNTHESIS",
-        "name": "Gabriel Phthalimide Synthesis",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Gabriel Phthalimide Synthesis - Core Theory & Derivation",
-          "Gabriel Phthalimide Synthesis - Standard Formula Drill",
-          "Gabriel Phthalimide Synthesis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|HOFFMANN_BROMAMIDE_DEGRADATION",
-        "name": "Hoffmann Bromamide Degradation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hoffmann Bromamide Degradation - Core Theory & Derivation",
-          "Hoffmann Bromamide Degradation - Standard Formula Drill",
-          "Hoffmann Bromamide Degradation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|CARBYLAMINE_HINSBERG_TESTS",
-        "name": "Carbylamine & Hinsberg Tests",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbylamine & Hinsberg Tests - Core Theory & Derivation",
-          "Carbylamine & Hinsberg Tests - Standard Formula Drill",
-          "Carbylamine & Hinsberg Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|DIAZONIUM_SALTS_COUPLING_REACTIONS",
-        "name": "Diazonium Salts & Coupling Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Diazonium Salts & Coupling Reactions - Core Theory & Derivation",
-          "Diazonium Salts & Coupling Reactions - Standard Formula Drill",
-          "Diazonium Salts & Coupling Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "National Testing Agency (NTA)",
-    "sourceURL": "https://neet.nta.ac.in/information-bulletin",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "NEET_UG|CHEMISTRY|12|BIOMOLECULES",
-    "chapterId": "BIOMOLECULES",
-    "name": "Biomolecules",
-    "examId": "NEET_UG",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 19,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "BIOMOLECULES|MONOSACCHARIDES_STRUCTURE_GLUCOSE_FRUCTOSE",
-        "name": "Monosaccharides Structure (Glucose & Fructose)",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Monosaccharides Structure (Glucose & Fructose) - Core Theory & Derivation",
-          "Monosaccharides Structure (Glucose & Fructose) - Standard Formula Drill",
-          "Monosaccharides Structure (Glucose & Fructose) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
-        "name": "Disaccharides & Polysaccharides",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Disaccharides & Polysaccharides - Core Theory & Derivation",
-          "Disaccharides & Polysaccharides - Standard Formula Drill",
-          "Disaccharides & Polysaccharides - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDE_BONDS",
-        "name": "Amino Acids & Peptide Bonds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Amino Acids & Peptide Bonds - Core Theory & Derivation",
-          "Amino Acids & Peptide Bonds - Standard Formula Drill",
-          "Amino Acids & Peptide Bonds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|STRUCTURE_OF_PROTEINS_PRIMARY_TO_QUATERNARY",
-        "name": "Structure of Proteins (Primary to Quaternary)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Structure of Proteins (Primary to Quaternary) - Core Theory & Derivation",
-          "Structure of Proteins (Primary to Quaternary) - Standard Formula Drill",
-          "Structure of Proteins (Primary to Quaternary) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|NUCLEIC_ACIDS_DNA_RNA_VITAMINS",
-        "name": "Nucleic Acids (DNA & RNA) & Vitamins",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Nucleic Acids (DNA & RNA) & Vitamins - Core Theory & Derivation",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Standard Formula Drill",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Previous Exam Applications"
         ]
       }
     ],
@@ -18397,1374 +14293,6 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
           "Logic Gates (AND, OR, NOT, NAND, NOR) - Core Theory & Derivation",
           "Logic Gates (AND, OR, NOT, NAND, NOR) - Standard Formula Drill",
           "Logic Gates (AND, OR, NOT, NAND, NOR) - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "name": "Some Basic Concepts of Chemistry",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 1,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
-        "name": "Mole Concept & Molar Mass",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Mole Concept & Molar Mass - Core Theory & Derivation",
-          "Mole Concept & Molar Mass - Standard Formula Drill",
-          "Mole Concept & Molar Mass - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
-        "name": "Stoichiometry & Limiting Reagent",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stoichiometry & Limiting Reagent - Core Theory & Derivation",
-          "Stoichiometry & Limiting Reagent - Standard Formula Drill",
-          "Stoichiometry & Limiting Reagent - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
-        "name": "Empirical & Molecular Formula",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Empirical & Molecular Formula - Core Theory & Derivation",
-          "Empirical & Molecular Formula - Standard Formula Drill",
-          "Empirical & Molecular Formula - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLARITY_MOLALITY",
-        "name": "Molarity & Molality",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molarity & Molality - Core Theory & Derivation",
-          "Molarity & Molality - Standard Formula Drill",
-          "Molarity & Molality - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAW_OF_CHEMICAL_COMBINATION",
-        "name": "Law of Chemical Combination",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Law of Chemical Combination - Core Theory & Derivation",
-          "Law of Chemical Combination - Standard Formula Drill",
-          "Law of Chemical Combination - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|STRUCTURE_OF_ATOM",
-    "chapterId": "STRUCTURE_OF_ATOM",
-    "name": "Structure of Atom",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 2,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "STRUCTURE_OF_ATOM|BOHR_S_MODEL_RADII",
-        "name": "Bohr's Model & Radii",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Bohr's Model & Radii - Core Theory & Derivation",
-          "Bohr's Model & Radii - Standard Formula Drill",
-          "Bohr's Model & Radii - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|DE_BROGLIE_RELATION",
-        "name": "De Broglie Relation",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "De Broglie Relation - Core Theory & Derivation",
-          "De Broglie Relation - Standard Formula Drill",
-          "De Broglie Relation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|HEISENBERG_UNCERTAINTY_PRINCIPLE",
-        "name": "Heisenberg Uncertainty Principle",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heisenberg Uncertainty Principle - Core Theory & Derivation",
-          "Heisenberg Uncertainty Principle - Standard Formula Drill",
-          "Heisenberg Uncertainty Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|QUANTUM_NUMBERS",
-        "name": "Quantum Numbers",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Quantum Numbers - Core Theory & Derivation",
-          "Quantum Numbers - Standard Formula Drill",
-          "Quantum Numbers - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|AUFBAU_PAULI_HUND_S_RULE",
-        "name": "Aufbau, Pauli & Hund's Rule",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aufbau, Pauli & Hund's Rule - Core Theory & Derivation",
-          "Aufbau, Pauli & Hund's Rule - Standard Formula Drill",
-          "Aufbau, Pauli & Hund's Rule - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "chapterId": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "name": "Classification of Elements and Periodicity",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 3,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|MODERN_PERIODIC_TABLE",
-        "name": "Modern Periodic Table",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Modern Periodic Table - Core Theory & Derivation",
-          "Modern Periodic Table - Standard Formula Drill",
-          "Modern Periodic Table - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ATOMIC_IONIC_RADII_TRENDS",
-        "name": "Atomic & Ionic Radii Trends",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Atomic & Ionic Radii Trends - Core Theory & Derivation",
-          "Atomic & Ionic Radii Trends - Standard Formula Drill",
-          "Atomic & Ionic Radii Trends - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|IONIZATION_ENTHALPY",
-        "name": "Ionization Enthalpy",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ionization Enthalpy - Core Theory & Derivation",
-          "Ionization Enthalpy - Standard Formula Drill",
-          "Ionization Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRON_GAIN_ENTHALPY",
-        "name": "Electron Gain Enthalpy",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electron Gain Enthalpy - Core Theory & Derivation",
-          "Electron Gain Enthalpy - Standard Formula Drill",
-          "Electron Gain Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRONEGATIVITY_TRENDS",
-        "name": "Electronegativity Trends",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronegativity Trends - Core Theory & Derivation",
-          "Electronegativity Trends - Standard Formula Drill",
-          "Electronegativity Trends - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "chapterId": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "name": "Chemical Bonding and Molecular Structure",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 4,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|LEWIS_DOT_STRUCTURES",
-        "name": "Lewis Dot Structures",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Lewis Dot Structures - Core Theory & Derivation",
-          "Lewis Dot Structures - Standard Formula Drill",
-          "Lewis Dot Structures - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|VSEPR_THEORY_SHAPES",
-        "name": "VSEPR Theory & Shapes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "VSEPR Theory & Shapes - Core Theory & Derivation",
-          "VSEPR Theory & Shapes - Standard Formula Drill",
-          "VSEPR Theory & Shapes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYBRIDIZATION_SP_SP2_SP3_SP3D",
-        "name": "Hybridization (sp, sp2, sp3, sp3d)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hybridization (sp, sp2, sp3, sp3d) - Core Theory & Derivation",
-          "Hybridization (sp, sp2, sp3, sp3d) - Standard Formula Drill",
-          "Hybridization (sp, sp2, sp3, sp3d) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|MOLECULAR_ORBITAL_THEORY_MOT",
-        "name": "Molecular Orbital Theory (MOT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molecular Orbital Theory (MOT) - Core Theory & Derivation",
-          "Molecular Orbital Theory (MOT) - Standard Formula Drill",
-          "Molecular Orbital Theory (MOT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYDROGEN_BONDING_DIPOLE_MOMENT",
-        "name": "Hydrogen Bonding & Dipole Moment",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hydrogen Bonding & Dipole Moment - Core Theory & Derivation",
-          "Hydrogen Bonding & Dipole Moment - Standard Formula Drill",
-          "Hydrogen Bonding & Dipole Moment - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
-    "chapterId": "CHEMICAL_THERMODYNAMICS",
-    "name": "Chemical Thermodynamics",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 5,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HESS_S_LAW",
-        "name": "Enthalpy & Hess's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Enthalpy & Hess's Law - Core Theory & Derivation",
-          "Enthalpy & Hess's Law - Standard Formula Drill",
-          "Enthalpy & Hess's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTROPY_SECOND_LAW",
-        "name": "Entropy & Second Law",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Entropy & Second Law - Core Theory & Derivation",
-          "Entropy & Second Law - Standard Formula Drill",
-          "Entropy & Second Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_SPONTANEITY",
-        "name": "Gibbs Free Energy & Spontaneity",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Gibbs Free Energy & Spontaneity - Core Theory & Derivation",
-          "Gibbs Free Energy & Spontaneity - Standard Formula Drill",
-          "Gibbs Free Energy & Spontaneity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|HEAT_CAPACITY_CALORIMETRY",
-        "name": "Heat Capacity & Calorimetry",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heat Capacity & Calorimetry - Core Theory & Derivation",
-          "Heat Capacity & Calorimetry - Standard Formula Drill",
-          "Heat Capacity & Calorimetry - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|EQUILIBRIUM",
-    "chapterId": "EQUILIBRIUM",
-    "name": "Equilibrium",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 6,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "EQUILIBRIUM|LAW_OF_CHEMICAL_EQUILIBRIUM",
-        "name": "Law of Chemical Equilibrium",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Law of Chemical Equilibrium - Core Theory & Derivation",
-          "Law of Chemical Equilibrium - Standard Formula Drill",
-          "Law of Chemical Equilibrium - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
-        "name": "Le Chatelier's Principle",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Le Chatelier's Principle - Core Theory & Derivation",
-          "Le Chatelier's Principle - Standard Formula Drill",
-          "Le Chatelier's Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|ACID_BASE_CONCEPTS_ARRHENIUS_BRONSTED_LEWIS",
-        "name": "Acid-Base Concepts (Arrhenius, Bronsted, Lewis)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Core Theory & Derivation",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Standard Formula Drill",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|PH_BUFFER_SOLUTIONS",
-        "name": "pH & Buffer Solutions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "pH & Buffer Solutions - Core Theory & Derivation",
-          "pH & Buffer Solutions - Standard Formula Drill",
-          "pH & Buffer Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_KSP",
-        "name": "Solubility Product Ksp",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Solubility Product Ksp - Core Theory & Derivation",
-          "Solubility Product Ksp - Standard Formula Drill",
-          "Solubility Product Ksp - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|REDOX_REACTIONS",
-    "chapterId": "REDOX_REACTIONS",
-    "name": "Redox Reactions",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 7,
-    "weightage": "Low",
-    "topics": [
-      {
-        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_RULES",
-        "name": "Oxidation Numbers Rules",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Oxidation Numbers Rules - Core Theory & Derivation",
-          "Oxidation Numbers Rules - Standard Formula Drill",
-          "Oxidation Numbers Rules - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|BALANCING_REDOX_REACTIONS",
-        "name": "Balancing Redox Reactions",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Balancing Redox Reactions - Core Theory & Derivation",
-          "Balancing Redox Reactions - Standard Formula Drill",
-          "Balancing Redox Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|ELECTROCHEMICAL_SERIES",
-        "name": "Electrochemical Series",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electrochemical Series - Core Theory & Derivation",
-          "Electrochemical Series - Standard Formula Drill",
-          "Electrochemical Series - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|OXIDIZING_REDUCING_AGENTS",
-        "name": "Oxidizing & Reducing Agents",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Oxidizing & Reducing Agents - Core Theory & Derivation",
-          "Oxidizing & Reducing Agents - Standard Formula Drill",
-          "Oxidizing & Reducing Agents - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|DISPROPORTIONATION_REACTIONS",
-        "name": "Disproportionation Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Disproportionation Reactions - Core Theory & Derivation",
-          "Disproportionation Reactions - Standard Formula Drill",
-          "Disproportionation Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "name": "Organic Chemistry: Basic Principles and Techniques",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 8,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|IUPAC_NOMENCLATURE",
-        "name": "IUPAC Nomenclature",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Nomenclature - Core Theory & Derivation",
-          "IUPAC Nomenclature - Standard Formula Drill",
-          "IUPAC Nomenclature - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ISOMERISM_STRUCTURAL_STEREO",
-        "name": "Isomerism (Structural & Stereo)",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Isomerism (Structural & Stereo) - Core Theory & Derivation",
-          "Isomerism (Structural & Stereo) - Standard Formula Drill",
-          "Isomerism (Structural & Stereo) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ELECTRONIC_EFFECTS_INDUCTIVE_RESONANCE_HYPERCONJUGATION",
-        "name": "Electronic Effects (Inductive, Resonance, Hyperconjugation)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Core Theory & Derivation",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Standard Formula Drill",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|CARBOCATION_CARBANION_STABILITY",
-        "name": "Carbocation & Carbanion Stability",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbocation & Carbanion Stability - Core Theory & Derivation",
-          "Carbocation & Carbanion Stability - Standard Formula Drill",
-          "Carbocation & Carbanion Stability - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|PURIFICATION_QUALITATIVE_ANALYSIS",
-        "name": "Purification & Qualitative Analysis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Purification & Qualitative Analysis - Core Theory & Derivation",
-          "Purification & Qualitative Analysis - Standard Formula Drill",
-          "Purification & Qualitative Analysis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|11|HYDROCARBONS",
-    "chapterId": "HYDROCARBONS",
-    "name": "Hydrocarbons",
-    "examId": "CBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 9,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "HYDROCARBONS|ALKANES_HALOGENATION_MECHANISM",
-        "name": "Alkanes Halogenation Mechanism",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkanes Halogenation Mechanism - Core Theory & Derivation",
-          "Alkanes Halogenation Mechanism - Standard Formula Drill",
-          "Alkanes Halogenation Mechanism - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKENES_MARKOVNIKOV_ANTI_MARKOVNIKOV_ADDITION",
-        "name": "Alkenes Markovnikov & Anti-Markovnikov Addition",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Core Theory & Derivation",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Standard Formula Drill",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|OZONOLYSIS_OF_ALKENES",
-        "name": "Ozonolysis of Alkenes",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ozonolysis of Alkenes - Core Theory & Derivation",
-          "Ozonolysis of Alkenes - Standard Formula Drill",
-          "Ozonolysis of Alkenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKYNES_ACIDITY_ADDITION",
-        "name": "Alkynes Acidity & Addition",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Alkynes Acidity & Addition - Core Theory & Derivation",
-          "Alkynes Acidity & Addition - Standard Formula Drill",
-          "Alkynes Acidity & Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|AROMATICITY_ELECTROPHILIC_SUBSTITUTION",
-        "name": "Aromaticity & Electrophilic Substitution",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aromaticity & Electrophilic Substitution - Core Theory & Derivation",
-          "Aromaticity & Electrophilic Substitution - Standard Formula Drill",
-          "Aromaticity & Electrophilic Substitution - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|SOLUTIONS",
-    "chapterId": "SOLUTIONS",
-    "name": "Solutions",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 10,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "SOLUTIONS|TYPES_OF_SOLUTIONS_SOLUBILITY",
-        "name": "Types of Solutions & Solubility",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Types of Solutions & Solubility - Core Theory & Derivation",
-          "Types of Solutions & Solubility - Standard Formula Drill",
-          "Types of Solutions & Solubility - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
-        "name": "Henry's Law & Raoult's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Henry's Law & Raoult's Law - Core Theory & Derivation",
-          "Henry's Law & Raoult's Law - Standard Formula Drill",
-          "Henry's Law & Raoult's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|IDEAL_NON_IDEAL_SOLUTIONS",
-        "name": "Ideal & Non-ideal Solutions",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ideal & Non-ideal Solutions - Core Theory & Derivation",
-          "Ideal & Non-ideal Solutions - Standard Formula Drill",
-          "Ideal & Non-ideal Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES_BOILING_FREEZING_OSMOTIC",
-        "name": "Colligative Properties (Boiling/Freezing/Osmotic)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Core Theory & Derivation",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Standard Formula Drill",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_I",
-        "name": "Van 't Hoff Factor i",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Van 't Hoff Factor i - Core Theory & Derivation",
-          "Van 't Hoff Factor i - Standard Formula Drill",
-          "Van 't Hoff Factor i - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|ELECTROCHEMISTRY",
-    "chapterId": "ELECTROCHEMISTRY",
-    "name": "Electrochemistry",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 11,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_CELL_POTENTIAL",
-        "name": "Galvanic Cells & Cell Potential",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Galvanic Cells & Cell Potential - Core Theory & Derivation",
-          "Galvanic Cells & Cell Potential - Standard Formula Drill",
-          "Galvanic Cells & Cell Potential - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|NERNST_EQUATION_APPLICATIONS",
-        "name": "Nernst Equation Applications",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nernst Equation Applications - Core Theory & Derivation",
-          "Nernst Equation Applications - Standard Formula Drill",
-          "Nernst Equation Applications - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|KOHLRAUSCH_S_LAW_OF_INDEPENDENT_MIGRATION",
-        "name": "Kohlrausch's Law of Independent Migration",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Kohlrausch's Law of Independent Migration - Core Theory & Derivation",
-          "Kohlrausch's Law of Independent Migration - Standard Formula Drill",
-          "Kohlrausch's Law of Independent Migration - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|FARADAY_S_LAWS_OF_ELECTROLYSIS",
-        "name": "Faraday's Laws of Electrolysis",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Faraday's Laws of Electrolysis - Core Theory & Derivation",
-          "Faraday's Laws of Electrolysis - Standard Formula Drill",
-          "Faraday's Laws of Electrolysis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
-        "name": "Batteries, Fuel Cells & Corrosion",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Batteries, Fuel Cells & Corrosion - Core Theory & Derivation",
-          "Batteries, Fuel Cells & Corrosion - Standard Formula Drill",
-          "Batteries, Fuel Cells & Corrosion - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|CHEMICAL_KINETICS",
-    "chapterId": "CHEMICAL_KINETICS",
-    "name": "Chemical Kinetics",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 12,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_RATE_LAW",
-        "name": "Rate of Reaction & Rate Law",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Rate of Reaction & Rate Law - Core Theory & Derivation",
-          "Rate of Reaction & Rate Law - Standard Formula Drill",
-          "Rate of Reaction & Rate Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ORDER_MOLECULARITY",
-        "name": "Order & Molecularity",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Order & Molecularity - Core Theory & Derivation",
-          "Order & Molecularity - Standard Formula Drill",
-          "Order & Molecularity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_ZERO_FIRST_ORDER",
-        "name": "Integrated Rate Laws (Zero & First Order)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Integrated Rate Laws (Zero & First Order) - Core Theory & Derivation",
-          "Integrated Rate Laws (Zero & First Order) - Standard Formula Drill",
-          "Integrated Rate Laws (Zero & First Order) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|HALF_LIFE_PERIOD",
-        "name": "Half-Life Period",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Half-Life Period - Core Theory & Derivation",
-          "Half-Life Period - Standard Formula Drill",
-          "Half-Life Period - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
-        "name": "Arrhenius Equation & Activation Energy",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Arrhenius Equation & Activation Energy - Core Theory & Derivation",
-          "Arrhenius Equation & Activation Energy - Standard Formula Drill",
-          "Arrhenius Equation & Activation Energy - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|THE_D_AND_F_BLOCK_ELEMENTS",
-    "chapterId": "THE_D_AND_F_BLOCK_ELEMENTS",
-    "name": "The d- and f-Block Elements",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 13,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|TRANSITION_METAL_PROPERTIES",
-        "name": "Transition Metal Properties",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Transition Metal Properties - Core Theory & Derivation",
-          "Transition Metal Properties - Standard Formula Drill",
-          "Transition Metal Properties - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|VARIABLE_OXIDATION_STATES",
-        "name": "Variable Oxidation States",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Variable Oxidation States - Core Theory & Derivation",
-          "Variable Oxidation States - Standard Formula Drill",
-          "Variable Oxidation States - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|LANTHANOID_CONTRACTION",
-        "name": "Lanthanoid Contraction",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lanthanoid Contraction - Core Theory & Derivation",
-          "Lanthanoid Contraction - Standard Formula Drill",
-          "Lanthanoid Contraction - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|MAGNETIC_PROPERTIES_COLORED_IONS",
-        "name": "Magnetic Properties & Colored Ions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Magnetic Properties & Colored Ions - Core Theory & Derivation",
-          "Magnetic Properties & Colored Ions - Standard Formula Drill",
-          "Magnetic Properties & Colored Ions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|POTASSIUM_DICHROMATE_PERMANGANATE",
-        "name": "Potassium Dichromate & Permanganate",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Potassium Dichromate & Permanganate - Core Theory & Derivation",
-          "Potassium Dichromate & Permanganate - Standard Formula Drill",
-          "Potassium Dichromate & Permanganate - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|COORDINATION_COMPOUNDS",
-    "chapterId": "COORDINATION_COMPOUNDS",
-    "name": "Coordination Compounds",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 14,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "COORDINATION_COMPOUNDS|WERNER_S_COORDINATION_THEORY",
-        "name": "Werner's Coordination Theory",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Werner's Coordination Theory - Core Theory & Derivation",
-          "Werner's Coordination Theory - Standard Formula Drill",
-          "Werner's Coordination Theory - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|IUPAC_NAMING_OF_COMPLEXES",
-        "name": "IUPAC Naming of Complexes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Naming of Complexes - Core Theory & Derivation",
-          "IUPAC Naming of Complexes - Standard Formula Drill",
-          "IUPAC Naming of Complexes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
-        "name": "Isomerism in Coordination Compounds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Isomerism in Coordination Compounds - Core Theory & Derivation",
-          "Isomerism in Coordination Compounds - Standard Formula Drill",
-          "Isomerism in Coordination Compounds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|VALENCE_BOND_THEORY_VBT",
-        "name": "Valence Bond Theory (VBT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Valence Bond Theory (VBT) - Core Theory & Derivation",
-          "Valence Bond Theory (VBT) - Standard Formula Drill",
-          "Valence Bond Theory (VBT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|CRYSTAL_FIELD_THEORY_CFT",
-        "name": "Crystal Field Theory (CFT)",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Crystal Field Theory (CFT) - Core Theory & Derivation",
-          "Crystal Field Theory (CFT) - Standard Formula Drill",
-          "Crystal Field Theory (CFT) - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
-    "chapterId": "HALOALKANES_AND_HALOARENES",
-    "name": "Haloalkanes and Haloarenes",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 15,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "HALOALKANES_AND_HALOARENES|SN1_VS_SN2_MECHANISMS",
-        "name": "SN1 vs SN2 Mechanisms",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "SN1 vs SN2 Mechanisms - Core Theory & Derivation",
-          "SN1 vs SN2 Mechanisms - Standard Formula Drill",
-          "SN1 vs SN2 Mechanisms - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|STEREOCHEMISTRY_INVERSION",
-        "name": "Stereochemistry & Inversion",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stereochemistry & Inversion - Core Theory & Derivation",
-          "Stereochemistry & Inversion - Standard Formula Drill",
-          "Stereochemistry & Inversion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_VS_SUBSTITUTION",
-        "name": "Elimination vs Substitution",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Elimination vs Substitution - Core Theory & Derivation",
-          "Elimination vs Substitution - Standard Formula Drill",
-          "Elimination vs Substitution - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES",
-        "name": "Reactions of Haloarenes",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reactions of Haloarenes - Core Theory & Derivation",
-          "Reactions of Haloarenes - Standard Formula Drill",
-          "Reactions of Haloarenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|POLYHALOGEN_COMPOUNDS",
-        "name": "Polyhalogen Compounds",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Polyhalogen Compounds - Core Theory & Derivation",
-          "Polyhalogen Compounds - Standard Formula Drill",
-          "Polyhalogen Compounds - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
-    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
-    "name": "Alcohols, Phenols and Ethers",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 16,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CLASSIFICATION_PREPARATION",
-        "name": "Classification & Preparation",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Classification & Preparation - Core Theory & Derivation",
-          "Classification & Preparation - Standard Formula Drill",
-          "Classification & Preparation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ACIDITY_OF_ALCOHOLS_PHENOLS",
-        "name": "Acidity of Alcohols & Phenols",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Acidity of Alcohols & Phenols - Core Theory & Derivation",
-          "Acidity of Alcohols & Phenols - Standard Formula Drill",
-          "Acidity of Alcohols & Phenols - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|LUCAS_TEST_OXIDATION",
-        "name": "Lucas Test & Oxidation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lucas Test & Oxidation - Core Theory & Derivation",
-          "Lucas Test & Oxidation - Standard Formula Drill",
-          "Lucas Test & Oxidation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REIMER_TIEMANN_KOLBE_REACTIONS",
-        "name": "Reimer-Tiemann & Kolbe Reactions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reimer-Tiemann & Kolbe Reactions - Core Theory & Derivation",
-          "Reimer-Tiemann & Kolbe Reactions - Standard Formula Drill",
-          "Reimer-Tiemann & Kolbe Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|WILLIAMSON_ETHER_SYNTHESIS",
-        "name": "Williamson Ether Synthesis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Williamson Ether Synthesis - Core Theory & Derivation",
-          "Williamson Ether Synthesis - Standard Formula Drill",
-          "Williamson Ether Synthesis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "chapterId": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "name": "Aldehydes, Ketones and Carboxylic Acids",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 17,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
-        "name": "Nucleophilic Addition Reactions",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nucleophilic Addition Reactions - Core Theory & Derivation",
-          "Nucleophilic Addition Reactions - Standard Formula Drill",
-          "Nucleophilic Addition Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|TOLLENS_FEHLING_S_IODOFORM_TESTS",
-        "name": "Tollens', Fehling's & Iodoform Tests",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Tollens', Fehling's & Iodoform Tests - Core Theory & Derivation",
-          "Tollens', Fehling's & Iodoform Tests - Standard Formula Drill",
-          "Tollens', Fehling's & Iodoform Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ALDOL_CONDENSATION_CANNIZZARO",
-        "name": "Aldol Condensation & Cannizzaro",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aldol Condensation & Cannizzaro - Core Theory & Derivation",
-          "Aldol Condensation & Cannizzaro - Standard Formula Drill",
-          "Aldol Condensation & Cannizzaro - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ACIDITY_OF_CARBOXYLIC_ACIDS",
-        "name": "Acidity of Carboxylic Acids",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acidity of Carboxylic Acids - Core Theory & Derivation",
-          "Acidity of Carboxylic Acids - Standard Formula Drill",
-          "Acidity of Carboxylic Acids - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|HVZ_REACTION_DECARBOXYLATION",
-        "name": "HVZ Reaction & Decarboxylation",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "HVZ Reaction & Decarboxylation - Core Theory & Derivation",
-          "HVZ Reaction & Decarboxylation - Standard Formula Drill",
-          "HVZ Reaction & Decarboxylation - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|AMINES",
-    "chapterId": "AMINES",
-    "name": "Amines",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 18,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "AMINES|BASICITY_OF_AMINES_IN_AQUEOUS_PHASE",
-        "name": "Basicity of Amines in Aqueous Phase",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Basicity of Amines in Aqueous Phase - Core Theory & Derivation",
-          "Basicity of Amines in Aqueous Phase - Standard Formula Drill",
-          "Basicity of Amines in Aqueous Phase - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|GABRIEL_PHTHALIMIDE_SYNTHESIS",
-        "name": "Gabriel Phthalimide Synthesis",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Gabriel Phthalimide Synthesis - Core Theory & Derivation",
-          "Gabriel Phthalimide Synthesis - Standard Formula Drill",
-          "Gabriel Phthalimide Synthesis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|HOFFMANN_BROMAMIDE_DEGRADATION",
-        "name": "Hoffmann Bromamide Degradation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hoffmann Bromamide Degradation - Core Theory & Derivation",
-          "Hoffmann Bromamide Degradation - Standard Formula Drill",
-          "Hoffmann Bromamide Degradation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|CARBYLAMINE_HINSBERG_TESTS",
-        "name": "Carbylamine & Hinsberg Tests",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbylamine & Hinsberg Tests - Core Theory & Derivation",
-          "Carbylamine & Hinsberg Tests - Standard Formula Drill",
-          "Carbylamine & Hinsberg Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|DIAZONIUM_SALTS_COUPLING_REACTIONS",
-        "name": "Diazonium Salts & Coupling Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Diazonium Salts & Coupling Reactions - Core Theory & Derivation",
-          "Diazonium Salts & Coupling Reactions - Standard Formula Drill",
-          "Diazonium Salts & Coupling Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Central Board of Secondary Education (CBSE)",
-    "sourceURL": "https://cbseacademic.nic.in/curriculum_2025.html",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "CBSE|CHEMISTRY|12|BIOMOLECULES",
-    "chapterId": "BIOMOLECULES",
-    "name": "Biomolecules",
-    "examId": "CBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 19,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "BIOMOLECULES|MONOSACCHARIDES_STRUCTURE_GLUCOSE_FRUCTOSE",
-        "name": "Monosaccharides Structure (Glucose & Fructose)",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Monosaccharides Structure (Glucose & Fructose) - Core Theory & Derivation",
-          "Monosaccharides Structure (Glucose & Fructose) - Standard Formula Drill",
-          "Monosaccharides Structure (Glucose & Fructose) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
-        "name": "Disaccharides & Polysaccharides",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Disaccharides & Polysaccharides - Core Theory & Derivation",
-          "Disaccharides & Polysaccharides - Standard Formula Drill",
-          "Disaccharides & Polysaccharides - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDE_BONDS",
-        "name": "Amino Acids & Peptide Bonds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Amino Acids & Peptide Bonds - Core Theory & Derivation",
-          "Amino Acids & Peptide Bonds - Standard Formula Drill",
-          "Amino Acids & Peptide Bonds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|STRUCTURE_OF_PROTEINS_PRIMARY_TO_QUATERNARY",
-        "name": "Structure of Proteins (Primary to Quaternary)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Structure of Proteins (Primary to Quaternary) - Core Theory & Derivation",
-          "Structure of Proteins (Primary to Quaternary) - Standard Formula Drill",
-          "Structure of Proteins (Primary to Quaternary) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|NUCLEIC_ACIDS_DNA_RNA_VITAMINS",
-        "name": "Nucleic Acids (DNA & RNA) & Vitamins",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Nucleic Acids (DNA & RNA) & Vitamins - Core Theory & Derivation",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Standard Formula Drill",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Previous Exam Applications"
         ]
       }
     ],
@@ -26049,1374 +20577,6 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "verificationStatus": "VERIFIED"
   },
   {
-    "id": "RBSE|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
-    "name": "Some Basic Concepts of Chemistry",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 1,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
-        "name": "Mole Concept & Molar Mass",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Mole Concept & Molar Mass - Core Theory & Derivation",
-          "Mole Concept & Molar Mass - Standard Formula Drill",
-          "Mole Concept & Molar Mass - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
-        "name": "Stoichiometry & Limiting Reagent",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stoichiometry & Limiting Reagent - Core Theory & Derivation",
-          "Stoichiometry & Limiting Reagent - Standard Formula Drill",
-          "Stoichiometry & Limiting Reagent - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
-        "name": "Empirical & Molecular Formula",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Empirical & Molecular Formula - Core Theory & Derivation",
-          "Empirical & Molecular Formula - Standard Formula Drill",
-          "Empirical & Molecular Formula - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLARITY_MOLALITY",
-        "name": "Molarity & Molality",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molarity & Molality - Core Theory & Derivation",
-          "Molarity & Molality - Standard Formula Drill",
-          "Molarity & Molality - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAW_OF_CHEMICAL_COMBINATION",
-        "name": "Law of Chemical Combination",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Law of Chemical Combination - Core Theory & Derivation",
-          "Law of Chemical Combination - Standard Formula Drill",
-          "Law of Chemical Combination - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|STRUCTURE_OF_ATOM",
-    "chapterId": "STRUCTURE_OF_ATOM",
-    "name": "Structure of Atom",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 2,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "STRUCTURE_OF_ATOM|BOHR_S_MODEL_RADII",
-        "name": "Bohr's Model & Radii",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Bohr's Model & Radii - Core Theory & Derivation",
-          "Bohr's Model & Radii - Standard Formula Drill",
-          "Bohr's Model & Radii - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|DE_BROGLIE_RELATION",
-        "name": "De Broglie Relation",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "De Broglie Relation - Core Theory & Derivation",
-          "De Broglie Relation - Standard Formula Drill",
-          "De Broglie Relation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|HEISENBERG_UNCERTAINTY_PRINCIPLE",
-        "name": "Heisenberg Uncertainty Principle",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heisenberg Uncertainty Principle - Core Theory & Derivation",
-          "Heisenberg Uncertainty Principle - Standard Formula Drill",
-          "Heisenberg Uncertainty Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|QUANTUM_NUMBERS",
-        "name": "Quantum Numbers",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Quantum Numbers - Core Theory & Derivation",
-          "Quantum Numbers - Standard Formula Drill",
-          "Quantum Numbers - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "STRUCTURE_OF_ATOM|AUFBAU_PAULI_HUND_S_RULE",
-        "name": "Aufbau, Pauli & Hund's Rule",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aufbau, Pauli & Hund's Rule - Core Theory & Derivation",
-          "Aufbau, Pauli & Hund's Rule - Standard Formula Drill",
-          "Aufbau, Pauli & Hund's Rule - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "chapterId": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY",
-    "name": "Classification of Elements and Periodicity",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 3,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|MODERN_PERIODIC_TABLE",
-        "name": "Modern Periodic Table",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Modern Periodic Table - Core Theory & Derivation",
-          "Modern Periodic Table - Standard Formula Drill",
-          "Modern Periodic Table - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ATOMIC_IONIC_RADII_TRENDS",
-        "name": "Atomic & Ionic Radii Trends",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Atomic & Ionic Radii Trends - Core Theory & Derivation",
-          "Atomic & Ionic Radii Trends - Standard Formula Drill",
-          "Atomic & Ionic Radii Trends - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|IONIZATION_ENTHALPY",
-        "name": "Ionization Enthalpy",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ionization Enthalpy - Core Theory & Derivation",
-          "Ionization Enthalpy - Standard Formula Drill",
-          "Ionization Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRON_GAIN_ENTHALPY",
-        "name": "Electron Gain Enthalpy",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electron Gain Enthalpy - Core Theory & Derivation",
-          "Electron Gain Enthalpy - Standard Formula Drill",
-          "Electron Gain Enthalpy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CLASSIFICATION_OF_ELEMENTS_AND_PERIODICITY|ELECTRONEGATIVITY_TRENDS",
-        "name": "Electronegativity Trends",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronegativity Trends - Core Theory & Derivation",
-          "Electronegativity Trends - Standard Formula Drill",
-          "Electronegativity Trends - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "chapterId": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE",
-    "name": "Chemical Bonding and Molecular Structure",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 4,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|LEWIS_DOT_STRUCTURES",
-        "name": "Lewis Dot Structures",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Lewis Dot Structures - Core Theory & Derivation",
-          "Lewis Dot Structures - Standard Formula Drill",
-          "Lewis Dot Structures - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|VSEPR_THEORY_SHAPES",
-        "name": "VSEPR Theory & Shapes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "VSEPR Theory & Shapes - Core Theory & Derivation",
-          "VSEPR Theory & Shapes - Standard Formula Drill",
-          "VSEPR Theory & Shapes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYBRIDIZATION_SP_SP2_SP3_SP3D",
-        "name": "Hybridization (sp, sp2, sp3, sp3d)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hybridization (sp, sp2, sp3, sp3d) - Core Theory & Derivation",
-          "Hybridization (sp, sp2, sp3, sp3d) - Standard Formula Drill",
-          "Hybridization (sp, sp2, sp3, sp3d) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|MOLECULAR_ORBITAL_THEORY_MOT",
-        "name": "Molecular Orbital Theory (MOT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Molecular Orbital Theory (MOT) - Core Theory & Derivation",
-          "Molecular Orbital Theory (MOT) - Standard Formula Drill",
-          "Molecular Orbital Theory (MOT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_BONDING_AND_MOLECULAR_STRUCTURE|HYDROGEN_BONDING_DIPOLE_MOMENT",
-        "name": "Hydrogen Bonding & Dipole Moment",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hydrogen Bonding & Dipole Moment - Core Theory & Derivation",
-          "Hydrogen Bonding & Dipole Moment - Standard Formula Drill",
-          "Hydrogen Bonding & Dipole Moment - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
-    "chapterId": "CHEMICAL_THERMODYNAMICS",
-    "name": "Chemical Thermodynamics",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 5,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HESS_S_LAW",
-        "name": "Enthalpy & Hess's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Enthalpy & Hess's Law - Core Theory & Derivation",
-          "Enthalpy & Hess's Law - Standard Formula Drill",
-          "Enthalpy & Hess's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|ENTROPY_SECOND_LAW",
-        "name": "Entropy & Second Law",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Entropy & Second Law - Core Theory & Derivation",
-          "Entropy & Second Law - Standard Formula Drill",
-          "Entropy & Second Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_SPONTANEITY",
-        "name": "Gibbs Free Energy & Spontaneity",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Gibbs Free Energy & Spontaneity - Core Theory & Derivation",
-          "Gibbs Free Energy & Spontaneity - Standard Formula Drill",
-          "Gibbs Free Energy & Spontaneity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_THERMODYNAMICS|HEAT_CAPACITY_CALORIMETRY",
-        "name": "Heat Capacity & Calorimetry",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Heat Capacity & Calorimetry - Core Theory & Derivation",
-          "Heat Capacity & Calorimetry - Standard Formula Drill",
-          "Heat Capacity & Calorimetry - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|EQUILIBRIUM",
-    "chapterId": "EQUILIBRIUM",
-    "name": "Equilibrium",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 6,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "EQUILIBRIUM|LAW_OF_CHEMICAL_EQUILIBRIUM",
-        "name": "Law of Chemical Equilibrium",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Law of Chemical Equilibrium - Core Theory & Derivation",
-          "Law of Chemical Equilibrium - Standard Formula Drill",
-          "Law of Chemical Equilibrium - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
-        "name": "Le Chatelier's Principle",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Le Chatelier's Principle - Core Theory & Derivation",
-          "Le Chatelier's Principle - Standard Formula Drill",
-          "Le Chatelier's Principle - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|ACID_BASE_CONCEPTS_ARRHENIUS_BRONSTED_LEWIS",
-        "name": "Acid-Base Concepts (Arrhenius, Bronsted, Lewis)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Core Theory & Derivation",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Standard Formula Drill",
-          "Acid-Base Concepts (Arrhenius, Bronsted, Lewis) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|PH_BUFFER_SOLUTIONS",
-        "name": "pH & Buffer Solutions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "pH & Buffer Solutions - Core Theory & Derivation",
-          "pH & Buffer Solutions - Standard Formula Drill",
-          "pH & Buffer Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_KSP",
-        "name": "Solubility Product Ksp",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Solubility Product Ksp - Core Theory & Derivation",
-          "Solubility Product Ksp - Standard Formula Drill",
-          "Solubility Product Ksp - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|REDOX_REACTIONS",
-    "chapterId": "REDOX_REACTIONS",
-    "name": "Redox Reactions",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 7,
-    "weightage": "Low",
-    "topics": [
-      {
-        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_RULES",
-        "name": "Oxidation Numbers Rules",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Oxidation Numbers Rules - Core Theory & Derivation",
-          "Oxidation Numbers Rules - Standard Formula Drill",
-          "Oxidation Numbers Rules - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|BALANCING_REDOX_REACTIONS",
-        "name": "Balancing Redox Reactions",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Balancing Redox Reactions - Core Theory & Derivation",
-          "Balancing Redox Reactions - Standard Formula Drill",
-          "Balancing Redox Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|ELECTROCHEMICAL_SERIES",
-        "name": "Electrochemical Series",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electrochemical Series - Core Theory & Derivation",
-          "Electrochemical Series - Standard Formula Drill",
-          "Electrochemical Series - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|OXIDIZING_REDUCING_AGENTS",
-        "name": "Oxidizing & Reducing Agents",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Oxidizing & Reducing Agents - Core Theory & Derivation",
-          "Oxidizing & Reducing Agents - Standard Formula Drill",
-          "Oxidizing & Reducing Agents - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "REDOX_REACTIONS|DISPROPORTIONATION_REACTIONS",
-        "name": "Disproportionation Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Disproportionation Reactions - Core Theory & Derivation",
-          "Disproportionation Reactions - Standard Formula Drill",
-          "Disproportionation Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES",
-    "name": "Organic Chemistry: Basic Principles and Techniques",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 8,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|IUPAC_NOMENCLATURE",
-        "name": "IUPAC Nomenclature",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Nomenclature - Core Theory & Derivation",
-          "IUPAC Nomenclature - Standard Formula Drill",
-          "IUPAC Nomenclature - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ISOMERISM_STRUCTURAL_STEREO",
-        "name": "Isomerism (Structural & Stereo)",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Isomerism (Structural & Stereo) - Core Theory & Derivation",
-          "Isomerism (Structural & Stereo) - Standard Formula Drill",
-          "Isomerism (Structural & Stereo) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|ELECTRONIC_EFFECTS_INDUCTIVE_RESONANCE_HYPERCONJUGATION",
-        "name": "Electronic Effects (Inductive, Resonance, Hyperconjugation)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Core Theory & Derivation",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Standard Formula Drill",
-          "Electronic Effects (Inductive, Resonance, Hyperconjugation) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|CARBOCATION_CARBANION_STABILITY",
-        "name": "Carbocation & Carbanion Stability",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbocation & Carbanion Stability - Core Theory & Derivation",
-          "Carbocation & Carbanion Stability - Standard Formula Drill",
-          "Carbocation & Carbanion Stability - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES_AND_TECHNIQUES|PURIFICATION_QUALITATIVE_ANALYSIS",
-        "name": "Purification & Qualitative Analysis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Purification & Qualitative Analysis - Core Theory & Derivation",
-          "Purification & Qualitative Analysis - Standard Formula Drill",
-          "Purification & Qualitative Analysis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|11|HYDROCARBONS",
-    "chapterId": "HYDROCARBONS",
-    "name": "Hydrocarbons",
-    "examId": "RBSE",
-    "classLevel": "11",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 9,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "HYDROCARBONS|ALKANES_HALOGENATION_MECHANISM",
-        "name": "Alkanes Halogenation Mechanism",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkanes Halogenation Mechanism - Core Theory & Derivation",
-          "Alkanes Halogenation Mechanism - Standard Formula Drill",
-          "Alkanes Halogenation Mechanism - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKENES_MARKOVNIKOV_ANTI_MARKOVNIKOV_ADDITION",
-        "name": "Alkenes Markovnikov & Anti-Markovnikov Addition",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Core Theory & Derivation",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Standard Formula Drill",
-          "Alkenes Markovnikov & Anti-Markovnikov Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|OZONOLYSIS_OF_ALKENES",
-        "name": "Ozonolysis of Alkenes",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ozonolysis of Alkenes - Core Theory & Derivation",
-          "Ozonolysis of Alkenes - Standard Formula Drill",
-          "Ozonolysis of Alkenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|ALKYNES_ACIDITY_ADDITION",
-        "name": "Alkynes Acidity & Addition",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Alkynes Acidity & Addition - Core Theory & Derivation",
-          "Alkynes Acidity & Addition - Standard Formula Drill",
-          "Alkynes Acidity & Addition - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HYDROCARBONS|AROMATICITY_ELECTROPHILIC_SUBSTITUTION",
-        "name": "Aromaticity & Electrophilic Substitution",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aromaticity & Electrophilic Substitution - Core Theory & Derivation",
-          "Aromaticity & Electrophilic Substitution - Standard Formula Drill",
-          "Aromaticity & Electrophilic Substitution - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|SOLUTIONS",
-    "chapterId": "SOLUTIONS",
-    "name": "Solutions",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 10,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "SOLUTIONS|TYPES_OF_SOLUTIONS_SOLUBILITY",
-        "name": "Types of Solutions & Solubility",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Types of Solutions & Solubility - Core Theory & Derivation",
-          "Types of Solutions & Solubility - Standard Formula Drill",
-          "Types of Solutions & Solubility - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
-        "name": "Henry's Law & Raoult's Law",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Henry's Law & Raoult's Law - Core Theory & Derivation",
-          "Henry's Law & Raoult's Law - Standard Formula Drill",
-          "Henry's Law & Raoult's Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|IDEAL_NON_IDEAL_SOLUTIONS",
-        "name": "Ideal & Non-ideal Solutions",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Ideal & Non-ideal Solutions - Core Theory & Derivation",
-          "Ideal & Non-ideal Solutions - Standard Formula Drill",
-          "Ideal & Non-ideal Solutions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES_BOILING_FREEZING_OSMOTIC",
-        "name": "Colligative Properties (Boiling/Freezing/Osmotic)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Core Theory & Derivation",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Standard Formula Drill",
-          "Colligative Properties (Boiling/Freezing/Osmotic) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_I",
-        "name": "Van 't Hoff Factor i",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Van 't Hoff Factor i - Core Theory & Derivation",
-          "Van 't Hoff Factor i - Standard Formula Drill",
-          "Van 't Hoff Factor i - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|ELECTROCHEMISTRY",
-    "chapterId": "ELECTROCHEMISTRY",
-    "name": "Electrochemistry",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 11,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_CELL_POTENTIAL",
-        "name": "Galvanic Cells & Cell Potential",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Galvanic Cells & Cell Potential - Core Theory & Derivation",
-          "Galvanic Cells & Cell Potential - Standard Formula Drill",
-          "Galvanic Cells & Cell Potential - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|NERNST_EQUATION_APPLICATIONS",
-        "name": "Nernst Equation Applications",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nernst Equation Applications - Core Theory & Derivation",
-          "Nernst Equation Applications - Standard Formula Drill",
-          "Nernst Equation Applications - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|KOHLRAUSCH_S_LAW_OF_INDEPENDENT_MIGRATION",
-        "name": "Kohlrausch's Law of Independent Migration",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Kohlrausch's Law of Independent Migration - Core Theory & Derivation",
-          "Kohlrausch's Law of Independent Migration - Standard Formula Drill",
-          "Kohlrausch's Law of Independent Migration - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|FARADAY_S_LAWS_OF_ELECTROLYSIS",
-        "name": "Faraday's Laws of Electrolysis",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Faraday's Laws of Electrolysis - Core Theory & Derivation",
-          "Faraday's Laws of Electrolysis - Standard Formula Drill",
-          "Faraday's Laws of Electrolysis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
-        "name": "Batteries, Fuel Cells & Corrosion",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Batteries, Fuel Cells & Corrosion - Core Theory & Derivation",
-          "Batteries, Fuel Cells & Corrosion - Standard Formula Drill",
-          "Batteries, Fuel Cells & Corrosion - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|CHEMICAL_KINETICS",
-    "chapterId": "CHEMICAL_KINETICS",
-    "name": "Chemical Kinetics",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 12,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_RATE_LAW",
-        "name": "Rate of Reaction & Rate Law",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Rate of Reaction & Rate Law - Core Theory & Derivation",
-          "Rate of Reaction & Rate Law - Standard Formula Drill",
-          "Rate of Reaction & Rate Law - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ORDER_MOLECULARITY",
-        "name": "Order & Molecularity",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Order & Molecularity - Core Theory & Derivation",
-          "Order & Molecularity - Standard Formula Drill",
-          "Order & Molecularity - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_ZERO_FIRST_ORDER",
-        "name": "Integrated Rate Laws (Zero & First Order)",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Integrated Rate Laws (Zero & First Order) - Core Theory & Derivation",
-          "Integrated Rate Laws (Zero & First Order) - Standard Formula Drill",
-          "Integrated Rate Laws (Zero & First Order) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|HALF_LIFE_PERIOD",
-        "name": "Half-Life Period",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Half-Life Period - Core Theory & Derivation",
-          "Half-Life Period - Standard Formula Drill",
-          "Half-Life Period - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
-        "name": "Arrhenius Equation & Activation Energy",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Arrhenius Equation & Activation Energy - Core Theory & Derivation",
-          "Arrhenius Equation & Activation Energy - Standard Formula Drill",
-          "Arrhenius Equation & Activation Energy - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|THE_D_AND_F_BLOCK_ELEMENTS",
-    "chapterId": "THE_D_AND_F_BLOCK_ELEMENTS",
-    "name": "The d- and f-Block Elements",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 13,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|TRANSITION_METAL_PROPERTIES",
-        "name": "Transition Metal Properties",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Transition Metal Properties - Core Theory & Derivation",
-          "Transition Metal Properties - Standard Formula Drill",
-          "Transition Metal Properties - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|VARIABLE_OXIDATION_STATES",
-        "name": "Variable Oxidation States",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Variable Oxidation States - Core Theory & Derivation",
-          "Variable Oxidation States - Standard Formula Drill",
-          "Variable Oxidation States - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|LANTHANOID_CONTRACTION",
-        "name": "Lanthanoid Contraction",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lanthanoid Contraction - Core Theory & Derivation",
-          "Lanthanoid Contraction - Standard Formula Drill",
-          "Lanthanoid Contraction - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|MAGNETIC_PROPERTIES_COLORED_IONS",
-        "name": "Magnetic Properties & Colored Ions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Magnetic Properties & Colored Ions - Core Theory & Derivation",
-          "Magnetic Properties & Colored Ions - Standard Formula Drill",
-          "Magnetic Properties & Colored Ions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THE_D_AND_F_BLOCK_ELEMENTS|POTASSIUM_DICHROMATE_PERMANGANATE",
-        "name": "Potassium Dichromate & Permanganate",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Potassium Dichromate & Permanganate - Core Theory & Derivation",
-          "Potassium Dichromate & Permanganate - Standard Formula Drill",
-          "Potassium Dichromate & Permanganate - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|COORDINATION_COMPOUNDS",
-    "chapterId": "COORDINATION_COMPOUNDS",
-    "name": "Coordination Compounds",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 14,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "COORDINATION_COMPOUNDS|WERNER_S_COORDINATION_THEORY",
-        "name": "Werner's Coordination Theory",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Werner's Coordination Theory - Core Theory & Derivation",
-          "Werner's Coordination Theory - Standard Formula Drill",
-          "Werner's Coordination Theory - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|IUPAC_NAMING_OF_COMPLEXES",
-        "name": "IUPAC Naming of Complexes",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "IUPAC Naming of Complexes - Core Theory & Derivation",
-          "IUPAC Naming of Complexes - Standard Formula Drill",
-          "IUPAC Naming of Complexes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
-        "name": "Isomerism in Coordination Compounds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Isomerism in Coordination Compounds - Core Theory & Derivation",
-          "Isomerism in Coordination Compounds - Standard Formula Drill",
-          "Isomerism in Coordination Compounds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|VALENCE_BOND_THEORY_VBT",
-        "name": "Valence Bond Theory (VBT)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Valence Bond Theory (VBT) - Core Theory & Derivation",
-          "Valence Bond Theory (VBT) - Standard Formula Drill",
-          "Valence Bond Theory (VBT) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "COORDINATION_COMPOUNDS|CRYSTAL_FIELD_THEORY_CFT",
-        "name": "Crystal Field Theory (CFT)",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Crystal Field Theory (CFT) - Core Theory & Derivation",
-          "Crystal Field Theory (CFT) - Standard Formula Drill",
-          "Crystal Field Theory (CFT) - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
-    "chapterId": "HALOALKANES_AND_HALOARENES",
-    "name": "Haloalkanes and Haloarenes",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 15,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "HALOALKANES_AND_HALOARENES|SN1_VS_SN2_MECHANISMS",
-        "name": "SN1 vs SN2 Mechanisms",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "SN1 vs SN2 Mechanisms - Core Theory & Derivation",
-          "SN1 vs SN2 Mechanisms - Standard Formula Drill",
-          "SN1 vs SN2 Mechanisms - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|STEREOCHEMISTRY_INVERSION",
-        "name": "Stereochemistry & Inversion",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Stereochemistry & Inversion - Core Theory & Derivation",
-          "Stereochemistry & Inversion - Standard Formula Drill",
-          "Stereochemistry & Inversion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_VS_SUBSTITUTION",
-        "name": "Elimination vs Substitution",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Elimination vs Substitution - Core Theory & Derivation",
-          "Elimination vs Substitution - Standard Formula Drill",
-          "Elimination vs Substitution - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES",
-        "name": "Reactions of Haloarenes",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reactions of Haloarenes - Core Theory & Derivation",
-          "Reactions of Haloarenes - Standard Formula Drill",
-          "Reactions of Haloarenes - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "HALOALKANES_AND_HALOARENES|POLYHALOGEN_COMPOUNDS",
-        "name": "Polyhalogen Compounds",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Polyhalogen Compounds - Core Theory & Derivation",
-          "Polyhalogen Compounds - Standard Formula Drill",
-          "Polyhalogen Compounds - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
-    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
-    "name": "Alcohols, Phenols and Ethers",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 16,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CLASSIFICATION_PREPARATION",
-        "name": "Classification & Preparation",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Classification & Preparation - Core Theory & Derivation",
-          "Classification & Preparation - Standard Formula Drill",
-          "Classification & Preparation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ACIDITY_OF_ALCOHOLS_PHENOLS",
-        "name": "Acidity of Alcohols & Phenols",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Acidity of Alcohols & Phenols - Core Theory & Derivation",
-          "Acidity of Alcohols & Phenols - Standard Formula Drill",
-          "Acidity of Alcohols & Phenols - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|LUCAS_TEST_OXIDATION",
-        "name": "Lucas Test & Oxidation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Lucas Test & Oxidation - Core Theory & Derivation",
-          "Lucas Test & Oxidation - Standard Formula Drill",
-          "Lucas Test & Oxidation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REIMER_TIEMANN_KOLBE_REACTIONS",
-        "name": "Reimer-Tiemann & Kolbe Reactions",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Reimer-Tiemann & Kolbe Reactions - Core Theory & Derivation",
-          "Reimer-Tiemann & Kolbe Reactions - Standard Formula Drill",
-          "Reimer-Tiemann & Kolbe Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|WILLIAMSON_ETHER_SYNTHESIS",
-        "name": "Williamson Ether Synthesis",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Williamson Ether Synthesis - Core Theory & Derivation",
-          "Williamson Ether Synthesis - Standard Formula Drill",
-          "Williamson Ether Synthesis - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "chapterId": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS",
-    "name": "Aldehydes, Ketones and Carboxylic Acids",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 17,
-    "weightage": "High",
-    "topics": [
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
-        "name": "Nucleophilic Addition Reactions",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Nucleophilic Addition Reactions - Core Theory & Derivation",
-          "Nucleophilic Addition Reactions - Standard Formula Drill",
-          "Nucleophilic Addition Reactions - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|TOLLENS_FEHLING_S_IODOFORM_TESTS",
-        "name": "Tollens', Fehling's & Iodoform Tests",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Tollens', Fehling's & Iodoform Tests - Core Theory & Derivation",
-          "Tollens', Fehling's & Iodoform Tests - Standard Formula Drill",
-          "Tollens', Fehling's & Iodoform Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ALDOL_CONDENSATION_CANNIZZARO",
-        "name": "Aldol Condensation & Cannizzaro",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Aldol Condensation & Cannizzaro - Core Theory & Derivation",
-          "Aldol Condensation & Cannizzaro - Standard Formula Drill",
-          "Aldol Condensation & Cannizzaro - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|ACIDITY_OF_CARBOXYLIC_ACIDS",
-        "name": "Acidity of Carboxylic Acids",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Acidity of Carboxylic Acids - Core Theory & Derivation",
-          "Acidity of Carboxylic Acids - Standard Formula Drill",
-          "Acidity of Carboxylic Acids - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ALDEHYDES_KETONES_AND_CARBOXYLIC_ACIDS|HVZ_REACTION_DECARBOXYLATION",
-        "name": "HVZ Reaction & Decarboxylation",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "HVZ Reaction & Decarboxylation - Core Theory & Derivation",
-          "HVZ Reaction & Decarboxylation - Standard Formula Drill",
-          "HVZ Reaction & Decarboxylation - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|AMINES",
-    "chapterId": "AMINES",
-    "name": "Amines",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 18,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "AMINES|BASICITY_OF_AMINES_IN_AQUEOUS_PHASE",
-        "name": "Basicity of Amines in Aqueous Phase",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Basicity of Amines in Aqueous Phase - Core Theory & Derivation",
-          "Basicity of Amines in Aqueous Phase - Standard Formula Drill",
-          "Basicity of Amines in Aqueous Phase - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|GABRIEL_PHTHALIMIDE_SYNTHESIS",
-        "name": "Gabriel Phthalimide Synthesis",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Gabriel Phthalimide Synthesis - Core Theory & Derivation",
-          "Gabriel Phthalimide Synthesis - Standard Formula Drill",
-          "Gabriel Phthalimide Synthesis - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|HOFFMANN_BROMAMIDE_DEGRADATION",
-        "name": "Hoffmann Bromamide Degradation",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Hoffmann Bromamide Degradation - Core Theory & Derivation",
-          "Hoffmann Bromamide Degradation - Standard Formula Drill",
-          "Hoffmann Bromamide Degradation - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|CARBYLAMINE_HINSBERG_TESTS",
-        "name": "Carbylamine & Hinsberg Tests",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Carbylamine & Hinsberg Tests - Core Theory & Derivation",
-          "Carbylamine & Hinsberg Tests - Standard Formula Drill",
-          "Carbylamine & Hinsberg Tests - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "AMINES|DIAZONIUM_SALTS_COUPLING_REACTIONS",
-        "name": "Diazonium Salts & Coupling Reactions",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Diazonium Salts & Coupling Reactions - Core Theory & Derivation",
-          "Diazonium Salts & Coupling Reactions - Standard Formula Drill",
-          "Diazonium Salts & Coupling Reactions - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
-    "id": "RBSE|CHEMISTRY|12|BIOMOLECULES",
-    "chapterId": "BIOMOLECULES",
-    "name": "Biomolecules",
-    "examId": "RBSE",
-    "classLevel": "12",
-    "subjectId": "CHEMISTRY",
-    "subjectName": "Chemistry",
-    "order": 19,
-    "weightage": "Medium",
-    "topics": [
-      {
-        "id": "BIOMOLECULES|MONOSACCHARIDES_STRUCTURE_GLUCOSE_FRUCTOSE",
-        "name": "Monosaccharides Structure (Glucose & Fructose)",
-        "order": 1,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Monosaccharides Structure (Glucose & Fructose) - Core Theory & Derivation",
-          "Monosaccharides Structure (Glucose & Fructose) - Standard Formula Drill",
-          "Monosaccharides Structure (Glucose & Fructose) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
-        "name": "Disaccharides & Polysaccharides",
-        "order": 2,
-        "isKeyTopic": true,
-        "subtopics": [
-          "Disaccharides & Polysaccharides - Core Theory & Derivation",
-          "Disaccharides & Polysaccharides - Standard Formula Drill",
-          "Disaccharides & Polysaccharides - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDE_BONDS",
-        "name": "Amino Acids & Peptide Bonds",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Amino Acids & Peptide Bonds - Core Theory & Derivation",
-          "Amino Acids & Peptide Bonds - Standard Formula Drill",
-          "Amino Acids & Peptide Bonds - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|STRUCTURE_OF_PROTEINS_PRIMARY_TO_QUATERNARY",
-        "name": "Structure of Proteins (Primary to Quaternary)",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Structure of Proteins (Primary to Quaternary) - Core Theory & Derivation",
-          "Structure of Proteins (Primary to Quaternary) - Standard Formula Drill",
-          "Structure of Proteins (Primary to Quaternary) - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "BIOMOLECULES|NUCLEIC_ACIDS_DNA_RNA_VITAMINS",
-        "name": "Nucleic Acids (DNA & RNA) & Vitamins",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Nucleic Acids (DNA & RNA) & Vitamins - Core Theory & Derivation",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Standard Formula Drill",
-          "Nucleic Acids (DNA & RNA) & Vitamins - Previous Exam Applications"
-        ]
-      }
-    ],
-    "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
-    "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
-    "sourceYear": 2025,
-    "verificationStatus": "VERIFIED"
-  },
-  {
     "id": "RBSE|MATHEMATICS|11|SETS",
     "chapterId": "SETS",
     "name": "Sets",
@@ -31650,6 +24810,9161 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     ],
     "sourceAuthority": "Board of Secondary Education Rajasthan (BSER Ajmer)",
     "sourceURL": "https://rajeduboard.rajasthan.gov.in/curriculum-2025",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "name": "Some Basic Concepts of Chemistry",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 1,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
+        "name": "Mole Concept & Molar Mass",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Avogadro's Number & Molar Mass",
+          "Mole-Particle-Mass-Volume Calculations",
+          "Average Atomic Mass of Isotopes"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
+        "name": "Stoichiometry & Limiting Reagent",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Balanced Chemical Equations & Mole Ratios",
+          "Identification of Limiting Reagent",
+          "Theoretical vs Percentage Yield"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|CONCENTRATION_TERMS",
+        "name": "Concentration Terms",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Molarity & Molality",
+          "Mole Fraction & Mass Percentage",
+          "Normality & Parts Per Million (ppm)"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
+        "name": "Empirical & Molecular Formula",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Percentage Composition Analysis",
+          "Empirical Formula Derivation",
+          "Molecular Formula from Molar Mass"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EQUIVALENT_CONCEPT_TITRATIONS",
+        "name": "Equivalent Concept & Titrations",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "n-Factor in Acid-Base & Redox Reactions",
+          "Law of Chemical Equivalence",
+          "Standard Volumetric Titrations"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAWS_OF_CHEMICAL_COMBINATION",
+        "name": "Laws of Chemical Combination",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Conservation of Mass & Definite Proportions",
+          "Multiple Proportions & Gay-Lussac's Law",
+          "Dalton's Atomic Theory Assumptions"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|STRUCTURE_OF_ATOM",
+    "chapterId": "STRUCTURE_OF_ATOM",
+    "name": "Structure of Atom",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 2,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STRUCTURE_OF_ATOM|SUBATOMIC_PARTICLES_EARLY_MODELS",
+        "name": "Subatomic Particles & Early Models",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Cathode Ray Discharge & e/m Ratio",
+          "Millikan Oil Drop & Charge of Electron",
+          "Rutherford's Alpha Scattering & Nuclear Model"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|BOHR_MODEL_HYDROGEN_SPECTRUM",
+        "name": "Bohr Model & Hydrogen Spectrum",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of Bohr's Theory",
+          "Radius, Velocity & Energy of Bohr Orbit",
+          "Rydberg Formula & Spectral Series (Lyman, Balmer, Paschen)"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|DUAL_NATURE_OF_MATTER_DE_BROGLIE_",
+        "name": "Dual Nature of Matter (de Broglie)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "de Broglie Wavelength Relation",
+          "Wavelength of Charged Particles in Potential V",
+          "Davisson-Germer Diffraction Verification"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|HEISENBERG_S_UNCERTAINTY_PRINCIPLE",
+        "name": "Heisenberg's Uncertainty Principle",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Mathematical Formulation (Delta x * Delta p >= h/4pi)",
+          "Physical Significance for Microscopic Particles",
+          "Impossibility of Electron in Nucleus"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|QUANTUM_MECHANICAL_MODEL_ORBITALS",
+        "name": "Quantum Mechanical Model & Orbitals",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Schrodinger Wave Equation Concept",
+          "Principal, Azimuthal, Magnetic & Spin Quantum Numbers",
+          "Shapes of s, p, d Orbitals & Nodal Surfaces"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|ELECTRONIC_CONFIGURATION_RULES",
+        "name": "Electronic Configuration Rules",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Aufbau Principle & (n+l) Rule",
+          "Pauli's Exclusion Principle",
+          "Hund's Rule of Maximum Multiplicity & Chromium/Copper Anomalies"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS",
+    "chapterId": "CLASSIFICATION_OF_ELEMENTS",
+    "name": "Classification of Elements and Periodicity",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 3,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|MODERN_PERIODIC_TABLE_LAYOUT",
+        "name": "Modern Periodic Table Layout",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moseley's Law & Modern Periodic Law",
+          "Division into s, p, d, f Blocks",
+          "IUPAC Nomenclature for Elements with Z > 100"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ATOMIC_IONIC_RADII_TRENDS",
+        "name": "Atomic & Ionic Radii Trends",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Covalent, Metallic & van der Waals Radii",
+          "Variation in Periods and Groups",
+          "Isoelectronic Species Radii Comparison"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|IONIZATION_ENTHALPY",
+        "name": "Ionization Enthalpy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Successive Ionization Enthalpies (IE1 < IE2 < IE3)",
+          "Factors Affecting Ionization Enthalpy",
+          "Anomalous Trends (Be vs B, N vs O)"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ELECTRON_GAIN_ENTHALPY_ELECTRONEGATIVITY",
+        "name": "Electron Gain Enthalpy & Electronegativity",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Electron Affinity & Halogen Anomaly (Cl > F)",
+          "Pauling & Mulliken Electronegativity Scales",
+          "Electronegativity Variation Across the Table"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|PERIODIC_TRENDS_IN_CHEMICAL_PROPERTIES",
+        "name": "Periodic Trends in Chemical Properties",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Valency & Oxidation States",
+          "Anomalous Properties of Second Period Elements",
+          "Diagonal Relationships (Li-Mg, Be-Al, B-Si)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|CHEMICAL_BONDING",
+    "chapterId": "CHEMICAL_BONDING",
+    "name": "Chemical Bonding and Molecular Structure",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 4,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_BONDING|LEWIS_STRUCTURES_FORMAL_CHARGE",
+        "name": "Lewis Structures & Formal Charge",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Octet Rule & Exceptions",
+          "Formal Charge Calculation on Atoms",
+          "Resonance Structures & Stability"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|IONIC_BONDING_LATTICE_ENTHALPY",
+        "name": "Ionic Bonding & Lattice Enthalpy",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ionic Bond Formation",
+          "Born-Haber Cycle for Lattice Energy",
+          "Fajan's Rules for Covalent Character in Ionic Bonds"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VSEPR_THEORY_MOLECULAR_GEOMETRY",
+        "name": "VSEPR Theory & Molecular Geometry",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Steric Number Concept",
+          "Lone Pair Repulsion Hierarchy",
+          "Shapes from Linear to Pentagonal Bipyramidal"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VALENCE_BOND_THEORY_HYBRIDIZATION",
+        "name": "Valence Bond Theory & Hybridization",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Sigma and Pi Bond Formation",
+          "Hybridization Schemes: sp, sp2, sp3, sp3d, sp3d2",
+          "d-Orbital Participation in Hybridization"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|MOLECULAR_ORBITAL_THEORY_MOT_",
+        "name": "Molecular Orbital Theory (MOT)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "LCAO Method & Bonding/Antibonding MOs",
+          "MO Energy Level Diagrams for Homonuclear Diatomics",
+          "Bond Order, Bond Length & Magnetic Behaviour"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|DIPOLE_MOMENT_POLARITY",
+        "name": "Dipole Moment & Polarity",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: mu = q * d in Debye",
+          "Vector Addition of Bond Dipoles",
+          "Percentage Ionic Character from Dipole Moment"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|HYDROGEN_BONDING_INTERMOLECULAR_FORCES",
+        "name": "Hydrogen Bonding & Intermolecular Forces",
+        "order": 7,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Intermolecular vs Intramolecular H-Bonding",
+          "Effects on Boiling Points & Solubility",
+          "van der Waals Forces (Dispersion, Dipole-Dipole)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
+    "chapterId": "CHEMICAL_THERMODYNAMICS",
+    "name": "Chemical Thermodynamics",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 5,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_WORK_CALCULATIONS",
+        "name": "First Law & Work Calculations",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "State Functions vs Path Functions",
+          "First Law: Delta U = q + w",
+          "Isothermal, Adiabatic, Isobaric & Isochoric Work"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HEAT_CAPACITIES",
+        "name": "Enthalpy & Heat Capacities",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation: Delta H = Delta U + Delta n_g * R * T",
+          "Molar Heat Capacities: C_p - C_v = R",
+          "Kirchhoff's Equations for Temperature Dependence"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|THERMOCHEMISTRY_HESS_S_LAW",
+        "name": "Thermochemistry & Hess's Law",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Standard Enthalpy of Formation & Combustion",
+          "Hess's Law of Constant Heat Summation",
+          "Bond Dissociation Enthalpy Calculations"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|SECOND_LAW_ENTROPY_S_",
+        "name": "Second Law & Entropy (S)",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Spontaneity & Thermodynamic Definition of Entropy",
+          "Entropy Changes in Ideal Gas Expansions",
+          "Delta S_total >= 0 Criterion"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_CHEMICAL_EQUILIBRIUM",
+        "name": "Gibbs Free Energy & Chemical Equilibrium",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gibbs Equation: Delta G = Delta H - T * Delta S",
+          "Spontaneity Criteria at Constant T & P",
+          "Standard Free Energy & Equilibrium Constant: Delta G^0 = -RT ln K"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|EQUILIBRIUM",
+    "chapterId": "EQUILIBRIUM",
+    "name": "Equilibrium",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 6,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "EQUILIBRIUM|CHEMICAL_EQUILIBRIUM_K_P_K_C",
+        "name": "Chemical Equilibrium & K_p / K_c",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Law of Mass Action",
+          "Relation: K_p = K_c * (RT)^(Delta n_g)",
+          "Reaction Quotient Q and Direction of Net Reaction"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
+        "name": "Le Chatelier's Principle",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Effect of Concentration, Pressure, and Temperature",
+          "Effect of Inert Gas Addition at Constant V and P",
+          "Industrial Synthesis of NH3 and SO3 Optimization"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|IONIC_EQUILIBRIUM_PH_CALCULATIONS",
+        "name": "Ionic Equilibrium & pH Calculations",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Ostwald's Dilution Law for Weak Electrolytes",
+          "Ionic Product of Water (K_w) with Temperature",
+          "pH and pOH of Strong & Weak Acid/Base Solutions"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|BUFFER_SOLUTIONS",
+        "name": "Buffer Solutions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidic & Basic Buffer Mechanisms",
+          "Henderson-Hasselbalch Equations",
+          "Buffer Capacity and Maximum Buffer Action Range"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SALT_HYDROLYSIS",
+        "name": "Salt Hydrolysis",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydrolysis Constant (K_h) & Degree of Hydrolysis",
+          "pH Formulas for All Four Salt Types",
+          "Hydrolysis of Salts of Weak Acid and Weak Base"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_K_SP_",
+        "name": "Solubility Product (K_sp)",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation Between Solubility (s) and K_sp",
+          "Precipitation Criterion: Q_sp > K_sp",
+          "Common Ion Effect in Group Separation & Salt Purification"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|REDOX_REACTIONS",
+    "chapterId": "REDOX_REACTIONS",
+    "name": "Redox Reactions",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 7,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_BALANCING",
+        "name": "Oxidation Numbers & Balancing",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rules for Assigning Oxidation Numbers",
+          "Ion-Electron Method (Half-Reaction) in Acidic/Basic Media",
+          "Oxidation State Method for Balancing"
+        ]
+      },
+      {
+        "id": "REDOX_REACTIONS|TYPES_OF_REDOX_REACTIONS",
+        "name": "Types of Redox Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Combination, Decomposition & Displacement Reactions",
+          "Disproportionation & Comproportionation Reactions",
+          "Redox Titrations & Indicator Action (Self-indicator KMnO4)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "name": "Organic Chemistry: Some Basic Principles and Techniques",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 8,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|IUPAC_NOMENCLATURE",
+        "name": "IUPAC Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Root Word, Prefix, Suffix System",
+          "Priority of Functional Groups in Polyfunctional Compounds",
+          "Nomenclature of Bicyclo and Spiro Compounds"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STRUCTURAL_ISOMERISM",
+        "name": "Structural Isomerism",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Chain, Position & Functional Group Isomerism",
+          "Metamerism in Ethers, Amines, Ketones",
+          "Keto-Enol Tautomerism & Enol Content Stability"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STEREOISOMERISM",
+        "name": "Stereoisomerism",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Geometrical Isomerism: Cis-Trans & E/Z System",
+          "Optical Isomerism: Chirality, Enantiomers, Diastereomers",
+          "Meso Compounds & Specific Rotation Calculation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|ELECTRONIC_EFFECTS_IN_ORGANIC_MOLECULES",
+        "name": "Electronic Effects in Organic Molecules",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inductive Effect (+I and -I) & Acid/Base Strengths",
+          "Resonance & Mesomeric Effect (+M and -M)",
+          "Hyperconjugation & Heat of Hydrogenation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|REACTIVE_INTERMEDIATES",
+        "name": "Reactive Intermediates",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbocations: Structure, Stability & Rearrangements (Hydride/Alkyl shifts)",
+          "Carbanions: Structure, Hybridization & Relative Stability",
+          "Free Radicals & Carbenes Generation & Reactivity"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|PURIFICATION_QUANTITATIVE_ELEMENTAL_ANALYSIS",
+        "name": "Purification & Quantitative Elemental Analysis",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Crystallization, Sublimation, Chromatography",
+          "Lassaigne's Test for N, S, Halogens",
+          "Dumas, Kjeldahl & Carius Quantitative Estimation Formulas"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|HYDROCARBONS",
+    "chapterId": "HYDROCARBONS",
+    "name": "Hydrocarbons",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 9,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HYDROCARBONS|ALKANES_PREPARATION_FREE_RADICAL_REACTIONS",
+        "name": "Alkanes: Preparation & Free Radical Reactions",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Wurtz Reaction & Corey-House Synthesis",
+          "Decarboxylation of Carboxylic Acid Salts (Kolbe & Soda Lime)",
+          "Free Radical Halogenation Mechanism & Reactivity-Selectivity"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKENES_ELECTROPHILIC_ADDITION",
+        "name": "Alkenes: Electrophilic Addition",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Markovnikov's Rule & Carbocation Intermediates",
+          "Anti-Markovnikov (Peroxide Effect) with HBr Mechanism",
+          "Ozonolysis for Structure Elucidation of Alkenes"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKYNES_CHEMISTRY_ACIDITY",
+        "name": "Alkynes: Chemistry & Acidity",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Terminal Alkynes (sp hybridized C-H)",
+          "Hydration of Alkynes (Kucherov Reaction using HgSO4/H2SO4)",
+          "Cyclic Polymerization to Form Benzene"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|AROMATICITY_HUCKEL_RULE",
+        "name": "Aromaticity & Huckel Rule",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Huckel's (4n+2) Pi Electron Rule",
+          "Aromatic, Antiaromatic & Non-aromatic Systems",
+          "Annulenes and Heterocyclic Aromatic Systems"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ELECTROPHILIC_AROMATIC_SUBSTITUTION_EAS_",
+        "name": "Electrophilic Aromatic Substitution (EAS)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Arenium Ion (Sigma Complex) Mechanism",
+          "Activating vs Deactivating Groups (Ortho/Para vs Meta Direction)",
+          "Friedel-Crafts Alkylation & Acylation (Rearrangements & Limitations)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|STATES_OF_MATTER",
+    "chapterId": "STATES_OF_MATTER",
+    "name": "States of Matter: Gases and Liquids",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 10,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STATES_OF_MATTER|GAS_LAWS_IDEAL_GAS_EQUATION",
+        "name": "Gas Laws & Ideal Gas Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Boyle's, Charles's, Gay-Lussac's & Avogadro's Laws",
+          "Equation of State: PV = nRT & Density Relation",
+          "Dalton's Law of Partial Pressures & Graham's Law of Diffusion"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|KINETIC_MOLECULAR_THEORY_MOLECULAR_SPEEDS",
+        "name": "Kinetic Molecular Theory & Molecular Speeds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of KMT & Kinetic Gas Equation",
+          "Maxwell-Boltzmann Speed Distribution",
+          "Root Mean Square (rms), Average & Most Probable Speeds"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|REAL_GASES_VAN_DER_WAALS_EQUATION",
+        "name": "Real Gases & van der Waals Equation",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Deviations from Ideality & Compressibility Factor (Z)",
+          "van der Waals Constants 'a' (intermolecular attraction) & 'b' (co-volume)",
+          "Behaviour at High, Low Pressure & Boyle Temperature"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|LIQUEFACTION_OF_GASES_LIQUID_STATE",
+        "name": "Liquefaction of Gases & Liquid State",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Critical Constants: T_c, P_c, V_c Formulas in terms of a, b",
+          "Andrews Isotherms of CO2",
+          "Liquid Properties: Vapor Pressure, Surface Tension & Viscosity"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|S_BLOCK_ELEMENTS",
+    "chapterId": "S_BLOCK_ELEMENTS",
+    "name": "s-Block Elements (Alkali & Alkaline Earth Metals)",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 11,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_1_ALKALI_METALS",
+        "name": "Group 1: Alkali Metals",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Radii, Ionization Enthalpy & Hydration Energy",
+          "Reactivity with Water, Air, Halogens & Liquid Ammonia Solutions",
+          "Anomalous Properties of Lithium & Diagonal Relationship with Magnesium"
+        ]
+      },
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_2_ALKALINE_EARTH_METALS",
+        "name": "Group 2: Alkaline Earth Metals",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Basic Strength of Oxides & Hydroxides",
+          "Solubility and Thermal Stability of Carbonates & Sulfates",
+          "Important Compounds: CaO, Ca(OH)2, Gypsum, Plaster of Paris, Cement"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|P_BLOCK_GROUP_13_14",
+    "chapterId": "P_BLOCK_GROUP_13_14",
+    "name": "p-Block Elements (Group 13 & 14)",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 12,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_13_BORON_FAMILY",
+        "name": "Group 13: Boron Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inert Pair Effect & Variable Oxidation States (+1, +3)",
+          "Structure of Diborane (3c-2e Banana Bonds)",
+          "Borax Bead Test, Boric Acid & Lewis Acid Character of BF3"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_14_CARBON_FAMILY",
+        "name": "Group 14: Carbon Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Catenation Tendency & Allotropes of Carbon (Diamond, Graphite, Fullerenes)",
+          "Oxides of Carbon (CO toxic nature, CO2)",
+          "Silicones, Silicates (Classification & Basic Units) & Zeolites"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|HYDROGEN",
+    "chapterId": "HYDROGEN",
+    "name": "Hydrogen & Its Compounds",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 13,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "HYDROGEN|HYDROGEN_HYDRIDES_WATER",
+        "name": "Hydrogen, Hydrides & Water",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Position in Periodic Table & Isotopes (Protium, Deuterium, Tritium)",
+          "Classification of Hydrides (Ionic, Covalent, Interstitial)",
+          "Temporary and Permanent Hardness of Water & Softening Methods"
+        ]
+      },
+      {
+        "id": "HYDROGEN|HYDROGEN_PEROXIDE_H2O2_HEAVY_WATER",
+        "name": "Hydrogen Peroxide (H2O2) & Heavy Water",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Preparation & Open-Book Structure of H2O2",
+          "Volume Strength Calculations (10V, 20V H2O2 Molarity/Normality)",
+          "Redox Chemistry of H2O2 in Acidic and Basic Media"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|ENVIRONMENTAL_CHEMISTRY",
+    "chapterId": "ENVIRONMENTAL_CHEMISTRY",
+    "name": "Environmental Chemistry",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 14,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "ENVIRONMENTAL_CHEMISTRY|ENVIRONMENTAL_POLLUTION_GREEN_CHEMISTRY",
+        "name": "Environmental Pollution & Green Chemistry",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Tropospheric Pollutants, Acid Rain & Greenhouse Effect",
+          "Classical Smog vs Photochemical Smog (PAN, Ozone, NOx)",
+          "Ozone Depletion Mechanism by CFCs",
+          "Water Quality Standards (BOD, COD, Heavy Metals)",
+          "Principles of Green Chemistry for Waste Minimization"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|11|PRACTICAL_CHEMISTRY",
+    "chapterId": "PRACTICAL_CHEMISTRY",
+    "name": "Principles Related to Practical Chemistry",
+    "examId": "JEE_MAIN",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 15,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "PRACTICAL_CHEMISTRY|SYSTEMATIC_QUALITATIVE_ANALYSIS",
+        "name": "Systematic Qualitative Analysis",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Detection of Acidic Radicals (Carbonate, Sulfide, Halides, Nitrate)",
+          "Systematic Separation of Basic Radicals (Group 0 to VI)",
+          "Confirmatory Tests (Brown ring test, Chromyl chloride test, Borax bead test)"
+        ]
+      },
+      {
+        "id": "PRACTICAL_CHEMISTRY|VOLUMETRIC_ANALYSIS_FUNCTIONAL_GROUPS",
+        "name": "Volumetric Analysis & Functional Groups",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acid-Base Titrations & Indicator Selection (Methyl orange, Phenolphthalein)",
+          "Redox Titrations: Oxalic acid / Mohr's salt against KMnO4",
+          "Tests for Alcohols, Phenols, Aldehydes, Ketones, Carboxylic acids, Amines"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|SOLID_STATE",
+    "chapterId": "SOLID_STATE",
+    "name": "Solid State",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 16,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLID_STATE|CRYSTAL_LATTICES_UNIT_CELLS",
+        "name": "Crystal Lattices & Unit Cells",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "7 Crystal Systems & 14 Bravais Lattices",
+          "Number of Atoms in SC (1), BCC (2), FCC (4)",
+          "Density Formula: d = (z * M) / (a^3 * N_A)"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|PACKING_EFFICIENCY_VOIDS",
+        "name": "Packing Efficiency & Voids",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Packing Efficiency in SC (52.4%), BCC (68%), FCC/HCP (74%)",
+          "Tetrahedral (2N) and Octahedral (N) Voids",
+          "Limiting Radius Ratio Rules for Geometry"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|DEFECTS_IN_SOLIDS_PROPERTIES",
+        "name": "Defects in Solids & Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Stoichiometric Defects: Schottky vs Frenkel Defects",
+          "Non-stoichiometric Defects: Metal Excess (F-centres) & Metal Deficiency",
+          "Magnetic Properties: Ferromagnetism, Ferrimagnetism, Antiferromagnetism"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|SOLUTIONS",
+    "chapterId": "SOLUTIONS",
+    "name": "Solutions",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 17,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
+        "name": "Henry's Law & Raoult's Law",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gas Solubility: Henry's Law (p = K_H * x)",
+          "Raoult's Law for Volatile Liquid Mixtures",
+          "Vapor-Pressure Liquid Composition Diagrams"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|IDEAL_AND_NON_IDEAL_SOLUTIONS",
+        "name": "Ideal and Non-Ideal Solutions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ideality (Delta H_mix = 0, Delta V_mix = 0)",
+          "Positive & Negative Deviations from Raoult's Law",
+          "Minimum & Maximum Boiling Azeotropes"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES",
+        "name": "Colligative Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relative Lowering of Vapor Pressure (RLVP)",
+          "Elevation in Boiling Point: Delta T_b = K_b * m",
+          "Depression in Freezing Point: Delta T_f = K_f * m",
+          "Osmotic Pressure: pi = C * R * T & Isotonic Solutions"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_ABNORMAL_MOLAR_MASS",
+        "name": "Van 't Hoff Factor & Abnormal Molar Mass",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: i = Normal Molar Mass / Observed Molar Mass",
+          "Degree of Dissociation: alpha = (i - 1) / (n - 1)",
+          "Degree of Association: alpha = (1 - i) / (1 - 1/n)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|ELECTROCHEMISTRY",
+    "chapterId": "ELECTROCHEMISTRY",
+    "name": "Electrochemistry",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 18,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_NERNST_EQUATION",
+        "name": "Galvanic Cells & Nernst Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electrode Potential & Standard Hydrogen Electrode (SHE)",
+          "Nernst Equation for Single Electrode & Complete Cell",
+          "Equilibrium Constant & Delta G^0 = -n * F * E^0_cell"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYTIC_CONDUCTANCE_KOHLRAUSCH_S_LAW",
+        "name": "Electrolytic Conductance & Kohlrausch's Law",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Specific Conductance (kappa), Cell Constant & Molar Conductance",
+          "Variation of Conductivity with Dilution (Debye-Huckel-Onsager)",
+          "Kohlrausch's Law of Independent Migration of Ions & Weak Electrolyte Degree of Ionization"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYSIS_FARADAY_S_LAWS",
+        "name": "Electrolysis & Faraday's Laws",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Faraday's First Law: m = Z * I * t",
+          "Faraday's Second Law: m1/m2 = E1/E2",
+          "Products of Electrolysis for Aqueous Salts"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
+        "name": "Batteries, Fuel Cells & Corrosion",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Primary Cells (Dry cell, Mercury) vs Secondary Cells (Lead-acid accumulator)",
+          "H2-O2 Fuel Cell Reactions & Efficiency",
+          "Electrochemical Mechanism of Rusting & Cathodic Protection"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|CHEMICAL_KINETICS",
+    "chapterId": "CHEMICAL_KINETICS",
+    "name": "Chemical Kinetics",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 19,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_ORDER",
+        "name": "Rate of Reaction & Order",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Average and Instantaneous Rate of Reaction",
+          "Rate Law, Rate Constant (k) & Units of k",
+          "Order vs Molecularity Differences"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_HALF_LIFE",
+        "name": "Integrated Rate Laws & Half-Life",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Zero Order Reactions: [A] = [A]0 - kt, t_1/2 = [A]0 / 2k",
+          "First Order Reactions: k = (2.303/t) * log([A]0/[A]), t_1/2 = 0.693 / k",
+          "Pseudo First Order Reactions (Hydrolysis of ester)"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
+        "name": "Arrhenius Equation & Activation Energy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Temperature Dependence: k = A * e^(-Ea / RT)",
+          "Two-Temperature Form: log(k2/k1) = (Ea / 2.303R) * (1/T1 - 1/T2)",
+          "Collision Theory, Steric Factor (P) & Transition State Theory"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|SURFACE_CHEMISTRY",
+    "chapterId": "SURFACE_CHEMISTRY",
+    "name": "Surface Chemistry",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 20,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "SURFACE_CHEMISTRY|ADSORPTION_ISOTHERMS",
+        "name": "Adsorption & Isotherms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Physisorption vs Chemisorption Characteristics",
+          "Freundlich Adsorption Isotherm: x/m = k * p^(1/n)",
+          "Langmuir Isotherm & Adsorption from Solution Phase"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|CATALYSIS",
+        "name": "Catalysis",
+        "order": 2,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Homogeneous vs Heterogeneous Catalysis Mechanism",
+          "Shape-Selective Catalysis by Zeolites (ZSM-5)",
+          "Enzyme Catalysis: Lock & Key Model & Characteristics"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|COLLOIDS_EMULSIONS",
+        "name": "Colloids & Emulsions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lyophilic vs Lyophobic Sols & Preparation Methods",
+          "Purification: Dialysis & Electro-dialysis",
+          "Properties: Tyndall Effect, Brownian Motion, Electrophoresis, Hardy-Schulze Rule"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|METALLURGY",
+    "chapterId": "METALLURGY",
+    "name": "General Principles and Processes of Isolation of Elements",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 21,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "METALLURGY|CONCENTRATION_OF_ORES",
+        "name": "Concentration of Ores",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydraulic Washing & Magnetic Separation",
+          "Froth Floatation Process: Collectors, Frothers, Depressants",
+          "Leaching Processes: Bayer's Process for Bauxite, Cyanide Process for Au/Ag"
+        ]
+      },
+      {
+        "id": "METALLURGY|THERMODYNAMICS_OF_METALLURGY_ELLINGHAM_DIAGRAM_",
+        "name": "Thermodynamics of Metallurgy (Ellingham Diagram)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Calcination vs Roasting Reactions",
+          "Ellingham Diagram Interpretation: Delta G^0 vs Temperature Plots",
+          "Choice of Reducing Agent (C vs CO) at Different Temperatures"
+        ]
+      },
+      {
+        "id": "METALLURGY|EXTRACTION_REFINING_METHODS",
+        "name": "Extraction & Refining Methods",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Blast Furnace Extraction of Iron & Slag Formation",
+          "Hall-Heroult Process for Aluminum & Role of Cryolite",
+          "Refining: Electrolytic, Zone Refining, Mond Process (Ni), Van Arkel (Zr, Ti)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|P_BLOCK_GROUP_15_18",
+    "chapterId": "P_BLOCK_GROUP_15_18",
+    "name": "p-Block Elements (Group 15, 16, 17 & 18)",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 22,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_15_NITROGEN_PHOSPHORUS_FAMILY",
+        "name": "Group 15: Nitrogen & Phosphorus Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Anomalous Properties of N & Triple Bond Dissociation Energy",
+          "Haber Process & Ostwald Process for HNO3",
+          "Phosphorus Allotropes, Phosphine & Basicity of Oxoacids (H3PO2, H3PO3, H3PO4)"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_16_OXYGEN_SULFUR_FAMILY",
+        "name": "Group 16: Oxygen & Sulfur Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Hydride Boiling Points (H-bonding in H2O)",
+          "Ozone: Structure & Strong Oxidizing Actions",
+          "Sulfur Allotropes (Rhombic, Monoclinic) & Contact Process for H2SO4"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_17_HALOGENS_FAMILY",
+        "name": "Group 17: Halogens Family",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronegativity, Electron Affinity Anomaly (Cl > F)",
+          "Oxidizing Power Trend (F2 > Cl2 > Br2 > I2) in Solution",
+          "Interhalogen Compounds (XX'_n) Properties & Oxoacids of Halogens"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_18_NOBLE_GASES_XENON_CHEMISTRY",
+        "name": "Group 18: Noble Gases & Xenon Chemistry",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Discovery & Neil Bartlett's Experiment",
+          "Synthesis and VSEPR Shapes of XeF2, XeF4, XeF6, XeO3, XeOF4",
+          "Complete and Partial Hydrolysis of Xenon Fluorides"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|D_AND_F_BLOCK_ELEMENTS",
+    "chapterId": "D_AND_F_BLOCK_ELEMENTS",
+    "name": "The d- and f-Block Elements",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 23,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|GENERAL_TRENDS_IN_3D_TRANSITION_SERIES",
+        "name": "General Trends in 3d Transition Series",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configurations & Variable Oxidation States",
+          "Magnetic Moments: Spin-Only Formula mu = sqrt(n(n+2)) BM",
+          "Color of Compounds due to d-d Transitions",
+          "Interstitial Compounds & Catalytic Behaviour"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|IMPORTANT_TRANSITION_METAL_COMPOUNDS",
+        "name": "Important Transition Metal Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Potassium Dichromate (K2Cr2O7): Preparation, Structure, Redox in Acid",
+          "Potassium Permanganate (KMnO4): Preparation from Pyrolusite, Oxidizing Reactions in Acid, Neutral, Alkaline Media"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|LANTHANOIDS_ACTINOIDS_F_BLOCK_",
+        "name": "Lanthanoids & Actinoids (f-Block)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configuration & Stable +3 Oxidation State",
+          "Lanthanoid Contraction: Causes and Chemical Consequences",
+          "Comparison of Lanthanoids and Actinoids (Radioactivity, Complexing Ability)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|COORDINATION_COMPOUNDS",
+    "chapterId": "COORDINATION_COMPOUNDS",
+    "name": "Coordination Compounds",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 24,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "COORDINATION_COMPOUNDS|WERNER_S_THEORY_NOMENCLATURE",
+        "name": "Werner's Theory & Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Primary vs Secondary Valency",
+          "IUPAC Nomenclature of Coordination Complexes",
+          "Ligand Classification: Monodentate, Chelating, Ambidentate"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
+        "name": "Isomerism in Coordination Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Structural Isomerism: Ionization, Hydrate, Linkage, Coordination",
+          "Geometrical Isomerism: Cis-Trans & Facial-Meridional (fac-mer)",
+          "Optical Isomerism in Octahedral Complexes with Bidentate Ligands"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_THEORIES_VBT_CFT_",
+        "name": "Bonding Theories (VBT & CFT)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Valence Bond Theory: Inner vs Outer Orbital Complexes, Hybridization",
+          "Crystal Field Theory: Octahedral (Delta_o) & Tetrahedral (Delta_t) Splitting",
+          "Spectrochemical Series & High Spin vs Low Spin Configurations",
+          "Crystal Field Stabilization Energy (CFSE) Calculations"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_IN_METAL_CARBONYLS",
+        "name": "Bonding in Metal Carbonyls",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Synergic Bonding: Sigma Donor & Pi Acceptor Interaction",
+          "Bond Order & CO Stretching Frequency Changes",
+          "Biological Importance: Chlorophyll (Mg), Hemoglobin (Fe), Vitamin B12 (Co)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
+    "chapterId": "HALOALKANES_AND_HALOARENES",
+    "name": "Haloalkanes and Haloarenes",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 25,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HALOALKANES_AND_HALOARENES|PREPARATION_PHYSICAL_PROPERTIES",
+        "name": "Preparation & Physical Properties",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "From Alcohols (SOCl2 Darzens process, PCl5, PBr3)",
+          "Halogen Exchange Reactions: Finkelstein & Swarts Reactions",
+          "Boiling Point & Dipole Moment Trends"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|NUCLEOPHILIC_SUBSTITUTION_SN1_VS_SN2_",
+        "name": "Nucleophilic Substitution (SN1 vs SN2)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "SN2 Mechanism: Bimolecular, Concerted, Walden Inversion",
+          "SN1 Mechanism: Carbocation Intermediate, Racemization, Solvent Effect",
+          "Factors Affecting SN1 vs SN2: Substrate, Nucleophile, Solvent, Leaving Group"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_REACTIONS_COMPETITION",
+        "name": "Elimination Reactions & Competition",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Beta-Elimination (E2 vs E1 Mechanisms)",
+          "Saytzeff (Zaitsev) vs Hofmann Elimination Rule",
+          "Substitution vs Elimination Competition Factors"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES_ORGANOMETALLICS",
+        "name": "Reactions of Haloarenes & Organometallics",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Low Reactivity of Haloarenes towards Nucleophilic Substitution (Resonance, sp2 C)",
+          "Nucleophilic Aromatic Substitution with Electron Withdrawing Groups",
+          "Grignard Reagents (RMgX): Preparation & Reactions with Active Hydrogen/Electrophiles",
+          "Polyhalogen Compounds: Chloroform, Freons, DDT, Iodoform Test"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
+    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
+    "name": "Alcohols, Phenols and Ethers",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 26,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|PREPARATION_ACIDITY_OF_ALCOHOLS",
+        "name": "Preparation & Acidity of Alcohols",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "From Alkenes: Acid-Catalyzed Hydration, Hydroboration-Oxidation, Oxymercuration-Demercuration",
+          "From Carbonyl Compounds: Reduction & Grignard Addition",
+          "Acidity of Alcohols: Comparison with Water & Alkoxide Basicity"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REACTIONS_OF_ALCOHOLS",
+        "name": "Reactions of Alcohols",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lucas Reagent Test (1 deg, 2 deg, 3 deg Distinction)",
+          "Dehydration to Alkenes & Carbocation Rearrangements",
+          "Oxidation with PCC, CrO3, Jones Reagent & Dehydrogenation over Cu/573K"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CHEMISTRY_OF_PHENOLS",
+        "name": "Chemistry of Phenols",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Commercial Preparation from Cumene (Hydroperoxide Process)",
+          "Enhanced Acidity of Phenol: Substituent Effects (Nitro vs Alkyl groups)",
+          "Kolbe's Reaction (Synthesis of Salicylic Acid)",
+          "Reimer-Tiemann Reaction (Synthesis of Salicylaldehyde via Dichlorocarbene)",
+          "Reaction with Zinc Dust & Phthalic Anhydride"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ETHERS_SYNTHESIS_CLEAVAGE",
+        "name": "Ethers: Synthesis & Cleavage",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Williamson Ether Synthesis & Mechanism (SN2 Attack on Primary Halide)",
+          "Acid-Catalyzed Dehydration of Alcohols",
+          "Cleavage of Ethers with Excess Concentrated HI/HBr (Mechanism with 1/2/3 deg Alkyl Groups)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "chapterId": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "name": "Aldehydes, Ketones and Carboxylic Acids",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 27,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|PREPARATION_OF_CARBONYL_COMPOUNDS",
+        "name": "Preparation of Carbonyl Compounds",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rosenmund Reduction & Stephen's Reaction",
+          "Etard Reaction & Gattermann-Koch Synthesis",
+          "Ozonolysis of Alkenes & Hydration of Alkynes"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
+        "name": "Nucleophilic Addition Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Addition of HCN, NaHSO3, Alcohols (Hemiacetals & Acetals)",
+          "Addition of Grignard Reagents to Aldehydes and Ketones",
+          "Reaction with Ammonia Derivatives (Hydroxylamine, Hydrazine, 2,4-DNP)"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|OXIDATION_REDUCTION_ALPHA_HYDROGEN_REACTIONS",
+        "name": "Oxidation, Reduction & Alpha-Hydrogen Reactions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Clemmensen Reduction (Zn-Hg/HCl) & Wolff-Kishner Reduction (NH2NH2/KOH)",
+          "Tollens' Test & Fehling's Test for Aldehydes",
+          "Haloform Reaction (Iodoform Test for CH3-CO- and CH3-CH(OH)-)",
+          "Aldol & Cross-Aldol Condensation Mechanism",
+          "Cannizzaro Reaction & Cross-Cannizzaro Mechanism"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|CARBOXYLIC_ACIDS_STRUCTURE_REACTIONS",
+        "name": "Carboxylic Acids: Structure & Reactions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Carboxylic Acids & Electron Withdrawing Substituent Effects",
+          "Esterification Mechanism",
+          "Hell-Volhard-Zelinsky (HVZ) Alpha-Halogenation",
+          "Decarboxylation with Soda Lime & Kolbe Electrolysis"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|AMINES",
+    "chapterId": "AMINES",
+    "name": "Amines",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 28,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "AMINES|PREPARATION_OF_AMINES",
+        "name": "Preparation of Amines",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Reduction of Nitro Compounds, Nitriles & Amides",
+          "Gabriel Phthalimide Synthesis for Pure Primary Aliphatic Amines",
+          "Hofmann Bromamide Degradation Reaction (Step-down Reaction)"
+        ]
+      },
+      {
+        "id": "AMINES|BASICITY_OF_AMINES",
+        "name": "Basicity of Amines",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Basicity in Gaseous Phase (3 deg > 2 deg > 1 deg > NH3)",
+          "Basicity in Aqueous Medium: Combined Inductive, Solvation & Steric Effects (2 deg > 1 deg > 3 deg for Methyl; 2 deg > 3 deg > 1 deg for Ethyl)",
+          "Resonance Weakening of Arylamine Basicity (Aniline vs Alkylamines)"
+        ]
+      },
+      {
+        "id": "AMINES|CHEMICAL_TESTS_REACTIONS_OF_AMINES",
+        "name": "Chemical Tests & Reactions of Amines",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbylamine Test for Primary Amines (Isocyanide Formation)",
+          "Hinsberg's Test with Benzenesulfonyl Chloride (1, 2, 3 deg Distinction)",
+          "Reaction with Nitrous Acid (HNO2) & Alcohol/Diazonium Formation"
+        ]
+      },
+      {
+        "id": "AMINES|DIAZONIUM_SALTS_SYNTHETIC_TRANSFORMATIONS",
+        "name": "Diazonium Salts & Synthetic Transformations",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Diazotization of Aniline with NaNO2 + HCl at 0-5 deg C",
+          "Sandmeyer Reaction vs Gattermann Reaction",
+          "Azo Coupling Reactions with Phenol and Aniline (Dyes)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|BIOMOLECULES",
+    "chapterId": "BIOMOLECULES",
+    "name": "Biomolecules",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 29,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "BIOMOLECULES|CARBOHYDRATES_MONOSACCHARIDES_RING_STRUCTURES",
+        "name": "Carbohydrates: Monosaccharides & Ring Structures",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Classification: Aldoses, Ketoses, D/L Configuration",
+          "Glucose: Open-Chain Reactions, Limitations, Fischer to Haworth Projections",
+          "Anomers, Epimers & Mutarotation in Glucose and Fructose"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
+        "name": "Disaccharides & Polysaccharides",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Glycosidic Bond Formation",
+          "Sucrose (Invert Sugar, Non-reducing), Maltose & Lactose",
+          "Starch (Amylose + Amylopectin), Cellulose & Glycogen"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDES_PROTEINS",
+        "name": "Amino Acids, Peptides & Proteins",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Essential vs Non-essential Amino Acids",
+          "Zwitterion Form, Isoelectric Point (pI) & Optical Activity",
+          "Peptide Linkage & Primary, Secondary (alpha-helix, beta-pleated), Tertiary, Quaternary Structures",
+          "Denaturation of Proteins & Coagulation"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|NUCLEIC_ACIDS_ENZYMES_VITAMINS",
+        "name": "Nucleic Acids, Enzymes & Vitamins",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Components: Purines, Pyrimidines, Ribose/Deoxyribose, Phosphate",
+          "Nucleoside vs Nucleotide & Phosphodiester Linkages",
+          "Double-Helical Structure of DNA (Watson-Crick Model) & Chargaff's Rules",
+          "Vitamins: Water-Soluble vs Fat-Soluble & Deficiency Diseases"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|POLYMERS",
+    "chapterId": "POLYMERS",
+    "name": "Polymers",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 30,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "POLYMERS|CLASSIFICATION_POLYMERIZATION_MECHANISMS",
+        "name": "Classification & Polymerization Mechanisms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Natural, Semi-synthetic & Synthetic Polymers",
+          "Addition vs Condensation Polymerization Modes",
+          "Elastomers, Fibres, Thermoplastics, Thermosetting Plastics",
+          "Ziegler-Natta Coordination Polymerization for HDPE"
+        ]
+      },
+      {
+        "id": "POLYMERS|COMMERCIAL_POLYMERS_RUBBERS",
+        "name": "Commercial Polymers & Rubbers",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Polyamides: Nylon-6,6, Nylon-6 (Caprolactam)",
+          "Polyesters: Terylene / Dacron",
+          "Resins: Bakelite (Novolac intermediate), Melamine-Formaldehyde",
+          "Natural Rubber, Vulcanization & Synthetic Rubbers (Buna-S, Buna-N, Neoprene)"
+        ]
+      },
+      {
+        "id": "POLYMERS|BIODEGRADABLE_POLYMERS_MOLECULAR_MASS",
+        "name": "Biodegradable Polymers & Molecular Mass",
+        "order": 3,
+        "isKeyTopic": false,
+        "subtopics": [
+          "PHBV (poly beta-hydroxybutyrate-co-beta-hydroxyvalerate)",
+          "Nylon-2-nylon-6",
+          "Number-Average (Mn) vs Weight-Average (Mw) Molar Mass & PDI"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_MAIN|CHEMISTRY|12|CHEMISTRY_IN_EVERYDAY_LIFE",
+    "chapterId": "CHEMISTRY_IN_EVERYDAY_LIFE",
+    "name": "Chemistry in Everyday Life",
+    "examId": "JEE_MAIN",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 31,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|DRUGS_PHARMACOLOGICAL_CLASSES",
+        "name": "Drugs & Pharmacological Classes",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Drug-Target Interactions: Enzyme Inhibitors & Receptors",
+          "Antacids (H2-blockers: Ranitidine) & Antihistamines",
+          "Tranquilizers (Equanil, Valium) & Analgesics (Aspirin, Morphine)",
+          "Antiseptics (Dettol, Bithionol) vs Disinfectants (Phenol, Chlorine)",
+          "Antibiotics: Bactericidal vs Bacteriostatic & Broad Spectrum"
+        ]
+      },
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|FOOD_CHEMISTRY_CLEANSING_AGENTS",
+        "name": "Food Chemistry & Cleansing Agents",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Artificial Sweetening Agents: Aspartame, Saccharin, Sucralose, Alitame",
+          "Food Preservatives: Sodium Benzoate, Sorbic Acid Salts",
+          "Soaps: Saponification & Scum Formation in Hard Water",
+          "Synthetic Detergents: Anionic, Cationic, Non-ionic Types & Cleansing Action (Micelles)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://jeemain.nta.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "name": "Some Basic Concepts of Chemistry",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 1,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
+        "name": "Mole Concept & Molar Mass",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Avogadro's Number & Molar Mass",
+          "Mole-Particle-Mass-Volume Calculations",
+          "Average Atomic Mass of Isotopes"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
+        "name": "Stoichiometry & Limiting Reagent",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Balanced Chemical Equations & Mole Ratios",
+          "Identification of Limiting Reagent",
+          "Theoretical vs Percentage Yield"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|CONCENTRATION_TERMS",
+        "name": "Concentration Terms",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Molarity & Molality",
+          "Mole Fraction & Mass Percentage",
+          "Normality & Parts Per Million (ppm)"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
+        "name": "Empirical & Molecular Formula",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Percentage Composition Analysis",
+          "Empirical Formula Derivation",
+          "Molecular Formula from Molar Mass"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EQUIVALENT_CONCEPT_TITRATIONS",
+        "name": "Equivalent Concept & Titrations",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "n-Factor in Acid-Base & Redox Reactions",
+          "Law of Chemical Equivalence",
+          "Standard Volumetric Titrations"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAWS_OF_CHEMICAL_COMBINATION",
+        "name": "Laws of Chemical Combination",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Conservation of Mass & Definite Proportions",
+          "Multiple Proportions & Gay-Lussac's Law",
+          "Dalton's Atomic Theory Assumptions"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|STRUCTURE_OF_ATOM",
+    "chapterId": "STRUCTURE_OF_ATOM",
+    "name": "Structure of Atom",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 2,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STRUCTURE_OF_ATOM|SUBATOMIC_PARTICLES_EARLY_MODELS",
+        "name": "Subatomic Particles & Early Models",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Cathode Ray Discharge & e/m Ratio",
+          "Millikan Oil Drop & Charge of Electron",
+          "Rutherford's Alpha Scattering & Nuclear Model"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|BOHR_MODEL_HYDROGEN_SPECTRUM",
+        "name": "Bohr Model & Hydrogen Spectrum",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of Bohr's Theory",
+          "Radius, Velocity & Energy of Bohr Orbit",
+          "Rydberg Formula & Spectral Series (Lyman, Balmer, Paschen)"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|DUAL_NATURE_OF_MATTER_DE_BROGLIE_",
+        "name": "Dual Nature of Matter (de Broglie)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "de Broglie Wavelength Relation",
+          "Wavelength of Charged Particles in Potential V",
+          "Davisson-Germer Diffraction Verification"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|HEISENBERG_S_UNCERTAINTY_PRINCIPLE",
+        "name": "Heisenberg's Uncertainty Principle",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Mathematical Formulation (Delta x * Delta p >= h/4pi)",
+          "Physical Significance for Microscopic Particles",
+          "Impossibility of Electron in Nucleus"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|QUANTUM_MECHANICAL_MODEL_ORBITALS",
+        "name": "Quantum Mechanical Model & Orbitals",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Schrodinger Wave Equation Concept",
+          "Principal, Azimuthal, Magnetic & Spin Quantum Numbers",
+          "Shapes of s, p, d Orbitals & Nodal Surfaces"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|ELECTRONIC_CONFIGURATION_RULES",
+        "name": "Electronic Configuration Rules",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Aufbau Principle & (n+l) Rule",
+          "Pauli's Exclusion Principle",
+          "Hund's Rule of Maximum Multiplicity & Chromium/Copper Anomalies"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS",
+    "chapterId": "CLASSIFICATION_OF_ELEMENTS",
+    "name": "Classification of Elements and Periodicity",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 3,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|MODERN_PERIODIC_TABLE_LAYOUT",
+        "name": "Modern Periodic Table Layout",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moseley's Law & Modern Periodic Law",
+          "Division into s, p, d, f Blocks",
+          "IUPAC Nomenclature for Elements with Z > 100"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ATOMIC_IONIC_RADII_TRENDS",
+        "name": "Atomic & Ionic Radii Trends",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Covalent, Metallic & van der Waals Radii",
+          "Variation in Periods and Groups",
+          "Isoelectronic Species Radii Comparison"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|IONIZATION_ENTHALPY",
+        "name": "Ionization Enthalpy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Successive Ionization Enthalpies (IE1 < IE2 < IE3)",
+          "Factors Affecting Ionization Enthalpy",
+          "Anomalous Trends (Be vs B, N vs O)"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ELECTRON_GAIN_ENTHALPY_ELECTRONEGATIVITY",
+        "name": "Electron Gain Enthalpy & Electronegativity",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Electron Affinity & Halogen Anomaly (Cl > F)",
+          "Pauling & Mulliken Electronegativity Scales",
+          "Electronegativity Variation Across the Table"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|PERIODIC_TRENDS_IN_CHEMICAL_PROPERTIES",
+        "name": "Periodic Trends in Chemical Properties",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Valency & Oxidation States",
+          "Anomalous Properties of Second Period Elements",
+          "Diagonal Relationships (Li-Mg, Be-Al, B-Si)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|CHEMICAL_BONDING",
+    "chapterId": "CHEMICAL_BONDING",
+    "name": "Chemical Bonding and Molecular Structure",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 4,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_BONDING|LEWIS_STRUCTURES_FORMAL_CHARGE",
+        "name": "Lewis Structures & Formal Charge",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Octet Rule & Exceptions",
+          "Formal Charge Calculation on Atoms",
+          "Resonance Structures & Stability"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|IONIC_BONDING_LATTICE_ENTHALPY",
+        "name": "Ionic Bonding & Lattice Enthalpy",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ionic Bond Formation",
+          "Born-Haber Cycle for Lattice Energy",
+          "Fajan's Rules for Covalent Character in Ionic Bonds"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VSEPR_THEORY_MOLECULAR_GEOMETRY",
+        "name": "VSEPR Theory & Molecular Geometry",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Steric Number Concept",
+          "Lone Pair Repulsion Hierarchy",
+          "Shapes from Linear to Pentagonal Bipyramidal"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VALENCE_BOND_THEORY_HYBRIDIZATION",
+        "name": "Valence Bond Theory & Hybridization",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Sigma and Pi Bond Formation",
+          "Hybridization Schemes: sp, sp2, sp3, sp3d, sp3d2",
+          "d-Orbital Participation in Hybridization"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|MOLECULAR_ORBITAL_THEORY_MOT_",
+        "name": "Molecular Orbital Theory (MOT)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "LCAO Method & Bonding/Antibonding MOs",
+          "MO Energy Level Diagrams for Homonuclear Diatomics",
+          "Bond Order, Bond Length & Magnetic Behaviour"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|DIPOLE_MOMENT_POLARITY",
+        "name": "Dipole Moment & Polarity",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: mu = q * d in Debye",
+          "Vector Addition of Bond Dipoles",
+          "Percentage Ionic Character from Dipole Moment"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|HYDROGEN_BONDING_INTERMOLECULAR_FORCES",
+        "name": "Hydrogen Bonding & Intermolecular Forces",
+        "order": 7,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Intermolecular vs Intramolecular H-Bonding",
+          "Effects on Boiling Points & Solubility",
+          "van der Waals Forces (Dispersion, Dipole-Dipole)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
+    "chapterId": "CHEMICAL_THERMODYNAMICS",
+    "name": "Chemical Thermodynamics",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 5,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_WORK_CALCULATIONS",
+        "name": "First Law & Work Calculations",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "State Functions vs Path Functions",
+          "First Law: Delta U = q + w",
+          "Isothermal, Adiabatic, Isobaric & Isochoric Work"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HEAT_CAPACITIES",
+        "name": "Enthalpy & Heat Capacities",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation: Delta H = Delta U + Delta n_g * R * T",
+          "Molar Heat Capacities: C_p - C_v = R",
+          "Kirchhoff's Equations for Temperature Dependence"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|THERMOCHEMISTRY_HESS_S_LAW",
+        "name": "Thermochemistry & Hess's Law",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Standard Enthalpy of Formation & Combustion",
+          "Hess's Law of Constant Heat Summation",
+          "Bond Dissociation Enthalpy Calculations"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|SECOND_LAW_ENTROPY_S_",
+        "name": "Second Law & Entropy (S)",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Spontaneity & Thermodynamic Definition of Entropy",
+          "Entropy Changes in Ideal Gas Expansions",
+          "Delta S_total >= 0 Criterion"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_CHEMICAL_EQUILIBRIUM",
+        "name": "Gibbs Free Energy & Chemical Equilibrium",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gibbs Equation: Delta G = Delta H - T * Delta S",
+          "Spontaneity Criteria at Constant T & P",
+          "Standard Free Energy & Equilibrium Constant: Delta G^0 = -RT ln K"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|EQUILIBRIUM",
+    "chapterId": "EQUILIBRIUM",
+    "name": "Equilibrium",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 6,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "EQUILIBRIUM|CHEMICAL_EQUILIBRIUM_K_P_K_C",
+        "name": "Chemical Equilibrium & K_p / K_c",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Law of Mass Action",
+          "Relation: K_p = K_c * (RT)^(Delta n_g)",
+          "Reaction Quotient Q and Direction of Net Reaction"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
+        "name": "Le Chatelier's Principle",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Effect of Concentration, Pressure, and Temperature",
+          "Effect of Inert Gas Addition at Constant V and P",
+          "Industrial Synthesis of NH3 and SO3 Optimization"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|IONIC_EQUILIBRIUM_PH_CALCULATIONS",
+        "name": "Ionic Equilibrium & pH Calculations",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Ostwald's Dilution Law for Weak Electrolytes",
+          "Ionic Product of Water (K_w) with Temperature",
+          "pH and pOH of Strong & Weak Acid/Base Solutions"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|BUFFER_SOLUTIONS",
+        "name": "Buffer Solutions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidic & Basic Buffer Mechanisms",
+          "Henderson-Hasselbalch Equations",
+          "Buffer Capacity and Maximum Buffer Action Range"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SALT_HYDROLYSIS",
+        "name": "Salt Hydrolysis",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydrolysis Constant (K_h) & Degree of Hydrolysis",
+          "pH Formulas for All Four Salt Types",
+          "Hydrolysis of Salts of Weak Acid and Weak Base"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_K_SP_",
+        "name": "Solubility Product (K_sp)",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation Between Solubility (s) and K_sp",
+          "Precipitation Criterion: Q_sp > K_sp",
+          "Common Ion Effect in Group Separation & Salt Purification"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|REDOX_REACTIONS",
+    "chapterId": "REDOX_REACTIONS",
+    "name": "Redox Reactions",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 7,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_BALANCING",
+        "name": "Oxidation Numbers & Balancing",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rules for Assigning Oxidation Numbers",
+          "Ion-Electron Method (Half-Reaction) in Acidic/Basic Media",
+          "Oxidation State Method for Balancing"
+        ]
+      },
+      {
+        "id": "REDOX_REACTIONS|TYPES_OF_REDOX_REACTIONS",
+        "name": "Types of Redox Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Combination, Decomposition & Displacement Reactions",
+          "Disproportionation & Comproportionation Reactions",
+          "Redox Titrations & Indicator Action (Self-indicator KMnO4)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "name": "Organic Chemistry: Some Basic Principles and Techniques",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 8,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|IUPAC_NOMENCLATURE",
+        "name": "IUPAC Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Root Word, Prefix, Suffix System",
+          "Priority of Functional Groups in Polyfunctional Compounds",
+          "Nomenclature of Bicyclo and Spiro Compounds"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STRUCTURAL_ISOMERISM",
+        "name": "Structural Isomerism",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Chain, Position & Functional Group Isomerism",
+          "Metamerism in Ethers, Amines, Ketones",
+          "Keto-Enol Tautomerism & Enol Content Stability"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STEREOISOMERISM",
+        "name": "Stereoisomerism",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Geometrical Isomerism: Cis-Trans & E/Z System",
+          "Optical Isomerism: Chirality, Enantiomers, Diastereomers",
+          "Meso Compounds & Specific Rotation Calculation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|ELECTRONIC_EFFECTS_IN_ORGANIC_MOLECULES",
+        "name": "Electronic Effects in Organic Molecules",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inductive Effect (+I and -I) & Acid/Base Strengths",
+          "Resonance & Mesomeric Effect (+M and -M)",
+          "Hyperconjugation & Heat of Hydrogenation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|REACTIVE_INTERMEDIATES",
+        "name": "Reactive Intermediates",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbocations: Structure, Stability & Rearrangements (Hydride/Alkyl shifts)",
+          "Carbanions: Structure, Hybridization & Relative Stability",
+          "Free Radicals & Carbenes Generation & Reactivity"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|PURIFICATION_QUANTITATIVE_ELEMENTAL_ANALYSIS",
+        "name": "Purification & Quantitative Elemental Analysis",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Crystallization, Sublimation, Chromatography",
+          "Lassaigne's Test for N, S, Halogens",
+          "Dumas, Kjeldahl & Carius Quantitative Estimation Formulas"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|HYDROCARBONS",
+    "chapterId": "HYDROCARBONS",
+    "name": "Hydrocarbons",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 9,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HYDROCARBONS|ALKANES_PREPARATION_FREE_RADICAL_REACTIONS",
+        "name": "Alkanes: Preparation & Free Radical Reactions",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Wurtz Reaction & Corey-House Synthesis",
+          "Decarboxylation of Carboxylic Acid Salts (Kolbe & Soda Lime)",
+          "Free Radical Halogenation Mechanism & Reactivity-Selectivity"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKENES_ELECTROPHILIC_ADDITION",
+        "name": "Alkenes: Electrophilic Addition",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Markovnikov's Rule & Carbocation Intermediates",
+          "Anti-Markovnikov (Peroxide Effect) with HBr Mechanism",
+          "Ozonolysis for Structure Elucidation of Alkenes"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKYNES_CHEMISTRY_ACIDITY",
+        "name": "Alkynes: Chemistry & Acidity",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Terminal Alkynes (sp hybridized C-H)",
+          "Hydration of Alkynes (Kucherov Reaction using HgSO4/H2SO4)",
+          "Cyclic Polymerization to Form Benzene"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|AROMATICITY_HUCKEL_RULE",
+        "name": "Aromaticity & Huckel Rule",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Huckel's (4n+2) Pi Electron Rule",
+          "Aromatic, Antiaromatic & Non-aromatic Systems",
+          "Annulenes and Heterocyclic Aromatic Systems"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ELECTROPHILIC_AROMATIC_SUBSTITUTION_EAS_",
+        "name": "Electrophilic Aromatic Substitution (EAS)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Arenium Ion (Sigma Complex) Mechanism",
+          "Activating vs Deactivating Groups (Ortho/Para vs Meta Direction)",
+          "Friedel-Crafts Alkylation & Acylation (Rearrangements & Limitations)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|STATES_OF_MATTER",
+    "chapterId": "STATES_OF_MATTER",
+    "name": "States of Matter: Gases and Liquids",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 10,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STATES_OF_MATTER|GAS_LAWS_IDEAL_GAS_EQUATION",
+        "name": "Gas Laws & Ideal Gas Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Boyle's, Charles's, Gay-Lussac's & Avogadro's Laws",
+          "Equation of State: PV = nRT & Density Relation",
+          "Dalton's Law of Partial Pressures & Graham's Law of Diffusion"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|KINETIC_MOLECULAR_THEORY_MOLECULAR_SPEEDS",
+        "name": "Kinetic Molecular Theory & Molecular Speeds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of KMT & Kinetic Gas Equation",
+          "Maxwell-Boltzmann Speed Distribution",
+          "Root Mean Square (rms), Average & Most Probable Speeds"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|REAL_GASES_VAN_DER_WAALS_EQUATION",
+        "name": "Real Gases & van der Waals Equation",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Deviations from Ideality & Compressibility Factor (Z)",
+          "van der Waals Constants 'a' (intermolecular attraction) & 'b' (co-volume)",
+          "Behaviour at High, Low Pressure & Boyle Temperature"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|LIQUEFACTION_OF_GASES_LIQUID_STATE",
+        "name": "Liquefaction of Gases & Liquid State",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Critical Constants: T_c, P_c, V_c Formulas in terms of a, b",
+          "Andrews Isotherms of CO2",
+          "Liquid Properties: Vapor Pressure, Surface Tension & Viscosity"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|S_BLOCK_ELEMENTS",
+    "chapterId": "S_BLOCK_ELEMENTS",
+    "name": "s-Block Elements (Alkali & Alkaline Earth Metals)",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 11,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_1_ALKALI_METALS",
+        "name": "Group 1: Alkali Metals",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Radii, Ionization Enthalpy & Hydration Energy",
+          "Reactivity with Water, Air, Halogens & Liquid Ammonia Solutions",
+          "Anomalous Properties of Lithium & Diagonal Relationship with Magnesium"
+        ]
+      },
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_2_ALKALINE_EARTH_METALS",
+        "name": "Group 2: Alkaline Earth Metals",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Basic Strength of Oxides & Hydroxides",
+          "Solubility and Thermal Stability of Carbonates & Sulfates",
+          "Important Compounds: CaO, Ca(OH)2, Gypsum, Plaster of Paris, Cement"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|P_BLOCK_GROUP_13_14",
+    "chapterId": "P_BLOCK_GROUP_13_14",
+    "name": "p-Block Elements (Group 13 & 14)",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 12,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_13_BORON_FAMILY",
+        "name": "Group 13: Boron Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inert Pair Effect & Variable Oxidation States (+1, +3)",
+          "Structure of Diborane (3c-2e Banana Bonds)",
+          "Borax Bead Test, Boric Acid & Lewis Acid Character of BF3"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_14_CARBON_FAMILY",
+        "name": "Group 14: Carbon Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Catenation Tendency & Allotropes of Carbon (Diamond, Graphite, Fullerenes)",
+          "Oxides of Carbon (CO toxic nature, CO2)",
+          "Silicones, Silicates (Classification & Basic Units) & Zeolites"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|HYDROGEN",
+    "chapterId": "HYDROGEN",
+    "name": "Hydrogen & Its Compounds",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 13,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "HYDROGEN|HYDROGEN_HYDRIDES_WATER",
+        "name": "Hydrogen, Hydrides & Water",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Position in Periodic Table & Isotopes (Protium, Deuterium, Tritium)",
+          "Classification of Hydrides (Ionic, Covalent, Interstitial)",
+          "Temporary and Permanent Hardness of Water & Softening Methods"
+        ]
+      },
+      {
+        "id": "HYDROGEN|HYDROGEN_PEROXIDE_H2O2_HEAVY_WATER",
+        "name": "Hydrogen Peroxide (H2O2) & Heavy Water",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Preparation & Open-Book Structure of H2O2",
+          "Volume Strength Calculations (10V, 20V H2O2 Molarity/Normality)",
+          "Redox Chemistry of H2O2 in Acidic and Basic Media"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|ENVIRONMENTAL_CHEMISTRY",
+    "chapterId": "ENVIRONMENTAL_CHEMISTRY",
+    "name": "Environmental Chemistry",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 14,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "ENVIRONMENTAL_CHEMISTRY|ENVIRONMENTAL_POLLUTION_GREEN_CHEMISTRY",
+        "name": "Environmental Pollution & Green Chemistry",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Tropospheric Pollutants, Acid Rain & Greenhouse Effect",
+          "Classical Smog vs Photochemical Smog (PAN, Ozone, NOx)",
+          "Ozone Depletion Mechanism by CFCs",
+          "Water Quality Standards (BOD, COD, Heavy Metals)",
+          "Principles of Green Chemistry for Waste Minimization"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|11|PRACTICAL_CHEMISTRY",
+    "chapterId": "PRACTICAL_CHEMISTRY",
+    "name": "Principles Related to Practical Chemistry",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 15,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "PRACTICAL_CHEMISTRY|SYSTEMATIC_QUALITATIVE_ANALYSIS",
+        "name": "Systematic Qualitative Analysis",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Detection of Acidic Radicals (Carbonate, Sulfide, Halides, Nitrate)",
+          "Systematic Separation of Basic Radicals (Group 0 to VI)",
+          "Confirmatory Tests (Brown ring test, Chromyl chloride test, Borax bead test)"
+        ]
+      },
+      {
+        "id": "PRACTICAL_CHEMISTRY|VOLUMETRIC_ANALYSIS_FUNCTIONAL_GROUPS",
+        "name": "Volumetric Analysis & Functional Groups",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acid-Base Titrations & Indicator Selection (Methyl orange, Phenolphthalein)",
+          "Redox Titrations: Oxalic acid / Mohr's salt against KMnO4",
+          "Tests for Alcohols, Phenols, Aldehydes, Ketones, Carboxylic acids, Amines"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|SOLID_STATE",
+    "chapterId": "SOLID_STATE",
+    "name": "Solid State",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 16,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLID_STATE|CRYSTAL_LATTICES_UNIT_CELLS",
+        "name": "Crystal Lattices & Unit Cells",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "7 Crystal Systems & 14 Bravais Lattices",
+          "Number of Atoms in SC (1), BCC (2), FCC (4)",
+          "Density Formula: d = (z * M) / (a^3 * N_A)"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|PACKING_EFFICIENCY_VOIDS",
+        "name": "Packing Efficiency & Voids",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Packing Efficiency in SC (52.4%), BCC (68%), FCC/HCP (74%)",
+          "Tetrahedral (2N) and Octahedral (N) Voids",
+          "Limiting Radius Ratio Rules for Geometry"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|DEFECTS_IN_SOLIDS_PROPERTIES",
+        "name": "Defects in Solids & Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Stoichiometric Defects: Schottky vs Frenkel Defects",
+          "Non-stoichiometric Defects: Metal Excess (F-centres) & Metal Deficiency",
+          "Magnetic Properties: Ferromagnetism, Ferrimagnetism, Antiferromagnetism"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|SOLUTIONS",
+    "chapterId": "SOLUTIONS",
+    "name": "Solutions",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 17,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
+        "name": "Henry's Law & Raoult's Law",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gas Solubility: Henry's Law (p = K_H * x)",
+          "Raoult's Law for Volatile Liquid Mixtures",
+          "Vapor-Pressure Liquid Composition Diagrams"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|IDEAL_AND_NON_IDEAL_SOLUTIONS",
+        "name": "Ideal and Non-Ideal Solutions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ideality (Delta H_mix = 0, Delta V_mix = 0)",
+          "Positive & Negative Deviations from Raoult's Law",
+          "Minimum & Maximum Boiling Azeotropes"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES",
+        "name": "Colligative Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relative Lowering of Vapor Pressure (RLVP)",
+          "Elevation in Boiling Point: Delta T_b = K_b * m",
+          "Depression in Freezing Point: Delta T_f = K_f * m",
+          "Osmotic Pressure: pi = C * R * T & Isotonic Solutions"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_ABNORMAL_MOLAR_MASS",
+        "name": "Van 't Hoff Factor & Abnormal Molar Mass",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: i = Normal Molar Mass / Observed Molar Mass",
+          "Degree of Dissociation: alpha = (i - 1) / (n - 1)",
+          "Degree of Association: alpha = (1 - i) / (1 - 1/n)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|ELECTROCHEMISTRY",
+    "chapterId": "ELECTROCHEMISTRY",
+    "name": "Electrochemistry",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 18,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_NERNST_EQUATION",
+        "name": "Galvanic Cells & Nernst Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electrode Potential & Standard Hydrogen Electrode (SHE)",
+          "Nernst Equation for Single Electrode & Complete Cell",
+          "Equilibrium Constant & Delta G^0 = -n * F * E^0_cell"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYTIC_CONDUCTANCE_KOHLRAUSCH_S_LAW",
+        "name": "Electrolytic Conductance & Kohlrausch's Law",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Specific Conductance (kappa), Cell Constant & Molar Conductance",
+          "Variation of Conductivity with Dilution (Debye-Huckel-Onsager)",
+          "Kohlrausch's Law of Independent Migration of Ions & Weak Electrolyte Degree of Ionization"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYSIS_FARADAY_S_LAWS",
+        "name": "Electrolysis & Faraday's Laws",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Faraday's First Law: m = Z * I * t",
+          "Faraday's Second Law: m1/m2 = E1/E2",
+          "Products of Electrolysis for Aqueous Salts"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
+        "name": "Batteries, Fuel Cells & Corrosion",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Primary Cells (Dry cell, Mercury) vs Secondary Cells (Lead-acid accumulator)",
+          "H2-O2 Fuel Cell Reactions & Efficiency",
+          "Electrochemical Mechanism of Rusting & Cathodic Protection"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|CHEMICAL_KINETICS",
+    "chapterId": "CHEMICAL_KINETICS",
+    "name": "Chemical Kinetics",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 19,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_ORDER",
+        "name": "Rate of Reaction & Order",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Average and Instantaneous Rate of Reaction",
+          "Rate Law, Rate Constant (k) & Units of k",
+          "Order vs Molecularity Differences"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_HALF_LIFE",
+        "name": "Integrated Rate Laws & Half-Life",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Zero Order Reactions: [A] = [A]0 - kt, t_1/2 = [A]0 / 2k",
+          "First Order Reactions: k = (2.303/t) * log([A]0/[A]), t_1/2 = 0.693 / k",
+          "Pseudo First Order Reactions (Hydrolysis of ester)"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
+        "name": "Arrhenius Equation & Activation Energy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Temperature Dependence: k = A * e^(-Ea / RT)",
+          "Two-Temperature Form: log(k2/k1) = (Ea / 2.303R) * (1/T1 - 1/T2)",
+          "Collision Theory, Steric Factor (P) & Transition State Theory"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|SURFACE_CHEMISTRY",
+    "chapterId": "SURFACE_CHEMISTRY",
+    "name": "Surface Chemistry",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 20,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "SURFACE_CHEMISTRY|ADSORPTION_ISOTHERMS",
+        "name": "Adsorption & Isotherms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Physisorption vs Chemisorption Characteristics",
+          "Freundlich Adsorption Isotherm: x/m = k * p^(1/n)",
+          "Langmuir Isotherm & Adsorption from Solution Phase"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|CATALYSIS",
+        "name": "Catalysis",
+        "order": 2,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Homogeneous vs Heterogeneous Catalysis Mechanism",
+          "Shape-Selective Catalysis by Zeolites (ZSM-5)",
+          "Enzyme Catalysis: Lock & Key Model & Characteristics"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|COLLOIDS_EMULSIONS",
+        "name": "Colloids & Emulsions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lyophilic vs Lyophobic Sols & Preparation Methods",
+          "Purification: Dialysis & Electro-dialysis",
+          "Properties: Tyndall Effect, Brownian Motion, Electrophoresis, Hardy-Schulze Rule"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|METALLURGY",
+    "chapterId": "METALLURGY",
+    "name": "General Principles and Processes of Isolation of Elements",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 21,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "METALLURGY|CONCENTRATION_OF_ORES",
+        "name": "Concentration of Ores",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydraulic Washing & Magnetic Separation",
+          "Froth Floatation Process: Collectors, Frothers, Depressants",
+          "Leaching Processes: Bayer's Process for Bauxite, Cyanide Process for Au/Ag"
+        ]
+      },
+      {
+        "id": "METALLURGY|THERMODYNAMICS_OF_METALLURGY_ELLINGHAM_DIAGRAM_",
+        "name": "Thermodynamics of Metallurgy (Ellingham Diagram)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Calcination vs Roasting Reactions",
+          "Ellingham Diagram Interpretation: Delta G^0 vs Temperature Plots",
+          "Choice of Reducing Agent (C vs CO) at Different Temperatures"
+        ]
+      },
+      {
+        "id": "METALLURGY|EXTRACTION_REFINING_METHODS",
+        "name": "Extraction & Refining Methods",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Blast Furnace Extraction of Iron & Slag Formation",
+          "Hall-Heroult Process for Aluminum & Role of Cryolite",
+          "Refining: Electrolytic, Zone Refining, Mond Process (Ni), Van Arkel (Zr, Ti)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|P_BLOCK_GROUP_15_18",
+    "chapterId": "P_BLOCK_GROUP_15_18",
+    "name": "p-Block Elements (Group 15, 16, 17 & 18)",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 22,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_15_NITROGEN_PHOSPHORUS_FAMILY",
+        "name": "Group 15: Nitrogen & Phosphorus Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Anomalous Properties of N & Triple Bond Dissociation Energy",
+          "Haber Process & Ostwald Process for HNO3",
+          "Phosphorus Allotropes, Phosphine & Basicity of Oxoacids (H3PO2, H3PO3, H3PO4)"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_16_OXYGEN_SULFUR_FAMILY",
+        "name": "Group 16: Oxygen & Sulfur Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Hydride Boiling Points (H-bonding in H2O)",
+          "Ozone: Structure & Strong Oxidizing Actions",
+          "Sulfur Allotropes (Rhombic, Monoclinic) & Contact Process for H2SO4"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_17_HALOGENS_FAMILY",
+        "name": "Group 17: Halogens Family",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronegativity, Electron Affinity Anomaly (Cl > F)",
+          "Oxidizing Power Trend (F2 > Cl2 > Br2 > I2) in Solution",
+          "Interhalogen Compounds (XX'_n) Properties & Oxoacids of Halogens"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_18_NOBLE_GASES_XENON_CHEMISTRY",
+        "name": "Group 18: Noble Gases & Xenon Chemistry",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Discovery & Neil Bartlett's Experiment",
+          "Synthesis and VSEPR Shapes of XeF2, XeF4, XeF6, XeO3, XeOF4",
+          "Complete and Partial Hydrolysis of Xenon Fluorides"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|D_AND_F_BLOCK_ELEMENTS",
+    "chapterId": "D_AND_F_BLOCK_ELEMENTS",
+    "name": "The d- and f-Block Elements",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 23,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|GENERAL_TRENDS_IN_3D_TRANSITION_SERIES",
+        "name": "General Trends in 3d Transition Series",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configurations & Variable Oxidation States",
+          "Magnetic Moments: Spin-Only Formula mu = sqrt(n(n+2)) BM",
+          "Color of Compounds due to d-d Transitions",
+          "Interstitial Compounds & Catalytic Behaviour"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|IMPORTANT_TRANSITION_METAL_COMPOUNDS",
+        "name": "Important Transition Metal Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Potassium Dichromate (K2Cr2O7): Preparation, Structure, Redox in Acid",
+          "Potassium Permanganate (KMnO4): Preparation from Pyrolusite, Oxidizing Reactions in Acid, Neutral, Alkaline Media"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|LANTHANOIDS_ACTINOIDS_F_BLOCK_",
+        "name": "Lanthanoids & Actinoids (f-Block)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configuration & Stable +3 Oxidation State",
+          "Lanthanoid Contraction: Causes and Chemical Consequences",
+          "Comparison of Lanthanoids and Actinoids (Radioactivity, Complexing Ability)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|COORDINATION_COMPOUNDS",
+    "chapterId": "COORDINATION_COMPOUNDS",
+    "name": "Coordination Compounds",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 24,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "COORDINATION_COMPOUNDS|WERNER_S_THEORY_NOMENCLATURE",
+        "name": "Werner's Theory & Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Primary vs Secondary Valency",
+          "IUPAC Nomenclature of Coordination Complexes",
+          "Ligand Classification: Monodentate, Chelating, Ambidentate"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
+        "name": "Isomerism in Coordination Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Structural Isomerism: Ionization, Hydrate, Linkage, Coordination",
+          "Geometrical Isomerism: Cis-Trans & Facial-Meridional (fac-mer)",
+          "Optical Isomerism in Octahedral Complexes with Bidentate Ligands"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_THEORIES_VBT_CFT_",
+        "name": "Bonding Theories (VBT & CFT)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Valence Bond Theory: Inner vs Outer Orbital Complexes, Hybridization",
+          "Crystal Field Theory: Octahedral (Delta_o) & Tetrahedral (Delta_t) Splitting",
+          "Spectrochemical Series & High Spin vs Low Spin Configurations",
+          "Crystal Field Stabilization Energy (CFSE) Calculations"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_IN_METAL_CARBONYLS",
+        "name": "Bonding in Metal Carbonyls",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Synergic Bonding: Sigma Donor & Pi Acceptor Interaction",
+          "Bond Order & CO Stretching Frequency Changes",
+          "Biological Importance: Chlorophyll (Mg), Hemoglobin (Fe), Vitamin B12 (Co)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
+    "chapterId": "HALOALKANES_AND_HALOARENES",
+    "name": "Haloalkanes and Haloarenes",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 25,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HALOALKANES_AND_HALOARENES|PREPARATION_PHYSICAL_PROPERTIES",
+        "name": "Preparation & Physical Properties",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "From Alcohols (SOCl2 Darzens process, PCl5, PBr3)",
+          "Halogen Exchange Reactions: Finkelstein & Swarts Reactions",
+          "Boiling Point & Dipole Moment Trends"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|NUCLEOPHILIC_SUBSTITUTION_SN1_VS_SN2_",
+        "name": "Nucleophilic Substitution (SN1 vs SN2)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "SN2 Mechanism: Bimolecular, Concerted, Walden Inversion",
+          "SN1 Mechanism: Carbocation Intermediate, Racemization, Solvent Effect",
+          "Factors Affecting SN1 vs SN2: Substrate, Nucleophile, Solvent, Leaving Group"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_REACTIONS_COMPETITION",
+        "name": "Elimination Reactions & Competition",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Beta-Elimination (E2 vs E1 Mechanisms)",
+          "Saytzeff (Zaitsev) vs Hofmann Elimination Rule",
+          "Substitution vs Elimination Competition Factors"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES_ORGANOMETALLICS",
+        "name": "Reactions of Haloarenes & Organometallics",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Low Reactivity of Haloarenes towards Nucleophilic Substitution (Resonance, sp2 C)",
+          "Nucleophilic Aromatic Substitution with Electron Withdrawing Groups",
+          "Grignard Reagents (RMgX): Preparation & Reactions with Active Hydrogen/Electrophiles",
+          "Polyhalogen Compounds: Chloroform, Freons, DDT, Iodoform Test"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
+    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
+    "name": "Alcohols, Phenols and Ethers",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 26,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|PREPARATION_ACIDITY_OF_ALCOHOLS",
+        "name": "Preparation & Acidity of Alcohols",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "From Alkenes: Acid-Catalyzed Hydration, Hydroboration-Oxidation, Oxymercuration-Demercuration",
+          "From Carbonyl Compounds: Reduction & Grignard Addition",
+          "Acidity of Alcohols: Comparison with Water & Alkoxide Basicity"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REACTIONS_OF_ALCOHOLS",
+        "name": "Reactions of Alcohols",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lucas Reagent Test (1 deg, 2 deg, 3 deg Distinction)",
+          "Dehydration to Alkenes & Carbocation Rearrangements",
+          "Oxidation with PCC, CrO3, Jones Reagent & Dehydrogenation over Cu/573K"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CHEMISTRY_OF_PHENOLS",
+        "name": "Chemistry of Phenols",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Commercial Preparation from Cumene (Hydroperoxide Process)",
+          "Enhanced Acidity of Phenol: Substituent Effects (Nitro vs Alkyl groups)",
+          "Kolbe's Reaction (Synthesis of Salicylic Acid)",
+          "Reimer-Tiemann Reaction (Synthesis of Salicylaldehyde via Dichlorocarbene)",
+          "Reaction with Zinc Dust & Phthalic Anhydride"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ETHERS_SYNTHESIS_CLEAVAGE",
+        "name": "Ethers: Synthesis & Cleavage",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Williamson Ether Synthesis & Mechanism (SN2 Attack on Primary Halide)",
+          "Acid-Catalyzed Dehydration of Alcohols",
+          "Cleavage of Ethers with Excess Concentrated HI/HBr (Mechanism with 1/2/3 deg Alkyl Groups)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "chapterId": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "name": "Aldehydes, Ketones and Carboxylic Acids",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 27,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|PREPARATION_OF_CARBONYL_COMPOUNDS",
+        "name": "Preparation of Carbonyl Compounds",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rosenmund Reduction & Stephen's Reaction",
+          "Etard Reaction & Gattermann-Koch Synthesis",
+          "Ozonolysis of Alkenes & Hydration of Alkynes"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
+        "name": "Nucleophilic Addition Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Addition of HCN, NaHSO3, Alcohols (Hemiacetals & Acetals)",
+          "Addition of Grignard Reagents to Aldehydes and Ketones",
+          "Reaction with Ammonia Derivatives (Hydroxylamine, Hydrazine, 2,4-DNP)"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|OXIDATION_REDUCTION_ALPHA_HYDROGEN_REACTIONS",
+        "name": "Oxidation, Reduction & Alpha-Hydrogen Reactions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Clemmensen Reduction (Zn-Hg/HCl) & Wolff-Kishner Reduction (NH2NH2/KOH)",
+          "Tollens' Test & Fehling's Test for Aldehydes",
+          "Haloform Reaction (Iodoform Test for CH3-CO- and CH3-CH(OH)-)",
+          "Aldol & Cross-Aldol Condensation Mechanism",
+          "Cannizzaro Reaction & Cross-Cannizzaro Mechanism"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|CARBOXYLIC_ACIDS_STRUCTURE_REACTIONS",
+        "name": "Carboxylic Acids: Structure & Reactions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Carboxylic Acids & Electron Withdrawing Substituent Effects",
+          "Esterification Mechanism",
+          "Hell-Volhard-Zelinsky (HVZ) Alpha-Halogenation",
+          "Decarboxylation with Soda Lime & Kolbe Electrolysis"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|AMINES",
+    "chapterId": "AMINES",
+    "name": "Amines",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 28,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "AMINES|PREPARATION_OF_AMINES",
+        "name": "Preparation of Amines",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Reduction of Nitro Compounds, Nitriles & Amides",
+          "Gabriel Phthalimide Synthesis for Pure Primary Aliphatic Amines",
+          "Hofmann Bromamide Degradation Reaction (Step-down Reaction)"
+        ]
+      },
+      {
+        "id": "AMINES|BASICITY_OF_AMINES",
+        "name": "Basicity of Amines",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Basicity in Gaseous Phase (3 deg > 2 deg > 1 deg > NH3)",
+          "Basicity in Aqueous Medium: Combined Inductive, Solvation & Steric Effects (2 deg > 1 deg > 3 deg for Methyl; 2 deg > 3 deg > 1 deg for Ethyl)",
+          "Resonance Weakening of Arylamine Basicity (Aniline vs Alkylamines)"
+        ]
+      },
+      {
+        "id": "AMINES|CHEMICAL_TESTS_REACTIONS_OF_AMINES",
+        "name": "Chemical Tests & Reactions of Amines",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbylamine Test for Primary Amines (Isocyanide Formation)",
+          "Hinsberg's Test with Benzenesulfonyl Chloride (1, 2, 3 deg Distinction)",
+          "Reaction with Nitrous Acid (HNO2) & Alcohol/Diazonium Formation"
+        ]
+      },
+      {
+        "id": "AMINES|DIAZONIUM_SALTS_SYNTHETIC_TRANSFORMATIONS",
+        "name": "Diazonium Salts & Synthetic Transformations",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Diazotization of Aniline with NaNO2 + HCl at 0-5 deg C",
+          "Sandmeyer Reaction vs Gattermann Reaction",
+          "Azo Coupling Reactions with Phenol and Aniline (Dyes)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|BIOMOLECULES",
+    "chapterId": "BIOMOLECULES",
+    "name": "Biomolecules",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 29,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "BIOMOLECULES|CARBOHYDRATES_MONOSACCHARIDES_RING_STRUCTURES",
+        "name": "Carbohydrates: Monosaccharides & Ring Structures",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Classification: Aldoses, Ketoses, D/L Configuration",
+          "Glucose: Open-Chain Reactions, Limitations, Fischer to Haworth Projections",
+          "Anomers, Epimers & Mutarotation in Glucose and Fructose"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
+        "name": "Disaccharides & Polysaccharides",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Glycosidic Bond Formation",
+          "Sucrose (Invert Sugar, Non-reducing), Maltose & Lactose",
+          "Starch (Amylose + Amylopectin), Cellulose & Glycogen"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDES_PROTEINS",
+        "name": "Amino Acids, Peptides & Proteins",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Essential vs Non-essential Amino Acids",
+          "Zwitterion Form, Isoelectric Point (pI) & Optical Activity",
+          "Peptide Linkage & Primary, Secondary (alpha-helix, beta-pleated), Tertiary, Quaternary Structures",
+          "Denaturation of Proteins & Coagulation"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|NUCLEIC_ACIDS_ENZYMES_VITAMINS",
+        "name": "Nucleic Acids, Enzymes & Vitamins",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Components: Purines, Pyrimidines, Ribose/Deoxyribose, Phosphate",
+          "Nucleoside vs Nucleotide & Phosphodiester Linkages",
+          "Double-Helical Structure of DNA (Watson-Crick Model) & Chargaff's Rules",
+          "Vitamins: Water-Soluble vs Fat-Soluble & Deficiency Diseases"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|POLYMERS",
+    "chapterId": "POLYMERS",
+    "name": "Polymers",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 30,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "POLYMERS|CLASSIFICATION_POLYMERIZATION_MECHANISMS",
+        "name": "Classification & Polymerization Mechanisms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Natural, Semi-synthetic & Synthetic Polymers",
+          "Addition vs Condensation Polymerization Modes",
+          "Elastomers, Fibres, Thermoplastics, Thermosetting Plastics",
+          "Ziegler-Natta Coordination Polymerization for HDPE"
+        ]
+      },
+      {
+        "id": "POLYMERS|COMMERCIAL_POLYMERS_RUBBERS",
+        "name": "Commercial Polymers & Rubbers",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Polyamides: Nylon-6,6, Nylon-6 (Caprolactam)",
+          "Polyesters: Terylene / Dacron",
+          "Resins: Bakelite (Novolac intermediate), Melamine-Formaldehyde",
+          "Natural Rubber, Vulcanization & Synthetic Rubbers (Buna-S, Buna-N, Neoprene)"
+        ]
+      },
+      {
+        "id": "POLYMERS|BIODEGRADABLE_POLYMERS_MOLECULAR_MASS",
+        "name": "Biodegradable Polymers & Molecular Mass",
+        "order": 3,
+        "isKeyTopic": false,
+        "subtopics": [
+          "PHBV (poly beta-hydroxybutyrate-co-beta-hydroxyvalerate)",
+          "Nylon-2-nylon-6",
+          "Number-Average (Mn) vs Weight-Average (Mw) Molar Mass & PDI"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "JEE_ADVANCED|CHEMISTRY|12|CHEMISTRY_IN_EVERYDAY_LIFE",
+    "chapterId": "CHEMISTRY_IN_EVERYDAY_LIFE",
+    "name": "Chemistry in Everyday Life",
+    "examId": "JEE_ADVANCED",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 31,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|DRUGS_PHARMACOLOGICAL_CLASSES",
+        "name": "Drugs & Pharmacological Classes",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Drug-Target Interactions: Enzyme Inhibitors & Receptors",
+          "Antacids (H2-blockers: Ranitidine) & Antihistamines",
+          "Tranquilizers (Equanil, Valium) & Analgesics (Aspirin, Morphine)",
+          "Antiseptics (Dettol, Bithionol) vs Disinfectants (Phenol, Chlorine)",
+          "Antibiotics: Bactericidal vs Bacteriostatic & Broad Spectrum"
+        ]
+      },
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|FOOD_CHEMISTRY_CLEANSING_AGENTS",
+        "name": "Food Chemistry & Cleansing Agents",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Artificial Sweetening Agents: Aspartame, Saccharin, Sucralose, Alitame",
+          "Food Preservatives: Sodium Benzoate, Sorbic Acid Salts",
+          "Soaps: Saponification & Scum Formation in Hard Water",
+          "Synthetic Detergents: Anionic, Cationic, Non-ionic Types & Cleansing Action (Micelles)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Joint Admission Board (IIT)",
+    "sourceURL": "https://jeeadv.ac.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "name": "Some Basic Concepts of Chemistry",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 1,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
+        "name": "Mole Concept & Molar Mass",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Avogadro's Number & Molar Mass",
+          "Mole-Particle-Mass-Volume Calculations",
+          "Average Atomic Mass of Isotopes"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
+        "name": "Stoichiometry & Limiting Reagent",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Balanced Chemical Equations & Mole Ratios",
+          "Identification of Limiting Reagent",
+          "Theoretical vs Percentage Yield"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|CONCENTRATION_TERMS",
+        "name": "Concentration Terms",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Molarity & Molality",
+          "Mole Fraction & Mass Percentage",
+          "Normality & Parts Per Million (ppm)"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
+        "name": "Empirical & Molecular Formula",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Percentage Composition Analysis",
+          "Empirical Formula Derivation",
+          "Molecular Formula from Molar Mass"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EQUIVALENT_CONCEPT_TITRATIONS",
+        "name": "Equivalent Concept & Titrations",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "n-Factor in Acid-Base & Redox Reactions",
+          "Law of Chemical Equivalence",
+          "Standard Volumetric Titrations"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAWS_OF_CHEMICAL_COMBINATION",
+        "name": "Laws of Chemical Combination",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Conservation of Mass & Definite Proportions",
+          "Multiple Proportions & Gay-Lussac's Law",
+          "Dalton's Atomic Theory Assumptions"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|STRUCTURE_OF_ATOM",
+    "chapterId": "STRUCTURE_OF_ATOM",
+    "name": "Structure of Atom",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 2,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STRUCTURE_OF_ATOM|SUBATOMIC_PARTICLES_EARLY_MODELS",
+        "name": "Subatomic Particles & Early Models",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Cathode Ray Discharge & e/m Ratio",
+          "Millikan Oil Drop & Charge of Electron",
+          "Rutherford's Alpha Scattering & Nuclear Model"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|BOHR_MODEL_HYDROGEN_SPECTRUM",
+        "name": "Bohr Model & Hydrogen Spectrum",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of Bohr's Theory",
+          "Radius, Velocity & Energy of Bohr Orbit",
+          "Rydberg Formula & Spectral Series (Lyman, Balmer, Paschen)"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|DUAL_NATURE_OF_MATTER_DE_BROGLIE_",
+        "name": "Dual Nature of Matter (de Broglie)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "de Broglie Wavelength Relation",
+          "Wavelength of Charged Particles in Potential V",
+          "Davisson-Germer Diffraction Verification"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|HEISENBERG_S_UNCERTAINTY_PRINCIPLE",
+        "name": "Heisenberg's Uncertainty Principle",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Mathematical Formulation (Delta x * Delta p >= h/4pi)",
+          "Physical Significance for Microscopic Particles",
+          "Impossibility of Electron in Nucleus"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|QUANTUM_MECHANICAL_MODEL_ORBITALS",
+        "name": "Quantum Mechanical Model & Orbitals",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Schrodinger Wave Equation Concept",
+          "Principal, Azimuthal, Magnetic & Spin Quantum Numbers",
+          "Shapes of s, p, d Orbitals & Nodal Surfaces"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|ELECTRONIC_CONFIGURATION_RULES",
+        "name": "Electronic Configuration Rules",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Aufbau Principle & (n+l) Rule",
+          "Pauli's Exclusion Principle",
+          "Hund's Rule of Maximum Multiplicity & Chromium/Copper Anomalies"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS",
+    "chapterId": "CLASSIFICATION_OF_ELEMENTS",
+    "name": "Classification of Elements and Periodicity",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 3,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|MODERN_PERIODIC_TABLE_LAYOUT",
+        "name": "Modern Periodic Table Layout",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moseley's Law & Modern Periodic Law",
+          "Division into s, p, d, f Blocks",
+          "IUPAC Nomenclature for Elements with Z > 100"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ATOMIC_IONIC_RADII_TRENDS",
+        "name": "Atomic & Ionic Radii Trends",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Covalent, Metallic & van der Waals Radii",
+          "Variation in Periods and Groups",
+          "Isoelectronic Species Radii Comparison"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|IONIZATION_ENTHALPY",
+        "name": "Ionization Enthalpy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Successive Ionization Enthalpies (IE1 < IE2 < IE3)",
+          "Factors Affecting Ionization Enthalpy",
+          "Anomalous Trends (Be vs B, N vs O)"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ELECTRON_GAIN_ENTHALPY_ELECTRONEGATIVITY",
+        "name": "Electron Gain Enthalpy & Electronegativity",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Electron Affinity & Halogen Anomaly (Cl > F)",
+          "Pauling & Mulliken Electronegativity Scales",
+          "Electronegativity Variation Across the Table"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|PERIODIC_TRENDS_IN_CHEMICAL_PROPERTIES",
+        "name": "Periodic Trends in Chemical Properties",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Valency & Oxidation States",
+          "Anomalous Properties of Second Period Elements",
+          "Diagonal Relationships (Li-Mg, Be-Al, B-Si)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|CHEMICAL_BONDING",
+    "chapterId": "CHEMICAL_BONDING",
+    "name": "Chemical Bonding and Molecular Structure",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 4,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_BONDING|LEWIS_STRUCTURES_FORMAL_CHARGE",
+        "name": "Lewis Structures & Formal Charge",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Octet Rule & Exceptions",
+          "Formal Charge Calculation on Atoms",
+          "Resonance Structures & Stability"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|IONIC_BONDING_LATTICE_ENTHALPY",
+        "name": "Ionic Bonding & Lattice Enthalpy",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ionic Bond Formation",
+          "Born-Haber Cycle for Lattice Energy",
+          "Fajan's Rules for Covalent Character in Ionic Bonds"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VSEPR_THEORY_MOLECULAR_GEOMETRY",
+        "name": "VSEPR Theory & Molecular Geometry",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Steric Number Concept",
+          "Lone Pair Repulsion Hierarchy",
+          "Shapes from Linear to Pentagonal Bipyramidal"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VALENCE_BOND_THEORY_HYBRIDIZATION",
+        "name": "Valence Bond Theory & Hybridization",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Sigma and Pi Bond Formation",
+          "Hybridization Schemes: sp, sp2, sp3, sp3d, sp3d2",
+          "d-Orbital Participation in Hybridization"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|MOLECULAR_ORBITAL_THEORY_MOT_",
+        "name": "Molecular Orbital Theory (MOT)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "LCAO Method & Bonding/Antibonding MOs",
+          "MO Energy Level Diagrams for Homonuclear Diatomics",
+          "Bond Order, Bond Length & Magnetic Behaviour"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|DIPOLE_MOMENT_POLARITY",
+        "name": "Dipole Moment & Polarity",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: mu = q * d in Debye",
+          "Vector Addition of Bond Dipoles",
+          "Percentage Ionic Character from Dipole Moment"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|HYDROGEN_BONDING_INTERMOLECULAR_FORCES",
+        "name": "Hydrogen Bonding & Intermolecular Forces",
+        "order": 7,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Intermolecular vs Intramolecular H-Bonding",
+          "Effects on Boiling Points & Solubility",
+          "van der Waals Forces (Dispersion, Dipole-Dipole)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
+    "chapterId": "CHEMICAL_THERMODYNAMICS",
+    "name": "Chemical Thermodynamics",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 5,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_WORK_CALCULATIONS",
+        "name": "First Law & Work Calculations",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "State Functions vs Path Functions",
+          "First Law: Delta U = q + w",
+          "Isothermal, Adiabatic, Isobaric & Isochoric Work"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HEAT_CAPACITIES",
+        "name": "Enthalpy & Heat Capacities",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation: Delta H = Delta U + Delta n_g * R * T",
+          "Molar Heat Capacities: C_p - C_v = R",
+          "Kirchhoff's Equations for Temperature Dependence"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|THERMOCHEMISTRY_HESS_S_LAW",
+        "name": "Thermochemistry & Hess's Law",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Standard Enthalpy of Formation & Combustion",
+          "Hess's Law of Constant Heat Summation",
+          "Bond Dissociation Enthalpy Calculations"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|SECOND_LAW_ENTROPY_S_",
+        "name": "Second Law & Entropy (S)",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Spontaneity & Thermodynamic Definition of Entropy",
+          "Entropy Changes in Ideal Gas Expansions",
+          "Delta S_total >= 0 Criterion"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_CHEMICAL_EQUILIBRIUM",
+        "name": "Gibbs Free Energy & Chemical Equilibrium",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gibbs Equation: Delta G = Delta H - T * Delta S",
+          "Spontaneity Criteria at Constant T & P",
+          "Standard Free Energy & Equilibrium Constant: Delta G^0 = -RT ln K"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|EQUILIBRIUM",
+    "chapterId": "EQUILIBRIUM",
+    "name": "Equilibrium",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 6,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "EQUILIBRIUM|CHEMICAL_EQUILIBRIUM_K_P_K_C",
+        "name": "Chemical Equilibrium & K_p / K_c",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Law of Mass Action",
+          "Relation: K_p = K_c * (RT)^(Delta n_g)",
+          "Reaction Quotient Q and Direction of Net Reaction"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
+        "name": "Le Chatelier's Principle",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Effect of Concentration, Pressure, and Temperature",
+          "Effect of Inert Gas Addition at Constant V and P",
+          "Industrial Synthesis of NH3 and SO3 Optimization"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|IONIC_EQUILIBRIUM_PH_CALCULATIONS",
+        "name": "Ionic Equilibrium & pH Calculations",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Ostwald's Dilution Law for Weak Electrolytes",
+          "Ionic Product of Water (K_w) with Temperature",
+          "pH and pOH of Strong & Weak Acid/Base Solutions"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|BUFFER_SOLUTIONS",
+        "name": "Buffer Solutions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidic & Basic Buffer Mechanisms",
+          "Henderson-Hasselbalch Equations",
+          "Buffer Capacity and Maximum Buffer Action Range"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SALT_HYDROLYSIS",
+        "name": "Salt Hydrolysis",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydrolysis Constant (K_h) & Degree of Hydrolysis",
+          "pH Formulas for All Four Salt Types",
+          "Hydrolysis of Salts of Weak Acid and Weak Base"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_K_SP_",
+        "name": "Solubility Product (K_sp)",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation Between Solubility (s) and K_sp",
+          "Precipitation Criterion: Q_sp > K_sp",
+          "Common Ion Effect in Group Separation & Salt Purification"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|REDOX_REACTIONS",
+    "chapterId": "REDOX_REACTIONS",
+    "name": "Redox Reactions",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 7,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_BALANCING",
+        "name": "Oxidation Numbers & Balancing",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rules for Assigning Oxidation Numbers",
+          "Ion-Electron Method (Half-Reaction) in Acidic/Basic Media",
+          "Oxidation State Method for Balancing"
+        ]
+      },
+      {
+        "id": "REDOX_REACTIONS|TYPES_OF_REDOX_REACTIONS",
+        "name": "Types of Redox Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Combination, Decomposition & Displacement Reactions",
+          "Disproportionation & Comproportionation Reactions",
+          "Redox Titrations & Indicator Action (Self-indicator KMnO4)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "name": "Organic Chemistry: Some Basic Principles and Techniques",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 8,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|IUPAC_NOMENCLATURE",
+        "name": "IUPAC Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Root Word, Prefix, Suffix System",
+          "Priority of Functional Groups in Polyfunctional Compounds",
+          "Nomenclature of Bicyclo and Spiro Compounds"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STRUCTURAL_ISOMERISM",
+        "name": "Structural Isomerism",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Chain, Position & Functional Group Isomerism",
+          "Metamerism in Ethers, Amines, Ketones",
+          "Keto-Enol Tautomerism & Enol Content Stability"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STEREOISOMERISM",
+        "name": "Stereoisomerism",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Geometrical Isomerism: Cis-Trans & E/Z System",
+          "Optical Isomerism: Chirality, Enantiomers, Diastereomers",
+          "Meso Compounds & Specific Rotation Calculation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|ELECTRONIC_EFFECTS_IN_ORGANIC_MOLECULES",
+        "name": "Electronic Effects in Organic Molecules",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inductive Effect (+I and -I) & Acid/Base Strengths",
+          "Resonance & Mesomeric Effect (+M and -M)",
+          "Hyperconjugation & Heat of Hydrogenation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|REACTIVE_INTERMEDIATES",
+        "name": "Reactive Intermediates",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbocations: Structure, Stability & Rearrangements (Hydride/Alkyl shifts)",
+          "Carbanions: Structure, Hybridization & Relative Stability",
+          "Free Radicals & Carbenes Generation & Reactivity"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|PURIFICATION_QUANTITATIVE_ELEMENTAL_ANALYSIS",
+        "name": "Purification & Quantitative Elemental Analysis",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Crystallization, Sublimation, Chromatography",
+          "Lassaigne's Test for N, S, Halogens",
+          "Dumas, Kjeldahl & Carius Quantitative Estimation Formulas"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|HYDROCARBONS",
+    "chapterId": "HYDROCARBONS",
+    "name": "Hydrocarbons",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 9,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HYDROCARBONS|ALKANES_PREPARATION_FREE_RADICAL_REACTIONS",
+        "name": "Alkanes: Preparation & Free Radical Reactions",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Wurtz Reaction & Corey-House Synthesis",
+          "Decarboxylation of Carboxylic Acid Salts (Kolbe & Soda Lime)",
+          "Free Radical Halogenation Mechanism & Reactivity-Selectivity"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKENES_ELECTROPHILIC_ADDITION",
+        "name": "Alkenes: Electrophilic Addition",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Markovnikov's Rule & Carbocation Intermediates",
+          "Anti-Markovnikov (Peroxide Effect) with HBr Mechanism",
+          "Ozonolysis for Structure Elucidation of Alkenes"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKYNES_CHEMISTRY_ACIDITY",
+        "name": "Alkynes: Chemistry & Acidity",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Terminal Alkynes (sp hybridized C-H)",
+          "Hydration of Alkynes (Kucherov Reaction using HgSO4/H2SO4)",
+          "Cyclic Polymerization to Form Benzene"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|AROMATICITY_HUCKEL_RULE",
+        "name": "Aromaticity & Huckel Rule",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Huckel's (4n+2) Pi Electron Rule",
+          "Aromatic, Antiaromatic & Non-aromatic Systems",
+          "Annulenes and Heterocyclic Aromatic Systems"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ELECTROPHILIC_AROMATIC_SUBSTITUTION_EAS_",
+        "name": "Electrophilic Aromatic Substitution (EAS)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Arenium Ion (Sigma Complex) Mechanism",
+          "Activating vs Deactivating Groups (Ortho/Para vs Meta Direction)",
+          "Friedel-Crafts Alkylation & Acylation (Rearrangements & Limitations)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|STATES_OF_MATTER",
+    "chapterId": "STATES_OF_MATTER",
+    "name": "States of Matter: Gases and Liquids",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 10,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STATES_OF_MATTER|GAS_LAWS_IDEAL_GAS_EQUATION",
+        "name": "Gas Laws & Ideal Gas Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Boyle's, Charles's, Gay-Lussac's & Avogadro's Laws",
+          "Equation of State: PV = nRT & Density Relation",
+          "Dalton's Law of Partial Pressures & Graham's Law of Diffusion"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|KINETIC_MOLECULAR_THEORY_MOLECULAR_SPEEDS",
+        "name": "Kinetic Molecular Theory & Molecular Speeds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of KMT & Kinetic Gas Equation",
+          "Maxwell-Boltzmann Speed Distribution",
+          "Root Mean Square (rms), Average & Most Probable Speeds"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|REAL_GASES_VAN_DER_WAALS_EQUATION",
+        "name": "Real Gases & van der Waals Equation",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Deviations from Ideality & Compressibility Factor (Z)",
+          "van der Waals Constants 'a' (intermolecular attraction) & 'b' (co-volume)",
+          "Behaviour at High, Low Pressure & Boyle Temperature"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|LIQUEFACTION_OF_GASES_LIQUID_STATE",
+        "name": "Liquefaction of Gases & Liquid State",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Critical Constants: T_c, P_c, V_c Formulas in terms of a, b",
+          "Andrews Isotherms of CO2",
+          "Liquid Properties: Vapor Pressure, Surface Tension & Viscosity"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|S_BLOCK_ELEMENTS",
+    "chapterId": "S_BLOCK_ELEMENTS",
+    "name": "s-Block Elements (Alkali & Alkaline Earth Metals)",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 11,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_1_ALKALI_METALS",
+        "name": "Group 1: Alkali Metals",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Radii, Ionization Enthalpy & Hydration Energy",
+          "Reactivity with Water, Air, Halogens & Liquid Ammonia Solutions",
+          "Anomalous Properties of Lithium & Diagonal Relationship with Magnesium"
+        ]
+      },
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_2_ALKALINE_EARTH_METALS",
+        "name": "Group 2: Alkaline Earth Metals",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Basic Strength of Oxides & Hydroxides",
+          "Solubility and Thermal Stability of Carbonates & Sulfates",
+          "Important Compounds: CaO, Ca(OH)2, Gypsum, Plaster of Paris, Cement"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|P_BLOCK_GROUP_13_14",
+    "chapterId": "P_BLOCK_GROUP_13_14",
+    "name": "p-Block Elements (Group 13 & 14)",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 12,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_13_BORON_FAMILY",
+        "name": "Group 13: Boron Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inert Pair Effect & Variable Oxidation States (+1, +3)",
+          "Structure of Diborane (3c-2e Banana Bonds)",
+          "Borax Bead Test, Boric Acid & Lewis Acid Character of BF3"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_14_CARBON_FAMILY",
+        "name": "Group 14: Carbon Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Catenation Tendency & Allotropes of Carbon (Diamond, Graphite, Fullerenes)",
+          "Oxides of Carbon (CO toxic nature, CO2)",
+          "Silicones, Silicates (Classification & Basic Units) & Zeolites"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|HYDROGEN",
+    "chapterId": "HYDROGEN",
+    "name": "Hydrogen & Its Compounds",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 13,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "HYDROGEN|HYDROGEN_HYDRIDES_WATER",
+        "name": "Hydrogen, Hydrides & Water",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Position in Periodic Table & Isotopes (Protium, Deuterium, Tritium)",
+          "Classification of Hydrides (Ionic, Covalent, Interstitial)",
+          "Temporary and Permanent Hardness of Water & Softening Methods"
+        ]
+      },
+      {
+        "id": "HYDROGEN|HYDROGEN_PEROXIDE_H2O2_HEAVY_WATER",
+        "name": "Hydrogen Peroxide (H2O2) & Heavy Water",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Preparation & Open-Book Structure of H2O2",
+          "Volume Strength Calculations (10V, 20V H2O2 Molarity/Normality)",
+          "Redox Chemistry of H2O2 in Acidic and Basic Media"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|ENVIRONMENTAL_CHEMISTRY",
+    "chapterId": "ENVIRONMENTAL_CHEMISTRY",
+    "name": "Environmental Chemistry",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 14,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "ENVIRONMENTAL_CHEMISTRY|ENVIRONMENTAL_POLLUTION_GREEN_CHEMISTRY",
+        "name": "Environmental Pollution & Green Chemistry",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Tropospheric Pollutants, Acid Rain & Greenhouse Effect",
+          "Classical Smog vs Photochemical Smog (PAN, Ozone, NOx)",
+          "Ozone Depletion Mechanism by CFCs",
+          "Water Quality Standards (BOD, COD, Heavy Metals)",
+          "Principles of Green Chemistry for Waste Minimization"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|11|PRACTICAL_CHEMISTRY",
+    "chapterId": "PRACTICAL_CHEMISTRY",
+    "name": "Principles Related to Practical Chemistry",
+    "examId": "NEET_UG",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 15,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "PRACTICAL_CHEMISTRY|SYSTEMATIC_QUALITATIVE_ANALYSIS",
+        "name": "Systematic Qualitative Analysis",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Detection of Acidic Radicals (Carbonate, Sulfide, Halides, Nitrate)",
+          "Systematic Separation of Basic Radicals (Group 0 to VI)",
+          "Confirmatory Tests (Brown ring test, Chromyl chloride test, Borax bead test)"
+        ]
+      },
+      {
+        "id": "PRACTICAL_CHEMISTRY|VOLUMETRIC_ANALYSIS_FUNCTIONAL_GROUPS",
+        "name": "Volumetric Analysis & Functional Groups",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acid-Base Titrations & Indicator Selection (Methyl orange, Phenolphthalein)",
+          "Redox Titrations: Oxalic acid / Mohr's salt against KMnO4",
+          "Tests for Alcohols, Phenols, Aldehydes, Ketones, Carboxylic acids, Amines"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|SOLID_STATE",
+    "chapterId": "SOLID_STATE",
+    "name": "Solid State",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 16,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLID_STATE|CRYSTAL_LATTICES_UNIT_CELLS",
+        "name": "Crystal Lattices & Unit Cells",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "7 Crystal Systems & 14 Bravais Lattices",
+          "Number of Atoms in SC (1), BCC (2), FCC (4)",
+          "Density Formula: d = (z * M) / (a^3 * N_A)"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|PACKING_EFFICIENCY_VOIDS",
+        "name": "Packing Efficiency & Voids",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Packing Efficiency in SC (52.4%), BCC (68%), FCC/HCP (74%)",
+          "Tetrahedral (2N) and Octahedral (N) Voids",
+          "Limiting Radius Ratio Rules for Geometry"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|DEFECTS_IN_SOLIDS_PROPERTIES",
+        "name": "Defects in Solids & Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Stoichiometric Defects: Schottky vs Frenkel Defects",
+          "Non-stoichiometric Defects: Metal Excess (F-centres) & Metal Deficiency",
+          "Magnetic Properties: Ferromagnetism, Ferrimagnetism, Antiferromagnetism"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|SOLUTIONS",
+    "chapterId": "SOLUTIONS",
+    "name": "Solutions",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 17,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
+        "name": "Henry's Law & Raoult's Law",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gas Solubility: Henry's Law (p = K_H * x)",
+          "Raoult's Law for Volatile Liquid Mixtures",
+          "Vapor-Pressure Liquid Composition Diagrams"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|IDEAL_AND_NON_IDEAL_SOLUTIONS",
+        "name": "Ideal and Non-Ideal Solutions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ideality (Delta H_mix = 0, Delta V_mix = 0)",
+          "Positive & Negative Deviations from Raoult's Law",
+          "Minimum & Maximum Boiling Azeotropes"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES",
+        "name": "Colligative Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relative Lowering of Vapor Pressure (RLVP)",
+          "Elevation in Boiling Point: Delta T_b = K_b * m",
+          "Depression in Freezing Point: Delta T_f = K_f * m",
+          "Osmotic Pressure: pi = C * R * T & Isotonic Solutions"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_ABNORMAL_MOLAR_MASS",
+        "name": "Van 't Hoff Factor & Abnormal Molar Mass",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: i = Normal Molar Mass / Observed Molar Mass",
+          "Degree of Dissociation: alpha = (i - 1) / (n - 1)",
+          "Degree of Association: alpha = (1 - i) / (1 - 1/n)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|ELECTROCHEMISTRY",
+    "chapterId": "ELECTROCHEMISTRY",
+    "name": "Electrochemistry",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 18,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_NERNST_EQUATION",
+        "name": "Galvanic Cells & Nernst Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electrode Potential & Standard Hydrogen Electrode (SHE)",
+          "Nernst Equation for Single Electrode & Complete Cell",
+          "Equilibrium Constant & Delta G^0 = -n * F * E^0_cell"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYTIC_CONDUCTANCE_KOHLRAUSCH_S_LAW",
+        "name": "Electrolytic Conductance & Kohlrausch's Law",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Specific Conductance (kappa), Cell Constant & Molar Conductance",
+          "Variation of Conductivity with Dilution (Debye-Huckel-Onsager)",
+          "Kohlrausch's Law of Independent Migration of Ions & Weak Electrolyte Degree of Ionization"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYSIS_FARADAY_S_LAWS",
+        "name": "Electrolysis & Faraday's Laws",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Faraday's First Law: m = Z * I * t",
+          "Faraday's Second Law: m1/m2 = E1/E2",
+          "Products of Electrolysis for Aqueous Salts"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
+        "name": "Batteries, Fuel Cells & Corrosion",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Primary Cells (Dry cell, Mercury) vs Secondary Cells (Lead-acid accumulator)",
+          "H2-O2 Fuel Cell Reactions & Efficiency",
+          "Electrochemical Mechanism of Rusting & Cathodic Protection"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|CHEMICAL_KINETICS",
+    "chapterId": "CHEMICAL_KINETICS",
+    "name": "Chemical Kinetics",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 19,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_ORDER",
+        "name": "Rate of Reaction & Order",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Average and Instantaneous Rate of Reaction",
+          "Rate Law, Rate Constant (k) & Units of k",
+          "Order vs Molecularity Differences"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_HALF_LIFE",
+        "name": "Integrated Rate Laws & Half-Life",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Zero Order Reactions: [A] = [A]0 - kt, t_1/2 = [A]0 / 2k",
+          "First Order Reactions: k = (2.303/t) * log([A]0/[A]), t_1/2 = 0.693 / k",
+          "Pseudo First Order Reactions (Hydrolysis of ester)"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
+        "name": "Arrhenius Equation & Activation Energy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Temperature Dependence: k = A * e^(-Ea / RT)",
+          "Two-Temperature Form: log(k2/k1) = (Ea / 2.303R) * (1/T1 - 1/T2)",
+          "Collision Theory, Steric Factor (P) & Transition State Theory"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|SURFACE_CHEMISTRY",
+    "chapterId": "SURFACE_CHEMISTRY",
+    "name": "Surface Chemistry",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 20,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "SURFACE_CHEMISTRY|ADSORPTION_ISOTHERMS",
+        "name": "Adsorption & Isotherms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Physisorption vs Chemisorption Characteristics",
+          "Freundlich Adsorption Isotherm: x/m = k * p^(1/n)",
+          "Langmuir Isotherm & Adsorption from Solution Phase"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|CATALYSIS",
+        "name": "Catalysis",
+        "order": 2,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Homogeneous vs Heterogeneous Catalysis Mechanism",
+          "Shape-Selective Catalysis by Zeolites (ZSM-5)",
+          "Enzyme Catalysis: Lock & Key Model & Characteristics"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|COLLOIDS_EMULSIONS",
+        "name": "Colloids & Emulsions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lyophilic vs Lyophobic Sols & Preparation Methods",
+          "Purification: Dialysis & Electro-dialysis",
+          "Properties: Tyndall Effect, Brownian Motion, Electrophoresis, Hardy-Schulze Rule"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|METALLURGY",
+    "chapterId": "METALLURGY",
+    "name": "General Principles and Processes of Isolation of Elements",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 21,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "METALLURGY|CONCENTRATION_OF_ORES",
+        "name": "Concentration of Ores",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydraulic Washing & Magnetic Separation",
+          "Froth Floatation Process: Collectors, Frothers, Depressants",
+          "Leaching Processes: Bayer's Process for Bauxite, Cyanide Process for Au/Ag"
+        ]
+      },
+      {
+        "id": "METALLURGY|THERMODYNAMICS_OF_METALLURGY_ELLINGHAM_DIAGRAM_",
+        "name": "Thermodynamics of Metallurgy (Ellingham Diagram)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Calcination vs Roasting Reactions",
+          "Ellingham Diagram Interpretation: Delta G^0 vs Temperature Plots",
+          "Choice of Reducing Agent (C vs CO) at Different Temperatures"
+        ]
+      },
+      {
+        "id": "METALLURGY|EXTRACTION_REFINING_METHODS",
+        "name": "Extraction & Refining Methods",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Blast Furnace Extraction of Iron & Slag Formation",
+          "Hall-Heroult Process for Aluminum & Role of Cryolite",
+          "Refining: Electrolytic, Zone Refining, Mond Process (Ni), Van Arkel (Zr, Ti)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|P_BLOCK_GROUP_15_18",
+    "chapterId": "P_BLOCK_GROUP_15_18",
+    "name": "p-Block Elements (Group 15, 16, 17 & 18)",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 22,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_15_NITROGEN_PHOSPHORUS_FAMILY",
+        "name": "Group 15: Nitrogen & Phosphorus Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Anomalous Properties of N & Triple Bond Dissociation Energy",
+          "Haber Process & Ostwald Process for HNO3",
+          "Phosphorus Allotropes, Phosphine & Basicity of Oxoacids (H3PO2, H3PO3, H3PO4)"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_16_OXYGEN_SULFUR_FAMILY",
+        "name": "Group 16: Oxygen & Sulfur Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Hydride Boiling Points (H-bonding in H2O)",
+          "Ozone: Structure & Strong Oxidizing Actions",
+          "Sulfur Allotropes (Rhombic, Monoclinic) & Contact Process for H2SO4"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_17_HALOGENS_FAMILY",
+        "name": "Group 17: Halogens Family",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronegativity, Electron Affinity Anomaly (Cl > F)",
+          "Oxidizing Power Trend (F2 > Cl2 > Br2 > I2) in Solution",
+          "Interhalogen Compounds (XX'_n) Properties & Oxoacids of Halogens"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_18_NOBLE_GASES_XENON_CHEMISTRY",
+        "name": "Group 18: Noble Gases & Xenon Chemistry",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Discovery & Neil Bartlett's Experiment",
+          "Synthesis and VSEPR Shapes of XeF2, XeF4, XeF6, XeO3, XeOF4",
+          "Complete and Partial Hydrolysis of Xenon Fluorides"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|D_AND_F_BLOCK_ELEMENTS",
+    "chapterId": "D_AND_F_BLOCK_ELEMENTS",
+    "name": "The d- and f-Block Elements",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 23,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|GENERAL_TRENDS_IN_3D_TRANSITION_SERIES",
+        "name": "General Trends in 3d Transition Series",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configurations & Variable Oxidation States",
+          "Magnetic Moments: Spin-Only Formula mu = sqrt(n(n+2)) BM",
+          "Color of Compounds due to d-d Transitions",
+          "Interstitial Compounds & Catalytic Behaviour"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|IMPORTANT_TRANSITION_METAL_COMPOUNDS",
+        "name": "Important Transition Metal Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Potassium Dichromate (K2Cr2O7): Preparation, Structure, Redox in Acid",
+          "Potassium Permanganate (KMnO4): Preparation from Pyrolusite, Oxidizing Reactions in Acid, Neutral, Alkaline Media"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|LANTHANOIDS_ACTINOIDS_F_BLOCK_",
+        "name": "Lanthanoids & Actinoids (f-Block)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configuration & Stable +3 Oxidation State",
+          "Lanthanoid Contraction: Causes and Chemical Consequences",
+          "Comparison of Lanthanoids and Actinoids (Radioactivity, Complexing Ability)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|COORDINATION_COMPOUNDS",
+    "chapterId": "COORDINATION_COMPOUNDS",
+    "name": "Coordination Compounds",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 24,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "COORDINATION_COMPOUNDS|WERNER_S_THEORY_NOMENCLATURE",
+        "name": "Werner's Theory & Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Primary vs Secondary Valency",
+          "IUPAC Nomenclature of Coordination Complexes",
+          "Ligand Classification: Monodentate, Chelating, Ambidentate"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
+        "name": "Isomerism in Coordination Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Structural Isomerism: Ionization, Hydrate, Linkage, Coordination",
+          "Geometrical Isomerism: Cis-Trans & Facial-Meridional (fac-mer)",
+          "Optical Isomerism in Octahedral Complexes with Bidentate Ligands"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_THEORIES_VBT_CFT_",
+        "name": "Bonding Theories (VBT & CFT)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Valence Bond Theory: Inner vs Outer Orbital Complexes, Hybridization",
+          "Crystal Field Theory: Octahedral (Delta_o) & Tetrahedral (Delta_t) Splitting",
+          "Spectrochemical Series & High Spin vs Low Spin Configurations",
+          "Crystal Field Stabilization Energy (CFSE) Calculations"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_IN_METAL_CARBONYLS",
+        "name": "Bonding in Metal Carbonyls",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Synergic Bonding: Sigma Donor & Pi Acceptor Interaction",
+          "Bond Order & CO Stretching Frequency Changes",
+          "Biological Importance: Chlorophyll (Mg), Hemoglobin (Fe), Vitamin B12 (Co)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
+    "chapterId": "HALOALKANES_AND_HALOARENES",
+    "name": "Haloalkanes and Haloarenes",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 25,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HALOALKANES_AND_HALOARENES|PREPARATION_PHYSICAL_PROPERTIES",
+        "name": "Preparation & Physical Properties",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "From Alcohols (SOCl2 Darzens process, PCl5, PBr3)",
+          "Halogen Exchange Reactions: Finkelstein & Swarts Reactions",
+          "Boiling Point & Dipole Moment Trends"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|NUCLEOPHILIC_SUBSTITUTION_SN1_VS_SN2_",
+        "name": "Nucleophilic Substitution (SN1 vs SN2)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "SN2 Mechanism: Bimolecular, Concerted, Walden Inversion",
+          "SN1 Mechanism: Carbocation Intermediate, Racemization, Solvent Effect",
+          "Factors Affecting SN1 vs SN2: Substrate, Nucleophile, Solvent, Leaving Group"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_REACTIONS_COMPETITION",
+        "name": "Elimination Reactions & Competition",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Beta-Elimination (E2 vs E1 Mechanisms)",
+          "Saytzeff (Zaitsev) vs Hofmann Elimination Rule",
+          "Substitution vs Elimination Competition Factors"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES_ORGANOMETALLICS",
+        "name": "Reactions of Haloarenes & Organometallics",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Low Reactivity of Haloarenes towards Nucleophilic Substitution (Resonance, sp2 C)",
+          "Nucleophilic Aromatic Substitution with Electron Withdrawing Groups",
+          "Grignard Reagents (RMgX): Preparation & Reactions with Active Hydrogen/Electrophiles",
+          "Polyhalogen Compounds: Chloroform, Freons, DDT, Iodoform Test"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
+    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
+    "name": "Alcohols, Phenols and Ethers",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 26,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|PREPARATION_ACIDITY_OF_ALCOHOLS",
+        "name": "Preparation & Acidity of Alcohols",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "From Alkenes: Acid-Catalyzed Hydration, Hydroboration-Oxidation, Oxymercuration-Demercuration",
+          "From Carbonyl Compounds: Reduction & Grignard Addition",
+          "Acidity of Alcohols: Comparison with Water & Alkoxide Basicity"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REACTIONS_OF_ALCOHOLS",
+        "name": "Reactions of Alcohols",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lucas Reagent Test (1 deg, 2 deg, 3 deg Distinction)",
+          "Dehydration to Alkenes & Carbocation Rearrangements",
+          "Oxidation with PCC, CrO3, Jones Reagent & Dehydrogenation over Cu/573K"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CHEMISTRY_OF_PHENOLS",
+        "name": "Chemistry of Phenols",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Commercial Preparation from Cumene (Hydroperoxide Process)",
+          "Enhanced Acidity of Phenol: Substituent Effects (Nitro vs Alkyl groups)",
+          "Kolbe's Reaction (Synthesis of Salicylic Acid)",
+          "Reimer-Tiemann Reaction (Synthesis of Salicylaldehyde via Dichlorocarbene)",
+          "Reaction with Zinc Dust & Phthalic Anhydride"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ETHERS_SYNTHESIS_CLEAVAGE",
+        "name": "Ethers: Synthesis & Cleavage",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Williamson Ether Synthesis & Mechanism (SN2 Attack on Primary Halide)",
+          "Acid-Catalyzed Dehydration of Alcohols",
+          "Cleavage of Ethers with Excess Concentrated HI/HBr (Mechanism with 1/2/3 deg Alkyl Groups)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "chapterId": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "name": "Aldehydes, Ketones and Carboxylic Acids",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 27,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|PREPARATION_OF_CARBONYL_COMPOUNDS",
+        "name": "Preparation of Carbonyl Compounds",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rosenmund Reduction & Stephen's Reaction",
+          "Etard Reaction & Gattermann-Koch Synthesis",
+          "Ozonolysis of Alkenes & Hydration of Alkynes"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
+        "name": "Nucleophilic Addition Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Addition of HCN, NaHSO3, Alcohols (Hemiacetals & Acetals)",
+          "Addition of Grignard Reagents to Aldehydes and Ketones",
+          "Reaction with Ammonia Derivatives (Hydroxylamine, Hydrazine, 2,4-DNP)"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|OXIDATION_REDUCTION_ALPHA_HYDROGEN_REACTIONS",
+        "name": "Oxidation, Reduction & Alpha-Hydrogen Reactions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Clemmensen Reduction (Zn-Hg/HCl) & Wolff-Kishner Reduction (NH2NH2/KOH)",
+          "Tollens' Test & Fehling's Test for Aldehydes",
+          "Haloform Reaction (Iodoform Test for CH3-CO- and CH3-CH(OH)-)",
+          "Aldol & Cross-Aldol Condensation Mechanism",
+          "Cannizzaro Reaction & Cross-Cannizzaro Mechanism"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|CARBOXYLIC_ACIDS_STRUCTURE_REACTIONS",
+        "name": "Carboxylic Acids: Structure & Reactions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Carboxylic Acids & Electron Withdrawing Substituent Effects",
+          "Esterification Mechanism",
+          "Hell-Volhard-Zelinsky (HVZ) Alpha-Halogenation",
+          "Decarboxylation with Soda Lime & Kolbe Electrolysis"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|AMINES",
+    "chapterId": "AMINES",
+    "name": "Amines",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 28,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "AMINES|PREPARATION_OF_AMINES",
+        "name": "Preparation of Amines",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Reduction of Nitro Compounds, Nitriles & Amides",
+          "Gabriel Phthalimide Synthesis for Pure Primary Aliphatic Amines",
+          "Hofmann Bromamide Degradation Reaction (Step-down Reaction)"
+        ]
+      },
+      {
+        "id": "AMINES|BASICITY_OF_AMINES",
+        "name": "Basicity of Amines",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Basicity in Gaseous Phase (3 deg > 2 deg > 1 deg > NH3)",
+          "Basicity in Aqueous Medium: Combined Inductive, Solvation & Steric Effects (2 deg > 1 deg > 3 deg for Methyl; 2 deg > 3 deg > 1 deg for Ethyl)",
+          "Resonance Weakening of Arylamine Basicity (Aniline vs Alkylamines)"
+        ]
+      },
+      {
+        "id": "AMINES|CHEMICAL_TESTS_REACTIONS_OF_AMINES",
+        "name": "Chemical Tests & Reactions of Amines",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbylamine Test for Primary Amines (Isocyanide Formation)",
+          "Hinsberg's Test with Benzenesulfonyl Chloride (1, 2, 3 deg Distinction)",
+          "Reaction with Nitrous Acid (HNO2) & Alcohol/Diazonium Formation"
+        ]
+      },
+      {
+        "id": "AMINES|DIAZONIUM_SALTS_SYNTHETIC_TRANSFORMATIONS",
+        "name": "Diazonium Salts & Synthetic Transformations",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Diazotization of Aniline with NaNO2 + HCl at 0-5 deg C",
+          "Sandmeyer Reaction vs Gattermann Reaction",
+          "Azo Coupling Reactions with Phenol and Aniline (Dyes)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|BIOMOLECULES",
+    "chapterId": "BIOMOLECULES",
+    "name": "Biomolecules",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 29,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "BIOMOLECULES|CARBOHYDRATES_MONOSACCHARIDES_RING_STRUCTURES",
+        "name": "Carbohydrates: Monosaccharides & Ring Structures",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Classification: Aldoses, Ketoses, D/L Configuration",
+          "Glucose: Open-Chain Reactions, Limitations, Fischer to Haworth Projections",
+          "Anomers, Epimers & Mutarotation in Glucose and Fructose"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
+        "name": "Disaccharides & Polysaccharides",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Glycosidic Bond Formation",
+          "Sucrose (Invert Sugar, Non-reducing), Maltose & Lactose",
+          "Starch (Amylose + Amylopectin), Cellulose & Glycogen"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDES_PROTEINS",
+        "name": "Amino Acids, Peptides & Proteins",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Essential vs Non-essential Amino Acids",
+          "Zwitterion Form, Isoelectric Point (pI) & Optical Activity",
+          "Peptide Linkage & Primary, Secondary (alpha-helix, beta-pleated), Tertiary, Quaternary Structures",
+          "Denaturation of Proteins & Coagulation"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|NUCLEIC_ACIDS_ENZYMES_VITAMINS",
+        "name": "Nucleic Acids, Enzymes & Vitamins",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Components: Purines, Pyrimidines, Ribose/Deoxyribose, Phosphate",
+          "Nucleoside vs Nucleotide & Phosphodiester Linkages",
+          "Double-Helical Structure of DNA (Watson-Crick Model) & Chargaff's Rules",
+          "Vitamins: Water-Soluble vs Fat-Soluble & Deficiency Diseases"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|POLYMERS",
+    "chapterId": "POLYMERS",
+    "name": "Polymers",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 30,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "POLYMERS|CLASSIFICATION_POLYMERIZATION_MECHANISMS",
+        "name": "Classification & Polymerization Mechanisms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Natural, Semi-synthetic & Synthetic Polymers",
+          "Addition vs Condensation Polymerization Modes",
+          "Elastomers, Fibres, Thermoplastics, Thermosetting Plastics",
+          "Ziegler-Natta Coordination Polymerization for HDPE"
+        ]
+      },
+      {
+        "id": "POLYMERS|COMMERCIAL_POLYMERS_RUBBERS",
+        "name": "Commercial Polymers & Rubbers",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Polyamides: Nylon-6,6, Nylon-6 (Caprolactam)",
+          "Polyesters: Terylene / Dacron",
+          "Resins: Bakelite (Novolac intermediate), Melamine-Formaldehyde",
+          "Natural Rubber, Vulcanization & Synthetic Rubbers (Buna-S, Buna-N, Neoprene)"
+        ]
+      },
+      {
+        "id": "POLYMERS|BIODEGRADABLE_POLYMERS_MOLECULAR_MASS",
+        "name": "Biodegradable Polymers & Molecular Mass",
+        "order": 3,
+        "isKeyTopic": false,
+        "subtopics": [
+          "PHBV (poly beta-hydroxybutyrate-co-beta-hydroxyvalerate)",
+          "Nylon-2-nylon-6",
+          "Number-Average (Mn) vs Weight-Average (Mw) Molar Mass & PDI"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "NEET_UG|CHEMISTRY|12|CHEMISTRY_IN_EVERYDAY_LIFE",
+    "chapterId": "CHEMISTRY_IN_EVERYDAY_LIFE",
+    "name": "Chemistry in Everyday Life",
+    "examId": "NEET_UG",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 31,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|DRUGS_PHARMACOLOGICAL_CLASSES",
+        "name": "Drugs & Pharmacological Classes",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Drug-Target Interactions: Enzyme Inhibitors & Receptors",
+          "Antacids (H2-blockers: Ranitidine) & Antihistamines",
+          "Tranquilizers (Equanil, Valium) & Analgesics (Aspirin, Morphine)",
+          "Antiseptics (Dettol, Bithionol) vs Disinfectants (Phenol, Chlorine)",
+          "Antibiotics: Bactericidal vs Bacteriostatic & Broad Spectrum"
+        ]
+      },
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|FOOD_CHEMISTRY_CLEANSING_AGENTS",
+        "name": "Food Chemistry & Cleansing Agents",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Artificial Sweetening Agents: Aspartame, Saccharin, Sucralose, Alitame",
+          "Food Preservatives: Sodium Benzoate, Sorbic Acid Salts",
+          "Soaps: Saponification & Scum Formation in Hard Water",
+          "Synthetic Detergents: Anionic, Cationic, Non-ionic Types & Cleansing Action (Micelles)"
+        ]
+      }
+    ],
+    "sourceAuthority": "National Testing Agency (NTA)",
+    "sourceURL": "https://neet.nta.nic.in/syllabus",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "name": "Some Basic Concepts of Chemistry",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 1,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
+        "name": "Mole Concept & Molar Mass",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Avogadro's Number & Molar Mass",
+          "Mole-Particle-Mass-Volume Calculations",
+          "Average Atomic Mass of Isotopes"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
+        "name": "Stoichiometry & Limiting Reagent",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Balanced Chemical Equations & Mole Ratios",
+          "Identification of Limiting Reagent",
+          "Theoretical vs Percentage Yield"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|CONCENTRATION_TERMS",
+        "name": "Concentration Terms",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Molarity & Molality",
+          "Mole Fraction & Mass Percentage",
+          "Normality & Parts Per Million (ppm)"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
+        "name": "Empirical & Molecular Formula",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Percentage Composition Analysis",
+          "Empirical Formula Derivation",
+          "Molecular Formula from Molar Mass"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EQUIVALENT_CONCEPT_TITRATIONS",
+        "name": "Equivalent Concept & Titrations",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "n-Factor in Acid-Base & Redox Reactions",
+          "Law of Chemical Equivalence",
+          "Standard Volumetric Titrations"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAWS_OF_CHEMICAL_COMBINATION",
+        "name": "Laws of Chemical Combination",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Conservation of Mass & Definite Proportions",
+          "Multiple Proportions & Gay-Lussac's Law",
+          "Dalton's Atomic Theory Assumptions"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|STRUCTURE_OF_ATOM",
+    "chapterId": "STRUCTURE_OF_ATOM",
+    "name": "Structure of Atom",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 2,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STRUCTURE_OF_ATOM|SUBATOMIC_PARTICLES_EARLY_MODELS",
+        "name": "Subatomic Particles & Early Models",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Cathode Ray Discharge & e/m Ratio",
+          "Millikan Oil Drop & Charge of Electron",
+          "Rutherford's Alpha Scattering & Nuclear Model"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|BOHR_MODEL_HYDROGEN_SPECTRUM",
+        "name": "Bohr Model & Hydrogen Spectrum",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of Bohr's Theory",
+          "Radius, Velocity & Energy of Bohr Orbit",
+          "Rydberg Formula & Spectral Series (Lyman, Balmer, Paschen)"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|DUAL_NATURE_OF_MATTER_DE_BROGLIE_",
+        "name": "Dual Nature of Matter (de Broglie)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "de Broglie Wavelength Relation",
+          "Wavelength of Charged Particles in Potential V",
+          "Davisson-Germer Diffraction Verification"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|HEISENBERG_S_UNCERTAINTY_PRINCIPLE",
+        "name": "Heisenberg's Uncertainty Principle",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Mathematical Formulation (Delta x * Delta p >= h/4pi)",
+          "Physical Significance for Microscopic Particles",
+          "Impossibility of Electron in Nucleus"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|QUANTUM_MECHANICAL_MODEL_ORBITALS",
+        "name": "Quantum Mechanical Model & Orbitals",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Schrodinger Wave Equation Concept",
+          "Principal, Azimuthal, Magnetic & Spin Quantum Numbers",
+          "Shapes of s, p, d Orbitals & Nodal Surfaces"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|ELECTRONIC_CONFIGURATION_RULES",
+        "name": "Electronic Configuration Rules",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Aufbau Principle & (n+l) Rule",
+          "Pauli's Exclusion Principle",
+          "Hund's Rule of Maximum Multiplicity & Chromium/Copper Anomalies"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS",
+    "chapterId": "CLASSIFICATION_OF_ELEMENTS",
+    "name": "Classification of Elements and Periodicity",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 3,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|MODERN_PERIODIC_TABLE_LAYOUT",
+        "name": "Modern Periodic Table Layout",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moseley's Law & Modern Periodic Law",
+          "Division into s, p, d, f Blocks",
+          "IUPAC Nomenclature for Elements with Z > 100"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ATOMIC_IONIC_RADII_TRENDS",
+        "name": "Atomic & Ionic Radii Trends",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Covalent, Metallic & van der Waals Radii",
+          "Variation in Periods and Groups",
+          "Isoelectronic Species Radii Comparison"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|IONIZATION_ENTHALPY",
+        "name": "Ionization Enthalpy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Successive Ionization Enthalpies (IE1 < IE2 < IE3)",
+          "Factors Affecting Ionization Enthalpy",
+          "Anomalous Trends (Be vs B, N vs O)"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ELECTRON_GAIN_ENTHALPY_ELECTRONEGATIVITY",
+        "name": "Electron Gain Enthalpy & Electronegativity",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Electron Affinity & Halogen Anomaly (Cl > F)",
+          "Pauling & Mulliken Electronegativity Scales",
+          "Electronegativity Variation Across the Table"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|PERIODIC_TRENDS_IN_CHEMICAL_PROPERTIES",
+        "name": "Periodic Trends in Chemical Properties",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Valency & Oxidation States",
+          "Anomalous Properties of Second Period Elements",
+          "Diagonal Relationships (Li-Mg, Be-Al, B-Si)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|CHEMICAL_BONDING",
+    "chapterId": "CHEMICAL_BONDING",
+    "name": "Chemical Bonding and Molecular Structure",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 4,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_BONDING|LEWIS_STRUCTURES_FORMAL_CHARGE",
+        "name": "Lewis Structures & Formal Charge",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Octet Rule & Exceptions",
+          "Formal Charge Calculation on Atoms",
+          "Resonance Structures & Stability"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|IONIC_BONDING_LATTICE_ENTHALPY",
+        "name": "Ionic Bonding & Lattice Enthalpy",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ionic Bond Formation",
+          "Born-Haber Cycle for Lattice Energy",
+          "Fajan's Rules for Covalent Character in Ionic Bonds"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VSEPR_THEORY_MOLECULAR_GEOMETRY",
+        "name": "VSEPR Theory & Molecular Geometry",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Steric Number Concept",
+          "Lone Pair Repulsion Hierarchy",
+          "Shapes from Linear to Pentagonal Bipyramidal"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VALENCE_BOND_THEORY_HYBRIDIZATION",
+        "name": "Valence Bond Theory & Hybridization",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Sigma and Pi Bond Formation",
+          "Hybridization Schemes: sp, sp2, sp3, sp3d, sp3d2",
+          "d-Orbital Participation in Hybridization"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|MOLECULAR_ORBITAL_THEORY_MOT_",
+        "name": "Molecular Orbital Theory (MOT)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "LCAO Method & Bonding/Antibonding MOs",
+          "MO Energy Level Diagrams for Homonuclear Diatomics",
+          "Bond Order, Bond Length & Magnetic Behaviour"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|DIPOLE_MOMENT_POLARITY",
+        "name": "Dipole Moment & Polarity",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: mu = q * d in Debye",
+          "Vector Addition of Bond Dipoles",
+          "Percentage Ionic Character from Dipole Moment"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|HYDROGEN_BONDING_INTERMOLECULAR_FORCES",
+        "name": "Hydrogen Bonding & Intermolecular Forces",
+        "order": 7,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Intermolecular vs Intramolecular H-Bonding",
+          "Effects on Boiling Points & Solubility",
+          "van der Waals Forces (Dispersion, Dipole-Dipole)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
+    "chapterId": "CHEMICAL_THERMODYNAMICS",
+    "name": "Chemical Thermodynamics",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 5,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_WORK_CALCULATIONS",
+        "name": "First Law & Work Calculations",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "State Functions vs Path Functions",
+          "First Law: Delta U = q + w",
+          "Isothermal, Adiabatic, Isobaric & Isochoric Work"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HEAT_CAPACITIES",
+        "name": "Enthalpy & Heat Capacities",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation: Delta H = Delta U + Delta n_g * R * T",
+          "Molar Heat Capacities: C_p - C_v = R",
+          "Kirchhoff's Equations for Temperature Dependence"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|THERMOCHEMISTRY_HESS_S_LAW",
+        "name": "Thermochemistry & Hess's Law",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Standard Enthalpy of Formation & Combustion",
+          "Hess's Law of Constant Heat Summation",
+          "Bond Dissociation Enthalpy Calculations"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|SECOND_LAW_ENTROPY_S_",
+        "name": "Second Law & Entropy (S)",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Spontaneity & Thermodynamic Definition of Entropy",
+          "Entropy Changes in Ideal Gas Expansions",
+          "Delta S_total >= 0 Criterion"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_CHEMICAL_EQUILIBRIUM",
+        "name": "Gibbs Free Energy & Chemical Equilibrium",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gibbs Equation: Delta G = Delta H - T * Delta S",
+          "Spontaneity Criteria at Constant T & P",
+          "Standard Free Energy & Equilibrium Constant: Delta G^0 = -RT ln K"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|EQUILIBRIUM",
+    "chapterId": "EQUILIBRIUM",
+    "name": "Equilibrium",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 6,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "EQUILIBRIUM|CHEMICAL_EQUILIBRIUM_K_P_K_C",
+        "name": "Chemical Equilibrium & K_p / K_c",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Law of Mass Action",
+          "Relation: K_p = K_c * (RT)^(Delta n_g)",
+          "Reaction Quotient Q and Direction of Net Reaction"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
+        "name": "Le Chatelier's Principle",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Effect of Concentration, Pressure, and Temperature",
+          "Effect of Inert Gas Addition at Constant V and P",
+          "Industrial Synthesis of NH3 and SO3 Optimization"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|IONIC_EQUILIBRIUM_PH_CALCULATIONS",
+        "name": "Ionic Equilibrium & pH Calculations",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Ostwald's Dilution Law for Weak Electrolytes",
+          "Ionic Product of Water (K_w) with Temperature",
+          "pH and pOH of Strong & Weak Acid/Base Solutions"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|BUFFER_SOLUTIONS",
+        "name": "Buffer Solutions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidic & Basic Buffer Mechanisms",
+          "Henderson-Hasselbalch Equations",
+          "Buffer Capacity and Maximum Buffer Action Range"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SALT_HYDROLYSIS",
+        "name": "Salt Hydrolysis",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydrolysis Constant (K_h) & Degree of Hydrolysis",
+          "pH Formulas for All Four Salt Types",
+          "Hydrolysis of Salts of Weak Acid and Weak Base"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_K_SP_",
+        "name": "Solubility Product (K_sp)",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation Between Solubility (s) and K_sp",
+          "Precipitation Criterion: Q_sp > K_sp",
+          "Common Ion Effect in Group Separation & Salt Purification"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|REDOX_REACTIONS",
+    "chapterId": "REDOX_REACTIONS",
+    "name": "Redox Reactions",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 7,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_BALANCING",
+        "name": "Oxidation Numbers & Balancing",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rules for Assigning Oxidation Numbers",
+          "Ion-Electron Method (Half-Reaction) in Acidic/Basic Media",
+          "Oxidation State Method for Balancing"
+        ]
+      },
+      {
+        "id": "REDOX_REACTIONS|TYPES_OF_REDOX_REACTIONS",
+        "name": "Types of Redox Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Combination, Decomposition & Displacement Reactions",
+          "Disproportionation & Comproportionation Reactions",
+          "Redox Titrations & Indicator Action (Self-indicator KMnO4)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "name": "Organic Chemistry: Some Basic Principles and Techniques",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 8,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|IUPAC_NOMENCLATURE",
+        "name": "IUPAC Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Root Word, Prefix, Suffix System",
+          "Priority of Functional Groups in Polyfunctional Compounds",
+          "Nomenclature of Bicyclo and Spiro Compounds"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STRUCTURAL_ISOMERISM",
+        "name": "Structural Isomerism",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Chain, Position & Functional Group Isomerism",
+          "Metamerism in Ethers, Amines, Ketones",
+          "Keto-Enol Tautomerism & Enol Content Stability"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STEREOISOMERISM",
+        "name": "Stereoisomerism",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Geometrical Isomerism: Cis-Trans & E/Z System",
+          "Optical Isomerism: Chirality, Enantiomers, Diastereomers",
+          "Meso Compounds & Specific Rotation Calculation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|ELECTRONIC_EFFECTS_IN_ORGANIC_MOLECULES",
+        "name": "Electronic Effects in Organic Molecules",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inductive Effect (+I and -I) & Acid/Base Strengths",
+          "Resonance & Mesomeric Effect (+M and -M)",
+          "Hyperconjugation & Heat of Hydrogenation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|REACTIVE_INTERMEDIATES",
+        "name": "Reactive Intermediates",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbocations: Structure, Stability & Rearrangements (Hydride/Alkyl shifts)",
+          "Carbanions: Structure, Hybridization & Relative Stability",
+          "Free Radicals & Carbenes Generation & Reactivity"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|PURIFICATION_QUANTITATIVE_ELEMENTAL_ANALYSIS",
+        "name": "Purification & Quantitative Elemental Analysis",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Crystallization, Sublimation, Chromatography",
+          "Lassaigne's Test for N, S, Halogens",
+          "Dumas, Kjeldahl & Carius Quantitative Estimation Formulas"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|HYDROCARBONS",
+    "chapterId": "HYDROCARBONS",
+    "name": "Hydrocarbons",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 9,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HYDROCARBONS|ALKANES_PREPARATION_FREE_RADICAL_REACTIONS",
+        "name": "Alkanes: Preparation & Free Radical Reactions",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Wurtz Reaction & Corey-House Synthesis",
+          "Decarboxylation of Carboxylic Acid Salts (Kolbe & Soda Lime)",
+          "Free Radical Halogenation Mechanism & Reactivity-Selectivity"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKENES_ELECTROPHILIC_ADDITION",
+        "name": "Alkenes: Electrophilic Addition",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Markovnikov's Rule & Carbocation Intermediates",
+          "Anti-Markovnikov (Peroxide Effect) with HBr Mechanism",
+          "Ozonolysis for Structure Elucidation of Alkenes"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKYNES_CHEMISTRY_ACIDITY",
+        "name": "Alkynes: Chemistry & Acidity",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Terminal Alkynes (sp hybridized C-H)",
+          "Hydration of Alkynes (Kucherov Reaction using HgSO4/H2SO4)",
+          "Cyclic Polymerization to Form Benzene"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|AROMATICITY_HUCKEL_RULE",
+        "name": "Aromaticity & Huckel Rule",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Huckel's (4n+2) Pi Electron Rule",
+          "Aromatic, Antiaromatic & Non-aromatic Systems",
+          "Annulenes and Heterocyclic Aromatic Systems"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ELECTROPHILIC_AROMATIC_SUBSTITUTION_EAS_",
+        "name": "Electrophilic Aromatic Substitution (EAS)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Arenium Ion (Sigma Complex) Mechanism",
+          "Activating vs Deactivating Groups (Ortho/Para vs Meta Direction)",
+          "Friedel-Crafts Alkylation & Acylation (Rearrangements & Limitations)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|STATES_OF_MATTER",
+    "chapterId": "STATES_OF_MATTER",
+    "name": "States of Matter: Gases and Liquids",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 10,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STATES_OF_MATTER|GAS_LAWS_IDEAL_GAS_EQUATION",
+        "name": "Gas Laws & Ideal Gas Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Boyle's, Charles's, Gay-Lussac's & Avogadro's Laws",
+          "Equation of State: PV = nRT & Density Relation",
+          "Dalton's Law of Partial Pressures & Graham's Law of Diffusion"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|KINETIC_MOLECULAR_THEORY_MOLECULAR_SPEEDS",
+        "name": "Kinetic Molecular Theory & Molecular Speeds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of KMT & Kinetic Gas Equation",
+          "Maxwell-Boltzmann Speed Distribution",
+          "Root Mean Square (rms), Average & Most Probable Speeds"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|REAL_GASES_VAN_DER_WAALS_EQUATION",
+        "name": "Real Gases & van der Waals Equation",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Deviations from Ideality & Compressibility Factor (Z)",
+          "van der Waals Constants 'a' (intermolecular attraction) & 'b' (co-volume)",
+          "Behaviour at High, Low Pressure & Boyle Temperature"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|LIQUEFACTION_OF_GASES_LIQUID_STATE",
+        "name": "Liquefaction of Gases & Liquid State",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Critical Constants: T_c, P_c, V_c Formulas in terms of a, b",
+          "Andrews Isotherms of CO2",
+          "Liquid Properties: Vapor Pressure, Surface Tension & Viscosity"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|S_BLOCK_ELEMENTS",
+    "chapterId": "S_BLOCK_ELEMENTS",
+    "name": "s-Block Elements (Alkali & Alkaline Earth Metals)",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 11,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_1_ALKALI_METALS",
+        "name": "Group 1: Alkali Metals",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Radii, Ionization Enthalpy & Hydration Energy",
+          "Reactivity with Water, Air, Halogens & Liquid Ammonia Solutions",
+          "Anomalous Properties of Lithium & Diagonal Relationship with Magnesium"
+        ]
+      },
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_2_ALKALINE_EARTH_METALS",
+        "name": "Group 2: Alkaline Earth Metals",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Basic Strength of Oxides & Hydroxides",
+          "Solubility and Thermal Stability of Carbonates & Sulfates",
+          "Important Compounds: CaO, Ca(OH)2, Gypsum, Plaster of Paris, Cement"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|P_BLOCK_GROUP_13_14",
+    "chapterId": "P_BLOCK_GROUP_13_14",
+    "name": "p-Block Elements (Group 13 & 14)",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 12,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_13_BORON_FAMILY",
+        "name": "Group 13: Boron Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inert Pair Effect & Variable Oxidation States (+1, +3)",
+          "Structure of Diborane (3c-2e Banana Bonds)",
+          "Borax Bead Test, Boric Acid & Lewis Acid Character of BF3"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_14_CARBON_FAMILY",
+        "name": "Group 14: Carbon Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Catenation Tendency & Allotropes of Carbon (Diamond, Graphite, Fullerenes)",
+          "Oxides of Carbon (CO toxic nature, CO2)",
+          "Silicones, Silicates (Classification & Basic Units) & Zeolites"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|HYDROGEN",
+    "chapterId": "HYDROGEN",
+    "name": "Hydrogen & Its Compounds",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 13,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "HYDROGEN|HYDROGEN_HYDRIDES_WATER",
+        "name": "Hydrogen, Hydrides & Water",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Position in Periodic Table & Isotopes (Protium, Deuterium, Tritium)",
+          "Classification of Hydrides (Ionic, Covalent, Interstitial)",
+          "Temporary and Permanent Hardness of Water & Softening Methods"
+        ]
+      },
+      {
+        "id": "HYDROGEN|HYDROGEN_PEROXIDE_H2O2_HEAVY_WATER",
+        "name": "Hydrogen Peroxide (H2O2) & Heavy Water",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Preparation & Open-Book Structure of H2O2",
+          "Volume Strength Calculations (10V, 20V H2O2 Molarity/Normality)",
+          "Redox Chemistry of H2O2 in Acidic and Basic Media"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|ENVIRONMENTAL_CHEMISTRY",
+    "chapterId": "ENVIRONMENTAL_CHEMISTRY",
+    "name": "Environmental Chemistry",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 14,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "ENVIRONMENTAL_CHEMISTRY|ENVIRONMENTAL_POLLUTION_GREEN_CHEMISTRY",
+        "name": "Environmental Pollution & Green Chemistry",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Tropospheric Pollutants, Acid Rain & Greenhouse Effect",
+          "Classical Smog vs Photochemical Smog (PAN, Ozone, NOx)",
+          "Ozone Depletion Mechanism by CFCs",
+          "Water Quality Standards (BOD, COD, Heavy Metals)",
+          "Principles of Green Chemistry for Waste Minimization"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|11|PRACTICAL_CHEMISTRY",
+    "chapterId": "PRACTICAL_CHEMISTRY",
+    "name": "Principles Related to Practical Chemistry",
+    "examId": "CBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 15,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "PRACTICAL_CHEMISTRY|SYSTEMATIC_QUALITATIVE_ANALYSIS",
+        "name": "Systematic Qualitative Analysis",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Detection of Acidic Radicals (Carbonate, Sulfide, Halides, Nitrate)",
+          "Systematic Separation of Basic Radicals (Group 0 to VI)",
+          "Confirmatory Tests (Brown ring test, Chromyl chloride test, Borax bead test)"
+        ]
+      },
+      {
+        "id": "PRACTICAL_CHEMISTRY|VOLUMETRIC_ANALYSIS_FUNCTIONAL_GROUPS",
+        "name": "Volumetric Analysis & Functional Groups",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acid-Base Titrations & Indicator Selection (Methyl orange, Phenolphthalein)",
+          "Redox Titrations: Oxalic acid / Mohr's salt against KMnO4",
+          "Tests for Alcohols, Phenols, Aldehydes, Ketones, Carboxylic acids, Amines"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|SOLID_STATE",
+    "chapterId": "SOLID_STATE",
+    "name": "Solid State",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 16,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLID_STATE|CRYSTAL_LATTICES_UNIT_CELLS",
+        "name": "Crystal Lattices & Unit Cells",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "7 Crystal Systems & 14 Bravais Lattices",
+          "Number of Atoms in SC (1), BCC (2), FCC (4)",
+          "Density Formula: d = (z * M) / (a^3 * N_A)"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|PACKING_EFFICIENCY_VOIDS",
+        "name": "Packing Efficiency & Voids",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Packing Efficiency in SC (52.4%), BCC (68%), FCC/HCP (74%)",
+          "Tetrahedral (2N) and Octahedral (N) Voids",
+          "Limiting Radius Ratio Rules for Geometry"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|DEFECTS_IN_SOLIDS_PROPERTIES",
+        "name": "Defects in Solids & Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Stoichiometric Defects: Schottky vs Frenkel Defects",
+          "Non-stoichiometric Defects: Metal Excess (F-centres) & Metal Deficiency",
+          "Magnetic Properties: Ferromagnetism, Ferrimagnetism, Antiferromagnetism"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|SOLUTIONS",
+    "chapterId": "SOLUTIONS",
+    "name": "Solutions",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 17,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
+        "name": "Henry's Law & Raoult's Law",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gas Solubility: Henry's Law (p = K_H * x)",
+          "Raoult's Law for Volatile Liquid Mixtures",
+          "Vapor-Pressure Liquid Composition Diagrams"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|IDEAL_AND_NON_IDEAL_SOLUTIONS",
+        "name": "Ideal and Non-Ideal Solutions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ideality (Delta H_mix = 0, Delta V_mix = 0)",
+          "Positive & Negative Deviations from Raoult's Law",
+          "Minimum & Maximum Boiling Azeotropes"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES",
+        "name": "Colligative Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relative Lowering of Vapor Pressure (RLVP)",
+          "Elevation in Boiling Point: Delta T_b = K_b * m",
+          "Depression in Freezing Point: Delta T_f = K_f * m",
+          "Osmotic Pressure: pi = C * R * T & Isotonic Solutions"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_ABNORMAL_MOLAR_MASS",
+        "name": "Van 't Hoff Factor & Abnormal Molar Mass",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: i = Normal Molar Mass / Observed Molar Mass",
+          "Degree of Dissociation: alpha = (i - 1) / (n - 1)",
+          "Degree of Association: alpha = (1 - i) / (1 - 1/n)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|ELECTROCHEMISTRY",
+    "chapterId": "ELECTROCHEMISTRY",
+    "name": "Electrochemistry",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 18,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_NERNST_EQUATION",
+        "name": "Galvanic Cells & Nernst Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electrode Potential & Standard Hydrogen Electrode (SHE)",
+          "Nernst Equation for Single Electrode & Complete Cell",
+          "Equilibrium Constant & Delta G^0 = -n * F * E^0_cell"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYTIC_CONDUCTANCE_KOHLRAUSCH_S_LAW",
+        "name": "Electrolytic Conductance & Kohlrausch's Law",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Specific Conductance (kappa), Cell Constant & Molar Conductance",
+          "Variation of Conductivity with Dilution (Debye-Huckel-Onsager)",
+          "Kohlrausch's Law of Independent Migration of Ions & Weak Electrolyte Degree of Ionization"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYSIS_FARADAY_S_LAWS",
+        "name": "Electrolysis & Faraday's Laws",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Faraday's First Law: m = Z * I * t",
+          "Faraday's Second Law: m1/m2 = E1/E2",
+          "Products of Electrolysis for Aqueous Salts"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
+        "name": "Batteries, Fuel Cells & Corrosion",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Primary Cells (Dry cell, Mercury) vs Secondary Cells (Lead-acid accumulator)",
+          "H2-O2 Fuel Cell Reactions & Efficiency",
+          "Electrochemical Mechanism of Rusting & Cathodic Protection"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|CHEMICAL_KINETICS",
+    "chapterId": "CHEMICAL_KINETICS",
+    "name": "Chemical Kinetics",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 19,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_ORDER",
+        "name": "Rate of Reaction & Order",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Average and Instantaneous Rate of Reaction",
+          "Rate Law, Rate Constant (k) & Units of k",
+          "Order vs Molecularity Differences"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_HALF_LIFE",
+        "name": "Integrated Rate Laws & Half-Life",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Zero Order Reactions: [A] = [A]0 - kt, t_1/2 = [A]0 / 2k",
+          "First Order Reactions: k = (2.303/t) * log([A]0/[A]), t_1/2 = 0.693 / k",
+          "Pseudo First Order Reactions (Hydrolysis of ester)"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
+        "name": "Arrhenius Equation & Activation Energy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Temperature Dependence: k = A * e^(-Ea / RT)",
+          "Two-Temperature Form: log(k2/k1) = (Ea / 2.303R) * (1/T1 - 1/T2)",
+          "Collision Theory, Steric Factor (P) & Transition State Theory"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|SURFACE_CHEMISTRY",
+    "chapterId": "SURFACE_CHEMISTRY",
+    "name": "Surface Chemistry",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 20,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "SURFACE_CHEMISTRY|ADSORPTION_ISOTHERMS",
+        "name": "Adsorption & Isotherms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Physisorption vs Chemisorption Characteristics",
+          "Freundlich Adsorption Isotherm: x/m = k * p^(1/n)",
+          "Langmuir Isotherm & Adsorption from Solution Phase"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|CATALYSIS",
+        "name": "Catalysis",
+        "order": 2,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Homogeneous vs Heterogeneous Catalysis Mechanism",
+          "Shape-Selective Catalysis by Zeolites (ZSM-5)",
+          "Enzyme Catalysis: Lock & Key Model & Characteristics"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|COLLOIDS_EMULSIONS",
+        "name": "Colloids & Emulsions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lyophilic vs Lyophobic Sols & Preparation Methods",
+          "Purification: Dialysis & Electro-dialysis",
+          "Properties: Tyndall Effect, Brownian Motion, Electrophoresis, Hardy-Schulze Rule"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|METALLURGY",
+    "chapterId": "METALLURGY",
+    "name": "General Principles and Processes of Isolation of Elements",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 21,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "METALLURGY|CONCENTRATION_OF_ORES",
+        "name": "Concentration of Ores",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydraulic Washing & Magnetic Separation",
+          "Froth Floatation Process: Collectors, Frothers, Depressants",
+          "Leaching Processes: Bayer's Process for Bauxite, Cyanide Process for Au/Ag"
+        ]
+      },
+      {
+        "id": "METALLURGY|THERMODYNAMICS_OF_METALLURGY_ELLINGHAM_DIAGRAM_",
+        "name": "Thermodynamics of Metallurgy (Ellingham Diagram)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Calcination vs Roasting Reactions",
+          "Ellingham Diagram Interpretation: Delta G^0 vs Temperature Plots",
+          "Choice of Reducing Agent (C vs CO) at Different Temperatures"
+        ]
+      },
+      {
+        "id": "METALLURGY|EXTRACTION_REFINING_METHODS",
+        "name": "Extraction & Refining Methods",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Blast Furnace Extraction of Iron & Slag Formation",
+          "Hall-Heroult Process for Aluminum & Role of Cryolite",
+          "Refining: Electrolytic, Zone Refining, Mond Process (Ni), Van Arkel (Zr, Ti)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|P_BLOCK_GROUP_15_18",
+    "chapterId": "P_BLOCK_GROUP_15_18",
+    "name": "p-Block Elements (Group 15, 16, 17 & 18)",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 22,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_15_NITROGEN_PHOSPHORUS_FAMILY",
+        "name": "Group 15: Nitrogen & Phosphorus Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Anomalous Properties of N & Triple Bond Dissociation Energy",
+          "Haber Process & Ostwald Process for HNO3",
+          "Phosphorus Allotropes, Phosphine & Basicity of Oxoacids (H3PO2, H3PO3, H3PO4)"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_16_OXYGEN_SULFUR_FAMILY",
+        "name": "Group 16: Oxygen & Sulfur Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Hydride Boiling Points (H-bonding in H2O)",
+          "Ozone: Structure & Strong Oxidizing Actions",
+          "Sulfur Allotropes (Rhombic, Monoclinic) & Contact Process for H2SO4"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_17_HALOGENS_FAMILY",
+        "name": "Group 17: Halogens Family",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronegativity, Electron Affinity Anomaly (Cl > F)",
+          "Oxidizing Power Trend (F2 > Cl2 > Br2 > I2) in Solution",
+          "Interhalogen Compounds (XX'_n) Properties & Oxoacids of Halogens"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_18_NOBLE_GASES_XENON_CHEMISTRY",
+        "name": "Group 18: Noble Gases & Xenon Chemistry",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Discovery & Neil Bartlett's Experiment",
+          "Synthesis and VSEPR Shapes of XeF2, XeF4, XeF6, XeO3, XeOF4",
+          "Complete and Partial Hydrolysis of Xenon Fluorides"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|D_AND_F_BLOCK_ELEMENTS",
+    "chapterId": "D_AND_F_BLOCK_ELEMENTS",
+    "name": "The d- and f-Block Elements",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 23,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|GENERAL_TRENDS_IN_3D_TRANSITION_SERIES",
+        "name": "General Trends in 3d Transition Series",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configurations & Variable Oxidation States",
+          "Magnetic Moments: Spin-Only Formula mu = sqrt(n(n+2)) BM",
+          "Color of Compounds due to d-d Transitions",
+          "Interstitial Compounds & Catalytic Behaviour"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|IMPORTANT_TRANSITION_METAL_COMPOUNDS",
+        "name": "Important Transition Metal Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Potassium Dichromate (K2Cr2O7): Preparation, Structure, Redox in Acid",
+          "Potassium Permanganate (KMnO4): Preparation from Pyrolusite, Oxidizing Reactions in Acid, Neutral, Alkaline Media"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|LANTHANOIDS_ACTINOIDS_F_BLOCK_",
+        "name": "Lanthanoids & Actinoids (f-Block)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configuration & Stable +3 Oxidation State",
+          "Lanthanoid Contraction: Causes and Chemical Consequences",
+          "Comparison of Lanthanoids and Actinoids (Radioactivity, Complexing Ability)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|COORDINATION_COMPOUNDS",
+    "chapterId": "COORDINATION_COMPOUNDS",
+    "name": "Coordination Compounds",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 24,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "COORDINATION_COMPOUNDS|WERNER_S_THEORY_NOMENCLATURE",
+        "name": "Werner's Theory & Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Primary vs Secondary Valency",
+          "IUPAC Nomenclature of Coordination Complexes",
+          "Ligand Classification: Monodentate, Chelating, Ambidentate"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
+        "name": "Isomerism in Coordination Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Structural Isomerism: Ionization, Hydrate, Linkage, Coordination",
+          "Geometrical Isomerism: Cis-Trans & Facial-Meridional (fac-mer)",
+          "Optical Isomerism in Octahedral Complexes with Bidentate Ligands"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_THEORIES_VBT_CFT_",
+        "name": "Bonding Theories (VBT & CFT)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Valence Bond Theory: Inner vs Outer Orbital Complexes, Hybridization",
+          "Crystal Field Theory: Octahedral (Delta_o) & Tetrahedral (Delta_t) Splitting",
+          "Spectrochemical Series & High Spin vs Low Spin Configurations",
+          "Crystal Field Stabilization Energy (CFSE) Calculations"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_IN_METAL_CARBONYLS",
+        "name": "Bonding in Metal Carbonyls",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Synergic Bonding: Sigma Donor & Pi Acceptor Interaction",
+          "Bond Order & CO Stretching Frequency Changes",
+          "Biological Importance: Chlorophyll (Mg), Hemoglobin (Fe), Vitamin B12 (Co)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
+    "chapterId": "HALOALKANES_AND_HALOARENES",
+    "name": "Haloalkanes and Haloarenes",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 25,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HALOALKANES_AND_HALOARENES|PREPARATION_PHYSICAL_PROPERTIES",
+        "name": "Preparation & Physical Properties",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "From Alcohols (SOCl2 Darzens process, PCl5, PBr3)",
+          "Halogen Exchange Reactions: Finkelstein & Swarts Reactions",
+          "Boiling Point & Dipole Moment Trends"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|NUCLEOPHILIC_SUBSTITUTION_SN1_VS_SN2_",
+        "name": "Nucleophilic Substitution (SN1 vs SN2)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "SN2 Mechanism: Bimolecular, Concerted, Walden Inversion",
+          "SN1 Mechanism: Carbocation Intermediate, Racemization, Solvent Effect",
+          "Factors Affecting SN1 vs SN2: Substrate, Nucleophile, Solvent, Leaving Group"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_REACTIONS_COMPETITION",
+        "name": "Elimination Reactions & Competition",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Beta-Elimination (E2 vs E1 Mechanisms)",
+          "Saytzeff (Zaitsev) vs Hofmann Elimination Rule",
+          "Substitution vs Elimination Competition Factors"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES_ORGANOMETALLICS",
+        "name": "Reactions of Haloarenes & Organometallics",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Low Reactivity of Haloarenes towards Nucleophilic Substitution (Resonance, sp2 C)",
+          "Nucleophilic Aromatic Substitution with Electron Withdrawing Groups",
+          "Grignard Reagents (RMgX): Preparation & Reactions with Active Hydrogen/Electrophiles",
+          "Polyhalogen Compounds: Chloroform, Freons, DDT, Iodoform Test"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
+    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
+    "name": "Alcohols, Phenols and Ethers",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 26,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|PREPARATION_ACIDITY_OF_ALCOHOLS",
+        "name": "Preparation & Acidity of Alcohols",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "From Alkenes: Acid-Catalyzed Hydration, Hydroboration-Oxidation, Oxymercuration-Demercuration",
+          "From Carbonyl Compounds: Reduction & Grignard Addition",
+          "Acidity of Alcohols: Comparison with Water & Alkoxide Basicity"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REACTIONS_OF_ALCOHOLS",
+        "name": "Reactions of Alcohols",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lucas Reagent Test (1 deg, 2 deg, 3 deg Distinction)",
+          "Dehydration to Alkenes & Carbocation Rearrangements",
+          "Oxidation with PCC, CrO3, Jones Reagent & Dehydrogenation over Cu/573K"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CHEMISTRY_OF_PHENOLS",
+        "name": "Chemistry of Phenols",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Commercial Preparation from Cumene (Hydroperoxide Process)",
+          "Enhanced Acidity of Phenol: Substituent Effects (Nitro vs Alkyl groups)",
+          "Kolbe's Reaction (Synthesis of Salicylic Acid)",
+          "Reimer-Tiemann Reaction (Synthesis of Salicylaldehyde via Dichlorocarbene)",
+          "Reaction with Zinc Dust & Phthalic Anhydride"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ETHERS_SYNTHESIS_CLEAVAGE",
+        "name": "Ethers: Synthesis & Cleavage",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Williamson Ether Synthesis & Mechanism (SN2 Attack on Primary Halide)",
+          "Acid-Catalyzed Dehydration of Alcohols",
+          "Cleavage of Ethers with Excess Concentrated HI/HBr (Mechanism with 1/2/3 deg Alkyl Groups)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "chapterId": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "name": "Aldehydes, Ketones and Carboxylic Acids",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 27,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|PREPARATION_OF_CARBONYL_COMPOUNDS",
+        "name": "Preparation of Carbonyl Compounds",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rosenmund Reduction & Stephen's Reaction",
+          "Etard Reaction & Gattermann-Koch Synthesis",
+          "Ozonolysis of Alkenes & Hydration of Alkynes"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
+        "name": "Nucleophilic Addition Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Addition of HCN, NaHSO3, Alcohols (Hemiacetals & Acetals)",
+          "Addition of Grignard Reagents to Aldehydes and Ketones",
+          "Reaction with Ammonia Derivatives (Hydroxylamine, Hydrazine, 2,4-DNP)"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|OXIDATION_REDUCTION_ALPHA_HYDROGEN_REACTIONS",
+        "name": "Oxidation, Reduction & Alpha-Hydrogen Reactions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Clemmensen Reduction (Zn-Hg/HCl) & Wolff-Kishner Reduction (NH2NH2/KOH)",
+          "Tollens' Test & Fehling's Test for Aldehydes",
+          "Haloform Reaction (Iodoform Test for CH3-CO- and CH3-CH(OH)-)",
+          "Aldol & Cross-Aldol Condensation Mechanism",
+          "Cannizzaro Reaction & Cross-Cannizzaro Mechanism"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|CARBOXYLIC_ACIDS_STRUCTURE_REACTIONS",
+        "name": "Carboxylic Acids: Structure & Reactions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Carboxylic Acids & Electron Withdrawing Substituent Effects",
+          "Esterification Mechanism",
+          "Hell-Volhard-Zelinsky (HVZ) Alpha-Halogenation",
+          "Decarboxylation with Soda Lime & Kolbe Electrolysis"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|AMINES",
+    "chapterId": "AMINES",
+    "name": "Amines",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 28,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "AMINES|PREPARATION_OF_AMINES",
+        "name": "Preparation of Amines",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Reduction of Nitro Compounds, Nitriles & Amides",
+          "Gabriel Phthalimide Synthesis for Pure Primary Aliphatic Amines",
+          "Hofmann Bromamide Degradation Reaction (Step-down Reaction)"
+        ]
+      },
+      {
+        "id": "AMINES|BASICITY_OF_AMINES",
+        "name": "Basicity of Amines",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Basicity in Gaseous Phase (3 deg > 2 deg > 1 deg > NH3)",
+          "Basicity in Aqueous Medium: Combined Inductive, Solvation & Steric Effects (2 deg > 1 deg > 3 deg for Methyl; 2 deg > 3 deg > 1 deg for Ethyl)",
+          "Resonance Weakening of Arylamine Basicity (Aniline vs Alkylamines)"
+        ]
+      },
+      {
+        "id": "AMINES|CHEMICAL_TESTS_REACTIONS_OF_AMINES",
+        "name": "Chemical Tests & Reactions of Amines",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbylamine Test for Primary Amines (Isocyanide Formation)",
+          "Hinsberg's Test with Benzenesulfonyl Chloride (1, 2, 3 deg Distinction)",
+          "Reaction with Nitrous Acid (HNO2) & Alcohol/Diazonium Formation"
+        ]
+      },
+      {
+        "id": "AMINES|DIAZONIUM_SALTS_SYNTHETIC_TRANSFORMATIONS",
+        "name": "Diazonium Salts & Synthetic Transformations",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Diazotization of Aniline with NaNO2 + HCl at 0-5 deg C",
+          "Sandmeyer Reaction vs Gattermann Reaction",
+          "Azo Coupling Reactions with Phenol and Aniline (Dyes)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|BIOMOLECULES",
+    "chapterId": "BIOMOLECULES",
+    "name": "Biomolecules",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 29,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "BIOMOLECULES|CARBOHYDRATES_MONOSACCHARIDES_RING_STRUCTURES",
+        "name": "Carbohydrates: Monosaccharides & Ring Structures",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Classification: Aldoses, Ketoses, D/L Configuration",
+          "Glucose: Open-Chain Reactions, Limitations, Fischer to Haworth Projections",
+          "Anomers, Epimers & Mutarotation in Glucose and Fructose"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
+        "name": "Disaccharides & Polysaccharides",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Glycosidic Bond Formation",
+          "Sucrose (Invert Sugar, Non-reducing), Maltose & Lactose",
+          "Starch (Amylose + Amylopectin), Cellulose & Glycogen"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDES_PROTEINS",
+        "name": "Amino Acids, Peptides & Proteins",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Essential vs Non-essential Amino Acids",
+          "Zwitterion Form, Isoelectric Point (pI) & Optical Activity",
+          "Peptide Linkage & Primary, Secondary (alpha-helix, beta-pleated), Tertiary, Quaternary Structures",
+          "Denaturation of Proteins & Coagulation"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|NUCLEIC_ACIDS_ENZYMES_VITAMINS",
+        "name": "Nucleic Acids, Enzymes & Vitamins",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Components: Purines, Pyrimidines, Ribose/Deoxyribose, Phosphate",
+          "Nucleoside vs Nucleotide & Phosphodiester Linkages",
+          "Double-Helical Structure of DNA (Watson-Crick Model) & Chargaff's Rules",
+          "Vitamins: Water-Soluble vs Fat-Soluble & Deficiency Diseases"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|POLYMERS",
+    "chapterId": "POLYMERS",
+    "name": "Polymers",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 30,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "POLYMERS|CLASSIFICATION_POLYMERIZATION_MECHANISMS",
+        "name": "Classification & Polymerization Mechanisms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Natural, Semi-synthetic & Synthetic Polymers",
+          "Addition vs Condensation Polymerization Modes",
+          "Elastomers, Fibres, Thermoplastics, Thermosetting Plastics",
+          "Ziegler-Natta Coordination Polymerization for HDPE"
+        ]
+      },
+      {
+        "id": "POLYMERS|COMMERCIAL_POLYMERS_RUBBERS",
+        "name": "Commercial Polymers & Rubbers",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Polyamides: Nylon-6,6, Nylon-6 (Caprolactam)",
+          "Polyesters: Terylene / Dacron",
+          "Resins: Bakelite (Novolac intermediate), Melamine-Formaldehyde",
+          "Natural Rubber, Vulcanization & Synthetic Rubbers (Buna-S, Buna-N, Neoprene)"
+        ]
+      },
+      {
+        "id": "POLYMERS|BIODEGRADABLE_POLYMERS_MOLECULAR_MASS",
+        "name": "Biodegradable Polymers & Molecular Mass",
+        "order": 3,
+        "isKeyTopic": false,
+        "subtopics": [
+          "PHBV (poly beta-hydroxybutyrate-co-beta-hydroxyvalerate)",
+          "Nylon-2-nylon-6",
+          "Number-Average (Mn) vs Weight-Average (Mw) Molar Mass & PDI"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "CBSE|CHEMISTRY|12|CHEMISTRY_IN_EVERYDAY_LIFE",
+    "chapterId": "CHEMISTRY_IN_EVERYDAY_LIFE",
+    "name": "Chemistry in Everyday Life",
+    "examId": "CBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 31,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|DRUGS_PHARMACOLOGICAL_CLASSES",
+        "name": "Drugs & Pharmacological Classes",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Drug-Target Interactions: Enzyme Inhibitors & Receptors",
+          "Antacids (H2-blockers: Ranitidine) & Antihistamines",
+          "Tranquilizers (Equanil, Valium) & Analgesics (Aspirin, Morphine)",
+          "Antiseptics (Dettol, Bithionol) vs Disinfectants (Phenol, Chlorine)",
+          "Antibiotics: Bactericidal vs Bacteriostatic & Broad Spectrum"
+        ]
+      },
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|FOOD_CHEMISTRY_CLEANSING_AGENTS",
+        "name": "Food Chemistry & Cleansing Agents",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Artificial Sweetening Agents: Aspartame, Saccharin, Sucralose, Alitame",
+          "Food Preservatives: Sodium Benzoate, Sorbic Acid Salts",
+          "Soaps: Saponification & Scum Formation in Hard Water",
+          "Synthetic Detergents: Anionic, Cationic, Non-ionic Types & Cleansing Action (Micelles)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Central Board of Secondary Education",
+    "sourceURL": "https://cbseacademic.nic.in/curriculum",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "chapterId": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY",
+    "name": "Some Basic Concepts of Chemistry",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 1,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|MOLE_CONCEPT_MOLAR_MASS",
+        "name": "Mole Concept & Molar Mass",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Avogadro's Number & Molar Mass",
+          "Mole-Particle-Mass-Volume Calculations",
+          "Average Atomic Mass of Isotopes"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|STOICHIOMETRY_LIMITING_REAGENT",
+        "name": "Stoichiometry & Limiting Reagent",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Balanced Chemical Equations & Mole Ratios",
+          "Identification of Limiting Reagent",
+          "Theoretical vs Percentage Yield"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|CONCENTRATION_TERMS",
+        "name": "Concentration Terms",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Molarity & Molality",
+          "Mole Fraction & Mass Percentage",
+          "Normality & Parts Per Million (ppm)"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EMPIRICAL_MOLECULAR_FORMULA",
+        "name": "Empirical & Molecular Formula",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Percentage Composition Analysis",
+          "Empirical Formula Derivation",
+          "Molecular Formula from Molar Mass"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|EQUIVALENT_CONCEPT_TITRATIONS",
+        "name": "Equivalent Concept & Titrations",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "n-Factor in Acid-Base & Redox Reactions",
+          "Law of Chemical Equivalence",
+          "Standard Volumetric Titrations"
+        ]
+      },
+      {
+        "id": "SOME_BASIC_CONCEPTS_OF_CHEMISTRY|LAWS_OF_CHEMICAL_COMBINATION",
+        "name": "Laws of Chemical Combination",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Conservation of Mass & Definite Proportions",
+          "Multiple Proportions & Gay-Lussac's Law",
+          "Dalton's Atomic Theory Assumptions"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|STRUCTURE_OF_ATOM",
+    "chapterId": "STRUCTURE_OF_ATOM",
+    "name": "Structure of Atom",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 2,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STRUCTURE_OF_ATOM|SUBATOMIC_PARTICLES_EARLY_MODELS",
+        "name": "Subatomic Particles & Early Models",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Cathode Ray Discharge & e/m Ratio",
+          "Millikan Oil Drop & Charge of Electron",
+          "Rutherford's Alpha Scattering & Nuclear Model"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|BOHR_MODEL_HYDROGEN_SPECTRUM",
+        "name": "Bohr Model & Hydrogen Spectrum",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of Bohr's Theory",
+          "Radius, Velocity & Energy of Bohr Orbit",
+          "Rydberg Formula & Spectral Series (Lyman, Balmer, Paschen)"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|DUAL_NATURE_OF_MATTER_DE_BROGLIE_",
+        "name": "Dual Nature of Matter (de Broglie)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "de Broglie Wavelength Relation",
+          "Wavelength of Charged Particles in Potential V",
+          "Davisson-Germer Diffraction Verification"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|HEISENBERG_S_UNCERTAINTY_PRINCIPLE",
+        "name": "Heisenberg's Uncertainty Principle",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Mathematical Formulation (Delta x * Delta p >= h/4pi)",
+          "Physical Significance for Microscopic Particles",
+          "Impossibility of Electron in Nucleus"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|QUANTUM_MECHANICAL_MODEL_ORBITALS",
+        "name": "Quantum Mechanical Model & Orbitals",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Schrodinger Wave Equation Concept",
+          "Principal, Azimuthal, Magnetic & Spin Quantum Numbers",
+          "Shapes of s, p, d Orbitals & Nodal Surfaces"
+        ]
+      },
+      {
+        "id": "STRUCTURE_OF_ATOM|ELECTRONIC_CONFIGURATION_RULES",
+        "name": "Electronic Configuration Rules",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Aufbau Principle & (n+l) Rule",
+          "Pauli's Exclusion Principle",
+          "Hund's Rule of Maximum Multiplicity & Chromium/Copper Anomalies"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|CLASSIFICATION_OF_ELEMENTS",
+    "chapterId": "CLASSIFICATION_OF_ELEMENTS",
+    "name": "Classification of Elements and Periodicity",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 3,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|MODERN_PERIODIC_TABLE_LAYOUT",
+        "name": "Modern Periodic Table Layout",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moseley's Law & Modern Periodic Law",
+          "Division into s, p, d, f Blocks",
+          "IUPAC Nomenclature for Elements with Z > 100"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ATOMIC_IONIC_RADII_TRENDS",
+        "name": "Atomic & Ionic Radii Trends",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Covalent, Metallic & van der Waals Radii",
+          "Variation in Periods and Groups",
+          "Isoelectronic Species Radii Comparison"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|IONIZATION_ENTHALPY",
+        "name": "Ionization Enthalpy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Successive Ionization Enthalpies (IE1 < IE2 < IE3)",
+          "Factors Affecting Ionization Enthalpy",
+          "Anomalous Trends (Be vs B, N vs O)"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|ELECTRON_GAIN_ENTHALPY_ELECTRONEGATIVITY",
+        "name": "Electron Gain Enthalpy & Electronegativity",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Electron Affinity & Halogen Anomaly (Cl > F)",
+          "Pauling & Mulliken Electronegativity Scales",
+          "Electronegativity Variation Across the Table"
+        ]
+      },
+      {
+        "id": "CLASSIFICATION_OF_ELEMENTS|PERIODIC_TRENDS_IN_CHEMICAL_PROPERTIES",
+        "name": "Periodic Trends in Chemical Properties",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Valency & Oxidation States",
+          "Anomalous Properties of Second Period Elements",
+          "Diagonal Relationships (Li-Mg, Be-Al, B-Si)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|CHEMICAL_BONDING",
+    "chapterId": "CHEMICAL_BONDING",
+    "name": "Chemical Bonding and Molecular Structure",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 4,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_BONDING|LEWIS_STRUCTURES_FORMAL_CHARGE",
+        "name": "Lewis Structures & Formal Charge",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Octet Rule & Exceptions",
+          "Formal Charge Calculation on Atoms",
+          "Resonance Structures & Stability"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|IONIC_BONDING_LATTICE_ENTHALPY",
+        "name": "Ionic Bonding & Lattice Enthalpy",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ionic Bond Formation",
+          "Born-Haber Cycle for Lattice Energy",
+          "Fajan's Rules for Covalent Character in Ionic Bonds"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VSEPR_THEORY_MOLECULAR_GEOMETRY",
+        "name": "VSEPR Theory & Molecular Geometry",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Steric Number Concept",
+          "Lone Pair Repulsion Hierarchy",
+          "Shapes from Linear to Pentagonal Bipyramidal"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|VALENCE_BOND_THEORY_HYBRIDIZATION",
+        "name": "Valence Bond Theory & Hybridization",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Sigma and Pi Bond Formation",
+          "Hybridization Schemes: sp, sp2, sp3, sp3d, sp3d2",
+          "d-Orbital Participation in Hybridization"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|MOLECULAR_ORBITAL_THEORY_MOT_",
+        "name": "Molecular Orbital Theory (MOT)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "LCAO Method & Bonding/Antibonding MOs",
+          "MO Energy Level Diagrams for Homonuclear Diatomics",
+          "Bond Order, Bond Length & Magnetic Behaviour"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|DIPOLE_MOMENT_POLARITY",
+        "name": "Dipole Moment & Polarity",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: mu = q * d in Debye",
+          "Vector Addition of Bond Dipoles",
+          "Percentage Ionic Character from Dipole Moment"
+        ]
+      },
+      {
+        "id": "CHEMICAL_BONDING|HYDROGEN_BONDING_INTERMOLECULAR_FORCES",
+        "name": "Hydrogen Bonding & Intermolecular Forces",
+        "order": 7,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Intermolecular vs Intramolecular H-Bonding",
+          "Effects on Boiling Points & Solubility",
+          "van der Waals Forces (Dispersion, Dipole-Dipole)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|CHEMICAL_THERMODYNAMICS",
+    "chapterId": "CHEMICAL_THERMODYNAMICS",
+    "name": "Chemical Thermodynamics",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 5,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|FIRST_LAW_WORK_CALCULATIONS",
+        "name": "First Law & Work Calculations",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "State Functions vs Path Functions",
+          "First Law: Delta U = q + w",
+          "Isothermal, Adiabatic, Isobaric & Isochoric Work"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|ENTHALPY_HEAT_CAPACITIES",
+        "name": "Enthalpy & Heat Capacities",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation: Delta H = Delta U + Delta n_g * R * T",
+          "Molar Heat Capacities: C_p - C_v = R",
+          "Kirchhoff's Equations for Temperature Dependence"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|THERMOCHEMISTRY_HESS_S_LAW",
+        "name": "Thermochemistry & Hess's Law",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Standard Enthalpy of Formation & Combustion",
+          "Hess's Law of Constant Heat Summation",
+          "Bond Dissociation Enthalpy Calculations"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|SECOND_LAW_ENTROPY_S_",
+        "name": "Second Law & Entropy (S)",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Spontaneity & Thermodynamic Definition of Entropy",
+          "Entropy Changes in Ideal Gas Expansions",
+          "Delta S_total >= 0 Criterion"
+        ]
+      },
+      {
+        "id": "CHEMICAL_THERMODYNAMICS|GIBBS_FREE_ENERGY_CHEMICAL_EQUILIBRIUM",
+        "name": "Gibbs Free Energy & Chemical Equilibrium",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gibbs Equation: Delta G = Delta H - T * Delta S",
+          "Spontaneity Criteria at Constant T & P",
+          "Standard Free Energy & Equilibrium Constant: Delta G^0 = -RT ln K"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|EQUILIBRIUM",
+    "chapterId": "EQUILIBRIUM",
+    "name": "Equilibrium",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 6,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "EQUILIBRIUM|CHEMICAL_EQUILIBRIUM_K_P_K_C",
+        "name": "Chemical Equilibrium & K_p / K_c",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Law of Mass Action",
+          "Relation: K_p = K_c * (RT)^(Delta n_g)",
+          "Reaction Quotient Q and Direction of Net Reaction"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|LE_CHATELIER_S_PRINCIPLE",
+        "name": "Le Chatelier's Principle",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Effect of Concentration, Pressure, and Temperature",
+          "Effect of Inert Gas Addition at Constant V and P",
+          "Industrial Synthesis of NH3 and SO3 Optimization"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|IONIC_EQUILIBRIUM_PH_CALCULATIONS",
+        "name": "Ionic Equilibrium & pH Calculations",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Ostwald's Dilution Law for Weak Electrolytes",
+          "Ionic Product of Water (K_w) with Temperature",
+          "pH and pOH of Strong & Weak Acid/Base Solutions"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|BUFFER_SOLUTIONS",
+        "name": "Buffer Solutions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidic & Basic Buffer Mechanisms",
+          "Henderson-Hasselbalch Equations",
+          "Buffer Capacity and Maximum Buffer Action Range"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SALT_HYDROLYSIS",
+        "name": "Salt Hydrolysis",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydrolysis Constant (K_h) & Degree of Hydrolysis",
+          "pH Formulas for All Four Salt Types",
+          "Hydrolysis of Salts of Weak Acid and Weak Base"
+        ]
+      },
+      {
+        "id": "EQUILIBRIUM|SOLUBILITY_PRODUCT_K_SP_",
+        "name": "Solubility Product (K_sp)",
+        "order": 6,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relation Between Solubility (s) and K_sp",
+          "Precipitation Criterion: Q_sp > K_sp",
+          "Common Ion Effect in Group Separation & Salt Purification"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|REDOX_REACTIONS",
+    "chapterId": "REDOX_REACTIONS",
+    "name": "Redox Reactions",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 7,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "REDOX_REACTIONS|OXIDATION_NUMBERS_BALANCING",
+        "name": "Oxidation Numbers & Balancing",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rules for Assigning Oxidation Numbers",
+          "Ion-Electron Method (Half-Reaction) in Acidic/Basic Media",
+          "Oxidation State Method for Balancing"
+        ]
+      },
+      {
+        "id": "REDOX_REACTIONS|TYPES_OF_REDOX_REACTIONS",
+        "name": "Types of Redox Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Combination, Decomposition & Displacement Reactions",
+          "Disproportionation & Comproportionation Reactions",
+          "Redox Titrations & Indicator Action (Self-indicator KMnO4)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "chapterId": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES",
+    "name": "Organic Chemistry: Some Basic Principles and Techniques",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 8,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|IUPAC_NOMENCLATURE",
+        "name": "IUPAC Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Root Word, Prefix, Suffix System",
+          "Priority of Functional Groups in Polyfunctional Compounds",
+          "Nomenclature of Bicyclo and Spiro Compounds"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STRUCTURAL_ISOMERISM",
+        "name": "Structural Isomerism",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Chain, Position & Functional Group Isomerism",
+          "Metamerism in Ethers, Amines, Ketones",
+          "Keto-Enol Tautomerism & Enol Content Stability"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|STEREOISOMERISM",
+        "name": "Stereoisomerism",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Geometrical Isomerism: Cis-Trans & E/Z System",
+          "Optical Isomerism: Chirality, Enantiomers, Diastereomers",
+          "Meso Compounds & Specific Rotation Calculation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|ELECTRONIC_EFFECTS_IN_ORGANIC_MOLECULES",
+        "name": "Electronic Effects in Organic Molecules",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inductive Effect (+I and -I) & Acid/Base Strengths",
+          "Resonance & Mesomeric Effect (+M and -M)",
+          "Hyperconjugation & Heat of Hydrogenation"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|REACTIVE_INTERMEDIATES",
+        "name": "Reactive Intermediates",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbocations: Structure, Stability & Rearrangements (Hydride/Alkyl shifts)",
+          "Carbanions: Structure, Hybridization & Relative Stability",
+          "Free Radicals & Carbenes Generation & Reactivity"
+        ]
+      },
+      {
+        "id": "ORGANIC_CHEMISTRY_BASIC_PRINCIPLES|PURIFICATION_QUANTITATIVE_ELEMENTAL_ANALYSIS",
+        "name": "Purification & Quantitative Elemental Analysis",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Crystallization, Sublimation, Chromatography",
+          "Lassaigne's Test for N, S, Halogens",
+          "Dumas, Kjeldahl & Carius Quantitative Estimation Formulas"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|HYDROCARBONS",
+    "chapterId": "HYDROCARBONS",
+    "name": "Hydrocarbons",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 9,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HYDROCARBONS|ALKANES_PREPARATION_FREE_RADICAL_REACTIONS",
+        "name": "Alkanes: Preparation & Free Radical Reactions",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Wurtz Reaction & Corey-House Synthesis",
+          "Decarboxylation of Carboxylic Acid Salts (Kolbe & Soda Lime)",
+          "Free Radical Halogenation Mechanism & Reactivity-Selectivity"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKENES_ELECTROPHILIC_ADDITION",
+        "name": "Alkenes: Electrophilic Addition",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Markovnikov's Rule & Carbocation Intermediates",
+          "Anti-Markovnikov (Peroxide Effect) with HBr Mechanism",
+          "Ozonolysis for Structure Elucidation of Alkenes"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ALKYNES_CHEMISTRY_ACIDITY",
+        "name": "Alkynes: Chemistry & Acidity",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Terminal Alkynes (sp hybridized C-H)",
+          "Hydration of Alkynes (Kucherov Reaction using HgSO4/H2SO4)",
+          "Cyclic Polymerization to Form Benzene"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|AROMATICITY_HUCKEL_RULE",
+        "name": "Aromaticity & Huckel Rule",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Huckel's (4n+2) Pi Electron Rule",
+          "Aromatic, Antiaromatic & Non-aromatic Systems",
+          "Annulenes and Heterocyclic Aromatic Systems"
+        ]
+      },
+      {
+        "id": "HYDROCARBONS|ELECTROPHILIC_AROMATIC_SUBSTITUTION_EAS_",
+        "name": "Electrophilic Aromatic Substitution (EAS)",
+        "order": 5,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Arenium Ion (Sigma Complex) Mechanism",
+          "Activating vs Deactivating Groups (Ortho/Para vs Meta Direction)",
+          "Friedel-Crafts Alkylation & Acylation (Rearrangements & Limitations)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|STATES_OF_MATTER",
+    "chapterId": "STATES_OF_MATTER",
+    "name": "States of Matter: Gases and Liquids",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 10,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "STATES_OF_MATTER|GAS_LAWS_IDEAL_GAS_EQUATION",
+        "name": "Gas Laws & Ideal Gas Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Boyle's, Charles's, Gay-Lussac's & Avogadro's Laws",
+          "Equation of State: PV = nRT & Density Relation",
+          "Dalton's Law of Partial Pressures & Graham's Law of Diffusion"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|KINETIC_MOLECULAR_THEORY_MOLECULAR_SPEEDS",
+        "name": "Kinetic Molecular Theory & Molecular Speeds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Postulates of KMT & Kinetic Gas Equation",
+          "Maxwell-Boltzmann Speed Distribution",
+          "Root Mean Square (rms), Average & Most Probable Speeds"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|REAL_GASES_VAN_DER_WAALS_EQUATION",
+        "name": "Real Gases & van der Waals Equation",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Deviations from Ideality & Compressibility Factor (Z)",
+          "van der Waals Constants 'a' (intermolecular attraction) & 'b' (co-volume)",
+          "Behaviour at High, Low Pressure & Boyle Temperature"
+        ]
+      },
+      {
+        "id": "STATES_OF_MATTER|LIQUEFACTION_OF_GASES_LIQUID_STATE",
+        "name": "Liquefaction of Gases & Liquid State",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Critical Constants: T_c, P_c, V_c Formulas in terms of a, b",
+          "Andrews Isotherms of CO2",
+          "Liquid Properties: Vapor Pressure, Surface Tension & Viscosity"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|S_BLOCK_ELEMENTS",
+    "chapterId": "S_BLOCK_ELEMENTS",
+    "name": "s-Block Elements (Alkali & Alkaline Earth Metals)",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 11,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_1_ALKALI_METALS",
+        "name": "Group 1: Alkali Metals",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Radii, Ionization Enthalpy & Hydration Energy",
+          "Reactivity with Water, Air, Halogens & Liquid Ammonia Solutions",
+          "Anomalous Properties of Lithium & Diagonal Relationship with Magnesium"
+        ]
+      },
+      {
+        "id": "S_BLOCK_ELEMENTS|GROUP_2_ALKALINE_EARTH_METALS",
+        "name": "Group 2: Alkaline Earth Metals",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Basic Strength of Oxides & Hydroxides",
+          "Solubility and Thermal Stability of Carbonates & Sulfates",
+          "Important Compounds: CaO, Ca(OH)2, Gypsum, Plaster of Paris, Cement"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|P_BLOCK_GROUP_13_14",
+    "chapterId": "P_BLOCK_GROUP_13_14",
+    "name": "p-Block Elements (Group 13 & 14)",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 12,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_13_BORON_FAMILY",
+        "name": "Group 13: Boron Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Inert Pair Effect & Variable Oxidation States (+1, +3)",
+          "Structure of Diborane (3c-2e Banana Bonds)",
+          "Borax Bead Test, Boric Acid & Lewis Acid Character of BF3"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_13_14|GROUP_14_CARBON_FAMILY",
+        "name": "Group 14: Carbon Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Catenation Tendency & Allotropes of Carbon (Diamond, Graphite, Fullerenes)",
+          "Oxides of Carbon (CO toxic nature, CO2)",
+          "Silicones, Silicates (Classification & Basic Units) & Zeolites"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|HYDROGEN",
+    "chapterId": "HYDROGEN",
+    "name": "Hydrogen & Its Compounds",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 13,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "HYDROGEN|HYDROGEN_HYDRIDES_WATER",
+        "name": "Hydrogen, Hydrides & Water",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Position in Periodic Table & Isotopes (Protium, Deuterium, Tritium)",
+          "Classification of Hydrides (Ionic, Covalent, Interstitial)",
+          "Temporary and Permanent Hardness of Water & Softening Methods"
+        ]
+      },
+      {
+        "id": "HYDROGEN|HYDROGEN_PEROXIDE_H2O2_HEAVY_WATER",
+        "name": "Hydrogen Peroxide (H2O2) & Heavy Water",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Preparation & Open-Book Structure of H2O2",
+          "Volume Strength Calculations (10V, 20V H2O2 Molarity/Normality)",
+          "Redox Chemistry of H2O2 in Acidic and Basic Media"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|ENVIRONMENTAL_CHEMISTRY",
+    "chapterId": "ENVIRONMENTAL_CHEMISTRY",
+    "name": "Environmental Chemistry",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 14,
+    "weightage": "Low",
+    "topics": [
+      {
+        "id": "ENVIRONMENTAL_CHEMISTRY|ENVIRONMENTAL_POLLUTION_GREEN_CHEMISTRY",
+        "name": "Environmental Pollution & Green Chemistry",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Tropospheric Pollutants, Acid Rain & Greenhouse Effect",
+          "Classical Smog vs Photochemical Smog (PAN, Ozone, NOx)",
+          "Ozone Depletion Mechanism by CFCs",
+          "Water Quality Standards (BOD, COD, Heavy Metals)",
+          "Principles of Green Chemistry for Waste Minimization"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|11|PRACTICAL_CHEMISTRY",
+    "chapterId": "PRACTICAL_CHEMISTRY",
+    "name": "Principles Related to Practical Chemistry",
+    "examId": "RBSE",
+    "classLevel": "11",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 15,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "PRACTICAL_CHEMISTRY|SYSTEMATIC_QUALITATIVE_ANALYSIS",
+        "name": "Systematic Qualitative Analysis",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Detection of Acidic Radicals (Carbonate, Sulfide, Halides, Nitrate)",
+          "Systematic Separation of Basic Radicals (Group 0 to VI)",
+          "Confirmatory Tests (Brown ring test, Chromyl chloride test, Borax bead test)"
+        ]
+      },
+      {
+        "id": "PRACTICAL_CHEMISTRY|VOLUMETRIC_ANALYSIS_FUNCTIONAL_GROUPS",
+        "name": "Volumetric Analysis & Functional Groups",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acid-Base Titrations & Indicator Selection (Methyl orange, Phenolphthalein)",
+          "Redox Titrations: Oxalic acid / Mohr's salt against KMnO4",
+          "Tests for Alcohols, Phenols, Aldehydes, Ketones, Carboxylic acids, Amines"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|SOLID_STATE",
+    "chapterId": "SOLID_STATE",
+    "name": "Solid State",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 16,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLID_STATE|CRYSTAL_LATTICES_UNIT_CELLS",
+        "name": "Crystal Lattices & Unit Cells",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "7 Crystal Systems & 14 Bravais Lattices",
+          "Number of Atoms in SC (1), BCC (2), FCC (4)",
+          "Density Formula: d = (z * M) / (a^3 * N_A)"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|PACKING_EFFICIENCY_VOIDS",
+        "name": "Packing Efficiency & Voids",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Packing Efficiency in SC (52.4%), BCC (68%), FCC/HCP (74%)",
+          "Tetrahedral (2N) and Octahedral (N) Voids",
+          "Limiting Radius Ratio Rules for Geometry"
+        ]
+      },
+      {
+        "id": "SOLID_STATE|DEFECTS_IN_SOLIDS_PROPERTIES",
+        "name": "Defects in Solids & Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Stoichiometric Defects: Schottky vs Frenkel Defects",
+          "Non-stoichiometric Defects: Metal Excess (F-centres) & Metal Deficiency",
+          "Magnetic Properties: Ferromagnetism, Ferrimagnetism, Antiferromagnetism"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|SOLUTIONS",
+    "chapterId": "SOLUTIONS",
+    "name": "Solutions",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 17,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "SOLUTIONS|HENRY_S_LAW_RAOULT_S_LAW",
+        "name": "Henry's Law & Raoult's Law",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Gas Solubility: Henry's Law (p = K_H * x)",
+          "Raoult's Law for Volatile Liquid Mixtures",
+          "Vapor-Pressure Liquid Composition Diagrams"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|IDEAL_AND_NON_IDEAL_SOLUTIONS",
+        "name": "Ideal and Non-Ideal Solutions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Conditions for Ideality (Delta H_mix = 0, Delta V_mix = 0)",
+          "Positive & Negative Deviations from Raoult's Law",
+          "Minimum & Maximum Boiling Azeotropes"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|COLLIGATIVE_PROPERTIES",
+        "name": "Colligative Properties",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Relative Lowering of Vapor Pressure (RLVP)",
+          "Elevation in Boiling Point: Delta T_b = K_b * m",
+          "Depression in Freezing Point: Delta T_f = K_f * m",
+          "Osmotic Pressure: pi = C * R * T & Isotonic Solutions"
+        ]
+      },
+      {
+        "id": "SOLUTIONS|VAN_T_HOFF_FACTOR_ABNORMAL_MOLAR_MASS",
+        "name": "Van 't Hoff Factor & Abnormal Molar Mass",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Definition: i = Normal Molar Mass / Observed Molar Mass",
+          "Degree of Dissociation: alpha = (i - 1) / (n - 1)",
+          "Degree of Association: alpha = (1 - i) / (1 - 1/n)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|ELECTROCHEMISTRY",
+    "chapterId": "ELECTROCHEMISTRY",
+    "name": "Electrochemistry",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 18,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ELECTROCHEMISTRY|GALVANIC_CELLS_NERNST_EQUATION",
+        "name": "Galvanic Cells & Nernst Equation",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electrode Potential & Standard Hydrogen Electrode (SHE)",
+          "Nernst Equation for Single Electrode & Complete Cell",
+          "Equilibrium Constant & Delta G^0 = -n * F * E^0_cell"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYTIC_CONDUCTANCE_KOHLRAUSCH_S_LAW",
+        "name": "Electrolytic Conductance & Kohlrausch's Law",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Specific Conductance (kappa), Cell Constant & Molar Conductance",
+          "Variation of Conductivity with Dilution (Debye-Huckel-Onsager)",
+          "Kohlrausch's Law of Independent Migration of Ions & Weak Electrolyte Degree of Ionization"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|ELECTROLYSIS_FARADAY_S_LAWS",
+        "name": "Electrolysis & Faraday's Laws",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Faraday's First Law: m = Z * I * t",
+          "Faraday's Second Law: m1/m2 = E1/E2",
+          "Products of Electrolysis for Aqueous Salts"
+        ]
+      },
+      {
+        "id": "ELECTROCHEMISTRY|BATTERIES_FUEL_CELLS_CORROSION",
+        "name": "Batteries, Fuel Cells & Corrosion",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Primary Cells (Dry cell, Mercury) vs Secondary Cells (Lead-acid accumulator)",
+          "H2-O2 Fuel Cell Reactions & Efficiency",
+          "Electrochemical Mechanism of Rusting & Cathodic Protection"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|CHEMICAL_KINETICS",
+    "chapterId": "CHEMICAL_KINETICS",
+    "name": "Chemical Kinetics",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 19,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "CHEMICAL_KINETICS|RATE_OF_REACTION_ORDER",
+        "name": "Rate of Reaction & Order",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Average and Instantaneous Rate of Reaction",
+          "Rate Law, Rate Constant (k) & Units of k",
+          "Order vs Molecularity Differences"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|INTEGRATED_RATE_LAWS_HALF_LIFE",
+        "name": "Integrated Rate Laws & Half-Life",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Zero Order Reactions: [A] = [A]0 - kt, t_1/2 = [A]0 / 2k",
+          "First Order Reactions: k = (2.303/t) * log([A]0/[A]), t_1/2 = 0.693 / k",
+          "Pseudo First Order Reactions (Hydrolysis of ester)"
+        ]
+      },
+      {
+        "id": "CHEMICAL_KINETICS|ARRHENIUS_EQUATION_ACTIVATION_ENERGY",
+        "name": "Arrhenius Equation & Activation Energy",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Temperature Dependence: k = A * e^(-Ea / RT)",
+          "Two-Temperature Form: log(k2/k1) = (Ea / 2.303R) * (1/T1 - 1/T2)",
+          "Collision Theory, Steric Factor (P) & Transition State Theory"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|SURFACE_CHEMISTRY",
+    "chapterId": "SURFACE_CHEMISTRY",
+    "name": "Surface Chemistry",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 20,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "SURFACE_CHEMISTRY|ADSORPTION_ISOTHERMS",
+        "name": "Adsorption & Isotherms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Physisorption vs Chemisorption Characteristics",
+          "Freundlich Adsorption Isotherm: x/m = k * p^(1/n)",
+          "Langmuir Isotherm & Adsorption from Solution Phase"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|CATALYSIS",
+        "name": "Catalysis",
+        "order": 2,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Homogeneous vs Heterogeneous Catalysis Mechanism",
+          "Shape-Selective Catalysis by Zeolites (ZSM-5)",
+          "Enzyme Catalysis: Lock & Key Model & Characteristics"
+        ]
+      },
+      {
+        "id": "SURFACE_CHEMISTRY|COLLOIDS_EMULSIONS",
+        "name": "Colloids & Emulsions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lyophilic vs Lyophobic Sols & Preparation Methods",
+          "Purification: Dialysis & Electro-dialysis",
+          "Properties: Tyndall Effect, Brownian Motion, Electrophoresis, Hardy-Schulze Rule"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|METALLURGY",
+    "chapterId": "METALLURGY",
+    "name": "General Principles and Processes of Isolation of Elements",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 21,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "METALLURGY|CONCENTRATION_OF_ORES",
+        "name": "Concentration of Ores",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Hydraulic Washing & Magnetic Separation",
+          "Froth Floatation Process: Collectors, Frothers, Depressants",
+          "Leaching Processes: Bayer's Process for Bauxite, Cyanide Process for Au/Ag"
+        ]
+      },
+      {
+        "id": "METALLURGY|THERMODYNAMICS_OF_METALLURGY_ELLINGHAM_DIAGRAM_",
+        "name": "Thermodynamics of Metallurgy (Ellingham Diagram)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Calcination vs Roasting Reactions",
+          "Ellingham Diagram Interpretation: Delta G^0 vs Temperature Plots",
+          "Choice of Reducing Agent (C vs CO) at Different Temperatures"
+        ]
+      },
+      {
+        "id": "METALLURGY|EXTRACTION_REFINING_METHODS",
+        "name": "Extraction & Refining Methods",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Blast Furnace Extraction of Iron & Slag Formation",
+          "Hall-Heroult Process for Aluminum & Role of Cryolite",
+          "Refining: Electrolytic, Zone Refining, Mond Process (Ni), Van Arkel (Zr, Ti)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|P_BLOCK_GROUP_15_18",
+    "chapterId": "P_BLOCK_GROUP_15_18",
+    "name": "p-Block Elements (Group 15, 16, 17 & 18)",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 22,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_15_NITROGEN_PHOSPHORUS_FAMILY",
+        "name": "Group 15: Nitrogen & Phosphorus Family",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Anomalous Properties of N & Triple Bond Dissociation Energy",
+          "Haber Process & Ostwald Process for HNO3",
+          "Phosphorus Allotropes, Phosphine & Basicity of Oxoacids (H3PO2, H3PO3, H3PO4)"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_16_OXYGEN_SULFUR_FAMILY",
+        "name": "Group 16: Oxygen & Sulfur Family",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Trends in Hydride Boiling Points (H-bonding in H2O)",
+          "Ozone: Structure & Strong Oxidizing Actions",
+          "Sulfur Allotropes (Rhombic, Monoclinic) & Contact Process for H2SO4"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_17_HALOGENS_FAMILY",
+        "name": "Group 17: Halogens Family",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronegativity, Electron Affinity Anomaly (Cl > F)",
+          "Oxidizing Power Trend (F2 > Cl2 > Br2 > I2) in Solution",
+          "Interhalogen Compounds (XX'_n) Properties & Oxoacids of Halogens"
+        ]
+      },
+      {
+        "id": "P_BLOCK_GROUP_15_18|GROUP_18_NOBLE_GASES_XENON_CHEMISTRY",
+        "name": "Group 18: Noble Gases & Xenon Chemistry",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Discovery & Neil Bartlett's Experiment",
+          "Synthesis and VSEPR Shapes of XeF2, XeF4, XeF6, XeO3, XeOF4",
+          "Complete and Partial Hydrolysis of Xenon Fluorides"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|D_AND_F_BLOCK_ELEMENTS",
+    "chapterId": "D_AND_F_BLOCK_ELEMENTS",
+    "name": "The d- and f-Block Elements",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 23,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|GENERAL_TRENDS_IN_3D_TRANSITION_SERIES",
+        "name": "General Trends in 3d Transition Series",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configurations & Variable Oxidation States",
+          "Magnetic Moments: Spin-Only Formula mu = sqrt(n(n+2)) BM",
+          "Color of Compounds due to d-d Transitions",
+          "Interstitial Compounds & Catalytic Behaviour"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|IMPORTANT_TRANSITION_METAL_COMPOUNDS",
+        "name": "Important Transition Metal Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Potassium Dichromate (K2Cr2O7): Preparation, Structure, Redox in Acid",
+          "Potassium Permanganate (KMnO4): Preparation from Pyrolusite, Oxidizing Reactions in Acid, Neutral, Alkaline Media"
+        ]
+      },
+      {
+        "id": "D_AND_F_BLOCK_ELEMENTS|LANTHANOIDS_ACTINOIDS_F_BLOCK_",
+        "name": "Lanthanoids & Actinoids (f-Block)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Electronic Configuration & Stable +3 Oxidation State",
+          "Lanthanoid Contraction: Causes and Chemical Consequences",
+          "Comparison of Lanthanoids and Actinoids (Radioactivity, Complexing Ability)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|COORDINATION_COMPOUNDS",
+    "chapterId": "COORDINATION_COMPOUNDS",
+    "name": "Coordination Compounds",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 24,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "COORDINATION_COMPOUNDS|WERNER_S_THEORY_NOMENCLATURE",
+        "name": "Werner's Theory & Nomenclature",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Primary vs Secondary Valency",
+          "IUPAC Nomenclature of Coordination Complexes",
+          "Ligand Classification: Monodentate, Chelating, Ambidentate"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|ISOMERISM_IN_COORDINATION_COMPOUNDS",
+        "name": "Isomerism in Coordination Compounds",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Structural Isomerism: Ionization, Hydrate, Linkage, Coordination",
+          "Geometrical Isomerism: Cis-Trans & Facial-Meridional (fac-mer)",
+          "Optical Isomerism in Octahedral Complexes with Bidentate Ligands"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_THEORIES_VBT_CFT_",
+        "name": "Bonding Theories (VBT & CFT)",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Valence Bond Theory: Inner vs Outer Orbital Complexes, Hybridization",
+          "Crystal Field Theory: Octahedral (Delta_o) & Tetrahedral (Delta_t) Splitting",
+          "Spectrochemical Series & High Spin vs Low Spin Configurations",
+          "Crystal Field Stabilization Energy (CFSE) Calculations"
+        ]
+      },
+      {
+        "id": "COORDINATION_COMPOUNDS|BONDING_IN_METAL_CARBONYLS",
+        "name": "Bonding in Metal Carbonyls",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Synergic Bonding: Sigma Donor & Pi Acceptor Interaction",
+          "Bond Order & CO Stretching Frequency Changes",
+          "Biological Importance: Chlorophyll (Mg), Hemoglobin (Fe), Vitamin B12 (Co)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|HALOALKANES_AND_HALOARENES",
+    "chapterId": "HALOALKANES_AND_HALOARENES",
+    "name": "Haloalkanes and Haloarenes",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 25,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "HALOALKANES_AND_HALOARENES|PREPARATION_PHYSICAL_PROPERTIES",
+        "name": "Preparation & Physical Properties",
+        "order": 1,
+        "isKeyTopic": false,
+        "subtopics": [
+          "From Alcohols (SOCl2 Darzens process, PCl5, PBr3)",
+          "Halogen Exchange Reactions: Finkelstein & Swarts Reactions",
+          "Boiling Point & Dipole Moment Trends"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|NUCLEOPHILIC_SUBSTITUTION_SN1_VS_SN2_",
+        "name": "Nucleophilic Substitution (SN1 vs SN2)",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "SN2 Mechanism: Bimolecular, Concerted, Walden Inversion",
+          "SN1 Mechanism: Carbocation Intermediate, Racemization, Solvent Effect",
+          "Factors Affecting SN1 vs SN2: Substrate, Nucleophile, Solvent, Leaving Group"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|ELIMINATION_REACTIONS_COMPETITION",
+        "name": "Elimination Reactions & Competition",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Beta-Elimination (E2 vs E1 Mechanisms)",
+          "Saytzeff (Zaitsev) vs Hofmann Elimination Rule",
+          "Substitution vs Elimination Competition Factors"
+        ]
+      },
+      {
+        "id": "HALOALKANES_AND_HALOARENES|REACTIONS_OF_HALOARENES_ORGANOMETALLICS",
+        "name": "Reactions of Haloarenes & Organometallics",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Low Reactivity of Haloarenes towards Nucleophilic Substitution (Resonance, sp2 C)",
+          "Nucleophilic Aromatic Substitution with Electron Withdrawing Groups",
+          "Grignard Reagents (RMgX): Preparation & Reactions with Active Hydrogen/Electrophiles",
+          "Polyhalogen Compounds: Chloroform, Freons, DDT, Iodoform Test"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|ALCOHOLS_PHENOLS_AND_ETHERS",
+    "chapterId": "ALCOHOLS_PHENOLS_AND_ETHERS",
+    "name": "Alcohols, Phenols and Ethers",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 26,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|PREPARATION_ACIDITY_OF_ALCOHOLS",
+        "name": "Preparation & Acidity of Alcohols",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "From Alkenes: Acid-Catalyzed Hydration, Hydroboration-Oxidation, Oxymercuration-Demercuration",
+          "From Carbonyl Compounds: Reduction & Grignard Addition",
+          "Acidity of Alcohols: Comparison with Water & Alkoxide Basicity"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|REACTIONS_OF_ALCOHOLS",
+        "name": "Reactions of Alcohols",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Lucas Reagent Test (1 deg, 2 deg, 3 deg Distinction)",
+          "Dehydration to Alkenes & Carbocation Rearrangements",
+          "Oxidation with PCC, CrO3, Jones Reagent & Dehydrogenation over Cu/573K"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|CHEMISTRY_OF_PHENOLS",
+        "name": "Chemistry of Phenols",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Commercial Preparation from Cumene (Hydroperoxide Process)",
+          "Enhanced Acidity of Phenol: Substituent Effects (Nitro vs Alkyl groups)",
+          "Kolbe's Reaction (Synthesis of Salicylic Acid)",
+          "Reimer-Tiemann Reaction (Synthesis of Salicylaldehyde via Dichlorocarbene)",
+          "Reaction with Zinc Dust & Phthalic Anhydride"
+        ]
+      },
+      {
+        "id": "ALCOHOLS_PHENOLS_AND_ETHERS|ETHERS_SYNTHESIS_CLEAVAGE",
+        "name": "Ethers: Synthesis & Cleavage",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Williamson Ether Synthesis & Mechanism (SN2 Attack on Primary Halide)",
+          "Acid-Catalyzed Dehydration of Alcohols",
+          "Cleavage of Ethers with Excess Concentrated HI/HBr (Mechanism with 1/2/3 deg Alkyl Groups)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "chapterId": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS",
+    "name": "Aldehydes, Ketones and Carboxylic Acids",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 27,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|PREPARATION_OF_CARBONYL_COMPOUNDS",
+        "name": "Preparation of Carbonyl Compounds",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Rosenmund Reduction & Stephen's Reaction",
+          "Etard Reaction & Gattermann-Koch Synthesis",
+          "Ozonolysis of Alkenes & Hydration of Alkynes"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|NUCLEOPHILIC_ADDITION_REACTIONS",
+        "name": "Nucleophilic Addition Reactions",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Addition of HCN, NaHSO3, Alcohols (Hemiacetals & Acetals)",
+          "Addition of Grignard Reagents to Aldehydes and Ketones",
+          "Reaction with Ammonia Derivatives (Hydroxylamine, Hydrazine, 2,4-DNP)"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|OXIDATION_REDUCTION_ALPHA_HYDROGEN_REACTIONS",
+        "name": "Oxidation, Reduction & Alpha-Hydrogen Reactions",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Clemmensen Reduction (Zn-Hg/HCl) & Wolff-Kishner Reduction (NH2NH2/KOH)",
+          "Tollens' Test & Fehling's Test for Aldehydes",
+          "Haloform Reaction (Iodoform Test for CH3-CO- and CH3-CH(OH)-)",
+          "Aldol & Cross-Aldol Condensation Mechanism",
+          "Cannizzaro Reaction & Cross-Cannizzaro Mechanism"
+        ]
+      },
+      {
+        "id": "ALDEHYDES_KETONES_CARBOXYLIC_ACIDS|CARBOXYLIC_ACIDS_STRUCTURE_REACTIONS",
+        "name": "Carboxylic Acids: Structure & Reactions",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Acidity of Carboxylic Acids & Electron Withdrawing Substituent Effects",
+          "Esterification Mechanism",
+          "Hell-Volhard-Zelinsky (HVZ) Alpha-Halogenation",
+          "Decarboxylation with Soda Lime & Kolbe Electrolysis"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|AMINES",
+    "chapterId": "AMINES",
+    "name": "Amines",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 28,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "AMINES|PREPARATION_OF_AMINES",
+        "name": "Preparation of Amines",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Reduction of Nitro Compounds, Nitriles & Amides",
+          "Gabriel Phthalimide Synthesis for Pure Primary Aliphatic Amines",
+          "Hofmann Bromamide Degradation Reaction (Step-down Reaction)"
+        ]
+      },
+      {
+        "id": "AMINES|BASICITY_OF_AMINES",
+        "name": "Basicity of Amines",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Basicity in Gaseous Phase (3 deg > 2 deg > 1 deg > NH3)",
+          "Basicity in Aqueous Medium: Combined Inductive, Solvation & Steric Effects (2 deg > 1 deg > 3 deg for Methyl; 2 deg > 3 deg > 1 deg for Ethyl)",
+          "Resonance Weakening of Arylamine Basicity (Aniline vs Alkylamines)"
+        ]
+      },
+      {
+        "id": "AMINES|CHEMICAL_TESTS_REACTIONS_OF_AMINES",
+        "name": "Chemical Tests & Reactions of Amines",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Carbylamine Test for Primary Amines (Isocyanide Formation)",
+          "Hinsberg's Test with Benzenesulfonyl Chloride (1, 2, 3 deg Distinction)",
+          "Reaction with Nitrous Acid (HNO2) & Alcohol/Diazonium Formation"
+        ]
+      },
+      {
+        "id": "AMINES|DIAZONIUM_SALTS_SYNTHETIC_TRANSFORMATIONS",
+        "name": "Diazonium Salts & Synthetic Transformations",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Diazotization of Aniline with NaNO2 + HCl at 0-5 deg C",
+          "Sandmeyer Reaction vs Gattermann Reaction",
+          "Azo Coupling Reactions with Phenol and Aniline (Dyes)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|BIOMOLECULES",
+    "chapterId": "BIOMOLECULES",
+    "name": "Biomolecules",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 29,
+    "weightage": "High",
+    "topics": [
+      {
+        "id": "BIOMOLECULES|CARBOHYDRATES_MONOSACCHARIDES_RING_STRUCTURES",
+        "name": "Carbohydrates: Monosaccharides & Ring Structures",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Classification: Aldoses, Ketoses, D/L Configuration",
+          "Glucose: Open-Chain Reactions, Limitations, Fischer to Haworth Projections",
+          "Anomers, Epimers & Mutarotation in Glucose and Fructose"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|DISACCHARIDES_POLYSACCHARIDES",
+        "name": "Disaccharides & Polysaccharides",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Glycosidic Bond Formation",
+          "Sucrose (Invert Sugar, Non-reducing), Maltose & Lactose",
+          "Starch (Amylose + Amylopectin), Cellulose & Glycogen"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|AMINO_ACIDS_PEPTIDES_PROTEINS",
+        "name": "Amino Acids, Peptides & Proteins",
+        "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Essential vs Non-essential Amino Acids",
+          "Zwitterion Form, Isoelectric Point (pI) & Optical Activity",
+          "Peptide Linkage & Primary, Secondary (alpha-helix, beta-pleated), Tertiary, Quaternary Structures",
+          "Denaturation of Proteins & Coagulation"
+        ]
+      },
+      {
+        "id": "BIOMOLECULES|NUCLEIC_ACIDS_ENZYMES_VITAMINS",
+        "name": "Nucleic Acids, Enzymes & Vitamins",
+        "order": 4,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Components: Purines, Pyrimidines, Ribose/Deoxyribose, Phosphate",
+          "Nucleoside vs Nucleotide & Phosphodiester Linkages",
+          "Double-Helical Structure of DNA (Watson-Crick Model) & Chargaff's Rules",
+          "Vitamins: Water-Soluble vs Fat-Soluble & Deficiency Diseases"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|POLYMERS",
+    "chapterId": "POLYMERS",
+    "name": "Polymers",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 30,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "POLYMERS|CLASSIFICATION_POLYMERIZATION_MECHANISMS",
+        "name": "Classification & Polymerization Mechanisms",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Natural, Semi-synthetic & Synthetic Polymers",
+          "Addition vs Condensation Polymerization Modes",
+          "Elastomers, Fibres, Thermoplastics, Thermosetting Plastics",
+          "Ziegler-Natta Coordination Polymerization for HDPE"
+        ]
+      },
+      {
+        "id": "POLYMERS|COMMERCIAL_POLYMERS_RUBBERS",
+        "name": "Commercial Polymers & Rubbers",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Polyamides: Nylon-6,6, Nylon-6 (Caprolactam)",
+          "Polyesters: Terylene / Dacron",
+          "Resins: Bakelite (Novolac intermediate), Melamine-Formaldehyde",
+          "Natural Rubber, Vulcanization & Synthetic Rubbers (Buna-S, Buna-N, Neoprene)"
+        ]
+      },
+      {
+        "id": "POLYMERS|BIODEGRADABLE_POLYMERS_MOLECULAR_MASS",
+        "name": "Biodegradable Polymers & Molecular Mass",
+        "order": 3,
+        "isKeyTopic": false,
+        "subtopics": [
+          "PHBV (poly beta-hydroxybutyrate-co-beta-hydroxyvalerate)",
+          "Nylon-2-nylon-6",
+          "Number-Average (Mn) vs Weight-Average (Mw) Molar Mass & PDI"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
+    "sourceYear": 2025,
+    "verificationStatus": "VERIFIED"
+  },
+  {
+    "id": "RBSE|CHEMISTRY|12|CHEMISTRY_IN_EVERYDAY_LIFE",
+    "chapterId": "CHEMISTRY_IN_EVERYDAY_LIFE",
+    "name": "Chemistry in Everyday Life",
+    "examId": "RBSE",
+    "classLevel": "12",
+    "subjectId": "CHEMISTRY",
+    "subjectName": "Chemistry",
+    "order": 31,
+    "weightage": "Medium",
+    "topics": [
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|DRUGS_PHARMACOLOGICAL_CLASSES",
+        "name": "Drugs & Pharmacological Classes",
+        "order": 1,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Drug-Target Interactions: Enzyme Inhibitors & Receptors",
+          "Antacids (H2-blockers: Ranitidine) & Antihistamines",
+          "Tranquilizers (Equanil, Valium) & Analgesics (Aspirin, Morphine)",
+          "Antiseptics (Dettol, Bithionol) vs Disinfectants (Phenol, Chlorine)",
+          "Antibiotics: Bactericidal vs Bacteriostatic & Broad Spectrum"
+        ]
+      },
+      {
+        "id": "CHEMISTRY_IN_EVERYDAY_LIFE|FOOD_CHEMISTRY_CLEANSING_AGENTS",
+        "name": "Food Chemistry & Cleansing Agents",
+        "order": 2,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Artificial Sweetening Agents: Aspartame, Saccharin, Sucralose, Alitame",
+          "Food Preservatives: Sodium Benzoate, Sorbic Acid Salts",
+          "Soaps: Saponification & Scum Formation in Hard Water",
+          "Synthetic Detergents: Anionic, Cationic, Non-ionic Types & Cleansing Action (Micelles)"
+        ]
+      }
+    ],
+    "sourceAuthority": "Rajasthan Board of Secondary Education",
+    "sourceURL": "https://rajeduboard.rajasthan.gov.in",
     "sourceYear": 2025,
     "verificationStatus": "VERIFIED"
   }
