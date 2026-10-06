@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo, useEffect, useCallback } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   BookOpen,
@@ -13,19 +13,24 @@ import {
   Check,
   Play,
   Layers,
+  ChevronDown,
+  ChevronUp,
   ChevronRight,
-  Filter,
   Flame,
   Award,
   BookMarked,
-  HelpCircle,
-  Clock,
   Eye,
   EyeOff,
   Tv,
-  Calendar
+  Calendar,
+  X,
+  ListTree,
+  Columns,
+  Maximize2,
+  Minimize2,
+  ExternalLink
 } from 'lucide-react';
-import { Card, Button, Badge } from '../components/common/UIComponents';
+import { Button } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
 import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
@@ -38,18 +43,389 @@ import {
   TopicFormula
 } from '../data/comprehensiveFormulaNotes';
 
+// --- Interactive Topic Card Sub-component ---
+interface TopicCardProps {
+  item: TopicRevisionItem;
+  isExpanded: boolean;
+  onToggle: () => void;
+  bookmarkedFormulaIds: Set<string>;
+  onToggleBookmark: (formulaId: string) => void;
+  onCopyFormula: (f: TopicFormula) => void;
+  copiedFormulaName: string | null;
+  targetExam: string;
+  navigate: ReturnType<typeof useNavigate>;
+  onAddToPlanner: (chapter: string, topic?: string) => void;
+}
+
+const TopicItemCard: React.FC<TopicCardProps> = ({
+  item,
+  isExpanded,
+  onToggle,
+  bookmarkedFormulaIds,
+  onToggleBookmark,
+  onCopyFormula,
+  copiedFormulaName,
+  targetExam,
+  navigate,
+  onAddToPlanner
+}) => {
+  const [revealedSolutions, setRevealedSolutions] = useState<Record<string, boolean>>({});
+
+  // Fetch topic practice questions synchronously only when expanded
+  const topicQuestions: Question[] = useMemo(() => {
+    if (!isExpanded) return [];
+    const examFilter = targetExam === 'NEET' ? 'NEET' : targetExam === 'JEE' ? 'JEE' : undefined;
+    let qs = questionService.filterQuestions({
+      subject: item.subject,
+      chapter: item.chapter,
+      topic: item.topic,
+      exam: examFilter,
+      includePYQs: true
+    });
+    if (qs.length === 0) {
+      qs = questionService.filterQuestions({
+        subject: item.subject,
+        chapter: item.chapter,
+        includePYQs: true
+      });
+    }
+    return qs;
+  }, [isExpanded, item.subject, item.chapter, item.topic, targetExam]);
+
+  const toggleSolution = (qId: string) => {
+    setRevealedSolutions((prev) => ({ ...prev, [qId]: !prev[qId] }));
+  };
+
+  const handleStartPractice = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (topicQuestions.length === 0) return;
+    const qIds = topicQuestions.slice(0, 20).map((q) => q.id);
+    navigate(
+      `/practice/session?chapter=${encodeURIComponent(item.chapter)}&topic=${encodeURIComponent(
+        item.topic
+      )}&subject=${encodeURIComponent(item.subject)}&ids=${encodeURIComponent(qIds.join(','))}`
+    );
+  };
+
+  return (
+    <div className="rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-white dark:bg-[#0c141d] shadow-xs overflow-hidden transition-all duration-200">
+      {/* Topic Card Clickable Header */}
+      <button
+        type="button"
+        onClick={onToggle}
+        className={`w-full text-left p-4 sm:p-4.5 flex items-start sm:items-center justify-between gap-3 transition-colors cursor-pointer ${
+          isExpanded
+            ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border-b border-emerald-100 dark:border-emerald-900/40'
+            : 'hover:bg-slate-50 dark:hover:bg-slate-800/40'
+        }`}
+      >
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-black text-xs sm:text-sm text-slate-900 dark:text-white">
+              {item.topic}
+            </span>
+            <span className="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-100 dark:bg-emerald-900/50 text-emerald-800 dark:text-emerald-300">
+              {item.formulas.length} Formulas
+            </span>
+            {item.weightage === 'High' && (
+              <span className="px-1.5 py-0.5 rounded-md text-[10px] font-bold bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
+                High Yield
+              </span>
+            )}
+          </div>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 line-clamp-1">
+            {item.concept}
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2 shrink-0 pt-0.5 sm:pt-0">
+          <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hidden sm:inline">
+            {isExpanded ? 'Hide Formulas' : 'View Formulas'}
+          </span>
+          <div
+            className={`w-7 h-7 rounded-lg flex items-center justify-center transition-all ${
+              isExpanded
+                ? 'bg-emerald-600 text-white rotate-180'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
+            }`}
+          >
+            <ChevronDown className="w-4 h-4" />
+          </div>
+        </div>
+      </button>
+
+      {/* Expanded Topic Details (Formulas, Short Notes, Questions) */}
+      {isExpanded && (
+        <div className="p-4 sm:p-5 space-y-5 animate-in fade-in duration-200">
+          {/* Concept Short Notes */}
+          <div className="space-y-2">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                <BookMarked className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Topic Summary & Key Notes</span>
+              </span>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onAddToPlanner(item.chapter, item.topic);
+                }}
+                className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+              >
+                <Calendar className="w-3 h-3" />
+                <span>+ Add to Planner</span>
+              </button>
+            </div>
+
+            <div className="space-y-1.5">
+              {item.shortNotes.map((note, nIdx) => (
+                <div
+                  key={nIdx}
+                  className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800 text-xs text-slate-800 dark:text-slate-200 flex items-start gap-2 leading-relaxed"
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                  <span>{note}</span>
+                </div>
+              ))}
+            </div>
+
+            {/* Exam Insights & Mnemonics */}
+            {item.keyPoints && item.keyPoints.length > 0 && (
+              <div className="p-3 rounded-xl bg-teal-50/70 dark:bg-teal-950/30 border border-teal-200/60 dark:border-teal-900/40 text-xs text-teal-900 dark:text-teal-200 space-y-1">
+                <div className="font-black text-[10px] uppercase tracking-wider text-teal-800 dark:text-teal-300 flex items-center gap-1">
+                  <Sparkles className="w-3 h-3 text-amber-500" />
+                  Exam Insights & Mnemonics
+                </div>
+                <ul className="list-disc list-inside space-y-0.5 text-[11px] font-medium">
+                  {item.keyPoints.map((kp, kpIdx) => (
+                    <li key={kpIdx}>{kp}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+
+          {/* Formulas List */}
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500 flex items-center gap-1.5">
+                <Layers className="w-3.5 h-3.5 text-emerald-600" />
+                <span>High-Yield Formulas ({item.formulas.length})</span>
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-3.5">
+              {item.formulas.map((f, fIdx) => {
+                const formulaUniqueId = `${item.id}-f-${fIdx}`;
+                const isBookmarked = bookmarkedFormulaIds.has(formulaUniqueId);
+                const isCopied = copiedFormulaName === f.name;
+
+                return (
+                  <div
+                    key={fIdx}
+                    className="p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-2.5 relative"
+                  >
+                    {/* Formula Name & Actions */}
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white">
+                        {f.name}
+                      </span>
+                      <div className="flex items-center gap-1">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onCopyFormula(f);
+                          }}
+                          title="Copy LaTeX Equation"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-200/60 dark:hover:bg-slate-800 transition"
+                        >
+                          {isCopied ? (
+                            <Check className="w-3.5 h-3.5 text-emerald-600" />
+                          ) : (
+                            <Copy className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            onToggleBookmark(formulaUniqueId);
+                          }}
+                          title="Bookmark formula"
+                          className="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition"
+                        >
+                          {isBookmarked ? (
+                            <BookmarkCheck className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+                          ) : (
+                            <Bookmark className="w-3.5 h-3.5" />
+                          )}
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* KaTeX Math Box */}
+                    <div className="p-3.5 rounded-xl bg-white dark:bg-[#0a1017] border border-emerald-200/50 dark:border-emerald-900/40 text-center overflow-x-auto shadow-2xs">
+                      <MathRenderer math={`\\[${f.formula}\\]`} />
+                    </div>
+
+                    {/* Variables */}
+                    <div className="text-[11px] text-slate-600 dark:text-slate-400 leading-snug">
+                      <strong className="text-slate-800 dark:text-slate-200">Variables: </strong>
+                      <span>{f.variables}</span>
+                    </div>
+
+                    {/* Pro Tip */}
+                    <div className="text-[11px] text-emerald-700 dark:text-emerald-300 font-medium">
+                      <strong>Pro-Tip: </strong>
+                      <span>{f.examTip}</span>
+                    </div>
+
+                    {/* Common Trap Warning */}
+                    {f.trap && (
+                      <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200/60 dark:border-rose-900/40 text-[11px] text-rose-800 dark:text-rose-300 flex items-start gap-2">
+                        <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
+                        <span>
+                          <strong>Common Trap: </strong>
+                          {f.trap}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Topic Practice Questions Section */}
+          <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200/70 dark:border-slate-800/80 space-y-3">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <div>
+                <span className="font-extrabold text-xs text-slate-900 dark:text-white flex items-center gap-1.5">
+                  <Play className="w-3.5 h-3.5 text-emerald-600 fill-current" />
+                  Topic Practice Questions ({topicQuestions.length})
+                </span>
+                <p className="text-[11px] text-slate-400">
+                  Solve real exam questions to lock in these formulas permanently.
+                </p>
+              </div>
+
+              {topicQuestions.length > 0 && (
+                <Button
+                  variant="primary"
+                  size="sm"
+                  onClick={handleStartPractice}
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs"
+                >
+                  <Play className="w-3 h-3 fill-current mr-1" />
+                  <span>Start Practice Session</span>
+                </Button>
+              )}
+            </div>
+
+            {/* Questions Preview (First 2 questions) */}
+            {topicQuestions.length > 0 && (
+              <div className="space-y-2.5 pt-1">
+                {topicQuestions.slice(0, 2).map((q, qIdx) => {
+                  const isRevealed = !!revealedSolutions[q.id];
+                  return (
+                    <div
+                      key={q.id}
+                      className="p-3 rounded-xl bg-white dark:bg-[#0c141d] border border-slate-200/80 dark:border-slate-800 space-y-2 text-xs"
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                          Q{qIdx + 1} • {q.difficulty}
+                        </span>
+                        <span className="text-[10px] text-slate-400">{q.source || 'PYQ'}</span>
+                      </div>
+
+                      <div className="font-medium text-slate-900 dark:text-white leading-relaxed">
+                        <MathRenderer math={q.question} />
+                      </div>
+
+                      {/* Options */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 pt-1">
+                        {q.options.map((opt, optIdx) => {
+                          const isCorrect = isRevealed && optIdx === q.correctAnswer;
+                          return (
+                            <div
+                              key={optIdx}
+                              className={`p-2 rounded-lg border text-[11px] flex items-center gap-1.5 ${
+                                isCorrect
+                                  ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 font-bold text-emerald-900 dark:text-emerald-300'
+                                  : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-700/60 text-slate-700 dark:text-slate-300'
+                              }`}
+                            >
+                              <span className="w-4 h-4 rounded bg-slate-200 dark:bg-slate-700 flex items-center justify-center font-bold text-[9px] shrink-0">
+                                {String.fromCharCode(65 + optIdx)}
+                              </span>
+                              <span className="truncate">
+                                <MathRenderer math={opt} />
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+
+                      {/* Toggle Solution */}
+                      <div className="pt-1.5 flex items-center justify-between border-t border-slate-100 dark:border-slate-800/80">
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            toggleSolution(q.id);
+                          }}
+                          className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+                        >
+                          {isRevealed ? <EyeOff className="w-3 h-3" /> : <Eye className="w-3 h-3" />}
+                          <span>{isRevealed ? 'Hide Solution' : 'Show Answer & Explanation'}</span>
+                        </button>
+                      </div>
+
+                      {isRevealed && (
+                        <div className="p-2.5 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 text-[11px] text-emerald-950 dark:text-emerald-200 space-y-1">
+                          <div className="font-black text-emerald-800 dark:text-emerald-300">
+                            Correct: Option {String.fromCharCode(65 + q.correctAnswer)}
+                          </div>
+                          <div>
+                            <MathRenderer
+                              math={q.explanation || 'Formula based direct application question.'}
+                            />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// --- Main Formula & Short Notes Hub Component ---
 export const FormulaNotesHub: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const user = userService.getProfile();
 
   const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
-  const initialSubject = (searchParams.get('subject') as SubjectName) || (allowedSubjects.includes('Physics') ? 'Physics' : allowedSubjects[0]);
+  const initialSubject =
+    (searchParams.get('subject') as SubjectName) ||
+    (allowedSubjects.includes('Physics') ? 'Physics' : allowedSubjects[0]);
 
   // Filters
   const [selectedSubject, setSelectedSubject] = useState<SubjectName>(initialSubject);
   const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const [viewMode, setViewMode] = useState<'accordion' | 'studio'>('accordion');
+  const [onlyBookmarked, setOnlyBookmarked] = useState<boolean>(false);
+
+  // Bookmarks in localStorage
   const [bookmarkedFormulaIds, setBookmarkedFormulaIds] = useState<Set<string>>(() => {
     try {
       const stored = JSON.parse(localStorage.getItem('prepora_bookmarked_formulas') || '[]');
@@ -61,12 +437,24 @@ export const FormulaNotesHub: React.FC = () => {
 
   const [copiedFormulaName, setCopiedFormulaName] = useState<string | null>(null);
   const [plannerMsg, setPlannerMsg] = useState<string | null>(null);
-  const [showQuestionsForTopic, setShowQuestionsForTopic] = useState<boolean>(true);
-  const [revealedSolutions, setRevealedSolutions] = useState<Record<string, boolean>>({});
+
+  // Accordion Expand/Collapse State
+  const [expandedChapters, setExpandedChapters] = useState<Set<string>>(new Set());
+  const [expandedTopics, setExpandedTopics] = useState<Set<string>>(new Set());
+
+  // Active Chapter & Topic for Split Studio View
+  const [activeChapter, setActiveChapter] = useState<string>('');
+  const [activeTopicId, setActiveTopicId] = useState<string>('');
 
   const handleAddToPlanner = (chapterName: string, topicName?: string) => {
     const days: ('Sunday' | 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday')[] = [
-      'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday'
     ];
     const currentDay = days[new Date().getDay()];
 
@@ -83,6 +471,22 @@ export const FormulaNotesHub: React.FC = () => {
     setTimeout(() => setPlannerMsg(null), 3000);
   };
 
+  const toggleBookmarkFormula = useCallback((formulaId: string) => {
+    setBookmarkedFormulaIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(formulaId)) next.delete(formulaId);
+      else next.add(formulaId);
+      localStorage.setItem('prepora_bookmarked_formulas', JSON.stringify(Array.from(next)));
+      return next;
+    });
+  }, []);
+
+  const handleCopyFormula = useCallback((f: TopicFormula) => {
+    navigator.clipboard.writeText(f.formula);
+    setCopiedFormulaName(f.name);
+    setTimeout(() => setCopiedFormulaName(null), 2000);
+  }, []);
+
   // Filter items matching subject and exam guard
   const subjectItems = useMemo(() => {
     return comprehensiveFormulaNotes.filter((item) => {
@@ -93,11 +497,20 @@ export const FormulaNotesHub: React.FC = () => {
     });
   }, [selectedSubject, selectedClass, user.targetExam]);
 
-  // Filtered by Search Query
+  // Filtered by Search Query & Bookmarked Filter
   const filteredItems = useMemo(() => {
-    if (!searchQuery.trim()) return subjectItems;
+    let list = subjectItems;
+
+    if (onlyBookmarked) {
+      list = list.filter((item) =>
+        item.formulas.some((_, idx) => bookmarkedFormulaIds.has(`${item.id}-f-${idx}`))
+      );
+    }
+
+    if (!searchQuery.trim()) return list;
+
     const q = searchQuery.toLowerCase().trim();
-    return subjectItems.filter((item) => {
+    return list.filter((item) => {
       const matchesChapter = item.chapter.toLowerCase().includes(q);
       const matchesTopic = item.topic.toLowerCase().includes(q);
       const matchesConcept = item.concept.toLowerCase().includes(q);
@@ -110,13 +523,9 @@ export const FormulaNotesHub: React.FC = () => {
       const matchesNotes = item.shortNotes.some((n) => n.toLowerCase().includes(q));
       return matchesChapter || matchesTopic || matchesConcept || matchesFormula || matchesNotes;
     });
-  }, [subjectItems, searchQuery]);
+  }, [subjectItems, searchQuery, onlyBookmarked, bookmarkedFormulaIds]);
 
-  // Active Selected Chapter and Topic
-  const [activeChapter, setActiveChapter] = useState<string>('');
-  const [activeTopicId, setActiveTopicId] = useState<string>('');
-
-  // Extract distinct chapters for the current subject
+  // Group into Chapters
   const distinctChapters = useMemo(() => {
     const map = new Map<string, TopicRevisionItem[]>();
     filteredItems.forEach((item) => {
@@ -132,19 +541,37 @@ export const FormulaNotesHub: React.FC = () => {
     }));
   }, [filteredItems]);
 
-  // Auto-select first chapter & topic if not selected
+  // Initialize expanded chapters & topics (default: open first chapter and first topic)
   useEffect(() => {
     if (distinctChapters.length > 0) {
-      const currentChapterExists = distinctChapters.some((c) => c.chapter === activeChapter);
-      if (!currentChapterExists) {
+      if (searchQuery.trim()) {
+        // Auto-expand all matching chapters and topics when searching
+        const allMatchingChs = new Set(distinctChapters.map((c) => c.chapter));
+        const allMatchingTopics = new Set(filteredItems.map((i) => i.id));
+        setExpandedChapters(allMatchingChs);
+        setExpandedTopics(allMatchingTopics);
+      } else {
+        // By default open the first chapter and first topic
+        const firstCh = distinctChapters[0].chapter;
+        setExpandedChapters(new Set([firstCh]));
+        const firstTopic = distinctChapters[0].items[0]?.id;
+        if (firstTopic) {
+          setExpandedTopics(new Set([firstTopic]));
+        }
+      }
+
+      // Sync active for split studio view
+      if (!activeChapter || !distinctChapters.some((c) => c.chapter === activeChapter)) {
         setActiveChapter(distinctChapters[0].chapter);
       }
     } else {
+      setExpandedChapters(new Set());
+      setExpandedTopics(new Set());
       setActiveChapter('');
     }
-  }, [distinctChapters, activeChapter]);
+  }, [distinctChapters.length, selectedSubject, selectedClass, searchQuery]);
 
-  // Topics in active chapter
+  // Studio Mode: Current Chapter Topics
   const currentChapterTopics = useMemo(() => {
     return filteredItems.filter((it) => it.chapter === activeChapter);
   }, [filteredItems, activeChapter]);
@@ -164,69 +591,58 @@ export const FormulaNotesHub: React.FC = () => {
     return currentChapterTopics.find((t) => t.id === activeTopicId) || currentChapterTopics[0] || null;
   }, [currentChapterTopics, activeTopicId]);
 
-  // Live Topic Practice Questions from Question Service
-  const [topicQuestions, setTopicQuestions] = useState<Question[]>([]);
-  const [isLoadingQuestions, setIsLoadingQuestions] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (!activeTopicItem) {
-      setTopicQuestions([]);
-      return;
-    }
-
-    setIsLoadingQuestions(true);
-    // Fetch matching questions for this chapter and topic from the repository
-    const questions = questionService.filterQuestions({
-      subject: activeTopicItem.subject,
-      chapter: activeTopicItem.chapter,
-      topic: activeTopicItem.topic,
-      exam: user.targetExam === 'NEET' ? 'NEET' : user.targetExam === 'JEE' ? 'JEE' : undefined,
-      includePYQs: true
-    });
-
-    if (questions.length > 0) {
-      setTopicQuestions(questions);
-      setIsLoadingQuestions(false);
-    } else {
-      // Fallback: broaden to chapter
-      const chapterQs = questionService.filterQuestions({
-        subject: activeTopicItem.subject,
-        chapter: activeTopicItem.chapter,
-        includePYQs: true
-      });
-      setTopicQuestions(chapterQs);
-      setIsLoadingQuestions(false);
-    }
-  }, [activeTopicItem, user.targetExam]);
-
-  // Toggle Bookmark Formula
-  const toggleBookmarkFormula = (formulaId: string) => {
-    setBookmarkedFormulaIds((prev) => {
+  // Toggle Chapter Accordion
+  const toggleChapter = (chapterName: string) => {
+    setExpandedChapters((prev) => {
       const next = new Set(prev);
-      if (next.has(formulaId)) next.delete(formulaId);
-      else next.add(formulaId);
-      localStorage.setItem('prepora_bookmarked_formulas', JSON.stringify(Array.from(next)));
+      if (next.has(chapterName)) {
+        next.delete(chapterName);
+      } else {
+        next.add(chapterName);
+        // Automatically expand the first topic of this chapter for immediate gratification!
+        const ch = distinctChapters.find((c) => c.chapter === chapterName);
+        if (ch && ch.items.length > 0) {
+          setExpandedTopics((prevTopics) => {
+            const nextTopics = new Set(prevTopics);
+            nextTopics.add(ch.items[0].id);
+            return nextTopics;
+          });
+        }
+      }
       return next;
     });
   };
 
-  // Copy Formula to Clipboard
-  const handleCopyFormula = (f: TopicFormula) => {
-    navigator.clipboard.writeText(f.formula);
-    setCopiedFormulaName(f.name);
-    setTimeout(() => setCopiedFormulaName(null), 2000);
+  // Toggle Topic Accordion
+  const toggleTopic = (topicId: string) => {
+    setExpandedTopics((prev) => {
+      const next = new Set(prev);
+      if (next.has(topicId)) {
+        next.delete(topicId);
+      } else {
+        next.add(topicId);
+      }
+      return next;
+    });
   };
 
-  // Launch Practice Session with Topic Questions
-  const handleStartTopicPractice = () => {
-    if (!activeTopicItem || topicQuestions.length === 0) return;
-    const qIds = topicQuestions.slice(0, 20).map((q) => q.id);
-    navigate(`/practice/session?chapter=${encodeURIComponent(activeTopicItem.chapter)}&topic=${encodeURIComponent(activeTopicItem.topic)}&subject=${encodeURIComponent(activeTopicItem.subject)}&ids=${encodeURIComponent(qIds.join(','))}`);
+  // Expand / Collapse All
+  const handleExpandAll = () => {
+    const allChs = new Set(distinctChapters.map((c) => c.chapter));
+    const allTops = new Set(filteredItems.map((i) => i.id));
+    setExpandedChapters(allChs);
+    setExpandedTopics(allTops);
   };
 
-  const toggleSolution = (qId: string) => {
-    setRevealedSolutions((prev) => ({ ...prev, [qId]: !prev[qId] }));
+  const handleCollapseAll = () => {
+    setExpandedChapters(new Set());
+    setExpandedTopics(new Set());
   };
+
+  // Total Formula count for current view
+  const totalFormulasInView = useMemo(() => {
+    return distinctChapters.reduce((sum, ch) => sum + ch.formulaCount, 0);
+  }, [distinctChapters]);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-200 pb-16 max-w-7xl mx-auto">
@@ -246,41 +662,42 @@ export const FormulaNotesHub: React.FC = () => {
         <div className="relative z-10 space-y-3 max-w-3xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 text-xs font-bold backdrop-blur-xs">
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span>Chapter Mastery & Instant Practice Engine</span>
+            <span>Topic-by-Topic Drill-Down Revision</span>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>100,000+ Question Repository</span>
+            <span>Target: {user.targetExam} 2026</span>
           </div>
 
           <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
-            Formula & Short Notes Hub
+            Topic-Wise Formula & Short Notes Hub
           </h1>
           <p className="text-emerald-100/90 text-xs sm:text-sm leading-relaxed">
-            Har chapter ke topic-by-topic short notes, high-yield mathematical formulas aur har topic ke direct practice questions. Quick revision karein aur turant questions solve karein!
+            Har chapter ke genuine topics, high-yield mathematical formulas, variables, pro-tips aur direct topic practice questions. Chapter par click karein topic khulega, aur topic par click karte hi uske saare formulas samne honge!
           </p>
 
           {/* Quick Stats Pill */}
           <div className="flex flex-wrap gap-2.5 pt-2">
             <div className="px-3 py-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold flex items-center gap-1.5">
               <BookOpen className="w-3.5 h-3.5 text-emerald-300" />
-              <span>{distinctChapters.length} Chapters Indexed</span>
+              <span>{distinctChapters.length} Chapters</span>
             </div>
             <div className="px-3 py-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold flex items-center gap-1.5">
               <Layers className="w-3.5 h-3.5 text-teal-300" />
-              <span>{subjectItems.length} Key Topics</span>
+              <span>{filteredItems.length} Topics</span>
             </div>
             <div className="px-3 py-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold flex items-center gap-1.5">
               <Flame className="w-3.5 h-3.5 text-amber-300" />
-              <span>Target: {user.targetExam} 2026</span>
+              <span>{totalFormulasInView} Formulas</span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Control Bar: Subject Tabs, Class Level & Search */}
-      <div className="bg-white dark:bg-[#0e1620] p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
-        {/* Subject Tabs (Subject isolation respected: NEET no Math, JEE no Bio) */}
+      {/* Control Bar: Subject Tabs, Class Level, Search, View Mode */}
+      <div className="bg-white dark:bg-[#0e1620] p-4 sm:p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
+        {/* Row 1: Subject Tabs & Class Filter */}
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap gap-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80">
+          {/* Subject Tabs */}
+          <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
             {allowedSubjects.map((sub) => (
               <button
                 key={sub}
@@ -289,7 +706,7 @@ export const FormulaNotesHub: React.FC = () => {
                   setSelectedSubject(sub);
                   setSearchQuery('');
                 }}
-                className={`px-4 py-2 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                   selectedSubject === sub
                     ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
                     : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
@@ -300,16 +717,15 @@ export const FormulaNotesHub: React.FC = () => {
             ))}
           </div>
 
-          {/* Class Filter */}
-          <div className="flex items-center gap-2">
-            <span className="text-xs font-bold text-slate-500 hidden sm:inline">Class:</span>
-            <div className="flex gap-1 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80">
+          {/* Class Filter & View Switcher */}
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
               {(['All', '11', '12'] as const).map((cls) => (
                 <button
                   key={cls}
                   type="button"
                   onClick={() => setSelectedClass(cls)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     selectedClass === cls
                       ? 'bg-emerald-600 text-white shadow-xs'
                       : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
@@ -319,422 +735,417 @@ export const FormulaNotesHub: React.FC = () => {
                 </button>
               ))}
             </div>
+
+            {/* View Mode Switcher */}
+            <div className="hidden md:flex gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
+              <button
+                type="button"
+                onClick={() => setViewMode('accordion')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  viewMode === 'accordion'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
+                }`}
+                title="Accordion Drill-Down View (Chapter -> Topics -> Formulas)"
+              >
+                <ListTree className="w-3.5 h-3.5" />
+                <span>Drill-Down View</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode('studio')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                  viewMode === 'studio'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
+                }`}
+                title="Split Studio View (Side-by-side)"
+              >
+                <Columns className="w-3.5 h-3.5" />
+                <span>Studio View</span>
+              </button>
+            </div>
           </div>
         </div>
 
-        {/* Search Bar */}
-        <div className="relative">
-          <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={`Search ${selectedSubject} formulas, topics, concepts (e.g. Carnot, Nernst, Projectile, Integration)...`}
-            className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          />
-        </div>
-      </div>
-
-      {/* Main Two-Column Hub Content */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column: Chapters List (4 cols) */}
-        <div className="lg:col-span-4 space-y-2">
-          <div className="flex items-center justify-between px-1">
-            <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">
-              {selectedSubject} Chapters ({distinctChapters.length})
-            </span>
+        {/* Row 2: Search Bar & Quick Toggles */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+          <div className="relative flex-1">
+            <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder={`Search ${selectedSubject} formulas, topics, concepts (e.g. Bernoulli, Projectile, Nernst, Integration)...`}
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => setSearchQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
           </div>
 
-          <div className="space-y-1.5 max-h-[750px] overflow-y-auto pr-1">
-            {distinctChapters.length === 0 ? (
-              <div className="p-6 text-center text-xs text-slate-400 bg-white dark:bg-[#0e1620] rounded-2xl border border-slate-200 dark:border-slate-800">
-                Koi chapter match nahi hua. Search clear karein.
+          <div className="flex items-center gap-2 shrink-0">
+            {/* Bookmarked Filter */}
+            <button
+              type="button"
+              onClick={() => setOnlyBookmarked((prev) => !prev)}
+              className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${
+                onlyBookmarked
+                  ? 'bg-amber-500 text-white border-amber-600 shadow-xs'
+                  : 'bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100'
+              }`}
+            >
+              <Bookmark className={`w-3.5 h-3.5 ${onlyBookmarked ? 'fill-white' : ''}`} />
+              <span>Bookmarks ({bookmarkedFormulaIds.size})</span>
+            </button>
+
+            {/* Expand / Collapse All (For Accordion View) */}
+            {viewMode === 'accordion' && (
+              <div className="flex items-center gap-1">
+                <button
+                  type="button"
+                  onClick={handleExpandAll}
+                  className="px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition cursor-pointer"
+                  title="Expand All Chapters & Topics"
+                >
+                  <Maximize2 className="w-3.5 h-3.5" />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleCollapseAll}
+                  className="px-2.5 py-2 rounded-xl text-xs font-bold bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 transition cursor-pointer"
+                  title="Collapse All Chapters & Topics"
+                >
+                  <Minimize2 className="w-3.5 h-3.5" />
+                </button>
               </div>
-            ) : (
-              distinctChapters.map((ch) => {
-                const isActive = ch.chapter === activeChapter;
-                return (
-                  <button
-                    key={ch.chapter}
-                    type="button"
-                    onClick={() => setActiveChapter(ch.chapter)}
-                    className={`w-full text-left p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
-                      isActive
-                        ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-950 dark:text-emerald-200 shadow-sm'
-                        : 'bg-white dark:bg-[#0e1620] border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-800 dark:text-slate-200'
-                    }`}
-                  >
-                    <div className="min-w-0">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">
-                          Class {ch.classLevel}
-                        </span>
-                        {ch.weightage === 'High' && (
-                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
-                            High Yield
-                          </span>
-                        )}
-                      </div>
-                      <div className="font-extrabold text-xs sm:text-sm mt-1 truncate">
-                        {ch.chapter}
-                      </div>
-                      <div className="text-[11px] text-slate-400 mt-0.5">
-                        {ch.items.length} Topics • {ch.formulaCount} Formulas
-                      </div>
-                    </div>
-                    <ChevronRight
-                      className={`w-4 h-4 shrink-0 transition-transform ${
-                        isActive ? 'text-emerald-600 dark:text-emerald-400 translate-x-1' : 'text-slate-400'
-                      }`}
-                    />
-                  </button>
-                );
-              })
             )}
           </div>
         </div>
+      </div>
 
-        {/* Right Column: Active Chapter, Topics, Short Notes, Formulas & Questions (8 cols) */}
-        <div className="lg:col-span-8 space-y-6">
-          {activeTopicItem ? (
-            <>
-              {/* Chapter Header Card with Topic Navigation Pills */}
-              <div className="bg-white dark:bg-[#0e1620] p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
-                  <div>
-                    <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                      <span>{activeTopicItem.subject}</span>
-                      <span>•</span>
-                      <span>Class {activeTopicItem.classLevel}</span>
+      {/* --- MODE 1: ACCORDION DRILL-DOWN VIEW (Default: Chapter -> Topic -> Formulas) --- */}
+      {viewMode === 'accordion' && (
+        <div className="space-y-4">
+          {distinctChapters.length === 0 ? (
+            <div className="bg-white dark:bg-[#0e1620] p-12 text-center rounded-3xl border border-slate-200 dark:border-slate-800 space-y-2">
+              <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
+                <BookOpen className="w-6 h-6" />
+              </div>
+              <h3 className="text-sm font-extrabold text-slate-800 dark:text-slate-200">
+                Koi formula ya chapter match nahi hua
+              </h3>
+              <p className="text-xs text-slate-400">
+                Search term badlein ya filter reset karein.
+              </p>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setSearchQuery('');
+                  setOnlyBookmarked(false);
+                  setSelectedClass('All');
+                }}
+                className="mt-2 text-xs"
+              >
+                Reset Filters
+              </Button>
+            </div>
+          ) : (
+            distinctChapters.map((chGroup) => {
+              const isChapterOpen = expandedChapters.has(chGroup.chapter);
+
+              return (
+                <div
+                  key={chGroup.chapter}
+                  className={`rounded-3xl border transition-all duration-200 overflow-hidden ${
+                    isChapterOpen
+                      ? 'bg-white dark:bg-[#0e1620] border-emerald-500/80 shadow-md shadow-emerald-950/5'
+                      : 'bg-white dark:bg-[#0e1620] border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-xs'
+                  }`}
+                >
+                  {/* Chapter Header Card */}
+                  <div
+                    onClick={() => toggleChapter(chGroup.chapter)}
+                    className="p-4 sm:p-5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 cursor-pointer select-none transition-colors hover:bg-slate-50/50 dark:hover:bg-slate-800/30"
+                  >
+                    <div className="min-w-0 flex-1">
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
+                          Class {chGroup.classLevel}
+                        </span>
+                        {chGroup.weightage === 'High' && (
+                          <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
+                            High Yield
+                          </span>
+                        )}
+                        <span className="text-xs font-bold text-slate-400">
+                          {selectedSubject}
+                        </span>
+                      </div>
+
+                      <h2 className="text-base sm:text-lg font-black text-slate-900 dark:text-white mt-1 tracking-tight">
+                        {chGroup.chapter}
+                      </h2>
+
+                      <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                        <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                          {chGroup.items.length} Topics
+                        </span>
+                        <span>•</span>
+                        <span className="font-semibold">
+                          {chGroup.formulaCount} Mathematical Formulas
+                        </span>
+                      </div>
                     </div>
-                    <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-0.5 tracking-tight">
-                      {activeTopicItem.chapter}
-                    </h2>
-                  </div>
 
-                  <div className="flex flex-wrap items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => navigate(`/lectures?subject=${encodeURIComponent(activeTopicItem.subject)}&chapter=${encodeURIComponent(activeTopicItem.chapter)}`)}
-                      className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors"
-                      title="Watch best YouTube lecture for this chapter"
-                    >
-                      <Tv className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>Watch Lecture</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      onClick={() => handleAddToPlanner(activeTopicItem.chapter, activeTopicItem.topic)}
-                      className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors"
-                      title="Add to study planner"
-                    >
-                      <Calendar className="w-3.5 h-3.5 text-emerald-500" />
-                      <span>+ Add to Planner</span>
-                    </button>
-
-                    <Button
-                      variant="primary"
-                      size="sm"
-                      onClick={handleStartTopicPractice}
-                      disabled={topicQuestions.length === 0}
-                      className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20"
-                    >
-                      <Play className="w-3.5 h-3.5 fill-current mr-1.5" />
-                      <span>Practice Topic ({topicQuestions.length} Qs)</span>
-                    </Button>
-                  </div>
-                </div>
-
-                {/* Topic Selector Pills */}
-                <div>
-                  <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
-                    Select Topic:
-                  </span>
-                  <div className="flex flex-wrap gap-1.5">
-                    {currentChapterTopics.map((item) => (
+                    {/* Chapter Action Buttons & Accordion Trigger */}
+                    <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
+                      {/* Watch YouTube Lecture */}
                       <button
-                        key={item.id}
                         type="button"
-                        onClick={() => setActiveTopicId(item.id)}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                          item.id === activeTopicId
-                            ? 'bg-emerald-600 text-white shadow-xs font-black'
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(
+                            `/lectures?subject=${encodeURIComponent(
+                              selectedSubject
+                            )}&chapter=${encodeURIComponent(chGroup.chapter)}`
+                          );
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Watch full YouTube lecture for this chapter"
+                      >
+                        <Tv className="w-3.5 h-3.5 text-emerald-500" />
+                        <span className="hidden sm:inline">Watch Lecture</span>
+                      </button>
+
+                      {/* Add to Planner */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleAddToPlanner(chGroup.chapter);
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Add chapter revision to study planner"
+                      >
+                        <Calendar className="w-3.5 h-3.5 text-emerald-500" />
+                        <span className="hidden sm:inline">+ Planner</span>
+                      </button>
+
+                      {/* Open/Close Accordion Button */}
+                      <div
+                        className={`w-9 h-9 rounded-xl flex items-center justify-center transition-all ${
+                          isChapterOpen
+                            ? 'bg-emerald-600 text-white rotate-180 shadow-xs'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                         }`}
                       >
-                        {item.topic}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              {/* SECTION 1: High-Yield Short Notes */}
-              <div className="bg-white dark:bg-[#0e1620] p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 flex items-center justify-center">
-                      <BookMarked className="w-4 h-4" />
-                    </div>
-                    <div>
-                      <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">
-                        Topic Short Notes: {activeTopicItem.topic}
-                      </h3>
-                      <p className="text-[11px] text-slate-400">{activeTopicItem.concept}</p>
+                        <ChevronDown className="w-4 h-4" />
+                      </div>
                     </div>
                   </div>
-                </div>
 
-                {/* Bullet Points */}
-                <div className="space-y-2 pt-1">
-                  {activeTopicItem.shortNotes.map((note, idx) => (
-                    <div
-                      key={idx}
-                      className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800 flex items-start gap-2.5 text-xs text-slate-800 dark:text-slate-200 leading-relaxed"
-                    >
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
-                      <span>{note}</span>
-                    </div>
-                  ))}
-                </div>
+                  {/* Inside Chapter: List of Topics */}
+                  {isChapterOpen && (
+                    <div className="px-4 sm:px-6 pb-6 pt-2 border-t border-slate-100 dark:border-slate-800/80 bg-slate-50/40 dark:bg-slate-900/20 space-y-3 animate-in fade-in duration-150">
+                      <div className="flex items-center justify-between pt-1 pb-1">
+                        <span className="text-[11px] font-black uppercase tracking-wider text-slate-400 dark:text-slate-500">
+                          {chGroup.items.length} Chapter Topics (Click topic to see formulas):
+                        </span>
+                        <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400">
+                          Tap any topic below
+                        </span>
+                      </div>
 
-                {/* Key Memory Takeaways */}
-                {activeTopicItem.keyPoints.length > 0 && (
-                  <div className="p-3.5 rounded-2xl bg-teal-50/70 dark:bg-teal-950/30 border border-teal-200/60 dark:border-teal-900/40 space-y-1.5">
-                    <span className="text-[11px] font-black text-teal-800 dark:text-teal-300 uppercase tracking-wider flex items-center gap-1">
-                      <Sparkles className="w-3 h-3 text-amber-500" />
-                      Crucial Exam Insights & Mnemonics
-                    </span>
-                    <ul className="list-disc list-inside space-y-1 text-xs text-teal-900 dark:text-teal-200/90 font-medium">
-                      {activeTopicItem.keyPoints.map((kp, idx) => (
-                        <li key={idx}>{kp}</li>
+                      {chGroup.items.map((item) => (
+                        <TopicItemCard
+                          key={item.id}
+                          item={item}
+                          isExpanded={expandedTopics.has(item.id)}
+                          onToggle={() => toggleTopic(item.id)}
+                          bookmarkedFormulaIds={bookmarkedFormulaIds}
+                          onToggleBookmark={toggleBookmarkFormula}
+                          onCopyFormula={handleCopyFormula}
+                          copiedFormulaName={copiedFormulaName}
+                          targetExam={user.targetExam}
+                          navigate={navigate}
+                          onAddToPlanner={handleAddToPlanner}
+                        />
                       ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-
-              {/* SECTION 2: Key Formulas & Mathematical Equations */}
-              <div className="space-y-3">
-                <div className="flex items-center justify-between px-1">
-                  <h3 className="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
-                    <Layers className="w-4 h-4 text-emerald-600" />
-                    <span>Essential Formulas ({activeTopicItem.formulas.length})</span>
-                  </h3>
-                </div>
-
-                <div className="space-y-4">
-                  {activeTopicItem.formulas.map((f, idx) => {
-                    const formulaUniqueId = `${activeTopicItem.id}-f-${idx}`;
-                    const isBookmarked = bookmarkedFormulaIds.has(formulaUniqueId);
-                    const isCopied = copiedFormulaName === f.name;
-
-                    return (
-                      <div
-                        key={idx}
-                        className="bg-white dark:bg-[#0e1620] p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-3 relative overflow-hidden"
-                      >
-                        {/* Formula Title & Actions */}
-                        <div className="flex items-center justify-between gap-3">
-                          <span className="font-extrabold text-xs text-slate-800 dark:text-slate-200">
-                            {f.name}
-                          </span>
-                          <div className="flex items-center gap-1.5">
-                            <button
-                              type="button"
-                              onClick={() => handleCopyFormula(f)}
-                              title="Copy LaTeX formula"
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
-                            >
-                              {isCopied ? (
-                                <Check className="w-3.5 h-3.5 text-emerald-600" />
-                              ) : (
-                                <Copy className="w-3.5 h-3.5" />
-                              )}
-                            </button>
-                            <button
-                              type="button"
-                              onClick={() => toggleBookmarkFormula(formulaUniqueId)}
-                              title="Bookmark formula for rapid revision"
-                              className="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
-                            >
-                              {isBookmarked ? (
-                                <BookmarkCheck className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                              ) : (
-                                <Bookmark className="w-3.5 h-3.5" />
-                              )}
-                            </button>
-                          </div>
-                        </div>
-
-                        {/* KaTeX Equation Display Box */}
-                        <div className="p-4 rounded-2xl bg-emerald-50/40 dark:bg-emerald-950/20 border border-emerald-200/40 dark:border-emerald-900/30 overflow-x-auto text-center">
-                          <MathRenderer math={`\\[${f.formula}\\]`} />
-                        </div>
-
-                        {/* Variable Definitions */}
-                        <div className="text-[11px] text-slate-500 dark:text-slate-400">
-                          <strong className="text-slate-700 dark:text-slate-300">Variables: </strong>
-                          <span>{f.variables}</span>
-                        </div>
-
-                        {/* Exam Tip */}
-                        <div className="text-[11px] text-emerald-700 dark:text-emerald-300 font-medium">
-                          <strong>Pro-Tip: </strong>
-                          <span>{f.examTip}</span>
-                        </div>
-
-                        {/* Common Trap Alert */}
-                        {f.trap && (
-                          <div className="p-2.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200/60 dark:border-rose-900/40 text-[11px] text-rose-800 dark:text-rose-300 flex items-start gap-2">
-                            <AlertTriangle className="w-3.5 h-3.5 text-rose-600 shrink-0 mt-0.5" />
-                            <span>
-                              <strong>Common Trap: </strong>
-                              {f.trap}
-                            </span>
-                          </div>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* SECTION 3: Live Topic Practice Questions from 100k+ Repository */}
-              <div className="bg-white dark:bg-[#0e1620] p-5 sm:p-6 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-xl bg-teal-50 dark:bg-teal-950/60 text-teal-600 flex items-center justify-center font-black text-xs">
-                      {topicQuestions.length}
                     </div>
-                    <div>
-                      <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">
-                        Topic Practice Questions ({topicQuestions.length})
-                      </h3>
-                      <p className="text-[11px] text-slate-400">
-                        Solve real {activeTopicItem.topic} questions to lock in the formulas.
-                      </p>
-                    </div>
-                  </div>
-
-                  <Button
-                    variant="primary"
-                    size="sm"
-                    onClick={handleStartTopicPractice}
-                    disabled={topicQuestions.length === 0}
-                    className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs"
-                  >
-                    <span>Start Practice Session</span>
-                    <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                  </Button>
+                  )}
                 </div>
-
-                {isLoadingQuestions ? (
-                  <div className="p-8 text-center text-xs text-slate-400 animate-pulse">
-                    Loading topic questions from question bank...
-                  </div>
-                ) : topicQuestions.length === 0 ? (
-                  <div className="p-6 text-center text-xs text-slate-400">
-                    Is topic ke questions load nahi huye. Broaden topic filter.
-                  </div>
-                ) : (
-                  <div className="space-y-3.5">
-                    {/* Preview first 3 questions right on this page */}
-                    {topicQuestions.slice(0, 3).map((q, idx) => {
-                      const isRevealed = !!revealedSolutions[q.id];
-                      return (
-                        <div
-                          key={q.id}
-                          className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800 space-y-3"
-                        >
-                          <div className="flex items-center justify-between gap-2">
-                            <span className="text-[10px] font-extrabold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
-                              Question #{idx + 1} • {q.difficulty}
-                            </span>
-                            <span className="text-[10px] text-slate-400 font-bold">{q.source || 'PYQ'}</span>
-                          </div>
-
-                          <div className="text-xs font-semibold text-slate-900 dark:text-white leading-relaxed">
-                            <MathRenderer math={q.question} />
-                          </div>
-
-                          {/* Options Grid */}
-                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
-                            {q.options.map((opt, optIdx) => {
-                              const isCorrect = isRevealed && optIdx === q.correctAnswer;
-                              return (
-                                <div
-                                  key={optIdx}
-                                  className={`p-2.5 rounded-xl border text-xs flex items-center gap-2 ${
-                                    isCorrect
-                                      ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 font-bold text-emerald-900 dark:text-emerald-300'
-                                      : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300'
-                                  }`}
-                                >
-                                  <span className="w-5 h-5 rounded-md bg-slate-100 dark:bg-slate-700 flex items-center justify-center font-bold text-[10px] shrink-0">
-                                    {String.fromCharCode(65 + optIdx)}
-                                  </span>
-                                  <span className="truncate">
-                                    <MathRenderer math={opt} />
-                                  </span>
-                                </div>
-                              );
-                            })}
-                          </div>
-
-                          {/* Toggle Solution */}
-                          <div className="pt-2 flex items-center justify-between border-t border-slate-200/60 dark:border-slate-800">
-                            <button
-                              type="button"
-                              onClick={() => toggleSolution(q.id)}
-                              className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
-                            >
-                              {isRevealed ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
-                              <span>{isRevealed ? 'Hide Solution' : 'Show Answer & Explanation'}</span>
-                            </button>
-                            <span className="text-[10px] text-slate-400">
-                              Estimated Time: {q.recommendedTimeSeconds || 60}s
-                            </span>
-                          </div>
-
-                          {isRevealed && (
-                            <div className="p-3 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-900/60 text-xs text-emerald-950 dark:text-emerald-200 space-y-1 animate-in fade-in duration-150">
-                              <div className="font-black text-[11px] text-emerald-800 dark:text-emerald-300">
-                                Correct Answer: Option {String.fromCharCode(65 + q.correctAnswer)}
-                              </div>
-                              <div className="text-[11px] leading-relaxed">
-                                <MathRenderer math={q.explanation || 'By applying the fundamental formula above, we reach this conclusion.'} />
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      );
-                    })}
-
-                    {topicQuestions.length > 3 && (
-                      <div className="text-center pt-2">
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={handleStartTopicPractice}
-                          className="text-xs font-bold"
-                        >
-                          View All {topicQuestions.length} Questions in Practice Session →
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-            </>
-          ) : (
-            <div className="bg-white dark:bg-[#0e1620] p-12 text-center rounded-3xl border border-slate-200 dark:border-slate-800 text-xs text-slate-400">
-              Left panel se koi chapter select karein.
-            </div>
+              );
+            })
           )}
         </div>
-      </div>
+      )}
+
+      {/* --- MODE 2: SPLIT STUDIO VIEW (Side-by-side 2-column layout) --- */}
+      {viewMode === 'studio' && (
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          {/* Left Column: Chapters List (4 cols) */}
+          <div className="lg:col-span-4 space-y-2">
+            <div className="flex items-center justify-between px-1">
+              <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+                {selectedSubject} Chapters ({distinctChapters.length})
+              </span>
+            </div>
+
+            <div className="space-y-1.5 max-h-[750px] overflow-y-auto pr-1">
+              {distinctChapters.length === 0 ? (
+                <div className="p-6 text-center text-xs text-slate-400 bg-white dark:bg-[#0e1620] rounded-2xl border border-slate-200 dark:border-slate-800">
+                  Koi chapter match nahi hua. Search clear karein.
+                </div>
+              ) : (
+                distinctChapters.map((ch) => {
+                  const isActive = ch.chapter === activeChapter;
+                  return (
+                    <button
+                      key={ch.chapter}
+                      type="button"
+                      onClick={() => setActiveChapter(ch.chapter)}
+                      className={`w-full text-left p-3.5 rounded-2xl border transition-all cursor-pointer flex items-center justify-between gap-3 ${
+                        isActive
+                          ? 'bg-emerald-50 dark:bg-emerald-950/50 border-emerald-500 text-emerald-950 dark:text-emerald-200 shadow-sm'
+                          : 'bg-white dark:bg-[#0e1620] border-slate-200/80 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-800 dark:text-slate-200'
+                      }`}
+                    >
+                      <div className="min-w-0">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500">
+                            Class {ch.classLevel}
+                          </span>
+                          {ch.weightage === 'High' && (
+                            <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
+                              High Yield
+                            </span>
+                          )}
+                        </div>
+                        <div className="font-extrabold text-xs sm:text-sm mt-1 truncate">
+                          {ch.chapter}
+                        </div>
+                        <div className="text-[11px] text-slate-400 mt-0.5">
+                          {ch.items.length} Topics • {ch.formulaCount} Formulas
+                        </div>
+                      </div>
+                      <ChevronRight
+                        className={`w-4 h-4 shrink-0 transition-transform ${
+                          isActive
+                            ? 'text-emerald-600 dark:text-emerald-400 translate-x-1'
+                            : 'text-slate-400'
+                        }`}
+                      />
+                    </button>
+                  );
+                })
+              )}
+            </div>
+          </div>
+
+          {/* Right Column: Active Chapter & Topics Studio (8 cols) */}
+          <div className="lg:col-span-8 space-y-6">
+            {activeTopicItem ? (
+              <div className="space-y-4">
+                {/* Chapter Header Card with Topic Navigation Pills */}
+                <div className="bg-white dark:bg-[#0e1620] p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800/80 pb-4">
+                    <div>
+                      <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                        <span>{activeTopicItem.subject}</span>
+                        <span>•</span>
+                        <span>Class {activeTopicItem.classLevel}</span>
+                      </div>
+                      <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white mt-0.5 tracking-tight">
+                        {activeTopicItem.chapter}
+                      </h2>
+                    </div>
+
+                    <div className="flex flex-wrap items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() =>
+                          navigate(
+                            `/lectures?subject=${encodeURIComponent(
+                              activeTopicItem.subject
+                            )}&chapter=${encodeURIComponent(activeTopicItem.chapter)}`
+                          )
+                        }
+                        className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Watch best YouTube lecture for this chapter"
+                      >
+                        <Tv className="w-3.5 h-3.5 text-emerald-500" />
+                        <span>Watch Lecture</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleAddToPlanner(activeTopicItem.chapter, activeTopicItem.topic)
+                        }
+                        className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Add to study planner"
+                      >
+                        <Calendar className="w-3.5 h-3.5 text-emerald-500" />
+                        <span>+ Add to Planner</span>
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Topic Selector Pills */}
+                  <div>
+                    <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+                      Select Topic:
+                    </span>
+                    <div className="flex flex-wrap gap-1.5">
+                      {currentChapterTopics.map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => setActiveTopicId(item.id)}
+                          className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                            item.id === activeTopicId
+                              ? 'bg-emerald-600 text-white shadow-xs font-black'
+                              : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                          }`}
+                        >
+                          {item.topic}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Render TopicCard always expanded in studio mode */}
+                <TopicItemCard
+                  key={activeTopicItem.id}
+                  item={activeTopicItem}
+                  isExpanded={true}
+                  onToggle={() => {}}
+                  bookmarkedFormulaIds={bookmarkedFormulaIds}
+                  onToggleBookmark={toggleBookmarkFormula}
+                  onCopyFormula={handleCopyFormula}
+                  copiedFormulaName={copiedFormulaName}
+                  targetExam={user.targetExam}
+                  navigate={navigate}
+                  onAddToPlanner={handleAddToPlanner}
+                />
+              </div>
+            ) : (
+              <div className="bg-white dark:bg-[#0e1620] p-12 text-center rounded-3xl border border-slate-200 dark:border-slate-800 text-xs text-slate-400">
+                Left panel se koi chapter select karein.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 };
