@@ -190,9 +190,21 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       setIsLoading(false);
 
       if (res.success) {
-        // OTP verified: immediately prompt student to create their custom password (mandatory, no skip)
-        setStep('create-password');
-        setSuccessMsg('WhatsApp OTP verified successfully! Create your password below.');
+        if (res.isNewUser || !res.hasPassword) {
+          // First-time registration or account without password: create password
+          setStep('create-password');
+          setSuccessMsg('WhatsApp OTP verified successfully! Create your password below.');
+        } else {
+          // Existing student with password: log in immediately
+          setSuccessMsg('Logged in successfully!');
+          setTimeout(() => {
+            if (clean === '7742735762') {
+              navigate('/admin', { replace: true });
+            } else {
+              navigate(redirectTo, { replace: true });
+            }
+          }, 300);
+        }
       } else {
         setError(res.message || 'Incorrect OTP code. Please enter 9999.');
       }

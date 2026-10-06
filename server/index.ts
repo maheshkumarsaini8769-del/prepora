@@ -1,6 +1,7 @@
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 
 import healthRoutes from './routes/health.routes.js';
@@ -48,6 +49,18 @@ app.use(mongoSanitizer);
 
 // Connect to MongoDB
 connectDB();
+
+// Serverless / Auto-reconnect safety: Ensure DB is connected before processing requests
+app.use(async (_req, _res, next) => {
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch {
+      // Allow route to proceed or handle offline state
+    }
+  }
+  next();
+});
 
 // API Routes
 app.use('/api/health', healthRoutes);

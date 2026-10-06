@@ -215,12 +215,19 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Mobile number/email and password are required.' });
     }
 
-    const isPhone = /^\+?[0-9\s-]{8,15}$/.test(raw) || (!raw.includes('@') && /^\d+$/.test(raw));
-    const normalizedPhone = isPhone ? raw.replace(/[^0-9]/g, '').slice(-10) : undefined;
+    const digitsOnly = raw.replace(/[^0-9]/g, '');
+    const isPhone = !raw.includes('@') && digitsOnly.length >= 10;
+    const normalizedPhone = isPhone ? digitsOnly.slice(-10) : undefined;
     const normalizedEmail = !isPhone ? raw.toLowerCase().trim() : undefined;
 
     const user = normalizedPhone
-      ? await User.findOne({ $or: [{ phone: normalizedPhone }, { email: `phone_${normalizedPhone}@prepora.student` }] })
+      ? await User.findOne({
+          $or: [
+            { phone: normalizedPhone },
+            { mobile: normalizedPhone },
+            { email: `phone_${normalizedPhone}@prepora.student` }
+          ]
+        })
       : await User.findOne({ email: normalizedEmail });
 
     // Explicit Super Admin Credentials check requested by owner (Email or Phone 7742735762)
