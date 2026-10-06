@@ -21,6 +21,7 @@ import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { PlannerTask, SubjectName } from '../types';
 import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
+import { canonicalSyllabus } from '../data/canonicalSyllabusData';
 
 interface PlannerConfig {
   targetExam: string;
@@ -136,6 +137,14 @@ export const StudyPlanner: React.FC = () => {
   const [newTaskType, setNewTaskType] = useState<PlannerTask['taskType']>('Practice');
   const [newTaskDuration, setNewTaskDuration] = useState<number>(30);
   const [newTaskNotes, setNewTaskNotes] = useState<string>('');
+
+  // Auto-complete chapters for selected subject
+  const subjectChapters = useMemo(() => {
+    const chs = canonicalSyllabus
+      .filter((c) => c.subjectName === newTaskSubject)
+      .map((c) => c.name);
+    return Array.from(new Set(chs)).sort();
+  }, [newTaskSubject]);
 
   const handleSaveConfig = (newConfig: Partial<PlannerConfig>) => {
     const updated = { ...config, ...newConfig };
@@ -574,12 +583,18 @@ export const StudyPlanner: React.FC = () => {
             <label className="font-semibold text-slate-700 dark:text-slate-200 block mb-1">Chapter Name</label>
             <input
               type="text"
+              list="planner-chapters"
               value={newTaskChapter}
               onChange={(e) => setNewTaskChapter(e.target.value)}
               placeholder="e.g. Kinematics, Chemical Bonding..."
               className="w-full p-2 rounded-lg border border-slate-200 dark:border-slate-800"
               required
             />
+            <datalist id="planner-chapters">
+              {subjectChapters.map((ch) => (
+                <option key={ch} value={ch} />
+              ))}
+            </datalist>
           </div>
 
           <div className="grid grid-cols-2 gap-3">

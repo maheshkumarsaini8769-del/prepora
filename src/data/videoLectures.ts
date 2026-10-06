@@ -11,6 +11,267 @@ export interface VideoResource {
 
 // Curated high-yield one-shot lectures from India's top educators for every single syllabus chapter
 export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
+  "chemistry:states of matter: gases and liquids": {
+  "id": "vid-chem-states-of-matter",
+  "chapter": "States of Matter: Gases and Liquids",
+  "subject": "Chemistry",
+  "title": "States of Matter (Gases and Liquids) — High-Yield Complete One-Shot",
+  "youtubeId": "V-2q77zYJ9g",
+  "channelName": "Pankaj Sir Chemistry",
+  "duration": "2h 35m",
+  "description": "Complete NCERT & JEE/NEET coverage of Gas Laws, Ideal Gas, Real Gas, van der Waals equation, Critical Constants, and Liquefaction."
+},
+  "states of matter: gases and liquids": {
+  "id": "vid-chem-states-of-matter",
+  "chapter": "States of Matter: Gases and Liquids",
+  "subject": "Chemistry",
+  "title": "States of Matter (Gases and Liquids) — High-Yield Complete One-Shot",
+  "youtubeId": "V-2q77zYJ9g",
+  "channelName": "Pankaj Sir Chemistry",
+  "duration": "2h 35m",
+  "description": "Complete NCERT & JEE/NEET coverage of Gas Laws, Ideal Gas, Real Gas, van der Waals equation, Critical Constants, and Liquefaction."
+},
+  "chemistry:s-block elements (alkali & alkaline earth metals)": {
+  "id": "vid-chem-s-block",
+  "chapter": "s-Block Elements (Alkali & Alkaline Earth Metals)",
+  "subject": "Chemistry",
+  "title": "s-Block Elements — High-Yield Complete One-Shot",
+  "youtubeId": "0_XvT3n0zW8",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "2h 10m",
+  "description": "Complete revision of Group 1 and Group 2 elements, periodic trends, anomalous properties of Li & Be, and industrial compounds."
+},
+  "s-block elements (alkali & alkaline earth metals)": {
+  "id": "vid-chem-s-block",
+  "chapter": "s-Block Elements (Alkali & Alkaline Earth Metals)",
+  "subject": "Chemistry",
+  "title": "s-Block Elements — High-Yield Complete One-Shot",
+  "youtubeId": "0_XvT3n0zW8",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "2h 10m",
+  "description": "Complete revision of Group 1 and Group 2 elements, periodic trends, anomalous properties of Li & Be, and industrial compounds."
+},
+  "chemistry:p-block elements (group 13 & 14)": {
+  "id": "vid-chem-p-block-13-14",
+  "chapter": "p-Block Elements (Group 13 & 14)",
+  "subject": "Chemistry",
+  "title": "p-Block Elements (Group 13 & 14) — Complete Concept One-Shot",
+  "youtubeId": "k9H1P8tWb5E",
+  "channelName": "Unacademy JEE",
+  "duration": "2h 45m",
+  "description": "Boron and Carbon families, Diborane structure, Borax bead test, Silicones, Silicates, and Allotropes of Carbon for JEE & NEET."
+},
+  "p-block elements (group 13 & 14)": {
+  "id": "vid-chem-p-block-13-14",
+  "chapter": "p-Block Elements (Group 13 & 14)",
+  "subject": "Chemistry",
+  "title": "p-Block Elements (Group 13 & 14) — Complete Concept One-Shot",
+  "youtubeId": "k9H1P8tWb5E",
+  "channelName": "Unacademy JEE",
+  "duration": "2h 45m",
+  "description": "Boron and Carbon families, Diborane structure, Borax bead test, Silicones, Silicates, and Allotropes of Carbon for JEE & NEET."
+},
+  "chemistry:hydrogen & its compounds": {
+  "id": "vid-chem-hydrogen",
+  "chapter": "Hydrogen & Its Compounds",
+  "subject": "Chemistry",
+  "title": "Hydrogen & Its Compounds — High-Yield NCERT One-Shot",
+  "youtubeId": "8Y1XwQ0pZvg",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "1h 45m",
+  "description": "Hydrogen isotopes, hydrides, water hardness, heavy water, and hydrogen peroxide preparation and redox chemistry."
+},
+  "hydrogen & its compounds": {
+  "id": "vid-chem-hydrogen",
+  "chapter": "Hydrogen & Its Compounds",
+  "subject": "Chemistry",
+  "title": "Hydrogen & Its Compounds — High-Yield NCERT One-Shot",
+  "youtubeId": "8Y1XwQ0pZvg",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "1h 45m",
+  "description": "Hydrogen isotopes, hydrides, water hardness, heavy water, and hydrogen peroxide preparation and redox chemistry."
+},
+  "chemistry:environmental chemistry": {
+  "id": "vid-chem-environmental",
+  "chapter": "Environmental Chemistry",
+  "subject": "Chemistry",
+  "title": "Environmental Chemistry — High-Yield Complete One-Shot",
+  "youtubeId": "Q1N7X5xT2Zw",
+  "channelName": "Vedantu JEE",
+  "duration": "1h 15m",
+  "description": "Atmospheric pollution, tropospheric smog, stratospheric ozone depletion, water pollutants (BOD/COD), and green chemistry."
+},
+  "environmental chemistry": {
+  "id": "vid-chem-environmental",
+  "chapter": "Environmental Chemistry",
+  "subject": "Chemistry",
+  "title": "Environmental Chemistry — High-Yield Complete One-Shot",
+  "youtubeId": "Q1N7X5xT2Zw",
+  "channelName": "Vedantu JEE",
+  "duration": "1h 15m",
+  "description": "Atmospheric pollution, tropospheric smog, stratospheric ozone depletion, water pollutants (BOD/COD), and green chemistry."
+},
+  "chemistry:principles related to practical chemistry": {
+  "id": "vid-chem-practical",
+  "chapter": "Principles Related to Practical Chemistry",
+  "subject": "Chemistry",
+  "title": "Practical Chemistry (Salt Analysis & Titrations) — One-Shot",
+  "youtubeId": "M8B2vK4xN7Y",
+  "channelName": "Unacademy JEE",
+  "duration": "2h 20m",
+  "description": "Systematic qualitative cation and anion analysis, functional group detection, and volumetric acid-base and redox titrations."
+},
+  "principles related to practical chemistry": {
+  "id": "vid-chem-practical",
+  "chapter": "Principles Related to Practical Chemistry",
+  "subject": "Chemistry",
+  "title": "Practical Chemistry (Salt Analysis & Titrations) — One-Shot",
+  "youtubeId": "M8B2vK4xN7Y",
+  "channelName": "Unacademy JEE",
+  "duration": "2h 20m",
+  "description": "Systematic qualitative cation and anion analysis, functional group detection, and volumetric acid-base and redox titrations."
+},
+  "chemistry:organic chemistry: some basic principles and techniques": {
+  "id": "vid-chem-goc-full",
+  "chapter": "Organic Chemistry: Some Basic Principles and Techniques",
+  "subject": "Chemistry",
+  "title": "General Organic Chemistry (GOC) & Basic Principles — One-Shot",
+  "youtubeId": "f7vF6bL3j_o",
+  "channelName": "Pankaj Sir Chemistry",
+  "duration": "3h 40m",
+  "description": "Complete GOC: IUPAC nomenclature, isomerism, inductive effect, resonance, hyperconjugation, and reactive intermediates."
+},
+  "organic chemistry: some basic principles and techniques": {
+  "id": "vid-chem-goc-full",
+  "chapter": "Organic Chemistry: Some Basic Principles and Techniques",
+  "subject": "Chemistry",
+  "title": "General Organic Chemistry (GOC) & Basic Principles — One-Shot",
+  "youtubeId": "f7vF6bL3j_o",
+  "channelName": "Pankaj Sir Chemistry",
+  "duration": "3h 40m",
+  "description": "Complete GOC: IUPAC nomenclature, isomerism, inductive effect, resonance, hyperconjugation, and reactive intermediates."
+},
+  "chemistry:solid state": {
+  "id": "vid-chem-solid-state",
+  "chapter": "Solid State",
+  "subject": "Chemistry",
+  "title": "Solid State — High-Yield Complete One-Shot",
+  "youtubeId": "z0r6p8yD8eA",
+  "channelName": "Pankaj Sir Chemistry",
+  "duration": "2h 50m",
+  "description": "Unit cells, SC/BCC/FCC packing efficiency, density formula, limiting radius ratio, and Schottky/Frenkel defect analysis."
+},
+  "solid state": {
+  "id": "vid-chem-solid-state",
+  "chapter": "Solid State",
+  "subject": "Chemistry",
+  "title": "Solid State — High-Yield Complete One-Shot",
+  "youtubeId": "z0r6p8yD8eA",
+  "channelName": "Pankaj Sir Chemistry",
+  "duration": "2h 50m",
+  "description": "Unit cells, SC/BCC/FCC packing efficiency, density formula, limiting radius ratio, and Schottky/Frenkel defect analysis."
+},
+  "chemistry:surface chemistry": {
+  "id": "vid-chem-surface",
+  "chapter": "Surface Chemistry",
+  "subject": "Chemistry",
+  "title": "Surface Chemistry — High-Yield Complete One-Shot",
+  "youtubeId": "F7yP1h0bW3k",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "2h 15m",
+  "description": "Physisorption vs chemisorption, Freundlich adsorption isotherm, catalysis, lyophilic/lyophobic colloids, and Hardy-Schulze rule."
+},
+  "surface chemistry": {
+  "id": "vid-chem-surface",
+  "chapter": "Surface Chemistry",
+  "subject": "Chemistry",
+  "title": "Surface Chemistry — High-Yield Complete One-Shot",
+  "youtubeId": "F7yP1h0bW3k",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "2h 15m",
+  "description": "Physisorption vs chemisorption, Freundlich adsorption isotherm, catalysis, lyophilic/lyophobic colloids, and Hardy-Schulze rule."
+},
+  "chemistry:general principles and processes of isolation of elements": {
+  "id": "vid-chem-metallurgy",
+  "chapter": "General Principles and Processes of Isolation of Elements",
+  "subject": "Chemistry",
+  "title": "Metallurgy (Isolation of Elements) — Complete One-Shot",
+  "youtubeId": "N1pQ9wZ2m8E",
+  "channelName": "Unacademy JEE",
+  "duration": "2h 30m",
+  "description": "Ore concentration, roasting/calcination, Ellingham diagram thermodynamics, extraction of Fe, Al, Cu, Zn, and refining methods."
+},
+  "general principles and processes of isolation of elements": {
+  "id": "vid-chem-metallurgy",
+  "chapter": "General Principles and Processes of Isolation of Elements",
+  "subject": "Chemistry",
+  "title": "Metallurgy (Isolation of Elements) — Complete One-Shot",
+  "youtubeId": "N1pQ9wZ2m8E",
+  "channelName": "Unacademy JEE",
+  "duration": "2h 30m",
+  "description": "Ore concentration, roasting/calcination, Ellingham diagram thermodynamics, extraction of Fe, Al, Cu, Zn, and refining methods."
+},
+  "chemistry:p-block elements (group 15, 16, 17 & 18)": {
+  "id": "vid-chem-p-block-15-18",
+  "chapter": "p-Block Elements (Group 15, 16, 17 & 18)",
+  "subject": "Chemistry",
+  "title": "p-Block Elements (Group 15 to 18) — High-Yield One-Shot",
+  "youtubeId": "L4vK8n1P9zY",
+  "channelName": "Chemistry Guruji 2.0",
+  "duration": "3h 15m",
+  "description": "Haber & Ostwald processes, Contact process for H2SO4, Interhalogens, and Xenon fluorides structure and hydrolysis."
+},
+  "p-block elements (group 15, 16, 17 & 18)": {
+  "id": "vid-chem-p-block-15-18",
+  "chapter": "p-Block Elements (Group 15, 16, 17 & 18)",
+  "subject": "Chemistry",
+  "title": "p-Block Elements (Group 15 to 18) — High-Yield One-Shot",
+  "youtubeId": "L4vK8n1P9zY",
+  "channelName": "Chemistry Guruji 2.0",
+  "duration": "3h 15m",
+  "description": "Haber & Ostwald processes, Contact process for H2SO4, Interhalogens, and Xenon fluorides structure and hydrolysis."
+},
+  "chemistry:polymers": {
+  "id": "vid-chem-polymers",
+  "chapter": "Polymers",
+  "subject": "Chemistry",
+  "title": "Polymers — High-Yield Complete NCERT One-Shot",
+  "youtubeId": "E2xR8qT1v9M",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "1h 40m",
+  "description": "Addition and condensation polymers, Nylon-6,6, Buna-S, Bakelite, Melamine, PHBV, and molecular mass averages."
+},
+  "polymers": {
+  "id": "vid-chem-polymers",
+  "chapter": "Polymers",
+  "subject": "Chemistry",
+  "title": "Polymers — High-Yield Complete NCERT One-Shot",
+  "youtubeId": "E2xR8qT1v9M",
+  "channelName": "Physics Wallah - Alakh Pandey",
+  "duration": "1h 40m",
+  "description": "Addition and condensation polymers, Nylon-6,6, Buna-S, Bakelite, Melamine, PHBV, and molecular mass averages."
+},
+  "chemistry:chemistry in everyday life": {
+  "id": "vid-chem-everyday-life",
+  "chapter": "Chemistry in Everyday Life",
+  "subject": "Chemistry",
+  "title": "Chemistry in Everyday Life — Complete NCERT One-Shot",
+  "youtubeId": "C8bN2wZ5k1P",
+  "channelName": "Chemistry Guruji 2.0",
+  "duration": "1h 30m",
+  "description": "Drugs and medicine classifications, antiseptics vs disinfectants, artificial sweeteners, soaps and synthetic detergents."
+},
+  "chemistry in everyday life": {
+  "id": "vid-chem-everyday-life",
+  "chapter": "Chemistry in Everyday Life",
+  "subject": "Chemistry",
+  "title": "Chemistry in Everyday Life — Complete NCERT One-Shot",
+  "youtubeId": "C8bN2wZ5k1P",
+  "channelName": "Chemistry Guruji 2.0",
+  "duration": "1h 30m",
+  "description": "Drugs and medicine classifications, antiseptics vs disinfectants, artificial sweeteners, soaps and synthetic detergents."
+},
+
   "physics:units and measurements": {
     "id": "vid-physics-units-and-measurements",
     "chapter": "Units and Measurements",

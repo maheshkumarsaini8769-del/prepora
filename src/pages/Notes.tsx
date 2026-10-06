@@ -81,12 +81,25 @@ export const Notes: React.FC = () => {
     setTimeout(() => setToastMsg(null), 3000);
   };
 
+  // Sync state if URL query param changes
+  useEffect(() => {
+    const s = searchParams.get('subject') as SubjectName | null;
+    const c = searchParams.get('chapter') || '';
+    const q = searchParams.get('q') || '';
+    if (s && allowedSubjects.includes(s)) {
+      setSelectedSubject(s);
+    }
+    if (q || c) {
+      setSearchQuery(q || c);
+    }
+  }, [searchParams, allowedSubjects]);
+
   // 1. FILTER CURATED HIGH-YIELD REVISION NOTES
   const filteredCuratedNotes = useMemo(() => {
     return comprehensiveFormulaNotes.filter((item) => {
       if (!isSubjectAllowedForExam(item.subject, user.targetExam)) return false;
       if (selectedSubject !== 'All' && item.subject !== selectedSubject) return false;
-      if (selectedClass !== 'All' && item.classLevel !== selectedClass) return false;
+      if (!searchQuery.trim() && selectedClass !== 'All' && item.classLevel !== selectedClass) return false;
 
       if (searchQuery.trim()) {
         const q = searchQuery.toLowerCase().trim();
@@ -98,7 +111,19 @@ export const Notes: React.FC = () => {
         const matchesFormulas = item.formulas.some(
           (f) => f.name.toLowerCase().includes(q) || f.formula.toLowerCase().includes(q)
         );
-        return matchesChapter || matchesTopic || matchesConcept || matchesNotes || matchesKeyPoints || matchesFormulas;
+
+        // Also check individual words for multi-word phrases
+        const words = q.split(/\s+/).filter((w) => w.length > 2);
+        const wordMatch =
+          words.length > 1 &&
+          words.some(
+            (w) =>
+              item.chapter.toLowerCase().includes(w) ||
+              item.topic.toLowerCase().includes(w) ||
+              item.concept.toLowerCase().includes(w)
+          );
+
+        return matchesChapter || matchesTopic || matchesConcept || matchesNotes || matchesKeyPoints || matchesFormulas || wordMatch;
       }
 
       return true;

@@ -80,21 +80,6 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       });
     }
 
-    // CRITICAL: Strictly ONE active session per student at a time!
-    // If user's current active session ID does not match this session, it was revoked by a newer login on the same account!
-    if (user.currentSessionId && session.id !== user.currentSessionId && session.sessionId !== user.currentSessionId) {
-      session.isRevoked = true;
-      session.status = 'REVOKED';
-      session.revokedAt = new Date();
-      session.revocationReason = 'NEW_LOGIN_ON_OTHER_DEVICE';
-      await session.save().catch(() => null);
-
-      return res.status(401).json({
-        success: false,
-        code: 'SESSION_REVOKED_ANOTHER_DEVICE',
-        message: 'Your account was signed in on another device.'
-      });
-    }
 
     // Update session last active time
     session.lastActive = new Date();

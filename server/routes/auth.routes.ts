@@ -53,8 +53,8 @@ function parseDeviceInfo(req: Request) {
   return { device, browser, os, userAgent, ipAddress };
 }
 
-// Helper: Strictly SINGLE active authenticated session per student.
-// When a student logs in on another phone/browser, all previous sessions for that user/phone are immediately revoked!
+// Helper: Multi-device authenticated session manager.
+// Allows seamless cross-device study (e.g. phone + laptop concurrently, up to 5 devices).
 async function createSingleActiveSession(user: { id: string; studentId?: string; email: string; role: string; phone?: string; mobile?: string }, req: Request) {
   const now = new Date();
   const phone = (user as any).phone || (user as any).mobile;
@@ -67,28 +67,23 @@ async function createSingleActiveSession(user: { id: string; studentId?: string;
     matchOr.push({ mobile: phone });
   }
 
-  // Detect and revoke all prior active sessions for this user / phone
-  const activeSessions = await Session.find({ $or: matchOr, isRevoked: false });
-  if (activeSessions.length > 0) {
+  // Allow up to 5 concurrent active sessions (phone, laptop, tablet).
+  // If user exceeds 5 devices, gracefully prune only the oldest inactive session.
+  const activeSessions = await Session.find({ $or: matchOr, isRevoked: false }).sort({ lastActive: 1 });
+  if (activeSessions.length >= 5) {
+    const toRevoke = activeSessions.slice(0, activeSessions.length - 4);
+    const revokeIds = toRevoke.map((s) => s._id);
     await Session.updateMany(
-      { $or: matchOr, isRevoked: false },
+      { _id: { $in: revokeIds } },
       {
         $set: {
           isRevoked: true,
           status: 'REVOKED',
           revokedAt: now,
-          revocationReason: 'NEW_LOGIN_ON_OTHER_DEVICE'
+          revocationReason: 'MAX_DEVICES_EXCEEDED'
         }
       }
     );
-
-    await LoginHistory.create({
-      id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
-      studentId: user.studentId || user.id,
-      eventType: 'SESSION_REVOKED',
-      reason: 'Revoked due to new login on another device or browser',
-      timestamp: now
-    }).catch(() => null);
   }
 
   const sessionId = `sess-${Date.now()}-${randomBytes(4).toString('hex')}`;
