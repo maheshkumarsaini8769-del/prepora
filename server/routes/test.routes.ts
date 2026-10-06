@@ -73,7 +73,9 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       topics,
       topic,
       includePYQs = true,
-      questionCount = 10,
+      questionCount,
+      totalQuestions,
+      count,
       difficulty = 'Mixed',
       durationMinutes = 30,
       negativeMarking = true,
@@ -84,6 +86,11 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
     if (!exam || !subjects || subjects.length === 0) {
       return res.status(400).json({ success: false, message: 'Exam and subjects are required.' });
     }
+
+    const cleanExam = (exam || '').trim().toUpperCase();
+    const effectiveExam: 'JEE' | 'NEET' | 'Board' =
+      cleanExam.includes('JEE') ? 'JEE' : cleanExam.includes('NEET') ? 'NEET' : cleanExam.includes('BOARD') ? 'Board' : 'JEE';
+    const finalCount = Math.max(1, Math.min(100, Number(totalQuestions || questionCount || count || 10)));
 
     // Build complete set of questions to EXCLUDE (so students NEVER get repeated questions)
     const effectiveExclude = new Set<string>(
@@ -123,10 +130,10 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
     }
 
     const filter: any = {
-      exam,
+      exam: effectiveExam,
       subject: { $in: subjects }
     };
-    if (classLevel && classLevel !== 'All' && exam !== 'JEE' && exam !== 'NEET') {
+    if (classLevel && classLevel !== 'All' && effectiveExam !== 'JEE' && effectiveExam !== 'NEET') {
       filter.class = classLevel;
     }
     if (difficulty && difficulty !== 'Mixed' && difficulty !== 'All') filter.difficulty = difficulty;
@@ -151,10 +158,10 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       filter.id = { $nin: Array.from(effectiveExclude) };
     }
 
-    // Repo-first: expanded in-memory bank (~1 lakh) is the canonical source
+    // Repo-first: expanded in-memory bank is the canonical source
     // Pass excludeIds to ensure fresh, unattempted questions!
     let pool: any[] = questionRepo.filter({
-      exam,
+      exam: effectiveExam,
       subjects,
       chapters,
       topics: activeTopics || undefined,
@@ -165,11 +172,12 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       excludeIds: Array.from(effectiveExclude)
     });
 
-    // Mongo overlay: admin-created questions not present in the file bank
+    // Mongo overlay: only admin-created or custom questions not present in the file bank
     if (mongoose.connection.readyState === 1) {
       try {
         const seen = new Set(pool.map(q => String(q.id || q._id)));
-        const mongoExtra = await Question.find(filter);
+        const customFilter = { ...filter, $or: [{ isCustom: true }, { source: 'Admin' }, { isAiGenerated: true }] };
+        const mongoExtra = await Question.find(customFilter).limit(50).lean();
         for (const q of mongoExtra) {
           const qid = String((q as any).id || q._id);
           if (!seen.has(qid) && !effectiveExclude.has(qid)) {
@@ -185,29 +193,30 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
     // Chapter/topic-specific tests must NEVER include off-chapter/off-topic questions.
     // If the bank is short, surface underflow to the UI (Continue with N / Generate more with AI).
     const hasChapterOrTopic = (chapters && chapters.length > 0) || !!(activeTopics && activeTopics.length > 0);
-    if (pool.length < questionCount && hasChapterOrTopic) {
+    if (pool.length < finalCount && hasChapterOrTopic) {
       return res.json({
         success: true,
         isUnderflow: true,
         availableCount: pool.length,
-        requestedCount: questionCount,
+        requestedCount: finalCount,
         message: `Only ${pool.length} fresh questions available for the selected chapter/topic.`
       });
     }
 
     // Subject-wide tests (no chapter/topic) may pad from the broader subject pool without repeating past questions
-    if (pool.length < questionCount) {
+    if (pool.length < finalCount) {
       const existingIds = new Set(pool.map(q => String(q.id || q._id)));
       const broader = questionRepo.filter({
-        exam,
+        exam: effectiveExam,
         subjects,
+        includeModelPapers: false,
         excludeIds: Array.from(effectiveExclude)
       });
       for (const q of broader) {
         if (!existingIds.has(q.id) && !effectiveExclude.has(q.id)) {
           pool.push(q);
           existingIds.add(q.id);
-          if (pool.length >= questionCount) break;
+          if (pool.length >= finalCount) break;
         }
       }
     }
@@ -215,7 +224,7 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
     // If all questions in the bank were exhausted, safely recycle unexcluded pool
     if (pool.length === 0) {
       pool = questionRepo.filter({
-        exam,
+        exam: effectiveExam,
         subjects,
         chapters,
         topics: activeTopics || undefined,
@@ -232,20 +241,20 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       const j = Math.floor(Math.random() * (i + 1));
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
-    const selected = shuffled.slice(0, questionCount);
+    const selected = shuffled.slice(0, finalCount);
     const questionIds = selected.map(q => String(q.id || (q as any)._id));
 
     const markPerQ = 4;
-    const maxScore = questionCount * markPerQ;
+    const maxScore = questionIds.length * markPerQ;
 
     const testData = {
       id: `custom-test-${Date.now()}`,
-      title: title || `Custom ${exam} Test (${questionCount} Qs)`,
-      exam,
+      title: title || `Custom ${effectiveExam} Test (${questionIds.length} Qs)`,
+      exam: effectiveExam,
       classLevel,
       subjects,
       chapters: chapters || [],
-      totalQuestions: questionCount,
+      totalQuestions: questionIds.length,
       durationMinutes,
       difficulty,
       questionIds,

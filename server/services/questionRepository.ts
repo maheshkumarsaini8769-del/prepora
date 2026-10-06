@@ -133,7 +133,8 @@ export class QuestionRepository {
       excludeIds
     } = filters;
 
-    const isCompetitive = exam === 'JEE' || exam === 'JEE_MAIN' || exam === 'JEE_ADVANCED' || exam === 'NEET';
+    const normExam = (exam || '').trim().toUpperCase();
+    const isCompetitive = normExam === 'JEE' || normExam === 'JEE_MAIN' || normExam === 'JEE_ADVANCED' || normExam === 'NEET';
     const norm = (v: any) => String(v ?? '').trim().toLowerCase();
     const excludeSet = excludeIds && Array.isArray(excludeIds) && excludeIds.length > 0 ? new Set(excludeIds) : null;
 
@@ -152,15 +153,16 @@ export class QuestionRepository {
         if (isPYQ) return false;
       }
 
-      // Exam matching
-      if (exam && exam !== 'All') {
-        if (exam === 'JEE' || exam === 'JEE_MAIN' || exam === 'JEE_ADVANCED') {
-          if (q.exam && q.exam !== 'JEE' && q.exam !== 'JEE_MAIN' && q.exam !== 'JEE_ADVANCED' && q.exam !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
-        } else if (exam === 'NEET') {
-          if (q.exam && q.exam !== 'NEET' && q.exam !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
-        } else if (exam === 'Board' || exam === 'CBSE' || exam === 'RBSE') {
-          if (q.exam !== 'Board' && q.exam !== 'CBSE' && q.exam !== 'RBSE') return false;
-        } else if (q.exam !== exam) {
+      // Exam matching (case-insensitive and tolerant)
+      if (normExam && normExam !== 'ALL') {
+        const qExam = (q.exam || '').trim().toUpperCase();
+        if (normExam === 'JEE' || normExam === 'JEE_MAIN' || normExam === 'JEE_ADVANCED') {
+          if (qExam && qExam !== 'JEE' && qExam !== 'JEE_MAIN' && qExam !== 'JEE_ADVANCED' && qExam !== 'ALL' && qExam !== 'BOARD' && qExam !== 'CBSE') return false;
+        } else if (normExam === 'NEET') {
+          if (qExam && qExam !== 'NEET' && qExam !== 'ALL' && qExam !== 'BOARD' && qExam !== 'CBSE') return false;
+        } else if (normExam === 'BOARD' || normExam === 'CBSE' || normExam === 'RBSE') {
+          if (qExam !== 'BOARD' && qExam !== 'CBSE' && qExam !== 'RBSE') return false;
+        } else if (qExam !== normExam) {
           return false;
         }
       }

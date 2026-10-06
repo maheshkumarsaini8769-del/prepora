@@ -100,8 +100,18 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
     // Derive marks per correct question from test's maxScore / totalQuestions (default 4)
     const marksPerCorrect = (test.maxScore && test.totalQuestions) ? test.maxScore / test.totalQuestions : 4;
 
+    const normalizeSub = (s: string) => {
+      const lower = String(s || '').trim().toLowerCase();
+      if (lower === 'physics') return 'Physics';
+      if (lower === 'chemistry') return 'Chemistry';
+      if (lower === 'mathematics' || lower === 'math' || lower === 'maths') return 'Mathematics';
+      if (lower === 'biology' || lower === 'bio') return 'Biology';
+      return s ? s.charAt(0).toUpperCase() + s.slice(1) : 'General';
+    };
+
     test.subjects.forEach(sub => {
-      subjectStats[sub] = { total: 0, attempted: 0, correct: 0, wrong: 0, score: 0, timeSpent: 0 };
+      const norm = normalizeSub(sub);
+      subjectStats[norm] = { total: 0, attempted: 0, correct: 0, wrong: 0, score: 0, timeSpent: 0 };
     });
 
     const evaluatedAnswers: Record<string, any> = {};
@@ -119,7 +129,7 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
       const q = questionMap.get(qId);
       if (!q) return;
 
-      const sub = q.subject;
+      const sub = normalizeSub(q.subject);
       if (!subjectStats[sub]) {
         subjectStats[sub] = { total: 0, attempted: 0, correct: 0, wrong: 0, score: 0, timeSpent: 0 };
       }
