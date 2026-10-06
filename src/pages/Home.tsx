@@ -329,11 +329,11 @@ export const Home: React.FC = () => {
                 </div>
                 <div className="min-w-0">
                   <p className="text-sm font-black text-amber-700 dark:text-amber-400 flex items-center gap-1.5">
-                    <span>Streak toot jayegi!</span>
+                    <span>Streak At Risk!</span>
                     <span className="text-[10px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300">Action Required</span>
                   </p>
                   <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
-                    Tumhara goal <strong>{prepType}</strong> todna hai na? Aaj ke <strong>{user.dailyGoalQuestions || 25} sawal</strong> abhi start karo aur apni streak bachao!
+                    Ready to conquer <strong>{prepType}</strong>? Solve your <strong>{user.dailyGoalQuestions || 25} daily questions</strong> now to keep your streak alive!
                   </p>
                 </div>
               </div>
@@ -344,7 +344,7 @@ export const Home: React.FC = () => {
                 }}
                 className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
               >
-                Daily Goal Start Karo ({user.dailyGoalQuestions || 25} Qs) →
+                Start Daily Goal ({user.dailyGoalQuestions || 25} Qs) →
               </button>
             </div>
       ) : (user.todayQuestionsCount || 0) < (user.dailyGoalQuestions || 25) ? (
@@ -355,13 +355,13 @@ export const Home: React.FC = () => {
             </div>
             <div className="min-w-0">
               <p className="text-sm font-black text-teal-800 dark:text-teal-300 flex items-center gap-1.5">
-                <span>Streak Safe Rakhne Ka Target Chalu Hai!</span>
+                <span>Daily Streak Goal in Progress!</span>
                 <span className="text-[10px] uppercase tracking-wider font-extrabold px-1.5 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900/40 text-teal-700 dark:text-teal-300">
                   {user.todayQuestionsCount}/{user.dailyGoalQuestions || 25} Solved
                 </span>
               </p>
               <p className="text-xs text-slate-600 dark:text-slate-300 font-medium mt-0.5">
-                Great momentum! Bas <strong>{(user.dailyGoalQuestions || 25) - (user.todayQuestionsCount || 0)} sawal aur</strong> solve karo aur aaj ki streak 100% secure karo!
+                Great momentum! Solve just <strong>{(user.dailyGoalQuestions || 25) - (user.todayQuestionsCount || 0)} more question{((user.dailyGoalQuestions || 25) - (user.todayQuestionsCount || 0)) === 1 ? '' : 's'}</strong> to secure today's streak!
               </p>
             </div>
           </div>
@@ -372,7 +372,7 @@ export const Home: React.FC = () => {
             }}
             className="px-4 py-2 rounded-xl bg-teal-600 hover:bg-teal-700 text-white font-black text-xs shrink-0 shadow-md transition-all active:scale-95 cursor-pointer self-start sm:self-auto flex items-center gap-1.5"
           >
-            Target Continue Karo →
+            Continue Practice →
           </button>
         </div>
       ) : (
@@ -386,7 +386,7 @@ export const Home: React.FC = () => {
                 Congratulations! Today's Goal Completed ({user.todayQuestionsCount}/{user.dailyGoalQuestions || 25} Qs)
               </p>
               <p className="text-xs text-emerald-700 dark:text-emerald-400 font-medium">
-                Shaandar dedication! Aaj ki streak 100% secure ho chuki hai. Tumhara {prepType} crack karne ka dream zaroor poora hoga!
+                Outstanding dedication! Today's streak is 100% secured. Keep up the momentum towards your {prepType} dream!
               </p>
             </div>
           </div>

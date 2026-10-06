@@ -323,7 +323,7 @@ export const VideoLecturesPage: React.FC = () => {
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            NEET, JEE aur CBSE ke authentic one-shot lectures aur topic-wise deep dive videos. Koi broken link nahi — sabhi lectures 100% verified hain.
+            Authentic one-shot lectures and topic-wise deep dive videos curated for NEET, JEE, and Board exams. 100% verified high-definition educational lectures with direct practice links.
           </p>
 
           <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-semibold text-slate-300">
@@ -703,7 +703,7 @@ export const VideoLecturesPage: React.FC = () => {
           <Tv className="w-10 h-10 text-slate-400 mx-auto" />
           <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">No Lectures Found Matching Filters</h3>
           <p className="text-xs text-slate-500">
-            Selected exam, class, subject ya search query ko reset karein.
+            Try resetting your selected exam, class, subject, or search query.
           </p>
           <button
             onClick={() => {

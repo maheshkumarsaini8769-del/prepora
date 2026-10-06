@@ -144,7 +144,7 @@ export const AITeacherPage: React.FC = () => {
       activeSubj = classification.detectedSubject;
       setSelectedSubject(classification.detectedSubject);
       setSelectedChapter(classification.detectedChapter);
-      setMismatchWarning(`Question ${classification.detectedSubject} ka hai! Subject automatically ${classification.detectedSubject} me convert kar diya gaya hai (${classification.detectedChapter}).`);
+      setMismatchWarning(`Question belongs to ${classification.detectedSubject}! Subject automatically switched to ${classification.detectedSubject} (${classification.detectedChapter}).`);
     } else {
       setMismatchWarning(null);
     }

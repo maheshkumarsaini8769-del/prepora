@@ -34,6 +34,7 @@ import { adminFetch } from '../../utils/adminApi';
 export const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [stats, setStats] = useState<any>(null);
+  const [actionMessage, setActionMessage] = useState<string>('');
   const [refreshing, setRefreshing] = useState(false);
 
   const fetchStats = async () => {
@@ -54,7 +55,31 @@ export const AdminDashboard: React.FC = () => {
 
   useEffect(() => {
     fetchStats();
+    // Live telemetry heartbeat every 20 seconds
+    const interval = setInterval(() => {
+      fetchStats();
+    }, 20000);
+    return () => clearInterval(interval);
   }, []);
+
+  const handleForceLogout = async (userId: string, studentName: string) => {
+    if (!window.confirm(`Are you sure you want to force logout ${studentName}? Their active session will terminate immediately.`)) {
+      return;
+    }
+    try {
+      const res = await adminFetch(`/api/admin/students/${userId}/force-logout`, { method: 'POST' });
+      const data = await res.json();
+      if (data.success) {
+        setActionMessage(`Student ${studentName} was forcefully logged out successfully.`);
+        fetchStats();
+        setTimeout(() => setActionMessage(''), 5000);
+      } else {
+        alert(data.message || 'Failed to force logout');
+      }
+    } catch (e: any) {
+      alert('Error: ' + e.message);
+    }
+  };
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-300 pb-12">
@@ -178,8 +203,13 @@ export const AdminDashboard: React.FC = () => {
             <div className="text-2xl font-black text-slate-900 dark:text-white">
               {loading ? '...' : stats?.students?.total ?? 0}
             </div>
-            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">
-              {stats?.students?.active ?? 0} Active
+            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5 flex items-center gap-1.5 flex-wrap">
+              <span>{stats?.students?.active ?? 0} Active</span>
+              <span className="text-slate-300 dark:text-slate-700">•</span>
+              <span className="inline-flex items-center gap-1 text-emerald-600 dark:text-emerald-400 font-black">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>{stats?.students?.liveOnline ?? 0} Online Now</span>
+              </span>
             </div>
           </div>
         </div>
@@ -262,6 +292,127 @@ export const AdminDashboard: React.FC = () => {
             <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MongoDB Atlas</div>
           </div>
         </div>
+      </div>
+
+      {actionMessage && (
+        <div className="p-3.5 rounded-xl bg-emerald-500/15 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center justify-between animate-in fade-in">
+          <span>✓ {actionMessage}</span>
+          <button onClick={() => setActionMessage('')} className="text-slate-400 hover:text-white text-xs">✕</button>
+        </div>
+      )}
+
+      {/* ========================================================= */}
+      {/* LIVE ACTIVE STUDENTS (REAL-TIME RIGHT NOW TELEMETRY) */}
+      {/* ========================================================= */}
+      <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
+          <div className="flex items-center gap-3">
+            <span className="relative flex h-3.5 w-3.5">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500"></span>
+            </span>
+            <div>
+              <h2 className="font-black text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <span>🟢 Live Active Students (Right Now)</span>
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 text-xs font-black">
+                  {stats?.liveTelemetry?.onlineCount ?? stats?.students?.liveOnline ?? 0} Online Now
+                </span>
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
+                Kon sa student ab active hai, kitni der se padh raha hai, device details aur 1-click Force Logout.
+              </p>
+            </div>
+          </div>
+          <Link
+            to="/admin/students?status=online_now"
+            className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1.5 self-start sm:self-auto"
+          >
+            <span>Open in Student Manager</span>
+            <ArrowRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        {(!stats?.liveTelemetry?.students || stats.liveTelemetry.students.length === 0) ? (
+          <div className="p-8 text-center rounded-xl bg-slate-50 dark:bg-slate-850 border border-dashed border-slate-200 dark:border-slate-800">
+            <Users className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-300">Koi student is samay active nahi hai</div>
+            <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
+              Jaise hi koi student website ya app open karega ya mock test dega, uski live telemetry yahan turant dikhne lagegi.
+            </div>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-xs">
+              <thead className="bg-slate-50 dark:bg-slate-800/60 text-slate-500 dark:text-slate-400 uppercase text-[10px] font-black tracking-wider">
+                <tr>
+                  <th className="px-3.5 py-3 text-left">Student Profile</th>
+                  <th className="px-3.5 py-3 text-left">Mobile Number</th>
+                  <th className="px-3.5 py-3 text-left">Target Exam</th>
+                  <th className="px-3.5 py-3 text-left">Device / Browser</th>
+                  <th className="px-3.5 py-3 text-left">Active Duration</th>
+                  <th className="px-3.5 py-3 text-left">Activity Status</th>
+                  <th className="px-3.5 py-3 text-right">Instant Action</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                {stats.liveTelemetry.students.map((st: any) => (
+                  <tr key={st.sessionId || st.userId} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/30 transition-colors">
+                    <td className="px-3.5 py-3">
+                      <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>{st.name}</span>
+                      </div>
+                      <div className="text-[10px] text-slate-400 font-mono mt-0.5">{st.studentId}</div>
+                    </td>
+                    <td className="px-3.5 py-3 font-mono font-bold text-slate-700 dark:text-slate-300">
+                      {st.phone ? `+91 ${st.phone}` : '—'}
+                    </td>
+                    <td className="px-3.5 py-3">
+                      <span className="px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 font-bold text-[10px]">
+                        {st.targetExam || 'JEE'} • Class {st.classLevel || '12'}
+                      </span>
+                    </td>
+                    <td className="px-3.5 py-3 text-slate-600 dark:text-slate-400">
+                      <div className="font-semibold text-slate-800 dark:text-slate-200">{st.device || 'Mobile'}</div>
+                      <div className="text-[10px] text-slate-400">{st.browser || 'Web Browser'}</div>
+                    </td>
+                    <td className="px-3.5 py-3">
+                      <div className="font-black text-emerald-600 dark:text-emerald-400">
+                        {st.sessionDurationMinutes} min{st.sessionDurationMinutes === 1 ? '' : 's'}
+                      </div>
+                      <div className="text-[10px] text-slate-400 mt-0.5">
+                        Today: {st.todayStudyTimeMinutes || 0} mins study
+                      </div>
+                    </td>
+                    <td className="px-3.5 py-3 text-slate-500 dark:text-slate-400">
+                      {st.lastActiveAgoSeconds !== undefined && st.lastActiveAgoSeconds !== null ? (
+                        st.lastActiveAgoSeconds < 30 ? (
+                          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
+                            Active now ({st.lastActiveAgoSeconds}s)
+                          </span>
+                        ) : (
+                          <span>{Math.round(st.lastActiveAgoSeconds / 60)} min pehle</span>
+                        )
+                      ) : (
+                        'Active just now'
+                      )}
+                    </td>
+                    <td className="px-3.5 py-3 text-right">
+                      <button
+                        onClick={() => handleForceLogout(st.userId || st.studentId, st.name)}
+                        className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-300 font-black text-[10px] transition cursor-pointer border border-rose-200 dark:border-rose-900/60"
+                        title="Is student ko turant logout karein"
+                      >
+                        ⚡ Force Logout
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Grid: Content Health & Student Activity */}

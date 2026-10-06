@@ -42,7 +42,11 @@ interface StudentListItem {
   testsCompleted: number;
   studyTimeMinutes: number;
   status: 'active' | 'suspended';
-  sessionStatus: 'Active' | 'Inactive';
+  sessionStatus: 'Active' | 'Inactive' | 'Online Now';
+  isOnlineNow?: boolean;
+  isRecentlyActive?: boolean;
+  sessionDurationMinutes?: number;
+  lastActiveAgoSeconds?: number | null;
   currentDevice?: {
     device?: string;
     browser?: string;
@@ -116,7 +120,10 @@ export const AdminStudents: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>('');
   const [examFilter, setExamFilter] = useState<string>('all');
-  const [statusFilter, setStatusFilter] = useState<string>('all');
+  const [statusFilter, setStatusFilter] = useState<string>(() => {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('status') || 'all';
+  });
 
   // Detail Modal States
   const [selectedStudentId, setSelectedStudentId] = useState<string | null>(null);
@@ -278,12 +285,13 @@ export const AdminStudents: React.FC = () => {
 
         // Update list status
         setStudents(prev =>
-          prev.map(s => s.id === studentToForceLogout.id ? { ...s, sessionStatus: 'Inactive', currentDevice: null } : s)
+          prev.map(s => s.id === studentToForceLogout.id ? { ...s, sessionStatus: 'Inactive', isOnlineNow: false, currentDevice: null } : s)
         );
 
         if (studentDetail?.student.id === studentToForceLogout.id) {
-          setStudentDetail(prev => prev ? { ...prev, currentSession: null, student: { ...prev.student, sessionStatus: 'Inactive' } } : null);
+          setStudentDetail(prev => prev ? { ...prev, currentSession: null, student: { ...prev.student, sessionStatus: 'Inactive', isOnlineNow: false } } : null);
         }
+        fetchStudents();
       } else {
         setActionError(data.message || 'Could not force logout.');
       }
@@ -426,6 +434,7 @@ export const AdminStudents: React.FC = () => {
             className="px-3.5 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-700 dark:text-slate-200 focus:outline-none focus:border-emerald-500"
           >
             <option value="all">All Statuses</option>
+            <option value="online_now">🟢 Online Now (Active in last 5m)</option>
             <option value="active">Active Accounts</option>
             <option value="suspended">Blocked / Suspended</option>
             <option value="recently_active">Recently Active (7 Days)</option>
@@ -477,6 +486,9 @@ export const AdminStudents: React.FC = () => {
                   <tr key={st.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
                     <td className="py-3.5 px-4">
                       <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+                        {st.isOnlineNow && (
+                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0" title="Online right now" />
+                        )}
                         <span>{st.name}</span>
                         {st.streakDays > 1 && (
                           <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-black">
@@ -501,18 +513,25 @@ export const AdminStudents: React.FC = () => {
                     </td>
 
                     <td className="py-3.5 px-4">
-                      {st.sessionStatus === 'Active' ? (
-                        <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                          <span>Active</span>
+                      {st.isOnlineNow || st.sessionStatus === 'Online Now' ? (
+                        <div className="space-y-0.5">
+                          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">
+                            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                            <span>Online Now ({st.sessionDurationMinutes || 1}m)</span>
+                          </div>
                           {st.currentDevice && (
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400 font-normal">
-                              ({st.currentDevice.device || 'Phone'})
-                            </span>
+                            <div className="text-[10px] text-slate-500 dark:text-slate-400">
+                              {st.currentDevice.device || 'Phone'} • {st.lastActiveAgoSeconds !== undefined && st.lastActiveAgoSeconds !== null ? (st.lastActiveAgoSeconds < 60 ? `${st.lastActiveAgoSeconds}s ago` : `${Math.round(st.lastActiveAgoSeconds / 60)}m ago`) : 'Active'}
+                            </div>
                           )}
                         </div>
+                      ) : st.sessionStatus === 'Active' ? (
+                        <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium text-[11px]">
+                          <span className="w-2 h-2 rounded-full bg-slate-400 shrink-0" />
+                          <span>Logged in ({st.sessionDurationMinutes || 0}m)</span>
+                        </div>
                       ) : (
-                        <span className="text-slate-400 text-[11px]">Inactive</span>
+                        <span className="text-slate-400 text-[11px]">Offline</span>
                       )}
                     </td>
 
@@ -552,16 +571,16 @@ export const AdminStudents: React.FC = () => {
                         View Profile
                       </button>
 
-                      {st.sessionStatus === 'Active' && (
+                      {(st.sessionStatus === 'Active' || st.isOnlineNow) && (
                         <button
                           onClick={() => {
                             setStudentToForceLogout(st);
                             setForceLogoutConfirmOpen(true);
                           }}
-                          className="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 text-amber-700 dark:text-amber-400 font-bold text-xs transition border border-amber-500/30 cursor-pointer"
+                          className="px-2.5 py-1 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/40 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-400 font-bold text-xs transition border border-rose-200 dark:border-rose-900/50 cursor-pointer"
                           title="Immediately terminates student active session on their device"
                         >
-                          Force Logout
+                          ⚡ Force Logout
                         </button>
                       )}
 

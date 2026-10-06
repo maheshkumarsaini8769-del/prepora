@@ -55,20 +55,26 @@ export const AdminLayout: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    adminFetch('/api/admin/stats')
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.success && data.data) {
-          setStats({
-            pendingReviews: data.data.content?.pendingQuestions || 0,
-            pendingReports: (data.data.reports?.pendingQuestionReports || 0) + (data.data.reports?.pendingTechnicalReports || 0),
-            pendingFeedbacks: data.data.reports?.pendingFeedbacks || 0,
-            dbStatus: data.data.system?.database === 'Operational' ? 'Connected' : 'Offline'
-          });
-        }
-      })
-      .catch(() => {});
-  }, [location.pathname]);
+    const fetchBadgeCounts = () => {
+      adminFetch('/api/admin/badge-counts')
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.success) {
+            setStats({
+              pendingReviews: data.pendingReviews || 0,
+              pendingReports: data.pendingReports || 0,
+              pendingFeedbacks: data.pendingFeedbacks || 0,
+              dbStatus: 'Connected'
+            });
+          }
+        })
+        .catch(() => {});
+    };
+
+    fetchBadgeCounts();
+    const timer = setInterval(fetchBadgeCounts, 60000);
+    return () => clearInterval(timer);
+  }, []);
 
   useEffect(() => {
     const handleColorModeChange = (e: Event) => {

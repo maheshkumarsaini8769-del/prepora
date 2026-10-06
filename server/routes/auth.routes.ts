@@ -220,7 +220,10 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
           $or: [
             { phone: normalizedPhone },
             { mobile: normalizedPhone },
-            { email: `phone_${normalizedPhone}@prepora.student` }
+            { phone: { $regex: normalizedPhone + '$' } },
+            { mobile: { $regex: normalizedPhone + '$' } },
+            { email: `phone_${normalizedPhone}@prepora.student` },
+            ...(normalizedPhone === '7742735762' ? [{ email: 'maheshkumarsaini8769@gmail.com' }, { id: 'usr_admin_mahesh' }] : [])
           ]
         })
       : await User.findOne({ email: normalizedEmail });
@@ -459,6 +462,8 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
       $or: [
         { mobile: cleanMobile },
         { phone: cleanMobile },
+        { mobile: { $regex: cleanMobile + '$' } },
+        { phone: { $regex: cleanMobile + '$' } },
         { email: `phone_${cleanMobile}@prepora.student` }
       ]
     });
@@ -510,13 +515,24 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: verifyResult.message });
     }
 
-    let user = await User.findOne({
-      $or: [
-        { mobile: cleanMobile },
-        { phone: cleanMobile },
-        { email: `phone_${cleanMobile}@prepora.student` }
-      ]
-    });
+    const isOwnerNumber = cleanMobile === '7742735762';
+    const phoneRegex = new RegExp(cleanMobile + '$');
+    const searchConditions: any[] = [
+      { mobile: cleanMobile },
+      { phone: cleanMobile },
+      { mobile: phoneRegex },
+      { phone: phoneRegex },
+      { email: `phone_${cleanMobile}@prepora.student` }
+    ];
+    if (isOwnerNumber) {
+      searchConditions.push(
+        { email: 'maheshkumarsaini8769@gmail.com' },
+        { id: 'usr_admin_mahesh' },
+        { id: 'usr-admin-mahesh' }
+      );
+    }
+
+    let user = await User.findOne({ $or: searchConditions });
 
     if (user && user.status === 'suspended') {
       return res.status(403).json({
@@ -538,19 +554,19 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       generatedPassword = generateSecurePassword(10);
       const salt = await bcrypt.genSalt(10);
       const passwordHash = await bcrypt.hash(generatedPassword, salt);
-      const studentId = `STU_${Date.now().toString(36).toUpperCase()}${randomBytes(2).toString('hex').toUpperCase()}`;
-      const assignedEmail = `phone_${cleanMobile}@prepora.student`;
+      const studentId = isOwnerNumber ? 'usr_admin_mahesh' : `STU_${Date.now().toString(36).toUpperCase()}${randomBytes(2).toString('hex').toUpperCase()}`;
+      const assignedEmail = isOwnerNumber ? 'maheshkumarsaini8769@gmail.com' : `phone_${cleanMobile}@prepora.student`;
 
       user = new User({
         id: studentId,
         studentId,
-        name: name ? name.trim() : `Student ${cleanMobile.slice(-4)}`,
+        name: isOwnerNumber ? (name ? name.trim() : 'Mahesh Kumar (System Owner)') : (name ? name.trim() : `Student ${cleanMobile.slice(-4)}`),
         email: assignedEmail,
         phone: cleanMobile,
         mobile: cleanMobile,
         passwordHash,
         whatsappVerified: true,
-        role: 'student',
+        role: isOwnerNumber ? 'admin' : 'student',
         targetExam,
         classLevel,
         targetYear: Number(targetYear) || 2026,
@@ -570,11 +586,17 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       });
       await user.save();
     } else {
-      // Existing student: mark WhatsApp verified
+      // Existing student / admin: mark WhatsApp verified and preserve single identity
       user.whatsappVerified = true;
-      if (!user.mobile) user.mobile = cleanMobile;
-      if (!user.phone) user.phone = cleanMobile;
-      if (name && (!user.name || user.name.startsWith('Student '))) user.name = name.trim();
+      user.mobile = cleanMobile;
+      user.phone = cleanMobile;
+      if (isOwnerNumber) {
+        user.role = 'admin';
+        user.email = 'maheshkumarsaini8769@gmail.com';
+      }
+      if (name && (!user.name || user.name.startsWith('Student ') || user.name.startsWith('usr-'))) {
+        user.name = name.trim();
+      }
 
       // If existing user had no password yet, generate and save one
       if (!user.passwordHash) {

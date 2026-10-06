@@ -1267,7 +1267,7 @@ export const FormulaNotesHub: React.FC = () => {
             Topic-Wise Formula & Short Notes Hub
           </h1>
           <p className="text-emerald-100/90 text-xs sm:text-sm leading-relaxed">
-            Har chapter ke genuine topics, high-yield mathematical formulas, variables, pro-tips aur direct topic practice questions. Chapter par click karein topic khulega, aur topic par click karte hi uske saare formulas samne honge!
+            Comprehensive topics, high-yield mathematical formulas, variable definitions, pro-tips, and direct practice questions for every chapter. Select any chapter to reveal topics, and click any topic to inspect all curated formulas.
           </p>
 
           {/* Quick Stats Pill */}
@@ -1472,7 +1472,7 @@ export const FormulaNotesHub: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 text-xs">
             <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
             <span className="font-semibold text-amber-800 dark:text-amber-200">
-              Is search ke formulas doosre subjects me bhi hain:
+              Matching formulas also found in other subjects:
             </span>
             {crossSubjectMatches.map((m) => (
               <button
@@ -1501,10 +1501,10 @@ export const FormulaNotesHub: React.FC = () => {
                 <BookOpen className="w-6 h-6" />
               </div>
               <h3 className="text-sm font-extrabold text-slate-800 dark:text-slate-200">
-                Koi formula ya chapter match nahi hua
+                No formulas or chapters match your search
               </h3>
               <p className="text-xs text-slate-400">
-                Search term badlein ya filter reset karein.
+                Try different keywords or reset your filters.
               </p>
               <Button
                 variant="outline"
@@ -1707,7 +1707,7 @@ export const FormulaNotesHub: React.FC = () => {
             <div className="space-y-1.5 max-h-[750px] overflow-y-auto pr-1">
               {distinctChapters.length === 0 ? (
                 <div className="p-6 text-center text-xs text-slate-400 bg-white dark:bg-[#0e1620] rounded-2xl border border-slate-200 dark:border-slate-800">
-                  Koi chapter match nahi hua. Search clear karein.
+                  No chapters match your search. Clear keywords to view all.
                 </div>
               ) : (
                 distinctChapters.map((ch) => {
@@ -1880,7 +1880,7 @@ export const FormulaNotesHub: React.FC = () => {
               </div>
             ) : (
               <div className="bg-white dark:bg-[#0e1620] p-12 text-center rounded-3xl border border-slate-200 dark:border-slate-800 text-xs text-slate-400">
-                Left panel se koi chapter select karein.
+                Select a chapter from the left panel to inspect formulas.
               </div>
             )}
           </div>

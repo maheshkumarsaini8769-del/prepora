@@ -22,23 +22,21 @@ export async function apiRequest<T>(
 
     if (!res.ok) {
       const errJson = await res.json().catch(() => null);
-      const isAnotherDevice = res.status === 401 && (
-        errJson?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' ||
-        (errJson?.code === 'SESSION_REVOKED' && errJson?.message?.toLowerCase().includes('another device'))
-      );
+      const isAuthError = res.status === 401 || (res.status === 403 && (errJson?.message?.toLowerCase().includes('block') || errJson?.message?.toLowerCase().includes('suspend')));
 
-      if (isAnotherDevice) {
-        if (typeof window !== 'undefined') {
-          localStorage.removeItem('prepora_auth_token');
-          window.dispatchEvent(
-            new CustomEvent('prepora:session_revoked', {
-              detail: {
-                reason: 'SESSION_REVOKED_ANOTHER_DEVICE',
-                message: errJson?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai.'
-              }
-            })
-          );
-        }
+      if (isAuthError && typeof window !== 'undefined') {
+        localStorage.removeItem('prepora_auth_token');
+        try {
+          localStorage.setItem('prepora_logout_signal', String(Date.now()));
+        } catch {}
+        window.dispatchEvent(
+          new CustomEvent('prepora:session_revoked', {
+            detail: {
+              reason: errJson?.code || 'SESSION_REVOKED',
+              message: errJson?.message || 'Your session has ended or was terminated by an administrator. Please log in again.'
+            }
+          })
+        );
       }
       return {
         data: null,

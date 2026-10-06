@@ -63,7 +63,7 @@ export const MindMapPage: React.FC = () => {
               Concept Mind Map
             </h1>
             <p className="text-xs sm:text-sm text-purple-200/90 max-w-xl">
-              Visual knowledge graph connecting topics, subtopics, and mathematical equations. Kisi bhi node par click karein aur uske formulas, telemetry aur direct practice questions dekhein!
+              Visual knowledge graph connecting topics, subtopics, and mathematical equations. Click any node to inspect associated formulas, telemetry, and direct practice questions.
             </p>
           </div>
 

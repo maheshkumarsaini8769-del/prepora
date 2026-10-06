@@ -99,7 +99,7 @@ export const DoubtCenter: React.FC = () => {
     if (classification.autoSubjectConverted) {
       effectiveSubject = classification.detectedSubject;
       setAiSubject(classification.detectedSubject);
-      setAutoSwitchedNotice(`Question ${classification.detectedSubject} ka hai! Subject automatically ${classification.detectedSubject} me convert ho gaya (${classification.detectedChapter}).`);
+      setAutoSwitchedNotice(`Question belongs to ${classification.detectedSubject}! Subject automatically switched to ${classification.detectedSubject} (${classification.detectedChapter}).`);
     }
 
     const effectiveChapter = classification.detectedChapter || aiChapter || 'Fundamental Principles';
@@ -319,7 +319,7 @@ export const DoubtCenter: React.FC = () => {
                   rows={3}
                   value={aiQuestion}
                   onChange={(e) => setAiQuestion(e.target.value)}
-                  placeholder="Yahan apna question likhein (e.g. 'What is work-energy theorem?', 'Calculate terminal velocity of a sphere')..."
+                  placeholder="Type your question or concept statement here (e.g. 'What is work-energy theorem?', 'Calculate terminal velocity of a sphere')..."
                   className="w-full text-xs p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-900 leading-relaxed resize-none font-medium"
                 />
               </div>

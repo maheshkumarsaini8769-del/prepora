@@ -349,7 +349,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
           {step === 'login' && 'Log in with your mobile number and password (no OTP required)'}
           {step === 'register' && 'Verify with WhatsApp OTP once to create your secure password'}
           {step === 'enter-otp' && `Enter the 4-digit code sent to +91 ${cleanMobileDigits(phone)}`}
-          {step === 'create-password' && `Apna naya password banayein (+91 ${cleanMobileDigits(phone)}). Agli baar direct password se bina OTP login hoga.`}
+          {step === 'create-password' && `Create your new password for +91 ${cleanMobileDigits(phone)} to sign in directly without OTP next time.`}
           {step === 'account-created' && 'Save your unique generated password safely for future logins'}
           {step === 'forgot-password' && 'Enter your registered mobile number to receive a WhatsApp OTP'}
           {step === 'reset-password' && 'Verify your WhatsApp OTP and create a new password'}
@@ -495,7 +495,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
               </button>
 
               <div className="pt-2 text-center text-xs text-slate-500 dark:text-slate-400">
-                Pehli baar login kar rahe hain?{' '}
+                New to Prepora?{' '}
                 <button
                   type="button"
                   onClick={() => {
@@ -505,7 +505,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   }}
                   className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
                 >
-                  WhatsApp OTP se register karein
+                  Register with WhatsApp OTP
                 </button>
               </div>
             </form>
@@ -754,7 +754,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   Create Your Password
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Account verified! Apna password create karein (+91 {cleanMobileDigits(phone)}). Agli baar direct password se login hoga.
+                  Account verified! Create your password for +91 {cleanMobileDigits(phone)} to sign in directly next time.
                 </p>
               </div>
 

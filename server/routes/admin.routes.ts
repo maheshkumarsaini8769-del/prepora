@@ -23,16 +23,30 @@ import { generateStudioQuestions } from '../services/aiStudioGenerator.js';
 
 const router = Router();
 
+// In-memory cache for /api/admin/stats to prevent server load & eliminate admin page-switching lag
+let cachedStats: { data: any; timestamp: number } | null = null;
+const STATS_CACHE_TTL_MS = 15000; // 15 seconds
+
+export const invalidateAdminStatsCache = () => {
+  cachedStats = null;
+};
+
 // CRITICAL: All admin routes require authentication + admin role
 router.use(authenticateUser);
 router.use(requireAdmin);
 
 // ==========================================
-// 1. ADMIN DASHBOARD STATS (Real DB Aggregations)
+// 1. ADMIN DASHBOARD STATS (Real DB Aggregations + Live Telemetry)
 // ==========================================
 router.get('/stats', async (req: Request, res: Response) => {
   try {
+    const forceRefresh = req.query.refresh === 'true' || req.query.refresh === '1';
+    if (!forceRefresh && cachedStats && (Date.now() - cachedStats.timestamp < STATS_CACHE_TTL_MS)) {
+      return res.json({ success: true, data: cachedStats.data, cached: true });
+    }
+
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
     const now = new Date();
 
     const [
@@ -67,7 +81,9 @@ router.get('/stats', async (req: Request, res: Response) => {
       // Resource & App Downloads Telemetry
       paperDownloadsAgg,
       // Technical & Drop-off Hotspots
-      routeIssuesAgg
+      routeIssuesAgg,
+      // Live Online Sessions (active within last 5 minutes)
+      onlineSessionsDocs
     ] = await Promise.all([
       User.countDocuments({ role: 'student' }),
       User.countDocuments({ role: 'student', status: 'active' }),
@@ -115,8 +131,46 @@ router.get('/stats', async (req: Request, res: Response) => {
         },
         { $sort: { count: -1 } },
         { $limit: 6 }
-      ]).catch(() => [])
+      ]).catch(() => []),
+      // Live Sessions within 5 minutes
+      Session.find({ isRevoked: false, lastActive: { $gte: fiveMinutesAgo } })
+        .sort({ lastActive: -1 })
+        .limit(30)
+        .lean()
+        .catch(() => [])
     ]);
+
+    // Enrich live online students
+    const onlineUserIds = (onlineSessionsDocs as any[]).map(s => s.userId || s.studentId).filter(Boolean);
+    const onlineUsers = onlineUserIds.length > 0
+      ? await User.find({
+          $or: [{ id: { $in: onlineUserIds } }, { studentId: { $in: onlineUserIds } }]
+        }).select('id studentId name phone mobile email targetExam classLevel avatar role studyTimeMinutes').lean()
+      : [];
+
+    const liveStudents = (onlineSessionsDocs as any[]).map(s => {
+      const u = onlineUsers.find(user => user.id === s.userId || user.studentId === s.studentId);
+      const sessionDurationMinutes = Math.max(1, Math.round((new Date(s.lastActive).getTime() - new Date(s.createdAt).getTime()) / 60000));
+      const lastActiveAgoSeconds = Math.max(0, Math.round((Date.now() - new Date(s.lastActive).getTime()) / 1000));
+      return {
+        sessionId: s.id,
+        userId: u?.id || s.userId,
+        studentId: u?.studentId || s.studentId || s.userId,
+        name: u?.name || 'Student',
+        phone: u?.mobile || u?.phone || s.mobile || s.phone || '',
+        email: u?.email || '',
+        targetExam: u?.targetExam || 'JEE',
+        classLevel: u?.classLevel || '12',
+        device: s.deviceInfo?.device || s.deviceInfo?.browser || 'Mobile',
+        browser: s.deviceInfo?.browser || 'Web Browser',
+        ipAddress: s.ipAddress || '',
+        sessionDurationMinutes,
+        todayStudyTimeMinutes: u?.studyTimeMinutes || 0,
+        lastActiveAgoSeconds,
+        lastActive: s.lastActive,
+        startedAt: s.createdAt
+      };
+    });
 
     // Calculate aggregate score & accuracy
     const attemptsAgg = await TestAttempt.aggregate([
@@ -148,82 +202,111 @@ router.get('/stats', async (req: Request, res: Response) => {
       ? Math.round(((totalAttempts - completedAttempts) / totalAttempts) * 100) 
       : 0;
 
+    const payload = {
+      students: {
+        total: totalStudents,
+        active: activeStudents,
+        suspended: suspendedStudents,
+        liveOnline: liveStudents.length
+      },
+      liveTelemetry: {
+        onlineCount: liveStudents.length,
+        students: liveStudents
+      },
+      content: {
+        totalQuestions,
+        publishedQuestions,
+        pendingQuestions,
+        draftQuestions,
+        totalTests,
+        totalPapers: totalPapers || 0,
+        publishedPapers: publishedPapers || 0,
+        draftPapers: draftPapers || 0
+      },
+      activity: {
+        totalAttempts,
+        inProgressAttempts,
+        completedAttempts,
+        avgScore: Math.round((aggregateMetrics.avgScore || 0) * 10) / 10,
+        avgAccuracy: Math.round((aggregateMetrics.avgAccuracy || 0) * 10) / 10,
+        avgPercentage: Math.round((aggregateMetrics.avgPercentage || 0) * 10) / 10,
+        recentAttempts
+      },
+      lectures: {
+        totalViews: totalLectureViews,
+        uniqueStudents: uniqueLectureStudents,
+        todayViews: todayLectureViews
+      },
+      traffic: {
+        totalLogins: Math.max(totalLogins, totalStudents),
+        activeSessions,
+        todayVisits: Math.max(todayVisits, activeSessions)
+      },
+      downloads: {
+        paperDownloads,
+        totalDownloads: paperDownloads
+      },
+      dropoffFunnel: {
+        totalVisitors: Math.max(totalStudents, 1),
+        testsStarted: totalAttempts,
+        testsCompleted: completedAttempts,
+        testsInProgressOrDropped: inProgressAttempts,
+        dropoffRate,
+        routeIssues: (routeIssuesAgg || []).map((r: any) => ({
+          route: r._id || '/',
+          count: r.count || 1,
+          reason: r.reason || 'Technical issue reported',
+          severity: r.severity || 'Medium',
+          lastReported: r.lastReported || new Date()
+        }))
+      },
+      reports: {
+        totalQuestionReports,
+        pendingQuestionReports,
+        totalTechnicalReports,
+        pendingTechnicalReports,
+        totalFeedbacks,
+        pendingFeedbacks
+      },
+      system: {
+        database: isDbConnected ? 'Operational' : 'Disconnected',
+        server: 'Operational',
+        authentication: 'Operational',
+        aiEngine: 'Operational',
+        lastChecked: new Date()
+      }
+    };
+
+    cachedStats = { data: payload, timestamp: Date.now() };
+
     res.json({
       success: true,
-      data: {
-        students: {
-          total: totalStudents,
-          active: activeStudents,
-          suspended: suspendedStudents
-        },
-        content: {
-          totalQuestions,
-          publishedQuestions,
-          pendingQuestions,
-          draftQuestions,
-          totalTests,
-          totalPapers: totalPapers || 0,
-          publishedPapers: publishedPapers || 0,
-          draftPapers: draftPapers || 0
-        },
-        activity: {
-          totalAttempts,
-          inProgressAttempts,
-          completedAttempts,
-          avgScore: Math.round((aggregateMetrics.avgScore || 0) * 10) / 10,
-          avgAccuracy: Math.round((aggregateMetrics.avgAccuracy || 0) * 10) / 10,
-          avgPercentage: Math.round((aggregateMetrics.avgPercentage || 0) * 10) / 10,
-          recentAttempts
-        },
-        // Telemetry Requested by Admin
-        lectures: {
-          totalViews: totalLectureViews,
-          uniqueStudents: uniqueLectureStudents,
-          todayViews: todayLectureViews
-        },
-        traffic: {
-          totalLogins: Math.max(totalLogins, totalStudents),
-          activeSessions,
-          todayVisits: Math.max(todayVisits, activeSessions)
-        },
-        downloads: {
-          paperDownloads,
-          totalDownloads: paperDownloads
-        },
-        dropoffFunnel: {
-          totalVisitors: Math.max(totalStudents, 1),
-          testsStarted: totalAttempts,
-          testsCompleted: completedAttempts,
-          testsInProgressOrDropped: inProgressAttempts,
-          dropoffRate,
-          routeIssues: (routeIssuesAgg || []).map((r: any) => ({
-            route: r._id || '/',
-            count: r.count || 1,
-            reason: r.reason || 'Technical issue reported',
-            severity: r.severity || 'Medium',
-            lastReported: r.lastReported || new Date()
-          }))
-        },
-        reports: {
-          totalQuestionReports,
-          pendingQuestionReports,
-          totalTechnicalReports,
-          pendingTechnicalReports,
-          totalFeedbacks,
-          pendingFeedbacks
-        },
-        system: {
-          database: isDbConnected ? 'Operational' : 'Disconnected',
-          server: 'Operational',
-          authentication: 'Operational',
-          aiEngine: 'Operational',
-          lastChecked: new Date()
-        }
-      }
+      data: payload
     });
   } catch (error: any) {
     console.error('[Admin Stats Error]', error);
     res.status(500).json({ success: false, message: 'Failed to aggregate admin statistics', error: error.message });
+  }
+});
+
+// GET /api/admin/badge-counts - Fast 2ms query for layout badges (prevents heavy queries on every tab click)
+router.get('/badge-counts', async (req: Request, res: Response) => {
+  try {
+    const [pendingQuestions, questionReports, technicalReports, feedbacks] = await Promise.all([
+      Question.countDocuments({ status: 'Pending' }).catch(() => 0),
+      QuestionReport.countDocuments({ status: { $in: ['Pending', 'Under Review'] } }).catch(() => 0),
+      TechnicalReport.countDocuments({ status: { $in: ['Open', 'Investigating'] } }).catch(() => 0),
+      StudentFeedback.countDocuments({ status: { $in: ['Pending', 'In Review'] } }).catch(() => 0)
+    ]);
+
+    res.json({
+      success: true,
+      pendingReviews: pendingQuestions,
+      pendingReports: questionReports + technicalReports,
+      pendingFeedbacks: feedbacks
+    });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
   }
 });
 
@@ -253,9 +336,23 @@ router.get('/students', async (req: Request, res: Response) => {
     if (exam && exam !== 'all') query.targetExam = exam;
     if (classLevel && classLevel !== 'all') query.classLevel = classLevel;
     
-    // Status filters: active, suspended, recently_active, never_logged_in
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+    const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+
+    // Status filters: active, suspended, recently_active, never_logged_in, online_now
     if (status && status !== 'all') {
-      if (status === 'active' || status === 'suspended') {
+      if (status === 'online_now') {
+        const liveSessions = await Session.find({ isRevoked: false, lastActive: { $gte: fiveMinutesAgo } })
+          .select('userId studentId phone mobile')
+          .lean();
+        const activeIds = liveSessions.map(s => s.userId || s.studentId).filter(Boolean);
+        const activePhones = liveSessions.map(s => (s.phone || s.mobile || '').replace(/[^0-9]/g, '').slice(-10)).filter(p => p.length === 10);
+        query.$or = [
+          { id: { $in: activeIds } },
+          { studentId: { $in: activeIds } },
+          ...(activePhones.length > 0 ? [{ phone: { $in: activePhones } }, { mobile: { $in: activePhones } }] : [])
+        ];
+      } else if (status === 'active' || status === 'suspended') {
         query.status = status;
       } else if (status === 'recently_active') {
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
@@ -271,7 +368,7 @@ router.get('/students', async (req: Request, res: Response) => {
         .select('-passwordHash -otpCode')
         .sort({ createdAt: -1 })
         .skip(skip)
-        .limit(Number(limit)),
+        .limit(Number(limit) * 2), // fetch extra to account for deduplication
       User.countDocuments(query)
     ]);
 
@@ -280,17 +377,43 @@ router.get('/students', async (req: Request, res: Response) => {
     // Enrich each student with active session status and today's progress
     const enrichedStudents = await Promise.all(
       students.map(async (st) => {
+        const cleanStPhone = (st.mobile || st.phone || '').replace(/[^0-9]/g, '').slice(-10);
+        const sessionQuery: any = {
+          $or: [
+            { userId: st.id },
+            { studentId: st.id },
+            ...(st.studentId ? [{ userId: st.studentId }, { studentId: st.studentId }] : [])
+          ],
+          isRevoked: false
+        };
+        if (cleanStPhone.length === 10) {
+          sessionQuery.$or.push({ phone: cleanStPhone }, { mobile: cleanStPhone });
+        }
+
         const [activeSession, todayProgress] = await Promise.all([
-          Session.findOne({ userId: st.id, isRevoked: false }),
-          DailyProgress.findOne({ studentId: st.id, date: todayStr })
+          Session.findOne(sessionQuery).sort({ lastActive: -1 }),
+          DailyProgress.findOne({ studentId: { $in: [st.id, st.studentId].filter(Boolean) }, date: todayStr })
         ]);
+
+        const isOnlineNow = !!(activeSession && new Date(activeSession.lastActive).getTime() >= fiveMinutesAgo.getTime());
+        const isRecentlyActive = !!(activeSession && new Date(activeSession.lastActive).getTime() >= oneHourAgo.getTime());
+        const sessionDurationMinutes = activeSession
+          ? Math.max(1, Math.round((new Date(activeSession.lastActive).getTime() - new Date(activeSession.createdAt).getTime()) / 60000))
+          : 0;
+        const lastActiveAgoSeconds = activeSession
+          ? Math.max(0, Math.round((Date.now() - new Date(activeSession.lastActive).getTime()) / 1000))
+          : null;
 
         const stObj = st.toObject();
         return {
           ...stObj,
           studentId: st.studentId || st.id,
-          mobile: st.mobile || st.phone,
-          sessionStatus: activeSession ? 'Active' : 'Inactive',
+          mobile: cleanStPhone || st.mobile || st.phone,
+          isOnlineNow,
+          isRecentlyActive,
+          sessionDurationMinutes,
+          lastActiveAgoSeconds,
+          sessionStatus: isOnlineNow ? 'Online Now' : (activeSession ? 'Active' : 'Inactive'),
           currentDevice: activeSession?.deviceInfo || null,
           lastActive: activeSession?.lastActive || st.updatedAt,
           todayProgress: todayProgress
@@ -305,10 +428,21 @@ router.get('/students', async (req: Request, res: Response) => {
       })
     );
 
+    // Strictly deduplicate students by clean 10-digit phone so duplicate accounts never appear in admin view
+    const seenPhones = new Set<string>();
+    const deduplicatedStudents = enrichedStudents.filter((s) => {
+      const p = (s.mobile || s.phone || '').replace(/[^0-9]/g, '').slice(-10);
+      if (p.length === 10) {
+        if (seenPhones.has(p)) return false;
+        seenPhones.add(p);
+      }
+      return true;
+    }).slice(0, Number(limit));
+
     res.json({
       success: true,
-      data: enrichedStudents,
-      students: enrichedStudents,
+      data: deduplicatedStudents,
+      students: deduplicatedStudents,
       pagination: {
         page: Number(page),
         limit: Number(limit),
@@ -388,9 +522,26 @@ router.post('/students/:id/force-logout', async (req: Request, res: Response) =>
       return res.status(404).json({ success: false, message: 'Student not found.' });
     }
 
-    // Revoke all active sessions for this student
+    const cleanPhone = (targetUser.mobile || targetUser.phone || '').replace(/[^0-9]/g, '').slice(-10);
+    const revokeOr: any[] = [
+      { userId: targetUser.id },
+      { studentId: targetUser.id }
+    ];
+    if (targetUser.studentId) {
+      revokeOr.push({ userId: targetUser.studentId }, { studentId: targetUser.studentId });
+    }
+    if (cleanPhone.length === 10) {
+      revokeOr.push(
+        { phone: cleanPhone },
+        { mobile: cleanPhone },
+        { phone: { $regex: cleanPhone + '$' } },
+        { mobile: { $regex: cleanPhone + '$' } }
+      );
+    }
+
+    // Revoke all active sessions for this student across userId, studentId, and phone
     const revokedResult = await Session.updateMany(
-      { userId: targetUser.id, isRevoked: false },
+      { $or: revokeOr, isRevoked: false },
       {
         $set: {
           isRevoked: true,
@@ -400,6 +551,8 @@ router.post('/students/:id/force-logout', async (req: Request, res: Response) =>
         }
       }
     );
+
+    invalidateAdminStatsCache();
 
     // Clear currentSessionId on user
     targetUser.currentSessionId = undefined;
@@ -2081,7 +2234,25 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
       loginMap.set(uid, entry);
     });
 
-    const list = (users as any[]).map((u, i) => {
+    // Deduplicate users by clean 10-digit mobile number, prioritizing admin or user with password
+    const seenPhones = new Set<string>();
+    const sortedUsers = [...(users as any[])].sort((a: any, b: any) => {
+      if (a.role === 'admin' && b.role !== 'admin') return -1;
+      if (b.role === 'admin' && a.role !== 'admin') return 1;
+      return (b.passwordHash ? 1 : 0) - (a.passwordHash ? 1 : 0);
+    });
+
+    const dedupedUsers: any[] = [];
+    sortedUsers.forEach((u) => {
+      const p = (u.mobile || u.phone || '').replace(/[^0-9]/g, '').slice(-10);
+      if (p.length === 10) {
+        if (seenPhones.has(p)) return;
+        seenPhones.add(p);
+      }
+      dedupedUsers.push(u);
+    });
+
+    const list = dedupedUsers.map((u, i) => {
       const stat = loginMap.get(String(u.id)) || loginMap.get(String(u.studentId)) || { count: 0, lastLogin: null, device: '', ip: '' };
       return {
         sno: i + 1,
@@ -2107,7 +2278,7 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
 
     // Recent logins — who logged in just now (name, number, time, device)
     const recentLogins = (sessions as any[]).slice(0, 12).map(s => {
-      const u = (users as any[]).find(x => String(x.id) === String(s.userId) || String(x.studentId) === String(s.studentId));
+      const u = dedupedUsers.find(x => String(x.id) === String(s.userId) || String(x.studentId) === String(s.studentId));
       return {
         name: u?.name || 'Unknown',
         phone: u?.mobile || u?.phone || '',

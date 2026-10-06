@@ -183,19 +183,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
             fetchSessions(storedToken);
             syncStudentUserData(data.user.id, storedToken);
           }
-        } else if (res.status === 401) {
+        } else if (res.status === 401 || res.status === 403) {
           const errData = await res.json().catch(() => null);
-          const isAnotherDevice = errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' ||
-            (errData?.code === 'SESSION_REVOKED' && errData?.message?.toLowerCase().includes('another device'));
-
           localStorage.removeItem(TOKEN_KEY);
           setToken(null);
-          if (isAnotherDevice) {
-            setSessionRevokedAlert({
-              open: true,
-              message: errData?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device par session band kar diya gaya hai.'
-            });
-          }
+          setUser(userService.getProfile());
+          setSessionRevokedAlert({
+            open: true,
+            message: errData?.message || 'Your session has ended or was terminated by an administrator. Please log in again.'
+          });
         }
       } catch (err) {
         console.warn('Could not connect to /api/auth/me, using local profile state:', err);
@@ -205,21 +201,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     initAuth();
   }, [fetchSessions]);
 
-  // Listen for session revoked event dispatched by apiClient or background checks
+  // Listen for session revoked event dispatched by apiClient or background checks & cross-tab storage
   useEffect(() => {
     const handleRevoked = (e: any) => {
-      const msg = e?.detail?.message || 'Aapka account kisi dusre device ya laptop par login ho gaya hai. Suraksha ke liye is device se logout kiya gaya hai.';
+      const msg = e?.detail?.message || 'Your session has ended or was terminated by an administrator. Please log in again.';
       localStorage.removeItem(TOKEN_KEY);
       setToken(null);
       setUser(userService.getProfile());
       setSessionRevokedAlert({ open: true, message: msg });
     };
 
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === 'prepora_logout_signal' || (e.key === TOKEN_KEY && !e.newValue)) {
+        setToken(null);
+        setUser(userService.getProfile());
+        setSessionRevokedAlert({
+          open: true,
+          message: 'Your session was logged out. Please log in again.'
+        });
+      }
+    };
+
     window.addEventListener('prepora:session_revoked', handleRevoked);
-    return () => window.removeEventListener('prepora:session_revoked', handleRevoked);
+    window.addEventListener('storage', handleStorageChange);
+    return () => {
+      window.removeEventListener('prepora:session_revoked', handleRevoked);
+      window.removeEventListener('storage', handleStorageChange);
+    };
   }, []);
 
-  // Periodic and tab-visibility heartbeat session check (5s fast check for real-time single device enforcement)
+  // Periodic and tab-visibility heartbeat session check (5s fast check for real-time single device enforcement & instant force logout)
   useEffect(() => {
     if (!token) return;
 
@@ -231,18 +242,16 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         const res = await fetch('/api/auth/me', {
           headers: { Authorization: `Bearer ${currentToken}` }
         });
-        if (res.status === 401) {
+        if (res.status === 401 || res.status === 403) {
           const errData = await res.json().catch(() => null);
-          const isAnotherDevice = errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' ||
-            (errData?.code === 'SESSION_REVOKED' && errData?.message?.toLowerCase().includes('another device'));
-
-          if (isAnotherDevice) {
-            const msg = errData?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device par session band kar diya gaya hai.';
-            localStorage.removeItem(TOKEN_KEY);
-            setToken(null);
-            setUser(userService.getProfile());
-            setSessionRevokedAlert({ open: true, message: msg });
-          }
+          const msg = errData?.message || 'Your session has ended or was terminated by an administrator. Please log in again.';
+          localStorage.removeItem(TOKEN_KEY);
+          try {
+            localStorage.setItem('prepora_logout_signal', String(Date.now()));
+          } catch {}
+          setToken(null);
+          setUser(userService.getProfile());
+          setSessionRevokedAlert({ open: true, message: msg });
         }
       } catch {
         // Network offline, skip
