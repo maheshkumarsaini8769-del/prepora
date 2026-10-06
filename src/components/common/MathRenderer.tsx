@@ -72,14 +72,28 @@ export const MathRenderer: React.FC<MathRendererProps> = ({
     }
   }
 
-  // Parse mixed text with inline $...$ or display $$...$$ delimiters
-  // Split into tokens: $$...$$ (display), $...$ (inline), or plain text
-  const tokens = content.split(/(\$\$[\s\S]+?\$\$|\$[^\$\n]+?\$)/g);
+  // Parse mixed text with inline $...$, display $$...$$, or markdown images ![alt](url)
+  const tokens = content.split(/(\$\$[\s\S]+?\$\$|\$[^\$\n]+?\$|!\[[^\]]*\]\([^)]+\))/g);
 
   return (
     <span className={`inline-math-wrapper ${className}`}>
       {tokens.map((part, idx) => {
         if (!part) return null;
+
+        // Markdown image ![alt](url)
+        const imgMatch = part.match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
+        if (imgMatch) {
+          return (
+            <span key={idx} className="block my-2">
+              <img
+                src={imgMatch[2]}
+                alt={imgMatch[1] || 'Question Diagram'}
+                className="max-h-72 max-w-full rounded-xl border border-slate-200 dark:border-slate-800 object-contain shadow-sm"
+                loading="lazy"
+              />
+            </span>
+          );
+        }
 
         // Display math $$...$$
         if (part.startsWith('$$') && part.endsWith('$$')) {

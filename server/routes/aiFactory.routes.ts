@@ -14,6 +14,7 @@ import { runBatchedGeneration } from '../services/aiFactoryGenerator.js';
 import { calculateQuestionAllocation } from '../services/topicWeightService.js';
 import { BIOLOGY_CHAPTER_1_TOPICS } from '../services/biologyChapter1Bank.js';
 import { extractHeadingsFromText } from '../services/pdfKnowledgeExtractor.js';
+import { aiService } from '../services/ai/aiService.js';
 
 const router = Router();
 
@@ -915,6 +916,9 @@ router.put('/settings', async (req: Request, res: Response) => {
       { $set: updateObj },
       { new: true, upsert: true }
     );
+
+    // Re-initialize live AI service with the newly updated key/model immediately
+    await aiService.initializeFromDB().catch(e => console.warn('[AI Service Reload Warning]', e));
 
     res.json({
       success: true,
