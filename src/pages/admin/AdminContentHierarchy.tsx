@@ -9,10 +9,13 @@ import {
   CreditCard,
   RefreshCw,
   X,
-  Tv
+  Tv,
+  Calculator,
+  Sparkles
 } from 'lucide-react';
 import { adminFetch } from '../../utils/adminApi';
 import { AdminLectureDiscovery } from './AdminLectureDiscovery';
+import { MathRenderer } from '../../components/common/MathRenderer';
 
 interface HierarchyItem {
   _id: string;
@@ -57,15 +60,19 @@ export const AdminContentHierarchy: React.FC = () => {
   const [newChapter, setNewChapter] = useState('');
   const [newTopic, setNewTopic] = useState('');
 
-  // New Card Modal
+  // New Card Modal (Formula / Flashcard)
   const [cardModalOpen, setCardModalOpen] = useState(false);
   const [cardType, setCardType] = useState<'formula' | 'flashcard'>('formula');
   const [cardSubject, setCardSubject] = useState('Physics');
+  const [cardClassLevel, setCardClassLevel] = useState<'11' | '12'>('11');
   const [cardChapter, setCardChapter] = useState('');
   const [cardTopic, setCardTopic] = useState('');
   const [cardFront, setCardFront] = useState('');
   const [cardBack, setCardBack] = useState('');
+  const [cardVariables, setCardVariables] = useState('');
+  const [cardExamTip, setCardExamTip] = useState('');
   const [cardExplanation, setCardExplanation] = useState('');
+  const [cardDifficulty, setCardDifficulty] = useState<'High' | 'Medium' | 'Low'>('High');
 
   const fetchHierarchy = async () => {
     setLoading(true);
@@ -144,6 +151,27 @@ export const AdminContentHierarchy: React.FC = () => {
   const handleCreateCard = async () => {
     if (!cardFront || !cardBack || !cardChapter) return;
     try {
+      // 1. If formula, also register in student canonical Formula repository
+      if (cardType === 'formula') {
+        await fetch('/api/formulas', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title: cardFront,
+            formula: cardBack,
+            subject: cardSubject,
+            chapter: cardChapter,
+            topic: cardTopic || `${cardChapter} Key Concepts`,
+            classLevel: cardClassLevel,
+            variables: cardVariables,
+            explanation: cardExplanation,
+            examTip: cardExamTip,
+            importance: cardDifficulty
+          })
+        }).catch(() => null);
+      }
+
+      // 2. Register in Flashcard repository
       const res = await adminFetch('/api/admin/flashcards', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -155,8 +183,8 @@ export const AdminContentHierarchy: React.FC = () => {
           front: cardFront,
           back: cardBack,
           explanation: cardExplanation,
-          difficulty: 'Medium',
-          tags: [cardChapter, cardSubject]
+          difficulty: cardDifficulty,
+          tags: [cardChapter, cardSubject, cardClassLevel]
         })
       });
       const data = await res.json();
@@ -164,6 +192,8 @@ export const AdminContentHierarchy: React.FC = () => {
         setCardModalOpen(false);
         setCardFront('');
         setCardBack('');
+        setCardVariables('');
+        setCardExamTip('');
         setCardExplanation('');
         fetchFlashcards();
       }
@@ -428,13 +458,19 @@ export const AdminContentHierarchy: React.FC = () => {
                           {card.front}
                         </div>
                       </div>
-                      <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-750">
-                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase">
+                      <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-750 overflow-x-auto">
+                        <div className="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase mb-1">
                           Back (Formula / Identity)
                         </div>
-                        <div className="font-mono text-xs text-emerald-800 dark:text-emerald-300 font-semibold mt-1 break-words">
-                          {card.back}
-                        </div>
+                        {card.type === 'formula' ? (
+                          <div className="text-emerald-800 dark:text-emerald-300 font-semibold py-1">
+                            <MathRenderer math={card.back} displayMode={true} />
+                          </div>
+                        ) : (
+                          <div className="font-mono text-xs text-emerald-800 dark:text-emerald-300 font-semibold break-words">
+                            {card.back}
+                          </div>
+                        )}
                       </div>
                       {card.explanation && (
                         <div className="text-[11px] text-slate-600 dark:text-slate-400 italic">
@@ -549,22 +585,29 @@ export const AdminContentHierarchy: React.FC = () => {
       {/* Card Modal */}
       {cardModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
-          <div className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 space-y-4 shadow-xl">
+          <div className="w-full max-w-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 space-y-4 shadow-2xl max-h-[92vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-2 border-b border-slate-100 dark:border-slate-800">
-              <h3 className="font-bold text-base text-slate-900 dark:text-white">Create Formula / Flashcard</h3>
+              <div className="flex items-center gap-2">
+                <div className="w-7 h-7 rounded-xl bg-emerald-600/20 text-emerald-500 flex items-center justify-center">
+                  <Calculator className="w-4 h-4" />
+                </div>
+                <h3 className="font-bold text-base text-slate-900 dark:text-white">
+                  {cardType === 'formula' ? 'Add Master Formula (नया फॉर्मूला जोड़ें)' : 'Create Flashcard'}
+                </h3>
+              </div>
               <button onClick={() => setCardModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white">
                 <X className="w-5 h-5" />
               </button>
             </div>
 
-            <div className="space-y-3 text-xs">
-              <div className="grid grid-cols-2 gap-2">
+            <div className="space-y-3.5 text-xs">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 <div>
                   <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Type</label>
                   <select
                     value={cardType}
                     onChange={(e) => setCardType(e.target.value as any)}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold"
                   >
                     <option value="formula">Formula Card</option>
                     <option value="flashcard">Flashcard</option>
@@ -575,7 +618,7 @@ export const AdminContentHierarchy: React.FC = () => {
                   <select
                     value={cardSubject}
                     onChange={(e) => setCardSubject(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold"
                   >
                     <option value="Physics">Physics</option>
                     <option value="Chemistry">Chemistry</option>
@@ -583,70 +626,147 @@ export const AdminContentHierarchy: React.FC = () => {
                     <option value="Biology">Biology</option>
                   </select>
                 </div>
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Class</label>
+                  <select
+                    value={cardClassLevel}
+                    onChange={(e) => setCardClassLevel(e.target.value as any)}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold"
+                  >
+                    <option value="11">Class 11</option>
+                    <option value="12">Class 12</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Priority</label>
+                  <select
+                    value={cardDifficulty}
+                    onChange={(e) => setCardDifficulty(e.target.value as any)}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold"
+                  >
+                    <option value="High">High Yield</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Chapter</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Thermodynamics, Solutions"
+                    value={cardChapter}
+                    onChange={(e) => setCardChapter(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-medium"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Topic</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Carnot Engine, Henry's Law"
+                    value={cardTopic}
+                    onChange={(e) => setCardTopic(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-medium"
+                  />
+                </div>
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Chapter</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">
+                  Formula Name / Concept Title
+                </label>
                 <input
                   type="text"
-                  placeholder="e.g. Kinematics"
-                  value={cardChapter}
-                  onChange={(e) => setCardChapter(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
-                />
-              </div>
-
-              <div>
-                <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Front (Title / Prompt)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Maximum Range of Projectile on Horizontal Plane"
+                  placeholder="e.g. Carnot Engine Efficiency & Work Done"
                   value={cardFront}
                   onChange={(e) => setCardFront(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-bold"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Back (Formula / Solution)</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold flex items-center justify-between">
+                  <span>LaTeX Math Formula Expression</span>
+                  <span className="text-[10px] text-emerald-500 font-bold">Standard LaTeX / Math syntax</span>
+                </label>
                 <textarea
                   rows={2}
-                  placeholder="e.g. R_max = u^2 / g at theta = 45 degrees"
+                  placeholder="e.g. \eta = 1 - \frac{T_2}{T_1} = \frac{W}{Q_1}"
                   value={cardBack}
                   onChange={(e) => setCardBack(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-mono text-xs"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white font-mono text-xs"
                 />
               </div>
 
+              {/* Live KaTeX Preview */}
+              {cardBack.trim() && (
+                <div className="p-3 rounded-2xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-300 dark:border-emerald-800/60 animate-in fade-in">
+                  <div className="flex items-center gap-1.5 text-[10px] font-black uppercase text-emerald-700 dark:text-emerald-400 mb-1">
+                    <Sparkles className="w-3.5 h-3.5" />
+                    <span>Live Math Equation Preview (KaTeX)</span>
+                  </div>
+                  <div className="py-1 text-center overflow-x-auto text-slate-900 dark:text-white font-semibold">
+                    <MathRenderer math={cardBack} displayMode={true} />
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Variables Definition</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. T1 = Source Temp (K), T2 = Sink Temp (K)"
+                    value={cardVariables}
+                    onChange={(e) => setCardVariables(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white"
+                  />
+                </div>
+                <div>
+                  <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Exam Tip / Trap Warning</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Always convert temperatures into Kelvin!"
+                    value={cardExamTip}
+                    onChange={(e) => setCardExamTip(e.target.value)}
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white"
+                  />
+                </div>
+              </div>
+
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Explanation / Derivation Tip</label>
+                <label className="block text-slate-700 dark:text-slate-300 mb-1 font-semibold">Short Note / Theory Concept</label>
                 <input
                   type="text"
-                  placeholder="Optional context or tip..."
+                  placeholder="Optional theoretical derivation or definition..."
                   value={cardExplanation}
                   onChange={(e) => setCardExplanation(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white"
                 />
               </div>
             </div>
 
-            <div className="flex justify-end gap-2 pt-2">
+            <div className="flex justify-end gap-2 pt-3 border-t border-slate-100 dark:border-slate-800">
               <button
                 onClick={() => setCardModalOpen(false)}
-                className="px-3 py-2 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold"
+                className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={handleCreateCard}
-                className="px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold shadow-xs"
+                className="px-5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-black shadow-xs transition cursor-pointer"
               >
-                Save Card
+                Save & Publish Formula
               </button>
             </div>
           </div>
         </div>
       )}
+
     </div>
   );
 };

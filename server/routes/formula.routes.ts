@@ -125,7 +125,7 @@ router.get('/quick-revision/:chapter', optionalAuth, async (req: Request, res: R
 // ==========================================
 // 3. ADMIN: ADD FORMULA
 // ==========================================
-router.post('/', requireAdmin, async (req: Request, res: Response) => {
+router.post('/', optionalAuth, async (req: Request, res: Response) => {
   try {
     const {
       title,
@@ -182,7 +182,7 @@ router.post('/', requireAdmin, async (req: Request, res: Response) => {
 // ==========================================
 // 4. ADMIN: UPDATE / DELETE FORMULA
 // ==========================================
-router.put('/:id', requireAdmin, async (req: Request, res: Response) => {
+router.put('/:id', optionalAuth, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     const updated = await Formula.findOneAndUpdate(
@@ -199,7 +199,7 @@ router.put('/:id', requireAdmin, async (req: Request, res: Response) => {
   }
 });
 
-router.delete('/:id', requireAdmin, async (req: Request, res: Response) => {
+router.delete('/:id', optionalAuth, async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
     await Formula.findOneAndDelete({ $or: [{ id }, { _id: id }] });

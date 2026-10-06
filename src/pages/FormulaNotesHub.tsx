@@ -28,7 +28,12 @@ import {
   Columns,
   Maximize2,
   Minimize2,
-  ExternalLink
+  ExternalLink,
+  Download,
+  Printer,
+  FileText,
+  Plus,
+  PlusCircle
 } from 'lucide-react';
 import { Button } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
@@ -43,6 +48,72 @@ import {
   TopicRevisionItem,
   TopicFormula
 } from '../data/comprehensiveFormulaNotes';
+
+// Helper to merge dynamically fetched or admin-created formulas into master formula list
+function mergeServerFormulas(
+  base: TopicRevisionItem[],
+  serverList: any[]
+): TopicRevisionItem[] {
+  if (!serverList || serverList.length === 0) return base;
+
+  const result: TopicRevisionItem[] = base.map((item) => ({
+    ...item,
+    formulas: [...item.formulas]
+  }));
+
+  const itemMap = new Map<string, TopicRevisionItem>();
+  result.forEach((item) => {
+    const key = `${item.subject.toLowerCase()}:::${item.chapter.toLowerCase()}:::${item.topic.toLowerCase()}`;
+    itemMap.set(key, item);
+  });
+
+  serverList.forEach((sf) => {
+    if (!sf.formula || !sf.title || !sf.chapter) return;
+    const sub = (sf.subject as SubjectName) || 'Physics';
+    const ch = sf.chapter.trim();
+    const top = sf.topic ? sf.topic.trim() : 'Core Concepts';
+    const key = `${sub.toLowerCase()}:::${ch.toLowerCase()}:::${top.toLowerCase()}`;
+
+    const existingItem = itemMap.get(key);
+
+    const newFormula: TopicFormula = {
+      name: sf.title,
+      formula: sf.formula,
+      variables: sf.variables || '',
+      examTip: sf.examTip || sf.explanation || '',
+      trap: sf.trap || undefined
+    };
+
+    if (existingItem) {
+      const alreadyHas = existingItem.formulas.some(
+        (f) =>
+          f.name.toLowerCase() === newFormula.name.toLowerCase() ||
+          f.formula.trim() === newFormula.formula.trim()
+      );
+      if (!alreadyHas) {
+        existingItem.formulas.push(newFormula);
+      }
+    } else {
+      const newItem: TopicRevisionItem = {
+        id: `srv-${sf._id || sf.id || Math.random().toString(36).substring(2, 9)}`,
+        subject: sub,
+        classLevel: (sf.classLevel === '12' ? '12' : '11') as ClassLevel,
+        chapter: ch,
+        topic: top,
+        weightage: (sf.importance as any) || 'Medium',
+        examTarget: 'Both',
+        concept: sf.explanation || `${ch} - ${top}`,
+        shortNotes: sf.examTip ? [sf.examTip] : ['Key formula from curriculum.'],
+        formulas: [newFormula],
+        keyPoints: [sf.examTip || 'Important for exam revision.']
+      };
+      result.push(newItem);
+      itemMap.set(key, newItem);
+    }
+  });
+
+  return result;
+}
 
 // --- Interactive Topic Card Sub-component ---
 interface TopicCardProps {
@@ -488,10 +559,434 @@ export const FormulaNotesHub: React.FC = () => {
     setTimeout(() => setCopiedFormulaName(null), 2000);
   }, []);
 
+  // Dynamic Master Formulas (Merged with Server & Admin-created formulas)
+  const [allNotes, setAllNotes] = useState<TopicRevisionItem[]>(() => {
+    try {
+      const localCustom = JSON.parse(localStorage.getItem('prepora_custom_formulas') || '[]');
+      if (localCustom && localCustom.length > 0) {
+        return mergeServerFormulas(comprehensiveFormulaNotes, localCustom);
+      }
+    } catch {}
+    return comprehensiveFormulaNotes;
+  });
+
+  // Full Chapter Sheet Modal State
+  const [fullChapterSheet, setFullChapterSheet] = useState<{
+    chapter: string;
+    items: TopicRevisionItem[];
+  } | null>(null);
+  const [sheetTopicFilter, setSheetTopicFilter] = useState<string>('All');
+
+  // Admin Add Formula Modal State
+  const [addFormulaModalOpen, setAddFormulaModalOpen] = useState<boolean>(false);
+  const [newFormulaForm, setNewFormulaForm] = useState<{
+    subject: SubjectName;
+    classLevel: ClassLevel;
+    chapter: string;
+    topic: string;
+    title: string;
+    formula: string;
+    variables: string;
+    examTip: string;
+    trap: string;
+    importance: 'High' | 'Medium' | 'Low';
+  }>({
+    subject: selectedSubject,
+    classLevel: '11',
+    chapter: '',
+    topic: '',
+    title: '',
+    formula: '',
+    variables: '',
+    examTip: '',
+    trap: '',
+    importance: 'High'
+  });
+  const [savingFormula, setSavingFormula] = useState<boolean>(false);
+
+  // Sync Server Formulas from MongoDB
+  useEffect(() => {
+    let isMounted = true;
+    const fetchFormulas = async () => {
+      try {
+        const res = await fetch('/api/formulas?limit=2000');
+        if (!res.ok) return;
+        const data = await res.json();
+        const list = Array.isArray(data) ? data : data.formulas || [];
+        if (isMounted && list.length > 0) {
+          setAllNotes((prev) => mergeServerFormulas(comprehensiveFormulaNotes, list));
+        }
+      } catch (err) {
+        console.warn('Failed to load server formulas:', err);
+      }
+    };
+    fetchFormulas();
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Handler: Print / Save as PDF for Full Chapter
+  const handlePrintChapter = useCallback((chapterName: string, items: TopicRevisionItem[]) => {
+    const printWindow = window.open('', '_blank');
+    if (!printWindow) {
+      alert('Please allow popups to print/download the full chapter formula sheet.');
+      return;
+    }
+
+    const totalFormulas = items.reduce((s, it) => s + it.formulas.length, 0);
+    const classVal = items[0]?.classLevel || '11/12';
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>${chapterName} — Formula Sheet</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"><\/script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"><\/script>
+  <style>
+    @page { size: A4; margin: 12mm 12mm 14mm 12mm; }
+    * { box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      color: #0f172a;
+      background: #ffffff;
+      padding: 16px;
+      margin: 0;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+    .no-print {
+      margin-bottom: 20px;
+      padding: 12px 16px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .print-btn {
+      background: #059669;
+      color: #ffffff;
+      border: none;
+      padding: 8px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .close-btn {
+      background: #64748b;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .header-banner {
+      border-bottom: 3px solid #059669;
+      padding-bottom: 12px;
+      margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+    .chapter-title {
+      font-size: 24px;
+      margin: 0 0 6px 0;
+      color: #0f172a;
+      font-weight: 900;
+      letter-spacing: -0.5px;
+    }
+    .chapter-meta {
+      font-size: 13px;
+      color: #475569;
+      font-weight: 600;
+    }
+    .brand-title {
+      font-size: 13px;
+      color: #059669;
+      font-weight: 800;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      text-align: right;
+    }
+    .topic-block {
+      margin-bottom: 24px;
+      page-break-inside: avoid;
+    }
+    .topic-header {
+      font-size: 15px;
+      font-weight: 800;
+      color: #065f46;
+      border-bottom: 1.5px solid #cbd5e1;
+      padding-bottom: 6px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .formula-card {
+      border: 1px solid #cbd5e1;
+      border-left: 4px solid #059669;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #f8fafc;
+      margin-bottom: 12px;
+      page-break-inside: avoid;
+    }
+    .formula-name {
+      font-weight: 800;
+      font-size: 14px;
+      color: #0f172a;
+      margin-bottom: 6px;
+    }
+    .formula-math {
+      font-size: 16px;
+      padding: 10px 14px;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      margin: 8px 0;
+      text-align: center;
+      overflow-x: auto;
+    }
+    .var-text {
+      font-size: 12px;
+      color: #334155;
+      margin-top: 6px;
+      line-height: 1.4;
+    }
+    .tip-box {
+      font-size: 11.5px;
+      color: #065f46;
+      background: #ecfdf5;
+      border: 1px solid #a7f3d0;
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-top: 6px;
+      display: block;
+      font-weight: 600;
+    }
+    .trap-box {
+      font-size: 11.5px;
+      color: #991b1b;
+      background: #fef2f2;
+      border: 1px solid #fecaca;
+      padding: 6px 10px;
+      border-radius: 6px;
+      margin-top: 6px;
+      display: block;
+      font-weight: 600;
+    }
+    .notes-list {
+      font-size: 12px;
+      color: #334155;
+      margin: 8px 0 0 16px;
+      padding: 0;
+    }
+    @media print {
+      body { padding: 0; }
+      .no-print { display: none !important; }
+      .formula-card { break-inside: avoid; page-break-inside: avoid; }
+      .topic-block { break-inside: avoid; page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="no-print">
+    <button class="print-btn" onclick="window.print()">🖨️ Print / Save as PDF</button>
+    <button class="close-btn" onclick="window.close()">✕ Close</button>
+    <span style="font-size: 12px; color: #64748b; margin-left: 8px;">Tip: In the print dialog, choose destination "Save as PDF".</span>
+  </div>
+
+  <div class="header-banner">
+    <div>
+      <h1 class="chapter-title">${chapterName}</h1>
+      <div class="chapter-meta">${selectedSubject} • Class ${classVal} • Total Formulas: ${totalFormulas}</div>
+    </div>
+    <div>
+      <div class="brand-title">PREPORA HUB</div>
+      <div style="font-size: 11px; color: #64748b; text-align: right;">NEET / JEE / CBSE</div>
+    </div>
+  </div>
+
+  ${items.map(it => `
+    <div class="topic-block">
+      <div class="topic-header">📌 ${it.topic}</div>
+      ${it.concept ? `<div style="font-size: 12px; color: #64748b; margin-bottom: 8px;"><em>Concept: ${it.concept}</em></div>` : ''}
+      <div>
+        ${it.formulas.map(f => `
+          <div class="formula-card">
+            <div class="formula-name">${f.name}</div>
+            <div class="formula-math">$$${f.formula}$$</div>
+            ${f.variables ? `<div class="var-text"><strong>Variables:</strong> ${f.variables}</div>` : ''}
+            ${f.examTip ? `<div class="tip-box">💡 <strong>Exam Application:</strong> ${f.examTip}</div>` : ''}
+            ${f.trap ? `<div class="trap-box">⚠️ <strong>Common Trap:</strong> ${f.trap}</div>` : ''}
+          </div>
+        `).join('')}
+      </div>
+      ${it.shortNotes && it.shortNotes.length > 0 ? `
+        <div style="margin-top: 8px;">
+          <strong style="font-size: 11.5px; color: #475569;">Key Short Notes:</strong>
+          <ul class="notes-list">
+            ${it.shortNotes.map(sn => `<li>${sn}</li>`).join('')}
+          </ul>
+        </div>
+      ` : ''}
+    </div>
+  `).join('')}
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      if (typeof renderMathInElement === 'function') {
+        renderMathInElement(document.body, {
+          delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "$", right: "$", display: false}
+          ],
+          throwOnError: false
+        });
+      }
+      setTimeout(function() {
+        window.print();
+      }, 500);
+    });
+  <\/script>
+</body>
+</html>`;
+
+    printWindow.document.open();
+    printWindow.document.write(html);
+    printWindow.document.close();
+  }, [selectedSubject]);
+
+  // Handler: Download Markdown Sheet
+  const handleDownloadMarkdown = useCallback((chapterName: string, items: TopicRevisionItem[]) => {
+    const totalFormulas = items.reduce((s, it) => s + it.formulas.length, 0);
+    const classVal = items[0]?.classLevel || '11/12';
+
+    let md = `# ${chapterName} — Complete Formula & Revision Sheet\n\n`;
+    md += `**Subject:** ${selectedSubject}  \n`;
+    md += `**Class:** Class ${classVal}  \n`;
+    md += `**Formulas Count:** ${totalFormulas}  \n`;
+    md += `**Topics Count:** ${items.length}  \n`;
+    md += `**Generated by:** Prepora (prepora.online)\n\n`;
+    md += `---\n\n`;
+
+    items.forEach((it) => {
+      md += `## 📌 ${it.topic}\n\n`;
+      if (it.concept) {
+        md += `*${it.concept}*\n\n`;
+      }
+      it.formulas.forEach((f) => {
+        md += `### ${f.name}\n\n`;
+        md += `$$\n${f.formula}\n$$\n\n`;
+        if (f.variables) md += `- **Variables:** ${f.variables}\n`;
+        if (f.examTip) md += `- **💡 Exam Tip:** ${f.examTip}\n`;
+        if (f.trap) md += `- **⚠️ Common Trap:** ${f.trap}\n`;
+        md += `\n`;
+      });
+      if (it.shortNotes && it.shortNotes.length > 0) {
+        md += `#### Key Revision Points:\n`;
+        it.shortNotes.forEach((sn) => {
+          md += `- ${sn}\n`;
+        });
+        md += `\n`;
+      }
+      md += `---\n\n`;
+    });
+
+    const blob = new Blob([md], { type: 'text/markdown;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', `${chapterName.replace(/[^a-zA-Z0-9_-]/g, '_')}_Formula_Sheet.md`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }, [selectedSubject]);
+
+  // Handler: Save New Formula from Admin Modal
+  const handleSaveNewFormula = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newFormulaForm.chapter.trim() || !newFormulaForm.title.trim() || !newFormulaForm.formula.trim()) {
+      alert('Please fill Chapter name, Formula Title, and LaTeX Equation.');
+      return;
+    }
+    setSavingFormula(true);
+    try {
+      await fetch('/api/formulas', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject: newFormulaForm.subject,
+          classLevel: newFormulaForm.classLevel,
+          chapter: newFormulaForm.chapter.trim(),
+          topic: newFormulaForm.topic.trim() || 'Core Concepts',
+          title: newFormulaForm.title.trim(),
+          formula: newFormulaForm.formula.trim(),
+          variables: newFormulaForm.variables.trim(),
+          examTip: newFormulaForm.examTip.trim(),
+          trap: newFormulaForm.trap.trim(),
+          importance: newFormulaForm.importance
+        })
+      });
+
+      const serverItem = {
+        id: `custom_${Date.now()}`,
+        subject: newFormulaForm.subject,
+        classLevel: newFormulaForm.classLevel,
+        chapter: newFormulaForm.chapter.trim(),
+        topic: newFormulaForm.topic.trim() || 'Core Concepts',
+        title: newFormulaForm.title.trim(),
+        formula: newFormulaForm.formula.trim(),
+        variables: newFormulaForm.variables.trim(),
+        examTip: newFormulaForm.examTip.trim(),
+        trap: newFormulaForm.trap.trim(),
+        importance: newFormulaForm.importance
+      };
+
+      setAllNotes((prev) => mergeServerFormulas(prev, [serverItem]));
+
+      try {
+        const stored = JSON.parse(localStorage.getItem('prepora_custom_formulas') || '[]');
+        stored.push(serverItem);
+        localStorage.setItem('prepora_custom_formulas', JSON.stringify(stored));
+      } catch {}
+
+      setPlannerMsg(`Formula "${newFormulaForm.title}" successfully added!`);
+      setTimeout(() => setPlannerMsg(null), 3500);
+
+      setAddFormulaModalOpen(false);
+      setNewFormulaForm({
+        subject: selectedSubject,
+        classLevel: '11',
+        chapter: '',
+        topic: '',
+        title: '',
+        formula: '',
+        variables: '',
+        examTip: '',
+        trap: '',
+        importance: 'High'
+      });
+    } catch (err) {
+      console.error('Failed to create formula:', err);
+      alert('Formula saved locally.');
+    } finally {
+      setSavingFormula(false);
+    }
+  };
+
   // All available chapters for current subject (to populate Jump to Chapter selector)
   const allSubjectChapters = useMemo(() => {
     const map = new Map<string, { classLevel: ClassLevel; count: number }>();
-    comprehensiveFormulaNotes.forEach((item) => {
+    allNotes.forEach((item) => {
       if (item.subject === selectedSubject && isSubjectAllowedForExam(item.subject, user.targetExam)) {
         if (!map.has(item.chapter)) {
           map.set(item.chapter, { classLevel: item.classLevel, count: 0 });
@@ -504,7 +999,7 @@ export const FormulaNotesHub: React.FC = () => {
       classLevel: info.classLevel,
       formulaCount: info.count
     }));
-  }, [selectedSubject, user.targetExam]);
+  }, [allNotes, selectedSubject, user.targetExam]);
 
   // Check if search query matches other subjects
   const crossSubjectMatches = useMemo(() => {
@@ -514,7 +1009,7 @@ export const FormulaNotesHub: React.FC = () => {
     const matches: Array<{ subject: SubjectName; count: number }> = [];
 
     otherAllowed.forEach((sub) => {
-      const hits = comprehensiveFormulaNotes.filter((item) => {
+      const hits = allNotes.filter((item) => {
         if (item.subject !== sub) return false;
         return (
           item.chapter.toLowerCase().includes(q) ||
@@ -528,7 +1023,7 @@ export const FormulaNotesHub: React.FC = () => {
       }
     });
     return matches;
-  }, [searchQuery, allowedSubjects, selectedSubject]);
+  }, [allNotes, searchQuery, allowedSubjects, selectedSubject]);
 
   const handleJumpToChapter = (chapterName: string) => {
     if (!chapterName) return;
@@ -544,13 +1039,13 @@ export const FormulaNotesHub: React.FC = () => {
 
   // Filter items matching subject and exam guard (when searching, ignore class restriction so students find all chapters!)
   const subjectItems = useMemo(() => {
-    return comprehensiveFormulaNotes.filter((item) => {
+    return allNotes.filter((item) => {
       if (item.subject !== selectedSubject) return false;
       if (!isSubjectAllowedForExam(item.subject, user.targetExam)) return false;
       if (!searchQuery.trim() && selectedClass !== 'All' && item.classLevel !== selectedClass) return false;
       return true;
     });
-  }, [selectedSubject, selectedClass, searchQuery, user.targetExam]);
+  }, [allNotes, selectedSubject, selectedClass, searchQuery, user.targetExam]);
 
   // Filtered by Search Query & Bookmarked Filter
   const filteredItems = useMemo(() => {
@@ -866,6 +1361,24 @@ export const FormulaNotesHub: React.FC = () => {
                 <span>Studio View</span>
               </button>
             </div>
+
+            {/* Add Formula Button */}
+            <button
+              type="button"
+              onClick={() => {
+                setNewFormulaForm((prev) => ({
+                  ...prev,
+                  subject: selectedSubject,
+                  classLevel: selectedClass === 'All' ? '11' : selectedClass
+                }));
+                setAddFormulaModalOpen(true);
+              }}
+              className="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-xs"
+              title="Add a new formula to curriculum"
+            >
+              <PlusCircle className="w-3.5 h-3.5" />
+              <span>+ Add Formula</span>
+            </button>
           </div>
         </div>
 
@@ -1057,6 +1570,48 @@ export const FormulaNotesHub: React.FC = () => {
 
                     {/* Chapter Action Buttons & Accordion Trigger */}
                     <div className="flex items-center gap-2 shrink-0 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100 dark:border-slate-800">
+                      {/* View All Formulas for Full Chapter */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setFullChapterSheet({ chapter: chGroup.chapter, items: chGroup.items });
+                          setSheetTopicFilter('All');
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="View all formulas of this chapter together on one page"
+                      >
+                        <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span>All Formulas ({chGroup.formulaCount})</span>
+                      </button>
+
+                      {/* Download / Print Chapter Sheet */}
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handlePrintChapter(chGroup.chapter, chGroup.items);
+                        }}
+                        className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Print or Save Chapter Formula Sheet as PDF"
+                      >
+                        <Printer className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span className="hidden sm:inline">PDF</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleDownloadMarkdown(chGroup.chapter, chGroup.items);
+                        }}
+                        className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Download Markdown (.md) Formula Sheet"
+                      >
+                        <Download className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span className="hidden sm:inline">MD</span>
+                      </button>
+
                       {/* Watch YouTube Lecture */}
                       <button
                         type="button"
@@ -1219,6 +1774,41 @@ export const FormulaNotesHub: React.FC = () => {
                     </div>
 
                     <div className="flex flex-wrap items-center gap-2">
+                      {/* View All Formulas for Full Chapter in Studio Mode */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFullChapterSheet({ chapter: activeTopicItem.chapter, items: currentChapterTopics });
+                          setSheetTopicFilter('All');
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="View all formulas of this chapter together on one page"
+                      >
+                        <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span>All Formulas ({currentChapterTopics.reduce((s, it) => s + it.formulas.length, 0)})</span>
+                      </button>
+
+                      {/* Download / Print Chapter Sheet */}
+                      <button
+                        type="button"
+                        onClick={() => handlePrintChapter(activeTopicItem.chapter, currentChapterTopics)}
+                        className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Print or Save Chapter Formula Sheet as PDF"
+                      >
+                        <Printer className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span className="hidden sm:inline">PDF</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleDownloadMarkdown(activeTopicItem.chapter, currentChapterTopics)}
+                        className="px-2.5 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition-colors cursor-pointer"
+                        title="Download Markdown (.md) Formula Sheet"
+                      >
+                        <Download className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+                        <span className="hidden sm:inline">MD</span>
+                      </button>
+
                       <button
                         type="button"
                         onClick={() =>
@@ -1293,6 +1883,404 @@ export const FormulaNotesHub: React.FC = () => {
                 Left panel se koi chapter select karein.
               </div>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* --- MODAL 1: FULL CHAPTER FORMULA SHEET MODAL ("ek sath pure chapter ke dekhna & download") --- */}
+      {fullChapterSheet && (
+        <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-hidden animate-in fade-in duration-200">
+          <div className="relative bg-white dark:bg-[#0c141d] w-full max-w-5xl max-h-[92vh] rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+            {/* Modal Header */}
+            <div className="p-4 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-slate-50/50 dark:bg-[#0f1724]">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300">
+                    {selectedSubject}
+                  </span>
+                  <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                    Class {fullChapterSheet.items[0]?.classLevel || '11/12'}
+                  </span>
+                  <span className="text-xs font-semibold text-slate-400">
+                    Full Chapter Sheet
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight">
+                  {fullChapterSheet.chapter}
+                </h2>
+                <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 mt-1">
+                  <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                    {fullChapterSheet.items.reduce((s, it) => s + it.formulas.length, 0)} Total Formulas
+                  </span>
+                  <span>•</span>
+                  <span>{fullChapterSheet.items.length} Topics</span>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handlePrintChapter(fullChapterSheet.chapter, fullChapterSheet.items)}
+                  className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer"
+                  title="Print or Save complete chapter as PDF"
+                >
+                  <Printer className="w-4 h-4" />
+                  <span>Print / PDF</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => handleDownloadMarkdown(fullChapterSheet.chapter, fullChapterSheet.items)}
+                  className="px-3.5 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer"
+                  title="Export complete chapter as Markdown document"
+                >
+                  <Download className="w-4 h-4" />
+                  <span>Download MD</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setFullChapterSheet(null)}
+                  className="w-9 h-9 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-900 dark:hover:text-white flex items-center justify-center transition cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            {/* Topic Filter Pills inside Modal */}
+            <div className="px-4 sm:px-6 py-2.5 border-b border-slate-100 dark:border-slate-800/80 bg-slate-50/70 dark:bg-slate-900/40 flex items-center gap-2 overflow-x-auto no-scrollbar">
+              <span className="text-[11px] font-bold text-slate-400 uppercase shrink-0">Filter Topic:</span>
+              <button
+                type="button"
+                onClick={() => setSheetTopicFilter('All')}
+                className={`px-3 py-1 rounded-xl text-xs font-bold transition shrink-0 cursor-pointer ${
+                  sheetTopicFilter === 'All'
+                    ? 'bg-emerald-600 text-white shadow-2xs'
+                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                }`}
+              >
+                All Topics ({fullChapterSheet.items.reduce((s, it) => s + it.formulas.length, 0)})
+              </button>
+              {fullChapterSheet.items.map((it) => (
+                <button
+                  key={it.id}
+                  type="button"
+                  onClick={() => setSheetTopicFilter(it.topic)}
+                  className={`px-3 py-1 rounded-xl text-xs font-bold transition shrink-0 cursor-pointer ${
+                    sheetTopicFilter === it.topic
+                      ? 'bg-emerald-600 text-white shadow-2xs'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
+                  }`}
+                >
+                  {it.topic} ({it.formulas.length})
+                </button>
+              ))}
+            </div>
+
+            {/* Scrollable Formulas List */}
+            <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-6">
+              {fullChapterSheet.items
+                .filter((it) => sheetTopicFilter === 'All' || it.topic === sheetTopicFilter)
+                .map((topicItem) => (
+                  <div key={topicItem.id} className="space-y-3">
+                    <div className="flex items-center gap-2 pb-1 border-b border-slate-100 dark:border-slate-800">
+                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <h3 className="text-sm font-extrabold text-slate-900 dark:text-white">
+                        {topicItem.topic}
+                      </h3>
+                      {topicItem.concept && (
+                        <span className="text-xs text-slate-400 font-medium line-clamp-1">
+                          — {topicItem.concept}
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                      {topicItem.formulas.map((f, fIdx) => (
+                        <div
+                          key={fIdx}
+                          className="rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#101924] p-4 flex flex-col justify-between shadow-xs hover:border-emerald-500/50 transition-colors"
+                        >
+                          <div>
+                            <div className="flex items-start justify-between gap-2 mb-2">
+                              <h4 className="text-xs font-bold text-slate-900 dark:text-white leading-tight">
+                                {f.name}
+                              </h4>
+                              <button
+                                type="button"
+                                onClick={() => handleCopyFormula(f)}
+                                className="shrink-0 p-1 rounded-lg text-slate-400 hover:text-emerald-600 hover:bg-slate-100 dark:hover:bg-slate-800 transition"
+                                title="Copy LaTeX Formula"
+                              >
+                                {copiedFormulaName === f.name ? (
+                                  <Check className="w-3.5 h-3.5 text-emerald-500" />
+                                ) : (
+                                  <Copy className="w-3.5 h-3.5" />
+                                )}
+                              </button>
+                            </div>
+
+                            {/* LaTeX Math Box */}
+                            <div className="py-2.5 px-3 rounded-xl bg-slate-50 dark:bg-slate-900/80 border border-slate-100 dark:border-slate-800 text-center my-2 text-sm sm:text-base font-semibold overflow-x-auto text-slate-900 dark:text-emerald-100">
+                              <MathRenderer math={f.formula} displayMode={true} />
+                            </div>
+
+                            {f.variables && (
+                              <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-snug mt-2">
+                                <span className="font-bold text-slate-700 dark:text-slate-300">Variables: </span>
+                                {f.variables}
+                              </p>
+                            )}
+
+                            {f.examTip && (
+                              <div className="mt-2.5 p-2 rounded-lg bg-emerald-50/70 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-900/50 text-[11px] text-emerald-900 dark:text-emerald-200 flex items-start gap-1.5">
+                                <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                                <span>{f.examTip}</span>
+                              </div>
+                            )}
+
+                            {f.trap && (
+                              <div className="mt-1.5 p-2 rounded-lg bg-rose-50/70 dark:bg-rose-950/40 border border-rose-200/80 dark:border-rose-900/50 text-[11px] text-rose-900 dark:text-rose-200 flex items-start gap-1.5">
+                                <AlertTriangle className="w-3.5 h-3.5 text-rose-600 dark:text-rose-400 shrink-0 mt-0.5" />
+                                <span>{f.trap}</span>
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+            </div>
+
+            {/* Modal Footer */}
+            <div className="p-3.5 sm:p-4 border-t border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-[#0f1724] flex items-center justify-between text-xs text-slate-500">
+              <span>
+                Tip: Click <strong>"Print / PDF"</strong> to download or print the entire chapter sheet at once.
+              </span>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFullChapterSheet(null)}
+                className="text-xs cursor-pointer"
+              >
+                Close Sheet
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- MODAL 2: ADMIN ADD FORMULA MODAL WITH LIVE KATEX PREVIEW --- */}
+      {addFormulaModalOpen && (
+        <div className="fixed inset-0 z-50 bg-slate-900/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-6 overflow-hidden animate-in fade-in duration-200">
+          <div className="relative bg-white dark:bg-[#0c141d] w-full max-w-2xl max-h-[92vh] rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl flex flex-col overflow-hidden animate-in zoom-in-95 duration-200">
+            {/* Header */}
+            <div className="p-4 sm:p-5 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/50 dark:bg-[#0f1724]">
+              <div className="flex items-center gap-2">
+                <div className="w-8 h-8 rounded-xl bg-emerald-500/10 flex items-center justify-center text-emerald-600 dark:text-emerald-400">
+                  <PlusCircle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-extrabold text-slate-900 dark:text-white">
+                    Add New Formula to Curriculum
+                  </h3>
+                  <p className="text-xs text-slate-400">
+                    Saves to database and renders across the platform with live KaTeX preview
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setAddFormulaModalOpen(false)}
+                className="w-8 h-8 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 flex items-center justify-center transition cursor-pointer"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Form Body */}
+            <form onSubmit={handleSaveNewFormula} className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                    Subject
+                  </label>
+                  <select
+                    value={newFormulaForm.subject}
+                    onChange={(e) => setNewFormulaForm({ ...newFormulaForm, subject: e.target.value as SubjectName })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                  >
+                    {allowedSubjects.map((s) => (
+                      <option key={s} value={s}>{s}</option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                    Class Level
+                  </label>
+                  <select
+                    value={newFormulaForm.classLevel}
+                    onChange={(e) => setNewFormulaForm({ ...newFormulaForm, classLevel: e.target.value as ClassLevel })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-semibold text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                  >
+                    <option value="11">Class 11</option>
+                    <option value="12">Class 12</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                    Chapter Name *
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    list="hub-existing-chapters"
+                    placeholder="e.g. Thermodynamics or Electrochemistry"
+                    value={newFormulaForm.chapter}
+                    onChange={(e) => setNewFormulaForm({ ...newFormulaForm, chapter: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                  />
+                  <datalist id="hub-existing-chapters">
+                    {allSubjectChapters.map((ch) => (
+                      <option key={ch.chapter} value={ch.chapter} />
+                    ))}
+                  </datalist>
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                    Topic Name
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Carnot Engine or Kohlrausch Law"
+                    value={newFormulaForm.topic}
+                    onChange={(e) => setNewFormulaForm({ ...newFormulaForm, topic: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                  Formula Title *
+                </label>
+                <input
+                  type="text"
+                  required
+                  placeholder="e.g. Maximum Work in Reversible Isothermal Process"
+                  value={newFormulaForm.title}
+                  onChange={(e) => setNewFormulaForm({ ...newFormulaForm, title: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                  LaTeX Math Formula *
+                </label>
+                <textarea
+                  rows={2}
+                  required
+                  placeholder="e.g. W = -2.303 n R T \log_{10}\left(\frac{V_2}{V_1}\right)"
+                  value={newFormulaForm.formula}
+                  onChange={(e) => setNewFormulaForm({ ...newFormulaForm, formula: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs font-mono text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                />
+
+                {/* Real-time KaTeX Live Preview */}
+                <div className="mt-2 p-3 rounded-xl bg-slate-50 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 text-center min-h-[48px] flex items-center justify-center">
+                  {newFormulaForm.formula.trim() ? (
+                    <MathRenderer math={newFormulaForm.formula} displayMode={true} />
+                  ) : (
+                    <span className="text-xs text-slate-400 italic">
+                      Live KaTeX math preview will appear here in real time...
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                  Variables Definition
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. n = moles, R = universal gas constant, T = temperature"
+                  value={newFormulaForm.variables}
+                  onChange={(e) => setNewFormulaForm({ ...newFormulaForm, variables: e.target.value })}
+                  className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                    Exam Tip / Pro-Tip
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. For isothermal expansion: W is maximum."
+                    value={newFormulaForm.examTip}
+                    onChange={(e) => setNewFormulaForm({ ...newFormulaForm, examTip: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                    Common Pitfall / Trap
+                  </label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Check if log is base e or base 10!"
+                    value={newFormulaForm.trap}
+                    onChange={(e) => setNewFormulaForm({ ...newFormulaForm, trap: e.target.value })}
+                    className="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-xs text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between pt-2">
+                <button
+                  type="button"
+                  onClick={() => navigate('/admin?tab=hierarchy')}
+                  className="text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
+                >
+                  <ExternalLink className="w-3.5 h-3.5" />
+                  <span>Open Full Admin Hierarchy</span>
+                </button>
+
+                <div className="flex items-center gap-2">
+                  <Button
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    onClick={() => setAddFormulaModalOpen(false)}
+                    className="text-xs cursor-pointer"
+                  >
+                    Cancel
+                  </Button>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    size="sm"
+                    disabled={savingFormula}
+                    className="text-xs cursor-pointer bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
+                  >
+                    {savingFormula ? 'Saving...' : 'Publish Formula'}
+                  </Button>
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       )}

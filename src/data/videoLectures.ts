@@ -7,6 +7,10 @@ export interface VideoResource {
   channelName: string;
   duration: string;
   description: string;
+  classLevel?: '11' | '12' | 'All';
+  targetExams?: ('JEE' | 'NEET' | 'CBSE' | 'All')[];
+  topic?: string;
+  isTopicWise?: boolean;
 }
 
 // Curated high-yield one-shot lectures from India's top educators for every single syllabus chapter
@@ -16,7 +20,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "States of Matter: Gases and Liquids",
   "subject": "Chemistry",
   "title": "States of Matter (Gases and Liquids) — High-Yield Complete One-Shot",
-  "youtubeId": "V-2q77zYJ9g",
+  "youtubeId": "4FIU1tOCW_0",
   "channelName": "Pankaj Sir Chemistry",
   "duration": "2h 35m",
   "description": "Complete NCERT & JEE/NEET coverage of Gas Laws, Ideal Gas, Real Gas, van der Waals equation, Critical Constants, and Liquefaction."
@@ -26,7 +30,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "States of Matter: Gases and Liquids",
   "subject": "Chemistry",
   "title": "States of Matter (Gases and Liquids) — High-Yield Complete One-Shot",
-  "youtubeId": "V-2q77zYJ9g",
+  "youtubeId": "4FIU1tOCW_0",
   "channelName": "Pankaj Sir Chemistry",
   "duration": "2h 35m",
   "description": "Complete NCERT & JEE/NEET coverage of Gas Laws, Ideal Gas, Real Gas, van der Waals equation, Critical Constants, and Liquefaction."
@@ -36,7 +40,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "s-Block Elements (Alkali & Alkaline Earth Metals)",
   "subject": "Chemistry",
   "title": "s-Block Elements — High-Yield Complete One-Shot",
-  "youtubeId": "0_XvT3n0zW8",
+  "youtubeId": "G4c5v97ExSM",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "2h 10m",
   "description": "Complete revision of Group 1 and Group 2 elements, periodic trends, anomalous properties of Li & Be, and industrial compounds."
@@ -46,7 +50,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "s-Block Elements (Alkali & Alkaline Earth Metals)",
   "subject": "Chemistry",
   "title": "s-Block Elements — High-Yield Complete One-Shot",
-  "youtubeId": "0_XvT3n0zW8",
+  "youtubeId": "G4c5v97ExSM",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "2h 10m",
   "description": "Complete revision of Group 1 and Group 2 elements, periodic trends, anomalous properties of Li & Be, and industrial compounds."
@@ -56,7 +60,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "p-Block Elements (Group 13 & 14)",
   "subject": "Chemistry",
   "title": "p-Block Elements (Group 13 & 14) — Complete Concept One-Shot",
-  "youtubeId": "k9H1P8tWb5E",
+  "youtubeId": "b0k5LOk_uPk",
   "channelName": "Unacademy JEE",
   "duration": "2h 45m",
   "description": "Boron and Carbon families, Diborane structure, Borax bead test, Silicones, Silicates, and Allotropes of Carbon for JEE & NEET."
@@ -66,7 +70,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "p-Block Elements (Group 13 & 14)",
   "subject": "Chemistry",
   "title": "p-Block Elements (Group 13 & 14) — Complete Concept One-Shot",
-  "youtubeId": "k9H1P8tWb5E",
+  "youtubeId": "b0k5LOk_uPk",
   "channelName": "Unacademy JEE",
   "duration": "2h 45m",
   "description": "Boron and Carbon families, Diborane structure, Borax bead test, Silicones, Silicates, and Allotropes of Carbon for JEE & NEET."
@@ -76,7 +80,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Hydrogen & Its Compounds",
   "subject": "Chemistry",
   "title": "Hydrogen & Its Compounds — High-Yield NCERT One-Shot",
-  "youtubeId": "8Y1XwQ0pZvg",
+  "youtubeId": "FdmETHB1mjE",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "1h 45m",
   "description": "Hydrogen isotopes, hydrides, water hardness, heavy water, and hydrogen peroxide preparation and redox chemistry."
@@ -86,7 +90,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Hydrogen & Its Compounds",
   "subject": "Chemistry",
   "title": "Hydrogen & Its Compounds — High-Yield NCERT One-Shot",
-  "youtubeId": "8Y1XwQ0pZvg",
+  "youtubeId": "FdmETHB1mjE",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "1h 45m",
   "description": "Hydrogen isotopes, hydrides, water hardness, heavy water, and hydrogen peroxide preparation and redox chemistry."
@@ -96,7 +100,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Environmental Chemistry",
   "subject": "Chemistry",
   "title": "Environmental Chemistry — High-Yield Complete One-Shot",
-  "youtubeId": "Q1N7X5xT2Zw",
+  "youtubeId": "j_Dh6tBx4po",
   "channelName": "Vedantu JEE",
   "duration": "1h 15m",
   "description": "Atmospheric pollution, tropospheric smog, stratospheric ozone depletion, water pollutants (BOD/COD), and green chemistry."
@@ -106,7 +110,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Environmental Chemistry",
   "subject": "Chemistry",
   "title": "Environmental Chemistry — High-Yield Complete One-Shot",
-  "youtubeId": "Q1N7X5xT2Zw",
+  "youtubeId": "j_Dh6tBx4po",
   "channelName": "Vedantu JEE",
   "duration": "1h 15m",
   "description": "Atmospheric pollution, tropospheric smog, stratospheric ozone depletion, water pollutants (BOD/COD), and green chemistry."
@@ -116,7 +120,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Principles Related to Practical Chemistry",
   "subject": "Chemistry",
   "title": "Practical Chemistry (Salt Analysis & Titrations) — One-Shot",
-  "youtubeId": "M8B2vK4xN7Y",
+  "youtubeId": "8rRnn4ECwXI",
   "channelName": "Unacademy JEE",
   "duration": "2h 20m",
   "description": "Systematic qualitative cation and anion analysis, functional group detection, and volumetric acid-base and redox titrations."
@@ -126,7 +130,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Principles Related to Practical Chemistry",
   "subject": "Chemistry",
   "title": "Practical Chemistry (Salt Analysis & Titrations) — One-Shot",
-  "youtubeId": "M8B2vK4xN7Y",
+  "youtubeId": "8rRnn4ECwXI",
   "channelName": "Unacademy JEE",
   "duration": "2h 20m",
   "description": "Systematic qualitative cation and anion analysis, functional group detection, and volumetric acid-base and redox titrations."
@@ -136,7 +140,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Organic Chemistry: Some Basic Principles and Techniques",
   "subject": "Chemistry",
   "title": "General Organic Chemistry (GOC) & Basic Principles — One-Shot",
-  "youtubeId": "f7vF6bL3j_o",
+  "youtubeId": "FFCT-lh86tA",
   "channelName": "Pankaj Sir Chemistry",
   "duration": "3h 40m",
   "description": "Complete GOC: IUPAC nomenclature, isomerism, inductive effect, resonance, hyperconjugation, and reactive intermediates."
@@ -146,7 +150,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Organic Chemistry: Some Basic Principles and Techniques",
   "subject": "Chemistry",
   "title": "General Organic Chemistry (GOC) & Basic Principles — One-Shot",
-  "youtubeId": "f7vF6bL3j_o",
+  "youtubeId": "FFCT-lh86tA",
   "channelName": "Pankaj Sir Chemistry",
   "duration": "3h 40m",
   "description": "Complete GOC: IUPAC nomenclature, isomerism, inductive effect, resonance, hyperconjugation, and reactive intermediates."
@@ -156,7 +160,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Solid State",
   "subject": "Chemistry",
   "title": "Solid State — High-Yield Complete One-Shot",
-  "youtubeId": "z0r6p8yD8eA",
+  "youtubeId": "r3w9iwWRThM",
   "channelName": "Pankaj Sir Chemistry",
   "duration": "2h 50m",
   "description": "Unit cells, SC/BCC/FCC packing efficiency, density formula, limiting radius ratio, and Schottky/Frenkel defect analysis."
@@ -166,7 +170,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Solid State",
   "subject": "Chemistry",
   "title": "Solid State — High-Yield Complete One-Shot",
-  "youtubeId": "z0r6p8yD8eA",
+  "youtubeId": "r3w9iwWRThM",
   "channelName": "Pankaj Sir Chemistry",
   "duration": "2h 50m",
   "description": "Unit cells, SC/BCC/FCC packing efficiency, density formula, limiting radius ratio, and Schottky/Frenkel defect analysis."
@@ -176,7 +180,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Surface Chemistry",
   "subject": "Chemistry",
   "title": "Surface Chemistry — High-Yield Complete One-Shot",
-  "youtubeId": "F7yP1h0bW3k",
+  "youtubeId": "YEtOldjp4_I",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "2h 15m",
   "description": "Physisorption vs chemisorption, Freundlich adsorption isotherm, catalysis, lyophilic/lyophobic colloids, and Hardy-Schulze rule."
@@ -186,7 +190,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Surface Chemistry",
   "subject": "Chemistry",
   "title": "Surface Chemistry — High-Yield Complete One-Shot",
-  "youtubeId": "F7yP1h0bW3k",
+  "youtubeId": "YEtOldjp4_I",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "2h 15m",
   "description": "Physisorption vs chemisorption, Freundlich adsorption isotherm, catalysis, lyophilic/lyophobic colloids, and Hardy-Schulze rule."
@@ -196,7 +200,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "General Principles and Processes of Isolation of Elements",
   "subject": "Chemistry",
   "title": "Metallurgy (Isolation of Elements) — Complete One-Shot",
-  "youtubeId": "N1pQ9wZ2m8E",
+  "youtubeId": "7Z8YnssknYg",
   "channelName": "Unacademy JEE",
   "duration": "2h 30m",
   "description": "Ore concentration, roasting/calcination, Ellingham diagram thermodynamics, extraction of Fe, Al, Cu, Zn, and refining methods."
@@ -206,7 +210,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "General Principles and Processes of Isolation of Elements",
   "subject": "Chemistry",
   "title": "Metallurgy (Isolation of Elements) — Complete One-Shot",
-  "youtubeId": "N1pQ9wZ2m8E",
+  "youtubeId": "7Z8YnssknYg",
   "channelName": "Unacademy JEE",
   "duration": "2h 30m",
   "description": "Ore concentration, roasting/calcination, Ellingham diagram thermodynamics, extraction of Fe, Al, Cu, Zn, and refining methods."
@@ -216,7 +220,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "p-Block Elements (Group 15, 16, 17 & 18)",
   "subject": "Chemistry",
   "title": "p-Block Elements (Group 15 to 18) — High-Yield One-Shot",
-  "youtubeId": "L4vK8n1P9zY",
+  "youtubeId": "qzFtiCIf9Ck",
   "channelName": "Chemistry Guruji 2.0",
   "duration": "3h 15m",
   "description": "Haber & Ostwald processes, Contact process for H2SO4, Interhalogens, and Xenon fluorides structure and hydrolysis."
@@ -226,7 +230,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "p-Block Elements (Group 15, 16, 17 & 18)",
   "subject": "Chemistry",
   "title": "p-Block Elements (Group 15 to 18) — High-Yield One-Shot",
-  "youtubeId": "L4vK8n1P9zY",
+  "youtubeId": "qzFtiCIf9Ck",
   "channelName": "Chemistry Guruji 2.0",
   "duration": "3h 15m",
   "description": "Haber & Ostwald processes, Contact process for H2SO4, Interhalogens, and Xenon fluorides structure and hydrolysis."
@@ -236,7 +240,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Polymers",
   "subject": "Chemistry",
   "title": "Polymers — High-Yield Complete NCERT One-Shot",
-  "youtubeId": "E2xR8qT1v9M",
+  "youtubeId": "iPOxMOCOIpY",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "1h 40m",
   "description": "Addition and condensation polymers, Nylon-6,6, Buna-S, Bakelite, Melamine, PHBV, and molecular mass averages."
@@ -246,7 +250,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Polymers",
   "subject": "Chemistry",
   "title": "Polymers — High-Yield Complete NCERT One-Shot",
-  "youtubeId": "E2xR8qT1v9M",
+  "youtubeId": "iPOxMOCOIpY",
   "channelName": "Physics Wallah - Alakh Pandey",
   "duration": "1h 40m",
   "description": "Addition and condensation polymers, Nylon-6,6, Buna-S, Bakelite, Melamine, PHBV, and molecular mass averages."
@@ -256,7 +260,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Chemistry in Everyday Life",
   "subject": "Chemistry",
   "title": "Chemistry in Everyday Life — Complete NCERT One-Shot",
-  "youtubeId": "C8bN2wZ5k1P",
+  "youtubeId": "DfB6JQ8weHc",
   "channelName": "Chemistry Guruji 2.0",
   "duration": "1h 30m",
   "description": "Drugs and medicine classifications, antiseptics vs disinfectants, artificial sweeteners, soaps and synthetic detergents."
@@ -266,7 +270,7 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
   "chapter": "Chemistry in Everyday Life",
   "subject": "Chemistry",
   "title": "Chemistry in Everyday Life — Complete NCERT One-Shot",
-  "youtubeId": "C8bN2wZ5k1P",
+  "youtubeId": "DfB6JQ8weHc",
   "channelName": "Chemistry Guruji 2.0",
   "duration": "1h 30m",
   "description": "Drugs and medicine classifications, antiseptics vs disinfectants, artificial sweeteners, soaps and synthetic detergents."
@@ -2964,12 +2968,461 @@ export function getChapterVideo(chapterName: string, subjectName: string = 'Phys
   return getVideoForChapter(subjectName, chapterName);
 }
 
+export const CHAPTER_CLASS_MAP: Record<string, "11" | "12"> = {
+  // Class 11 Physics
+  "units and measurements": "11",
+  "motion in a straight line": "11",
+  "motion in a plane": "11",
+  "laws of motion": "11",
+  "work, energy and power": "11",
+  "system of particles and rotational motion": "11",
+  "gravitation": "11",
+  "mechanical properties of solids": "11",
+  "mechanical properties of fluids": "11",
+  "thermal properties of matter": "11",
+  "thermodynamics": "11",
+  "kinetic theory of gases": "11",
+  "oscillations": "11",
+  "waves": "11",
+
+  // Class 12 Physics
+  "electric charges and fields": "12",
+  "electrostatic potential and capacitance": "12",
+  "current electricity": "12",
+  "moving charges and magnetism": "12",
+  "magnetism and matter": "12",
+  "electromagnetic induction": "12",
+  "alternating current": "12",
+  "electromagnetic waves": "12",
+  "ray optics and optical instruments": "12",
+  "wave optics": "12",
+  "dual nature of radiation and matter": "12",
+  "atoms": "12",
+  "nuclei": "12",
+  "semiconductor electronics: materials, devices and simple circuits": "12",
+
+  // Class 11 Chemistry
+  "some basic concepts of chemistry": "11",
+  "structure of atom": "11",
+  "classification of elements and periodicity in properties": "11",
+  "chemical bonding and molecular structure": "11",
+  "states of matter: gases and liquids": "11",
+  "chemical thermodynamics": "11",
+  "equilibrium": "11",
+  "redox reactions": "11",
+  "hydrogen & its compounds": "11",
+  "s-block elements (alkali & alkaline earth metals)": "11",
+  "p-block elements (group 13 & 14)": "11",
+  "organic chemistry: some basic principles and techniques": "11",
+  "hydrocarbons (alkanes, alkenes, alkynes)": "11",
+  "environmental chemistry": "11",
+
+  // Class 12 Chemistry
+  "solid state": "12",
+  "solutions": "12",
+  "electrochemistry": "12",
+  "chemical kinetics": "12",
+  "surface chemistry": "12",
+  "general principles and processes of isolation of elements": "12",
+  "p-block elements (group 15, 16, 17 & 18)": "12",
+  "d- and f-block elements": "12",
+  "coordination compounds": "12",
+  "haloalkanes and haloarenes": "12",
+  "alcohols, phenols and ethers": "12",
+  "aldehydes, ketones and carboxylic acids": "12",
+  "amines": "12",
+  "biomolecules": "12",
+  "polymers": "12",
+  "chemistry in everyday life": "12",
+  "principles related to practical chemistry": "12",
+
+  // Class 11 Biology
+  "the living world": "11",
+  "biological classification": "11",
+  "plant kingdom": "11",
+  "animal kingdom": "11",
+  "morphology of flowering plants": "11",
+  "anatomy of flowering plants": "11",
+  "structural organisation in animals": "11",
+  "cell: the unit of life": "11",
+  "biomolecules (biology)": "11",
+  "cell cycle and cell division": "11",
+  "photosynthesis in higher plants": "11",
+  "respiration in plants": "11",
+  "plant growth and development": "11",
+  "breathing and exchange of gases": "11",
+  "body fluids and circulation": "11",
+  "excretory products and their elimination": "11",
+  "locomotion and movement": "11",
+  "neural control and coordination": "11",
+  "chemical coordination and integration": "11",
+
+  // Class 12 Biology
+  "sexual reproduction in flowering plants": "12",
+  "human reproduction": "12",
+  "reproductive health": "12",
+  "principles of inheritance and variation": "12",
+  "molecular basis of inheritance": "12",
+  "evolution": "12",
+  "human health and disease": "12",
+  "microbes in human welfare": "12",
+  "biotechnology: principles and processes": "12",
+  "biotechnology and its applications": "12",
+  "organisms and populations": "12",
+  "ecosystem": "12",
+  "biodiversity and conservation": "12",
+
+  // Class 11 Mathematics
+  "sets": "11",
+  "relations and functions": "11",
+  "trigonometric functions": "11",
+  "complex numbers and quadratic equations": "11",
+  "linear inequalities": "11",
+  "permutations and combinations": "11",
+  "binomial theorem": "11",
+  "sequences and series": "11",
+  "straight lines": "11",
+  "conic sections": "11",
+  "introduction to three-dimensional geometry": "11",
+  "limits and derivatives": "11",
+  "statistics": "11",
+  "probability": "11",
+
+  // Class 12 Mathematics
+  "relations and functions (class 12)": "12",
+  "inverse trigonometric functions": "12",
+  "matrices": "12",
+  "determinants": "12",
+  "continuity and differentiability": "12",
+  "application of derivatives": "12",
+  "integrals": "12",
+  "application of integrals": "12",
+  "differential equations": "12",
+  "vector algebra": "12",
+  "three dimensional geometry": "12",
+  "linear programming": "12",
+  "probability (class 12)": "12"
+};
+
+export function getTargetExamsForSubject(subject: string): ("JEE" | "NEET" | "CBSE")[] {
+  if (subject === "Physics" || subject === "Chemistry") {
+    return ["JEE", "NEET", "CBSE"];
+  }
+  if (subject === "Biology") {
+    return ["NEET", "CBSE"];
+  }
+  if (subject === "Mathematics") {
+    return ["JEE", "CBSE"];
+  }
+  return ["JEE", "NEET", "CBSE"];
+}
+
+export const TOPIC_VIDEOS: VideoResource[] = [
+  // Physics Topic Videos (Class 11 - JEE + NEET)
+  {
+    id: "top-phy-dim-analysis",
+    chapter: "Units and Measurements",
+    topic: "Dimensional Analysis & Error Propagation",
+    subject: "Physics",
+    title: "Dimensional Analysis & Errors — High-Yield Concept Drill",
+    youtubeId: "tx76BJIqOd4",
+    channelName: "Prashant Kirad 11th & 12th",
+    duration: "42m",
+    description: "Detailed derivations of dimensional consistency, conversion factors, and least count measurement errors.",
+    classLevel: "11",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-phy-projectile",
+    chapter: "Motion in a Plane",
+    topic: "Projectile Motion on Horizontal & Inclined Planes",
+    subject: "Physics",
+    title: "Projectile Motion — Trajectory & Max Range Formulations",
+    youtubeId: "VDtydsLisCE",
+    channelName: "Prashant Kirad 11th & 12th",
+    duration: "48m",
+    description: "Derivation of time of flight, horizontal range, equation of trajectory, and maximum range on inclined plane.",
+    classLevel: "11",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-phy-newton-laws",
+    chapter: "Laws of Motion",
+    topic: "Friction & Pulley Constraint Systems",
+    subject: "Physics",
+    title: "Newton Laws & Friction Constraints — Problem Solving Techniques",
+    youtubeId: "tx76BJIqOd4",
+    channelName: "Physics Wallah - Alakh Pandey",
+    duration: "55m",
+    description: "Free body diagrams, static vs kinetic friction, pseudo force, and multi-block connected pulley acceleration.",
+    classLevel: "11",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-phy-carnot",
+    chapter: "Thermodynamics",
+    topic: "Carnot Engine & Entropy Changes",
+    subject: "Physics",
+    title: "Carnot Engine & 2nd Law of Thermodynamics — In-Depth Analysis",
+    youtubeId: "VDtydsLisCE",
+    channelName: "Physics Wallah",
+    duration: "40m",
+    description: "P-V indicator diagrams, Carnot cycle efficiency, reversible vs irreversible heat engines, and Clausius statement.",
+    classLevel: "11",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+
+  // Physics Topic Videos (Class 12 - JEE + NEET)
+  {
+    id: "top-phy-gauss-law",
+    chapter: "Electric Charges and Fields",
+    topic: "Gauss Law & Field Flux Calculations",
+    subject: "Physics",
+    title: "Gauss Law & Electric Flux — Symmetric Shell & Cylinder Fields",
+    youtubeId: "tx76BJIqOd4",
+    channelName: "Physics Wallah - Alakh Pandey",
+    duration: "50m",
+    description: "Calculation of closed surface electric flux, field due to infinitely long wire, uniformly charged thin spherical shell.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-phy-kirchhoff",
+    chapter: "Current Electricity",
+    topic: "Kirchhoff Laws & Wheatstone Bridge",
+    subject: "Physics",
+    title: "Kirchhoff Current & Voltage Laws — Complex Circuit Solver",
+    youtubeId: "VDtydsLisCE",
+    channelName: "Physics Wallah",
+    duration: "45m",
+    description: "Node analysis, mesh analysis, balanced bridge condition, internal resistance of cells, and potentiometer balancing.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-phy-young-double-slit",
+    chapter: "Wave Optics",
+    topic: "Young Double Slit Interference (YDSE)",
+    subject: "Physics",
+    title: "YDSE Interference Pattern & Fringe Shift Formulations",
+    youtubeId: "tx76BJIqOd4",
+    channelName: "Physics Wallah - Alakh Pandey",
+    duration: "52m",
+    description: "Constructive vs destructive interference conditions, fringe width beta = lambda D / d, and thin transparent sheet shift.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-phy-photoelectric",
+    chapter: "Dual Nature of Radiation and Matter",
+    topic: "Einstein Photoelectric Equation & Stopping Potential",
+    subject: "Physics",
+    title: "Photoelectric Effect — Graphs & Stopping Potential Mastery",
+    youtubeId: "VDtydsLisCE",
+    channelName: "Physics Wallah",
+    duration: "38m",
+    description: "Work function phi, threshold frequency nu_0, de Broglie matter waves, and kinetic energy vs frequency graphs.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+
+  // Chemistry Topic Videos (Class 11 - JEE + NEET)
+  {
+    id: "top-chem-gas-laws",
+    chapter: "States of Matter: Gases and Liquids",
+    topic: "Gas Laws & Real Gas van der Waals Equation",
+    subject: "Chemistry",
+    title: "Gas Laws & van der Waals Equation — Complete Mathematical Drill",
+    youtubeId: "4FIU1tOCW_0",
+    channelName: "JEE Wallah",
+    duration: "50m",
+    description: "Boyle, Charles, Dalton laws, compressibility factor Z, critical temperature Pc/Vc/Tc, and inversion temperature.",
+    classLevel: "11",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-chem-goc-resonance",
+    chapter: "Organic Chemistry: Some Basic Principles and Techniques",
+    topic: "Resonance, Inductive Effect & Carbocation Stability",
+    subject: "Chemistry",
+    title: "GOC Electronic Effects — Resonance & Intermediate Stability",
+    youtubeId: "FFCT-lh86tA",
+    channelName: "JEE Wallah",
+    duration: "1h 10m",
+    description: "Mesomeric (+M/-M) resonance rules, hyperconjugation, aromaticity Huckel rule, and stability hierarchy of reaction intermediates.",
+    classLevel: "11",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-chem-hydrocarbons-alkenes",
+    chapter: "Hydrocarbons (Alkanes, Alkenes, Alkynes)",
+    topic: "Electrophilic Addition & Markovnikov Rule",
+    subject: "Chemistry",
+    title: "Alkenes Electrophilic Additions & Anti-Markovnikov Peroxide Effect",
+    youtubeId: "gUCTJ7oVhLg",
+    channelName: "JEE Wallah",
+    duration: "58m",
+    description: "Mechanism of halogen addition, Kharasch peroxide effect with HBr, ozonolysis, and oxymercuration-demercuration.",
+    classLevel: "11",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+
+  // Chemistry Topic Videos (Class 12 - JEE + NEET)
+  {
+    id: "top-chem-colligative",
+    chapter: "Solutions",
+    topic: "Colligative Properties & van t Hoff Factor",
+    subject: "Chemistry",
+    title: "Colligative Properties & Abnormal Molar Masses (i Factor)",
+    youtubeId: "V7IhNvWMO0A",
+    channelName: "JEE Wallah",
+    duration: "52m",
+    description: "Relative lowering of vapour pressure, elevation of boiling point, depression of freezing point, and degree of dissociation alpha.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-chem-solid-defects",
+    chapter: "Solid State",
+    topic: "Crystal Defects & Packing Efficiency",
+    subject: "Chemistry",
+    title: "Solid State Defects (Schottky/Frenkel) & Density Formulas",
+    youtubeId: "r3w9iwWRThM",
+    channelName: "JEE Wallah",
+    duration: "45m",
+    description: "Stoichiometric vs non-stoichiometric defects, F-centers, density calculation d = zM/(a^3 NA), and radius ratios.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-chem-adsorption",
+    chapter: "Surface Chemistry",
+    topic: "Adsorption Isotherms & Colloids",
+    subject: "Chemistry",
+    title: "Freundlich Adsorption Isotherm & Hardy-Schulze Rule",
+    youtubeId: "YEtOldjp4_I",
+    channelName: "JEE Wallah",
+    duration: "40m",
+    description: "Physisorption vs chemisorption, log(x/m) vs log P graphs, lyophilic vs lyophobic sols, and coagulation value.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-chem-salt-analysis",
+    chapter: "Principles Related to Practical Chemistry",
+    topic: "Cation & Anion Qualitative Salt Analysis",
+    subject: "Chemistry",
+    title: "Salt Analysis Systematic Group Analysis — Cations & Anions",
+    youtubeId: "8rRnn4ECwXI",
+    channelName: "JEE Wallah",
+    duration: "1h 05m",
+    description: "Group reagents (dil HCl, H2S, NH4OH, (NH4)2CO3), flame test colors, borax bead test, and confirmatory tests.",
+    classLevel: "12",
+    targetExams: ["JEE", "NEET", "CBSE"],
+    isTopicWise: true
+  },
+
+  // Biology Topic Videos (NEET)
+  {
+    id: "top-bio-mendel-genetics",
+    chapter: "Principles of Inheritance and Variation",
+    topic: "Mendelian Genetics & Chromosomal Theory",
+    subject: "Biology",
+    title: "Monohybrid & Dihybrid Crosses — Non-Mendelian Ratios & Linkage",
+    youtubeId: "3WbIqrPEKIc",
+    channelName: "Sankalp NEET Vedantu",
+    duration: "55m",
+    description: "Incomplete dominance, codominance, Morgan Drosophila linkage experiment, pedigree analysis, and aneuploidy disorders.",
+    classLevel: "12",
+    targetExams: ["NEET", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-bio-dna-replication",
+    chapter: "Molecular Basis of Inheritance",
+    topic: "DNA Replication & Transcription",
+    subject: "Biology",
+    title: "Meselson-Stahl Experiment, DNA Replication Fork & Transcription",
+    youtubeId: "3WbIqrPEKIc",
+    channelName: "Sankalp NEET Vedantu",
+    duration: "50m",
+    description: "Semi-conservative replication enzymes, Okazaki fragments, promoter/terminator, transcription unit, and genetic code degeneracy.",
+    classLevel: "12",
+    targetExams: ["NEET", "CBSE"],
+    isTopicWise: true
+  },
+
+  // Mathematics Topic Videos (JEE)
+  {
+    id: "top-math-matrices-operations",
+    chapter: "Matrices",
+    topic: "Matrix Multiplication, Inverse & Cayley-Hamilton",
+    subject: "Mathematics",
+    title: "Matrix Inverses, Orthogonal Matrices & System of Equations",
+    youtubeId: "nQMOsm2WIYA",
+    channelName: "JEE Nexus by Unacademy",
+    duration: "55m",
+    description: "Row reduction, adjoint formulas, symmetric/skew-symmetric properties, and Cramer rule for consistent systems.",
+    classLevel: "12",
+    targetExams: ["JEE", "CBSE"],
+    isTopicWise: true
+  },
+  {
+    id: "top-math-integration-by-parts",
+    chapter: "Integrals",
+    topic: "Definite Integrals Properties & King Rule",
+    subject: "Mathematics",
+    title: "Definite Integration — King Rule & Periodic Functions",
+    youtubeId: "nQMOsm2WIYA",
+    channelName: "JEE Nexus by Unacademy",
+    duration: "1h 10m",
+    description: "Application of integral f(a+b-x) property, Leibniz rule for differentiating integrals, and reduction formulas.",
+    classLevel: "12",
+    targetExams: ["JEE", "CBSE"],
+    isTopicWise: true
+  }
+];
+
 export function getAllCuratedVideos(): VideoResource[] {
   const map = new Map<string, VideoResource>();
+
+  // 1. Add all Curated Chapter One-Shots enriched with classLevel & targetExams
   for (const v of Object.values(CURATED_CHAPTER_VIDEOS)) {
     if (!map.has(v.id)) {
-      map.set(v.id, v);
+      const cleanChap = v.chapter.toLowerCase().trim();
+      const mappedClass = CHAPTER_CLASS_MAP[cleanChap] || "11";
+      const mappedExams = getTargetExamsForSubject(v.subject);
+
+      map.set(v.id, {
+        ...v,
+        classLevel: mappedClass,
+        targetExams: mappedExams,
+        isTopicWise: false
+      });
     }
   }
+
+  // 2. Add all curated Topic-Wise Videos
+  for (const tv of TOPIC_VIDEOS) {
+    if (!map.has(tv.id)) {
+      map.set(tv.id, tv);
+    }
+  }
+
   return Array.from(map.values());
 }
+
