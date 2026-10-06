@@ -190,7 +190,12 @@ export const BuildMyTest: React.FC = () => {
     const attemptedIds = new Set<string>();
     const pastAttempts: TestAttempt[] = testService.getAllAttempts();
     pastAttempts.forEach((att: TestAttempt) => {
+      const pastTest = testService.getTestById(att.testId);
+      if (pastTest && Array.isArray(pastTest.questionIds)) {
+        pastTest.questionIds.forEach((id: string) => attemptedIds.add(id));
+      }
       if (att && att.answers && typeof att.answers === 'object') {
+        Object.keys(att.answers).forEach((k: string) => attemptedIds.add(k));
         Object.values(att.answers).forEach((ans: any) => {
           if (ans && ans.questionId) attemptedIds.add(ans.questionId);
         });
@@ -204,6 +209,7 @@ export const BuildMyTest: React.FC = () => {
     } catch {}
 
     const result = await testService.buildCustomTestAsync({
+      userId: profile?.id,
       title: testTitle.trim() || `${exam} Custom Test (${countToUse} Questions)`,
       exam,
       classLevel,

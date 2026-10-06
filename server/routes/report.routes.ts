@@ -4,6 +4,11 @@ import TechnicalReport from '../models/TechnicalReport.js';
 import StudentFeedback from '../models/StudentFeedback.js';
 import Question from '../models/Question.js';
 import AuditLog from '../models/AuditLog.js';
+import User from '../models/User.js';
+import Session from '../models/Session.js';
+import LoginHistory from '../models/LoginHistory.js';
+import { randomBytes } from 'crypto';
+import { authenticateUser, requireAdmin, AuthRequest } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -72,7 +77,7 @@ router.post('/question', async (req: Request, res: Response) => {
 });
 
 // GET /api/reports/question - List question reports (Admin)
-router.get('/question', async (req: Request, res: Response) => {
+router.get('/question', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { status, reason, questionId, page = '1', limit = '50' } = req.query;
 
@@ -114,7 +119,7 @@ router.get('/question', async (req: Request, res: Response) => {
 });
 
 // PATCH /api/reports/question/:id - Review, edit question or resolve report (Admin)
-router.patch('/question/:id', async (req: Request, res: Response) => {
+router.patch('/question/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { status, adminNotes, adminEmail, correctedAnswer, correctedExplanation } = req.body;
 
@@ -239,7 +244,7 @@ router.post('/technical', async (req: Request, res: Response) => {
 });
 
 // GET /api/reports/technical - List technical reports (Admin)
-router.get('/technical', async (req: Request, res: Response) => {
+router.get('/technical', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { status, severity, reason, page = '1', limit = '50' } = req.query;
 
@@ -271,7 +276,7 @@ router.get('/technical', async (req: Request, res: Response) => {
 });
 
 // PATCH /api/reports/technical/:id - Update technical issue status (Admin)
-router.patch('/technical/:id', async (req: Request, res: Response) => {
+router.patch('/technical/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { status, severity, adminNotes, adminEmail } = req.body;
 
@@ -358,7 +363,7 @@ router.post('/feedback', async (req: Request, res: Response) => {
 });
 
 // GET /api/reports/feedback - List student feedbacks (Admin)
-router.get('/feedback', async (req: Request, res: Response) => {
+router.get('/feedback', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
     const { status, type, category, search, page = '1', limit = '50' } = req.query;
 
@@ -400,10 +405,10 @@ router.get('/feedback', async (req: Request, res: Response) => {
   }
 });
 
-// PATCH /api/reports/feedback/:id - Update student feedback status (Admin)
-router.patch('/feedback/:id', async (req: Request, res: Response) => {
+// PATCH /api/reports/feedback/:id - Update student feedback status and/or send admin reply (Admin)
+router.patch('/feedback/:id', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
   try {
-    const { status, adminNotes, adminEmail } = req.body;
+    const { status, adminNotes, adminReply, adminEmail } = req.body;
 
     const existing = await StudentFeedback.findOne({ id: req.params.id });
     if (!existing) {
@@ -413,7 +418,15 @@ router.patch('/feedback/:id', async (req: Request, res: Response) => {
     const updates: any = {};
     if (status) updates.status = status;
     if (adminNotes !== undefined) updates.adminNotes = adminNotes;
-    if (status === 'Resolved') updates.resolvedAt = new Date();
+    if (adminReply !== undefined) {
+      updates.adminReply = adminReply;
+      updates.repliedAt = new Date();
+      updates.adminEmail = adminEmail || 'admin@prepora.internal';
+      if (!status) updates.status = 'Resolved';
+    }
+    if (updates.status === 'Resolved' && !existing.resolvedAt) {
+      updates.resolvedAt = new Date();
+    }
 
     const updated = await StudentFeedback.findOneAndUpdate(
       { id: req.params.id },
@@ -423,14 +436,120 @@ router.patch('/feedback/:id', async (req: Request, res: Response) => {
 
     await recordAudit(
       adminEmail || 'admin@prepora.internal',
-      status === 'Resolved' ? 'Resolve Student Feedback' : 'Update Student Feedback',
+      adminReply ? 'Reply to Student Feedback' : (updates.status === 'Resolved' ? 'Resolve Student Feedback' : 'Update Student Feedback'),
       'Report',
       existing.id,
       existing.toObject(),
-      updated!.toObject()
+      updated!.toObject(),
+      { replyContent: adminReply }
     );
 
-    res.json({ success: true, feedback: updated });
+    res.json({ success: true, feedback: updated, message: 'Feedback updated successfully!' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// POST /api/reports/feedback/:id/block-student - 1-Click block student who sent abusive/inappropriate feedback (Admin)
+router.post('/feedback/:id/block-student', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { reason = 'Misconduct / Abuse reported in Student Feedback', adminEmail = 'admin@prepora.internal' } = req.body;
+    const feedback = await StudentFeedback.findOne({ id: req.params.id });
+    if (!feedback) {
+      return res.status(404).json({ success: false, message: 'Feedback entry not found.' });
+    }
+
+    const now = new Date();
+    const cleanMobile = feedback.userPhone ? feedback.userPhone.replace(/[^0-9]/g, '').slice(-10) : '';
+
+    let user: any = null;
+    if (cleanMobile && cleanMobile.length === 10) {
+      user = await User.findOne({
+        $or: [
+          { mobile: cleanMobile },
+          { phone: cleanMobile },
+          { email: `phone_${cleanMobile}@prepora.student` }
+        ]
+      });
+    }
+
+    if (!user && feedback.userId && feedback.userId !== 'anonymous') {
+      user = await User.findOne({ $or: [{ id: feedback.userId }, { studentId: feedback.userId }] });
+    }
+
+    if (user) {
+      user.status = 'suspended';
+      user.currentSessionId = undefined;
+      user.lastLogoutAt = now;
+      await user.save();
+
+      // Revoke all active sessions
+      await Session.updateMany(
+        { userId: user.id, isRevoked: false },
+        {
+          $set: {
+            isRevoked: true,
+            status: 'REVOKED',
+            revokedAt: now,
+            revocationReason: 'STUDENT_SUSPENDED_BY_ADMIN'
+          }
+        }
+      );
+
+      await LoginHistory.create({
+        id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
+        studentId: user.studentId || user.id,
+        eventType: 'FORCE_LOGOUT',
+        reason: `Account suspended & phone blocked by Admin (${adminEmail}): ${reason}`,
+        timestamp: now
+      }).catch(() => null);
+    } else if (cleanMobile && cleanMobile.length === 10) {
+      // Pre-emptively block this number so they can never register or login
+      const id = `usr-blocked-${cleanMobile}`;
+      user = new User({
+        id,
+        studentId: `BLK_${cleanMobile}`,
+        name: feedback.userName ? `Blocked (${feedback.userName})` : `Blocked User (${cleanMobile})`,
+        email: `phone_${cleanMobile}@prepora.student`,
+        mobile: cleanMobile,
+        phone: cleanMobile,
+        role: 'student',
+        status: 'suspended',
+        classLevel: '12',
+        targetExam: 'JEE',
+        targetYear: 2026,
+        streakDays: 0,
+        totalQuestionsSolved: 0,
+        overallAccuracy: 0,
+        testsCompleted: 0,
+        studyTimeMinutes: 0
+      });
+      await user.save();
+    } else {
+      return res.status(400).json({
+        success: false,
+        message: 'Could not find a valid mobile number or user ID to block for this feedback.'
+      });
+    }
+
+    // Mark feedback as rejected / student blocked
+    feedback.status = 'Rejected';
+    feedback.adminNotes = `[STUDENT BLOCKED by ${adminEmail} on ${now.toLocaleString()}]: ${reason}`;
+    await feedback.save();
+
+    await recordAudit(
+      adminEmail,
+      'Block Student From Feedback',
+      'Report',
+      feedback.id,
+      null,
+      { studentId: user.studentId || user.id, mobile: cleanMobile, reason }
+    );
+
+    res.json({
+      success: true,
+      message: `Student (${cleanMobile || user.name}) has been permanently suspended & blocked. All active sessions revoked.`
+    });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }

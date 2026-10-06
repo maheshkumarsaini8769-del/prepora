@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import Test from '../models/Test.js';
 import Question from '../models/Question.js';
+import TestAttempt from '../models/TestAttempt.js';
 import { questionRepo } from '../services/questionRepository.js';
 
 const router = express.Router();
@@ -58,11 +59,49 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       difficulty = 'Mixed',
       durationMinutes = 30,
       negativeMarking = true,
-      excludeQuestionIds = []
+      excludeQuestionIds = [],
+      userId
     } = req.body;
 
     if (!exam || !subjects || subjects.length === 0) {
       return res.status(400).json({ success: false, message: 'Exam and subjects are required.' });
+    }
+
+    // Build complete set of questions to EXCLUDE (so students NEVER get repeated questions)
+    const effectiveExclude = new Set<string>(
+      Array.isArray(excludeQuestionIds) ? excludeQuestionIds.map(String) : []
+    );
+
+    // Auto-fetch user's past attempts from DB if userId provided or in session
+    const targetUserId = userId || (req as any).userId;
+    if (targetUserId && mongoose.connection.readyState === 1) {
+      try {
+        const pastAttempts = await TestAttempt.find({
+          $or: [{ userId: targetUserId }, { studentId: targetUserId }]
+        }).select('answers testId');
+
+        const testIds: string[] = [];
+        for (const att of pastAttempts) {
+          if (att.testId) testIds.push(att.testId);
+          if (att.answers && typeof att.answers === 'object') {
+            Object.keys(att.answers).forEach(k => effectiveExclude.add(String(k)));
+            Object.values(att.answers).forEach((ans: any) => {
+              if (ans?.questionId) effectiveExclude.add(String(ans.questionId));
+            });
+          }
+        }
+
+        if (testIds.length > 0) {
+          const pastTests = await Test.find({ id: { $in: testIds } }).select('questionIds');
+          for (const t of pastTests) {
+            if (Array.isArray(t.questionIds)) {
+              t.questionIds.forEach(qid => effectiveExclude.add(String(qid)));
+            }
+          }
+        }
+      } catch (err) {
+        // Proceed with client-provided exclusions
+      }
     }
 
     const filter: any = {
@@ -90,6 +129,10 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       filter.source = { $nin: ['Model Paper', 'PYQ'] };
     }
 
+    if (effectiveExclude.size > 0) {
+      filter.id = { $nin: Array.from(effectiveExclude) };
+    }
+
     // Repo-first: expanded in-memory bank (~1 lakh) is the canonical source
     // Pass excludeIds to ensure fresh, unattempted questions!
     let pool: any[] = questionRepo.filter({
@@ -101,7 +144,7 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       difficulty: difficulty === 'Mixed' ? undefined : difficulty,
       includePYQs,
       includeModelPapers: false,
-      excludeIds: Array.isArray(excludeQuestionIds) ? excludeQuestionIds : []
+      excludeIds: Array.from(effectiveExclude)
     });
 
     // Mongo overlay: admin-created questions not present in the file bank
@@ -111,7 +154,7 @@ router.post('/build-custom', async (req: Request, res: Response) => {
         const mongoExtra = await Question.find(filter);
         for (const q of mongoExtra) {
           const qid = String((q as any).id || q._id);
-          if (!seen.has(qid)) {
+          if (!seen.has(qid) && !effectiveExclude.has(qid)) {
             pool.push(q);
             seen.add(qid);
           }
@@ -130,21 +173,39 @@ router.post('/build-custom', async (req: Request, res: Response) => {
         isUnderflow: true,
         availableCount: pool.length,
         requestedCount: questionCount,
-        message: `Only ${pool.length} questions available for the selected chapter/topic.`
+        message: `Only ${pool.length} fresh questions available for the selected chapter/topic.`
       });
     }
 
-    // Subject-wide tests (no chapter/topic) may pad from the broader subject pool
+    // Subject-wide tests (no chapter/topic) may pad from the broader subject pool without repeating past questions
     if (pool.length < questionCount) {
       const existingIds = new Set(pool.map(q => String(q.id || q._id)));
-      const broader = questionRepo.filter({ exam, subjects });
+      const broader = questionRepo.filter({
+        exam,
+        subjects,
+        excludeIds: Array.from(effectiveExclude)
+      });
       for (const q of broader) {
-        if (!existingIds.has(q.id)) {
+        if (!existingIds.has(q.id) && !effectiveExclude.has(q.id)) {
           pool.push(q);
           existingIds.add(q.id);
           if (pool.length >= questionCount) break;
         }
       }
+    }
+
+    // If all questions in the bank were exhausted, safely recycle unexcluded pool
+    if (pool.length === 0) {
+      pool = questionRepo.filter({
+        exam,
+        subjects,
+        chapters,
+        topics: activeTopics || undefined,
+        topic,
+        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+        includePYQs,
+        includeModelPapers: false
+      });
     }
 
     // Shuffle and pick (Fisher-Yates for uniform distribution)
@@ -154,7 +215,7 @@ router.post('/build-custom', async (req: Request, res: Response) => {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     const selected = shuffled.slice(0, questionCount);
-    const questionIds = selected.map(q => q.id);
+    const questionIds = selected.map(q => String(q.id || (q as any)._id));
 
     const markPerQ = 4;
     const maxScore = questionCount * markPerQ;

@@ -20,6 +20,7 @@ export interface CustomTestOptions {
   durationMinutes: number;
   negativeMarking: boolean;
   excludeQuestionIds?: string[];
+  userId?: string;
 }
 
 class ApiTestService {
@@ -91,6 +92,11 @@ class ApiTestService {
     requestedCount?: number;
   }> {
     try {
+      const activeUserId = options.userId || userService.getProfile()?.id;
+      const payload = {
+        ...options,
+        userId: activeUserId
+      };
       const { data, error } = await apiRequest<{
         success: boolean;
         test?: Test;
@@ -100,7 +106,7 @@ class ApiTestService {
         requestedCount?: number;
       }>('/tests/build-custom', {
         method: 'POST',
-        body: JSON.stringify(options)
+        body: JSON.stringify(payload)
       });
 
       if (data && data.success && data.test) {
@@ -139,6 +145,17 @@ class ApiTestService {
     availableCount?: number;
     requestedCount?: number;
   } {
+    // Build complete set of questions to EXCLUDE (so students NEVER get repeated questions)
+    const excludeSet = new Set<string>(
+      Array.isArray(options.excludeQuestionIds) ? options.excludeQuestionIds : []
+    );
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      if (Array.isArray(stored)) {
+        stored.forEach((id: string) => excludeSet.add(id));
+      }
+    } catch {}
+
     let pool = questionService.filterQuestions({
       exam: options.exam,
       classLevel: (options.exam === 'JEE' || options.exam === 'NEET') ? undefined : options.classLevel,
@@ -147,6 +164,7 @@ class ApiTestService {
       includeModelPapers: false, // Model Papers must NEVER accidentally enter normal tests! (Task.md section 1, 2)
       topic: options.topic && options.topic !== 'All' ? options.topic : undefined
     }).filter(q => {
+      if (excludeSet.has(q.id)) return false;
       if (!options.subjects.includes(q.subject)) return false;
       if (options.chapters && options.chapters.length > 0 && !options.chapters.includes('ALL') && !options.chapters.some(c => c.toLowerCase() === (q.chapter || '').toLowerCase())) return false;
       if (options.topics && options.topics.length > 0 && !options.topics.includes('ALL') && !options.topics.some(t => t.toLowerCase() === (q.topic || '').toLowerCase())) return false;
@@ -173,7 +191,7 @@ class ApiTestService {
     if (pool.length < options.questionCount) {
       const existingIds = new Set(pool.map(q => q.id));
       const fallbackQuestions = questionService.getAllQuestions().filter(q => 
-        options.subjects.includes(q.subject) && !existingIds.has(q.id)
+        options.subjects.includes(q.subject) && !existingIds.has(q.id) && !excludeSet.has(q.id)
       );
       const shuffledFallback = [...fallbackQuestions].sort(() => 0.5 - Math.random());
       for (const q of shuffledFallback) {
@@ -471,12 +489,30 @@ class ApiTestService {
     setStorageItem(StorageKeys.TEST_ATTEMPTS, attempts);
     userService.recordTestCompleted(attempt);
 
+    // Persist all attempted question IDs so they are never repeated in future tests
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      const qIds: string[] = [];
+      if (Array.isArray(test.questionIds)) {
+        qIds.push(...test.questionIds);
+      }
+      if (attempt.answers && typeof attempt.answers === 'object') {
+        Object.keys(attempt.answers).forEach(k => qIds.push(k));
+        Object.values(attempt.answers).forEach((ans: any) => {
+          if (ans?.questionId) qIds.push(ans.questionId);
+        });
+      }
+      const merged = Array.from(new Set([...stored, ...qIds]));
+      localStorage.setItem('prepora_attempted_question_ids', JSON.stringify(merged));
+    } catch {}
+
     // Asynchronously submit to MongoDB backend for persistence & server evaluation
+    const currentUserId = userService.getProfile()?.id || 'usr-default';
     apiRequest('/attempts/submit', {
       method: 'POST',
       body: JSON.stringify({
         testId: test.id,
-        userId: 'usr-default',
+        userId: currentUserId,
         answers: updatedAnswers,
         timeTakenSeconds
       })
@@ -495,6 +531,24 @@ class ApiTestService {
     }
     setStorageItem(StorageKeys.TEST_ATTEMPTS, attempts);
     userService.recordTestCompleted(attempt);
+
+    // Persist all attempted question IDs so they are never repeated in future tests
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      const qIds: string[] = [];
+      const targetTest = this.getTestById(attempt.testId);
+      if (targetTest && Array.isArray(targetTest.questionIds)) {
+        qIds.push(...targetTest.questionIds);
+      }
+      if (attempt.answers && typeof attempt.answers === 'object') {
+        Object.keys(attempt.answers).forEach(k => qIds.push(k));
+        Object.values(attempt.answers).forEach((ans: any) => {
+          if (ans?.questionId) qIds.push(ans.questionId);
+        });
+      }
+      const merged = Array.from(new Set([...stored, ...qIds]));
+      localStorage.setItem('prepora_attempted_question_ids', JSON.stringify(merged));
+    } catch {}
   }
 
   public updateMistakeTag(

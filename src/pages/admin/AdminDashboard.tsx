@@ -20,7 +20,14 @@ import {
   Clock,
   Compass,
   Zap,
-  PlayCircle
+  PlayCircle,
+  Download,
+  Globe,
+  Tv,
+  MessageSquarePlus,
+  ArrowDownRight,
+  ExternalLink,
+  CheckCircle2
 } from 'lucide-react';
 import { adminFetch } from '../../utils/adminApi';
 
@@ -340,6 +347,305 @@ export const AdminDashboard: React.FC = () => {
         </div>
       </div>
 
+      {/* ========================================================= */}
+      {/* SECTION: PLATFORM ENGAGEMENT, TRAFFIC & DOWNLOADS METRICS */}
+      {/* ========================================================= */}
+      <div className="space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <Globe className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+              <span>Platform Traffic, Lecture Views & Downloads Telemetry</span>
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Live metrics for YouTube lectures watched, visitors on website, downloads, and direct student communication.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {/* 1. YouTube Lectures Watched */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  YouTube Lectures
+                </span>
+                <div className="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center">
+                  <Tv className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white">
+                {loading ? '...' : stats?.lectures?.totalViews ?? 0}
+              </div>
+              <div className="text-xs text-rose-600 dark:text-rose-400 font-semibold mt-1">
+                {stats?.lectures?.uniqueStudents ?? 0} Unique Students Watched
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                {stats?.lectures?.todayViews ?? 0} views in last 24h
+              </div>
+            </div>
+            <Link
+              to="/admin/lectures"
+              className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-rose-600 dark:text-rose-400 hover:underline flex items-center justify-between"
+            >
+              <span>Manage Curated Lectures</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* 2. Website Visitors & Traffic */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Website Visitors & Traffic
+                </span>
+                <div className="w-8 h-8 rounded-xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+                  <Globe className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white">
+                {loading ? '...' : stats?.traffic?.totalLogins ?? 0}
+              </div>
+              <div className="text-xs text-blue-600 dark:text-blue-400 font-semibold mt-1 flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>{stats?.traffic?.activeSessions ?? 0} Active Sessions Online</span>
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                {stats?.traffic?.todayVisits ?? 0} visits recorded today
+              </div>
+            </div>
+            <Link
+              to="/admin/users"
+              className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center justify-between"
+            >
+              <span>View User Logins & Devices</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* 3. Resource & Paper Downloads */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Resource Downloads
+                </span>
+                <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                  <Download className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white">
+                {loading ? '...' : stats?.downloads?.totalDownloads ?? 0}
+              </div>
+              <div className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold mt-1">
+                {stats?.downloads?.paperDownloads ?? 0} Question Papers Downloaded
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                Formula sheets & offline study packs
+              </div>
+            </div>
+            <Link
+              to="/admin/papers"
+              className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center justify-between"
+            >
+              <span>View Papers Repository</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {/* 4. Student Feedback & Direct Communication */}
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-2">
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                  Feedback & Complaints
+                </span>
+                <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center">
+                  <MessageSquarePlus className="w-4 h-4" />
+                </div>
+              </div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white">
+                {loading ? '...' : stats?.reports?.totalFeedbacks ?? 0}
+              </div>
+              <div className="text-xs text-purple-600 dark:text-purple-400 font-semibold mt-1">
+                {stats?.reports?.pendingFeedbacks ?? 0} Pending Admin Review
+              </div>
+              <div className="text-[11px] text-slate-400 mt-0.5">
+                Direct student suggestions & reported mistakes
+              </div>
+            </div>
+            <Link
+              to="/admin/feedback"
+              className="mt-4 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs font-bold text-purple-600 dark:text-purple-400 hover:underline flex items-center justify-between"
+            >
+              <span>Review, Reply & Block Spam</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
+      {/* ========================================================= */}
+      {/* SECTION: DROP-OFF DETECTION & WHERE VIEWS BREAK           */}
+      {/* ========================================================= */}
+      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-4">
+          <div>
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-rose-500/10 border border-rose-500/20 text-rose-600 dark:text-rose-400 text-xs font-bold mb-1">
+              <AlertTriangle className="w-3.5 h-3.5" />
+              <span>Funnel & Issue Diagnostics</span>
+            </div>
+            <h2 className="text-lg font-black text-slate-900 dark:text-white">
+              Website Drop-Off & Where Views Break Tracker
+            </h2>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
+              Students kahan jakar website ya test chhod rahe hain aur kis page par technical issue aa raha hai.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <span className="text-xs font-bold text-slate-500">Overall Test Drop-off:</span>
+            <span className={`px-3 py-1 rounded-full text-xs font-black ${
+              (stats?.dropoffFunnel?.dropoffRate || 0) > 40
+                ? 'bg-rose-100 text-rose-800 dark:bg-rose-950/80 dark:text-rose-300'
+                : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-950/80 dark:text-emerald-300'
+            }`}>
+              {stats?.dropoffFunnel?.dropoffRate ?? 0}% Drop-off Rate
+            </span>
+          </div>
+        </div>
+
+        {/* 4-Step Student Journey Funnel */}
+        <div>
+          <h3 className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+            Student Conversion & Retention Funnel
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-4 gap-3">
+            {/* Step 1: Visitors */}
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 relative">
+              <div className="text-[11px] font-bold text-slate-500 flex items-center justify-between">
+                <span>1. Total Enrolled</span>
+                <span className="text-emerald-600 font-black">100%</span>
+              </div>
+              <div className="text-xl font-black text-slate-900 dark:text-white mt-1">
+                {stats?.dropoffFunnel?.totalVisitors ?? 0}
+              </div>
+              <div className="text-2xs text-slate-400 mt-1">Students registered</div>
+            </div>
+
+            {/* Step 2: Tests Started */}
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 relative">
+              <div className="text-[11px] font-bold text-slate-500 flex items-center justify-between">
+                <span>2. Tests Started</span>
+                <span className="text-blue-600 font-black">
+                  {stats?.dropoffFunnel?.totalVisitors > 0
+                    ? `${Math.min(100, Math.round(((stats?.dropoffFunnel?.testsStarted || 0) / stats?.dropoffFunnel?.totalVisitors) * 100))}%`
+                    : '0%'}
+                </span>
+              </div>
+              <div className="text-xl font-black text-slate-900 dark:text-white mt-1">
+                {stats?.dropoffFunnel?.testsStarted ?? 0}
+              </div>
+              <div className="text-2xs text-slate-400 mt-1">Exam hall opened</div>
+            </div>
+
+            {/* Step 3: Tests Completed */}
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 relative">
+              <div className="text-[11px] font-bold text-slate-500 flex items-center justify-between">
+                <span>3. Completed</span>
+                <span className="text-emerald-600 font-black">
+                  {stats?.dropoffFunnel?.testsStarted > 0
+                    ? `${Math.round(((stats?.dropoffFunnel?.testsCompleted || 0) / stats?.dropoffFunnel?.testsStarted) * 100)}%`
+                    : '100%'}
+                </span>
+              </div>
+              <div className="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
+                {stats?.dropoffFunnel?.testsCompleted ?? 0}
+              </div>
+              <div className="text-2xs text-slate-400 mt-1">Successfully submitted</div>
+            </div>
+
+            {/* Step 4: Mid-way Drop-offs */}
+            <div className="p-4 rounded-xl bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200 dark:border-rose-900/40 relative">
+              <div className="text-[11px] font-bold text-rose-600 dark:text-rose-400 flex items-center justify-between">
+                <span>4. Dropped / In-Progress</span>
+                <span className="text-rose-600 font-black">
+                  {stats?.dropoffFunnel?.dropoffRate ?? 0}%
+                </span>
+              </div>
+              <div className="text-xl font-black text-rose-600 dark:text-rose-400 mt-1">
+                {stats?.dropoffFunnel?.testsInProgressOrDropped ?? 0}
+              </div>
+              <div className="text-2xs text-rose-500/80 mt-1">Left mid-way without submit</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Where Views Break - Route Technical Issues Breakdown */}
+        <div className="pt-2">
+          <div className="flex items-center justify-between mb-3">
+            <h3 className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5 uppercase tracking-wider">
+              <span>Hotspot Pages Where Issues / Drop-offs Occur:</span>
+            </h3>
+            <Link
+              to="/admin/reports?tab=technical"
+              className="text-xs font-bold text-brand-600 hover:underline flex items-center gap-1"
+            >
+              <span>Inspect All Technical Issues</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+
+          {(!stats?.dropoffFunnel?.routeIssues || stats?.dropoffFunnel?.routeIssues.length === 0) ? (
+            <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850/60 border border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500">
+              <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto mb-1.5" />
+              Koi critical route-break ya error issue reported nahi hai. Platform smoothly operate kar raha hai!
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+              {stats.dropoffFunnel.routeIssues.map((issue: any, idx: number) => (
+                <div
+                  key={idx}
+                  className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2 hover:border-slate-300 dark:hover:border-slate-700 transition"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="font-mono text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-[200px]" title={issue.route}>
+                      {issue.route}
+                    </span>
+                    <span className={`text-[10px] px-2 py-0.5 rounded font-black ${
+                      issue.severity === 'Critical'
+                        ? 'bg-rose-100 text-rose-800 dark:bg-rose-950 dark:text-rose-300'
+                        : issue.severity === 'High'
+                        ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300'
+                        : 'bg-slate-200 text-slate-700 dark:bg-slate-800 dark:text-slate-300'
+                    }`}>
+                      {issue.severity}
+                    </span>
+                  </div>
+
+                  <div className="text-xs text-slate-600 dark:text-slate-300">
+                    Issue: <strong>{issue.reason}</strong>
+                  </div>
+
+                  <div className="flex items-center justify-between text-2xs text-slate-400 pt-1 border-t border-slate-200/60 dark:border-slate-800">
+                    <span>{issue.count} {issue.count === 1 ? 'incident' : 'incidents'}</span>
+                    <Link
+                      to="/admin/reports?tab=technical"
+                      className="text-brand-600 dark:text-brand-400 font-bold hover:underline flex items-center gap-1"
+                    >
+                      <span>Fix Route</span>
+                      <ExternalLink className="w-3 h-3" />
+                    </Link>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       {/* Quick Launchpad to Modules */}
       <div>
         <h3 className="text-sm font-black text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider">Quick Navigation Shortcuts</h3>
@@ -393,6 +699,32 @@ export const AdminDashboard: React.FC = () => {
             <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">Students Directory</h4>
             <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
               Student rosters, attempt histories, score progression, and account statuses.
+            </p>
+          </Link>
+
+          <Link
+            to="/admin/feedback"
+            className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-purple-500/50 shadow-xs transition group"
+          >
+            <div className="w-9 h-9 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
+              <MessageSquarePlus className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-purple-600 dark:group-hover:text-purple-400 transition">Feedback & Issues</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+              Student feedback inbox, direct replies, and 1-click block spam.
+            </p>
+          </Link>
+
+          <Link
+            to="/admin/users"
+            className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-blue-500/50 shadow-xs transition group"
+          >
+            <div className="w-9 h-9 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
+              <Globe className="w-5 h-5" />
+            </div>
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition">Users & Logins</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+              Real-time user numbers, mobile records, active sessions, and devices.
             </p>
           </Link>
         </div>

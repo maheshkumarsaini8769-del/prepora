@@ -30,7 +30,8 @@ import {
   UserCheck,
   Tv,
   Sun,
-  Moon
+  Moon,
+  MessageSquarePlus
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { adminFetch } from '../utils/adminApi';
@@ -42,9 +43,10 @@ export const AdminLayout: React.FC = () => {
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>(() => getColorMode());
-  const [stats, setStats] = useState<{ pendingReviews: number; pendingReports: number; dbStatus: string }>({
+  const [stats, setStats] = useState<{ pendingReviews: number; pendingReports: number; pendingFeedbacks: number; dbStatus: string }>({
     pendingReviews: 0,
     pendingReports: 0,
+    pendingFeedbacks: 0,
     dbStatus: 'Connected'
   });
 
@@ -60,6 +62,7 @@ export const AdminLayout: React.FC = () => {
           setStats({
             pendingReviews: data.data.content?.pendingQuestions || 0,
             pendingReports: (data.data.reports?.pendingQuestionReports || 0) + (data.data.reports?.pendingTechnicalReports || 0),
+            pendingFeedbacks: data.data.reports?.pendingFeedbacks || 0,
             dbStatus: data.data.system?.database === 'Operational' ? 'Connected' : 'Offline'
           });
         }
@@ -118,6 +121,7 @@ export const AdminLayout: React.FC = () => {
       items: [
         { name: 'Users & Logins', path: '/admin/users', icon: UserCheck, desc: 'Users, numbers & login activity' },
         { name: 'Students Directory', path: '/admin/students', icon: Users, desc: 'Student profiles & progress' },
+        { name: 'Student Feedback & Issues', path: '/admin/feedback', icon: MessageSquarePlus, badge: stats.pendingFeedbacks > 0 ? `${stats.pendingFeedbacks}` : undefined, badgeColor: 'bg-emerald-500', desc: 'Direct student feedback & reported issues' },
         { name: 'Reports & Doubts', path: '/admin/reports', icon: AlertTriangle, badge: stats.pendingReports > 0 ? `${stats.pendingReports}` : undefined, badgeColor: 'bg-rose-500', desc: 'Reported disputes & doubts' },
         { name: 'Analytics & Insights', path: '/admin/analytics', icon: BarChart3, desc: 'Performance & telemetry data' },
       ]

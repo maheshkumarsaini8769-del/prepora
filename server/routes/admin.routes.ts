@@ -6,6 +6,7 @@ import Test from '../models/Test.js';
 import TestAttempt from '../models/TestAttempt.js';
 import { QuestionReport, Mistake } from '../models/Entities.js';
 import TechnicalReport from '../models/TechnicalReport.js';
+import StudentFeedback from '../models/StudentFeedback.js';
 import AuditLog from '../models/AuditLog.js';
 import { ContentHierarchy, Flashcard, AdminSettings, AIJob, AuthorizedAdmin } from '../models/Admin.js';
 import Session from '../models/Session.js';
@@ -13,6 +14,7 @@ import Planner from '../models/Planner.js';
 import DailyProgress from '../models/DailyProgress.js';
 import StudentActivity from '../models/StudentActivity.js';
 import LoginHistory from '../models/LoginHistory.js';
+import VideoWatchLog from '../models/VideoWatchLog.js';
 import { randomBytes } from 'crypto';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
@@ -30,6 +32,9 @@ router.use(requireAdmin);
 // ==========================================
 router.get('/stats', async (req: Request, res: Response) => {
   try {
+    const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const now = new Date();
+
     const [
       totalStudents,
       activeStudents,
@@ -48,7 +53,21 @@ router.get('/stats', async (req: Request, res: Response) => {
       pendingQuestionReports,
       totalTechnicalReports,
       pendingTechnicalReports,
-      recentAttempts
+      totalFeedbacks,
+      pendingFeedbacks,
+      recentAttempts,
+      // Video Lecture Telemetry
+      totalLectureViews,
+      uniqueLectureStudents,
+      todayLectureViews,
+      // Website Traffic Telemetry
+      totalLogins,
+      activeSessions,
+      todayVisits,
+      // Resource & App Downloads Telemetry
+      paperDownloadsAgg,
+      // Technical & Drop-off Hotspots
+      routeIssuesAgg
     ] = await Promise.all([
       User.countDocuments({ role: 'student' }),
       User.countDocuments({ role: 'student', status: 'active' }),
@@ -67,10 +86,36 @@ router.get('/stats', async (req: Request, res: Response) => {
       QuestionReport.countDocuments({ status: { $in: ['Pending', 'Under Review'] } }),
       TechnicalReport.countDocuments(),
       TechnicalReport.countDocuments({ status: { $in: ['Open', 'Investigating'] } }),
+      StudentFeedback.countDocuments(),
+      StudentFeedback.countDocuments({ status: { $in: ['Pending', 'In Review'] } }),
       TestAttempt.find({ status: 'completed' })
         .sort({ completedAt: -1 })
         .limit(10)
-        .select('testTitle userName score percentage accuracy completedAt')
+        .select('testTitle userName score percentage accuracy completedAt'),
+      // Video Lecture Telemetry
+      VideoWatchLog.countDocuments().catch(() => 0),
+      VideoWatchLog.distinct('userId').then(ids => ids.length).catch(() => 0),
+      VideoWatchLog.countDocuments({ watchedAt: { $gte: oneDayAgo } }).catch(() => 0),
+      // Traffic
+      LoginHistory.countDocuments().catch(() => 0),
+      Session.countDocuments({ isRevoked: false, expiresAt: { $gt: now } }).catch(() => 0),
+      LoginHistory.countDocuments({ timestamp: { $gte: oneDayAgo } }).catch(() => 0),
+      // Downloads
+      Paper.aggregate([{ $group: { _id: null, total: { $sum: '$downloadsCount' } } }]).catch(() => []),
+      // Route issues / Where views break
+      TechnicalReport.aggregate([
+        {
+          $group: {
+            _id: '$route',
+            count: { $sum: 1 },
+            reason: { $last: '$reason' },
+            severity: { $max: '$severity' },
+            lastReported: { $max: '$createdAt' }
+          }
+        },
+        { $sort: { count: -1 } },
+        { $limit: 6 }
+      ]).catch(() => [])
     ]);
 
     // Calculate aggregate score & accuracy
@@ -94,7 +139,14 @@ router.get('/stats', async (req: Request, res: Response) => {
       totalCompleted: 0
     };
 
+    const paperDownloads = (paperDownloadsAgg && paperDownloadsAgg[0]?.total) || 0;
     const isDbConnected = mongoose.connection.readyState === 1;
+
+    // Drop-off rate calculation
+    const completedAttempts = aggregateMetrics.totalCompleted || 0;
+    const dropoffRate = totalAttempts > 0 
+      ? Math.round(((totalAttempts - completedAttempts) / totalAttempts) * 100) 
+      : 0;
 
     res.json({
       success: true,
@@ -117,16 +169,48 @@ router.get('/stats', async (req: Request, res: Response) => {
         activity: {
           totalAttempts,
           inProgressAttempts,
+          completedAttempts,
           avgScore: Math.round((aggregateMetrics.avgScore || 0) * 10) / 10,
           avgAccuracy: Math.round((aggregateMetrics.avgAccuracy || 0) * 10) / 10,
           avgPercentage: Math.round((aggregateMetrics.avgPercentage || 0) * 10) / 10,
           recentAttempts
         },
+        // Telemetry Requested by Admin
+        lectures: {
+          totalViews: totalLectureViews,
+          uniqueStudents: uniqueLectureStudents,
+          todayViews: todayLectureViews
+        },
+        traffic: {
+          totalLogins: Math.max(totalLogins, totalStudents),
+          activeSessions,
+          todayVisits: Math.max(todayVisits, activeSessions)
+        },
+        downloads: {
+          paperDownloads,
+          totalDownloads: paperDownloads
+        },
+        dropoffFunnel: {
+          totalVisitors: Math.max(totalStudents, 1),
+          testsStarted: totalAttempts,
+          testsCompleted: completedAttempts,
+          testsInProgressOrDropped: inProgressAttempts,
+          dropoffRate,
+          routeIssues: (routeIssuesAgg || []).map((r: any) => ({
+            route: r._id || '/',
+            count: r.count || 1,
+            reason: r.reason || 'Technical issue reported',
+            severity: r.severity || 'Medium',
+            lastReported: r.lastReported || new Date()
+          }))
+        },
         reports: {
           totalQuestionReports,
           pendingQuestionReports,
           totalTechnicalReports,
-          pendingTechnicalReports
+          pendingTechnicalReports,
+          totalFeedbacks,
+          pendingFeedbacks
         },
         system: {
           database: isDbConnected ? 'Operational' : 'Disconnected',
@@ -375,10 +459,48 @@ router.put('/students/:id/status', async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Invalid status' });
     }
 
-    const user = await User.findOneAndUpdate({ id }, { status }, { new: true }).select('-passwordHash');
+    const user = await User.findOne({
+      $or: [
+        { id },
+        { studentId: id },
+        { mobile: id },
+        { phone: id },
+        ...(mongoose.Types.ObjectId.isValid(id) ? [{ _id: id }] : [])
+      ]
+    });
     if (!user) {
       return res.status(404).json({ success: false, message: 'Student not found' });
     }
+
+    user.status = status;
+    const now = new Date();
+
+    if (status === 'suspended') {
+      // Instantly revoke all active sessions so student is immediately kicked out from all devices
+      await Session.updateMany(
+        { userId: user.id, isRevoked: false },
+        {
+          $set: {
+            isRevoked: true,
+            status: 'REVOKED',
+            revokedAt: now,
+            revocationReason: 'STUDENT_SUSPENDED_BY_ADMIN'
+          }
+        }
+      );
+      user.currentSessionId = undefined;
+      user.lastLogoutAt = now;
+
+      await LoginHistory.create({
+        id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
+        studentId: user.studentId || user.id,
+        eventType: 'FORCE_LOGOUT',
+        reason: `Account suspended & blocked by Admin (${adminEmail})`,
+        timestamp: now
+      }).catch(() => null);
+    }
+
+    await user.save();
 
     // Append to AuditLog
     await AuditLog.create({
@@ -387,13 +509,167 @@ router.put('/students/:id/status', async (req: Request, res: Response) => {
       adminEmail,
       action: status === 'suspended' ? 'STUDENT_SUSPENDED' : 'STUDENT_RESTORED',
       entityType: 'User',
-      entityId: String(id),
-      metadata: { studentName: user.name, studentEmail: user.email, newStatus: status }
-    });
+      entityId: String(user.id),
+      metadata: { studentName: user.name, studentEmail: user.email, studentMobile: user.mobile || user.phone, newStatus: status }
+    }).catch(() => null);
 
-    res.json({ success: true, data: user });
+    const userObj = user.toObject();
+    delete (userObj as any).passwordHash;
+    delete (userObj as any).otpCode;
+
+    res.json({
+      success: true,
+      data: userObj,
+      message: status === 'suspended' ? `Student ${user.name} has been blocked.` : `Student ${user.name} has been restored.`
+    });
   } catch (error: any) {
     res.status(500).json({ success: false, message: 'Failed to update student status', error: error.message });
+  }
+});
+
+// POST /api/admin/students/block-by-phone - Block any student by mobile number
+router.post('/students/block-by-phone', async (req: Request, res: Response) => {
+  try {
+    const { mobile, reason = 'Blocked by Admin', adminEmail = 'superadmin@prepore.edu' } = req.body;
+    const cleanMobile = String(mobile || '').replace(/[^0-9]/g, '').slice(-10);
+
+    if (!cleanMobile || cleanMobile.length !== 10) {
+      return res.status(400).json({ success: false, message: 'Kripya valid 10-digit mobile number enter karein.' });
+    }
+
+    const now = new Date();
+    let user = await User.findOne({
+      $or: [
+        { mobile: cleanMobile },
+        { phone: cleanMobile },
+        { email: `phone_${cleanMobile}@prepora.student` }
+      ]
+    });
+
+    if (user) {
+      user.status = 'suspended';
+      user.currentSessionId = undefined;
+      user.lastLogoutAt = now;
+      await user.save();
+
+      // Revoke all active sessions
+      await Session.updateMany(
+        { userId: user.id, isRevoked: false },
+        {
+          $set: {
+            isRevoked: true,
+            status: 'REVOKED',
+            revokedAt: now,
+            revocationReason: 'STUDENT_SUSPENDED_BY_ADMIN'
+          }
+        }
+      );
+
+      await LoginHistory.create({
+        id: `lh-${Date.now()}-${randomBytes(3).toString('hex')}`,
+        studentId: user.studentId || user.id,
+        eventType: 'FORCE_LOGOUT',
+        reason: `Account suspended & phone blocked by Admin (${adminEmail}): ${reason}`,
+        timestamp: now
+      }).catch(() => null);
+    } else {
+      // Create pre-emptive blocked user record so this number cannot even register or get OTP
+      const id = `usr-blocked-${cleanMobile}`;
+      user = new User({
+        id,
+        studentId: `BLK_${cleanMobile}`,
+        name: `Blocked User (${cleanMobile})`,
+        email: `phone_${cleanMobile}@prepora.student`,
+        mobile: cleanMobile,
+        phone: cleanMobile,
+        role: 'student',
+        status: 'suspended',
+        classLevel: '12',
+        targetExam: 'JEE',
+        targetYear: 2026,
+        streakDays: 0,
+        totalQuestionsSolved: 0,
+        overallAccuracy: 0,
+        testsCompleted: 0,
+        studyTimeMinutes: 0
+      });
+      await user.save();
+    }
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      adminId: 'admin_sys',
+      adminEmail,
+      action: 'STUDENT_PHONE_BLOCKED',
+      entityType: 'User',
+      entityId: String(user.id),
+      metadata: { mobile: cleanMobile, studentName: user.name, reason }
+    }).catch(() => null);
+
+    res.json({
+      success: true,
+      message: `Mobile number ${cleanMobile} (${user.name}) ko successfully BLOCK kar diya gaya hai. Ab is number se app/web open ya login nahi hoga.`,
+      student: {
+        id: user.id,
+        studentId: user.studentId || user.id,
+        name: user.name,
+        mobile: cleanMobile,
+        status: 'suspended'
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to block student by phone', error: error.message });
+  }
+});
+
+// POST /api/admin/students/unblock-by-phone - Unblock any student by mobile number
+router.post('/students/unblock-by-phone', async (req: Request, res: Response) => {
+  try {
+    const { mobile, adminEmail = 'superadmin@prepore.edu' } = req.body;
+    const cleanMobile = String(mobile || '').replace(/[^0-9]/g, '').slice(-10);
+
+    if (!cleanMobile || cleanMobile.length !== 10) {
+      return res.status(400).json({ success: false, message: 'Kripya valid 10-digit mobile number enter karein.' });
+    }
+
+    const user = await User.findOne({
+      $or: [
+        { mobile: cleanMobile },
+        { phone: cleanMobile },
+        { email: `phone_${cleanMobile}@prepora.student` }
+      ]
+    });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Is mobile number se koi account nahi mila.' });
+    }
+
+    user.status = 'active';
+    await user.save();
+
+    await AuditLog.create({
+      id: 'aud_' + Date.now() + '_' + Math.random().toString(36).substring(2, 7),
+      adminId: 'admin_sys',
+      adminEmail,
+      action: 'STUDENT_PHONE_UNBLOCKED',
+      entityType: 'User',
+      entityId: String(user.id),
+      metadata: { mobile: cleanMobile, studentName: user.name }
+    }).catch(() => null);
+
+    res.json({
+      success: true,
+      message: `Mobile number ${cleanMobile} (${user.name}) ko UNBLOCK kar diya gaya hai. Ab student login kar sakta hai.`,
+      student: {
+        id: user.id,
+        studentId: user.studentId || user.id,
+        name: user.name,
+        mobile: cleanMobile,
+        status: 'active'
+      }
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to unblock student by phone', error: error.message });
   }
 });
 
@@ -1758,23 +2034,32 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
     const { search } = req.query;
     const query: any = {};
     if (search) {
+      const clean = String(search).trim();
+      const phoneDigits = clean.replace(/[^0-9]/g, '');
       query.$or = [
-        { name: { $regex: String(search), $options: 'i' } },
-        { phone: { $regex: String(search), $options: 'i' } },
-        { email: { $regex: String(search), $options: 'i' } }
+        { name: { $regex: clean, $options: 'i' } },
+        { phone: { $regex: clean, $options: 'i' } },
+        { mobile: { $regex: clean, $options: 'i' } },
+        { email: { $regex: clean, $options: 'i' } },
+        { id: { $regex: clean, $options: 'i' } },
+        { studentId: { $regex: clean, $options: 'i' } }
       ];
+      if (phoneDigits.length >= 4) {
+        query.$or.push({ phone: { $regex: phoneDigits } });
+        query.$or.push({ mobile: { $regex: phoneDigits } });
+      }
     }
 
     const [users, totalUsers, withPassword, sessions] = await Promise.all([
       User.find(query)
-        .select('id name phone email role status passwordHash createdAt targetExam classLevel')
+        .select('id studentId name phone mobile email role status passwordHash createdAt targetExam classLevel')
         .sort({ createdAt: -1 })
         .limit(500)
         .lean(),
       User.countDocuments(query),
       User.countDocuments({ ...query, passwordHash: { $exists: true, $nin: [null, ''] } }),
       Session.find({ isRevoked: { $ne: true } })
-        .select('userId lastActive createdAt deviceInfo ipAddress')
+        .select('userId studentId lastActive createdAt deviceInfo ipAddress')
         .sort({ lastActive: -1, createdAt: -1 })
         .limit(5000)
         .lean()
@@ -1783,7 +2068,7 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
     // Login stats per user from sessions (count + last login + device)
     const loginMap = new Map<string, { count: number; lastLogin: any; device: string; ip: string }>();
     (sessions as any[]).forEach(s => {
-      const uid = String(s.userId || '');
+      const uid = String(s.userId || s.studentId || '');
       if (!uid) return;
       const entry = loginMap.get(uid) || { count: 0, lastLogin: null, device: '', ip: '' };
       entry.count += 1;
@@ -1797,12 +2082,13 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
     });
 
     const list = (users as any[]).map((u, i) => {
-      const stat = loginMap.get(String(u.id)) || { count: 0, lastLogin: null, device: '', ip: '' };
+      const stat = loginMap.get(String(u.id)) || loginMap.get(String(u.studentId)) || { count: 0, lastLogin: null, device: '', ip: '' };
       return {
         sno: i + 1,
         id: u.id,
+        studentId: u.studentId || u.id,
         name: u.name || '—',
-        phone: u.phone || '',
+        phone: u.mobile || u.phone || '',
         email: u.email || '',
         role: u.role || 'student',
         status: u.status || 'active',
@@ -1821,10 +2107,10 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
 
     // Recent logins — who logged in just now (name, number, time, device)
     const recentLogins = (sessions as any[]).slice(0, 12).map(s => {
-      const u = (users as any[]).find(x => String(x.id) === String(s.userId));
+      const u = (users as any[]).find(x => String(x.id) === String(s.userId) || String(x.studentId) === String(s.studentId));
       return {
         name: u?.name || 'Unknown',
-        phone: u?.phone || '',
+        phone: u?.mobile || u?.phone || '',
         when: s.lastActive || s.createdAt,
         device: s.deviceInfo?.device || s.deviceInfo?.browser || 'Web',
         ip: s.ipAddress || ''

@@ -32,6 +32,7 @@ export interface QuestionFilters {
   includePYQs?: boolean;
   includeModelPapers?: boolean;
   searchQuery?: string;
+  excludeIds?: string[];
 }
 
 class ApiQuestionService {
@@ -150,6 +151,9 @@ class ApiQuestionService {
       if (filters.includePYQs !== undefined) params.set('includePYQs', String(filters.includePYQs));
       if (filters.includeModelPapers !== undefined) params.set('includeModelPapers', String(filters.includeModelPapers));
       if (filters.searchQuery) params.set('search', filters.searchQuery);
+      if (filters.excludeIds && filters.excludeIds.length > 0) {
+        params.set('excludeIds', filters.excludeIds.slice(0, 300).join(','));
+      }
       params.set('limit', String(limit));
 
       const { data } = await apiRequest<{ success: boolean; questions: Question[] }>(`/questions?${params.toString()}`);
@@ -170,6 +174,11 @@ class ApiQuestionService {
 
   public filterQuestions(filters: QuestionFilters): Question[] {
     return this.getAllQuestions().filter(q => {
+      // Exclude already attempted questions so student always gets fresh questions
+      if (filters.excludeIds && filters.excludeIds.length > 0 && filters.excludeIds.includes(q.id)) {
+        return false;
+      }
+
       // Content Type Isolation (Task.md section 1, 2, 4, 6)
       const isModelPaper = q.contentType === 'MODEL_PAPER' || q.source === 'Model Paper';
       const isPYQ = q.contentType === 'PYQ' || q.source === 'PYQ' || q.source === 'Official PYQ';

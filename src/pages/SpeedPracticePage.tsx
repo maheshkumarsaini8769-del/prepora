@@ -60,10 +60,24 @@ export const SpeedPracticePage: React.FC = () => {
   }, [isStarted, isChecked, timeLeft, showSummary]);
 
   const handleStart = () => {
-    const pool = questionService.filterQuestions({
+    let attemptedIds: string[] = [];
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      if (Array.isArray(stored)) attemptedIds = stored;
+    } catch {}
+
+    let pool = questionService.filterQuestions({
       subject: selectedSubject,
-      difficulty: selectedDifficulty
+      difficulty: selectedDifficulty,
+      excludeIds: attemptedIds
     });
+    if (pool.length < 5) {
+      pool = questionService.filterQuestions({
+        subject: selectedSubject,
+        difficulty: selectedDifficulty
+      });
+    }
+
     const selectedPool = (pool.length > 0 ? pool : questionService.getAllQuestions())
       .sort(() => 0.5 - Math.random())
       .slice(0, 5);

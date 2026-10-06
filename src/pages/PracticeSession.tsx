@@ -75,6 +75,14 @@ export const PracticeSession: React.FC = () => {
 
     const loadPracticeQuestions = async () => {
       const requestedCount = count || 10;
+
+      // Collect previously attempted question IDs so practice also never repeats questions!
+      let attemptedIds: string[] = [];
+      try {
+        const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+        if (Array.isArray(stored)) attemptedIds = stored;
+      } catch {}
+
       const filterOpts = {
         exam: exam && exam !== ('All' as any) ? exam : undefined,
         classLevel: classLevel && classLevel !== ('All' as any) ? classLevel : undefined,
@@ -82,7 +90,8 @@ export const PracticeSession: React.FC = () => {
         chapter: chapter && chapter !== 'All' ? chapter : undefined,
         topic: topic && topic !== 'All' ? topic : undefined,
         difficulty: difficulty && difficulty !== ('All' as any) ? difficulty : undefined,
-        includePYQs: true
+        includePYQs: true,
+        excludeIds: attemptedIds
       };
 
       // 1. Fetch from server in background if possible

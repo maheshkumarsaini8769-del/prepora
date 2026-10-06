@@ -19,14 +19,32 @@ import {
   Phone,
   ExternalLink,
   MessageSquare,
-  Sparkles
+  Sparkles,
+  Ban,
+  Send,
+  UserX
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../../components/common/UIComponents';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useSearchParams } from 'react-router-dom';
 import { adminFetch } from '../../utils/adminApi';
 
 export const AdminReports: React.FC = () => {
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [activeTab, setActiveTab] = useState<'questions' | 'feedback' | 'technical' | 'audit'>('questions');
+
+  useEffect(() => {
+    const tab = searchParams.get('tab');
+    if (location.pathname.includes('/feedback') || tab === 'feedback') {
+      setActiveTab('feedback');
+    } else if (tab === 'technical') {
+      setActiveTab('technical');
+    } else if (tab === 'audit') {
+      setActiveTab('audit');
+    } else if (tab === 'questions') {
+      setActiveTab('questions');
+    }
+  }, [location.pathname, searchParams]);
 
   // Question Reports State
   const [qReports, setQReports] = useState<any[]>([]);
@@ -46,6 +64,11 @@ export const AdminReports: React.FC = () => {
   const [selectedFeedback, setSelectedFeedback] = useState<any | null>(null);
   const [fbModalOpen, setFbModalOpen] = useState(false);
   const [fbAdminNote, setFbAdminNote] = useState('');
+  const [fbReplyModalOpen, setFbReplyModalOpen] = useState(false);
+  const [fbReplyText, setFbReplyText] = useState('');
+  const [fbBlockModalOpen, setFbBlockModalOpen] = useState(false);
+  const [fbBlockReason, setFbBlockReason] = useState('Misconduct / Inappropriate language');
+  const [fbActionLoading, setFbActionLoading] = useState(false);
 
   // Technical Reports State
   const [techReports, setTechReports] = useState<any[]>([]);
@@ -170,6 +193,66 @@ export const AdminReports: React.FC = () => {
       }
     } catch {
       alert('Failed to update feedback status.');
+    }
+  };
+
+  const handleSendFeedbackReply = async (id: string, reply: string) => {
+    if (!reply.trim()) {
+      alert('Kripya reply text likhein.');
+      return;
+    }
+    setFbActionLoading(true);
+    try {
+      const res = await adminFetch(`/api/reports/feedback/${id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: 'Resolved',
+          adminReply: reply.trim(),
+          adminEmail: 'admin@prepora.internal'
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setFbReplyModalOpen(false);
+        setFbReplyText('');
+        fetchFeedbacks();
+        fetchAuditLogs();
+        alert('Student ko reply safaltapoorvak bhej diya gaya hai!');
+      } else {
+        alert(data.message || 'Reply send karne me samasya aayi.');
+      }
+    } catch {
+      alert('Server se judne me samasya aayi.');
+    } finally {
+      setFbActionLoading(false);
+    }
+  };
+
+  const handleBlockStudentFromFeedback = async (id: string, reason: string) => {
+    setFbActionLoading(true);
+    try {
+      const res = await adminFetch(`/api/reports/feedback/${id}/block-student`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          reason,
+          adminEmail: 'admin@prepora.internal'
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setFbBlockModalOpen(false);
+        fetchFeedbacks();
+        fetchAuditLogs();
+        alert(`Student ko safaltapoorvak BLOCK kar diya gaya hai! Iska active session turant band ho gaya hai aur is number se ab login nahi ho sakega.`);
+      } else {
+        alert(data.message || 'Block karne me samasya aayi.');
+      }
+    } catch {
+      alert('Server se judne me samasya aayi.');
+    } finally {
+      setFbActionLoading(false);
     }
   };
 
@@ -559,7 +642,41 @@ export const AdminReports: React.FC = () => {
                     </div>
 
                     {/* Action Controls */}
-                    <div className="flex items-center gap-1.5">
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      {/* Reply Button */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedFeedback(fb);
+                          setFbReplyText(fb.adminReply || '');
+                          setFbReplyModalOpen(true);
+                        }}
+                        className={`px-2.5 py-1 rounded-lg text-xs font-bold border flex items-center gap-1 transition-colors ${
+                          fb.adminReply
+                            ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-300 hover:bg-emerald-100'
+                            : 'bg-indigo-50 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-300 border-indigo-200 hover:bg-indigo-100'
+                        }`}
+                        title="Student ko direct reply bhejein"
+                      >
+                        <MessageSquare className="w-3 h-3" />
+                        <span>{fb.adminReply ? 'Edit Reply' : '💬 Reply Dein'}</span>
+                      </button>
+
+                      {/* 1-Click Block Student */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setSelectedFeedback(fb);
+                          setFbBlockReason(`Misconduct / Inappropriate behavior in feedback: "${fb.title}"`);
+                          setFbBlockModalOpen(true);
+                        }}
+                        className="px-2.5 py-1 rounded-lg text-xs font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/50 hover:bg-rose-100 flex items-center gap-1 transition-colors"
+                        title="Student ko permanently block karein"
+                      >
+                        <Ban className="w-3 h-3" />
+                        <span>Block Student</span>
+                      </button>
+
                       {fb.status !== 'In Review' && fb.status !== 'Resolved' && (
                         <button
                           type="button"
@@ -594,6 +711,22 @@ export const AdminReports: React.FC = () => {
                       </button>
                     </div>
                   </div>
+
+                  {/* Admin Reply Display if present */}
+                  {fb.adminReply && (
+                    <div className="text-xs bg-emerald-50 dark:bg-emerald-950/40 p-3 rounded-xl border border-emerald-300 dark:border-emerald-800/80 text-emerald-900 dark:text-emerald-200 space-y-1">
+                      <div className="flex items-center justify-between text-2xs font-bold text-emerald-700 dark:text-emerald-300">
+                        <span className="flex items-center gap-1.5">
+                          <MessageSquare className="w-3.5 h-3.5" />
+                          <span>Admin Reply (Sent to Student)</span>
+                        </span>
+                        {fb.repliedAt && (
+                          <span className="font-mono text-slate-500">{new Date(fb.repliedAt).toLocaleString()}</span>
+                        )}
+                      </div>
+                      <p className="font-medium whitespace-pre-wrap">{fb.adminReply}</p>
+                    </div>
+                  )}
 
                   {/* Admin Notes Display if present */}
                   {fb.adminNotes && (
@@ -644,6 +777,156 @@ export const AdminReports: React.FC = () => {
                 className="text-xs font-bold bg-purple-600 hover:bg-purple-700 text-white"
               >
                 Save Note
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Admin Reply Modal (Direct Student Communication) */}
+      {fbReplyModalOpen && selectedFeedback && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white dark:bg-[#0e1620] rounded-3xl p-6 max-w-lg w-full border border-slate-200 dark:border-slate-800 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between">
+              <h3 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-indigo-600" />
+                <span>Student Ko Reply Bhejein</span>
+              </h3>
+              <span className="text-2xs px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 font-bold text-slate-600">
+                {selectedFeedback.category || 'General'}
+              </span>
+            </div>
+
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-850 border border-slate-200/80 dark:border-slate-800 text-xs space-y-1">
+              <div className="font-bold text-slate-800 dark:text-slate-100">
+                {selectedFeedback.userName || 'Student'} ({selectedFeedback.userPhone || selectedFeedback.userEmail || 'No Phone'})
+              </div>
+              <div className="font-semibold text-slate-600 dark:text-slate-300">
+                "{selectedFeedback.title}"
+              </div>
+              <div className="text-2xs text-slate-500 line-clamp-2">
+                {selectedFeedback.description}
+              </div>
+            </div>
+
+            {/* Quick Canned Reply Buttons */}
+            <div className="space-y-1">
+              <label className="text-[11px] font-bold text-slate-500">Quick Templates:</label>
+              <div className="flex flex-wrap gap-1.5">
+                {[
+                  'Dhanyawad! Aapki batayi hui mistake ko verify karke update kar diya gaya hai.',
+                  'Aapka suggestion note kar liya gaya hai, agle update me ise platform me add kar diya jayega.',
+                  'Humne issue check kiya aur fix live deploy ho gaya hai. Kripya app refresh karein.',
+                  'Dhanyawad feedback ke liye! PREPORA team lagatar platform behtar banane me lagi hai.'
+                ].map((txt, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setFbReplyText(txt)}
+                    className="text-2xs px-2 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 text-left"
+                  >
+                    {txt.substring(0, 35)}...
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                Aapka Reply (Student ke liye):
+              </label>
+              <textarea
+                rows={4}
+                value={fbReplyText}
+                onChange={e => setFbReplyText(e.target.value)}
+                placeholder="Student ko bheja jaane wala reply likhein..."
+                className="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFbReplyModalOpen(false)}
+                className="text-xs font-bold"
+                disabled={fbActionLoading}
+              >
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => handleSendFeedbackReply(selectedFeedback.id, fbReplyText)}
+                disabled={fbActionLoading || !fbReplyText.trim()}
+                className="text-xs font-bold bg-brand-600 hover:bg-brand-700 text-white flex items-center gap-1.5"
+              >
+                <Send className="w-3.5 h-3.5" />
+                <span>{fbActionLoading ? 'Sending...' : 'Reply & Resolve'}</span>
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* 1-Click Block Student Modal */}
+      {fbBlockModalOpen && selectedFeedback && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in">
+          <div className="bg-white dark:bg-[#0e1620] rounded-3xl p-6 max-w-md w-full border border-rose-300 dark:border-rose-900 shadow-2xl space-y-4">
+            <div className="flex items-center gap-3 text-rose-600">
+              <div className="w-10 h-10 rounded-2xl bg-rose-100 dark:bg-rose-950/60 flex items-center justify-center">
+                <Ban className="w-5 h-5 text-rose-600" />
+              </div>
+              <div>
+                <h3 className="text-base font-black text-slate-900 dark:text-white">
+                  Student Block Confirmation
+                </h3>
+                <p className="text-xs text-rose-600 font-bold">1-Click Immediate Suspension</p>
+              </div>
+            </div>
+
+            <div className="p-3.5 rounded-xl bg-rose-50 dark:bg-rose-950/30 border border-rose-200 dark:border-rose-900/60 text-xs space-y-2 text-rose-950 dark:text-rose-200">
+              <div>
+                Student Name: <strong>{selectedFeedback.userName || 'Unknown'}</strong>
+              </div>
+              <div>
+                Mobile / Phone: <strong className="font-mono text-rose-600">{selectedFeedback.userPhone || 'No Phone (Will block user account)'}</strong>
+              </div>
+              <p className="text-[11px] leading-relaxed text-rose-800 dark:text-rose-300 bg-rose-100/70 dark:bg-rose-900/40 p-2 rounded-lg">
+                ⚠️ <strong>Kya hoga:</strong> Is student ka account turant <em>suspended</em> ho jayega, active sessions revoke ho jayenge, aur is mobile number se koi naya login ya OTP nahi ho sakega.
+              </p>
+            </div>
+
+            <div>
+              <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
+                Block Karne Ka Kaaran (Reason):
+              </label>
+              <input
+                type="text"
+                value={fbBlockReason}
+                onChange={e => setFbBlockReason(e.target.value)}
+                placeholder="Misconduct, abusive language, or spam..."
+                className="w-full text-xs p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white focus:outline-none"
+              />
+            </div>
+
+            <div className="flex items-center justify-end gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setFbBlockModalOpen(false)}
+                className="text-xs font-bold"
+                disabled={fbActionLoading}
+              >
+                Cancel
+              </Button>
+              <Button
+                size="sm"
+                onClick={() => handleBlockStudentFromFeedback(selectedFeedback.id, fbBlockReason)}
+                disabled={fbActionLoading}
+                className="text-xs font-bold bg-rose-600 hover:bg-rose-700 text-white flex items-center gap-1.5"
+              >
+                <Ban className="w-3.5 h-3.5" />
+                <span>{fbActionLoading ? 'Blocking...' : 'Permanently Block Student'}</span>
               </Button>
             </div>
           </div>

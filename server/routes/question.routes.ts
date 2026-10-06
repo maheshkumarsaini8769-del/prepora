@@ -221,20 +221,35 @@ function buildQuestionFilter(query: any): any {
     ];
   }
 
+  if (query.excludeIds) {
+    const arr = Array.isArray(query.excludeIds)
+      ? query.excludeIds
+      : typeof query.excludeIds === 'string'
+      ? query.excludeIds.split(',').map((s: string) => s.trim()).filter(Boolean)
+      : [];
+    if (arr.length > 0) {
+      filter.id = { $nin: arr };
+    }
+  }
+
   return filter;
 }
 
 // GET /api/questions/count - Fast count for arbitrary filter combinations
 router.get('/count', async (req: Request, res: Response) => {
   try {
+    const queryOptions: any = { ...req.query };
+    if (typeof queryOptions.excludeIds === 'string') {
+      queryOptions.excludeIds = queryOptions.excludeIds.split(',').map((s: string) => s.trim()).filter(Boolean);
+    }
     // Repo-first: the expanded in-memory bank (~1 lakh) is the canonical source,
     // so counts stay correct without inflating MongoDB storage.
-    const repoCount = questionRepo.count(req.query as any);
+    const repoCount = questionRepo.count(queryOptions);
     if (repoCount > 0) {
       return res.json({ success: true, count: repoCount, filter: req.query });
     }
     if (mongoose.connection.readyState === 1) {
-      const filter = buildQuestionFilter(req.query);
+      const filter = buildQuestionFilter(queryOptions);
       const count = await Question.countDocuments(filter);
       if (count > 0) {
         return res.json({ success: true, count, filter });
@@ -242,7 +257,11 @@ router.get('/count', async (req: Request, res: Response) => {
     }
     res.json({ success: true, count: 0, filter: req.query });
   } catch (error: any) {
-    const count = questionRepo.count(req.query as any);
+    const queryOptions: any = { ...req.query };
+    if (typeof queryOptions.excludeIds === 'string') {
+      queryOptions.excludeIds = queryOptions.excludeIds.split(',').map((s: string) => s.trim()).filter(Boolean);
+    }
+    const count = questionRepo.count(queryOptions);
     res.json({ success: true, count, filter: req.query });
   }
 });
@@ -253,8 +272,13 @@ router.get('/', async (req: Request, res: Response) => {
     const pageNum = parseInt(req.query.page as string, 10) || 1;
     const limitNum = Math.min(parseInt(req.query.limit as string, 10) || 50, 500);
 
+    const queryOptions: any = { ...req.query };
+    if (typeof queryOptions.excludeIds === 'string') {
+      queryOptions.excludeIds = queryOptions.excludeIds.split(',').map((s: string) => s.trim()).filter(Boolean);
+    }
+
     // Repo-first: expanded in-memory bank (~1 lakh) is the canonical source
-    const repoPool = questionRepo.filter(req.query as any);
+    const repoPool = questionRepo.filter(queryOptions);
     if (repoPool.length > 0) {
       const sorted = [...repoPool].sort((a, b) =>
         String(b.createdAt || '').localeCompare(String(a.createdAt || ''))

@@ -294,6 +294,7 @@ export const App: React.FC = () => {
               <Route path="/admin/ai" element={<AdminAIStudio />} />
               <Route path="/admin/analytics" element={<AdminAnalytics />} />
               <Route path="/admin/reports" element={<AdminReports />} />
+              <Route path="/admin/feedback" element={<AdminReports />} />
               <Route path="/admin/system" element={<AdminSystemSecurity />} />
               <Route path="/admin/security" element={<AdminSystemSecurity />} />
               <Route path="/admin/settings" element={<AdminSettingsPage />} />

@@ -48,7 +48,8 @@ router.get('/', optionalAuth, async (req: Request, res: Response) => {
       ];
     }
 
-    const formulas = await Formula.find(query).sort({ order: 1, importance: -1, createdAt: 1 }).limit(100);
+    const limitNum = Math.min(Number(req.query.limit) || 1000, 1000);
+    const formulas = await Formula.find(query).sort({ order: 1, importance: -1, createdAt: 1 }).limit(limitNum);
 
     return res.json({
       success: true,

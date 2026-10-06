@@ -14,6 +14,9 @@ export interface IStudentFeedback extends Document {
   screenshotUrl?: string;
   status: 'Pending' | 'In Review' | 'Resolved' | 'Rejected';
   adminNotes?: string;
+  adminReply?: string;
+  repliedAt?: Date;
+  adminEmail?: string;
   resolvedAt?: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -44,6 +47,9 @@ const StudentFeedbackSchema: Schema = new Schema(
       index: true
     },
     adminNotes: { type: String, default: '' },
+    adminReply: { type: String, default: '' },
+    repliedAt: { type: Date },
+    adminEmail: { type: String, default: '' },
     resolvedAt: { type: Date }
   },
   { timestamps: true }

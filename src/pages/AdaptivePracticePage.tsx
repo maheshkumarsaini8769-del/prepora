@@ -29,6 +29,13 @@ export const AdaptivePracticePage: React.FC = () => {
   // Active question state
   const [allQuestions] = useState<Question[]>(() => questionService.getAllQuestions());
   const [currentQ, setCurrentQ] = useState<Question>(() => {
+    let attemptedIds: string[] = [];
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      if (Array.isArray(stored)) attemptedIds = stored;
+    } catch {}
+    const freshEasy = questionService.filterQuestions({ difficulty: 'Easy', excludeIds: attemptedIds });
+    if (freshEasy.length > 0) return freshEasy[0];
     const easyQ = questionService.filterQuestions({ difficulty: 'Easy' })[0];
     return easyQ || questionService.getAllQuestions()[0];
   });
@@ -86,8 +93,19 @@ export const AdaptivePracticePage: React.FC = () => {
   };
 
   const handleNext = () => {
-    // Pick next question matching currentTier
-    const pool = allQuestions.filter(q => q.difficulty === currentTier && q.id !== currentQ.id);
+    let attemptedIds: string[] = [];
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      if (Array.isArray(stored)) attemptedIds = stored;
+    } catch {}
+    const attemptedSet = new Set(attemptedIds);
+    attemptedSet.add(currentQ.id);
+
+    // Pick next question matching currentTier, excluding already attempted
+    let pool = allQuestions.filter(q => q.difficulty === currentTier && !attemptedSet.has(q.id));
+    if (pool.length === 0) {
+      pool = allQuestions.filter(q => q.difficulty === currentTier && q.id !== currentQ.id);
+    }
     const nextQ = pool.length > 0
       ? pool[Math.floor(Math.random() * pool.length)]
       : allQuestions[Math.floor(Math.random() * allQuestions.length)];

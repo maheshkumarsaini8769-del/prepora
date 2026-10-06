@@ -281,6 +281,13 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
       return res.status(401).json({ success: false, message: 'Invalid mobile number/email or password.' });
     }
 
+    if (user.status === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        message: 'Yeh account ADMIN dwara BLOCK kar diya gaya hai. Aap is account se PREPORA me login nahi kar sakte.'
+      });
+    }
+
     if (!user.passwordHash) {
       // OTP-only account: password must be created after an OTP login, never guessed here
       return res.status(401).json({ success: false, message: 'Is account me password set nahi hai. Pehle OTP se login karein, phir password create karein.' });
@@ -430,6 +437,21 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Please provide a valid 10-digit mobile number for WhatsApp verification.' });
     }
 
+    // Check if mobile number is suspended/blocked by admin
+    const blockedUser = await User.findOne({
+      $or: [
+        { mobile: cleanMobile },
+        { phone: cleanMobile },
+        { email: `phone_${cleanMobile}@prepora.student` }
+      ]
+    });
+    if (blockedUser && blockedUser.status === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se PREPORA me login nahi kar sakte.'
+      });
+    }
+
     const result = await whatsappOTPService.sendOTP(cleanMobile);
     if (!result.success) {
       return res.status(400).json({ success: false, message: result.message, cooldownSeconds: result.cooldownSeconds });
@@ -474,6 +496,13 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
         { email: `phone_${cleanMobile}@prepora.student` }
       ]
     });
+
+    if (user && user.status === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se PREPORA me login nahi kar sakte.'
+      });
+    }
 
     let generatedPassword = '';
     let isNewUser = false;
@@ -627,6 +656,16 @@ router.post('/forgot-password/send-otp', otpLimiter, async (req: Request, res: R
       return res.status(400).json({ success: false, message: 'Valid 10-digit mobile number is required.' });
     }
 
+    const existingUser = await User.findOne({
+      $or: [{ mobile: cleanMobile }, { phone: cleanMobile }, { email: `phone_${cleanMobile}@prepora.student` }]
+    });
+    if (existingUser && existingUser.status === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se password reset nahi kar sakte.'
+      });
+    }
+
     const result = await whatsappOTPService.sendOTP(cleanMobile);
     res.json({
       success: result.success,
@@ -665,6 +704,13 @@ router.post('/forgot-password/verify-reset', authLimiter, async (req: Request, r
 
     if (!user) {
       return res.status(404).json({ success: false, message: 'No registered student found with this mobile number.' });
+    }
+
+    if (user.status === 'suspended') {
+      return res.status(403).json({
+        success: false,
+        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se password reset nahi kar sakte.'
+      });
     }
 
     const salt = await bcrypt.genSalt(10);

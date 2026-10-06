@@ -18,7 +18,7 @@ const AdminUsers: React.FC = () => {
   const load = useCallback(async (search?: string) => {
     setLoading(true);
     try {
-      const res = await adminFetch(`/users-overview${search ? `?search=${encodeURIComponent(search)}` : ''}`);
+      const res = await adminFetch(`/api/admin/users-overview${search ? `?search=${encodeURIComponent(search)}` : ''}`);
       const d = await res.json();
       setStats(d.stats); setUsers(d.users || []); setRecent(d.recentLogins || []);
     } catch { /* keep old data */ }

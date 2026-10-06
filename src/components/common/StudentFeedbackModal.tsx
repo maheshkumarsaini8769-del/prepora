@@ -304,8 +304,14 @@ export const StudentFeedbackModal: React.FC = () => {
                     </div>
                   )}
 
+                  {/* Privacy Assurance Note */}
+                  <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400">
+                    <span className="text-emerald-500 font-bold shrink-0">🔒 100% Private:</span>
+                    <span>Aapka feedback seedha Admin team tak pahuchega. Kisi bhi doosre student ko yeh nahi dikhega.</span>
+                  </div>
+
                   {/* Submit Button */}
-                  <div className="pt-2">
+                  <div className="pt-1">
                     <button
                       type="submit"
                       disabled={loading}
@@ -316,7 +322,7 @@ export const StudentFeedbackModal: React.FC = () => {
                       ) : (
                         <>
                           <Send className="w-4 h-4" />
-                          <span>Seedha Team Ko Bhejein</span>
+                          <span>Seedha Admin Ko Bhejein</span>
                         </>
                       )}
                     </button>

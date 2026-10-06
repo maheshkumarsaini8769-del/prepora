@@ -247,6 +247,15 @@ class MockUserService {
       setStorageItem(StorageKeys.MISTAKES, mistakes);
     }
 
+    // Persist attempted question ID
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      if (Array.isArray(stored) && !stored.includes(payload.questionId)) {
+        stored.push(payload.questionId);
+        localStorage.setItem('prepora_attempted_question_ids', JSON.stringify(stored));
+      }
+    } catch {}
+
     this.updateProfile(profile);
   }
 
@@ -254,6 +263,19 @@ class MockUserService {
   public recordTestCompleted(attempt: TestAttempt): void {
     const profile = this.getProfile();
     const today = new Date().toISOString().split('T')[0];
+
+    // Persist all attempted test question IDs
+    try {
+      const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
+      const qIds: string[] = [];
+      if (attempt.answers && typeof attempt.answers === 'object') {
+        Object.values(attempt.answers).forEach((ans: any) => {
+          if (ans?.questionId) qIds.push(ans.questionId);
+        });
+      }
+      const merged = Array.from(new Set([...stored, ...qIds]));
+      localStorage.setItem('prepora_attempted_question_ids', JSON.stringify(merged));
+    } catch {}
 
     profile.lastActiveDate = today;
     profile.testsCompletedCount = (profile.testsCompletedCount || 0) + 1;
