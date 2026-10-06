@@ -158,12 +158,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           }
         } else if (res.status === 401) {
           const errData = await res.json().catch(() => null);
+          const isAnotherDevice = errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' ||
+            (errData?.code === 'SESSION_REVOKED' && errData?.message?.toLowerCase().includes('another device'));
+
           localStorage.removeItem(TOKEN_KEY);
           setToken(null);
-          if (errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' || errData?.code === 'SESSION_REVOKED') {
+          if (isAnotherDevice) {
             setSessionRevokedAlert({
               open: true,
-              message: errData.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device par session band kar diya gaya hai.'
+              message: errData?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device par session band kar diya gaya hai.'
             });
           }
         }
@@ -189,7 +192,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return () => window.removeEventListener('prepora:session_revoked', handleRevoked);
   }, []);
 
-  // Periodic and tab-visibility heartbeat session check
+  // Periodic and tab-visibility heartbeat session check (5s fast check for real-time single device enforcement)
   useEffect(() => {
     if (!token) return;
 
@@ -203,18 +206,23 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         });
         if (res.status === 401) {
           const errData = await res.json().catch(() => null);
-          const msg = errData?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai.';
-          localStorage.removeItem(TOKEN_KEY);
-          setToken(null);
-          setUser(userService.getProfile());
-          setSessionRevokedAlert({ open: true, message: msg });
+          const isAnotherDevice = errData?.code === 'SESSION_REVOKED_ANOTHER_DEVICE' ||
+            (errData?.code === 'SESSION_REVOKED' && errData?.message?.toLowerCase().includes('another device'));
+
+          if (isAnotherDevice) {
+            const msg = errData?.message || 'Aapka account kisi dusre mobile ya laptop par login ho chuka hai. Is device par session band kar diya gaya hai.';
+            localStorage.removeItem(TOKEN_KEY);
+            setToken(null);
+            setUser(userService.getProfile());
+            setSessionRevokedAlert({ open: true, message: msg });
+          }
         }
       } catch {
         // Network offline, skip
       }
     };
 
-    const interval = setInterval(checkActiveSession, 20000);
+    const interval = setInterval(checkActiveSession, 5000);
 
     const handleVisibility = () => {
       if (document.visibilityState === 'visible') {

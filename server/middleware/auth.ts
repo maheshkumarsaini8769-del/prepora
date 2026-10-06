@@ -67,11 +67,20 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       ]
     });
 
-    if (!session || session.isRevoked || session.status === 'REVOKED') {
+    if (!session) {
+      // If session record is not found (e.g. cold start or expired), expire normally without false "another device" alert
+      return res.status(401).json({
+        success: false,
+        code: 'SESSION_EXPIRED',
+        message: 'Session has expired. Please log in again.'
+      });
+    }
+
+    if (session.isRevoked || session.status === 'REVOKED') {
       const isAnotherDevice = session?.revocationReason === 'NEW_LOGIN_ON_OTHER_DEVICE' || session?.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE';
       return res.status(401).json({
         success: false,
-        code: 'SESSION_REVOKED',
+        code: isAnotherDevice ? 'SESSION_REVOKED_ANOTHER_DEVICE' : 'SESSION_REVOKED',
         message: isAnotherDevice
           ? 'Your account was signed in on another device.'
           : 'Session has been revoked or logged out.'
@@ -79,7 +88,7 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
     }
 
     // CRITICAL: Strictly ONE active session per student at a time!
-    // If user's current active session ID does not match this session, it was revoked by a newer login!
+    // If user's current active session ID does not match this session, it was revoked by a newer login on the same account!
     if (user.currentSessionId && session.id !== user.currentSessionId && session.sessionId !== user.currentSessionId) {
       session.isRevoked = true;
       session.status = 'REVOKED';
@@ -89,7 +98,7 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
 
       return res.status(401).json({
         success: false,
-        code: 'SESSION_REVOKED',
+        code: 'SESSION_REVOKED_ANOTHER_DEVICE',
         message: 'Your account was signed in on another device.'
       });
     }

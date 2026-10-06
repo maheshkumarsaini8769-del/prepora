@@ -54,15 +54,24 @@ function parseDeviceInfo(req: Request) {
 }
 
 // Helper: Strictly SINGLE active authenticated session per student.
-// When a student logs in on another phone/browser, all previous sessions are immediately revoked!
-async function createSingleActiveSession(user: { id: string; studentId?: string; email: string; role: string }, req: Request) {
+// When a student logs in on another phone/browser, all previous sessions for that user/phone are immediately revoked!
+async function createSingleActiveSession(user: { id: string; studentId?: string; email: string; role: string; phone?: string; mobile?: string }, req: Request) {
   const now = new Date();
+  const phone = (user as any).phone || (user as any).mobile;
 
-  // Detect and revoke all prior active sessions for this student
-  const activeSessions = await Session.find({ userId: user.id, isRevoked: false });
+  // Build match conditions strictly for THIS specific user / phone number
+  const matchOr: any[] = [{ userId: user.id }];
+  if (user.studentId) matchOr.push({ studentId: user.studentId });
+  if (phone) {
+    matchOr.push({ phone });
+    matchOr.push({ mobile: phone });
+  }
+
+  // Detect and revoke all prior active sessions for this user / phone
+  const activeSessions = await Session.find({ $or: matchOr, isRevoked: false });
   if (activeSessions.length > 0) {
     await Session.updateMany(
-      { userId: user.id, isRevoked: false },
+      { $or: matchOr, isRevoked: false },
       {
         $set: {
           isRevoked: true,
@@ -84,7 +93,7 @@ async function createSingleActiveSession(user: { id: string; studentId?: string;
 
   const sessionId = `sess-${Date.now()}-${randomBytes(4).toString('hex')}`;
   const token = jwt.sign(
-    { id: user.id, studentId: user.studentId || user.id, email: user.email, role: user.role, sessionId },
+    { id: user.id, studentId: user.studentId || user.id, email: user.email, role: user.role, sessionId, phone },
     JWT_SECRET,
     { expiresIn: '30d' }
   );
@@ -95,6 +104,8 @@ async function createSingleActiveSession(user: { id: string; studentId?: string;
     sessionId,
     userId: user.id,
     studentId: user.studentId || user.id,
+    phone: phone || undefined,
+    mobile: phone || undefined,
     token: hashToken(token),
     deviceInfo: { device, browser, os },
     ipAddress,
@@ -108,7 +119,7 @@ async function createSingleActiveSession(user: { id: string; studentId?: string;
 
   // Update student's currentSessionId and lastLoginAt
   await User.findOneAndUpdate(
-    { id: user.id },
+    { $or: [{ id: user.id }, { email: user.email }, ...(phone ? [{ phone }, { mobile: phone }] : [])] },
     { $set: { currentSessionId: sessionId, lastLoginAt: now } }
   );
 

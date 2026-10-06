@@ -5,6 +5,8 @@ export interface ISession extends Document {
   sessionId?: string;
   userId: string;
   studentId?: string;
+  phone?: string;
+  mobile?: string;
   token: string;
   deviceInfo: {
     device: string; // e.g. 'Windows PC', 'iPhone 15', 'Android Phone'
@@ -30,6 +32,8 @@ const SessionSchema: Schema = new Schema(
     sessionId: { type: String, sparse: true, index: true },
     userId: { type: String, required: true, index: true },
     studentId: { type: String, sparse: true, index: true },
+    phone: { type: String, sparse: true, index: true },
+    mobile: { type: String, sparse: true, index: true },
     token: { type: String, required: true, index: true }, // Stored as SHA-256 hash
     deviceInfo: {
       device: { type: String, default: 'Desktop Computer' },
@@ -51,5 +55,6 @@ const SessionSchema: Schema = new Schema(
 
 SessionSchema.index({ userId: 1, isRevoked: 1 });
 SessionSchema.index({ studentId: 1, status: 1 });
+SessionSchema.index({ phone: 1, isRevoked: 1 });
 
 export default mongoose.model<ISession>('Session', SessionSchema);
