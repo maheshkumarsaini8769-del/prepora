@@ -37,7 +37,8 @@ import {
   ChevronDown,
   Bot,
   Check,
-  BookMarked
+  BookMarked,
+  Compass
 } from 'lucide-react';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
@@ -45,6 +46,7 @@ import { GlobalQuickActionModal } from '../components/common/GlobalQuickActionMo
 import { StudySessionModal } from '../components/common/StudySessionModal';
 import { ReportTechnicalProblemModal } from '../components/common/ReportTechnicalProblemModal';
 import { StudentFeedbackModal } from '../components/common/StudentFeedbackModal';
+import { StudentGuideModal } from '../components/common/StudentGuideModal';
 import { NotificationDropdown } from '../components/common/NotificationDropdown';
 import { InstallAppBanner } from '../components/common/InstallAppBanner';
 import { soundFeedback } from '../utils/audioFeedback';
@@ -58,7 +60,14 @@ export const MainLayout: React.FC = () => {
   const [reportTechOpen, setReportTechOpen] = useState(false);
   const [examSwitcherOpen, setExamSwitcherOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
+  const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>(() => getColorMode());
+
+  useEffect(() => {
+    const handleOpenGuide = () => setGuideModalOpen(true);
+    window.addEventListener('prepora:open_student_guide', handleOpenGuide);
+    return () => window.removeEventListener('prepora:open_student_guide', handleOpenGuide);
+  }, []);
 
   useEffect(() => {
     const handleColorModeChange = (e: Event) => {
@@ -310,6 +319,19 @@ export const MainLayout: React.FC = () => {
               )}
             </button>
 
+            {/* Student Guide Button */}
+            <button
+              onClick={() => {
+                soundFeedback.playClick();
+                window.dispatchEvent(new CustomEvent('prepora:open_student_guide'));
+              }}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs font-bold transition-all shadow-xs cursor-pointer"
+              title="How to Use PREPORA Guide"
+            >
+              <Compass className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <span className="hidden sm:inline">Guide</span>
+            </button>
+
             {/* Quick Action Button */}
             <button
               onClick={() => setStudySessionOpen(true)}
@@ -509,6 +531,22 @@ export const MainLayout: React.FC = () => {
 
             {/* Mobile Nav Links */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
+              {/* Student Guide Mobile Trigger */}
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('prepora:open_student_guide'));
+                }}
+                className="w-full p-2.5 rounded-xl bg-gradient-to-r from-emerald-500/15 to-teal-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-bold text-xs flex items-center justify-between"
+              >
+                <div className="flex items-center gap-2">
+                  <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>How to Use PREPORA</span>
+                </div>
+                <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">4 Steps</span>
+              </button>
+
               <div className="space-y-1">
                 <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 block">
                   Primary
@@ -668,7 +706,7 @@ export const MainLayout: React.FC = () => {
                 Daily Goal Completed!
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1.5 leading-relaxed">
-                Congratulations {user.name.split(' ')[0]}! Aaj ka daily goal of <strong>{dailyGoalCelebration.goal} questions</strong> complete ho gaya hai. Tumhara <strong>{dailyGoalCelebration.exam}</strong> crack karne ka sapna zaroor poora hoga! 🚀
+                Congratulations {user.name.split(' ')[0]}! Today's daily goal of <strong>{dailyGoalCelebration.goal} questions</strong> is complete. Your consistency brings you one step closer to cracking <strong>{dailyGoalCelebration.exam}</strong>! 🚀
               </p>
             </div>
             <button
@@ -684,6 +722,12 @@ export const MainLayout: React.FC = () => {
 
       {/* Student Feedback & Mistake Reporting System */}
       <StudentFeedbackModal />
+
+      {/* Global Student Orientation Guide Modal */}
+      <StudentGuideModal
+        isOpen={guideModalOpen}
+        onClose={() => setGuideModalOpen(false)}
+      />
 
       {/* PWA Mobile Install Prompt */}
       <InstallAppBanner />

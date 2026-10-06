@@ -1,46 +1,36 @@
 import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import {
   MessageSquarePlus,
-  Lightbulb,
-  AlertTriangle,
   X,
   Send,
-  CheckCircle2,
   Sparkles,
-  Phone,
-  Mail,
+  AlertTriangle,
+  Lightbulb,
+  CheckCircle2,
+  Compass,
   User,
-  Compass
+  Phone
 } from 'lucide-react';
-import { useAuth } from '../../context/AuthContext';
-import { useLocation } from 'react-router-dom';
+import { userService } from '../../services/userService';
 
 export const StudentFeedbackModal: React.FC = () => {
-  const { user } = useAuth();
-  const location = useLocation();
-
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'SUGGESTION' | 'MISTAKE'>('SUGGESTION');
-  const [category, setCategory] = useState<string>('Formula Sheet / Notes');
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [phone, setPhone] = useState(user?.phone || '');
-  const [email, setEmail] = useState(user?.email || '');
-  const [name, setName] = useState(user?.name || '');
+  const [category, setCategory] = useState('Formula Sheet / Notes');
+  const [name, setName] = useState(() => userService.getProfile().name || '');
+  const [phone, setPhone] = useState(() => userService.getProfile().phone || '');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  // Keep contact info sync when user object is loaded
-  React.useEffect(() => {
-    if (user?.name && !name) setName(user.name);
-    if (user?.email && !email) setEmail(user.email);
-    if (user?.phone && !phone) setPhone(user.phone);
-  }, [user]);
+  const location = useLocation();
 
-  // Adjust default category when tab switches
   const handleTabSwitch = (tab: 'SUGGESTION' | 'MISTAKE') => {
     setActiveTab(tab);
+    setErrorMsg('');
     if (tab === 'SUGGESTION') {
       setCategory('Formula Sheet / Notes');
     } else {
@@ -51,7 +41,7 @@ export const StudentFeedbackModal: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!title.trim() || !description.trim()) {
-      setErrorMsg('Kripya title aur detail dono bharein.');
+      setErrorMsg('Please enter both a title and a description.');
       return;
     }
 
@@ -59,23 +49,17 @@ export const StudentFeedbackModal: React.FC = () => {
     setErrorMsg('');
 
     try {
-      const token = typeof localStorage !== 'undefined' ? localStorage.getItem('prepora_auth_token') : null;
-      const res = await fetch('/api/reports/feedback', {
+      const res = await fetch('/api/feedback', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(token ? { Authorization: `Bearer ${token}` } : {})
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          title: title.trim(),
-          description: description.trim(),
           type: activeTab,
           category,
-          userId: user?.id || 'anonymous',
-          userName: name.trim() || user?.name || 'Student',
-          userEmail: email.trim() || user?.email || '',
-          userPhone: phone.trim() || user?.phone || '',
-          pageUrl: `${location.pathname}${location.search}`
+          title: title.trim(),
+          description: description.trim(),
+          studentName: name.trim() || 'Anonymous Student',
+          studentPhone: phone.trim() || undefined,
+          pageUrl: location.pathname
         })
       });
 
@@ -89,10 +73,10 @@ export const StudentFeedbackModal: React.FC = () => {
           setDescription('');
         }, 2200);
       } else {
-        setErrorMsg(data.message || 'Submission failed. Kripya punah prayas karein.');
+        setErrorMsg(data.message || 'Submission failed. Please try again.');
       }
     } catch {
-      setErrorMsg('Server se judne me samasya aayi. Kripya punah prayas karein.');
+      setErrorMsg('Could not connect to server. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -109,12 +93,12 @@ export const StudentFeedbackModal: React.FC = () => {
             setIsOpen(true);
           }}
           className="group flex items-center gap-2.5 px-3.5 sm:px-4 py-2.5 rounded-full bg-gradient-to-r from-amber-500 via-orange-500 to-rose-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-orange-500/25 hover:shadow-orange-500/40 hover:scale-105 active:scale-95 transition-all cursor-pointer border border-white/20"
-          title="Kuch naya add karwayein ya koi mistake batayein"
+          title="Send feedback or report an error"
         >
           <div className="relative">
             <Sparkles className="w-4 h-4 animate-spin text-amber-200" style={{ animationDuration: '6s' }} />
           </div>
-          <span className="hidden sm:inline font-extrabold tracking-wide">Kuch Add / Mistake Report</span>
+          <span className="hidden sm:inline font-extrabold tracking-wide">Feedback & Bug Report</span>
           <span className="sm:hidden font-black">Feedback</span>
           <div className="w-2 h-2 rounded-full bg-emerald-400 animate-ping hidden group-hover:block" />
         </button>
@@ -135,10 +119,10 @@ export const StudentFeedbackModal: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="text-base sm:text-lg font-black text-slate-900 dark:text-white leading-tight">
-                    Aapki Aawaz, PREPORA Ka Vikas
+                    Student Voice & Feedback
                   </h3>
                   <p className="text-2xs sm:text-xs text-slate-500 dark:text-slate-400">
-                    Aapko kya chahiye ya kya galat laga? Seedha Admin ko batayein.
+                    Need new content or found an error? Send it directly to our academic faculty.
                   </p>
                 </div>
               </div>
@@ -158,9 +142,9 @@ export const StudentFeedbackModal: React.FC = () => {
                   <div className="w-16 h-16 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto shadow-inner">
                     <CheckCircle2 className="w-10 h-10" />
                   </div>
-                  <h4 className="text-lg font-black text-slate-900 dark:text-white">Dhanyawad! Report Pahunch Gayi</h4>
+                  <h4 className="text-lg font-black text-slate-900 dark:text-white">Thank You! Report Received</h4>
                   <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 max-w-sm mx-auto">
-                    Hamari academic & technical team aapke suggestion ya report par turant dhyan degi.
+                    Our academic and technical team will review your report and take immediate action.
                   </p>
                 </div>
               ) : (
@@ -177,7 +161,7 @@ export const StudentFeedbackModal: React.FC = () => {
                       }`}
                     >
                       <Lightbulb className="w-4 h-4" />
-                      <span>Kuch Naya Add Karo</span>
+                      <span>Suggest New Content</span>
                     </button>
                     <button
                       type="button"
@@ -189,7 +173,7 @@ export const StudentFeedbackModal: React.FC = () => {
                       }`}
                     >
                       <AlertTriangle className="w-4 h-4" />
-                      <span>Mistake / Galti Mili</span>
+                      <span>Report an Error</span>
                     </button>
                   </div>
 
@@ -197,14 +181,14 @@ export const StudentFeedbackModal: React.FC = () => {
                   <div className="text-2xs bg-slate-50 dark:bg-slate-800/40 p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800 flex items-center gap-2 text-slate-500">
                     <Compass className="w-3.5 h-3.5 text-purple-500 shrink-0" />
                     <span className="truncate">
-                      Context: <strong>{location.pathname}</strong> (Automatic attached)
+                      Current Page: <strong>{location.pathname}</strong> (automatically attached)
                     </span>
                   </div>
 
                   {/* Category Selection */}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      {activeTab === 'SUGGESTION' ? 'Kis Cheez Me Add Karwana Hai?' : 'Kis Cheez Me Galti Hai?'}
+                      {activeTab === 'SUGGESTION' ? 'What area does this apply to?' : 'What kind of issue did you notice?'}
                     </label>
                     <select
                       value={category}
@@ -213,20 +197,20 @@ export const StudentFeedbackModal: React.FC = () => {
                     >
                       {activeTab === 'SUGGESTION' ? (
                         <>
-                          <option value="Formula Sheet / Notes">Formula Sheet ya Quick Revision Notes</option>
-                          <option value="Video Lectures">Specific Chapter ke Video Lectures</option>
-                          <option value="Practice Questions">Naye Practice Questions ya PYQ</option>
-                          <option value="Mind Map / Visuals">Mind Map ya Diagram Improvement</option>
+                          <option value="Formula Sheet / Notes">Formula Sheet or Quick Revision Notes</option>
+                          <option value="Video Lectures">Video Lectures for a Specific Chapter</option>
+                          <option value="Practice Questions">New Practice Questions or PYQs</option>
+                          <option value="Mind Map / Visuals">Mind Map or Diagram Improvements</option>
                           <option value="Study Tool / Planner">AI Doubt / Test Planner Feature</option>
-                          <option value="Other Suggestion">Koi Dusra Naya Feature</option>
+                          <option value="Other Suggestion">Other Platform Suggestion</option>
                         </>
                       ) : (
                         <>
-                          <option value="Wrong Question / Answer">Question ya Answer Key Galat Hai</option>
-                          <option value="Typo / Spelling Error">Spelling ya Math Formula me Typo</option>
-                          <option value="Explanation Error">Explanation Samajh Nahi Aaya ya Adhoora Hai</option>
-                          <option value="Website Glitch / Bug">Page Slow ya Button Kaam Nahi Kar Raha</option>
-                          <option value="Other Issue">Koi Aur Galti / Mistake</option>
+                          <option value="Wrong Question / Answer">Question or Answer Key Error</option>
+                          <option value="Typo / Spelling Error">Spelling or Mathematical Formula Typo</option>
+                          <option value="Explanation Error">Explanation is Unclear or Incomplete</option>
+                          <option value="Website Glitch / Bug">Slow Page or Unresponsive Button</option>
+                          <option value="Other Issue">Other Academic Issue</option>
                         </>
                       )}
                     </select>
@@ -235,7 +219,7 @@ export const StudentFeedbackModal: React.FC = () => {
                   {/* Title */}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Mukhya Mudda / Short Title <span className="text-rose-500">*</span>
+                      Subject / Short Summary <span className="text-rose-500">*</span>
                     </label>
                     <input
                       type="text"
@@ -243,8 +227,8 @@ export const StudentFeedbackModal: React.FC = () => {
                       onChange={(e) => setTitle(e.target.value)}
                       placeholder={
                         activeTab === 'SUGGESTION'
-                          ? 'Udaharan: Optics ke sign convention ke tips add karein'
-                          : 'Udaharan: Question 14 me option C sahi lag raha hai'
+                          ? 'Example: Add sign convention tips for Ray Optics'
+                          : 'Example: Question 14 in Electrostatics has an incorrect answer key'
                       }
                       className="w-full text-xs py-2 px-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] focus:ring-2 focus:ring-orange-500 focus:outline-none"
                       required
@@ -254,7 +238,7 @@ export const StudentFeedbackModal: React.FC = () => {
                   {/* Description */}
                   <div>
                     <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">
-                      Detail Me Batayein <span className="text-rose-500">*</span>
+                      Detailed Description <span className="text-rose-500">*</span>
                     </label>
                     <textarea
                       rows={3}
@@ -262,8 +246,8 @@ export const StudentFeedbackModal: React.FC = () => {
                       onChange={(e) => setDescription(e.target.value)}
                       placeholder={
                         activeTab === 'SUGGESTION'
-                          ? 'Batayein ki kis chapter ya topic me kya content hone se aapki padhai me madad hogi...'
-                          : 'Batayein ki galti kahan hai aur sahi kya hona chahiye...'
+                          ? 'Describe which chapter or topic would benefit from this content...'
+                          : 'Explain the issue and what the correct answer/behavior should be...'
                       }
                       className="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] focus:ring-2 focus:ring-orange-500 focus:outline-none"
                       required
@@ -274,25 +258,25 @@ export const StudentFeedbackModal: React.FC = () => {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
                     <div>
                       <label className="block text-2xs font-bold text-slate-500 mb-1 flex items-center gap-1">
-                        <User className="w-3 h-3" /> Aapka Naam
+                        <User className="w-3 h-3" /> Your Name
                       </label>
                       <input
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        placeholder="Aapka Naam"
+                        placeholder="Your Name"
                         className="w-full text-xs py-1.5 px-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40"
                       />
                     </div>
                     <div>
                       <label className="block text-2xs font-bold text-slate-500 mb-1 flex items-center gap-1">
-                        <Phone className="w-3 h-3" /> WhatsApp / Phone No.
+                        <Phone className="w-3 h-3" /> WhatsApp / Mobile (Optional)
                       </label>
                       <input
                         type="text"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
-                        placeholder="WhatsApp No (Update ke liye)"
+                        placeholder="Mobile Number (for updates)"
                         className="w-full text-xs py-1.5 px-2.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/40"
                       />
                     </div>
@@ -306,8 +290,8 @@ export const StudentFeedbackModal: React.FC = () => {
 
                   {/* Privacy Assurance Note */}
                   <div className="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 text-[11px] text-slate-500 dark:text-slate-400">
-                    <span className="text-emerald-500 font-bold shrink-0">🔒 100% Private:</span>
-                    <span>Aapka feedback seedha Admin team tak pahuchega. Kisi bhi doosre student ko yeh nahi dikhega.</span>
+                    <span className="text-emerald-500 font-bold shrink-0">🔒 100% Confidential:</span>
+                    <span>Your feedback is sent directly to the faculty team. It will not be shown to other students.</span>
                   </div>
 
                   {/* Submit Button */}
@@ -318,11 +302,11 @@ export const StudentFeedbackModal: React.FC = () => {
                       className="w-full py-3 rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white font-black text-xs sm:text-sm shadow-lg shadow-orange-500/25 flex items-center justify-center gap-2 cursor-pointer transition-all disabled:opacity-50"
                     >
                       {loading ? (
-                        <span>Bhej rahe hain...</span>
+                        <span>Submitting feedback...</span>
                       ) : (
                         <>
                           <Send className="w-4 h-4" />
-                          <span>Seedha Admin Ko Bhejein</span>
+                          <span>Submit to Academic Team</span>
                         </>
                       )}
                     </button>
@@ -336,5 +320,3 @@ export const StudentFeedbackModal: React.FC = () => {
     </>
   );
 };
-
-export default StudentFeedbackModal;

@@ -131,7 +131,7 @@ export function classifyAcademicQuery(
         detectedSubject: 'Biology',
         detectedChapter: 'Biology (Not in JEE)',
         isBlockedByExamPolicy: true,
-        blockedPolicyMessage: `Aapka target exam JEE hai. PREPORA ke strict syllabus boundaries ke mutabik JEE me Biology nahi aati! Kripya apne goal (JEE) par focus karein aur Physics, Chemistry, ya Mathematics ka question poochein.`
+        blockedPolicyMessage: `Your target exam is JEE. According to official syllabus boundaries, Biology is not part of JEE! Please focus on Physics, Chemistry, or Mathematics.`
       };
     }
   }
@@ -144,7 +144,7 @@ export function classifyAcademicQuery(
         detectedSubject: 'Mathematics',
         detectedChapter: 'Mathematics (Not in NEET)',
         isBlockedByExamPolicy: true,
-        blockedPolicyMessage: `Aapka target exam NEET hai. NEET examination me Mathematics nahi aati! Kripya Biology, Chemistry, ya Physics par focus karein.`
+        blockedPolicyMessage: `Your target exam is NEET. Mathematics is not included in the NEET examination syllabus! Please focus on Biology, Chemistry, or Physics.`
       };
     }
   }

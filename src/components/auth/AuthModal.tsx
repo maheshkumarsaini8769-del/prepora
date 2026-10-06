@@ -355,10 +355,10 @@ export const AuthModal: React.FC = () => {
             {step === 'reset-password' && 'Set New Password'}
           </h2>
           <p className="text-xs text-slate-500 dark:text-slate-400">
-            {step === 'login' && 'Mobile number + password se login karein (no OTP required)'}
-            {step === 'register' && 'WhatsApp OTP se pehli baar verify karein'}
+            {step === 'login' && 'Log in using your mobile number and password (no OTP required)'}
+            {step === 'register' && 'First-time registration via WhatsApp OTP verification'}
             {step === 'enter-otp' && `Enter the 4-digit code sent to +91 ${cleanMobileDigits(phone)}`}
-            {step === 'create-password' && `Account verified! Apna password create karein (+91 ${cleanMobileDigits(phone)}). Agli baar direct password se login hoga.`}
+            {step === 'create-password' && `Account verified! Create your personal password (+91 ${cleanMobileDigits(phone)}) for future instant logins.`}
             {step === 'account-created' && 'Save your unique generated password safely for future logins'}
             {step === 'forgot-password' && 'Enter your registered mobile number for WhatsApp OTP'}
             {step === 'reset-password' && 'Verify WhatsApp OTP and create a new password'}
@@ -498,7 +498,7 @@ export const AuthModal: React.FC = () => {
                 }}
                 className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
               >
-                WhatsApp OTP se register karein
+                Register with WhatsApp OTP
               </button>
             </p>
           </form>

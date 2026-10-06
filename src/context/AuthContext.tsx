@@ -687,7 +687,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setUser(updatedUser);
       userService.updateProfile(updatedUser);
-      return { success: true, message: 'Password created locally. Agli baar seedha login karein.' };
+      return { success: true, message: 'Password created successfully. You can now log in directly.' };
     }
   };
 
@@ -873,7 +873,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
               }}
               className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-xl shadow-lg shadow-emerald-600/25 transition-all cursor-pointer"
             >
-              Wapas Login Karein
+              Back to Login
             </button>
           </div>
         </div>

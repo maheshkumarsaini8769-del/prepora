@@ -25,7 +25,8 @@ import {
   Crown,
   BookMarked,
   Play,
-  ArrowRight
+  ArrowRight,
+  Compass
 } from 'lucide-react';
 import { soundFeedback } from '../utils/audioFeedback';
 import { userService } from '../services/userService';
@@ -37,6 +38,7 @@ import { syllabusService } from '../services/syllabusService';
 import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
 import { continueLearningService, LearningActivity } from '../services/continueLearningService';
+import { StudentGuideModal } from '../components/common/StudentGuideModal';
 import { DailyPlan, MistakeItem, PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
 
 // Helper Vector Icons for Subject Progress
@@ -170,6 +172,14 @@ export const Home: React.FC = () => {
 
   // Modals state
   const [showPrepProfileModal, setShowPrepProfileModal] = useState<boolean>(false);
+  const [studentGuideOpen, setStudentGuideOpen] = useState<boolean>(false);
+
+  // Listen for global open student guide event
+  useEffect(() => {
+    const handleOpenGuide = () => setStudentGuideOpen(true);
+    window.addEventListener('prepora:open_student_guide', handleOpenGuide);
+    return () => window.removeEventListener('prepora:open_student_guide', handleOpenGuide);
+  }, []);
 
   // Initial questions popup on first open if not already set
   useEffect(() => {
@@ -260,6 +270,117 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
+      {/* ========================================================================= */}
+      {/* 2B. STUDENT ORIENTATION GUIDE BAR: HOW TO STUDY ON PREPORA               */}
+      {/* ========================================================================= */}
+      <div className="p-4 sm:p-5 rounded-3xl bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-blue-500/10 border border-emerald-500/25 dark:border-emerald-500/20 shadow-xs space-y-3.5">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-lg shadow-xs shrink-0">
+              💡
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h2 className="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
+                  How to Study on PREPORA
+                </h2>
+                <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300">
+                  Daily Routine
+                </span>
+              </div>
+              <p className="text-xs text-slate-600 dark:text-slate-400 mt-0.5">
+                Follow this simple 4-step workflow to maximize your score:
+              </p>
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              soundFeedback.playClick();
+              setStudentGuideOpen(true);
+            }}
+            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-sm shadow-emerald-600/20 active:scale-95 flex items-center gap-1.5 shrink-0 self-start sm:self-auto cursor-pointer"
+          >
+            <Compass className="w-3.5 h-3.5" />
+            <span>View Full Guide</span>
+          </button>
+        </div>
+
+        {/* 4 Clear Step Jump Cards */}
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-1">
+          <Link
+            to="/formula-sheet"
+            onClick={() => soundFeedback.playClick()}
+            className="p-3 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 hover:border-emerald-500/60 dark:hover:border-emerald-500/50 shadow-2xs transition-all group flex items-start gap-2.5"
+          >
+            <div className="w-7 h-7 rounded-xl bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-black text-xs shrink-0 group-hover:scale-105 transition-transform">
+              1
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-black text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition truncate">
+                Formulas
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5 truncate">
+                Revise chapter sheets
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            to="/lectures"
+            onClick={() => soundFeedback.playClick()}
+            className="p-3 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 hover:border-blue-500/60 dark:hover:border-blue-500/50 shadow-2xs transition-all group flex items-start gap-2.5"
+          >
+            <div className="w-7 h-7 rounded-xl bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 flex items-center justify-center font-black text-xs shrink-0 group-hover:scale-105 transition-transform">
+              2
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-black text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition truncate">
+                Lectures
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5 truncate">
+                Topic-wise classes
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            to="/practice"
+            onClick={() => soundFeedback.playClick()}
+            className="p-3 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 hover:border-teal-500/60 dark:hover:border-teal-500/50 shadow-2xs transition-all group flex items-start gap-2.5"
+          >
+            <div className="w-7 h-7 rounded-xl bg-teal-100 dark:bg-teal-950/60 text-teal-700 dark:text-teal-400 flex items-center justify-center font-black text-xs shrink-0 group-hover:scale-105 transition-transform">
+              3
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-black text-slate-900 dark:text-white group-hover:text-teal-600 dark:group-hover:text-teal-400 transition truncate">
+                Practice
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5 truncate">
+                Solve 25 daily Qs
+              </div>
+            </div>
+          </Link>
+
+          <Link
+            to="/tests"
+            onClick={() => soundFeedback.playClick()}
+            className="p-3 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 hover:border-amber-500/60 dark:hover:border-amber-500/50 shadow-2xs transition-all group flex items-start gap-2.5"
+          >
+            <div className="w-7 h-7 rounded-xl bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 flex items-center justify-center font-black text-xs shrink-0 group-hover:scale-105 transition-transform">
+              4
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-black text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition truncate">
+                Mock Tests
+              </div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5 truncate">
+                Timed exam & review
+              </div>
+            </div>
+          </Link>
+        </div>
+      </div>
 
       {/* ========================================================================= */}
       {/* MAIN RESPONSIVE DASHBOARD GRID (Two Columns on Laptops/Desktops)           */}
@@ -1224,6 +1345,12 @@ export const Home: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Student Orientation & Walkthrough Modal */}
+      <StudentGuideModal
+        isOpen={studentGuideOpen}
+        onClose={() => setStudentGuideOpen(false)}
+      />
 
     </div>
   );

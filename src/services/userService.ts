@@ -339,8 +339,8 @@ class MockUserService {
 
       const exam = profile.targetExam || 'JEE/NEET';
       const goal = profile.dailyGoalQuestions || 25;
-      const title = '🔥 Streak toot jayegi! Daily Target Baaki Hai';
-      const message = `Aapka regular study time ho gaya hai! Tumhara goal ${exam} crack karna hai na? Aaj ke ${goal} sawal abhi start karo aur apni streak bachao!`;
+      const title = '🔥 Streak at Risk! Daily Goal Remaining';
+      const message = `It is your regular study time! Stay on track to crack ${exam}. Solve your daily goal of ${goal} questions now to protect your streak!`;
 
       this.addNotification({
         title,
