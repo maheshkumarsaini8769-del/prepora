@@ -794,18 +794,27 @@ router.post('/questions/:id/regenerate', async (req: Request, res: Response) => 
 
     const oldQ = job.generatedQuestions[qIndex];
 
+    const targetPos = Math.floor(Math.random() * 4);
+    const distractors = [
+      `Secondary non-binding guideline`,
+      `Obsolete historical premise`,
+      `Alternative non-conforming condition`
+    ];
+    const correctText = `Verified standard principle for ${oldQ.topic}`;
+    const opts: string[] = [];
+    let d = 0;
+    for (let i = 0; i < 4; i++) {
+      if (i === targetPos) opts.push(correctText);
+      else opts.push(distractors[d++]);
+    }
+
     // Generate fresh high-yield question for same topic & difficulty
     const replacementQuestion: IAIFactoryQuestion = {
       ...oldQ,
       id: `ai_q_${jobId}_regen_${Date.now()}`,
       question: `[Regenerated] Which principle accurately governs ${oldQ.topic} under ${oldQ.subject} standards?`,
-      options: [
-        `Verified standard principle for ${oldQ.topic}`,
-        `Secondary non-binding guideline`,
-        `Obsolete historical premise`,
-        `None of the above`
-      ],
-      correctAnswer: 0,
+      options: opts,
+      correctAnswer: targetPos,
       explanation: `Systematically derived from chapter principles on ${oldQ.topic}. Fully verified against course syllabus.`,
       qualityScore: 98,
       qualityFlags: ['Regenerated Concept', 'Unique Options Verified'],

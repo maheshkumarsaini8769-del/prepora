@@ -135,4 +135,5 @@ const AdminUsers: React.FC = () => {
   );
 };
 
+export { AdminUsers };
 export default AdminUsers;

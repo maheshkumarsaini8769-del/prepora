@@ -17,6 +17,7 @@ import { randomBytes } from 'crypto';
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { authenticateUser, requireAdmin, AuthRequest } from '../middleware/auth.js';
+import { generateStudioQuestions } from '../services/aiStudioGenerator.js';
 
 const router = Router();
 
@@ -668,32 +669,31 @@ router.get('/tests/monitoring', async (req: Request, res: Response) => {
 // ==========================================
 router.post('/ai/generate', async (req: Request, res: Response) => {
   try {
-    const { exam = 'JEE', subject = 'Physics', chapter = 'Kinematics', topic = 'Motion in 1D', difficulty = 'Medium', count = 3 } = req.body;
+    const {
+      exam = 'JEE',
+      subject = 'Physics',
+      chapter = 'Kinematics',
+      topic = 'Motion in 1D',
+      difficulty = 'Medium',
+      count = 3,
+      customInstructions = '',
+      apiKey = ''
+    } = req.body;
 
     const num = Math.min(Math.max(Number(count) || 3, 1), 10);
     const jobId = 'ai_job_' + Date.now();
 
-    // High quality question template generator
-    const sampleQuestions = [];
-    for (let i = 1; i <= num; i++) {
-      const qId = `ai_q_${Date.now()}_${i}`;
-      sampleQuestions.push({
-        id: qId,
-        question: `[AI Draft ${i}] A particle starts from rest and moves with uniform acceleration a = ${(i + 1) * 2} m/s² along a straight track. Find its velocity after ${(i + 2)} seconds.`,
-        options: [
-          `${(i + 1) * 2 * (i + 2)} m/s`,
-          `${(i + 1) * (i + 2)} m/s`,
-          `${(i + 1) * 2 * (i + 1)} m/s`,
-          `${((i + 1) * 2 * (i + 2)) / 2} m/s`
-        ],
-        correctAnswer: 0,
-        explanation: `Using the first equation of motion v = u + at, with u = 0: v = ${(i + 1) * 2} × ${(i + 2)} = ${(i + 1) * 2 * (i + 2)} m/s.`,
-        concept: 'Uniform Accelerated Motion in 1D',
-        difficulty,
-        qualityFlags: ['Valid Options Checked', 'Unique Choices Verified', 'KaTeX Verified'],
-        status: 'Pending' as const
-      });
-    }
+    // High quality balanced question synthesizer (or Gemini if API key available)
+    const sampleQuestions = await generateStudioQuestions({
+      exam,
+      subject,
+      chapter,
+      topic,
+      difficulty,
+      count: num,
+      customInstructions,
+      apiKey
+    });
 
     const job = await AIJob.create({
       id: jobId,
@@ -702,18 +702,72 @@ router.post('/ai/generate', async (req: Request, res: Response) => {
       chapter,
       topic,
       difficulty,
-      count: num,
+      count: sampleQuestions.length,
       status: 'Draft',
       generatedQuestions: sampleQuestions
     });
 
     res.json({
       success: true,
-      message: `Generated ${num} AI draft questions for ${subject} - ${chapter}.`,
+      message: `Generated ${sampleQuestions.length} AI draft questions for ${subject} - ${chapter}.`,
       data: job
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: 'AI Generation failed', error: error.message });
+  }
+});
+
+router.patch('/ai/jobs/:jobId/question/:questionId', async (req: Request, res: Response) => {
+  try {
+    const { jobId, questionId } = req.params;
+    const { correctAnswer, question, options, explanation } = req.body;
+
+    const job = await AIJob.findOne({ id: jobId });
+    if (!job) return res.status(404).json({ success: false, message: 'AI Job not found' });
+
+    const qItem = job.generatedQuestions.find((q: any) => q.id === questionId);
+    if (!qItem) return res.status(404).json({ success: false, message: 'Question not found in job' });
+
+    if (typeof correctAnswer === 'number' && correctAnswer >= 0 && correctAnswer <= 3) {
+      qItem.correctAnswer = correctAnswer;
+    }
+    if (question) qItem.question = question;
+    if (Array.isArray(options) && options.length === 4) qItem.options = options;
+    if (explanation) qItem.explanation = explanation;
+
+    job.markModified('generatedQuestions');
+    await job.save();
+
+    res.json({ success: true, message: 'Question updated successfully', data: qItem });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to update question', error: error.message });
+  }
+});
+
+router.delete('/ai/jobs/:jobId/question/:questionId', async (req: Request, res: Response) => {
+  try {
+    const { jobId, questionId } = req.params;
+
+    const job = await AIJob.findOne({ id: jobId });
+    if (!job) return res.status(404).json({ success: false, message: 'AI Job not found' });
+
+    job.generatedQuestions = job.generatedQuestions.filter((q: any) => q.id !== questionId);
+    job.markModified('generatedQuestions');
+    await job.save();
+
+    res.json({ success: true, message: 'Question removed from draft job' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to delete question', error: error.message });
+  }
+});
+
+router.delete('/ai/jobs/:jobId', async (req: Request, res: Response) => {
+  try {
+    const { jobId } = req.params;
+    await AIJob.deleteOne({ id: jobId });
+    res.json({ success: true, message: 'Batch deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to delete job', error: error.message });
   }
 });
 

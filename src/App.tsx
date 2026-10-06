@@ -20,7 +20,26 @@ function lazyPage<T extends React.ComponentType<any>>(
   importer: () => Promise<any>,
   name: string
 ): React.LazyExoticComponent<T> {
-  return lazy(() => importer().then((m: any) => ({ default: m[name] || m.default })));
+  return lazy(() =>
+    importer()
+      .then((m: any) => ({ default: m[name] || m.default }))
+      .catch((err: any) => {
+        console.warn(`[Prepora] Dynamic import failed for "${name}". Refreshing latest bundle...`, err);
+        const retryKey = `prepora_chunk_retry_${name}`;
+        const lastRetry = sessionStorage.getItem(retryKey);
+        const now = Date.now();
+
+        // If chunk failed (common after new Vercel deployments), auto-reload to fetch fresh index.html
+        if (!lastRetry || now - parseInt(lastRetry, 10) > 15000) {
+          sessionStorage.setItem(retryKey, String(now));
+          window.location.reload();
+          // Keep promise pending so React Suspense shows fallback instead of crashing before reload
+          return new Promise(() => {});
+        }
+
+        throw err;
+      })
+  );
 }
 
 // Route-Based Code Splitting via React.lazy for Lightning-Fast Initial Load
@@ -84,6 +103,80 @@ const AdminSettingsPage = lazyPage(() => import('./pages/admin/AdminSettingsPage
 const AdminAuthorityPage = lazyPage(() => import('./pages/admin/AdminAuthorityPage'), 'AdminAuthorityPage');
 const AdminLectureDiscovery = lazyPage(() => import('./pages/admin/AdminLectureDiscovery'), 'AdminLectureDiscovery');
 
+interface ErrorBoundaryState {
+  hasError: boolean;
+  error?: Error;
+}
+
+class ChunkErrorBoundary extends React.Component<{ children: React.ReactNode }, ErrorBoundaryState> {
+  constructor(props: { children: React.ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
+    return { hasError: true, error };
+  }
+
+  componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+    console.error('[Prepora ErrorBoundary caught error]:', error, errorInfo);
+    const msg = error?.message || '';
+    if (
+      msg.includes('dynamically imported module') ||
+      msg.includes('disallowed MIME type') ||
+      msg.includes('Failed to fetch')
+    ) {
+      const retryKey = 'prepora_eb_reload';
+      const last = sessionStorage.getItem(retryKey);
+      const now = Date.now();
+      if (!last || now - parseInt(last, 10) > 10000) {
+        sessionStorage.setItem(retryKey, String(now));
+        window.location.reload();
+      }
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      const isChunkError =
+        this.state.error?.message?.includes('dynamically imported module') ||
+        this.state.error?.message?.includes('disallowed MIME type') ||
+        this.state.error?.message?.includes('Failed to fetch');
+
+      return (
+        <div className="min-h-screen flex items-center justify-center p-4 bg-slate-50 dark:bg-[#070d14] text-slate-900 dark:text-white">
+          <div className="max-w-md w-full p-6 rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-xl text-center space-y-4">
+            <div className="w-14 h-14 mx-auto rounded-2xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center text-2xl font-black">
+              ⚡
+            </div>
+            <div className="space-y-1">
+              <h2 className="text-lg font-black">
+                {isChunkError ? 'New Update Available!' : 'Something went wrong'}
+              </h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                {isChunkError
+                  ? 'A new version of PREPORA was just deployed. Click below to load the latest version.'
+                  : 'An unexpected display error occurred. Please refresh the page.'}
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                sessionStorage.clear();
+                window.location.reload();
+              }}
+              className="w-full py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition active:scale-95 shadow-md cursor-pointer"
+            >
+              Update & Refresh Now
+            </button>
+          </div>
+        </div>
+      );
+    }
+
+    return this.props.children;
+  }
+}
+
 const PageFallback: React.FC = () => (
   <div className="flex items-center justify-center min-h-[50vh] p-8">
     <div className="flex flex-col items-center gap-3">
@@ -100,7 +193,8 @@ export const App: React.FC = () => {
       <BrowserRouter>
         <AuthModal />
         <OAuthCallbackWatcher />
-        <Suspense fallback={<PageFallback />}>
+        <ChunkErrorBoundary>
+          <Suspense fallback={<PageFallback />}>
           <Routes>
             {/* Public Authentication Routes */}
             <Route path="/login" element={<Login />} />
@@ -207,6 +301,7 @@ export const App: React.FC = () => {
             </Route>
           </Routes>
         </Suspense>
+        </ChunkErrorBoundary>
       </BrowserRouter>
     </AuthProvider>
   );
