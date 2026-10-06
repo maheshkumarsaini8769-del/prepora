@@ -8,7 +8,11 @@ let isConnected = false;
 const ATLAS_FALLBACK_URI = 'mongodb+srv://maheshkumarsaini8769_db_user:BJF9QCgdvWliHs02@cluster0.077ex67.mongodb.net/prepore_db?appName=Cluster0&retryWrites=true&w=majority';
 
 export const connectDB = async (): Promise<void> => {
-  const uri = process.env.MONGODB_URI || ATLAS_FALLBACK_URI;
+  let uri = process.env.MONGODB_URI;
+  const isLocalHost = uri && (uri.includes('localhost') || uri.includes('127.0.0.1'));
+  if (!uri || (process.env.NODE_ENV === 'production' && isLocalHost) || (process.env.VERCEL && isLocalHost)) {
+    uri = ATLAS_FALLBACK_URI;
+  }
 
   if (isConnected || mongoose.connection.readyState === 1) {
     return;
