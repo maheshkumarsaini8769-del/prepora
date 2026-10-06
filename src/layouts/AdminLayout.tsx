@@ -28,16 +28,20 @@ import {
   Compass,
   KeyRound,
   UserCheck,
-  Tv
+  Tv,
+  Sun,
+  Moon
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { adminFetch } from '../utils/adminApi';
+import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
 
 export const AdminLayout: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [adminRole, setAdminRole] = useState<string>('SUPER ADMIN');
   const [roleDropdownOpen, setRoleDropdownOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
+  const [colorMode, setColorMode] = useState<ColorMode>(() => getColorMode());
   const [stats, setStats] = useState<{ pendingReviews: number; pendingReports: number; dbStatus: string }>({
     pendingReviews: 0,
     pendingReports: 0,
@@ -62,6 +66,22 @@ export const AdminLayout: React.FC = () => {
       })
       .catch(() => {});
   }, [location.pathname]);
+
+  useEffect(() => {
+    const handleColorModeChange = (e: Event) => {
+      const customEvent = e as CustomEvent<ColorMode>;
+      if (customEvent.detail) {
+        setColorMode(customEvent.detail);
+      }
+    };
+    window.addEventListener('prepora-colormode-change', handleColorModeChange);
+    return () => window.removeEventListener('prepora-colormode-change', handleColorModeChange);
+  }, []);
+
+  const handleToggleColorMode = () => {
+    const next = toggleColorMode();
+    setColorMode(next);
+  };
 
   // Simplified 3-Zone Navigation
   interface NavItem {
@@ -130,10 +150,10 @@ export const AdminLayout: React.FC = () => {
       {navSections.map((section, sIdx) => (
         <div key={sIdx} className="space-y-1">
           <div className="px-3 pb-1">
-            <div className="text-[10px] font-black uppercase tracking-wider text-slate-400 flex items-center justify-between">
+            <div className="text-[10px] font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center justify-between">
               <span>{section.title}</span>
             </div>
-            <div className="text-[10px] text-slate-500 font-medium">{section.subtitle}</div>
+            <div className="text-[10px] text-slate-400 dark:text-slate-500 font-medium">{section.subtitle}</div>
           </div>
           {section.items.map((item) => {
             const Icon = item.icon;
@@ -147,17 +167,17 @@ export const AdminLayout: React.FC = () => {
                   `group flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold transition ${
                     isActive
                       ? 'bg-brand-600 text-white shadow-md shadow-brand-600/25 ring-1 ring-brand-500/50'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-800/80'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800/80'
                   }`
                 }
               >
                 {({ isActive }) => (
                   <>
                     <div className="flex items-center gap-2.5 min-w-0">
-                      <Icon className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-400 group-hover:text-brand-400'}`} />
+                      <Icon className={`w-4 h-4 shrink-0 transition-transform group-hover:scale-110 ${isActive ? 'text-white' : 'text-slate-500 dark:text-slate-400 group-hover:text-brand-600 dark:group-hover:text-brand-400'}`} />
                       <div className="truncate">
                         <div className="truncate font-bold leading-tight">{item.name}</div>
-                        <div className={`text-[10px] leading-tight truncate mt-0.5 ${isActive ? 'text-brand-100' : 'text-slate-500'}`}>{item.desc}</div>
+                        <div className={`text-[10px] leading-tight truncate mt-0.5 ${isActive ? 'text-brand-100' : 'text-slate-400 dark:text-slate-500'}`}>{item.desc}</div>
                       </div>
                     </div>
                     {item.badge && (
@@ -176,14 +196,14 @@ export const AdminLayout: React.FC = () => {
   );
 
   return (
-    <div className="h-screen max-h-screen overflow-hidden bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-brand-500 selection:text-white">
+    <div className="h-screen max-h-screen overflow-hidden bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-brand-500 selection:text-white">
       {/* Top Bar */}
-      <header className="shrink-0 h-16 bg-slate-900/90 backdrop-blur-md border-b border-slate-800 flex items-center justify-between px-4 sm:px-6 z-40">
+      <header className="shrink-0 h-16 bg-white/95 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 flex items-center justify-between px-4 sm:px-6 z-40 transition-colors">
         {/* Left: Brand + Hamburger */}
         <div className="flex items-center gap-3">
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="lg:hidden p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition"
+            className="lg:hidden p-2 rounded-lg text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
             aria-label="Toggle Navigation"
           >
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -195,37 +215,52 @@ export const AdminLayout: React.FC = () => {
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-black tracking-tight text-white text-lg">PREPORA</span>
-                <span className="px-1.5 py-0.5 text-[9px] font-black rounded uppercase bg-brand-500/20 text-brand-400 border border-brand-500/30 tracking-wider">
+                <span className="font-black tracking-tight text-slate-900 dark:text-white text-lg">PREPORA</span>
+                <span className="px-1.5 py-0.5 text-[9px] font-black rounded uppercase bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/30 tracking-wider">
                   ADMIN
                 </span>
               </div>
-              <p className="text-[10px] text-slate-400 hidden sm:block">Admin Control Center</p>
+              <p className="text-[10px] text-slate-500 dark:text-slate-400 hidden sm:block">Admin Control Center</p>
             </div>
           </Link>
         </div>
 
         {/* Center: System Status Indicator */}
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-800/80 border border-slate-700/60 text-xs">
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/60 text-xs">
           <span className="relative flex h-2 w-2">
             <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${stats.dbStatus === 'Connected' ? 'bg-emerald-400' : 'bg-rose-400'}`}></span>
             <span className={`relative inline-flex rounded-full h-2 w-2 ${stats.dbStatus === 'Connected' ? 'bg-emerald-500' : 'bg-rose-500'}`}></span>
           </span>
-          <span className="text-slate-300 font-semibold">MongoDB Atlas:</span>
-          <span className={`font-bold ${stats.dbStatus === 'Connected' ? 'text-emerald-400' : 'text-rose-400'}`}>
+          <span className="text-slate-600 dark:text-slate-300 font-semibold">MongoDB Atlas:</span>
+          <span className={`font-bold ${stats.dbStatus === 'Connected' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
             {stats.dbStatus}
           </span>
-          <span className="text-slate-600">|</span>
-          <span className="text-slate-400 text-[11px]">Server: 100% OK</span>
+          <span className="text-slate-300 dark:text-slate-600">|</span>
+          <span className="text-slate-500 dark:text-slate-400 text-[11px]">Server: 100% OK</span>
         </div>
 
         {/* Right Actions */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Dark / Light Mode Switcher */}
+          <button
+            type="button"
+            onClick={handleToggleColorMode}
+            className="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-200 dark:hover:bg-slate-750 transition"
+            title={`Switch to ${colorMode === 'dark' ? 'Light' : 'Dark'} Mode`}
+            aria-label="Toggle Dark/Light Mode"
+          >
+            {colorMode === 'dark' ? (
+              <Sun className="w-4 h-4 text-amber-400" />
+            ) : (
+              <Moon className="w-4 h-4 text-slate-700" />
+            )}
+          </button>
+
           {/* Role Switcher */}
           <div className="relative">
             <button
               onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-              className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700 text-xs font-bold text-slate-200 hover:bg-slate-750 transition"
+              className="flex items-center gap-2 px-2.5 sm:px-3 py-1.5 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-750 transition"
             >
               <span className="w-2 h-2 rounded-full bg-brand-400"></span>
               <span className="hidden sm:inline">{adminRole}</span>
@@ -234,8 +269,8 @@ export const AdminLayout: React.FC = () => {
             </button>
 
             {roleDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-52 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95">
-                <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-800">
+              <div className="absolute right-0 mt-2 w-52 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl py-1 z-50 animate-in fade-in zoom-in-95">
+                <div className="px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500 border-b border-slate-100 dark:border-slate-800">
                   Switch Role Persona
                 </div>
                 {adminRoles.map((r) => (
@@ -245,12 +280,12 @@ export const AdminLayout: React.FC = () => {
                       setAdminRole(r.name);
                       setRoleDropdownOpen(false);
                     }}
-                    className={`w-full text-left px-3 py-2 text-xs font-semibold flex items-center justify-between hover:bg-slate-800 transition ${
-                      adminRole === r.name ? 'text-brand-400 bg-brand-500/10' : 'text-slate-300'
+                    className={`w-full text-left px-3 py-2 text-xs font-semibold flex items-center justify-between hover:bg-slate-100 dark:hover:bg-slate-800 transition ${
+                      adminRole === r.name ? 'text-brand-600 dark:text-brand-400 bg-brand-500/10' : 'text-slate-700 dark:text-slate-300'
                     }`}
                   >
                     <span>{r.name}</span>
-                    {adminRole === r.name && <span className="text-[10px] font-bold">ACTIVE</span>}
+                    {adminRole === r.name && <span className="text-[10px] font-bold text-brand-600 dark:text-brand-400">ACTIVE</span>}
                   </button>
                 ))}
               </div>
@@ -261,7 +296,7 @@ export const AdminLayout: React.FC = () => {
           <div className="relative">
             <button
               onClick={() => setNotifDropdownOpen(!notifDropdownOpen)}
-              className="relative p-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-300 hover:text-white transition"
+              className="relative p-2 rounded-lg bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white transition"
               title="Admin Alerts"
             >
               <Bell className="w-4 h-4" />
@@ -273,31 +308,31 @@ export const AdminLayout: React.FC = () => {
             </button>
 
             {notifDropdownOpen && (
-              <div className="absolute right-0 mt-2 w-72 bg-slate-900 border border-slate-700 rounded-xl shadow-2xl p-3 z-50 text-xs animate-in fade-in zoom-in-95">
-                <div className="font-bold text-slate-200 pb-2 border-b border-slate-800 flex justify-between items-center">
+              <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl shadow-2xl p-3 z-50 text-xs animate-in fade-in zoom-in-95">
+                <div className="font-bold text-slate-800 dark:text-slate-200 pb-2 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
                   <span>System Alerts</span>
-                  <span className="text-[10px] text-brand-400 font-semibold">Live</span>
+                  <span className="text-[10px] text-brand-500 font-semibold">Live</span>
                 </div>
                 <div className="py-2 space-y-2">
-                  <div className="p-2 rounded bg-slate-800/80 border border-slate-700/50 flex items-start gap-2">
-                    <AlertTriangle className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
+                  <div className="p-2 rounded bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 flex items-start gap-2">
+                    <AlertTriangle className="w-4 h-4 text-amber-500 dark:text-amber-400 shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-bold text-slate-200">Pending Student Reports</div>
-                      <div className="text-slate-400 text-[11px] mt-0.5">{stats.pendingReports} reports awaiting resolution</div>
+                      <div className="font-bold text-slate-800 dark:text-slate-200">Pending Student Reports</div>
+                      <div className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">{stats.pendingReports} reports awaiting resolution</div>
                     </div>
                   </div>
-                  <div className="p-2 rounded bg-slate-800/80 border border-slate-700/50 flex items-start gap-2">
-                    <HelpCircle className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                  <div className="p-2 rounded bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/50 flex items-start gap-2">
+                    <HelpCircle className="w-4 h-4 text-indigo-500 dark:text-indigo-400 shrink-0 mt-0.5" />
                     <div>
-                      <div className="font-bold text-slate-200">Questions Awaiting Review</div>
-                      <div className="text-slate-400 text-[11px] mt-0.5">{stats.pendingReviews} items ready for verification</div>
+                      <div className="font-bold text-slate-800 dark:text-slate-200">Questions Awaiting Review</div>
+                      <div className="text-slate-500 dark:text-slate-400 text-[11px] mt-0.5">{stats.pendingReviews} items ready for verification</div>
                     </div>
                   </div>
                 </div>
                 <Link
                   to="/admin/reports"
                   onClick={() => setNotifDropdownOpen(false)}
-                  className="block text-center pt-2 text-[11px] font-bold text-brand-400 hover:text-brand-300"
+                  className="block text-center pt-2 text-[11px] font-bold text-brand-600 dark:text-brand-400 hover:text-brand-500"
                 >
                   View Reports Center →
                 </Link>
@@ -319,16 +354,16 @@ export const AdminLayout: React.FC = () => {
 
       <div className="flex-1 flex overflow-hidden min-h-0 w-full">
         {/* Desktop Sidebar */}
-        <aside className="hidden lg:flex w-64 bg-slate-900 border-r border-slate-800 flex-col shrink-0 h-full min-h-0 overflow-hidden select-none">
+        <aside className="hidden lg:flex w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex-col shrink-0 h-full min-h-0 overflow-hidden select-none transition-colors">
           {/* User badge */}
-          <div className="p-4 border-b border-slate-800 shrink-0 bg-slate-900/50">
+          <div className="p-4 border-b border-slate-200 dark:border-slate-800 shrink-0 bg-slate-50/70 dark:bg-slate-900/50">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-600 flex items-center justify-center font-black text-white text-sm shadow-md">
                 AD
               </div>
               <div className="overflow-hidden">
-                <div className="font-bold text-sm text-slate-200 truncate">{user?.name || 'Administrator'}</div>
-                <div className="text-[11px] text-brand-400 font-semibold truncate">{adminRole}</div>
+                <div className="font-bold text-sm text-slate-800 dark:text-slate-200 truncate">{user?.name || 'Administrator'}</div>
+                <div className="text-[11px] text-brand-600 dark:text-brand-400 font-semibold truncate">{adminRole}</div>
               </div>
             </div>
           </div>
@@ -339,10 +374,10 @@ export const AdminLayout: React.FC = () => {
           </nav>
 
           {/* Sidebar Footer */}
-          <div className="p-3 border-t border-slate-800 space-y-1 shrink-0 bg-slate-900/80">
+          <div className="p-3 border-t border-slate-200 dark:border-slate-800 space-y-1 shrink-0 bg-slate-50/80 dark:bg-slate-900/80">
             <Link
               to="/"
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800 transition"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition"
             >
               <ArrowLeft className="w-4 h-4" />
               <span>Back to Student Website</span>
@@ -352,7 +387,7 @@ export const AdminLayout: React.FC = () => {
                 logout();
                 navigate('/');
               }}
-              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition"
+              className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition"
             >
               <LogOut className="w-4 h-4" />
               <span>Sign Out</span>
@@ -364,16 +399,16 @@ export const AdminLayout: React.FC = () => {
         {mobileOpen && (
           <div className="fixed inset-0 z-50 lg:hidden flex">
             <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" onClick={() => setMobileOpen(false)} />
-            <div className="relative w-72 max-w-full bg-slate-900 border-r border-slate-800 flex flex-col h-full z-50">
-              <div className="p-4 border-b border-slate-800 flex items-center justify-between shrink-0">
+            <div className="relative w-72 max-w-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full z-50">
+              <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-2">
                   <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">P</div>
                   <div>
-                    <span className="font-black text-white text-sm">PREPORA ADMIN</span>
-                    <p className="text-[10px] text-slate-400">Admin Navigation</p>
+                    <span className="font-black text-slate-900 dark:text-white text-sm">PREPORA ADMIN</span>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">Admin Navigation</p>
                   </div>
                 </div>
-                <button onClick={() => setMobileOpen(false)} className="p-1 rounded text-slate-400 hover:text-white">
+                <button onClick={() => setMobileOpen(false)} className="p-1 rounded text-slate-400 hover:text-slate-600 dark:hover:text-white">
                   <X className="w-5 h-5" />
                 </button>
               </div>
@@ -382,11 +417,11 @@ export const AdminLayout: React.FC = () => {
                 {renderNavLinks(() => setMobileOpen(false))}
               </nav>
 
-              <div className="p-3 border-t border-slate-800 shrink-0">
+              <div className="p-3 border-t border-slate-200 dark:border-slate-800 shrink-0">
                 <Link
                   to="/"
                   onClick={() => setMobileOpen(false)}
-                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-slate-400 hover:text-white hover:bg-slate-800"
+                  className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   <span>Back to Student Website</span>
@@ -397,7 +432,7 @@ export const AdminLayout: React.FC = () => {
         )}
 
         {/* Main Content Area */}
-        <main className="flex-1 overflow-y-auto h-full min-h-0 bg-slate-950 p-4 sm:p-6 lg:p-8 overscroll-contain custom-scrollbar focus:outline-none">
+        <main className="flex-1 overflow-y-auto h-full min-h-0 bg-slate-100/70 dark:bg-slate-950 p-4 sm:p-6 lg:p-8 overscroll-contain custom-scrollbar focus:outline-none transition-colors">
           <Outlet />
         </main>
       </div>

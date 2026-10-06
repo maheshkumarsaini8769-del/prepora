@@ -37,6 +37,7 @@ import { ecosystemService } from '../services/ecosystemService';
 import { questionService } from '../services/questionService';
 import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 import { SubjectName, ClassLevel, Question } from '../types';
+import { continueLearningService } from '../services/continueLearningService';
 import {
   comprehensiveFormulaNotes,
   TopicRevisionItem,
@@ -599,6 +600,15 @@ export const FormulaNotesHub: React.FC = () => {
         next.delete(chapterName);
       } else {
         next.add(chapterName);
+        continueLearningService.recordActivity({
+          type: 'formula',
+          title: `${selectedSubject} • ${chapterName}`,
+          subtitle: 'Formula & Short Notes Sheet',
+          subject: selectedSubject,
+          chapter: chapterName,
+          url: `/formula-notes?subject=${encodeURIComponent(selectedSubject)}&chapter=${encodeURIComponent(chapterName)}`,
+          progressPercent: 60
+        });
         // Automatically expand the first topic of this chapter for immediate gratification!
         const ch = distinctChapters.find((c) => c.chapter === chapterName);
         if (ch && ch.items.length > 0) {

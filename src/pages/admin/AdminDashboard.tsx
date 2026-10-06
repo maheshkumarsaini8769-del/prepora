@@ -162,97 +162,97 @@ export const AdminDashboard: React.FC = () => {
       {/* Top Level Key Metrics */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4">
         {/* Total Students */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
             <span>Enrolled Students</span>
-            <Users className="w-4 h-4 text-brand-400" />
+            <Users className="w-4 h-4 text-brand-600 dark:text-brand-400" />
           </div>
           <div className="mt-3">
-            <div className="text-2xl font-black text-white">
+            <div className="text-2xl font-black text-slate-900 dark:text-white">
               {loading ? '...' : stats?.students?.total ?? 0}
             </div>
-            <div className="text-[11px] text-emerald-400 font-semibold mt-0.5">
+            <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold mt-0.5">
               {stats?.students?.active ?? 0} Active
             </div>
           </div>
         </div>
 
         {/* Questions */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
             <span>Question Bank</span>
-            <BookOpen className="w-4 h-4 text-indigo-400" />
+            <BookOpen className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
           </div>
           <div className="mt-3">
-            <div className="text-2xl font-black text-white">
+            <div className="text-2xl font-black text-slate-900 dark:text-white">
               {loading ? '...' : stats?.content?.totalQuestions ?? 0}
             </div>
-            <div className="text-[11px] text-indigo-400 font-semibold mt-0.5">
+            <div className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold mt-0.5">
               {stats?.content?.publishedQuestions ?? 0} Live Published
             </div>
           </div>
         </div>
 
         {/* Mock Tests */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
             <span>Mock Tests</span>
-            <FileCheck2 className="w-4 h-4 text-amber-400" />
+            <FileCheck2 className="w-4 h-4 text-amber-600 dark:text-amber-400" />
           </div>
           <div className="mt-3">
-            <div className="text-2xl font-black text-white">
+            <div className="text-2xl font-black text-slate-900 dark:text-white">
               {loading ? '...' : stats?.content?.totalTests ?? 0}
             </div>
-            <div className="text-[11px] text-amber-400 font-semibold mt-0.5">
+            <div className="text-[11px] text-amber-600 dark:text-amber-400 font-semibold mt-0.5">
               Active Blueprints
             </div>
           </div>
         </div>
 
         {/* Test Attempts */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
             <span>Total Submissions</span>
-            <Activity className="w-4 h-4 text-emerald-400" />
+            <Activity className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
           </div>
           <div className="mt-3">
-            <div className="text-2xl font-black text-white">
+            <div className="text-2xl font-black text-slate-900 dark:text-white">
               {loading ? '...' : stats?.activity?.totalAttempts ?? 0}
             </div>
-            <div className="text-[11px] text-slate-400 mt-0.5">
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               {stats?.activity?.inProgressAttempts ?? 0} In-Progress
             </div>
           </div>
         </div>
 
         {/* Pending Reports */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
             <span>Pending Reports</span>
-            <AlertTriangle className="w-4 h-4 text-rose-400" />
+            <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
           </div>
           <div className="mt-3">
-            <div className="text-2xl font-black text-rose-400">
+            <div className="text-2xl font-black text-rose-600 dark:text-rose-400">
               {loading ? '...' : (stats?.reports?.pendingQuestionReports ?? 0) + (stats?.reports?.pendingTechnicalReports ?? 0)}
             </div>
-            <div className="text-[11px] text-slate-400 mt-0.5">
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
               Pending Resolution
             </div>
           </div>
         </div>
 
         {/* System Health */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col justify-between">
-          <div className="flex items-center justify-between text-slate-400 text-xs font-semibold">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between">
+          <div className="flex items-center justify-between text-slate-500 dark:text-slate-400 text-xs font-semibold">
             <span>Database Status</span>
-            <Server className="w-4 h-4 text-cyan-400" />
+            <Server className="w-4 h-4 text-cyan-600 dark:text-cyan-400" />
           </div>
           <div className="mt-3">
-            <div className="flex items-center gap-1.5 text-base font-bold text-emerald-400">
-              <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <div className="flex items-center gap-1.5 text-base font-bold text-emerald-600 dark:text-emerald-400">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>{stats?.system?.database ?? 'Online'}</span>
             </div>
-            <div className="text-[11px] text-slate-400 mt-0.5">MongoDB Atlas</div>
+            <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">MongoDB Atlas</div>
           </div>
         </div>
       </div>
@@ -260,80 +260,80 @@ export const AdminDashboard: React.FC = () => {
       {/* Grid: Content Health & Student Activity */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Content Health Card */}
-        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h2 className="font-bold text-base text-white flex items-center gap-2">
-              <BookOpen className="w-4 h-4 text-brand-400" />
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+            <h2 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+              <BookOpen className="w-4 h-4 text-brand-600 dark:text-brand-400" />
               <span>Question Bank Status</span>
             </h2>
-            <Link to="/admin/questions" className="text-xs font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <Link to="/admin/questions" className="text-xs font-bold text-brand-600 dark:text-brand-400 hover:text-brand-500 flex items-center gap-1">
               Manage Questions <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">Live Published</div>
-              <div className="text-xl font-bold text-emerald-400 mt-1">{stats?.content?.publishedQuestions ?? 0}</div>
-              <div className="text-[10px] text-slate-500">Active in Tests</div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-750 text-center">
+              <div className="text-xs text-slate-500 dark:text-slate-400">Live Published</div>
+              <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">{stats?.content?.publishedQuestions ?? 0}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500">Active in Tests</div>
             </div>
-            <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">Drafts</div>
-              <div className="text-xl font-bold text-amber-400 mt-1">{stats?.content?.draftQuestions ?? 0}</div>
-              <div className="text-[10px] text-slate-500">In Preparation</div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-750 text-center">
+              <div className="text-xs text-slate-500 dark:text-slate-400">Drafts</div>
+              <div className="text-xl font-bold text-amber-600 dark:text-amber-400 mt-1">{stats?.content?.draftQuestions ?? 0}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500">In Preparation</div>
             </div>
-            <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">Pending Review</div>
-              <div className="text-xl font-bold text-indigo-400 mt-1">{stats?.content?.pendingQuestions ?? 0}</div>
-              <div className="text-[10px] text-slate-500">Needs Verification</div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-750 text-center">
+              <div className="text-xs text-slate-500 dark:text-slate-400">Pending Review</div>
+              <div className="text-xl font-bold text-indigo-600 dark:text-indigo-400 mt-1">{stats?.content?.pendingQuestions ?? 0}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500">Needs Verification</div>
             </div>
-            <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750 text-center">
-              <div className="text-xs text-slate-400">Reported Flag</div>
-              <div className="text-xl font-bold text-rose-400 mt-1">{stats?.reports?.totalQuestionReports ?? 0}</div>
-              <div className="text-[10px] text-slate-500">Needs Attention</div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-750 text-center">
+              <div className="text-xs text-slate-500 dark:text-slate-400">Reported Flag</div>
+              <div className="text-xl font-bold text-rose-600 dark:text-rose-400 mt-1">{stats?.reports?.totalQuestionReports ?? 0}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500">Needs Attention</div>
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-750 text-xs text-slate-300 flex items-center justify-between">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-750 text-xs text-slate-700 dark:text-slate-300 flex items-center justify-between">
             <span className="font-medium">NEET & JEE Curriculum Coverage</span>
-            <span className="text-emerald-400 font-bold">100% Verified</span>
+            <span className="text-emerald-600 dark:text-emerald-400 font-bold">100% Verified</span>
           </div>
         </div>
 
         {/* Test Activity & Platform Accuracy */}
-        <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-800 pb-3">
-            <h2 className="font-bold text-base text-white flex items-center gap-2">
-              <TrendingUp className="w-4 h-4 text-emerald-400" />
+        <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
+            <h2 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+              <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
               <span>Student Performance Telemetry</span>
             </h2>
-            <Link to="/admin/analytics" className="text-xs font-bold text-brand-400 hover:text-brand-300 flex items-center gap-1">
+            <Link to="/admin/analytics" className="text-xs font-bold text-brand-600 dark:text-brand-400 hover:text-brand-500 flex items-center gap-1">
               View Full Analytics <ArrowRight className="w-3.5 h-3.5" />
             </Link>
           </div>
 
           <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750">
-              <div className="text-xs text-slate-400">Average Score</div>
-              <div className="text-xl font-bold text-white mt-1">{stats?.activity?.avgScore ?? 0}</div>
-              <div className="text-[10px] text-slate-500">Across All Tests</div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-750">
+              <div className="text-xs text-slate-500 dark:text-slate-400">Average Score</div>
+              <div className="text-xl font-bold text-slate-900 dark:text-white mt-1">{stats?.activity?.avgScore ?? 0}</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500">Across All Tests</div>
             </div>
-            <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750">
-              <div className="text-xs text-slate-400">Average Accuracy</div>
-              <div className="text-xl font-bold text-white mt-1">{stats?.activity?.avgAccuracy ?? 0}%</div>
-              <div className="text-[10px] text-slate-500">Correct Answer Rate</div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-750">
+              <div className="text-xs text-slate-500 dark:text-slate-400">Average Accuracy</div>
+              <div className="text-xl font-bold text-slate-900 dark:text-white mt-1">{stats?.activity?.avgAccuracy ?? 0}%</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500">Correct Answer Rate</div>
             </div>
-            <div className="p-3 rounded-xl bg-slate-800/50 border border-slate-750">
-              <div className="text-xs text-slate-400">Submission Integrity</div>
-              <div className="text-xl font-bold text-emerald-400 mt-1">100%</div>
-              <div className="text-[10px] text-slate-500">Zero Failures</div>
+            <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-750">
+              <div className="text-xs text-slate-500 dark:text-slate-400">Submission Integrity</div>
+              <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-1">100%</div>
+              <div className="text-[10px] text-slate-400 dark:text-slate-500">Zero Failures</div>
             </div>
           </div>
 
-          <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-750 text-xs flex items-center justify-between text-slate-300">
+          <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-750 text-xs flex items-center justify-between text-slate-700 dark:text-slate-300">
             <span>Offline Auto-Sync Resilience</span>
-            <span className="font-bold text-emerald-400 flex items-center gap-1.5">
-              <span className="w-2 h-2 rounded-full bg-emerald-400"></span>
+            <span className="font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
               <span>Active & Protected</span>
             </span>
           </div>
@@ -342,56 +342,56 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Quick Launchpad to Modules */}
       <div>
-        <h3 className="text-sm font-black text-slate-300 mb-3 uppercase tracking-wider">Quick Navigation Shortcuts</h3>
+        <h3 className="text-sm font-black text-slate-700 dark:text-slate-300 mb-3 uppercase tracking-wider">Quick Navigation Shortcuts</h3>
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
           <Link
             to="/admin/ai-factory"
-            className="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-brand-500/50 transition group"
+            className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-brand-500/50 shadow-xs transition group"
           >
-            <div className="w-9 h-9 rounded-lg bg-brand-500/10 text-brand-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
+            <div className="w-9 h-9 rounded-lg bg-brand-500/10 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
               <UploadCloud className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-sm text-white group-hover:text-brand-400 transition">AI Content Factory</h4>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-brand-600 dark:group-hover:text-brand-400 transition">AI Content Factory</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
               Extract authentic questions and formulas directly from source PDFs.
             </p>
           </Link>
 
           <Link
             to="/admin/questions"
-            className="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-indigo-500/50 transition group"
+            className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-indigo-500/50 shadow-xs transition group"
           >
-            <div className="w-9 h-9 rounded-lg bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
+            <div className="w-9 h-9 rounded-lg bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
               <BookOpen className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-sm text-white group-hover:text-indigo-400 transition">Questions Bank</h4>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition">Questions Bank</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
               Comprehensive question browser, filtering, editing, and approval.
             </p>
           </Link>
 
           <Link
             to="/admin/tests"
-            className="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-amber-500/50 transition group"
+            className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-amber-500/50 shadow-xs transition group"
           >
-            <div className="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
+            <div className="w-9 h-9 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
               <FileCheck2 className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-sm text-white group-hover:text-amber-400 transition">Tests & Blueprints</h4>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-amber-600 dark:group-hover:text-amber-400 transition">Tests & Blueprints</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
               Configure mock tests, topic-wise assessments, and examination rules.
             </p>
           </Link>
 
           <Link
             to="/admin/students"
-            className="p-4 rounded-xl bg-slate-900 border border-slate-800 hover:border-emerald-500/50 transition group"
+            className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 hover:border-emerald-500/50 shadow-xs transition group"
           >
-            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
+            <div className="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold mb-3 group-hover:scale-110 transition">
               <Users className="w-5 h-5" />
             </div>
-            <h4 className="font-bold text-sm text-white group-hover:text-emerald-400 transition">Students Directory</h4>
-            <p className="text-xs text-slate-400 mt-1 leading-relaxed">
+            <h4 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition">Students Directory</h4>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
               Student rosters, attempt histories, score progression, and account statuses.
             </p>
           </Link>

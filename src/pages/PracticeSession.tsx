@@ -27,6 +27,7 @@ import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { syncEngine } from '../services/syncEngine';
 import { progressService } from '../services/progressService';
+import { continueLearningService } from '../services/continueLearningService';
 import { soundFeedback } from '../utils/audioFeedback';
 import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../types';
 
@@ -128,6 +129,20 @@ export const PracticeSession: React.FC = () => {
       completedPercentage: Math.round((answeredCount / questions.length) * 100),
       updatedAt: new Date().toISOString()
     });
+
+    if (questions[currentIndex]) {
+      const q = questions[currentIndex];
+      continueLearningService.recordActivity({
+        type: 'practice',
+        title: q.chapter || 'Practice Session',
+        subtitle: `${q.topic || 'Problem Set'} • Question ${currentIndex + 1} of ${questions.length}`,
+        subject: q.subject,
+        chapter: q.chapter,
+        topic: q.topic,
+        progressPercent: Math.round(((currentIndex + 1) / questions.length) * 100),
+        url: `/practice/session?subject=${encodeURIComponent(q.subject)}&chapter=${encodeURIComponent(q.chapter || '')}`
+      });
+    }
   }, [currentIndex, selectedAnswers, questions.length, subject, chapter]);
 
   useEffect(() => {

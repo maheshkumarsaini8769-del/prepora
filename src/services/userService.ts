@@ -36,16 +36,18 @@ class MockUserService {
     // Daily active check & streak rollover
     const today = new Date().toISOString().split('T')[0];
     if (profile.lastActiveDate && profile.lastActiveDate !== today) {
-      const last = new Date(profile.lastActiveDate).getTime();
-      const curr = new Date(today).getTime();
-      const diffDays = Math.floor((curr - last) / (1000 * 60 * 60 * 24));
-
       // Reset today's questions counter for the new day
       profile.todayQuestionsCount = 0;
+      profile.lastActiveDate = today;
 
-      // If more than 1 day missed, streak resets to 0
-      if (diffDays > 1) {
-        profile.streakDays = 0;
+      // If more than 1 day missed since last study session, streak resets to 0
+      if (profile.lastStudiedDate) {
+        const lastStudied = new Date(profile.lastStudiedDate).getTime();
+        const curr = new Date(today).getTime();
+        const diffDays = Math.floor((curr - lastStudied) / (1000 * 60 * 60 * 24));
+        if (diffDays > 1) {
+          profile.streakDays = 0;
+        }
       }
       setStorageItem(StorageKeys.USER_PROFILE, profile);
     }
@@ -178,8 +180,22 @@ class MockUserService {
 
     const prevCount = profile.todayQuestionsCount || 0;
     profile.todayQuestionsCount = prevCount + 1;
-    if (!profile.streakDays || profile.streakDays === 0) {
-      profile.streakDays = 1;
+
+    // Consecutive day streak increment on studying
+    if (profile.lastStudiedDate !== today) {
+      if (profile.lastStudiedDate) {
+        const lastStudied = new Date(profile.lastStudiedDate).getTime();
+        const curr = new Date(today).getTime();
+        const diffDays = Math.floor((curr - lastStudied) / (1000 * 60 * 60 * 24));
+        if (diffDays === 1) {
+          profile.streakDays = (profile.streakDays || 0) + 1;
+        } else {
+          profile.streakDays = 1;
+        }
+      } else {
+        profile.streakDays = 1;
+      }
+      profile.lastStudiedDate = today;
     }
 
     const dailyTarget = profile.dailyGoalQuestions || 25;
@@ -241,8 +257,22 @@ class MockUserService {
 
     profile.lastActiveDate = today;
     profile.testsCompletedCount = (profile.testsCompletedCount || 0) + 1;
-    if (!profile.streakDays || profile.streakDays === 0) {
-      profile.streakDays = 1;
+
+    // Consecutive day streak increment on completing mock test
+    if (profile.lastStudiedDate !== today) {
+      if (profile.lastStudiedDate) {
+        const lastStudied = new Date(profile.lastStudiedDate).getTime();
+        const curr = new Date(today).getTime();
+        const diffDays = Math.floor((curr - lastStudied) / (1000 * 60 * 60 * 24));
+        if (diffDays === 1) {
+          profile.streakDays = (profile.streakDays || 0) + 1;
+        } else {
+          profile.streakDays = 1;
+        }
+      } else {
+        profile.streakDays = 1;
+      }
+      profile.lastStudiedDate = today;
     }
     profile.todayQuestionsCount = (profile.todayQuestionsCount || 0) + (attempt.totalQuestions || 0);
 

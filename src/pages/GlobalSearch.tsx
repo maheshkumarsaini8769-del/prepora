@@ -55,11 +55,20 @@ export const GlobalSearch: React.FC = () => {
 
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Sync query state when URL parameter changes (e.g. user navigation or external links)
+  useEffect(() => {
+    const urlQ = searchParams.get('q');
+    if (urlQ !== null && urlQ !== query) {
+      setQuery(urlQ);
+      setDebouncedQuery(urlQ.trim());
+    }
+  }, [searchParams]);
+
   // Debounce search query
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebouncedQuery(query.trim());
-      if (query.trim()) {
+      if (query.trim() && searchParams.get('q') !== query.trim()) {
         searchParams.set('q', query.trim());
         setSearchParams(searchParams, { replace: true });
       }
@@ -268,7 +277,7 @@ export const GlobalSearch: React.FC = () => {
             <BookOpen className="w-10 h-10 text-slate-400 mx-auto" />
             <div className="space-y-1">
               <h3 className="text-base font-bold text-slate-900 dark:text-white">
-                No highly relevant study material found.
+                No results found for &ldquo;{debouncedQuery}&rdquo;
               </h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto">
                 Check your spelling, or browse directly by subject or topic.

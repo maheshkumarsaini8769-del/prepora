@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   BookOpen,
   Plus,
@@ -17,7 +17,10 @@ import {
   Check,
   X,
   Layers,
-  HelpCircle
+  HelpCircle,
+  ChevronLeft,
+  ChevronRight,
+  Loader2
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
@@ -83,33 +86,63 @@ export const AdminQuestions: React.FC = () => {
   const [importLoading, setImportLoading] = useState(false);
   const [importSuccessMsg, setImportSuccessMsg] = useState<string | null>(null);
 
-  // Sync questions from backend on mount
+  // Pagination & Server-side filtering
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize] = useState(50);
+  const [totalQuestions, setTotalQuestions] = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Sync questions dynamically with server filters & pagination
+  const fetchQuestions = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const params = new URLSearchParams();
+      params.set('page', String(currentPage));
+      params.set('limit', String(pageSize));
+      if (selectedSubject !== 'All') params.set('subject', selectedSubject);
+      if (selectedExam !== 'All') params.set('exam', selectedExam);
+      if (selectedDifficulty !== 'All') params.set('difficulty', selectedDifficulty);
+      if (activeView === 'review_queue') {
+        params.set('status', 'Pending');
+      } else if (selectedStatus !== 'All') {
+        params.set('status', selectedStatus);
+      }
+      if (searchQuery.trim()) {
+        params.set('search', searchQuery.trim());
+      }
+
+      const res = await fetch(`/api/questions?${params.toString()}`);
+      const data = await res.json();
+      if (data.success && Array.isArray(data.questions)) {
+        setQuestions(data.questions);
+        setTotalQuestions(data.total !== undefined ? data.total : data.questions.length);
+      }
+    } catch {
+      // Local fallback
+      setQuestions(questionService.getAllQuestions());
+    } finally {
+      setIsLoading(false);
+    }
+  }, [currentPage, pageSize, selectedSubject, selectedExam, selectedDifficulty, selectedStatus, activeView, searchQuery]);
+
   useEffect(() => {
-    fetch('/api/questions?limit=100')
+    fetchQuestions();
+  }, [fetchQuestions]);
+
+  // Sync pending count for Review Queue badge
+  useEffect(() => {
+    fetch('/api/questions?status=Pending&limit=1')
       .then(res => res.json())
       .then(data => {
-        if (data.success && data.questions?.length > 0) {
-          setQuestions(data.questions);
+        if (data.success) {
+          setTotalPending(data.total || 0);
         }
       })
       .catch(() => {});
   }, []);
 
-  const filtered = questions.filter((q) => {
-    if (activeView === 'review_queue' && q.status !== 'Pending') return false;
-    if (selectedSubject !== 'All' && q.subject !== selectedSubject) return false;
-    if (selectedExam !== 'All' && q.exam !== selectedExam) return false;
-    if (selectedDifficulty !== 'All' && q.difficulty !== selectedDifficulty) return false;
-    if (selectedStatus !== 'All' && (q.status || 'Approved') !== selectedStatus) return false;
-    if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      const matchQ = q.question.toLowerCase().includes(query);
-      const matchCh = q.chapter.toLowerCase().includes(query);
-      const matchTop = q.topic.toLowerCase().includes(query);
-      if (!matchQ && !matchCh && !matchTop) return false;
-    }
-    return true;
-  });
+  const filtered = questions;
 
   const handleApproveQuestion = async (q: Question) => {
     try {
@@ -255,15 +288,17 @@ export const AdminQuestions: React.FC = () => {
       }).catch(() => {});
     }
 
-    setQuestions(questionService.getAllQuestions());
     setIsEditorOpen(false);
+    fetchQuestions();
   };
 
-  const handleDelete = (id: string) => {
+  const handleDelete = async (id: string) => {
     if (window.confirm('Delete this question permanently from the repository?')) {
       questionService.deleteQuestion(id);
-      fetch(`/api/questions/${id}`, { method: 'DELETE' }).catch(() => {});
-      setQuestions(questionService.getAllQuestions());
+      try {
+        await fetch(`/api/questions/${id}`, { method: 'DELETE' });
+      } catch {}
+      fetchQuestions();
       setSelectedIds(prev => prev.filter(i => i !== id));
     }
   };
@@ -464,9 +499,7 @@ export const AdminQuestions: React.FC = () => {
           setImportSuccessMsg(null);
           setImportModalOpen(false);
           // Refresh list
-          fetch('/api/questions?limit=100')
-            .then(r => r.json())
-            .then(d => { if (d.questions) setQuestions(d.questions); });
+          fetchQuestions();
         }, 1800);
       }
     } catch {
@@ -501,7 +534,7 @@ export const AdminQuestions: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={() => handleExportData('csv')}
-            className="text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50"
+            className="text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700"
             title="Download questions as CSV"
           >
             <Download className="w-3.5 h-3.5 mr-1" /> CSV
@@ -511,7 +544,7 @@ export const AdminQuestions: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={() => handleExportData('xlsx')}
-            className="text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50"
+            className="text-xs font-bold text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-700"
             title="Download questions as Excel .xlsx"
           >
             <FileSpreadsheet className="w-3.5 h-3.5 mr-1 text-emerald-600" /> Excel
@@ -521,10 +554,10 @@ export const AdminQuestions: React.FC = () => {
             size="sm"
             variant="outline"
             onClick={handleClearAllQuestions}
-            className="text-xs font-bold text-rose-700 bg-rose-50 hover:bg-rose-100 border-rose-200"
+            className="text-xs font-bold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100 dark:hover:bg-rose-900/40 border-rose-200 dark:border-rose-900/60"
             title="Reset repository to clean slate (removes all questions)"
           >
-            <Trash2 className="w-3.5 h-3.5 mr-1 text-rose-600" /> Clear All
+            <Trash2 className="w-3.5 h-3.5 mr-1 text-rose-600 dark:text-rose-400" /> Clear All
           </Button>
 
           <Button
@@ -535,7 +568,7 @@ export const AdminQuestions: React.FC = () => {
               setImportErrors([]);
               setImportModalOpen(true);
             }}
-            className="text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#0c131a] hover:bg-slate-50 border-slate-200 dark:border-slate-800"
+            className="text-xs font-bold text-slate-700 dark:text-slate-200 bg-white dark:bg-[#0c131a] hover:bg-slate-50 dark:hover:bg-slate-800 border-slate-200 dark:border-slate-800"
           >
             <Upload className="w-3.5 h-3.5 mr-1" /> Bulk Import
           </Button>
@@ -576,24 +609,24 @@ export const AdminQuestions: React.FC = () => {
       {/* View Switch: All Questions vs Review Queue (Task1.md Section 6) */}
       <div className="flex items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 text-xs font-bold">
         <button
-          onClick={() => setActiveView('all')}
+          onClick={() => { setActiveView('all'); setCurrentPage(1); }}
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl transition ${
             activeView === 'all'
               ? 'bg-brand-600 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 bg-white border border-slate-200'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
           }`}
         >
-          <span>All Questions ({questions.length})</span>
+          <span>All Questions ({totalQuestions.toLocaleString()})</span>
         </button>
         <button
-          onClick={() => setActiveView('review_queue')}
+          onClick={() => { setActiveView('review_queue'); setCurrentPage(1); }}
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded-xl transition ${
             activeView === 'review_queue'
               ? 'bg-amber-600 text-white shadow-sm'
-              : 'text-slate-600 hover:text-slate-900 bg-white border border-slate-200'
+              : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white bg-white dark:bg-slate-850 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800'
           }`}
         >
-          <span>Review Queue ({questions.filter(q => q.status === 'Pending').length})</span>
+          <span>Review Queue ({totalPending})</span>
         </button>
       </div>
 
@@ -606,7 +639,7 @@ export const AdminQuestions: React.FC = () => {
               type="text"
               placeholder="Search statement, chapter, topic..."
               value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
               className="w-full pl-9 pr-4 py-2 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs font-medium text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
@@ -616,11 +649,11 @@ export const AdminQuestions: React.FC = () => {
             {(['All', 'Physics', 'Chemistry', 'Mathematics', 'Biology'] as const).map((sub) => (
               <button
                 key={sub}
-                onClick={() => setSelectedSubject(sub)}
+                onClick={() => { setSelectedSubject(sub); setCurrentPage(1); }}
                 className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-colors ${
                   selectedSubject === sub
-                    ? 'bg-brand-50 text-brand-700 border border-brand-200'
-                    : 'bg-white text-slate-600 hover:bg-slate-50 border border-slate-200'
+                    ? 'bg-brand-50 text-brand-700 border border-brand-200 dark:bg-brand-900/40 dark:text-brand-300 dark:border-brand-700/60'
+                    : 'bg-white dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700'
                 }`}
               >
                 {sub}
@@ -630,13 +663,13 @@ export const AdminQuestions: React.FC = () => {
         </div>
 
         {/* Secondary Filters: Exam, Difficulty, Status */}
-        <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100 text-xs">
+        <div className="flex flex-wrap items-center gap-3 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
           <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-slate-500 uppercase">Exam:</span>
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase">Exam:</span>
             <select
               value={selectedExam}
-              onChange={(e) => setSelectedExam(e.target.value as any)}
-              className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200"
+              onChange={(e) => { setSelectedExam(e.target.value as any); setCurrentPage(1); }}
+              className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none"
             >
               <option value="All">All Exams</option>
               <option value="JEE">JEE</option>
@@ -646,11 +679,11 @@ export const AdminQuestions: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-slate-500 uppercase">Difficulty:</span>
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase">Difficulty:</span>
             <select
               value={selectedDifficulty}
-              onChange={(e) => setSelectedDifficulty(e.target.value as any)}
-              className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200"
+              onChange={(e) => { setSelectedDifficulty(e.target.value as any); setCurrentPage(1); }}
+              className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none"
             >
               <option value="All">All Difficulties</option>
               <option value="Easy">Easy</option>
@@ -660,11 +693,11 @@ export const AdminQuestions: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-1.5">
-            <span className="text-[11px] font-bold text-slate-500 uppercase">Status:</span>
+            <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase">Status:</span>
             <select
               value={selectedStatus}
-              onChange={(e) => setSelectedStatus(e.target.value)}
-              className="bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200"
+              onChange={(e) => { setSelectedStatus(e.target.value); setCurrentPage(1); }}
+              className="bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 rounded-lg px-2 py-1 text-xs font-semibold text-slate-700 dark:text-slate-200 focus:outline-none"
             >
               <option value="All">All Statuses</option>
               <option value="Approved">Approved</option>
@@ -682,6 +715,7 @@ export const AdminQuestions: React.FC = () => {
                 setSelectedStatus('All');
                 setSelectedSubject('All');
                 setSearchQuery('');
+                setCurrentPage(1);
               }}
               className="text-[11px] text-brand-600 hover:text-brand-800 font-bold ml-auto"
             >
@@ -713,99 +747,147 @@ export const AdminQuestions: React.FC = () => {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
-              {filtered.map((q) => (
-                <tr key={q.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
-                  <td className="py-3 px-3">
-                    <input
-                      type="checkbox"
-                      checked={selectedIds.includes(q.id)}
-                      onChange={() => handleToggleSelect(q.id)}
-                      className="w-4 h-4 accent-slate-900 dark:accent-emerald-500 rounded"
-                    />
-                  </td>
-                  <td className="py-3 px-3 font-medium text-slate-800 dark:text-slate-100 whitespace-nowrap">
-                    <div className="font-bold text-slate-900 dark:text-white">{q.subject}</div>
-                    <div className="text-[11px] text-slate-500">{q.chapter}</div>
-                  </td>
-                  <td className="py-3 px-4 max-w-md font-medium text-slate-700 dark:text-slate-200 line-clamp-2">
-                    {q.question}
-                  </td>
-                  <td className="py-3 px-3">
-                    <Badge variant={q.difficulty === 'Easy' ? 'success' : q.difficulty === 'Medium' ? 'warning' : 'danger'} size="sm">
-                      {q.difficulty}
-                    </Badge>
-                  </td>
-                  <td className="py-3 px-3">
-                    {q.status === 'Pending' ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
-                        Pending Review
-                      </span>
-                    ) : q.status === 'Draft' ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-800">
-                        Draft
-                      </span>
-                    ) : q.status === 'Rejected' ? (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200" title={q.rejectionReason || 'Rejected'}>
-                        Rejected
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
-                        Approved
-                      </span>
-                    )}
-                  </td>
-                  <td className="py-3 px-4 text-right">
-                    <div className="flex items-center justify-end gap-1">
-                      {q.status === 'Pending' && (
-                        <>
-                          <button
-                            onClick={() => handleApproveQuestion(q)}
-                            className="p-1.5 text-emerald-600 hover:text-emerald-700 rounded-lg hover:bg-emerald-50"
-                            title="Approve and publish question"
-                          >
-                            <Check className="w-4 h-4" />
-                          </button>
-                          <button
-                            onClick={() => {
-                              setRejectingQuestion(q);
-                              setRejectReason('Wrong Answer');
-                              setRejectCustomNotes('');
-                              setRejectModalOpen(true);
-                            }}
-                            className="p-1.5 text-rose-600 hover:text-rose-700 rounded-lg hover:bg-rose-50"
-                            title="Reject question with reason"
-                          >
-                            <X className="w-4 h-4" />
-                          </button>
-                        </>
-                      )}
-                      <button
-                        onClick={() => handleOpenHistory(q)}
-                        className="p-1.5 text-slate-400 hover:text-indigo-600 rounded-lg hover:bg-slate-100"
-                        title="View question version change history"
-                      >
-                        <History className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleOpenEdit(q)}
-                        className="p-1.5 text-slate-400 hover:text-brand-600 rounded-lg hover:bg-slate-100"
-                        title="Edit question"
-                      >
-                        <Edit3 className="w-4 h-4" />
-                      </button>
-                      <button
-                        onClick={() => handleDelete(q.id)}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-slate-100"
-                        title="Delete question"
-                      >
-                        <Trash2 className="w-4 h-4" />
-                      </button>
+              {isLoading ? (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center text-slate-500">
+                    <div className="flex items-center justify-center gap-2">
+                      <Loader2 className="w-5 h-5 animate-spin text-brand-600" />
+                      <span className="font-semibold text-xs">Loading questions...</span>
                     </div>
                   </td>
                 </tr>
-              ))}
+              ) : filtered.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-12 text-center text-slate-500">
+                    <div className="font-semibold text-xs">No questions found matching the selected filters.</div>
+                    <div className="text-[11px] text-slate-400 mt-1">Try selecting a different subject or clearing filters.</div>
+                  </td>
+                </tr>
+              ) : (
+                filtered.map((q) => (
+                  <tr key={q.id} className="hover:bg-slate-50/70 dark:hover:bg-slate-800/60 transition-colors">
+                    <td className="py-3 px-3">
+                      <input
+                        type="checkbox"
+                        checked={selectedIds.includes(q.id)}
+                        onChange={() => handleToggleSelect(q.id)}
+                        className="w-4 h-4 accent-slate-900 dark:accent-emerald-500 rounded"
+                      />
+                    </td>
+                    <td className="py-3 px-3 font-medium text-slate-800 dark:text-slate-100 whitespace-nowrap">
+                      <div className="font-bold text-slate-900 dark:text-white">{q.subject}</div>
+                      <div className="text-[11px] text-slate-500">{q.chapter}</div>
+                    </td>
+                    <td className="py-3 px-4 max-w-md font-medium text-slate-700 dark:text-slate-200 line-clamp-2">
+                      {q.question}
+                    </td>
+                    <td className="py-3 px-3">
+                      <Badge variant={q.difficulty === 'Easy' ? 'success' : q.difficulty === 'Medium' ? 'warning' : 'danger'} size="sm">
+                        {q.difficulty}
+                      </Badge>
+                    </td>
+                    <td className="py-3 px-3">
+                      {q.status === 'Pending' ? (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
+                          Pending Review
+                        </span>
+                      ) : q.status === 'Draft' ? (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-slate-600 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-md border border-slate-200 dark:border-slate-800">
+                          Draft
+                        </span>
+                      ) : q.status === 'Rejected' ? (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200" title={q.rejectionReason || 'Rejected'}>
+                          Rejected
+                        </span>
+                      ) : (
+                        <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                          Approved
+                        </span>
+                      )}
+                    </td>
+                    <td className="py-3 px-4 text-right">
+                      <div className="flex items-center justify-end gap-1">
+                        {q.status === 'Pending' && (
+                          <>
+                            <button
+                              onClick={() => handleApproveQuestion(q)}
+                              className="p-1.5 text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 rounded-lg hover:bg-emerald-50 dark:hover:bg-emerald-950/40"
+                              title="Approve and publish question"
+                            >
+                              <Check className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setRejectingQuestion(q);
+                                setRejectReason('Wrong Answer');
+                                setRejectCustomNotes('');
+                                setRejectModalOpen(true);
+                              }}
+                              className="p-1.5 text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950/40"
+                              title="Reject question with reason"
+                            >
+                              <X className="w-4 h-4" />
+                            </button>
+                          </>
+                        )}
+                        <button
+                          onClick={() => handleOpenHistory(q)}
+                          className="p-1.5 text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                          title="View question version change history"
+                        >
+                          <History className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleOpenEdit(q)}
+                          className="p-1.5 text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                          title="Edit question"
+                        >
+                          <Edit3 className="w-4 h-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDelete(q.id)}
+                          className="p-1.5 text-slate-400 hover:text-rose-600 dark:hover:text-rose-400 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                          title="Delete question"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Bar */}
+        <div className="flex flex-col sm:flex-row items-center justify-between p-3 border-t border-slate-200 dark:border-slate-800 text-xs gap-3 bg-slate-50 dark:bg-slate-900/50">
+          <div className="text-slate-600 dark:text-slate-400 font-medium">
+            Showing <span className="font-bold text-slate-800 dark:text-slate-200">{totalQuestions > 0 ? (currentPage - 1) * pageSize + 1 : 0}</span> to <span className="font-bold text-slate-800 dark:text-slate-200">{Math.min(currentPage * pageSize, totalQuestions)}</span> of <span className="font-bold text-slate-900 dark:text-white">{totalQuestions.toLocaleString()}</span> questions
+          </div>
+          <div className="flex items-center gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={currentPage <= 1 || isLoading}
+              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+              className="text-xs"
+            >
+              <ChevronLeft className="w-3.5 h-3.5 mr-1" /> Previous
+            </Button>
+            <span className="text-xs font-semibold px-2 text-slate-700 dark:text-slate-300">
+              Page {currentPage} of {Math.max(1, Math.ceil(totalQuestions / pageSize))}
+            </span>
+            <Button
+              size="sm"
+              variant="outline"
+              disabled={currentPage >= Math.ceil(totalQuestions / pageSize) || isLoading}
+              onClick={() => setCurrentPage(p => p + 1)}
+              className="text-xs"
+            >
+              Next <ChevronRight className="w-3.5 h-3.5 ml-1" />
+            </Button>
+          </div>
         </div>
       </Card>
 

@@ -243,6 +243,7 @@ export interface UserProfile {
   targetYear: number;
   streakDays: number;
   lastActiveDate: string;
+  lastStudiedDate?: string;
   dailyGoalQuestions: number;
   todayQuestionsCount: number;
   overallAccuracy: number;

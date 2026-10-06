@@ -22,6 +22,7 @@ import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
 import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
 import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
+import { continueLearningService } from '../services/continueLearningService';
 
 export const VideoLecturesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -158,6 +159,15 @@ export const VideoLecturesPage: React.FC = () => {
 
   const handlePlayVideo = (video: VideoResource) => {
     setActiveVideo(video);
+    continueLearningService.recordActivity({
+      type: 'lecture',
+      title: video.chapter,
+      subtitle: `One-Shot Video • ${video.title}`,
+      subject: (video.subject as SubjectName) || 'Physics',
+      chapter: video.chapter,
+      url: `/lectures?subject=${encodeURIComponent(video.subject)}&chapter=${encodeURIComponent(video.chapter)}`
+    });
+
     // Track telemetry (task1.md section 31)
     fetch('/api/video-views/track', {
       method: 'POST',
@@ -373,9 +383,9 @@ export const VideoLecturesPage: React.FC = () => {
             >
               All Topics
             </button>
-            {availableTopics.map((topic) => (
+            {availableTopics.map((topic, tidx) => (
               <button
-                key={topic}
+                key={`${topic}-${tidx}`}
                 onClick={() => setSelectedTopic(topic)}
                 className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
                   selectedTopic === topic
@@ -392,11 +402,11 @@ export const VideoLecturesPage: React.FC = () => {
 
       {/* Video Grid with PREPORA Branding & Dual Watch Options (task1.md section 8, 10, 11) */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        {filteredVideos.map((video) => {
+        {filteredVideos.map((video, vidx) => {
           const colors = getSubjectColor(video.subject);
           return (
             <div
-              key={video.id}
+              key={`${video.id || video.youtubeId}-${vidx}`}
               className="bg-white dark:bg-[#0e1620] rounded-2xl border border-slate-200/90 dark:border-slate-800/90 overflow-hidden shadow-xs hover:shadow-md transition-all flex flex-col group"
             >
               {/* Thumbnail / Video Banner */}

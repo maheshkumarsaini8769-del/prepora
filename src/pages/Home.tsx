@@ -36,6 +36,7 @@ import { progressService } from '../services/progressService';
 import { syllabusService } from '../services/syllabusService';
 import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
+import { continueLearningService, LearningActivity } from '../services/continueLearningService';
 import { DailyPlan, MistakeItem, PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
 
 // Helper Vector Icons for Subject Progress
@@ -155,8 +156,17 @@ export const Home: React.FC = () => {
   // Live Ecosystem Data
   const [dailyPlan, setDailyPlan] = useState<DailyPlan>(() => ecosystemService.getDailyPlan());
   const [studyRecommendations] = useState(() => ecosystemService.getStudyRecommendations());
+  const [continueLearning, setContinueLearning] = useState<LearningActivity | null>(() => continueLearningService.getLatestActivity());
   const completedTasksCount = dailyPlan.items.filter(i => i.status === 'completed').length;
   const totalTasksCount = Math.max(5, dailyPlan.items.length || 5);
+
+  useEffect(() => {
+    const handleContinueUpdate = () => {
+      setContinueLearning(continueLearningService.getLatestActivity());
+    };
+    window.addEventListener('prepora:continue_learning_updated', handleContinueUpdate);
+    return () => window.removeEventListener('prepora:continue_learning_updated', handleContinueUpdate);
+  }, []);
 
   // Modals state
   const [showPrepProfileModal, setShowPrepProfileModal] = useState<boolean>(false);
@@ -383,6 +393,58 @@ export const Home: React.FC = () => {
           <span className="px-3 py-1.5 rounded-xl bg-emerald-600 text-white font-black text-xs shrink-0 shadow-sm">
             Goal Done ✓
           </span>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 3B. CONTINUE LEARNING (Phase 7 - Resume Unfinished Session)                */}
+      {/* ========================================================================= */}
+      {continueLearning && (
+        <div className="w-full p-4 rounded-2xl bg-gradient-to-r from-blue-50/80 via-white to-blue-50/40 dark:from-[#0b1622] dark:via-[#0e1620] dark:to-[#0b1622] border border-blue-200/80 dark:border-blue-900/40 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3 group hover:border-blue-400 dark:hover:border-blue-700 transition-all">
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-blue-500/15 dark:bg-blue-500/20 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0">
+              {continueLearning.type === 'lecture' ? (
+                <Play className="w-5 h-5 fill-current" />
+              ) : continueLearning.type === 'formula' ? (
+                <BookMarked className="w-5 h-5" />
+              ) : (
+                <BookOpen className="w-5 h-5" />
+              )}
+            </div>
+            <div className="min-w-0">
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-black uppercase tracking-wider px-1.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-300">
+                  Continue Learning
+                </span>
+                <span className="text-slate-300 dark:text-slate-700">•</span>
+                <span className="text-xs font-bold text-slate-500 dark:text-slate-400">{continueLearning.subject}</span>
+              </div>
+              <h4 className="font-black text-xs sm:text-sm text-slate-900 dark:text-white truncate mt-0.5">
+                {continueLearning.title}
+              </h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                {continueLearning.subtitle}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2.5 shrink-0 self-start sm:self-auto">
+            {continueLearning.progressPercent !== undefined && continueLearning.progressPercent > 0 && (
+              <span className="text-xs font-bold text-slate-400 dark:text-slate-500 hidden sm:inline">
+                {continueLearning.progressPercent}% done
+              </span>
+            )}
+            <button
+              type="button"
+              onClick={() => {
+                soundFeedback.playClick();
+                navigate(continueLearning.url);
+              }}
+              className="px-3.5 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-black text-xs transition-all active:scale-95 flex items-center gap-1.5 shadow-xs cursor-pointer"
+            >
+              <span>Resume Learning</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
         </div>
       )}
 
