@@ -56,5 +56,6 @@ const SessionSchema: Schema = new Schema(
 SessionSchema.index({ userId: 1, isRevoked: 1 });
 SessionSchema.index({ studentId: 1, status: 1 });
 SessionSchema.index({ phone: 1, isRevoked: 1 });
+SessionSchema.index({ isRevoked: 1, lastActive: -1 });
 
 export default mongoose.model<ISession>('Session', SessionSchema);
