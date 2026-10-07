@@ -12,13 +12,21 @@ export function matchesFuzzy(val1: any, val2: any): boolean {
   const c1 = cleanStr(val1);
   const c2 = cleanStr(val2);
   if (!c1 || !c2) return false;
-  if (c1 === c2 || c1.includes(c2) || c2.includes(c1)) return true;
+  if (c1 === c2) return true;
+
+  const minLen = Math.min(c1.length, c2.length);
+  const maxLen = Math.max(c1.length, c2.length);
+  if (c1.includes(c2) || c2.includes(c1)) {
+    if (minLen / maxLen >= 0.75 || minLen >= 12) return true;
+  }
 
   const w1 = String(val1).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
   const w2 = String(val2).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
   if (w1.length === 0 || w2.length === 0) return false;
   const common = w1.filter(w => w2.includes(w));
-  return common.length >= Math.min(w1.length, w2.length, 1);
+  const minWords = Math.min(w1.length, w2.length);
+  const required = minWords === 1 ? 1 : Math.max(2, Math.ceil(minWords * 0.7));
+  return common.length >= required;
 }
 
 export interface QuestionFilters {

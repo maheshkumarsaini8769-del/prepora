@@ -43,8 +43,14 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(401).json({ success: false, message: 'Invalid or expired token. Please log in again.' });
     }
 
-    // Retrieve user directly from database
-    const user = await User.findOne({ $or: [{ id: decoded.id }, { studentId: decoded.id }, { email: decoded.email }] });
+    // Retrieve user directly from database safely
+    const userOrCriteria: any[] = [];
+    if (decoded.id) userOrCriteria.push({ id: decoded.id }, { studentId: decoded.id });
+    if (decoded.userId) userOrCriteria.push({ id: decoded.userId }, { studentId: decoded.userId });
+    if (decoded.email) userOrCriteria.push({ email: decoded.email });
+    if (decoded.phone) userOrCriteria.push({ phone: decoded.phone });
+
+    const user = userOrCriteria.length > 0 ? await User.findOne({ $or: userOrCriteria }) : null;
     if (!user) {
       return res.status(404).json({ success: false, message: 'User account not found.' });
     }

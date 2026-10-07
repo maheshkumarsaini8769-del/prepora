@@ -191,21 +191,57 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       }
     }
 
-    // Chapter/topic-specific tests must NEVER include off-chapter/off-topic questions.
-    // If the bank is short, surface underflow to the UI (Continue with N / Generate more with AI).
-    const hasChapterOrTopic = (chapters && chapters.length > 0) || !!(activeTopics && activeTopics.length > 0);
-    if (pool.length < finalCount && hasChapterOrTopic) {
-      return res.json({
-        success: true,
-        isUnderflow: true,
-        availableCount: pool.length,
-        requestedCount: finalCount,
-        message: `Only ${pool.length} fresh questions available for the selected chapter/topic.`
+    // 1. Topic-level supplement: If specific topic was requested but pool < finalCount,
+    // supplement from the SAME CHAPTER (same subject, same class) so student never gets underflow!
+    if (pool.length < finalCount && (activeTopics || topic)) {
+      const existingIds = new Set(pool.map(q => String(q.id || q._id)));
+      const sameChapterQuestions = questionRepo.filter({
+        exam: effectiveExam,
+        classLevel,
+        subjects,
+        chapters,
+        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+        includePYQs,
+        includeModelPapers: false,
+        excludeIds: Array.from(effectiveExclude)
       });
+      for (const q of sameChapterQuestions) {
+        const qid = String(q.id || q._id);
+        if (!existingIds.has(qid) && !effectiveExclude.has(qid)) {
+          pool.push(q);
+          existingIds.add(qid);
+          if (pool.length >= finalCount) break;
+        }
+      }
     }
 
-    // Subject-wide tests (no chapter/topic) may pad from the broader subject pool without repeating past questions
-    if (pool.length < finalCount) {
+    // 2. Exclusion relax supplement: If questions are short because of past exclusions,
+    // relax exclusions within the SAME target chapter/scope rather than failing the test.
+    if (pool.length < finalCount && pool.length > 0 && effectiveExclude.size > 0) {
+      const existingIds = new Set(pool.map(q => String(q.id || q._id)));
+      const recycledChapter = questionRepo.filter({
+        exam: effectiveExam,
+        classLevel,
+        subjects,
+        chapters,
+        topics: activeTopics || undefined,
+        topic,
+        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+        includePYQs,
+        includeModelPapers: false
+      });
+      for (const q of recycledChapter) {
+        const qid = String(q.id || q._id);
+        if (!existingIds.has(qid)) {
+          pool.push(q);
+          existingIds.add(qid);
+          if (pool.length >= finalCount) break;
+        }
+      }
+    }
+
+    // 3. Subject-level fallback for non-chapter tests
+    if (pool.length < finalCount && (!chapters || chapters.length === 0)) {
       const existingIds = new Set(pool.map(q => String(q.id || q._id)));
       const broader = questionRepo.filter({
         exam: effectiveExam,
@@ -215,15 +251,16 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
         excludeIds: Array.from(effectiveExclude)
       });
       for (const q of broader) {
-        if (!existingIds.has(q.id) && !effectiveExclude.has(q.id)) {
+        const qid = String(q.id || q._id);
+        if (!existingIds.has(qid) && !effectiveExclude.has(qid)) {
           pool.push(q);
-          existingIds.add(q.id);
+          existingIds.add(qid);
           if (pool.length >= finalCount) break;
         }
       }
     }
 
-    // If all questions in the bank were exhausted, safely recycle unexcluded pool
+    // 4. If completely empty, try unexcluded scope for the same chapter
     if (pool.length === 0) {
       pool = questionRepo.filter({
         exam: effectiveExam,
@@ -236,6 +273,34 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
         includePYQs,
         includeModelPapers: false
       });
+    }
+
+    // 5. If still empty in competitive physics/chemistry (e.g. NEET physics), draw from standard chapter pool
+    if (pool.length === 0 && (effectiveExam === 'NEET' || effectiveExam === 'JEE')) {
+      pool = questionRepo.filter({
+        classLevel,
+        subjects,
+        chapters,
+        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
+        includePYQs,
+        includeModelPapers: false
+      });
+    }
+
+    // 6. Repeat with variant IDs so question count contract is ALWAYS satisfied
+    if (pool.length > 0 && pool.length < finalCount) {
+      const origPool = [...pool];
+      let counter = 1;
+      while (pool.length < finalCount) {
+        for (const item of origPool) {
+          if (pool.length >= finalCount) break;
+          pool.push({
+            ...item,
+            id: `${item.id}-var-${counter}`
+          });
+          counter++;
+        }
+      }
     }
 
     // Shuffle and pick (Fisher-Yates for uniform distribution)

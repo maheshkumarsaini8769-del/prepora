@@ -19,12 +19,18 @@ router.get('/', authenticateUser, async (req: AuthRequest, res: Response) => {
 
     let planner = await Planner.findOne({ studentId, date });
 
-    if (!planner) {
-      // Auto-initialize standard student daily plan if first time today
-      const exam = req.user?.targetExam || 'JEE';
-      const classLevel = String(req.user?.classLevel || '11');
-      const isNeet = exam === 'NEET';
-      const isClass11 = classLevel === '11';
+    const exam = req.user?.targetExam || 'JEE';
+    const classLevel = String(req.user?.classLevel || '11');
+    const isNeet = exam === 'NEET';
+    const isClass11 = classLevel === '11';
+
+    const hasWrongClassTasks = !!(planner && (
+      (isClass11 && planner.tasks.some(t => t.title.includes('Definite Integration') || t.title.includes('Electrostatics') || t.chapter === 'Electrostatics' || t.chapter === 'Definite Integration')) ||
+      (!isClass11 && planner.tasks.some(t => t.title.includes('Kinematics') || t.chapter === 'Kinematics'))
+    ));
+
+    if (!planner || hasWrongClassTasks || req.query.refresh === 'true') {
+      // Auto-initialize standard student daily plan if first time today or class changed
 
       let task1: IPlannerTaskItem;
       let task2: IPlannerTaskItem;
@@ -130,19 +136,32 @@ router.get('/', authenticateUser, async (req: AuthRequest, res: Response) => {
         }
       ];
 
-      try {
-        planner = new Planner({
-          id: `pln_${Date.now()}_${randomBytes(3).toString('hex')}`,
-          studentId,
-          date,
-          targetExam: exam,
-          classLevel,
-          dailyStudyHours: 2.75,
-          tasks: initialTasks
-        });
+      if (planner) {
+        planner.targetExam = exam;
+        planner.classLevel = classLevel;
+        planner.tasks = initialTasks;
         await planner.save();
-      } catch {
-        planner = await Planner.findOne({ studentId, date });
+      } else {
+        try {
+          planner = new Planner({
+            id: `pln_${Date.now()}_${randomBytes(3).toString('hex')}`,
+            studentId,
+            date,
+            targetExam: exam,
+            classLevel,
+            dailyStudyHours: 2.75,
+            tasks: initialTasks
+          });
+          await planner.save();
+        } catch {
+          planner = await Planner.findOne({ studentId, date });
+          if (planner) {
+            planner.targetExam = exam;
+            planner.classLevel = classLevel;
+            planner.tasks = initialTasks;
+            await planner.save();
+          }
+        }
       }
 
       // Initialize DailyProgress
