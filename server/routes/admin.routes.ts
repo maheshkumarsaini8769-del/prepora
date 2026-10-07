@@ -360,11 +360,15 @@ router.get('/students', async (req: Request, res: Response) => {
     
     const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
     const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000);
+    const skip = (Number(page) - 1) * Number(limit);
 
     // Status filters: active, suspended, recently_active, never_logged_in, online_now
     if (status && status !== 'all') {
       if (status === 'online_now') {
         const liveSessions = await Session.find({ isRevoked: false, lastActive: { $gte: fiveMinutesAgo } })
+          .sort({ lastActive: -1 })
+          .skip(skip)
+          .limit(Number(limit) * 2)
           .select('userId studentId phone mobile')
           .lean();
         const activeIds = liveSessions.map(s => s.userId || s.studentId).filter(Boolean);
@@ -384,14 +388,14 @@ router.get('/students', async (req: Request, res: Response) => {
       }
     }
 
-    const skip = (Number(page) - 1) * Number(limit);
+    const isOnlineNowFilter = status === 'online_now';
     const [students, total] = await Promise.all([
-      User.find(query)
-        .select('-passwordHash -otpCode')
-        .sort({ createdAt: -1 })
-        .skip(skip)
-        .limit(Number(limit) * 2), // fetch extra to account for deduplication
-      User.countDocuments(query)
+      isOnlineNowFilter
+        ? User.find(query).select('-passwordHash -otpCode').limit(Number(limit) * 2)
+        : User.find(query).select('-passwordHash -otpCode').sort({ createdAt: -1 }).skip(skip).limit(Number(limit) * 2),
+      isOnlineNowFilter
+        ? Session.countDocuments({ isRevoked: false, lastActive: { $gte: fiveMinutesAgo } })
+        : User.countDocuments(query)
     ]);
 
     const todayStr = new Date().toISOString().split('T')[0];
