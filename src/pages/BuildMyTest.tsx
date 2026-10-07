@@ -24,7 +24,9 @@ export const BuildMyTest: React.FC = () => {
 
   // Core Configuration States
   const [exam, setExam] = useState<ExamType>(profile.targetExam || 'JEE');
-  const [classLevel, setClassLevel] = useState<ClassLevel>(profile.classLevel || '12');
+  const [classLevel, setClassLevel] = useState<ClassLevel | 'ALL'>(
+    (profile.classLevel as string) === 'Dropper' ? 'ALL' : ((profile.classLevel as ClassLevel) || '11')
+  );
   const [selectedSubjects, setSelectedSubjects] = useState<SubjectName[]>(['Physics']);
   const [selectedChapter, setSelectedChapter] = useState<string>('ALL');
   const [selectedTopic, setSelectedTopic] = useState<string>('ALL');
@@ -52,7 +54,7 @@ export const BuildMyTest: React.FC = () => {
   const availableChapters = useMemo(() => {
     const chapters = new Set<string>();
     selectedSubjects.forEach((sub) => {
-      questionService.getChapters(sub, classLevel).forEach((ch) => chapters.add(ch));
+      questionService.getChapters(sub, classLevel === 'ALL' ? undefined : classLevel).forEach((ch) => chapters.add(ch));
     });
     return Array.from(chapters).sort();
   }, [selectedSubjects, classLevel]);
@@ -74,7 +76,7 @@ export const BuildMyTest: React.FC = () => {
     return questionService
       .filterQuestions({
         exam,
-        classLevel: (exam === 'JEE' || exam === 'NEET') ? undefined : classLevel,
+        classLevel: classLevel === 'ALL' ? undefined : classLevel,
         difficulty: difficulty === 'Mixed' ? undefined : difficulty,
         includePYQs,
         includeModelPapers: false,
@@ -99,7 +101,7 @@ export const BuildMyTest: React.FC = () => {
         for (const sub of selectedSubjects) {
           const cnt = await questionService.getEligibleCountAsync({
             exam,
-            classLevel: (exam === 'JEE' || exam === 'NEET') ? undefined : classLevel,
+            classLevel: classLevel === 'ALL' ? undefined : classLevel,
             subject: sub,
             chapter: selectedChapter !== 'ALL' ? selectedChapter : undefined,
             topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
@@ -212,7 +214,7 @@ export const BuildMyTest: React.FC = () => {
       userId: profile?.id,
       title: testTitle.trim() || `${exam} Custom Test (${countToUse} Questions)`,
       exam,
-      classLevel,
+      classLevel: classLevel === 'ALL' ? undefined : classLevel,
       subjects: selectedSubjects,
       chapters: selectedChapter !== 'ALL' ? [selectedChapter] : undefined,
       topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
@@ -257,7 +259,7 @@ export const BuildMyTest: React.FC = () => {
         const qIndex = underflowInfo.available + i + 1;
         generatedQuestions.push({
           exam,
-          class: classLevel,
+          class: classLevel === 'ALL' ? '11' : classLevel,
           subject: activeSubject,
           chapter: activeChapter,
           topic: activeTopic,
@@ -346,10 +348,41 @@ export const BuildMyTest: React.FC = () => {
           </div>
         </div>
 
-        {/* Step 2: Subject */}
+        {/* Step 2: Class Scope */}
         <div>
           <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-            2. Subjects
+            2. Class Scope
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: '11', label: 'Class 11' },
+              { id: '12', label: 'Class 12' },
+              { id: 'ALL', label: 'All (Full Syllabus)' }
+            ].map((scope) => (
+              <button
+                key={scope.id}
+                type="button"
+                onClick={() => {
+                  setClassLevel(scope.id as any);
+                  setSelectedChapter('ALL');
+                  setSelectedTopic('ALL');
+                }}
+                className={`py-2 px-3 rounded-lg text-xs font-semibold border transition-all cursor-pointer text-center ${
+                  classLevel === scope.id
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-sm'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700'
+                }`}
+              >
+                {scope.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* Step 3: Subject */}
+        <div>
+          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+            3. Subjects
           </label>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {availableSubjects.map((sub) => {
@@ -373,11 +406,11 @@ export const BuildMyTest: React.FC = () => {
           </div>
         </div>
 
-        {/* Step 3: Chapter & Topic */}
+        {/* Step 4: Chapter & Topic */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-              3. Chapter
+              4. Chapter
             </label>
             <CustomSelect
               value={selectedChapter}
@@ -395,7 +428,7 @@ export const BuildMyTest: React.FC = () => {
 
           <div>
             <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-              4. Topic
+              5. Topic
             </label>
             <CustomSelect
               value={selectedTopic}
@@ -409,10 +442,10 @@ export const BuildMyTest: React.FC = () => {
           </div>
         </div>
 
-        {/* Step 4: Difficulty */}
+        {/* Step 6: Difficulty */}
         <div>
           <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-            5. Difficulty
+            6. Difficulty
           </label>
           <div className="grid grid-cols-4 gap-2">
             {(['Mixed', 'Easy', 'Medium', 'Hard'] as (DifficultyLevel | 'Mixed')[]).map((d) => (
@@ -432,10 +465,10 @@ export const BuildMyTest: React.FC = () => {
           </div>
         </div>
 
-        {/* Step 5: Question Count */}
+        {/* Step 7: Question Count */}
         <div>
           <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-            6. Number of Questions
+            7. Number of Questions
           </label>
           <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
             {[5, 10, 15, 20, 30, 50].map((num) => (
@@ -543,34 +576,9 @@ export const BuildMyTest: React.FC = () => {
           {showAdvanced && (
             <div className="pt-4 space-y-4 text-xs">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Class Level */}
-                <div>
-                  <label className="block font-semibold text-slate-600 mb-1.5">Class Level</label>
-                  <div className="grid grid-cols-2 gap-2">
-                    {(['11', '12'] as ClassLevel[]).map((c) => (
-                      <button
-                        key={c}
-                        type="button"
-                        onClick={() => {
-                          setClassLevel(c);
-                          setSelectedChapter('ALL');
-                          setSelectedTopic('ALL');
-                        }}
-                        className={`py-1.5 rounded-lg border text-xs font-semibold cursor-pointer ${
-                          classLevel === c
-                            ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                            : 'bg-white border-slate-200 text-slate-700'
-                        }`}
-                      >
-                        Class {c}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
                 {/* Duration */}
                 <div>
-                  <label className="block font-semibold text-slate-600 mb-1.5">Duration</label>
+                  <label className="block font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Duration</label>
                   <div className="grid grid-cols-3 gap-2">
                     {[15, 30, 60].map((mins) => (
                       <button
@@ -580,13 +588,25 @@ export const BuildMyTest: React.FC = () => {
                         className={`py-1.5 rounded-lg border text-xs font-semibold cursor-pointer ${
                           durationMinutes === mins
                             ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                            : 'bg-white border-slate-200 text-slate-700'
+                            : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200'
                         }`}
                       >
                         {mins}m
                       </button>
                     ))}
                   </div>
+                </div>
+
+                {/* Custom Title */}
+                <div>
+                  <label className="block font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Custom Test Title (Optional)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. Kinematics Speed Drill"
+                    value={testTitle}
+                    onChange={(e) => setTestTitle(e.target.value)}
+                    className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-1.5 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900"
+                  />
                 </div>
               </div>
 
@@ -611,18 +631,6 @@ export const BuildMyTest: React.FC = () => {
                   />
                   <span className="font-semibold text-slate-700 dark:text-slate-200">Include Official PYQs</span>
                 </label>
-              </div>
-
-              {/* Custom Title */}
-              <div>
-                <label className="block font-semibold text-slate-600 mb-1.5">Custom Test Title (Optional)</label>
-                <input
-                  type="text"
-                  placeholder="e.g. Kinematics Speed Drill"
-                  value={testTitle}
-                  onChange={(e) => setTestTitle(e.target.value)}
-                  className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-lg px-3 py-2 text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-slate-900"
-                />
               </div>
             </div>
           )}

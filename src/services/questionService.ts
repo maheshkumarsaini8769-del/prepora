@@ -207,14 +207,11 @@ class ApiQuestionService {
         }
       }
 
-      // For competitive entrance exams (JEE/NEET), both Class 11 and 12 are integral parts of the syllabus
-      if (filters.classLevel && filters.classLevel !== 'All') {
-        const isCompetitiveEntrance = filters.exam === 'JEE' || filters.exam === 'NEET';
-        if (!isCompetitiveEntrance) {
-          const qClass = String(q.class);
-          if (qClass !== filters.classLevel && qClass !== 'Both' && qClass !== 'All') {
-            return false;
-          }
+      // Strict Class 11 vs 12 filtering: when a student specifies 11 or 12, isolate questions to that class
+      if (filters.classLevel && filters.classLevel !== 'All' && (filters.classLevel as string) !== 'Dropper') {
+        const qClass = String(q.class || '');
+        if (qClass && qClass !== filters.classLevel && qClass !== 'Both' && qClass !== 'All') {
+          return false;
         }
       }
 
@@ -249,8 +246,25 @@ class ApiQuestionService {
       includeModelPapers: filters.includeModelPapers ?? false
     });
 
-    // Chapter/topic-specific practice must NEVER include off-chapter/off-topic questions:
-    // only supplement within the same chapter (broader difficulty), else return what exists.
+    // Chapter/topic-specific practice: if a specific topic has few questions, supplement from the same chapter
+    if (pool.length < requestedCount && filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL') {
+      const chapterPool = this.filterQuestions({
+        subject: filters.subject,
+        chapter: filters.chapter,
+        classLevel: filters.classLevel,
+        exam: filters.exam,
+        includePYQs: true
+      });
+      const existingIds = new Set(pool.map(q => q.id));
+      for (const q of chapterPool) {
+        if (!existingIds.has(q.id)) {
+          pool.push(q);
+          existingIds.add(q.id);
+          if (pool.length >= requestedCount) break;
+        }
+      }
+    }
+
     const hasChapterOrTopic =
       (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL') ||
       (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL');
@@ -435,15 +449,17 @@ class ApiQuestionService {
   }
 
   public getTopics(chapter: string): string[] {
-    // 0. From canonical syllabus (highest priority for clean curriculum topics)
-    const foundChapter = canonicalSyllabus.find(c => matchesFuzzy(c.name, chapter));
-    if (foundChapter && Array.isArray(foundChapter.topics) && foundChapter.topics.length > 0) {
-      return foundChapter.topics.map((t: any) => t.name).filter(Boolean);
-    }
-
     const topics = new Set<string>();
 
-    // 1. Full syllabus hierarchy topics (Task.md section 5)
+    // 0. From canonical syllabus (highest priority for clean curriculum topics)
+    const foundChapter = canonicalSyllabus.find(c => matchesFuzzy(c.name, chapter));
+    if (foundChapter && Array.isArray(foundChapter.topics)) {
+      foundChapter.topics.forEach((t: any) => {
+        if (t?.name) topics.add(t.name);
+      });
+    }
+
+    // 1. Full syllabus hierarchy topics
     try {
       const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
       if (Array.isArray(savedSyllabus)) {
@@ -465,7 +481,7 @@ class ApiQuestionService {
       }
     });
 
-    return Array.from(topics).sort();
+    return Array.from(topics).filter(Boolean).sort();
   }
 
   public async fetchTaxonomyAsync(subject?: string, classLevel?: string): Promise<{ name: string; count: number; topics: { name: string; count: number }[] }[]> {

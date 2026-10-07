@@ -28,8 +28,10 @@ export const Practice: React.FC = () => {
 
   // Advanced Filters Collapsible
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
-  const [exam, setExam] = useState<ExamType | 'All'>((searchParams.get('exam') as ExamType) || 'All');
-  const [classLevel, setClassLevel] = useState<ClassLevel | 'All'>((searchParams.get('class') as ClassLevel) || 'All');
+  const [exam, setExam] = useState<ExamType | 'All'>((searchParams.get('exam') as ExamType) || user?.targetExam || 'All');
+  const [classLevel, setClassLevel] = useState<ClassLevel | 'All'>(
+    (searchParams.get('class') as ClassLevel) || ((user?.classLevel as string) === 'Dropper' ? 'All' : (user?.classLevel as ClassLevel) || '11')
+  );
 
   const chapters = ['All', ...questionService.getChapters(subject, classLevel === 'All' ? undefined : classLevel)];
   const topics = chapter !== 'All' ? ['All', ...questionService.getTopics(chapter)] : ['All'];
@@ -146,6 +148,37 @@ export const Practice: React.FC = () => {
 
       {/* 2. Step-by-Step Clean Selection (task5.md Section 137) */}
       <Card className="space-y-6 p-6 sm:p-7 border-slate-200 dark:border-slate-800 shadow-xs">
+        {/* Class Scope Selector */}
+        <div className="space-y-2">
+          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+            Class Scope
+          </label>
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: '11', label: 'Class 11' },
+              { id: '12', label: 'Class 12' },
+              { id: 'All', label: 'All Classes' }
+            ].map((cls) => (
+              <button
+                key={cls.id}
+                type="button"
+                onClick={() => {
+                  setClassLevel(cls.id as any);
+                  setChapter('All');
+                  setTopic('All');
+                }}
+                className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition-all text-center cursor-pointer ${
+                  classLevel === cls.id
+                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs'
+                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-750'
+                }`}
+              >
+                {cls.label}
+              </button>
+            ))}
+          </div>
+        </div>
+
         {/* Step 1: Subject */}
         <div className="space-y-2">
           <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">

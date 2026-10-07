@@ -19,6 +19,7 @@ import {
   Check
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
+import { MathRenderer } from '../components/common/MathRenderer';
 import { AskDoubtModal } from '../components/common/AskDoubtModal';
 import { ImStuckModal } from '../components/common/ImStuckModal';
 import { ReportQuestionModal } from '../components/common/ReportQuestionModal';
@@ -365,9 +366,9 @@ export const PracticeSession: React.FC = () => {
           </div>
         </div>
 
-        {/* Question Text */}
+        {/* Question Text with KaTeX MathRenderer */}
         <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-relaxed">
-          {currentQ.question}
+          <MathRenderer content={currentQ.question} />
         </div>
 
         {/* Options List */}
@@ -412,7 +413,9 @@ export const PracticeSession: React.FC = () => {
                 >
                   {letter}
                 </span>
-                <span className="flex-1 pt-0.5">{option}</span>
+                <span className="flex-1 pt-0.5">
+                  <MathRenderer content={option} />
+                </span>
                 {isChecked && isAnswerOption && (
                   <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0" />
                 )}
@@ -639,24 +642,26 @@ export const PracticeSession: React.FC = () => {
               {/* 1. Concept & Principle */}
               <div className="space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-purple-700">1. Core Concept</span>
-                <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-slate-200 dark:border-slate-800 font-medium">
-                  {currentQ.concept || `${currentQ.topic} fundamental principles and governing formulas`}
-                </p>
+                <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-slate-200 dark:border-slate-800 font-medium">
+                  <MathRenderer content={currentQ.concept || `${currentQ.topic} fundamental principles and governing formulas`} />
+                </div>
               </div>
 
               {/* 2. Step-by-step Substitution */}
               <div className="space-y-1">
                 <span className="text-[11px] font-bold uppercase tracking-wider text-purple-700">2. Step-by-step Substitution & Derivation</span>
-                <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed bg-white dark:bg-[#0c131a] p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 font-mono whitespace-pre-line">
-                  {currentQ.explanation}
+                <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed bg-white dark:bg-[#0c131a] p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 whitespace-pre-line">
+                  <MathRenderer content={currentQ.explanation} />
                 </div>
               </div>
 
               {/* 3. Final Answer Box */}
-              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-xs text-emerald-900 flex items-center justify-between">
+              <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 rounded-xl border border-emerald-200 dark:border-emerald-800 text-xs text-emerald-900 dark:text-emerald-200 flex items-center justify-between">
                 <div>
                   <span className="font-bold">Final Answer: </span>
-                  <span>Option {['A', 'B', 'C', 'D'][currentQ.correctAnswer]} ({currentQ.options[currentQ.correctAnswer]})</span>
+                  <span>Option {['A', 'B', 'C', 'D'][currentQ.correctAnswer]} (</span>
+                  <MathRenderer content={currentQ.options[currentQ.correctAnswer]} className="inline" />
+                  <span>)</span>
                 </div>
                 <Badge variant="success" size="sm">Verified</Badge>
               </div>

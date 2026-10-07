@@ -4612,6 +4612,13 @@ export const comprehensiveFormulaNotes: TopicRevisionItem[] = [
     ],
     "formulas": [
       {
+        "name": "Snell’s Law of Refraction",
+        "formula": "n_1 \\sin i = n_2 \\sin r, \\quad \\frac{v_1}{v_2} = \\frac{\\lambda_1}{\\lambda_2} = \\frac{n_2}{n_1}",
+        "variables": "n₁, n₂ = Absolute refractive indices; i = Angle of incidence, r = Angle of refraction; v = Speed of light",
+        "examTip": "Frequency ν remains strictly constant during refraction: ν₁ = ν₂. Wavelength λ and velocity v change proportionally.",
+        "trap": "Always measure angles i and r relative to the normal to the boundary, NOT the surface plane."
+      },
+      {
         "name": "Lens Maker’s Formula & Lens Formula",
         "formula": "\\frac{1}{f} = (n - 1)\\left(\\frac{1}{R_1} - \\frac{1}{R_2}\\right), \\quad \\frac{1}{v} - \\frac{1}{u} = \\frac{1}{f}, \\quad P = \\frac{1}{f\\text{(m)}}",
         "variables": "n = Relative refractive index of lens to medium, R₁, R₂ = Radii of curvature",

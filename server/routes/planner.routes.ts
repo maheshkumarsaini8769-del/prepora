@@ -22,58 +22,109 @@ router.get('/', authenticateUser, async (req: AuthRequest, res: Response) => {
     if (!planner) {
       // Auto-initialize standard student daily plan if first time today
       const exam = req.user?.targetExam || 'JEE';
-      const classLevel = req.user?.classLevel || '12';
+      const classLevel = String(req.user?.classLevel || '11');
       const isNeet = exam === 'NEET';
+      const isClass11 = classLevel === '11';
 
-      const initialTasks: IPlannerTaskItem[] = [
-        {
+      let task1: IPlannerTaskItem;
+      let task2: IPlannerTaskItem;
+      let task3: IPlannerTaskItem;
+
+      if (isClass11) {
+        task1 = {
           id: `task_${Date.now()}_1`,
           title: 'Physics — Kinematics Problem Solving',
           subject: 'Physics',
           chapter: 'Kinematics',
-          topic: 'Relative Velocity & Motion in 1D',
+          topic: 'Motion in a Straight Line & Projectiles',
           taskType: 'Practice',
           durationMinutes: 45,
           isCompleted: false,
-          notes: 'Focus on speed mastery and vector components',
+          notes: 'Class 11 core mechanics drill',
           timeSlot: 'Morning (09:00 - 09:45)',
           order: 1
-        },
-        {
+        };
+        task2 = {
           id: `task_${Date.now()}_2`,
           title: 'Chemistry — Chemical Bonding & Molecular Structure',
           subject: 'Chemistry',
-          chapter: 'Chemical Bonding',
+          chapter: 'Chemical Bonding and Molecular Structure',
           topic: 'Hybridization & VSEPR Theory',
           taskType: 'Revision',
           durationMinutes: 40,
           isCompleted: false,
-          notes: 'Memorize bond angles and dipole moments',
+          notes: 'Class 11 high-yield bonding principles',
           timeSlot: 'Afternoon (14:00 - 14:40)',
           order: 2
-        },
-        {
+        };
+        task3 = {
           id: `task_${Date.now()}_3`,
-          title: isNeet ? 'Biology — Cell: The Unit of Life' : 'Mathematics — Definite Integration',
+          title: isNeet ? 'Biology — Cell: The Unit of Life' : 'Mathematics — Quadratic Equations & Relations',
           subject: isNeet ? 'Biology' : 'Mathematics',
-          chapter: isNeet ? 'Cell: The Unit of Life' : 'Integral Calculus',
-          topic: isNeet ? 'Organelles & Endomembrane System' : 'Properties of Definite Integrals',
+          chapter: isNeet ? 'Cell: The Unit of Life' : 'Quadratic Equations',
+          topic: isNeet ? 'Organelles & Endomembrane System' : 'Roots of Quadratic Equations & Graphs',
           taskType: 'Practice',
           durationMinutes: 50,
           isCompleted: false,
-          notes: 'High yield topic for target exam',
+          notes: 'Class 11 high-scoring topic for target exam',
           timeSlot: 'Evening (18:00 - 18:50)',
           order: 3
-        },
+        };
+      } else {
+        task1 = {
+          id: `task_${Date.now()}_1`,
+          title: 'Physics — Electrostatics & Gauss Law',
+          subject: 'Physics',
+          chapter: 'Electrostatics',
+          topic: 'Electric Field & Gauss Theorem',
+          taskType: 'Practice',
+          durationMinutes: 45,
+          isCompleted: false,
+          notes: 'Class 12 core electromagnetism drill',
+          timeSlot: 'Morning (09:00 - 09:45)',
+          order: 1
+        };
+        task2 = {
+          id: `task_${Date.now()}_2`,
+          title: 'Chemistry — Solutions & Colligative Properties',
+          subject: 'Chemistry',
+          chapter: 'Solutions',
+          topic: 'Raoult Law & Osmotic Pressure',
+          taskType: 'Revision',
+          durationMinutes: 40,
+          isCompleted: false,
+          notes: 'Class 12 physical chemistry focus',
+          timeSlot: 'Afternoon (14:00 - 14:40)',
+          order: 2
+        };
+        task3 = {
+          id: `task_${Date.now()}_3`,
+          title: isNeet ? 'Biology — Principles of Inheritance' : 'Mathematics — Definite Integration',
+          subject: isNeet ? 'Biology' : 'Mathematics',
+          chapter: isNeet ? 'Principles of Inheritance and Variation' : 'Integral Calculus',
+          topic: isNeet ? 'Mendelian Genetics & Chromosomal Theory' : 'Properties of Definite Integrals',
+          taskType: 'Practice',
+          durationMinutes: 50,
+          isCompleted: false,
+          notes: 'Class 12 high-yield target exam topic',
+          timeSlot: 'Evening (18:00 - 18:50)',
+          order: 3
+        };
+      }
+
+      const initialTasks: IPlannerTaskItem[] = [
+        task1,
+        task2,
+        task3,
         {
           id: `task_${Date.now()}_4`,
-          title: `${exam} Daily Mini Mock Test`,
+          title: `${exam} Class ${classLevel} Benchmark Mini Mock Test`,
           subject: 'Physics',
-          chapter: 'Mixed Syllabus',
+          chapter: isClass11 ? 'Class 11 Mixed Syllabus' : 'Class 12 Mixed Syllabus',
           taskType: 'Mock Test',
           durationMinutes: 30,
           isCompleted: false,
-          notes: 'Time coach benchmark test',
+          notes: 'Class-appropriate time coach benchmark test',
           timeSlot: 'Night (21:00 - 21:30)',
           order: 4
         }

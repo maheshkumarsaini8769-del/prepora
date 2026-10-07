@@ -133,7 +133,7 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       exam: effectiveExam,
       subject: { $in: subjects }
     };
-    if (classLevel && classLevel !== 'All' && effectiveExam !== 'JEE' && effectiveExam !== 'NEET') {
+    if (classLevel && classLevel !== 'All' && classLevel !== 'ALL' && classLevel !== 'Dropper') {
       filter.class = classLevel;
     }
     if (difficulty && difficulty !== 'Mixed' && difficulty !== 'All') filter.difficulty = difficulty;
@@ -162,6 +162,7 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
     // Pass excludeIds to ensure fresh, unattempted questions!
     let pool: any[] = questionRepo.filter({
       exam: effectiveExam,
+      classLevel,
       subjects,
       chapters,
       topics: activeTopics || undefined,
@@ -208,6 +209,7 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       const existingIds = new Set(pool.map(q => String(q.id || q._id)));
       const broader = questionRepo.filter({
         exam: effectiveExam,
+        classLevel,
         subjects,
         includeModelPapers: false,
         excludeIds: Array.from(effectiveExclude)
@@ -225,6 +227,7 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
     if (pool.length === 0) {
       pool = questionRepo.filter({
         exam: effectiveExam,
+        classLevel,
         subjects,
         chapters,
         topics: activeTopics || undefined,

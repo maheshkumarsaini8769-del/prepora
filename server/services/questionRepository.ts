@@ -183,9 +183,10 @@ export class QuestionRepository {
       }
       if (topics && topics.length > 0 && !topics.includes('ALL') && !topics.some(t => matchesFuzzy(q.topic, t))) return false;
 
-      // ClassLevel: only apply if explicitly non-competitive boards
-      if (classLevel && classLevel !== 'All' && !isCompetitive) {
-        if (String(q.class) !== classLevel && String(q.class) !== 'Both' && String(q.class) !== 'All') return false;
+      // ClassLevel: if student specifies Class 11 or 12, enforce strict class isolation
+      if (classLevel && classLevel !== 'All' && classLevel !== 'ALL' && classLevel !== 'Dropper') {
+        const qClass = String(q.class || q.classLevel || '');
+        if (qClass && qClass !== classLevel && qClass !== 'Both' && qClass !== 'All') return false;
       }
 
       // Difficulty

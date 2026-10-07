@@ -73,6 +73,29 @@ class MasterFormulaService {
     return this.getAllFormulas().filter((f) => f.subject.toLowerCase() === subject.toLowerCase());
   }
 
+  public searchFormulas(query: string, subjectFilter?: SubjectName): FormulaCard[] {
+    if (!query || !query.trim()) return [];
+    const norm = (s: string) => s.toLowerCase().replace(/['’`]/g, '').replace(/[^\w\s]/g, ' ').replace(/\s+/g, ' ').trim();
+    const tokens = norm(query).split(' ').filter(Boolean);
+    if (tokens.length === 0) return [];
+
+    let pool = this.getAllFormulas();
+    if (subjectFilter) {
+      pool = pool.filter(f => f.subject.toLowerCase() === subjectFilter.toLowerCase());
+    }
+
+    return pool.filter(f => {
+      const text = norm(`${f.name} ${f.chapterTitle} ${f.subject} ${f.variables} ${f.importantNote || ''}`);
+      const rawFormula = (f.formula || '').toLowerCase();
+      return tokens.every(tok => {
+        if (text.includes(tok) || rawFormula.includes(tok)) return true;
+        if (tok.endsWith('s') && text.includes(tok.slice(0, -1))) return true;
+        if (!tok.endsWith('s') && text.includes(tok + 's')) return true;
+        return false;
+      });
+    });
+  }
+
   public updateFormulaStatus(id: string, status: 'unlearned' | 'need-revision' | 'mastered'): void {
     const map = this.getStatusMap();
     map[id] = status;

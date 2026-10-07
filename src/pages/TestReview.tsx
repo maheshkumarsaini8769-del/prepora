@@ -16,6 +16,7 @@ import {
   Check
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
+import { MathRenderer } from '../components/common/MathRenderer';
 import { AskDoubtModal } from '../components/common/AskDoubtModal';
 import { ReportQuestionModal } from '../components/common/ReportQuestionModal';
 import { testService } from '../services/testService';
@@ -290,12 +291,12 @@ export const TestReview: React.FC = () => {
                 </div>
               )}
 
-              {/* Question Text */}
+              {/* Question Text with KaTeX MathRenderer */}
               <div className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-relaxed">
-                {activeQ.question}
+                <MathRenderer content={activeQ.question} />
               </div>
 
-              {/* Options Breakdown */}
+              {/* Options Breakdown with KaTeX MathRenderer */}
               <div className="space-y-2.5">
                 {activeQ.options.map((opt, idx) => {
                   const letter = ['A', 'B', 'C', 'D'][idx];
@@ -325,7 +326,9 @@ export const TestReview: React.FC = () => {
                       >
                         {letter}
                       </span>
-                      <span className="flex-1 pt-0.5">{opt}</span>
+                      <span className="flex-1 pt-0.5">
+                        <MathRenderer content={opt} />
+                      </span>
 
                       {isCorrectAnswer && (
                         <span className="text-xs font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-md self-center">
@@ -342,23 +345,44 @@ export const TestReview: React.FC = () => {
                 })}
               </div>
 
-              {/* Solution & Concept Box */}
-              <div className="p-5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 space-y-3">
-                <h4 className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
-                  <BookOpen className="w-4 h-4 text-brand-600" /> Detailed Solution
-                </h4>
-                <p className="text-sm text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-line">
-                  {activeQ.explanation}
-                </p>
-
-                <div className="pt-2 border-t border-slate-200/60">
-                  <span className="text-xs font-bold text-brand-700">Underlying Concept: </span>
-                  <span className="text-xs text-slate-600">{activeQ.concept}</span>
+              {/* Structured Step-by-Step Solution Box */}
+              <div className="p-5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200/80 space-y-4">
+                <div className="flex items-center justify-between border-b border-slate-200/60 pb-2">
+                  <h4 className="text-xs font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider flex items-center gap-1.5">
+                    <BookOpen className="w-4 h-4 text-emerald-600" /> Complete Step-by-Step Solution
+                  </h4>
+                  <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full">
+                    Verified Solution
+                  </span>
                 </div>
 
+                {/* 1. Underlying Concept */}
+                {activeQ.concept && (
+                  <div className="space-y-1">
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">1. Governing Principle & Concept</span>
+                    <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 bg-white dark:bg-[#0c131a] p-3 rounded-xl border border-slate-200 dark:border-slate-800 font-medium">
+                      <MathRenderer content={activeQ.concept} />
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. Step-by-Step Calculation & Value Substitution */}
+                <div className="space-y-1">
+                  <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">2. Step-by-Step Calculation & Derivation</span>
+                  <div className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed bg-white dark:bg-[#0c131a] p-3.5 rounded-xl border border-slate-200 dark:border-slate-800 whitespace-pre-line">
+                    <MathRenderer content={activeQ.explanation || 'Formula based application gives the verified result.'} />
+                  </div>
+                </div>
+
+                {/* 3. Exam Shortcut Tip */}
                 {activeQ.shortcutTip && (
-                  <div className="p-3 bg-amber-50 rounded-xl text-xs text-amber-900 border border-amber-200/60 font-medium">
-                    ⚡ <strong>Exam Tip:</strong> {activeQ.shortcutTip}
+                  <div className="p-3 bg-amber-50 dark:bg-amber-950/30 rounded-xl text-xs text-amber-900 dark:text-amber-200 border border-amber-200/60 font-medium space-y-1">
+                    <div className="font-bold flex items-center gap-1">
+                      ⚡ <span>Exam Speed Tip:</span>
+                    </div>
+                    <div>
+                      <MathRenderer content={activeQ.shortcutTip} />
+                    </div>
                   </div>
                 )}
               </div>

@@ -9,7 +9,7 @@ import { apiRequest } from './apiClient';
 export interface CustomTestOptions {
   title?: string;
   exam: ExamType;
-  classLevel?: ClassLevel;
+  classLevel?: ClassLevel | 'ALL' | 'All';
   subjects: SubjectName[];
   chapters?: string[];
   topics?: string[];
@@ -158,7 +158,7 @@ class ApiTestService {
 
     let pool = questionService.filterQuestions({
       exam: options.exam,
-      classLevel: (options.exam === 'JEE' || options.exam === 'NEET') ? undefined : options.classLevel,
+      classLevel: (!options.classLevel || options.classLevel === 'ALL' || options.classLevel === 'All') ? undefined : options.classLevel,
       difficulty: options.difficulty === 'Mixed' ? 'All' : options.difficulty,
       includePYQs: options.includePYQs !== false,
       includeModelPapers: false, // Model Papers must NEVER accidentally enter normal tests! (Task.md section 1, 2)
@@ -191,7 +191,10 @@ class ApiTestService {
     if (pool.length < options.questionCount) {
       const existingIds = new Set(pool.map(q => q.id));
       const fallbackQuestions = questionService.getAllQuestions().filter(q => 
-        options.subjects.includes(q.subject) && !existingIds.has(q.id) && !excludeSet.has(q.id)
+        options.subjects.includes(q.subject) &&
+        (!options.classLevel || options.classLevel === 'ALL' || options.classLevel === 'All' || q.class === options.classLevel) &&
+        !existingIds.has(q.id) &&
+        !excludeSet.has(q.id)
       );
       const shuffledFallback = [...fallbackQuestions].sort(() => 0.5 - Math.random());
       for (const q of shuffledFallback) {
@@ -240,7 +243,7 @@ class ApiTestService {
       id: `custom-test-${Date.now()}`,
       title: options.title || `Custom ${options.exam} Test (${questionIds.length} Qs)`,
       exam: options.exam,
-      classLevel: options.classLevel,
+      classLevel: (options.classLevel === 'ALL' || options.classLevel === 'All') ? undefined : (options.classLevel as ClassLevel),
       subjects: options.subjects,
       chapters: options.chapters,
       totalQuestions: questionIds.length,

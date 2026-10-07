@@ -24,6 +24,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { Button, Modal, Badge } from '../components/common/UIComponents';
+import { MathRenderer } from '../components/common/MathRenderer';
 import { ExamToolsModal } from '../components/exam/ExamToolsModal';
 import { ReportQuestionModal } from '../components/common/ReportQuestionModal';
 import { testService } from '../services/testService';
@@ -695,12 +696,12 @@ export const ExamSession: React.FC = () => {
               </div>
             </div>
 
-            {/* Question Text */}
+            {/* Question Text with KaTeX MathRenderer */}
             <div className={`bg-white dark:bg-[#0c131a] rounded-3xl p-6 border border-slate-200 dark:border-slate-800 shadow-sm font-medium text-slate-900 dark:text-white leading-relaxed ${questionFontClass}`}>
-              {activeQuestionText}
+              <MathRenderer content={activeQuestionText} />
             </div>
 
-            {/* MCQ Options */}
+            {/* MCQ Options with KaTeX MathRenderer */}
             <div className="space-y-3">
               {currentQ.options.map((opt, idx) => {
                 const letter = ['A', 'B', 'C', 'D'][idx];
@@ -725,7 +726,9 @@ export const ExamSession: React.FC = () => {
                     >
                       {letter}
                     </span>
-                    <span className="pt-0.5 flex-1">{displayText}</span>
+                    <span className="pt-0.5 flex-1">
+                      <MathRenderer content={displayText} />
+                    </span>
                     {isSelected && (
                       <CheckCircle2 className="w-5 h-5 text-brand-600 dark:text-emerald-400 flex-shrink-0" />
                     )}

@@ -31,8 +31,12 @@ export const VideoLecturesPage: React.FC = () => {
   const user = userService.getProfile();
 
   // Filters: Exam, Class, Subject, Chapter, Topic, Mode
-  const [selectedExam, setSelectedExam] = useState<'All' | 'NEET' | 'JEE' | 'CBSE'>('All');
-  const [selectedClass, setSelectedClass] = useState<'All' | '11' | '12'>('All');
+  const [selectedExam, setSelectedExam] = useState<'All' | 'NEET' | 'JEE' | 'CBSE'>(
+    (user?.targetExam as any) || 'All'
+  );
+  const [selectedClass, setSelectedClass] = useState<'All' | '11' | '12'>(
+    (user?.classLevel === '11' || user?.classLevel === '12') ? user.classLevel : '11'
+  );
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
   const [selectedChapter, setSelectedChapter] = useState<string>('All');
   const [lectureMode, setLectureMode] = useState<'FULL_CHAPTER' | 'TOPIC_WISE'>('FULL_CHAPTER');

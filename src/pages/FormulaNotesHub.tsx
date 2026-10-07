@@ -115,6 +115,59 @@ function mergeServerFormulas(
   return result;
 }
 
+// --- Intelligent Search Utilities ---
+export function normalizeSearchText(text: string): string {
+  return text
+    .toLowerCase()
+    .replace(/['’`]/g, '') // strip apostrophes: ohm's -> ohms, newton's -> newtons
+    .replace(/[^\w\s]/g, ' ') // replace punctuation/symbols with spaces
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+export function matchSearchQuery(
+  item: TopicRevisionItem,
+  query: string
+): { matches: boolean; matchingFormulaIndices: Set<number> } {
+  const normQ = normalizeSearchText(query);
+  if (!normQ) return { matches: true, matchingFormulaIndices: new Set() };
+
+  const tokens = normQ.split(' ').filter(Boolean);
+  if (tokens.length === 0) return { matches: true, matchingFormulaIndices: new Set() };
+
+  const matchingFormulaIndices = new Set<number>();
+
+  item.formulas.forEach((f, idx) => {
+    const fText = normalizeSearchText(
+      `${f.name} ${f.variables || ''} ${f.examTip || ''} ${f.trap || ''}`
+    );
+    const fFormulaRaw = (f.formula || '').toLowerCase();
+
+    const fMatches = tokens.every((tok) => {
+      if (fText.includes(tok) || fFormulaRaw.includes(tok)) return true;
+      if (tok.endsWith('s') && fText.includes(tok.slice(0, -1))) return true;
+      if (!tok.endsWith('s') && fText.includes(tok + 's')) return true;
+      return false;
+    });
+
+    if (fMatches) matchingFormulaIndices.add(idx);
+  });
+
+  const fullTopicText = normalizeSearchText(
+    `${item.subject} ${item.chapter} ${item.topic} ${item.concept} ${(item.shortNotes || []).join(' ')} ${(item.keyPoints || []).join(' ')}`
+  );
+
+  const topicMatches = tokens.every((tok) => {
+    if (fullTopicText.includes(tok)) return true;
+    if (tok.endsWith('s') && fullTopicText.includes(tok.slice(0, -1))) return true;
+    if (!tok.endsWith('s') && fullTopicText.includes(tok + 's')) return true;
+    return false;
+  });
+
+  const matches = topicMatches || matchingFormulaIndices.size > 0;
+  return { matches, matchingFormulaIndices };
+}
+
 // --- Interactive Topic Card Sub-component ---
 interface TopicCardProps {
   item: TopicRevisionItem;
@@ -127,6 +180,8 @@ interface TopicCardProps {
   targetExam: string;
   navigate: ReturnType<typeof useNavigate>;
   onAddToPlanner: (chapter: string, topic?: string) => void;
+  searchQuery?: string;
+  matchingFormulaIndices?: Set<number>;
 }
 
 const TopicItemCard: React.FC<TopicCardProps> = ({
@@ -139,9 +194,26 @@ const TopicItemCard: React.FC<TopicCardProps> = ({
   copiedFormulaName,
   targetExam,
   navigate,
-  onAddToPlanner
+  onAddToPlanner,
+  searchQuery,
+  matchingFormulaIndices
 }) => {
   const [revealedSolutions, setRevealedSolutions] = useState<Record<string, boolean>>({});
+
+  // Order formulas so matched formulas appear at the top if search is active
+  const orderedFormulas = useMemo(() => {
+    return item.formulas
+      .map((f, idx) => ({
+        formula: f,
+        originalIndex: idx,
+        isMatched: matchingFormulaIndices ? matchingFormulaIndices.has(idx) : false
+      }))
+      .sort((a, b) => {
+        if (a.isMatched && !b.isMatched) return -1;
+        if (!a.isMatched && b.isMatched) return 1;
+        return a.originalIndex - b.originalIndex;
+      });
+  }, [item.formulas, matchingFormulaIndices]);
 
   // Fetch topic practice questions synchronously only when expanded
   const topicQuestions: Question[] = useMemo(() => {
@@ -284,10 +356,15 @@ const TopicItemCard: React.FC<TopicCardProps> = ({
                 <Layers className="w-3.5 h-3.5 text-emerald-600" />
                 <span>High-Yield Formulas ({item.formulas.length})</span>
               </span>
+              {matchingFormulaIndices && matchingFormulaIndices.size > 0 && searchQuery && (
+                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800">
+                  {matchingFormulaIndices.size} match{matchingFormulaIndices.size > 1 ? 'es' : ''} found
+                </span>
+              )}
             </div>
 
             <div className="grid grid-cols-1 gap-3.5">
-              {item.formulas.map((f, fIdx) => {
+              {orderedFormulas.map(({ formula: f, originalIndex: fIdx, isMatched }) => {
                 const formulaUniqueId = `${item.id}-f-${fIdx}`;
                 const isBookmarked = bookmarkedFormulaIds.has(formulaUniqueId);
                 const isCopied = copiedFormulaName === f.name;
@@ -295,13 +372,24 @@ const TopicItemCard: React.FC<TopicCardProps> = ({
                 return (
                   <div
                     key={fIdx}
-                    className="p-4 rounded-2xl border border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 space-y-2.5 relative"
+                    className={`p-4 rounded-2xl border transition-all duration-150 space-y-2.5 relative ${
+                      isMatched
+                        ? 'border-emerald-500/80 bg-emerald-50/40 dark:bg-emerald-950/20 shadow-xs ring-1 ring-emerald-500/40'
+                        : 'border-slate-200/80 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40'
+                    }`}
                   >
                     {/* Formula Name & Actions */}
                     <div className="flex items-center justify-between gap-2">
-                      <span className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white">
-                        {f.name}
-                      </span>
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <span className="font-extrabold text-xs sm:text-sm text-slate-900 dark:text-white">
+                          {f.name}
+                        </span>
+                        {isMatched && (
+                          <span className="px-1.5 py-0.5 rounded text-[9px] font-black uppercase tracking-wider bg-emerald-600 text-white shadow-2xs">
+                            Matched
+                          </span>
+                        )}
+                      </div>
                       <div className="flex items-center gap-1">
                         <button
                           type="button"
@@ -491,8 +579,10 @@ export const FormulaNotesHub: React.FC = () => {
     (allowedSubjects.includes('Physics') ? 'Physics' : allowedSubjects[0]);
 
   // Filters
-  const [selectedSubject, setSelectedSubject] = useState<SubjectName>(initialSubject);
-  const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>('All');
+  const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>(initialSubject);
+  const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>(
+    (user?.classLevel === '11' || user?.classLevel === '12') ? user.classLevel : '11'
+  );
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'accordion' | 'studio'>('accordion');
   const [onlyBookmarked, setOnlyBookmarked] = useState<boolean>(false);
@@ -530,9 +620,12 @@ export const FormulaNotesHub: React.FC = () => {
     ];
     const currentDay = days[new Date().getDay()];
 
+    const chItem = allNotes.find((it) => it.chapter === chapterName);
+    const effectiveSubject = chItem?.subject || (selectedSubject === 'All' ? 'Physics' : selectedSubject);
+
     ecosystemService.addPlannerTask({
       day: currentDay,
-      subject: selectedSubject,
+      subject: effectiveSubject,
       chapter: chapterName,
       taskType: 'Revision',
       durationMinutes: 45,
@@ -591,7 +684,7 @@ export const FormulaNotesHub: React.FC = () => {
     trap: string;
     importance: 'High' | 'Medium' | 'Low';
   }>({
-    subject: selectedSubject,
+    subject: selectedSubject === 'All' ? 'Physics' : selectedSubject,
     classLevel: '11',
     chapter: '',
     topic: '',
@@ -806,7 +899,7 @@ export const FormulaNotesHub: React.FC = () => {
   <div class="header-banner">
     <div>
       <h1 class="chapter-title">${chapterName}</h1>
-      <div class="chapter-meta">${selectedSubject} • Class ${classVal} • Total Formulas: ${totalFormulas}</div>
+      <div class="chapter-meta">${items[0]?.subject || selectedSubject} • Class ${classVal} • Total Formulas: ${totalFormulas}</div>
     </div>
     <div>
       <div class="brand-title">PREPORA HUB</div>
@@ -870,7 +963,7 @@ export const FormulaNotesHub: React.FC = () => {
     const classVal = items[0]?.classLevel || '11/12';
 
     let md = `# ${chapterName} — Complete Formula & Revision Sheet\n\n`;
-    md += `**Subject:** ${selectedSubject}  \n`;
+    md += `**Subject:** ${items[0]?.subject || selectedSubject}  \n`;
     md += `**Class:** Class ${classVal}  \n`;
     md += `**Formulas Count:** ${totalFormulas}  \n`;
     md += `**Topics Count:** ${items.length}  \n`;
@@ -964,7 +1057,7 @@ export const FormulaNotesHub: React.FC = () => {
 
       setAddFormulaModalOpen(false);
       setNewFormulaForm({
-        subject: selectedSubject,
+        subject: selectedSubject === 'All' ? 'Physics' : selectedSubject,
         classLevel: '11',
         chapter: '',
         topic: '',
@@ -985,11 +1078,11 @@ export const FormulaNotesHub: React.FC = () => {
 
   // All available chapters for current subject (to populate Jump to Chapter selector)
   const allSubjectChapters = useMemo(() => {
-    const map = new Map<string, { classLevel: ClassLevel; count: number }>();
+    const map = new Map<string, { classLevel: ClassLevel; count: number; subject: SubjectName }>();
     allNotes.forEach((item) => {
-      if (item.subject === selectedSubject && isSubjectAllowedForExam(item.subject, user.targetExam)) {
+      if ((selectedSubject === 'All' || item.subject === selectedSubject) && isSubjectAllowedForExam(item.subject, user.targetExam)) {
         if (!map.has(item.chapter)) {
-          map.set(item.chapter, { classLevel: item.classLevel, count: 0 });
+          map.set(item.chapter, { classLevel: item.classLevel, count: 0, subject: item.subject });
         }
         map.get(item.chapter)!.count += item.formulas.length;
       }
@@ -997,33 +1090,66 @@ export const FormulaNotesHub: React.FC = () => {
     return Array.from(map.entries()).map(([chapter, info]) => ({
       chapter,
       classLevel: info.classLevel,
-      formulaCount: info.count
+      formulaCount: info.count,
+      subject: info.subject
     }));
   }, [allNotes, selectedSubject, user.targetExam]);
 
+  // Count search matches per subject
+  const subjectMatchCounts = useMemo(() => {
+    if (!searchQuery.trim()) return {} as Record<string, number>;
+    const counts: Record<string, number> = {};
+    allowedSubjects.forEach((sub) => {
+      counts[sub] = 0;
+    });
+
+    allNotes.forEach((item) => {
+      if (!isSubjectAllowedForExam(item.subject, user.targetExam)) return;
+      const res = matchSearchQuery(item, searchQuery);
+      if (res.matches) {
+        const hits = res.matchingFormulaIndices.size > 0 ? res.matchingFormulaIndices.size : item.formulas.length;
+        counts[item.subject] = (counts[item.subject] || 0) + hits;
+      }
+    });
+    return counts;
+  }, [allNotes, searchQuery, allowedSubjects, user.targetExam]);
+
   // Check if search query matches other subjects
   const crossSubjectMatches = useMemo(() => {
-    if (!searchQuery.trim()) return [];
-    const q = searchQuery.toLowerCase().trim();
+    if (!searchQuery.trim() || selectedSubject === 'All') return [];
     const otherAllowed = allowedSubjects.filter((s) => s !== selectedSubject);
     const matches: Array<{ subject: SubjectName; count: number }> = [];
 
     otherAllowed.forEach((sub) => {
-      const hits = allNotes.filter((item) => {
-        if (item.subject !== sub) return false;
-        return (
-          item.chapter.toLowerCase().includes(q) ||
-          item.topic.toLowerCase().includes(q) ||
-          item.concept.toLowerCase().includes(q) ||
-          item.formulas.some((f) => f.name.toLowerCase().includes(q) || f.formula.toLowerCase().includes(q))
-        );
-      });
-      if (hits.length > 0) {
-        matches.push({ subject: sub, count: hits.length });
+      const hits = subjectMatchCounts[sub] || 0;
+      if (hits > 0) {
+        matches.push({ subject: sub, count: hits });
       }
     });
     return matches;
-  }, [allNotes, searchQuery, allowedSubjects, selectedSubject]);
+  }, [searchQuery, allowedSubjects, selectedSubject, subjectMatchCounts]);
+
+  // Total matches across all allowed subjects
+  const totalSearchMatches = useMemo(() => {
+    return Object.values(subjectMatchCounts).reduce((sum, c) => sum + c, 0);
+  }, [subjectMatchCounts]);
+
+  // Popular search suggestions chips based on subject
+  const popularChips = useMemo(() => {
+    if (selectedSubject === 'Chemistry') {
+      return ["Nernst Equation", "Ideal Gas Law", "Arrhenius Equation", "Raoult's Law", "Gibbs Free Energy", "pH Formula", "Equilibrium"];
+    }
+    if (selectedSubject === 'Mathematics') {
+      return ["Quadratic Formula", "Integration by Parts", "Bayes Theorem", "Binomial Theorem", "Dot & Cross Product", "AP & GP"];
+    }
+    if (selectedSubject === 'Biology') {
+      return ["Mendel's Laws", "Calvin Cycle", "Hardy-Weinberg", "Cardiac Cycle", "Photosynthesis"];
+    }
+    if (selectedSubject === 'Physics') {
+      return ["Ohm's Law", "Bernoulli", "Newton's Second Law", "Work-Energy Theorem", "Coulomb's Law", "Projectile Motion", "Snell's Law", "Doppler Effect"];
+    }
+    return ["Ohm's Law", "Bernoulli", "Newton's Laws", "Nernst Equation", "Quadratic Formula", "Coulomb's Law", "Work-Energy"];
+  }, [selectedSubject]);
 
   const handleJumpToChapter = (chapterName: string) => {
     if (!chapterName) return;
@@ -1040,15 +1166,15 @@ export const FormulaNotesHub: React.FC = () => {
   // Filter items matching subject and exam guard (when searching, ignore class restriction so students find all chapters!)
   const subjectItems = useMemo(() => {
     return allNotes.filter((item) => {
-      if (item.subject !== selectedSubject) return false;
+      if (selectedSubject !== 'All' && item.subject !== selectedSubject) return false;
       if (!isSubjectAllowedForExam(item.subject, user.targetExam)) return false;
       if (!searchQuery.trim() && selectedClass !== 'All' && item.classLevel !== selectedClass) return false;
       return true;
     });
   }, [allNotes, selectedSubject, selectedClass, searchQuery, user.targetExam]);
 
-  // Filtered by Search Query & Bookmarked Filter
-  const filteredItems = useMemo(() => {
+  // Filtered by Search Query & Bookmarked Filter with smart token-based fuzzy matching
+  const { filteredItems, itemMatchMap } = useMemo(() => {
     let list = subjectItems;
 
     if (onlyBookmarked) {
@@ -1057,22 +1183,22 @@ export const FormulaNotesHub: React.FC = () => {
       );
     }
 
-    if (!searchQuery.trim()) return list;
+    if (!searchQuery.trim()) {
+      return { filteredItems: list, itemMatchMap: new Map<string, Set<number>>() };
+    }
 
-    const q = searchQuery.toLowerCase().trim();
-    return list.filter((item) => {
-      const matchesChapter = item.chapter.toLowerCase().includes(q);
-      const matchesTopic = item.topic.toLowerCase().includes(q);
-      const matchesConcept = item.concept.toLowerCase().includes(q);
-      const matchesFormula = item.formulas.some(
-        (f) =>
-          f.name.toLowerCase().includes(q) ||
-          f.formula.toLowerCase().includes(q) ||
-          f.variables.toLowerCase().includes(q)
-      );
-      const matchesNotes = item.shortNotes.some((n) => n.toLowerCase().includes(q));
-      return matchesChapter || matchesTopic || matchesConcept || matchesFormula || matchesNotes;
+    const matchMap = new Map<string, Set<number>>();
+    const matchedList: TopicRevisionItem[] = [];
+
+    list.forEach((item) => {
+      const { matches, matchingFormulaIndices } = matchSearchQuery(item, searchQuery);
+      if (matches) {
+        matchedList.push(item);
+        matchMap.set(item.id, matchingFormulaIndices);
+      }
     });
+
+    return { filteredItems: matchedList, itemMatchMap: matchMap };
   }, [subjectItems, searchQuery, onlyBookmarked, bookmarkedFormulaIds]);
 
   // Group into Chapters
@@ -1085,11 +1211,12 @@ export const FormulaNotesHub: React.FC = () => {
     return Array.from(map.entries()).map(([chapter, items]) => ({
       chapter,
       items,
+      subject: items[0]?.subject || (selectedSubject === 'All' ? 'Physics' : selectedSubject),
       classLevel: items[0]?.classLevel || '11',
       weightage: items[0]?.weightage || 'Medium',
       formulaCount: items.reduce((sum, it) => sum + it.formulas.length, 0)
     }));
-  }, [filteredItems]);
+  }, [filteredItems, selectedSubject]);
 
   // Initialize expanded chapters & topics with deep URL query & chapter linking
   useEffect(() => {
@@ -1111,8 +1238,20 @@ export const FormulaNotesHub: React.FC = () => {
 
   useEffect(() => {
     if (distinctChapters.length > 0) {
+      // 1. Search Query Auto-Expansion (HIGHEST PRIORITY: Never blocked by URL chapter param)
+      if (searchQuery.trim()) {
+        const allMatchingChs = new Set(distinctChapters.map((c) => c.chapter));
+        const allMatchingTopics = new Set(filteredItems.map((i) => i.id));
+        setExpandedChapters(allMatchingChs);
+        setExpandedTopics(allMatchingTopics);
+        if (distinctChapters[0]) {
+          setActiveChapter(distinctChapters[0].chapter);
+        }
+        return;
+      }
+
+      // 2. Target Chapter from URL parameter (when NOT actively searching)
       const targetChapterParam = searchParams.get('chapter');
-      
       if (targetChapterParam) {
         const cleanTarget = targetChapterParam.toLowerCase().trim();
         const matchedChapterObj = distinctChapters.find(
@@ -1131,20 +1270,12 @@ export const FormulaNotesHub: React.FC = () => {
         }
       }
 
-      if (searchQuery.trim()) {
-        // Auto-expand all matching chapters and topics when searching
-        const allMatchingChs = new Set(distinctChapters.map((c) => c.chapter));
-        const allMatchingTopics = new Set(filteredItems.map((i) => i.id));
-        setExpandedChapters(allMatchingChs);
-        setExpandedTopics(allMatchingTopics);
-      } else {
-        // By default open the first chapter and first topic
-        const firstCh = distinctChapters[0].chapter;
-        setExpandedChapters(new Set([firstCh]));
-        const firstTopic = distinctChapters[0].items[0]?.id;
-        if (firstTopic) {
-          setExpandedTopics(new Set([firstTopic]));
-        }
+      // 3. Default: auto-open the first chapter and its first topic
+      const firstCh = distinctChapters[0].chapter;
+      setExpandedChapters(new Set([firstCh]));
+      const firstTopic = distinctChapters[0].items[0]?.id;
+      if (firstTopic) {
+        setExpandedTopics(new Set([firstTopic]));
       }
 
       // Sync active for split studio view
@@ -1186,17 +1317,17 @@ export const FormulaNotesHub: React.FC = () => {
         next.delete(chapterName);
       } else {
         next.add(chapterName);
+        const ch = distinctChapters.find((c) => c.chapter === chapterName);
+        const subForActivity = ch?.subject || (selectedSubject === 'All' ? 'Physics' : selectedSubject);
         continueLearningService.recordActivity({
           type: 'formula',
-          title: `${selectedSubject} • ${chapterName}`,
+          title: `${subForActivity} • ${chapterName}`,
           subtitle: 'Formula & Short Notes Sheet',
-          subject: selectedSubject,
+          subject: subForActivity,
           chapter: chapterName,
-          url: `/formula-notes?subject=${encodeURIComponent(selectedSubject)}&chapter=${encodeURIComponent(chapterName)}`,
+          url: `/formula-notes?subject=${encodeURIComponent(subForActivity)}&chapter=${encodeURIComponent(chapterName)}`,
           progressPercent: 60
         });
-        // Automatically expand the first topic of this chapter for immediate gratification!
-        const ch = distinctChapters.find((c) => c.chapter === chapterName);
         if (ch && ch.items.length > 0) {
           setExpandedTopics((prevTopics) => {
             const nextTopics = new Set(prevTopics);
@@ -1294,23 +1425,48 @@ export const FormulaNotesHub: React.FC = () => {
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Subject Tabs */}
           <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
-            {allowedSubjects.map((sub) => (
-              <button
-                key={sub}
-                type="button"
-                onClick={() => {
-                  setSelectedSubject(sub);
-                  setSearchQuery('');
-                }}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                  selectedSubject === sub
-                    ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
-                    : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                {sub}
-              </button>
-            ))}
+            <button
+              type="button"
+              onClick={() => setSelectedSubject('All')}
+              className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                selectedSubject === 'All'
+                  ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
+                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <span>All Subjects</span>
+              {searchQuery && totalSearchMatches > 0 && (
+                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+                  selectedSubject === 'All' ? 'bg-emerald-800 text-white' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
+                }`}>
+                  {totalSearchMatches}
+                </span>
+              )}
+            </button>
+            {allowedSubjects.map((sub) => {
+              const subMatchCount = subjectMatchCounts[sub] || 0;
+              return (
+                <button
+                  key={sub}
+                  type="button"
+                  onClick={() => setSelectedSubject(sub)}
+                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
+                    selectedSubject === sub
+                      ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  }`}
+                >
+                  <span>{sub}</span>
+                  {searchQuery && subMatchCount > 0 && (
+                    <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+                      selectedSubject === sub ? 'bg-emerald-800 text-white' : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
+                    }`}>
+                      {subMatchCount}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
 
           {/* Class Filter & View Switcher */}
@@ -1368,7 +1524,7 @@ export const FormulaNotesHub: React.FC = () => {
               onClick={() => {
                 setNewFormulaForm((prev) => ({
                   ...prev,
-                  subject: selectedSubject,
+                  subject: selectedSubject === 'All' ? 'Physics' : selectedSubject,
                   classLevel: selectedClass === 'All' ? '11' : selectedClass
                 }));
                 setAddFormulaModalOpen(true);
@@ -1390,14 +1546,15 @@ export const FormulaNotesHub: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder={`Search ${selectedSubject} formulas, topics, concepts (e.g. Bernoulli, Nernst, Equilibrium, Work)...`}
-              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              placeholder={`Search ${selectedSubject === 'All' ? 'all' : selectedSubject} formulas, topics, concepts (e.g. Bernoulli, Nernst, Ohm's Law, Newton)...`}
+              className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-2xs"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 p-1"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer"
+                title="Clear search"
               >
                 <X className="w-3.5 h-3.5" />
               </button>
@@ -1422,7 +1579,7 @@ export const FormulaNotesHub: React.FC = () => {
               </option>
               {allSubjectChapters.map((ch) => (
                 <option key={ch.chapter} value={ch.chapter}>
-                  Cl {ch.classLevel}: {ch.chapter} ({ch.formulaCount} fmls)
+                  {selectedSubject === 'All' ? `[${ch.subject}] ` : ''}Cl {ch.classLevel}: {ch.chapter} ({ch.formulaCount} fmls)
                 </option>
               ))}
             </select>
@@ -1467,27 +1624,80 @@ export const FormulaNotesHub: React.FC = () => {
           </div>
         </div>
 
+        {/* Popular Search Suggestions Chips */}
+        <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
+          <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1 shrink-0">
+            <Sparkles className="w-3 h-3 text-amber-500" />
+            <span>Popular:</span>
+          </span>
+          {popularChips.map((chip) => (
+            <button
+              key={chip}
+              type="button"
+              onClick={() => setSearchQuery(chip)}
+              className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition border cursor-pointer ${
+                normalizeSearchText(searchQuery) === normalizeSearchText(chip)
+                  ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs font-bold'
+                  : 'bg-slate-50 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300'
+              }`}
+            >
+              {chip}
+            </button>
+          ))}
+        </div>
+
         {/* Cross-Subject Search Match Alert Banner */}
-        {crossSubjectMatches.length > 0 && (
-          <div className="flex flex-wrap items-center gap-2 p-2.5 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 text-xs">
-            <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
-            <span className="font-semibold text-amber-800 dark:text-amber-200">
-              Matching formulas also found in other subjects:
-            </span>
-            {crossSubjectMatches.map((m) => (
+        {crossSubjectMatches.length > 0 && selectedSubject !== 'All' && (
+          <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 text-xs">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
+              <span className="font-semibold text-amber-900 dark:text-amber-200">
+                Matching formulas also found in other subjects:
+              </span>
+            </div>
+            <div className="flex flex-wrap items-center gap-1.5">
+              {crossSubjectMatches.map((m) => (
+                <button
+                  key={m.subject}
+                  type="button"
+                  onClick={() => setSelectedSubject(m.subject)}
+                  className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold transition shadow-2xs cursor-pointer flex items-center gap-1 text-xs"
+                >
+                  <span>Switch to {m.subject}</span>
+                  <span className="text-[10px] bg-amber-800/40 px-1.5 py-0.2 rounded-full font-black">
+                    {m.count}
+                  </span>
+                  <ArrowRight className="w-3 h-3" />
+                </button>
+              ))}
               <button
-                key={m.subject}
                 type="button"
-                onClick={() => setSelectedSubject(m.subject)}
-                className="px-2.5 py-1 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold transition shadow-2xs cursor-pointer flex items-center gap-1"
+                onClick={() => setSelectedSubject('All')}
+                className="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-900 text-white font-bold transition shadow-2xs cursor-pointer text-xs"
               >
-                <span>{m.subject}</span>
-                <span className="text-[10px] bg-amber-800/40 px-1.5 py-0.2 rounded-full">
-                  {m.count}
-                </span>
-                <ArrowRight className="w-3 h-3" />
+                View All Subjects
               </button>
-            ))}
+            </div>
+          </div>
+        )}
+
+        {/* Active Search Results Summary Bar */}
+        {searchQuery.trim() && distinctChapters.length > 0 && (
+          <div className="flex flex-wrap items-center justify-between gap-2 p-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/50 text-xs">
+            <div className="flex items-center gap-1.5 text-emerald-900 dark:text-emerald-200">
+              <Check className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 shrink-0" />
+              <span>
+                Found <strong className="font-black text-emerald-700 dark:text-emerald-300">{filteredItems.reduce((acc, it) => acc + (itemMatchMap.get(it.id)?.size || it.formulas.length), 0)}</strong> matching formulas in <strong className="font-black text-emerald-700 dark:text-emerald-300">{distinctChapters.length}</strong> chapters for &ldquo;<strong>{searchQuery}</strong>&rdquo;
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="text-xs font-bold text-emerald-700 dark:text-emerald-300 hover:underline flex items-center gap-1 cursor-pointer"
+            >
+              <X className="w-3 h-3" />
+              <span>Clear Search</span>
+            </button>
           </div>
         )}
       </div>
@@ -1496,28 +1706,73 @@ export const FormulaNotesHub: React.FC = () => {
       {viewMode === 'accordion' && (
         <div className="space-y-4">
           {distinctChapters.length === 0 ? (
-            <div className="bg-white dark:bg-[#0e1620] p-12 text-center rounded-3xl border border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 flex items-center justify-center mx-auto text-slate-400">
-                <BookOpen className="w-6 h-6" />
+            <div className="bg-white dark:bg-[#0e1620] p-10 text-center rounded-3xl border border-slate-200 dark:border-slate-800 space-y-4 max-w-xl mx-auto">
+              <div className="w-12 h-12 rounded-2xl bg-amber-50 dark:bg-amber-950/60 flex items-center justify-center mx-auto text-amber-600 dark:text-amber-400">
+                <Search className="w-6 h-6" />
               </div>
-              <h3 className="text-sm font-extrabold text-slate-800 dark:text-slate-200">
-                No formulas or chapters match your search
-              </h3>
-              <p className="text-xs text-slate-400">
-                Try different keywords or reset your filters.
-              </p>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => {
-                  setSearchQuery('');
-                  setOnlyBookmarked(false);
-                  setSelectedClass('All');
-                }}
-                className="mt-2 text-xs"
-              >
-                Reset Filters
-              </Button>
+              <div className="space-y-1">
+                <h3 className="text-sm font-black text-slate-800 dark:text-slate-200">
+                  No formulas found for &ldquo;{searchQuery}&rdquo; in {selectedSubject === 'All' ? 'any subject' : selectedSubject}
+                </h3>
+                <p className="text-xs text-slate-400">
+                  {crossSubjectMatches.length > 0
+                    ? `Good news! We found matching formulas in other subjects below.`
+                    : `Check your spelling or try searching by concept name (e.g. Bernoulli, Ohm, Newton, Lens, Nernst).`}
+                </p>
+              </div>
+
+              {crossSubjectMatches.length > 0 ? (
+                <div className="p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 space-y-2">
+                  <div className="text-xs font-bold text-amber-800 dark:text-amber-200">
+                    Switch to subject with matching formulas:
+                  </div>
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {crossSubjectMatches.map((m) => (
+                      <button
+                        key={m.subject}
+                        type="button"
+                        onClick={() => setSelectedSubject(m.subject)}
+                        className="px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs flex items-center gap-1.5 transition shadow-xs cursor-pointer"
+                      >
+                        <span>{m.subject} ({m.count} formulas)</span>
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </button>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => setSelectedSubject('All')}
+                      className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition shadow-xs cursor-pointer"
+                    >
+                      View All Subjects
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-wrap justify-center gap-2 pt-2">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setSearchQuery('');
+                      setOnlyBookmarked(false);
+                      setSelectedClass('All');
+                    }}
+                    className="text-xs"
+                  >
+                    Reset Search
+                  </Button>
+                  <Button
+                    variant="primary"
+                    size="sm"
+                    onClick={() => {
+                      setSelectedSubject('All');
+                    }}
+                    className="text-xs bg-emerald-600 hover:bg-emerald-700"
+                  >
+                    Search All Subjects
+                  </Button>
+                </div>
+              )}
             </div>
           ) : (
             distinctChapters.map((chGroup) => {
@@ -1549,7 +1804,7 @@ export const FormulaNotesHub: React.FC = () => {
                           </span>
                         )}
                         <span className="text-xs font-bold text-slate-400">
-                          {selectedSubject}
+                          {chGroup.subject || (selectedSubject === 'All' ? 'Physics' : selectedSubject)}
                         </span>
                       </div>
 
@@ -1619,7 +1874,7 @@ export const FormulaNotesHub: React.FC = () => {
                           e.stopPropagation();
                           navigate(
                             `/lectures?subject=${encodeURIComponent(
-                              selectedSubject
+                              chGroup.subject || (selectedSubject === 'All' ? 'Physics' : selectedSubject)
                             )}&chapter=${encodeURIComponent(chGroup.chapter)}`
                           );
                         }}
@@ -1682,6 +1937,8 @@ export const FormulaNotesHub: React.FC = () => {
                           targetExam={user.targetExam}
                           navigate={navigate}
                           onAddToPlanner={handleAddToPlanner}
+                          searchQuery={searchQuery}
+                          matchingFormulaIndices={itemMatchMap.get(item.id)}
                         />
                       ))}
                     </div>
@@ -1700,7 +1957,7 @@ export const FormulaNotesHub: React.FC = () => {
           <div className="lg:col-span-4 space-y-2">
             <div className="flex items-center justify-between px-1">
               <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">
-                {selectedSubject} Chapters ({distinctChapters.length})
+                {selectedSubject === 'All' ? 'All' : selectedSubject} Chapters ({distinctChapters.length})
               </span>
             </div>
 
@@ -1876,6 +2133,8 @@ export const FormulaNotesHub: React.FC = () => {
                   targetExam={user.targetExam}
                   navigate={navigate}
                   onAddToPlanner={handleAddToPlanner}
+                  searchQuery={searchQuery}
+                  matchingFormulaIndices={itemMatchMap.get(activeTopicItem.id)}
                 />
               </div>
             ) : (
@@ -1896,7 +2155,7 @@ export const FormulaNotesHub: React.FC = () => {
               <div>
                 <div className="flex items-center gap-2 mb-1">
                   <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300">
-                    {selectedSubject}
+                    {fullChapterSheet.items[0]?.subject || (selectedSubject === 'All' ? 'Physics' : selectedSubject)}
                   </span>
                   <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                     Class {fullChapterSheet.items[0]?.classLevel || '11/12'}
