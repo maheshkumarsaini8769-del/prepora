@@ -1,11 +1,18 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import dns from 'dns';
+
+try {
+  dns.setServers(['8.8.8.8', '1.1.1.1']);
+} catch {
+  // Ignore if not permitted
+}
 
 dotenv.config();
 
 let isConnected = false;
 
-const ATLAS_FALLBACK_URI = 'mongodb+srv://maheshkumarsaini8769_db_user:BJF9QCgdvWliHs02@cluster0.077ex67.mongodb.net/prepore_db?appName=Cluster0&retryWrites=true&w=majority';
+const ATLAS_FALLBACK_URI = 'mongodb+srv://maheshkumarsaini8769_db_user:ZsucNN15OKdnprGO@cluster0.1khkuyi.mongodb.net/prepora_students_db?retryWrites=true&w=majority&appName=Cluster0';
 
 export const connectDB = async (): Promise<void> => {
   let uri = process.env.MONGODB_URI;
