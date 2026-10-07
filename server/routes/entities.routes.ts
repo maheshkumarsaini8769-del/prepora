@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { randomBytes } from 'crypto';
 import { Mistake, Bookmark, Note, Doubt, QuestionReport, Goal } from '../models/Entities.js';
 import Question from '../models/Question.js';
 import User from '../models/User.js';
@@ -103,7 +104,7 @@ router.post('/bookmarks', authenticateUser, async (req: AuthRequest, res: Respon
       return res.json({ success: true, bookmarked: false, message: 'Bookmark removed' });
     }
     const newBm = new Bookmark({
-      id: `bm-${Date.now()}`,
+      id: `bm-${Date.now()}-${randomBytes(3).toString('hex')}`,
       userId,
       itemType,
       itemId
@@ -134,7 +135,7 @@ router.post('/notes', authenticateUser, async (req: AuthRequest, res: Response) 
     const { title, content, subject, chapter, topic } = req.body;
     const userId = req.userId;
     const note = new Note({
-      id: `note-${Date.now()}`,
+      id: `note-${Date.now()}-${randomBytes(3).toString('hex')}`,
       userId,
       title,
       content,
@@ -182,7 +183,7 @@ router.post('/doubts', authenticateUser, async (req: AuthRequest, res: Response)
   try {
     const { questionId, subject, chapter, topic, message } = req.body;
     const doubt = new Doubt({
-      id: `dbt-${Date.now()}`,
+      id: `dbt-${Date.now()}-${randomBytes(3).toString('hex')}`,
       userId: req.userId,
       questionId,
       subject,
@@ -215,7 +216,7 @@ router.post('/reports', optionalAuth, async (req: AuthRequest, res: Response) =>
     const { questionId, reason, message } = req.body;
     const userId = req.userId || 'anonymous';
     const report = new QuestionReport({
-      id: `rep-${Date.now()}`,
+      id: `rep-${Date.now()}-${randomBytes(3).toString('hex')}`,
       userId,
       questionId,
       reason,

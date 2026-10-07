@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { randomBytes } from 'crypto';
 import mongoose from 'mongoose';
 import TestAttempt from '../models/TestAttempt.js';
 import Test from '../models/Test.js';
@@ -256,7 +257,7 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
       timeSpentSeconds: stats.timeSpent
     }));
 
-    const attemptId = `att-${Date.now()}`;
+    const attemptId = `att-${Date.now()}-${randomBytes(3).toString('hex')}`;
     const newAttempt = new TestAttempt({
       id: attemptId,
       idempotencyKey: effectiveKey,

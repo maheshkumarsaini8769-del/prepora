@@ -79,16 +79,20 @@ router.get('/', authenticateUser, async (req: AuthRequest, res: Response) => {
         }
       ];
 
-      planner = new Planner({
-        id: `pln_${Date.now()}_${randomBytes(3).toString('hex')}`,
-        studentId,
-        date,
-        targetExam: exam,
-        classLevel,
-        dailyStudyHours: 2.75,
-        tasks: initialTasks
-      });
-      await planner.save();
+      try {
+        planner = new Planner({
+          id: `pln_${Date.now()}_${randomBytes(3).toString('hex')}`,
+          studentId,
+          date,
+          targetExam: exam,
+          classLevel,
+          dailyStudyHours: 2.75,
+          tasks: initialTasks
+        });
+        await planner.save();
+      } catch {
+        planner = await Planner.findOne({ studentId, date });
+      }
 
       // Initialize DailyProgress
       await DailyProgress.findOneAndUpdate(
@@ -155,16 +159,6 @@ router.post('/tasks', authenticateUser, async (req: AuthRequest, res: Response) 
       return res.status(400).json({ success: false, message: 'Task title is required.' });
     }
 
-    let planner = await Planner.findOne({ studentId, date });
-    if (!planner) {
-      planner = new Planner({
-        id: `pln_${Date.now()}_${randomBytes(3).toString('hex')}`,
-        studentId,
-        date,
-        tasks: []
-      });
-    }
-
     const newTask: IPlannerTaskItem = {
       id: req.body.id || `task_${Date.now()}_${randomBytes(3).toString('hex')}`,
       title: title.trim(),
@@ -177,11 +171,34 @@ router.post('/tasks', authenticateUser, async (req: AuthRequest, res: Response) 
       notes,
       timeSlot,
       day: req.body.day || '',
-      order: planner.tasks.length + 1
+      order: 1
     };
 
-    planner.tasks.push(newTask);
-    await planner.save();
+    let planner;
+    try {
+      planner = await Planner.findOneAndUpdate(
+        { studentId, date },
+        {
+          $push: { tasks: newTask },
+          $setOnInsert: {
+            id: `pln_${Date.now()}_${randomBytes(3).toString('hex')}`,
+            studentId,
+            date,
+            targetExam: req.body.targetExam || 'JEE',
+            classLevel: req.body.classLevel || '12',
+            dailyStudyHours: 3.5
+          }
+        },
+        { upsert: true, new: true, setDefaultsOnInsert: true }
+      );
+    } catch {
+      // High-concurrency insert race recovery
+      planner = await Planner.findOneAndUpdate(
+        { studentId, date },
+        { $push: { tasks: newTask } },
+        { new: true }
+      );
+    }
 
     // Update DailyProgress
     await DailyProgress.findOneAndUpdate(
