@@ -84,22 +84,77 @@ export const PaperDetail: React.FC = () => {
     );
   }
 
-  // Load questions for this paper
+  // Load questions for this paper - guaranteed full count (e.g. 75 for JEE, 200 for NEET)
   const questions: Question[] = useMemo(() => {
-    if (apiQuestions.length > 0) return apiQuestions;
     if (!paper) return [];
-    let list = questionService.getQuestionsByIds(paper.questionIds);
-    if (list.length < 5) {
-      const pool = questionService.filterQuestions({
-        exam: paper.exam,
-        classLevel: paper.classLevel,
-        subject: paper.subject && (paper.subject as string) !== 'All' && (paper.subject as string) !== 'Full Syllabus' ? (paper.subject as SubjectName) : undefined,
-      });
-      if (pool.length > 0) {
-        list = pool.slice(0, Math.min(paper.totalQuestions || 30, 50));
+    const targetTotal = paper.totalQuestions || (paper.exam === 'JEE' ? 75 : paper.exam === 'NEET' ? 200 : 50);
+
+    // If API returned full set of questions matching target count
+    if (apiQuestions.length >= targetTotal) {
+      return apiQuestions.slice(0, targetTotal);
+    }
+
+    let list = apiQuestions.length > 0 ? [...apiQuestions] : questionService.getQuestionsByIds(paper.questionIds);
+
+    // If list has fewer questions than targetTotal, assemble to reach full targetTotal!
+    if (list.length < targetTotal) {
+      const existingIds = new Set(list.map(q => q.id));
+      const isJee = paper.exam === 'JEE' || paper.canonicalExam === 'JEE_MAIN' || paper.canonicalExam === 'JEE_ADVANCED';
+      const isNeet = paper.exam === 'NEET' || paper.canonicalExam === 'NEET_UG';
+      const isFull = !paper.subject || paper.subject === 'Full Syllabus' || paper.subject === 'All';
+
+      if (isJee && isFull) {
+        const perSub = Math.round(targetTotal / 3);
+        for (const sub of ['Physics', 'Chemistry', 'Mathematics'] as const) {
+          const pool = questionService.getAllQuestions().filter(q => q.subject === sub && !existingIds.has(q.id));
+          for (const q of pool) {
+            if (list.filter(item => item.subject === sub).length >= perSub || list.length >= targetTotal) break;
+            list.push(q);
+            existingIds.add(q.id);
+          }
+        }
+      } else if (isNeet && isFull) {
+        const bioTarget = Math.round(targetTotal * 0.5);
+        const phyTarget = Math.round(targetTotal * 0.25);
+        const chemTarget = targetTotal - bioTarget - phyTarget;
+
+        const fillSubject = (sub: SubjectName, target: number) => {
+          const pool = questionService.getAllQuestions().filter(q => q.subject === sub && !existingIds.has(q.id));
+          for (const q of pool) {
+            if (list.filter(item => item.subject === sub).length >= target || list.length >= targetTotal) break;
+            list.push(q);
+            existingIds.add(q.id);
+          }
+        };
+        fillSubject('Biology', bioTarget);
+        fillSubject('Physics', phyTarget);
+        fillSubject('Chemistry', chemTarget);
+      } else {
+        const sub = paper.subject && paper.subject !== 'Full Syllabus' && paper.subject !== 'All' ? (paper.subject as SubjectName) : undefined;
+        const pool = questionService.filterQuestions({
+          exam: paper.exam,
+          classLevel: paper.classLevel,
+          subject: sub,
+        }).filter(q => !existingIds.has(q.id));
+        for (const q of pool) {
+          if (list.length >= targetTotal) break;
+          list.push(q);
+          existingIds.add(q.id);
+        }
+      }
+
+      // If still short, backfill from all questions
+      if (list.length < targetTotal) {
+        const pool = questionService.getAllQuestions().filter(q => !existingIds.has(q.id));
+        for (const q of pool) {
+          if (list.length >= targetTotal) break;
+          list.push(q);
+          existingIds.add(q.id);
+        }
       }
     }
-    return list;
+
+    return list.slice(0, targetTotal);
   }, [paper, apiQuestions]);
 
   // Unique subjects in this paper

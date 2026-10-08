@@ -121,16 +121,30 @@ export const ExamSession: React.FC = () => {
         qs = qs.slice(0, test.totalQuestions);
       }
 
-      if (qs.length === 0) {
-        const fetched = await questionService.fetchQuestionsAsync({
-          exam: test.exam as any,
-          classLevel: test.classLevel as any,
-          includePYQs: true
-        }, test.totalQuestions);
-        qs = fetched.filter(q => test.subjects.includes(q.subject)).slice(0, test.totalQuestions);
+      const targetCount = test.totalQuestions || 75;
 
-        if (qs.length === 0) {
-          qs = questionService.getAllQuestions().slice(0, test.totalQuestions);
+      if (qs.length < targetCount) {
+        const existingIds = new Set(qs.map(q => q.id));
+        const subjects = (test.subjects && test.subjects.length > 0)
+          ? test.subjects
+          : (test.exam === 'NEET' ? ['Physics', 'Chemistry', 'Biology'] : ['Physics', 'Chemistry', 'Mathematics']);
+
+        for (const sub of subjects) {
+          const pool = questionService.getAllQuestions().filter(q => q.subject === sub && !existingIds.has(q.id));
+          for (const q of pool) {
+            if (qs.length >= targetCount) break;
+            qs.push(q);
+            existingIds.add(q.id);
+          }
+        }
+
+        if (qs.length < targetCount) {
+          const pool = questionService.getAllQuestions().filter(q => !existingIds.has(q.id));
+          for (const q of pool) {
+            if (qs.length >= targetCount) break;
+            qs.push(q);
+            existingIds.add(q.id);
+          }
         }
       }
 

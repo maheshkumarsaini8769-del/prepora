@@ -187,11 +187,78 @@ router.get('/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ success: false, message: 'Paper not found' });
     }
 
+    const targetTotal = paper.totalQuestions || (paper.exam === 'JEE' ? 75 : paper.exam === 'NEET' ? 200 : 50);
+
     let questions: any[] = [];
     if (paper.questionIds && paper.questionIds.length > 0) {
       const qList = await Question.find({ id: { $in: paper.questionIds } });
       const qMap = new Map(qList.map(q => [q.id, q]));
       questions = paper.questionIds.map(id => qMap.get(id)).filter(Boolean);
+    }
+
+    // Auto-heal / dynamic assembly if questions returned are less than targetTotal
+    if (questions.length < targetTotal) {
+      const existingIds = new Set(questions.map(q => q.id));
+      const needed = targetTotal - questions.length;
+      const isJee = paper.exam === 'JEE' || paper.canonicalExam === 'JEE_MAIN' || paper.canonicalExam === 'JEE_ADVANCED';
+      const isNeet = paper.exam === 'NEET' || paper.canonicalExam === 'NEET_UG';
+      const isFull = !paper.subject || paper.subject === 'Full Syllabus' || paper.subject === 'All';
+
+      if (isJee && isFull) {
+        const perSub = Math.ceil(needed / 3);
+        for (const sub of ['Physics', 'Chemistry', 'Mathematics'] as const) {
+          const addQs = await Question.find({
+            exam: 'JEE',
+            subject: sub,
+            id: { $nin: Array.from(existingIds) }
+          }).limit(perSub);
+          for (const q of addQs) {
+            if (questions.length >= targetTotal) break;
+            questions.push(q);
+            existingIds.add(q.id);
+          }
+        }
+      } else if (isNeet && isFull) {
+        for (const sub of ['Biology', 'Physics', 'Chemistry'] as const) {
+          const quota = sub === 'Biology' ? Math.round(needed * 0.5) : Math.round(needed * 0.25);
+          const addQs = await Question.find({
+            exam: 'NEET',
+            subject: sub,
+            id: { $nin: Array.from(existingIds) }
+          }).limit(quota);
+          for (const q of addQs) {
+            if (questions.length >= targetTotal) break;
+            questions.push(q);
+            existingIds.add(q.id);
+          }
+        }
+      } else {
+        const sub = paper.subject || 'Physics';
+        const addQs = await Question.find({
+          subject: sub,
+          id: { $nin: Array.from(existingIds) }
+        }).limit(needed);
+        for (const q of addQs) {
+          if (questions.length >= targetTotal) break;
+          questions.push(q);
+          existingIds.add(q.id);
+        }
+      }
+
+      // If still needed, fill with any available questions
+      if (questions.length < targetTotal) {
+        const addQs = await Question.find({ id: { $nin: Array.from(existingIds) } }).limit(targetTotal - questions.length);
+        for (const q of addQs) {
+          if (questions.length >= targetTotal) break;
+          questions.push(q);
+          existingIds.add(q.id);
+        }
+      }
+
+      // Persist healed questionIds into paper
+      paper.questionIds = questions.map(q => q.id);
+      paper.totalQuestions = questions.length;
+      await paper.save();
     }
 
     res.json({ success: true, paper, questions });
