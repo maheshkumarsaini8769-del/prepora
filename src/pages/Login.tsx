@@ -80,7 +80,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
   // Bounce already-authenticated visitors on mount (ensure student creates password first)
   useEffect(() => {
     if (isAuthenticated) {
-      if (user?.role !== 'admin' && user?.hasPassword === false) {
+      if (user?.role !== 'admin' && !user?.hasPassword) {
         if (step !== 'create-password') {
           setStep('create-password');
         }

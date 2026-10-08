@@ -47,7 +47,7 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
   }
 
   // 4. Force password creation if student hasn't set a password yet (register krne ke baad website tab tak open na ho jab tak password create na karein)
-  if (user && user.role !== 'admin' && user.hasPassword === false && location.pathname !== '/login') {
+  if (user && user.role !== 'admin' && !user.hasPassword && location.pathname !== '/login') {
     const studentPhone = user.phone || user.mobile || '';
     return (
       <Navigate

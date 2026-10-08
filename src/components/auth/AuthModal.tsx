@@ -97,6 +97,7 @@ export const AuthModal: React.FC = () => {
   const cleanMobileDigits = (num: string) => num.replace(/[^0-9]/g, '').slice(-10);
 
   const close = () => {
+    if (step === 'create-password') return;
     setAuthModalOpen(false);
     setError(null);
     setSuccessMsg(null);
