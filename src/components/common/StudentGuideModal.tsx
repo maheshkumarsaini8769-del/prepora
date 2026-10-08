@@ -16,7 +16,10 @@ import {
   Flame,
   FileText,
   Bot,
-  Settings
+  Settings,
+  Clock,
+  Zap,
+  ShieldAlert
 } from 'lucide-react';
 import { soundFeedback } from '../../utils/audioFeedback';
 
@@ -27,7 +30,7 @@ interface StudentGuideModalProps {
 
 export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'steps' | 'features' | 'tips'>('steps');
+  const [activeTab, setActiveTab] = useState<'steps' | 'features' | 'guidelines' | 'tips'>('steps');
 
   if (!isOpen) return null;
 
@@ -95,6 +98,16 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({ isOpen, on
               }`}
             >
               Key Features Guide
+            </button>
+            <button
+              onClick={() => setActiveTab('guidelines')}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
+                activeTab === 'guidelines'
+                  ? 'bg-white text-emerald-800 shadow-xs'
+                  : 'bg-white/10 text-white hover:bg-white/20'
+              }`}
+            >
+              Study Guidelines
             </button>
             <button
               onClick={() => setActiveTab('tips')}
@@ -270,7 +283,66 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({ isOpen, on
             </div>
           )}
 
-          {/* TAB 3: EXAM RANK TIPS */}
+          {/* TAB 3: STUDY & EXAM GUIDELINES */}
+          {activeTab === 'guidelines' && (
+            <div className="space-y-3.5">
+              <div className="p-3.5 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200/80 dark:border-amber-900/40 space-y-2">
+                <div className="flex items-center gap-2 font-bold text-amber-900 dark:text-amber-200 text-xs sm:text-sm">
+                  <Clock className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                  <span>Speed Limits & Anti-Guesswork Detection</span>
+                </div>
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Questions submitted in <strong>under 15 seconds</strong> are flagged as rapid guesswork. Real exams require calculation time.
+                </p>
+                <div className="grid grid-cols-3 gap-2 pt-1 text-[11px] font-semibold text-center">
+                  <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800">
+                    <span className="text-emerald-600 block">45 - 60 sec</span>
+                    <span className="text-slate-500 font-normal">Easy Recall</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800">
+                    <span className="text-blue-600 block">75 - 90 sec</span>
+                    <span className="text-slate-500 font-normal">Moderate Math</span>
+                  </div>
+                  <div className="p-2 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-slate-800">
+                    <span className="text-purple-600 block">120 - 150 sec</span>
+                    <span className="text-slate-500 font-normal">Hard / Multi-Step</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/20 border border-emerald-200/80 dark:border-emerald-900/40 space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-emerald-900 dark:text-emerald-200 text-xs sm:text-sm">
+                  <Target className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                  <span>NTA Marking Strategy (+4 / -1 / 0)</span>
+                </div>
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Only attempt questions when your confidence is &ge; 70%. Leaving an unattempted question gives <strong>0 marks</strong>, but a wrong guess penalizes <strong>-1 mark</strong> and damages your percentile rank.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-purple-50/70 dark:bg-purple-950/20 border border-purple-200/80 dark:border-purple-900/40 space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-purple-900 dark:text-purple-200 text-xs sm:text-sm">
+                  <Sparkles className="w-4 h-4 text-purple-600 dark:text-purple-400" />
+                  <span>1-3-7 Spaced Repetition Formula</span>
+                </div>
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Mistakes are where learning happens. Whenever a question goes wrong, re-solve it on <strong>Day 1</strong>, revisit on <strong>Day 3</strong>, and review on <strong>Day 7</strong> in your Mistake Book.
+                </p>
+              </div>
+
+              <div className="p-3.5 rounded-2xl bg-blue-50/70 dark:bg-blue-950/20 border border-blue-200/80 dark:border-blue-900/40 space-y-1.5">
+                <div className="flex items-center gap-2 font-bold text-blue-900 dark:text-blue-200 text-xs sm:text-sm">
+                  <Zap className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+                  <span>Subject Rotation Rule</span>
+                </div>
+                <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">
+                  Never spend an entire day on a single subject. Alternate between Physics, Chemistry, and Maths/Biology to avoid cognitive fatigue and ensure balanced preparation.
+                </p>
+              </div>
+            </div>
+          )}
+
+          {/* TAB 4: EXAM RANK TIPS */}
           {activeTab === 'tips' && (
             <div className="space-y-3">
               <div className="p-4 rounded-2xl bg-emerald-50/60 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800/50 space-y-2">

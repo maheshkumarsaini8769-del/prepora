@@ -102,6 +102,7 @@ export const StudyPlanner: React.FC = () => {
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [generateMsg, setGenerateMsg] = useState<string | null>(null);
   const [showConfig, setShowConfig] = useState<boolean>(false);
+  const [showStudyGuidelines, setShowStudyGuidelines] = useState<boolean>(true);
 
   // Form state for add / edit modal
   const [newTaskDay, setNewTaskDay] = useState<PlannerTask['day']>(selectedDay);
@@ -556,6 +557,59 @@ export const StudyPlanner: React.FC = () => {
               <span>Add to Today</span>
             </Button>
           </div>
+        </div>
+
+        {/* Expandable Preparation Guidelines & Rules */}
+        <div className="bg-white/80 dark:bg-slate-900/60 rounded-xl p-3.5 border border-emerald-500/20 space-y-2">
+          <div
+            onClick={() => setShowStudyGuidelines(!showStudyGuidelines)}
+            className="flex items-center justify-between cursor-pointer select-none"
+          >
+            <div className="flex items-center gap-2">
+              <span className="p-1 rounded-md bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-300 text-xs font-bold">
+                💡
+              </span>
+              <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
+                Topper Study Blueprint & Guidelines (पढ़ाई के 6 सुनहरे नियम)
+              </span>
+            </div>
+            <button
+              type="button"
+              className="text-xs text-emerald-600 dark:text-emerald-400 font-semibold hover:underline flex items-center gap-1 cursor-pointer"
+            >
+              <span>{showStudyGuidelines ? 'Hide Guidelines' : 'View Guidelines'}</span>
+              {showStudyGuidelines ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+            </button>
+          </div>
+
+          {showStudyGuidelines && (
+            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 text-xs text-slate-600 dark:text-slate-300 animate-in fade-in">
+              <div className="p-2.5 rounded-lg bg-emerald-50/60 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/30">
+                <span className="font-bold text-emerald-800 dark:text-emerald-300 block mb-0.5">1. Sequence: Theory → Formulas → PYQs</span>
+                <span>Pehle concept samjhein ya 1-shot video dekhein, fir formula revise karein, fir bina answer dekhe 15-20 questions solve karein.</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/30">
+                <span className="font-bold text-blue-800 dark:text-blue-300 block mb-0.5">2. Subject Rotation (Never Single Subject)</span>
+                <span>Rozana kam se kam 2 subjects rotate karein (e.g. Physics + Chemistry). Pura din sirf ek subject padhne se burnout aur retention loss hota hai.</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/30">
+                <span className="font-bold text-rose-800 dark:text-rose-300 block mb-0.5">3. Mistake Book (1-3-7 Day Rule)</span>
+                <span>Jo bhi question galat ho, use Mistake Book me star karein. Day 1, Day 3 aur Day 7 par re-attempt karein jab tak concept 100% clear na ho.</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/30">
+                <span className="font-bold text-amber-800 dark:text-amber-300 block mb-0.5">4. Speed Target (60s – 90s)</span>
+                <span>Easy questions ko 60 second aur numericals ko 90-120 second me solve karne ki aadat dalein. Timer ke sath solve karne se exam panic nahi hota.</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/60 dark:border-purple-900/30">
+                <span className="font-bold text-purple-800 dark:text-purple-300 block mb-0.5">5. Weekly 3-Hour Real Mock</span>
+                <span>Har Sunday ko actual exam slot (9:00 AM ya 2:00 PM) me 3 ghante ka complete mock test lein negative marking ke sath.</span>
+              </div>
+              <div className="p-2.5 rounded-lg bg-teal-50/60 dark:bg-teal-950/20 border border-teal-200/60 dark:border-teal-900/30">
+                <span className="font-bold text-teal-800 dark:text-teal-300 block mb-0.5">6. AI Doubt Solver & Hints</span>
+                <span>Agar kisi concept ya numerical me atak jayein, to turant Doubt Center me AI Doubt Solver se step-by-step hint lein.</span>
+              </div>
+            </div>
+          )}
         </div>
 
         {todayTasks.length === 0 ? (
