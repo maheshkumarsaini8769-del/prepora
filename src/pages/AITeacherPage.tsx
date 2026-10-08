@@ -196,20 +196,40 @@ export const AITeacherPage: React.FC = () => {
         }
       );
 
-      let replyText = response.coreConcept;
-      if (response.keyFormula) {
+      let replyText = '';
+      if (response.answer) {
+        replyText = response.answer;
+      } else if (response.coreConcept) {
+        replyText = response.coreConcept;
+      } else {
+        replyText = `Here is the explanation for **${selectedChapter}**:`;
+      }
+
+      // If coreConcept is a distinct specific concept title not in replyText, prefix it
+      if (
+        response.coreConcept &&
+        response.coreConcept !== 'Core Academic Principle' &&
+        !replyText.includes(response.coreConcept)
+      ) {
+        replyText = `### ${response.coreConcept}\n\n${replyText}`;
+      }
+
+      if (response.keyFormula && !replyText.includes(response.keyFormula)) {
         replyText += `\n\n**📌 Governing Formula:**\n$$${response.keyFormula}$$`;
       }
-      if (response.variables) {
+      if (response.variables && !replyText.includes(response.variables)) {
         replyText += `\n\n**📝 Variables Explained:**\n${response.variables}`;
       }
       if (response.stepByStepSolution && response.stepByStepSolution.length > 0) {
-        replyText += `\n\n**🔢 Step-by-Step Breakdown:**\n` + response.stepByStepSolution.map((s, i) => `${i + 1}. ${s}`).join('\n');
+        const firstStep = response.stepByStepSolution[0];
+        if (!replyText.includes(firstStep)) {
+          replyText += `\n\n**🔢 Step-by-Step Breakdown:**\n` + response.stepByStepSolution.map((s, i) => `${i + 1}. ${s}`).join('\n');
+        }
       }
-      if (response.examTip) {
+      if (response.examTip && !replyText.includes(response.examTip)) {
         replyText += `\n\n💡 **Exam Tip:** ${response.examTip}`;
       }
-      if (response.examinerTrap) {
+      if (response.examinerTrap && !replyText.includes(response.examinerTrap)) {
         replyText += `\n\n⚠️ **Common Trap:** ${response.examinerTrap}`;
       }
 
@@ -224,9 +244,15 @@ export const AITeacherPage: React.FC = () => {
       setMessages((prev) => [...prev, tutorMsg]);
     } catch {
       const fallbackFormula = searchFormulaKnowledge(textToSend, selectedSubject, selectedChapter);
-      let fallbackText = `In **${selectedChapter}**, remember to check SI units and sign conventions carefully. Let's break this down into first principles.`;
+      let fallbackText = '';
       if (fallbackFormula && fallbackFormula.found) {
-        fallbackText = `**${fallbackFormula.name}**\n\n**📌 Governing Formula:**\n$$${fallbackFormula.formula}$$\n\n**📝 Variables:**\n${fallbackFormula.variables}\n\n**🔢 Steps:**\n${fallbackFormula.stepByStep.join('\n')}\n\n💡 **Exam Tip:** ${fallbackFormula.examTip}\n\n⚠️ **Trap:** ${fallbackFormula.trap}`;
+        fallbackText = `### ${fallbackFormula.name}\n\n${fallbackFormula.concept}\n\n**📌 Governing Formula:**\n$$${fallbackFormula.formula}$$\n\n**📝 Variables:**\n${fallbackFormula.variables}\n\n**🔢 Steps:**\n${fallbackFormula.stepByStep.join('\n')}\n\n💡 **Exam Tip:** ${fallbackFormula.examTip}\n\n⚠️ **Trap:** ${fallbackFormula.trap}`;
+      } else {
+        const fallbackAns = aiDoubtSolver.solveDoubt(textToSend, selectedSubject, selectedChapter);
+        fallbackText = fallbackAns.answer || fallbackAns.coreConcept || `In **${selectedChapter}**, remember to check SI units and sign conventions carefully.`;
+        if (fallbackAns.keyFormula) {
+          fallbackText += `\n\n**📌 Governing Formula:**\n$$${fallbackAns.keyFormula}$$`;
+        }
       }
       const tutorMsg: ChatMessage = {
         id: `tutor-${Date.now()}`,

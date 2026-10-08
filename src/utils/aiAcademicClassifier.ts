@@ -119,13 +119,21 @@ export function classifyAcademicQuery(
   const q = query.toLowerCase().trim();
   const examNorm = (targetExam || 'JEE').toString().toUpperCase().trim();
 
+  const matchesTerm = (text: string, term: string): boolean => {
+    if (term.length <= 4) {
+      const rx = new RegExp(`\\b${term}\\b`, 'i');
+      return rx.test(text);
+    }
+    return text.includes(term);
+  };
+
   // 1. Strict Exam Syllabus Boundary Check
   const isJeeExam = examNorm.includes('JEE');
   const isNeetExam = examNorm.includes('NEET');
 
-  // Check if JEE student attempts to ask a Biology question
+  // Check if JEE student attempts to ask a pure Biology question
   if (isJeeExam) {
-    const matchedBioTerm = BIOLOGY_KEYWORDS.find(term => q.includes(term));
+    const matchedBioTerm = BIOLOGY_KEYWORDS.find(term => matchesTerm(q, term));
     if (matchedBioTerm) {
       return {
         detectedSubject: 'Biology',
@@ -136,9 +144,14 @@ export function classifyAcademicQuery(
     }
   }
 
-  // Check if NEET student attempts to ask a pure Math question
-  if (isNeetExam) {
-    const matchedMathTerm = MATHEMATICS_KEYWORDS.find(term => q.includes(term) && !q.includes('calculate') && !q.includes('units'));
+  // Check if NEET student attempts to ask a pure Math question (only if not in Physics/Chemistry context)
+  if (isNeetExam && userSelectedSubject !== 'Physics' && userSelectedSubject !== 'Chemistry') {
+    const pureMathKeywords = [
+      'matrix', 'matrices', 'determinant', 'calculus', 'quadratic equation', 'complex number',
+      'arithmetic progression', 'geometric progression', 'permutation', 'combination',
+      'binomial theorem', 'parabola', 'ellipse', 'hyperbola', 'conic section', 'differential equation'
+    ];
+    const matchedMathTerm = pureMathKeywords.find(term => matchesTerm(q, term));
     if (matchedMathTerm) {
       return {
         detectedSubject: 'Mathematics',

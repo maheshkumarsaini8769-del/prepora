@@ -565,6 +565,45 @@ export const PRIMARY_FORMULAS_CATALOG: PrimaryFormulaEntry[] = [
     ],
     examTip: 'For integrating solitary functions like ∫ ln(x) dx or ∫ tan⁻¹(x) dx, take 1 as the algebraic second function v: ∫ ln(x) · 1 dx.',
     trap: 'Do not forget the negative sign before the second integral in the formula!'
+  },
+
+  // --- BIOLOGY ---
+  {
+    keywords: ['photosynthesis', 'calvin cycle', 'light reaction', 'c4 pathway', 'photophosphorylation', 'rubisco'],
+    name: 'Photosynthesis & Photophosphorylation Equations',
+    formula: String.raw`6\text{CO}_2 + 12\text{H}_2\text{O} \xrightarrow[\text{Chlorophyll}]{\text{Light}} \text{C}_6\text{H}_{12}\text{O}_6 + 6\text{H}_2\text{O} + 6\text{O}_2 \uparrow`,
+    subject: 'Biology',
+    chapter: 'Photosynthesis in Higher Plants',
+    topic: 'Light and Dark Reactions',
+    variables: 'CO₂ = Carbon dioxide fixed by RuBisCO, H₂O = Electron & proton donor (photolysis at PSII), C₆H₁₂O₆ = Glucose synthesized, O₂ = Byproduct released',
+    concept: 'Physico-chemical process converting solar electromagnetic energy into chemical energy stored in glucose via Light Reaction (ATP & NADPH synthesis) and Dark Reaction (Calvin Cycle CO₂ fixation).',
+    stepByStep: [
+      '1. Light Reaction (Thylakoids): Photolysis of water (2H₂O → 4H⁺ + 4e⁻ + O₂) at Oxygen Evolving Complex (PSII).',
+      '2. Z-scheme electron transport generates proton gradient (ΔpH) across thylakoid membrane.',
+      '3. Chemiosmosis: CF₀-CF₁ ATP synthase generates ATP; NADP⁺ reductase produces NADPH.',
+      '4. Dark Reaction (Calvin Cycle in Stroma): 3 phases: (a) Carboxylation by RuBisCO, (b) Reduction using ATP & NADPH to triose phosphate, (c) Regeneration of RuBP.',
+      '5. Net stoichiometry for 1 glucose: 6 CO₂ + 18 ATP + 12 NADPH → 1 Glucose.'
+    ],
+    examTip: 'RuBisCO is the most abundant protein on Earth. In C4 plants (Kranz anatomy, e.g. Maize, Sugarcane), PEP carboxylase eliminates photorespiration.',
+    trap: 'Light is NOT directly required in the dark reaction (Calvin cycle), but it depends on the products (ATP & NADPH) of light reaction.'
+  },
+  {
+    keywords: ['cell respiration', 'glycolysis', 'krebs cycle', 'cellular respiration', 'atp yield'],
+    name: 'Cellular Respiration & Glycolysis Net Balance',
+    formula: String.raw`\text{C}_6\text{H}_{12}\text{O}_6 + 6\text{O}_2 \to 6\text{CO}_2 + 6\text{H}_2\text{O} + 36\text{ to }38\text{ ATP}`,
+    subject: 'Biology',
+    chapter: 'Respiration in Plants',
+    topic: 'Glycolysis, Krebs Cycle & Oxidative Phosphorylation',
+    variables: 'Glucose = Substrate, ATP = Adenosine Triphosphate (energy currency), NADH & FADH₂ = High-energy electron carriers',
+    concept: 'Catabolic breakdown of glucose via Glycolysis (cytoplasm), Link Reaction & Krebs Cycle (mitochondrial matrix), and Electron Transport System (inner mitochondrial membrane).',
+    stepByStep: [
+      '1. Glycolysis (EMP Pathway, 10 steps): 1 Glucose → 2 Pyruvate + 2 Net ATP + 2 NADH (in cytoplasm).',
+      '2. Link Reaction: 2 Pyruvate + 2 CoA + 2 NAD⁺ → 2 Acetyl-CoA + 2 CO₂ + 2 NADH.',
+      '3. TCA / Krebs Cycle: 2 Acetyl-CoA yield 4 CO₂ + 6 NADH + 2 FADH₂ + 2 GTP (ATP).',
+      '4. Oxidative Phosphorylation (ETS): 1 NADH → 3 ATP, 1 FADH₂ → 2 ATP (via Complexes I-IV and Complex V ATP Synthase).'
+    ],
+    examTip: 'Glycolysis is common to both aerobic and anaerobic respiration and does NOT require oxygen.',
+    trap: 'Respiratory Quotient (RQ) = Volume of CO₂ evolved / Volume of O₂ consumed. RQ for Carbohydrates = 1.0, Fats = 0.7, Proteins = 0.9.'
   }
 ];
 
@@ -594,16 +633,19 @@ export function searchFormulaKnowledge(
 
   const cleanQ = normalizeText(
     userQuery
-      .replace(/\b(what|is|the|formula|of|for|give|me|tell|equation|expression|state|define|write|calculate|find|value|ka|kya|hai|batao|hota|h)\b/gi, ' ')
+      .replace(/\b(what|is|the|formula|of|for|give|me|tell|equation|expression|state|define|write|calculate|find|value|ka|kya|hai|batao|hota|h|a|an|in|to|by|step|steps|example|examples|problem|problems|question|questions|chapter|topic|concept|method|solution|sir|please|karo|do|samjhao|explain|show|detail|details|about|process|processes|law|laws|rule|rules|type|types|diagram|notes|important)\b/gi, ' ')
   );
 
-  const queryTokens = cleanQ.split(' ').filter((t) => t.length > 1);
+  const queryTokens = cleanQ.split(' ').filter((t) => t.length > 2);
 
   // 1. Check Primary Formulas Catalog First (Highest precision)
   for (const entry of PRIMARY_FORMULAS_CATALOG) {
+    if (preferredSubject && entry.subject.toLowerCase() !== preferredSubject.toLowerCase()) {
+      continue;
+    }
     for (const kw of entry.keywords) {
       const normKw = normalizeText(kw);
-      if (cleanQ.includes(normKw) || normKw.includes(cleanQ)) {
+      if (cleanQ && (cleanQ === normKw || cleanQ.includes(normKw) || (normKw.length >= 4 && normKw.includes(cleanQ) && queryTokens.length === normKw.split(' ').length))) {
         return {
           found: true,
           name: entry.name,
@@ -637,17 +679,19 @@ export function searchFormulaKnowledge(
     }
   }
 
-  // 2. Search through all 895 formulas in comprehensiveFormulaNotes
+  // 2. Search through comprehensiveFormulaNotes
   let bestMatch: any = null;
   let highestScore = 0;
 
   for (const item of comprehensiveFormulaNotes) {
-    let subjectBoost = 1.0;
-    if (preferredSubject && item.subject.toLowerCase() === preferredSubject.toLowerCase()) {
-      subjectBoost = 1.3;
+    // Strictly isolate subject if specified
+    if (preferredSubject && item.subject.toLowerCase() !== preferredSubject.toLowerCase()) {
+      continue;
     }
+
+    let chapterBoost = 1.0;
     if (preferredChapter && normalizeText(item.chapter).includes(normalizeText(preferredChapter))) {
-      subjectBoost = 1.5;
+      chapterBoost = 2.0;
     }
 
     const normTopic = normalizeText(item.topic);
@@ -657,14 +701,14 @@ export function searchFormulaKnowledge(
       const normFName = normalizeText(f.name);
       let score = 0;
 
-      if (normFName.includes(cleanQ)) {
-        score += 70;
+      if (cleanQ && normFName.includes(cleanQ)) {
+        score += 80;
       }
 
       let matchedTokens = 0;
       for (const tok of queryTokens) {
         if (normFName.includes(tok)) {
-          score += 25;
+          score += 35;
           matchedTokens++;
         } else if (normTopic.includes(tok)) {
           score += 15;
@@ -676,12 +720,20 @@ export function searchFormulaKnowledge(
       }
 
       if (queryTokens.length > 0 && matchedTokens === queryTokens.length) {
+        score += 40;
+      }
+
+      // If query was just requesting something in this chapter (e.g. Action button "Example in Kinematics")
+      if (queryTokens.length === 0 && chapterBoost > 1.0) {
         score += 30;
       }
 
-      score *= subjectBoost;
+      score *= chapterBoost;
 
-      if (score > highestScore && score >= 20) {
+      const minTokensRequired = queryTokens.length >= 2 ? 2 : 1;
+      const minScoreRequired = queryTokens.length >= 2 ? 45 : 30;
+
+      if (score > highestScore && score >= minScoreRequired && (matchedTokens >= minTokensRequired || (cleanQ && normFName.includes(cleanQ)))) {
         highestScore = score;
         bestMatch = {
           found: true,
