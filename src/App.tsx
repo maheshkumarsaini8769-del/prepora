@@ -83,6 +83,7 @@ const StudyHub = lazyPage(() => import('./pages/StudyHub'), 'StudyHub');
 const DailyPlanPage = lazyPage(() => import('./pages/DailyPlanPage'), 'DailyPlanPage');
 const ExamReadinessPage = lazyPage(() => import('./pages/ExamReadinessPage'), 'ExamReadinessPage');
 const AITeacherPage = lazyPage(() => import('./pages/AITeacherPage'), 'AITeacherPage');
+const MissedChaptersPage = lazyPage(() => import('./pages/MissedChaptersPage'), 'MissedChaptersPage');
 const MindMapPage = lazyPage(() => import('./pages/MindMapPage'), 'MindMapPage');
 const VideoLecturesPage = lazyPage(() => import('./pages/VideoLecturesPage'), 'VideoLecturesPage');
 
@@ -257,6 +258,8 @@ export const App: React.FC = () => {
               <Route path="/mistakes" element={<MistakeBook />} />
               <Route path="/weakness" element={<FixMyWeakness />} />
               <Route path="/revision" element={<SmartRevision />} />
+              <Route path="/backlog" element={<MissedChaptersPage />} />
+              <Route path="/missed-chapters" element={<MissedChaptersPage />} />
               <Route path="/formula-sheet" element={<FormulaNotesHub />} />
               <Route path="/formula-notes" element={<FormulaNotesHub />} />
               <Route path="/formulas" element={<Navigate to="/formula-sheet" replace />} />

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useMemo } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import {
   RotateCw,
   CheckCircle2,
@@ -9,13 +9,22 @@ import {
   ChevronDown,
   ChevronUp,
   Layers,
-  Repeat
+  Repeat,
+  AlertTriangle,
+  Flame,
+  BookMarked,
+  Sparkles,
+  Zap,
+  Target,
+  BookOpen
 } from 'lucide-react';
-import { Card, Button } from '../components/common/UIComponents';
+import { Card, Badge, Button } from '../components/common/UIComponents';
 import { progressService } from '../services/progressService';
 import { userService } from '../services/userService';
+import { syllabusService } from '../services/syllabusService';
 import { SubjectName } from '../types';
 import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
+import { canonicalSyllabus } from '../data/canonicalSyllabusData';
 
 interface Flashcard {
   id: string;
@@ -164,6 +173,19 @@ const INITIAL_FLASHCARDS: Flashcard[] = [
   }
 ];
 
+export interface DynamicRevisionItem {
+  id: string;
+  subject: SubjectName;
+  chapter: string;
+  topic: string;
+  type: 'mistake' | 'weakness' | 'spaced' | 'high_yield';
+  priorityLevel: 'CRITICAL' | 'HIGH' | 'MEDIUM';
+  badgeText: string;
+  reason: string;
+  actionText: string;
+  targetCount: number;
+}
+
 export const SmartRevision: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
@@ -187,10 +209,145 @@ export const SmartRevision: React.FC = () => {
   });
 
   const [, setDrillRefresh] = useState(0);
-  const items = progressService.getRevisionItems();
-  const dueTodayItems = items.filter((i) => i.status === 'due-today');
-  const upcomingItems = items.filter((i) => i.status === 'upcoming');
-  const completedItems = items.filter((i) => i.status === 'completed');
+
+  // 1. Spaced Repetition items from storage
+  const storedItems = progressService.getRevisionItems();
+  const rawDueItems = storedItems.filter((i) => i.status === 'due-today');
+  const upcomingItems = storedItems.filter((i) => i.status === 'upcoming');
+  const completedItems = storedItems.filter((i) => i.status === 'completed');
+
+  // 2. Compute dynamic actionable revision recommendations (What should I revise today?)
+  const dynamicRevisionItems: DynamicRevisionItem[] = useMemo(() => {
+    const list: DynamicRevisionItem[] = [];
+    const seenTopics = new Set<string>();
+
+    const mistakes = userService.getMistakes();
+    const weaknesses = userService.getWeaknesses();
+
+    // Group mistakes by topic/chapter
+    const mistakeMap = new Map<string, { subject: SubjectName; chapter: string; topic: string; count: number }>();
+    mistakes.forEach((m) => {
+      if (!isSubjectAllowedForExam(m.subject, user.targetExam)) return;
+      const key = `${m.subject}_${m.chapter}_${m.topic}`.toLowerCase();
+      if (!mistakeMap.has(key)) {
+        mistakeMap.set(key, { subject: m.subject, chapter: m.chapter, topic: m.topic, count: 0 });
+      }
+      mistakeMap.get(key)!.count++;
+    });
+
+    // A. Priority 1: Recent Mistakes (Fix error traps before next test)
+    mistakeMap.forEach((val) => {
+      // STRICT ISOLATION: A chapter must have been practiced to be in revision!
+      const prog = syllabusService.getChapterProgress(val.chapter);
+      if (prog.totalAttempts === 0 && val.count === 0) return; // Untouched chapter belongs in Backlog!
+
+      const key = `${val.subject}_${val.chapter}_${val.topic}`.toLowerCase();
+      seenTopics.add(key);
+      list.push({
+        id: `rev-mistake-${key}`,
+        subject: val.subject,
+        chapter: val.chapter,
+        topic: val.topic,
+        type: 'mistake',
+        priorityLevel: 'CRITICAL',
+        badgeText: '🔴 URGENT MISTAKE REVIEW',
+        reason: `${val.count} wrong question${val.count > 1 ? 's' : ''} logged in recent practice • Eliminate conceptual error pattern`,
+        actionText: 'Revise Mistakes (5 Qs)',
+        targetCount: 5
+      });
+    });
+
+    // B. Priority 2: Critical Weakness (<60% accuracy)
+    weaknesses.forEach((w) => {
+      if (!isSubjectAllowedForExam(w.subject, user.targetExam)) return;
+      const prog = syllabusService.getChapterProgress(w.chapter);
+      // Untouched chapters belong in Backlog, not Revision!
+      if (prog.totalAttempts === 0 && (!w.totalAttempts || w.totalAttempts === 0)) return;
+
+      const key = `${w.subject}_${w.chapter}_${w.topic}`.toLowerCase();
+      if (!seenTopics.has(key) && w.accuracy < 65) {
+        seenTopics.add(key);
+        list.push({
+          id: `rev-weakness-${key}`,
+          subject: w.subject,
+          chapter: w.chapter,
+          topic: w.topic,
+          type: 'weakness',
+          priorityLevel: 'HIGH',
+          badgeText: '🟡 LOW ACCURACY (<65%)',
+          reason: `Current accuracy is ${w.accuracy}% • Vulnerable to negative marking in exam`,
+          actionText: 'Strengthen Concept (5 Qs)',
+          targetCount: 5
+        });
+      }
+    });
+
+    // C. Priority 3: Scheduled Spaced Repetition Due Today
+    rawDueItems.forEach((it) => {
+      if (!isSubjectAllowedForExam(it.subject, user.targetExam)) return;
+      const key = `${it.subject}_${it.chapter}_${it.topic}`.toLowerCase();
+      if (!seenTopics.has(key)) {
+        seenTopics.add(key);
+        list.push({
+          id: it.id,
+          subject: it.subject,
+          chapter: it.chapter,
+          topic: it.topic,
+          type: 'spaced',
+          priorityLevel: 'MEDIUM',
+          badgeText: `🟢 SPACED REPETITION (STAGE ${it.intervalStage})`,
+          reason: `Memory retention decay interval due today • Scheduled review`,
+          actionText: 'Quick Recall (5 Qs)',
+          targetCount: 5
+        });
+      }
+    });
+
+    // D. Priority 4: High-Yield Practiced Chapter Recall (if list is short)
+    if (list.length < 3) {
+      canonicalSyllabus.forEach((c) => {
+        if (!isSubjectAllowedForExam(c.subjectName as SubjectName, user.targetExam)) return;
+        if (c.weightage !== 'High') return;
+        const prog = syllabusService.getChapterProgress(c.chapterId || c.name);
+        if ((prog.totalAttempts || 0) > 0 && prog.status !== 'Not Started') {
+          const firstTopic = c.topics?.[0]?.name || c.name;
+          const key = `${c.subjectName}_${c.name}_${firstTopic}`.toLowerCase();
+          if (!seenTopics.has(key) && list.length < 5) {
+            seenTopics.add(key);
+            list.push({
+              id: `rev-highyield-${key}`,
+              subject: c.subjectName as SubjectName,
+              chapter: c.name,
+              topic: firstTopic,
+              type: 'high_yield',
+              priorityLevel: 'HIGH',
+              badgeText: '⚡ HIGH-YIELD EXAM RETENTION',
+              reason: `High exam weightage (8–12 marks) • Keep recall sharp with 5 quick numericals`,
+              actionText: 'Practice Recall (5 Qs)',
+              targetCount: 5
+            });
+          }
+        }
+      });
+    }
+
+    return list;
+  }, [user.targetExam, rawDueItems]);
+
+  // 3. Count missed chapters to show in cross-link
+  const missedChaptersCount = useMemo(() => {
+    const examPrefix = user.targetExam === 'NEET' ? 'NEET' : user.targetExam === 'CBSE' ? 'CBSE' : user.targetExam === 'RBSE' ? 'RBSE' : 'JEE';
+    const sum = syllabusService.getMasterySummary(examPrefix);
+    return Math.max(0, sum.totalChapters - sum.practicedChapters);
+  }, [user.targetExam]);
+
+  // Filter dynamic items by subject
+  const filteredRevisionItems = useMemo(() => {
+    return dynamicRevisionItems.filter((item) => {
+      if (selectedSubject !== 'All' && item.subject !== selectedSubject) return false;
+      return true;
+    });
+  }, [dynamicRevisionItems, selectedSubject]);
 
   const toggleFlip = (id: string) => {
     setFlippedCards((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -220,12 +377,12 @@ export const SmartRevision: React.FC = () => {
 
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-200 pb-16">
-      {/* 1. Header */}
+      {/* 1. Header with Mode Tabs */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Revision</h1>
-          <p className="text-sm text-slate-500 mt-1">
-            Maintain long-term retention with spaced repetition and high-yield formula review.
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">Smart Revision</h1>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            Focus strictly on <strong>what to revise today</strong>: Recent mistakes, retention bottlenecks, and spaced memory curves.
           </p>
         </div>
 
@@ -235,19 +392,19 @@ export const SmartRevision: React.FC = () => {
             onClick={() => setActiveSection('due')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeSection === 'due'
-                ? 'bg-slate-900 text-white'
-                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                ? 'bg-brand-600 text-white shadow-sm'
+                : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50'
             }`}
           >
-            Due Today ({dueTodayItems.length})
+            What to Revise Today ({filteredRevisionItems.length})
           </button>
           <button
             type="button"
             onClick={() => setActiveSection('flashcards')}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
               activeSection === 'flashcards'
-                ? 'bg-slate-900 text-white'
-                : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+                ? 'bg-brand-600 text-white shadow-sm'
+                : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50'
             }`}
           >
             Formula Flashcards
@@ -255,80 +412,170 @@ export const SmartRevision: React.FC = () => {
         </div>
       </div>
 
+      {/* 2. Clear Separation Banner: Revision vs Missed Chapters Backlog */}
+      <div className="p-4 rounded-2xl bg-gradient-to-r from-slate-900 to-brand-950 text-white border border-brand-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-md">
+        <div className="flex items-start gap-3">
+          <AlertTriangle className="w-5 h-5 text-amber-400 shrink-0 mt-0.5" />
+          <div className="space-y-0.5">
+            <span className="font-bold text-white text-xs sm:text-sm">
+              Untouched Syllabus? Check Missed Chapters Backlog ({missedChaptersCount} chapters)
+            </span>
+            <p className="text-slate-300 text-[11px] leading-relaxed">
+              Revision is exclusively for chapters you have already studied. Chapters with 0 practice belong in your Backlog.
+            </p>
+          </div>
+        </div>
+
+        <Button
+          size="sm"
+          onClick={() => navigate('/backlog')}
+          className="shrink-0 bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs"
+        >
+          <span>View Missed Chapters</span>
+          <ArrowRight className="w-3.5 h-3.5 ml-1" />
+        </Button>
+      </div>
+
+      {/* Subject Filter Pills */}
+      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
+        {subjects.map((sub) => (
+          <button
+            key={sub}
+            onClick={() => setSelectedSubject(sub)}
+            className={`px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all ${
+              selectedSubject === sub
+                ? 'bg-brand-600 text-white shadow-xs'
+                : 'bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+            }`}
+          >
+            {sub}
+          </button>
+        ))}
+      </div>
+
       {activeSection === 'due' ? (
         /* Primary Focus: What to Revise Now */
         <div className="space-y-6">
           <Card className="p-6 space-y-4">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-3">
               <div>
-                <h2 className="text-base font-bold text-slate-900 dark:text-white">Due Today</h2>
+                <h2 className="text-base font-bold text-slate-900 dark:text-white">
+                  Today's Targeted Revision Queue
+                </h2>
                 <p className="text-xs text-slate-500">
-                  Topics calculated by your memory curve for review today.
+                  Priority-ordered topics based on mistake patterns, low accuracy, and memory curve decay.
                 </p>
               </div>
 
-              {dueTodayItems.length > 0 && (
+              {filteredRevisionItems.length > 0 && (
                 <Button
                   size="sm"
                   variant="primary"
-                  onClick={() => navigate('/practice/session?count=5')}
-                  className="text-xs font-semibold py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 cursor-pointer shadow-sm shadow-emerald-600/20"
+                  onClick={() => {
+                    const first = filteredRevisionItems[0];
+                    navigate(
+                      `/practice?subject=${first.subject}&chapter=${encodeURIComponent(first.chapter)}&topic=${encodeURIComponent(first.topic)}&count=5`
+                    );
+                  }}
+                  className="text-xs font-semibold py-1.5 px-3 bg-brand-600 hover:bg-brand-700 text-white flex items-center gap-1.5 shadow-sm"
                 >
-                  <span>Revise All ({dueTodayItems.length})</span>
+                  <span>Start First Drill (5 Qs)</span>
                   <ArrowRight className="w-3.5 h-3.5" />
                 </Button>
               )}
             </div>
 
-            {dueTodayItems.length === 0 ? (
-              <div className="text-center py-12">
-                <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-slate-800 dark:text-slate-100 text-sm">All Caught Up for Today!</h3>
-                <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-                  No topics currently pending revision. Continue with fresh practice or review upcoming schedules below.
-                </p>
+            {filteredRevisionItems.length === 0 ? (
+              <div className="text-center py-12 space-y-3">
+                <CheckCircle2 className="w-12 h-12 text-emerald-600 mx-auto" />
+                <div className="space-y-1">
+                  <h3 className="font-bold text-slate-900 dark:text-slate-100 text-sm">
+                    No Pending Revisions in this Subject!
+                  </h3>
+                  <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                    You have no active mistakes or memory decays due today. Continue solving new questions or explore your missed chapters backlog.
+                  </p>
+                </div>
+                <div className="flex justify-center gap-3 pt-2">
+                  <Button size="sm" onClick={() => navigate('/practice')}>
+                    Practice Fresh Questions
+                  </Button>
+                  <Button size="sm" variant="outline" onClick={() => navigate('/backlog')}>
+                    Catch Up Missed Chapters &rarr;
+                  </Button>
+                </div>
               </div>
             ) : (
               <div className="space-y-3">
-                {dueTodayItems.map((item, index) => (
+                {filteredRevisionItems.map((item, index) => (
                   <div
                     key={item.id}
-                    className="p-4 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] hover:border-slate-300 transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs"
+                    className={`p-4 rounded-2xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs ${
+                      item.type === 'mistake'
+                        ? 'border-rose-200 dark:border-rose-900/60 bg-rose-50/30 dark:bg-rose-950/20'
+                        : item.type === 'weakness'
+                        ? 'border-amber-200 dark:border-amber-900/60 bg-amber-50/20 dark:bg-amber-950/10'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a]'
+                    }`}
                   >
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2">
+                    <div className="space-y-1.5 max-w-lg">
+                      <div className="flex flex-wrap items-center gap-2">
                         <span className="w-5 h-5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 font-bold flex items-center justify-center text-[11px]">
                           {index + 1}
                         </span>
-                        <span className="font-bold text-slate-900 dark:text-white text-sm">{item.topic}</span>
+                        <span className="font-black text-slate-900 dark:text-white text-sm">
+                          {item.topic}
+                        </span>
                         <span className="text-slate-400">•</span>
-                        <span className="text-slate-500">{item.subject}</span>
+                        <span className="text-slate-600 dark:text-slate-300 font-medium">{item.chapter}</span>
+                        <Badge variant={item.subject === 'Physics' ? 'brand' : item.subject === 'Chemistry' ? 'warning' : 'info'}>
+                          {item.subject}
+                        </Badge>
                       </div>
-                      <div className="text-slate-500 text-[11px] pl-7">
-                        Why due: Interval Stage {item.intervalStage} • Scheduled for {item.nextDueDate}
+
+                      <div className="flex items-center gap-2 pl-7">
+                        <span className="text-[10px] font-black uppercase tracking-wider text-slate-500">
+                          {item.badgeText}
+                        </span>
+                      </div>
+
+                      <div className="text-slate-600 dark:text-slate-300 text-[11px] pl-7 leading-relaxed">
+                        <strong>Why revise today:</strong> {item.reason}
                       </div>
                     </div>
 
-                    <div className="flex items-center gap-2 pl-7 sm:pl-0">
+                    <div className="flex items-center gap-2 pl-7 sm:pl-0 shrink-0">
                       <Button
                         size="sm"
                         variant="outline"
-                        onClick={() => handleMarkComplete(item.id)}
-                        className="text-xs font-medium py-1 px-2.5 text-slate-700 dark:text-slate-200"
+                        onClick={() => navigate(`/formula-sheet?subject=${item.subject}&chapter=${encodeURIComponent(item.chapter)}`)}
+                        className="text-xs font-medium py-1 px-2.5 text-slate-700 dark:text-slate-200 hover:text-brand-600"
+                        title="Review Formulas"
                       >
-                        <Check className="w-3.5 h-3.5 mr-1" /> Mark Done
+                        <BookMarked className="w-3.5 h-3.5 mr-1 text-brand-600" /> Formulas
                       </Button>
+
                       <Button
                         size="sm"
                         variant="primary"
                         onClick={() =>
                           navigate(
-                            `/practice?chapter=${encodeURIComponent(item.chapter)}&topic=${encodeURIComponent(item.topic)}`
+                            `/practice?subject=${item.subject}&chapter=${encodeURIComponent(item.chapter)}&topic=${encodeURIComponent(item.topic)}&count=${item.targetCount}`
                           )
                         }
-                        className="text-xs font-semibold py-1 px-3 bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer shadow-sm shadow-emerald-600/20"
+                        className="text-xs font-semibold py-1.5 px-3 bg-brand-600 hover:bg-brand-700 text-white shadow-xs"
                       >
-                        Revise
+                        {item.actionText}
+                      </Button>
+
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => handleMarkComplete(item.id)}
+                        className="text-xs font-medium py-1 px-2 text-slate-500 hover:text-emerald-600"
+                        title="Mark as Revised"
+                      >
+                        <Check className="w-3.5 h-3.5" />
                       </Button>
                     </div>
                   </div>
@@ -337,30 +584,30 @@ export const SmartRevision: React.FC = () => {
             )}
           </Card>
 
-          {/* Progressive Disclosure: Upcoming & Completed Revisions */}
+          {/* Progressive Disclosure: Upcoming & Completed Spaced Revisions */}
           <div className="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white dark:bg-[#0c131a] space-y-3">
             <button
               type="button"
               onClick={() => setShowUpcoming(!showUpcoming)}
               className="w-full flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-200 hover:text-slate-900"
             >
-              <span>Upcoming & Completed Revisions ({upcomingItems.length} Upcoming, {completedItems.length} Done)</span>
+              <span>Upcoming Memory Cycle Queue ({upcomingItems.length} Scheduled, {completedItems.length} Done)</span>
               {showUpcoming ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
             </button>
 
             {showUpcoming && (
-              <div className="pt-3 border-t border-slate-100 space-y-4 text-xs">
+              <div className="pt-3 border-t border-slate-100 dark:border-slate-800 space-y-4 text-xs">
                 {upcomingItems.length > 0 && (
                   <div>
-                    <h4 className="font-semibold text-slate-600 mb-2 uppercase tracking-wider text-[11px]">Upcoming Queue</h4>
+                    <h4 className="font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider text-[11px]">Upcoming Queue</h4>
                     <div className="space-y-2">
                       {upcomingItems.map((item) => (
-                        <div key={item.id} className="p-3 rounded-lg border border-slate-100 flex items-center justify-between">
+                        <div key={item.id} className="p-3 rounded-xl border border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/50 flex items-center justify-between">
                           <div>
                             <div className="font-medium text-slate-800 dark:text-slate-100">{item.topic}</div>
-                            <div className="text-[11px] text-slate-400">{item.subject} • Scheduled: {item.nextDueDate}</div>
+                            <div className="text-[11px] text-slate-400">{item.chapter} ({item.subject}) • Scheduled: {item.nextDueDate}</div>
                           </div>
-                          <span className="text-[11px] font-semibold text-slate-500">Day {item.intervalStage}</span>
+                          <span className="text-[11px] font-semibold text-brand-600 dark:text-brand-400">Day {item.intervalStage}</span>
                         </div>
                       ))}
                     </div>
@@ -369,12 +616,12 @@ export const SmartRevision: React.FC = () => {
 
                 {completedItems.length > 0 && (
                   <div>
-                    <h4 className="font-semibold text-slate-600 mb-2 uppercase tracking-wider text-[11px]">Recently Completed</h4>
+                    <h4 className="font-semibold text-slate-600 dark:text-slate-400 mb-2 uppercase tracking-wider text-[11px]">Recently Completed</h4>
                     <div className="space-y-2">
                       {completedItems.map((item) => (
-                        <div key={item.id} className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-100 flex items-center justify-between opacity-75">
+                        <div key={item.id} className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800 flex items-center justify-between opacity-80">
                           <div className="font-medium text-slate-700 dark:text-slate-200">{item.topic} ({item.subject})</div>
-                          <span className="text-emerald-700 text-[11px] font-semibold flex items-center gap-1">
+                          <span className="text-emerald-600 text-[11px] font-semibold flex items-center gap-1">
                             <Check className="w-3.5 h-3.5" /> Completed
                           </span>
                         </div>
@@ -395,25 +642,9 @@ export const SmartRevision: React.FC = () => {
               <span className="font-bold text-slate-900 dark:text-white">{masteredCount} of {filteredCards.length}</span>
               <span className="text-slate-500"> formulas mastered</span>
             </div>
-
-            <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
-              {subjects.map((sub) => (
-                <button
-                  key={sub}
-                  onClick={() => setSelectedSubject(sub)}
-                  className={`px-3 py-1 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
-                    selectedSubject === sub
-                      ? 'bg-slate-900 dark:bg-emerald-600 text-white'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
-                  }`}
-                >
-                  {sub}
-                </button>
-              ))}
-            </div>
           </div>
 
-          {/* Flashcard Grid */}
+          {/* Cards Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {filteredCards.map((card) => {
               const isFlipped = Boolean(flippedCards[card.id]);
@@ -423,74 +654,60 @@ export const SmartRevision: React.FC = () => {
                 <div
                   key={card.id}
                   onClick={() => toggleFlip(card.id)}
-                  className={`cursor-pointer rounded-xl p-5 border transition-all select-none ${
-                    isMastered ? 'border-emerald-200 bg-emerald-50/20' : 'border-slate-200 bg-white hover:border-slate-300'
+                  className={`min-h-[220px] rounded-2xl p-5 border cursor-pointer transition-all flex flex-col justify-between select-none ${
+                    isMastered
+                      ? 'border-emerald-300 dark:border-emerald-800 bg-emerald-50/40 dark:bg-emerald-950/20'
+                      : isFlipped
+                      ? 'border-brand-300 dark:border-brand-800 bg-brand-50/40 dark:bg-brand-950/20'
+                      : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] hover:border-slate-300'
                   }`}
                 >
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-2 text-[11px] font-semibold">
-                      <span className="text-slate-900 dark:text-white">{card.subject}</span>
-                      <span className="text-slate-400">•</span>
-                      <span className="text-slate-500">{card.chapter}</span>
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-1.5">
+                        <Badge variant={card.subject === 'Physics' ? 'brand' : card.subject === 'Chemistry' ? 'warning' : 'info'}>
+                          {card.subject}
+                        </Badge>
+                        <span className="text-[11px] text-slate-400">{card.chapter}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={(e) => toggleMastered(card.id, e)}
+                        className={`text-xs px-2 py-0.5 rounded-full font-bold flex items-center gap-1 ${
+                          isMastered
+                            ? 'bg-emerald-600 text-white'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 hover:text-slate-700'
+                        }`}
+                      >
+                        <Check className="w-3 h-3" />
+                        <span>{isMastered ? 'Mastered' : 'Mark'}</span>
+                      </button>
                     </div>
 
-                    <button
-                      type="button"
-                      onClick={(e) => toggleMastered(card.id, e)}
-                      className={`px-2 py-0.5 rounded text-[11px] font-semibold transition-all flex items-center gap-1 ${
-                        isMastered
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                      }`}
-                    >
-                      <Check className="w-3 h-3" />
-                      <span>{isMastered ? 'Mastered' : 'Mark Mastered'}</span>
-                    </button>
-                  </div>
-
-                  {!isFlipped ? (
-                    <div className="space-y-3 min-h-[120px] flex flex-col justify-between">
-                      <div>
-                        <h3 className="text-sm font-bold text-slate-900 dark:text-white mb-1">{card.title}</h3>
-                        <p className="text-xs text-slate-600 leading-relaxed">{card.frontPrompt}</p>
+                    {!isFlipped ? (
+                      <div className="space-y-2 pt-2">
+                        <h3 className="font-bold text-sm text-slate-900 dark:text-white">{card.title}</h3>
+                        <p className="text-xs text-slate-600 dark:text-slate-300">{card.frontPrompt}</p>
                       </div>
-
-                      <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
-                        <span className="flex items-center gap-1">
-                          <RotateCw className="w-3 h-3" /> Click to flip
-                        </span>
-                        <span className="font-mono uppercase text-[10px]">Front</span>
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="space-y-3 min-h-[120px]">
-                      <div>
-                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider block mb-1">
-                          Formula
-                        </span>
-                        <div className="p-2.5 rounded-lg bg-slate-900 text-emerald-300 font-mono text-xs font-semibold">
+                    ) : (
+                      <div className="space-y-2 pt-2">
+                        <div className="p-3 bg-white dark:bg-slate-900 rounded-xl border border-slate-100 dark:border-slate-800 font-mono text-xs text-brand-700 dark:text-brand-300 font-bold">
                           {card.formula}
                         </div>
+                        <div className="text-[11px] text-slate-500">{card.variables}</div>
+                        <div className="text-[11px] text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/30 p-2 rounded-lg">
+                          💡 <strong>Exam Tip:</strong> {card.examTip}
+                        </div>
                       </div>
+                    )}
+                  </div>
 
-                      <div className="text-[11px] text-slate-600">
-                        <span className="font-semibold text-slate-800 dark:text-slate-100">Variables: </span>
-                        {card.variables}
-                      </div>
-
-                      <div className="p-2 rounded-lg bg-amber-50 border border-amber-200 text-amber-900 text-[11px]">
-                        <span className="font-semibold text-amber-800">Exam Tip: </span>
-                        {card.examTip}
-                      </div>
-
-                      <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-100">
-                        <span className="flex items-center gap-1">
-                          <RotateCw className="w-3 h-3" /> Click to flip back
-                        </span>
-                        <span className="font-mono uppercase text-[10px]">Back</span>
-                      </div>
-                    </div>
-                  )}
+                  <div className="text-[10px] text-slate-400 font-semibold text-right pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between">
+                    <span>{isFlipped ? 'Answer revealed' : 'Prompt card'}</span>
+                    <span className="text-brand-600 dark:text-brand-400 flex items-center gap-1">
+                      <Repeat className="w-3 h-3" /> Click to flip
+                    </span>
+                  </div>
                 </div>
               );
             })}
@@ -500,3 +717,4 @@ export const SmartRevision: React.FC = () => {
     </div>
   );
 };
+export default SmartRevision;

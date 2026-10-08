@@ -14,9 +14,13 @@ import {
   Calendar,
   Layers,
   BookMarked,
-  Clock,
   Tv,
-  HelpCircle
+  HelpCircle,
+  AlertTriangle,
+  GraduationCap,
+  Compass,
+  Zap,
+  Repeat
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
@@ -27,7 +31,7 @@ import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
 export const GlobalSearch: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialQ = searchParams.get('q') || 'Units';
+  const initialQ = searchParams.get('q') || '';
 
   const [query, setQuery] = useState<string>(initialQ);
   const [debouncedQuery, setDebouncedQuery] = useState<string>(initialQ);
@@ -58,8 +62,8 @@ export const GlobalSearch: React.FC = () => {
 
   // Sync query state when URL parameter changes (e.g. user navigation or external links)
   useEffect(() => {
-    const urlQ = searchParams.get('q');
-    if (urlQ !== null && urlQ !== query) {
+    const urlQ = searchParams.get('q') || '';
+    if (urlQ !== query) {
       setQuery(urlQ);
       setDebouncedQuery(urlQ.trim());
     }
@@ -68,10 +72,18 @@ export const GlobalSearch: React.FC = () => {
   // Debounce search query
   useEffect(() => {
     const handler = setTimeout(() => {
-      setDebouncedQuery(query.trim());
-      if (query.trim() && searchParams.get('q') !== query.trim()) {
-        searchParams.set('q', query.trim());
-        setSearchParams(searchParams, { replace: true });
+      const trimmed = query.trim();
+      setDebouncedQuery(trimmed);
+      if (trimmed) {
+        if (searchParams.get('q') !== trimmed) {
+          searchParams.set('q', trimmed);
+          setSearchParams(searchParams, { replace: true });
+        }
+      } else {
+        if (searchParams.has('q')) {
+          searchParams.delete('q');
+          setSearchParams(searchParams, { replace: true });
+        }
       }
     }, 300);
     return () => clearTimeout(handler);
@@ -331,16 +343,222 @@ export const GlobalSearch: React.FC = () => {
         ))}
       </div>
 
-      {/* Results Section */}
+      {/* Results or Discovery Section */}
       <div className="space-y-6">
-        <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
-          <span>
-            Found <strong>{totalResultsCount}</strong> resources matching "{debouncedQuery}"
-          </span>
-          {isLoading && <span className="text-emerald-600 font-bold animate-pulse">Searching curriculum...</span>}
-        </div>
+        {debouncedQuery && (
+          <div className="flex items-center justify-between text-xs text-slate-500 font-medium">
+            <span>
+              Found <strong>{totalResultsCount}</strong> resources matching &ldquo;{debouncedQuery}&rdquo;
+            </span>
+            {isLoading && <span className="text-emerald-600 font-bold animate-pulse">Searching curriculum...</span>}
+          </div>
+        )}
 
-        {totalResultsCount === 0 && !isLoading ? (
+        {!debouncedQuery ? (
+          /* Empty Search State: Rich Curriculum Explore Hub */
+          <div className="space-y-6 animate-in fade-in duration-200">
+            {/* Quick Portals Grid */}
+            <div className="space-y-2">
+              <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <Compass className="w-4 h-4 text-emerald-500" />
+                <span>Curriculum Action Portals</span>
+              </h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div
+                  onClick={() => navigate('/study-hub')}
+                  className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-600 shadow-xs cursor-pointer transition-all group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-brand-50 dark:bg-brand-950/60 text-brand-600 dark:text-brand-400 flex items-center justify-center font-bold mb-2.5 group-hover:scale-105 transition-transform">
+                    <BookOpen className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
+                    Study Hub
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
+                    Chapter-wise notes, flashcards, PYQs, and verified one-shot videos.
+                  </p>
+                </div>
+
+                <div
+                  onClick={() => navigate('/backlog')}
+                  className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 hover:border-amber-400 dark:hover:border-amber-600 shadow-xs cursor-pointer transition-all group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center font-bold mb-2.5 group-hover:scale-105 transition-transform">
+                    <AlertTriangle className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-amber-600 transition-colors">
+                    Missed Topics / Backlog
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
+                    Identify untouched chapters and high-yield topics before the exam.
+                  </p>
+                </div>
+
+                <div
+                  onClick={() => navigate('/revision')}
+                  className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 hover:border-rose-400 dark:hover:border-rose-600 shadow-xs cursor-pointer transition-all group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-rose-50 dark:bg-rose-950/60 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold mb-2.5 group-hover:scale-105 transition-transform">
+                    <Repeat className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-rose-600 transition-colors">
+                    Smart Revision
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
+                    Daily spaced repetition, mistake journal, and retention drills.
+                  </p>
+                </div>
+
+                <div
+                  onClick={() => navigate('/formula-sheet')}
+                  className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 hover:border-emerald-400 dark:hover:border-emerald-600 shadow-xs cursor-pointer transition-all group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold mb-2.5 group-hover:scale-105 transition-transform">
+                    <Zap className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-emerald-600 transition-colors">
+                    Formula Bank
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
+                    500+ formulas with KaTeX rendering, variable guides, and traps.
+                  </p>
+                </div>
+
+                <div
+                  onClick={() => navigate('/lectures')}
+                  className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 hover:border-indigo-400 dark:hover:border-indigo-600 shadow-xs cursor-pointer transition-all group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 flex items-center justify-center font-bold mb-2.5 group-hover:scale-105 transition-transform">
+                    <Tv className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-indigo-600 transition-colors">
+                    Video Lectures
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
+                    Verified one-shot revision lectures from India&apos;s top educators.
+                  </p>
+                </div>
+
+                <div
+                  onClick={() => navigate('/tests')}
+                  className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 hover:border-purple-400 dark:hover:border-purple-600 shadow-xs cursor-pointer transition-all group"
+                >
+                  <div className="w-8 h-8 rounded-xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center font-bold mb-2.5 group-hover:scale-105 transition-transform">
+                    <GraduationCap className="w-4 h-4" />
+                  </div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white group-hover:text-purple-600 transition-colors">
+                    Test Engine
+                  </h4>
+                  <p className="text-[11px] text-slate-500 mt-1 line-clamp-2">
+                    Timed chapter & full-length mock tests with real NTA marking.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            {/* Subject-Wise Explore Chips */}
+            <div className="space-y-4 pt-2">
+              <h3 className="text-xs font-black uppercase tracking-wider text-slate-500 dark:text-slate-400 flex items-center gap-2">
+                <Layers className="w-4 h-4 text-emerald-500" />
+                <span>Search by Subject & High-Yield Topics</span>
+              </h3>
+
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {/* Physics */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 space-y-2.5">
+                  <span className="text-xs font-black text-blue-600 dark:text-blue-400 uppercase tracking-wider">
+                    Physics High-Yield
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Kinematics', 'Laws of Motion', 'Work Energy', 'Thermodynamics', 'Electrostatics', 'Current Electricity', 'Optics', 'Modern Physics'].map(
+                      (item) => (
+                        <button
+                          key={item}
+                          onClick={() => {
+                            setQuery(item);
+                            setShowSuggestions(false);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 text-[11px] font-semibold transition-colors"
+                        >
+                          {item}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                {/* Chemistry */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 space-y-2.5">
+                  <span className="text-xs font-black text-amber-600 dark:text-amber-400 uppercase tracking-wider">
+                    Chemistry High-Yield
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Chemical Bonding', 'Thermodynamics', 'Equilibrium', 'Organic Mechanisms', 'Coordination Compounds', 'Solutions', 'Biomolecules'].map(
+                      (item) => (
+                        <button
+                          key={item}
+                          onClick={() => {
+                            setQuery(item);
+                            setShowSuggestions(false);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 hover:bg-amber-100 text-[11px] font-semibold transition-colors"
+                        >
+                          {item}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                {/* Biology */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 space-y-2.5">
+                  <span className="text-xs font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-wider">
+                    Biology High-Yield
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Genetics', 'Cell Cycle', 'Human Physiology', 'Plant Physiology', 'Biotechnology', 'Ecology', 'Biological Classification'].map(
+                      (item) => (
+                        <button
+                          key={item}
+                          onClick={() => {
+                            setQuery(item);
+                            setShowSuggestions(false);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 text-[11px] font-semibold transition-colors"
+                        >
+                          {item}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+
+                {/* Mathematics */}
+                <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 space-y-2.5">
+                  <span className="text-xs font-black text-purple-600 dark:text-purple-400 uppercase tracking-wider">
+                    Mathematics High-Yield
+                  </span>
+                  <div className="flex flex-wrap gap-1.5">
+                    {['Calculus', 'Limits & Derivatives', 'Definite Integrals', 'Matrices', 'Vectors & 3D', 'Coordinate Geometry', 'Probability'].map(
+                      (item) => (
+                        <button
+                          key={item}
+                          onClick={() => {
+                            setQuery(item);
+                            setShowSuggestions(false);
+                          }}
+                          className="px-2.5 py-1 rounded-lg bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 hover:bg-purple-100 text-[11px] font-semibold transition-colors"
+                        >
+                          {item}
+                        </button>
+                      )
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ) : totalResultsCount === 0 && !isLoading ? (
           <Card className="text-center py-16 space-y-4">
             <BookOpen className="w-10 h-10 text-slate-400 mx-auto" />
             <div className="space-y-1">
@@ -348,7 +566,7 @@ export const GlobalSearch: React.FC = () => {
                 No results found for &ldquo;{debouncedQuery}&rdquo;
               </h3>
               <p className="text-xs text-slate-500 max-w-sm mx-auto">
-                Check your spelling, or browse directly by subject or topic.
+                Check your spelling, or browse directly by subject or topic below.
               </p>
             </div>
             <div className="flex justify-center gap-2 pt-2">
