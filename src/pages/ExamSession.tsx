@@ -816,8 +816,8 @@ export const ExamSession: React.FC = () => {
                     onClick={() => handleSelectOption(idx)}
                     className={`w-full p-4 rounded-2xl border text-left flex items-start gap-3.5 transition-all cursor-pointer ${optionFontClass} ${
                       isSelected
-                        ? 'border-brand-600 bg-brand-50 dark:bg-emerald-950/60 text-brand-950 dark:text-emerald-100 font-bold ring-2 ring-brand-500/30 shadow-sm'
-                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100 hover:border-brand-200 dark:hover:border-emerald-500/40 hover:bg-slate-50/50 dark:hover:bg-slate-800/40'
+                        ? 'border-brand-600 bg-brand-50 dark:bg-brand-950/40 text-brand-950 dark:text-brand-100 font-bold ring-2 ring-brand-500/30 shadow-sm'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100 hover:border-brand-200 dark:hover:border-brand-500/40 hover:bg-slate-50/50 dark:hover:bg-slate-800/40'
                     }`}
                   >
                     <span
@@ -831,7 +831,7 @@ export const ExamSession: React.FC = () => {
                       <MathRenderer content={displayText} />
                     </span>
                     {isSelected && (
-                      <CheckCircle2 className="w-5 h-5 text-brand-600 dark:text-emerald-400 flex-shrink-0" />
+                      <CheckCircle2 className="w-5 h-5 text-brand-600 dark:text-brand-400 flex-shrink-0" />
                     )}
                   </button>
                 );

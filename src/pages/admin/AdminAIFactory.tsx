@@ -667,17 +667,17 @@ export const AdminAIFactory: React.FC = () => {
 
   return (
     <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-300">
-      {/* Header Banner - Clean Dark Monochrome */}
-      <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+      {/* Header Banner - Clean Adaptive */}
+      <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-800 text-slate-300 text-xs font-bold mb-2">
-            <Sparkles className="w-3.5 h-3.5 text-slate-400" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-bold mb-2">
+            <Sparkles className="w-3.5 h-3.5 text-brand-600 dark:text-brand-400" />
             <span>AI Content Factory (PDF to Question Bank)</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
             Automated Chapter-to-Question Bank System
           </h1>
-          <p className="text-sm text-slate-300 mt-1 max-w-2xl">
+          <p className="text-sm text-slate-600 dark:text-slate-300 mt-1 max-w-2xl">
             Upload chapter PDFs once. Study Up automatically extracts knowledge maps, synthesizes high-yield questions, classifies exam suitability for NEET / CBSE / RBSE, and presents verified drafts for human approval.
           </p>
         </div>
@@ -685,15 +685,15 @@ export const AdminAIFactory: React.FC = () => {
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={handleClearAllData}
-            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 border border-rose-500/30 text-xs font-bold transition shadow-xs"
+            className="flex items-center gap-2 px-3.5 py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-600 dark:text-rose-300 border border-rose-500/30 text-xs font-bold transition shadow-xs cursor-pointer"
             title="Reset to clean slate (removes dummy/seeded data)"
           >
-            <Trash2 className="w-4 h-4 text-rose-400" />
+            <Trash2 className="w-4 h-4 text-rose-500 dark:text-rose-400" />
             <span>Clear All Data (Reset)</span>
           </button>
           <button
             onClick={() => setActiveTab('upload')}
-            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white dark:bg-[#0c131a] hover:bg-slate-100 text-slate-950 text-xs font-bold shadow-xs transition"
+            className="flex items-center gap-2 px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white text-xs font-bold shadow-md shadow-brand-600/25 transition cursor-pointer"
           >
             <Upload className="w-4 h-4" />
             <span>Upload Chapter PDF</span>
@@ -702,18 +702,18 @@ export const AdminAIFactory: React.FC = () => {
       </div>
 
       {actionFeedback && (
-        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center gap-2">
+        <div className="p-3 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center gap-2">
           <CheckCircle2 className="w-4 h-4 shrink-0" />
           <span>{actionFeedback}</span>
         </div>
       )}
 
       {/* Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-slate-800 pb-2 text-xs">
+      <div className="flex flex-wrap items-center gap-2 border-b border-slate-200 dark:border-slate-800 pb-2 text-xs">
         <button
           onClick={() => setActiveTab('overview')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold transition ${
-            activeTab === 'overview' ? 'bg-brand-500/20 text-brand-400 border border-brand-500/40' : 'text-slate-400 hover:text-white'
+            activeTab === 'overview' ? 'bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/40' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Sparkles className="w-4 h-4" />
@@ -723,7 +723,7 @@ export const AdminAIFactory: React.FC = () => {
         <button
           onClick={() => setActiveTab('upload')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold transition ${
-            activeTab === 'upload' ? 'bg-brand-500/20 text-brand-400 border border-brand-500/40' : 'text-slate-400 hover:text-white'
+            activeTab === 'upload' ? 'bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/40' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Upload className="w-4 h-4" />
@@ -733,7 +733,7 @@ export const AdminAIFactory: React.FC = () => {
         <button
           onClick={() => setActiveTab('knowledge')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold transition ${
-            activeTab === 'knowledge' ? 'bg-brand-500/20 text-brand-400 border border-brand-500/40' : 'text-slate-400 hover:text-white'
+            activeTab === 'knowledge' ? 'bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/40' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Brain className="w-4 h-4" />
@@ -743,7 +743,7 @@ export const AdminAIFactory: React.FC = () => {
         <button
           onClick={() => setActiveTab('review')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold transition ${
-            activeTab === 'review' ? 'bg-brand-500/20 text-brand-400 border border-brand-500/40' : 'text-slate-400 hover:text-white'
+            activeTab === 'review' ? 'bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/40' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <CheckCircle2 className="w-4 h-4" />
@@ -758,17 +758,17 @@ export const AdminAIFactory: React.FC = () => {
         <button
           onClick={() => setActiveTab('docs')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold transition ${
-            activeTab === 'docs' ? 'bg-brand-500/20 text-brand-400 border border-brand-500/40' : 'text-slate-400 hover:text-white'
+            activeTab === 'docs' ? 'bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/40' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <FileText className="w-4 h-4" />
-          <span>Source PDFs ({documents.length})</span>
+          <span>Corpus ({documents.length})</span>
         </button>
 
         <button
           onClick={() => setActiveTab('settings')}
           className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold transition ${
-            activeTab === 'settings' ? 'bg-brand-500/20 text-brand-400 border border-brand-500/40' : 'text-slate-400 hover:text-white'
+            activeTab === 'settings' ? 'bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/40' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
           }`}
         >
           <Sliders className="w-4 h-4" />
@@ -780,105 +780,105 @@ export const AdminAIFactory: React.FC = () => {
       {activeTab === 'overview' && (
         <div className="space-y-6">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Source Documents</div>
-              <div className="text-2xl font-black text-white mt-2">{stats?.totalDocuments || 0}</div>
-              <div className="text-[10px] text-brand-400 mt-0.5">Chapters Processed</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Source Documents</div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white mt-2">{stats?.totalDocuments || 0}</div>
+              <div className="text-[10px] text-brand-600 dark:text-brand-400 mt-0.5">Chapters Processed</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Questions Synthesized</div>
-              <div className="text-2xl font-black text-white mt-2">{stats?.totalGenerated || 0}</div>
-              <div className="text-[10px] text-emerald-400 mt-0.5">Generated via AI</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Questions Synthesized</div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white mt-2">{stats?.totalGenerated || 0}</div>
+              <div className="text-[10px] text-emerald-600 dark:text-emerald-400 mt-0.5">Generated via AI</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Approved & Published</div>
-              <div className="text-2xl font-black text-emerald-400 mt-2">{stats?.totalApproved || 0}</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Live in Question Bank</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Approved & Published</div>
+              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{stats?.totalApproved || 0}</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Live in Question Bank</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Pending Review</div>
-              <div className="text-2xl font-black text-amber-400 mt-2">{stats?.pendingReview || 0}</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Awaiting Human Sign-off</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Pending Review</div>
+              <div className="text-2xl font-black text-amber-500 dark:text-amber-400 mt-2">{stats?.pendingReview || 0}</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Awaiting Human Sign-off</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Duplicates Flagged</div>
-              <div className="text-2xl font-black text-rose-400 mt-2">{stats?.duplicatesDetected || 0}</div>
-              <div className="text-[10px] text-slate-400 mt-0.5">Protected from Overlap</div>
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Duplicates Flagged</div>
+              <div className="text-2xl font-black text-rose-500 dark:text-rose-400 mt-2">{stats?.duplicatesDetected || 0}</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">Protected from Overlap</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">AI Provider</div>
-              <div className="text-sm font-bold text-emerald-400 mt-2 flex items-center gap-1">
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">AI Provider</div>
+              <div className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-2 flex items-center gap-1">
                 <CheckCircle2 className="w-3.5 h-3.5" />
                 <span className="capitalize">{stats?.provider || 'Gemini'}</span>
               </div>
-              <div className="text-[10px] text-slate-400 mt-0.5">{stats?.todayCount || 0} / {stats?.dailyLimit || 500} today</div>
+              <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">{stats?.todayCount || 0} / {stats?.dailyLimit || 500} today</div>
             </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-              <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                <Target className="w-4 h-4 text-brand-400" />
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <Target className="w-4 h-4 text-brand-600 dark:text-brand-400" />
                 <span>Multi-Exam Pool Distribution (Section 11)</span>
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Study Up uses a unified master question bank. Every generated question is evaluated against multiple curriculums with cognitive confidence scoring.
               </p>
 
               <div className="space-y-3 text-xs">
                 <div>
-                  <div className="flex justify-between text-slate-300 font-semibold mb-1">
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300 font-semibold mb-1">
                     <span>NEET Medical Pool</span>
-                    <span className="text-purple-400 font-bold">High NCERT Alignment</span>
+                    <span className="text-purple-600 dark:text-purple-400 font-bold">High NCERT Alignment</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div className="h-full bg-purple-500 rounded-full w-[85%]" />
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 font-semibold mb-1">
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300 font-semibold mb-1">
                     <span>CBSE Board Pool</span>
-                    <span className="text-indigo-400 font-bold">Conceptual & Competency</span>
+                    <span className="text-indigo-600 dark:text-indigo-400 font-bold">Conceptual & Competency</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div className="h-full bg-indigo-500 rounded-full w-[90%]" />
                   </div>
                 </div>
 
                 <div>
-                  <div className="flex justify-between text-slate-300 font-semibold mb-1">
+                  <div className="flex justify-between text-slate-700 dark:text-slate-300 font-semibold mb-1">
                     <span>RBSE State Board Pool</span>
-                    <span className="text-amber-400 font-bold">Syllabus Grounded</span>
+                    <span className="text-amber-600 dark:text-amber-400 font-bold">Syllabus Grounded</span>
                   </div>
-                  <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                  <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div className="h-full bg-amber-500 rounded-full w-[80%]" />
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 flex flex-col justify-between">
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4 flex flex-col justify-between">
               <div>
-                <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                  <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                   <span>Quality Assurance & Human Gate (Section 49)</span>
                 </h3>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
+                <p className="text-xs text-slate-600 dark:text-slate-300 mt-2 leading-relaxed">
                   <strong>Strict Educational Rule:</strong> No AI-synthesized question is ever published directly to students. All generated items pass through automated Levenshtein duplicate filtering and arrive at the Admin Review Queue for final review.
                 </p>
               </div>
 
-              <div className="pt-4 border-t border-slate-800 flex justify-between items-center text-xs">
+              <div className="pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center text-xs">
                 <span className="text-slate-500">Fast Actions:</span>
                 <button
                   onClick={() => setActiveTab('review')}
-                  className="text-brand-400 hover:text-brand-300 font-bold flex items-center gap-1"
+                  className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-bold flex items-center gap-1"
                 >
                   Open Review Queue ({stats?.pendingReview || 0}) <ArrowRight className="w-3.5 h-3.5" />
                 </button>
@@ -890,7 +890,7 @@ export const AdminAIFactory: React.FC = () => {
 
       {/* Tab 2: One-Click PDF Upload & Pipeline (Section 1, 2, 35) */}
       {activeTab === 'upload' && (
-        <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-6 shadow-xl">
+        <div className="max-w-3xl mx-auto p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-6 shadow-sm">
           <div className="border-b border-slate-800 pb-3">
             <h2 className="text-lg font-bold text-white flex items-center gap-2">
               <Upload className="w-5 h-5 text-brand-400" />

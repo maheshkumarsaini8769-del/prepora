@@ -58,12 +58,6 @@ const STORAGE_KEY = 'prepora_color_theme';
 
 export function getSavedTheme(): ThemeKey {
   try {
-    const v = localStorage.getItem(VERSION_KEY);
-    if (v !== '7.0_emerald_green') {
-      localStorage.setItem(VERSION_KEY, '7.0_emerald_green');
-      localStorage.setItem(STORAGE_KEY, 'emerald');
-      return 'emerald';
-    }
     const saved = localStorage.getItem(STORAGE_KEY) as ThemeKey;
     if (saved && THEME_OPTIONS.some(t => t.key === saved)) {
       return saved;
@@ -107,6 +101,10 @@ export function applyColorMode(mode: ColorMode) {
       } else {
         document.documentElement.classList.remove('dark');
         document.body?.classList.remove('dark');
+      }
+      const metaThemeColor = document.querySelector('meta[name="theme-color"]');
+      if (metaThemeColor) {
+        metaThemeColor.setAttribute('content', mode === 'dark' ? '#080d12' : '#ffffff');
       }
     }
     window.dispatchEvent(new CustomEvent('prepora-colormode-change', { detail: mode }));

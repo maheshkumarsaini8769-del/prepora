@@ -15,12 +15,12 @@ export const Badge: React.FC<BadgeProps> = ({
   className = '',
 }) => {
   const variantStyles = {
-    brand: 'bg-brand-50 text-brand-700 border-brand-200/60',
-    success: 'bg-emerald-50 text-emerald-700 border-emerald-200/60',
-    warning: 'bg-amber-50 text-amber-700 border-amber-200/60',
-    danger: 'bg-rose-50 text-rose-700 border-rose-200/60',
-    slate: 'bg-slate-100 text-slate-700 border-slate-200/60',
-    info: 'bg-sky-50 text-sky-700 border-sky-200/60',
+    brand: 'bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 border-brand-200/60 dark:border-brand-800/60',
+    success: 'bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border-emerald-200/60 dark:border-emerald-800/60',
+    warning: 'bg-amber-50 dark:bg-amber-950/60 text-amber-700 dark:text-amber-300 border-amber-200/60 dark:border-amber-800/60',
+    danger: 'bg-rose-50 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300 border-rose-200/60 dark:border-rose-800/60',
+    slate: 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border-slate-200/60 dark:border-slate-700/60',
+    info: 'bg-sky-50 dark:bg-sky-950/60 text-sky-700 dark:text-sky-300 border-sky-200/60 dark:border-sky-800/60',
   };
 
   const sizeStyles = {
@@ -79,7 +79,7 @@ export const Button: React.FC<ButtonProps> = ({
   ...props
 }) => {
   const variantStyles = {
-    primary: 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-md shadow-emerald-600/20 active:scale-[0.98]',
+    primary: 'bg-brand-600 hover:bg-brand-700 text-white shadow-md shadow-brand-600/25 active:scale-[0.98]',
     secondary: 'bg-slate-100 hover:bg-slate-200 text-slate-800 dark:bg-slate-800 dark:hover:bg-slate-700 dark:text-slate-100 active:scale-[0.98]',
     outline: 'border border-slate-200 hover:bg-slate-50 text-slate-700 hover:border-slate-300 dark:border-slate-700 dark:text-slate-200 dark:hover:bg-slate-800 active:scale-[0.98]',
     danger: 'bg-rose-600 hover:bg-rose-700 text-white shadow-sm shadow-rose-500/20 active:scale-[0.98]',

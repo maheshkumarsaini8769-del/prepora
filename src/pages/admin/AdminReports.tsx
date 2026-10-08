@@ -320,11 +320,11 @@ export const AdminReports: React.FC = () => {
         </div>
 
         {/* Global Tabs */}
-        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl border border-slate-200/80 text-xs font-bold flex-wrap gap-1">
+        <div className="flex bg-slate-100 dark:bg-slate-800 p-1 rounded-2xl border border-slate-200/80 dark:border-slate-700 text-xs font-bold flex-wrap gap-1">
           <button
             onClick={() => setActiveTab('questions')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
-              activeTab === 'questions' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'questions' ? 'bg-brand-600 text-white font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Question Reports ({qReports.filter(r => r.status === 'Pending').length})
@@ -332,7 +332,7 @@ export const AdminReports: React.FC = () => {
           <button
             onClick={() => setActiveTab('feedback')}
             className={`px-3.5 py-1.5 rounded-xl transition-all flex items-center gap-1.5 ${
-              activeTab === 'feedback' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'feedback' ? 'bg-brand-600 text-white font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             <span>Student Feedback & Mistakes</span>
@@ -345,7 +345,7 @@ export const AdminReports: React.FC = () => {
           <button
             onClick={() => setActiveTab('technical')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
-              activeTab === 'technical' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'technical' ? 'bg-brand-600 text-white font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             System Diagnostics ({techReports.filter(r => r.status === 'Open').length})
@@ -353,7 +353,7 @@ export const AdminReports: React.FC = () => {
           <button
             onClick={() => setActiveTab('audit')}
             className={`px-3.5 py-1.5 rounded-xl transition-all ${
-              activeTab === 'audit' ? 'bg-white text-slate-900 font-bold shadow-xs' : 'text-slate-600 hover:text-slate-900'
+              activeTab === 'audit' ? 'bg-brand-600 text-white font-bold shadow-xs' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Admin Audit Logs
@@ -374,8 +374,8 @@ export const AdminReports: React.FC = () => {
                   onClick={() => setQStatusFilter(st)}
                   className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
                     qStatusFilter === st
-                      ? 'bg-slate-900 text-white shadow-xs'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                      ? 'bg-brand-600 text-white shadow-xs'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                   }`}
                 >
                   {st}
@@ -511,8 +511,8 @@ export const AdminReports: React.FC = () => {
                     onClick={() => setFbStatusFilter(st)}
                     className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
                       fbStatusFilter === st
-                        ? 'bg-slate-900 text-white shadow-xs'
-                        : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                        ? 'bg-brand-600 text-white shadow-xs'
+                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
                     }`}
                   >
                     {st}

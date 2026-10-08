@@ -188,10 +188,10 @@ export const AdminTests: React.FC = () => {
 
       {/* Tab 1: All Tests */}
       {activeTab === 'tests' && (
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-xs">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-xs">
-              <thead className="bg-slate-850 border-b border-slate-800 text-slate-400 font-bold uppercase text-[10px]">
+              <thead className="bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 font-bold uppercase text-[10px]">
                 <tr>
                   <th className="py-3.5 px-4">Test Title</th>
                   <th className="py-3.5 px-4">Exam</th>
@@ -202,27 +202,27 @@ export const AdminTests: React.FC = () => {
                   <th className="py-3.5 px-4 text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-800 text-slate-300">
+              <tbody className="divide-y divide-slate-100 dark:divide-slate-800 text-slate-700 dark:text-slate-300">
                 {tests.map((t) => (
-                  <tr key={t.id} className="hover:bg-slate-800/40 transition">
-                    <td className="py-3 px-4 font-bold text-white">{t.title}</td>
+                  <tr key={t.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
+                    <td className="py-3 px-4 font-bold text-slate-900 dark:text-white">{t.title}</td>
                     <td className="py-3 px-4">
-                      <span className="px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20 font-bold text-[10px]">
+                      <span className="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 font-bold text-[10px]">
                         {t.exam}
                       </span>
                     </td>
-                    <td className="py-3 px-4 text-slate-400">{t.category}</td>
+                    <td className="py-3 px-4 text-slate-500 dark:text-slate-400">{t.category}</td>
                     <td className="py-3 px-4 font-semibold">{t.totalQuestions} Qs</td>
                     <td className="py-3 px-4 font-semibold">{t.durationMinutes}m</td>
                     <td className="py-3 px-4">
-                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                      <span className="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                         Published
                       </span>
                     </td>
                     <td className="py-3 px-4 text-right">
                       <button
                         onClick={() => navigate(`/tests/${t.id}/instructions`)}
-                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold transition"
+                        className="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-semibold transition cursor-pointer"
                       >
                         Preview
                       </button>
@@ -238,22 +238,22 @@ export const AdminTests: React.FC = () => {
       {/* Tab 2: Blueprint Builder (Section 14 of task1.md) */}
       {activeTab === 'blueprint' && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-            <h3 className="font-bold text-sm text-white flex items-center gap-2">
-              <Sliders className="w-4 h-4 text-brand-400" />
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 shadow-xs">
+            <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+              <Sliders className="w-4 h-4 text-brand-500 dark:text-brand-400" />
               <span>Question Distribution Specification</span>
             </h3>
-            <p className="text-xs text-slate-400 leading-relaxed">
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               Define exact distribution across subjects. The engine verifies database availability before generating the test blueprint.
             </p>
 
             <div className="space-y-3 text-xs">
               <div>
-                <label className="block text-slate-400 mb-1 font-semibold">Target Examination</label>
+                <label className="block text-slate-700 dark:text-slate-400 mb-1 font-semibold">Target Examination</label>
                 <select
                   value={blueprintExam}
                   onChange={(e) => setBlueprintExam(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                 >
                   <option value="JEE">JEE Main & Advanced</option>
                   <option value="NEET">NEET UG</option>
@@ -262,39 +262,39 @@ export const AdminTests: React.FC = () => {
               </div>
 
               <div>
-                <label className="block text-slate-400 mb-1 font-semibold">Physics Questions Count</label>
+                <label className="block text-slate-700 dark:text-slate-400 mb-1 font-semibold">Physics Questions Count</label>
                 <input
                   type="number"
                   value={physCount}
                   onChange={(e) => setPhysCount(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 mb-1 font-semibold">Chemistry Questions Count</label>
+                <label className="block text-slate-700 dark:text-slate-400 mb-1 font-semibold">Chemistry Questions Count</label>
                 <input
                   type="number"
                   value={chemCount}
                   onChange={(e) => setChemCount(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                 />
               </div>
 
               <div>
-                <label className="block text-slate-400 mb-1 font-semibold">Mathematics Questions Count</label>
+                <label className="block text-slate-700 dark:text-slate-400 mb-1 font-semibold">Mathematics Questions Count</label>
                 <input
                   type="number"
                   value={mathCount}
                   onChange={(e) => setMathCount(Number(e.target.value))}
-                  className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                  className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                 />
               </div>
 
               <button
                 onClick={handleValidateBlueprint}
                 disabled={validating}
-                className="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold transition shadow-lg shadow-brand-600/30 text-xs mt-2"
+                className="w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition shadow-md shadow-brand-600/25 text-xs mt-2 cursor-pointer"
               >
                 {validating ? 'Verifying Live Question Bank...' : 'Verify Blueprint Availability'}
               </button>
@@ -302,13 +302,13 @@ export const AdminTests: React.FC = () => {
           </div>
 
           {/* Validation Result Box */}
-          <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 flex flex-col justify-between">
+          <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 space-y-4 flex flex-col justify-between shadow-xs">
             <div>
-              <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                 <span>Question Bank Availability Telemetry</span>
               </h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Direct lookup against published, vetted MongoDB questions.
               </p>
 
@@ -317,8 +317,8 @@ export const AdminTests: React.FC = () => {
                   <div
                     className={`p-3 rounded-xl border font-bold flex items-center gap-2 ${
                       blueprintValidation.fullySatisfied
-                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
-                        : 'bg-amber-500/10 border-amber-500/30 text-amber-300'
+                        ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400'
+                        : 'bg-amber-500/10 border-amber-500/30 text-amber-700 dark:text-amber-300'
                     }`}
                   >
                     {blueprintValidation.fullySatisfied ? (
@@ -333,19 +333,19 @@ export const AdminTests: React.FC = () => {
                     {Object.entries(blueprintValidation.breakdown || {}).map(([subj, info]: [string, any]) => (
                       <div
                         key={subj}
-                        className="p-3 rounded-xl bg-slate-800/60 border border-slate-700/80 flex items-center justify-between"
+                        className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 flex items-center justify-between"
                       >
                         <div>
-                          <div className="font-bold text-white">{subj}</div>
-                          <div className="text-[11px] text-slate-400">
+                          <div className="font-bold text-slate-900 dark:text-white">{subj}</div>
+                          <div className="text-[11px] text-slate-500 dark:text-slate-400">
                             Requested: {info.requested} • Available: {info.available}
                           </div>
                         </div>
                         <span
                           className={`px-2 py-0.5 rounded text-[10px] font-bold ${
                             info.satisfied
-                              ? 'bg-emerald-500/10 text-emerald-400'
-                              : 'bg-rose-500/10 text-rose-400'
+                              ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400'
+                              : 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
                           }`}
                         >
                           {info.satisfied ? 'Satisfied' : `Deficit: ${info.requested - info.available}`}
@@ -355,13 +355,13 @@ export const AdminTests: React.FC = () => {
                   </div>
                 </div>
               ) : (
-                <div className="p-8 text-center text-slate-500 text-xs mt-4">
+                <div className="p-8 text-center text-slate-400 text-xs mt-4">
                   Configure question counts on the left and click "Verify Blueprint Availability".
                 </div>
               )}
             </div>
 
-            <div className="text-[11px] text-slate-500 pt-3 border-t border-slate-800">
+            <div className="text-[11px] text-slate-400 pt-3 border-t border-slate-100 dark:border-slate-800">
               Rule: Study Up never silently substitutes unrelated questions to fulfill a test.
             </div>
           </div>
@@ -372,59 +372,59 @@ export const AdminTests: React.FC = () => {
       {activeTab === 'monitoring' && (
         <div className="space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Active Sessions in Progress</div>
-              <div className="text-2xl font-black text-white mt-1">
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Active Sessions in Progress</div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">
                 {monitoringData?.inProgressCount || 0}
               </div>
-              <div className="text-[11px] text-emerald-400 mt-0.5">Live Student Sessions</div>
+              <div className="text-[11px] text-emerald-600 dark:text-emerald-400 mt-0.5">Live Student Sessions</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Completed Today</div>
-              <div className="text-2xl font-black text-white mt-1">
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Completed Today</div>
+              <div className="text-2xl font-black text-slate-900 dark:text-white mt-1">
                 {monitoringData?.completedTodayCount || 0}
               </div>
-              <div className="text-[11px] text-brand-400 mt-0.5">Tests Graded</div>
+              <div className="text-[11px] text-brand-600 dark:text-brand-400 mt-0.5">Tests Graded</div>
             </div>
 
-            <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-              <div className="text-xs text-slate-400 font-semibold">Submission Failure Rate</div>
-              <div className="text-2xl font-black text-emerald-400 mt-1">
+            <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm">
+              <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold">Submission Failure Rate</div>
+              <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-1">
                 {monitoringData?.submissionFailureRate || '0.0%'}
               </div>
-              <div className="text-[11px] text-slate-400 mt-0.5">Resilient Sync Engine Active</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Resilient Sync Engine Active</div>
             </div>
           </div>
 
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-            <div className="p-4 bg-slate-850 border-b border-slate-800 flex justify-between items-center text-xs">
-              <span className="font-bold text-slate-200">Active Test Hall Monitoring</span>
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+            <div className="p-4 bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
+              <span className="font-bold text-slate-900 dark:text-slate-200">Active Test Hall Monitoring</span>
               <button
                 onClick={fetchMonitoring}
-                className="text-brand-400 hover:text-brand-300 font-semibold flex items-center gap-1"
+                className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 font-semibold flex items-center gap-1"
               >
                 <RefreshCw className="w-3 h-3" /> Refresh
               </button>
             </div>
 
-            <div className="divide-y divide-slate-800">
+            <div className="divide-y divide-slate-100 dark:divide-slate-800">
               {monitoringData?.activeTests?.length === 0 ? (
-                <div className="text-center py-10 text-slate-500 text-xs">
+                <div className="text-center py-10 text-slate-400 dark:text-slate-500 text-xs">
                   No tests currently in progress. Start a test in the student app to see live telemetry.
                 </div>
               ) : (
                 monitoringData?.activeTests?.map((t: any) => (
                   <div key={t.id} className="p-4 flex items-center justify-between text-xs">
                     <div>
-                      <div className="font-bold text-white">{t.testTitle}</div>
-                      <div className="text-[11px] text-slate-400">Student: {t.userName}</div>
+                      <div className="font-bold text-slate-900 dark:text-white">{t.testTitle}</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400">Student: {t.userName}</div>
                     </div>
                     <div className="text-right">
-                      <div className="text-emerald-400 font-semibold font-mono">
+                      <div className="text-emerald-600 dark:text-emerald-400 font-semibold font-mono">
                         Time Remaining: {Math.round((t.timeRemainingSeconds || 0) / 60)}m
                       </div>
-                      <div className="text-[11px] text-slate-500">
+                      <div className="text-[11px] text-slate-400 dark:text-slate-500">
                         At Question #{t.currentQuestionIndex + 1}
                       </div>
                     </div>
@@ -440,7 +440,7 @@ export const AdminTests: React.FC = () => {
       {activeTab === 'scheduled' && (
         <div className="space-y-6">
           {schedSuccessMsg && (
-            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold flex items-center gap-2">
+            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-600 dark:text-emerald-400 text-xs font-bold flex items-center gap-2">
               <CheckCircle2 className="w-4 h-4" />
               <span>{schedSuccessMsg}</span>
             </div>
@@ -448,34 +448,34 @@ export const AdminTests: React.FC = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Scheduling Form */}
-            <div className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-4">
-              <h3 className="font-bold text-sm text-white flex items-center gap-2">
-                <Calendar className="w-4 h-4 text-brand-400" />
+            <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
+              <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-brand-600 dark:text-brand-400" />
                 <span>Schedule New Assessment</span>
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Configure time-window, eligibility restrictions, and duration for synchronized test sessions.
               </p>
 
               <div className="space-y-3 text-xs">
                 <div>
-                  <label className="block text-slate-400 mb-1 font-semibold">Test Title</label>
+                  <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">Test Title</label>
                   <input
                     type="text"
                     placeholder="e.g. All-India Mock Test #2"
                     value={newSchedTitle}
                     onChange={(e) => setNewSchedTitle(e.target.value)}
-                    className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                    className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-400 mb-1 font-semibold">Exam</label>
+                    <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">Exam</label>
                     <select
                       value={newSchedExam}
                       onChange={(e) => setNewSchedExam(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                     >
                       <option value="JEE">JEE</option>
                       <option value="NEET">NEET</option>
@@ -483,11 +483,11 @@ export const AdminTests: React.FC = () => {
                     </select>
                   </div>
                   <div>
-                    <label className="block text-slate-400 mb-1 font-semibold">Class</label>
+                    <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">Class</label>
                     <select
                       value={newSchedClass}
                       onChange={(e) => setNewSchedClass(e.target.value)}
-                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                     >
                       <option value="11">Class 11</option>
                       <option value="12">Class 12</option>
@@ -498,43 +498,44 @@ export const AdminTests: React.FC = () => {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-400 mb-1 font-semibold">Start Time</label>
+                    <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">Start Time</label>
                     <input
                       type="datetime-local"
                       value={newSchedStart}
                       onChange={(e) => setNewSchedStart(e.target.value)}
-                      className="w-full px-2 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium text-[11px]"
+                      className="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium text-[11px]"
                     />
                   </div>
                   <div>
-                    <label className="block text-slate-400 mb-1 font-semibold">End Time</label>
+                    <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">End Time</label>
                     <input
                       type="datetime-local"
                       value={newSchedEnd}
                       onChange={(e) => setNewSchedEnd(e.target.value)}
-                      className="w-full px-2 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium text-[11px]"
+                      className="w-full px-2 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium text-[11px]"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-400 mb-1 font-semibold">Duration (Minutes)</label>
+                    <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">Duration (Minutes)</label>
                     <input
                       type="number"
                       value={newSchedDuration}
                       onChange={(e) => setNewSchedDuration(Number(e.target.value))}
-                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
-                    />
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
+                    >
+                    </input>
                   </div>
                   <div>
-                    <label className="block text-slate-400 mb-1 font-semibold">Target Group</label>
+                    <label className="block text-slate-600 dark:text-slate-400 mb-1 font-semibold">Target Group</label>
                     <input
                       type="text"
                       value={newSchedGroup}
                       onChange={(e) => setNewSchedGroup(e.target.value)}
                       placeholder="e.g. Batch Alpha"
-                      className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
+                      className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 rounded-lg text-slate-900 dark:text-white font-medium"
                     />
                   </div>
                 </div>
@@ -568,26 +569,26 @@ export const AdminTests: React.FC = () => {
             </div>
 
             {/* Scheduled Tests List */}
-            <div className="lg:col-span-2 bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl">
-              <div className="p-4 bg-slate-850 border-b border-slate-800 flex justify-between items-center text-xs">
-                <span className="font-bold text-slate-200">Upcoming & Active Scheduled Tests</span>
-                <span className="text-[11px] text-slate-400">{scheduledTests.length} Total</span>
+            <div className="lg:col-span-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl overflow-hidden shadow-sm">
+              <div className="p-4 bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-800 flex justify-between items-center text-xs">
+                <span className="font-bold text-slate-900 dark:text-slate-200">Upcoming & Active Scheduled Tests</span>
+                <span className="text-[11px] text-slate-500 dark:text-slate-400">{scheduledTests.length} Total</span>
               </div>
 
-              <div className="divide-y divide-slate-800">
+              <div className="divide-y divide-slate-100 dark:divide-slate-800">
                 {scheduledTests.map((st) => (
-                  <div key={st.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs hover:bg-slate-800/40 transition">
+                  <div key={st.id} className="p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
-                        <span className="font-bold text-white text-sm">{st.title}</span>
-                        <span className="px-2 py-0.5 rounded bg-brand-500/10 text-brand-400 border border-brand-500/20 font-bold text-[10px]">
+                        <span className="font-bold text-slate-900 dark:text-white text-sm">{st.title}</span>
+                        <span className="px-2 py-0.5 rounded bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20 font-bold text-[10px]">
                           {st.exam}
                         </span>
-                        <span className="px-2 py-0.5 rounded bg-slate-800 text-slate-300 font-bold text-[10px]">
+                        <span className="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-[10px]">
                           Class {st.classLevel}
                         </span>
                       </div>
-                      <div className="text-[11px] text-slate-400 flex items-center gap-3">
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 flex items-center gap-3">
                         <span>Window: {st.startDateTime.replace('T', ' ')} to {st.endDateTime.replace('T', ' ')}</span>
                         <span>•</span>
                         <span>{st.durationMinutes} Mins</span>
@@ -597,12 +598,12 @@ export const AdminTests: React.FC = () => {
                     </div>
 
                     <div className="flex items-center gap-2 self-start sm:self-auto">
-                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                      <span className="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 border border-amber-500/20 text-amber-500 dark:text-amber-400">
                         {st.status}
                       </span>
                       <button
                         onClick={() => setScheduledTests((prev) => prev.filter((item) => item.id !== st.id))}
-                        className="px-2.5 py-1 rounded bg-slate-800 hover:bg-rose-900/50 hover:text-rose-300 text-slate-400 font-semibold transition"
+                        className="px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 hover:bg-rose-50 dark:hover:bg-rose-900/50 hover:text-rose-600 dark:hover:text-rose-300 text-slate-600 dark:text-slate-400 font-semibold transition"
                       >
                         Cancel
                       </button>

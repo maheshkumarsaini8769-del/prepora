@@ -172,7 +172,7 @@ export const MistakeBook: React.FC = () => {
             onClick={() => setSelectedSubject(sub)}
             className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all whitespace-nowrap ${
               selectedSubject === sub
-                ? 'bg-slate-900 dark:bg-emerald-600 text-white'
+                ? 'bg-brand-600 text-white shadow-sm'
                 : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700'
             }`}
           >
@@ -198,7 +198,7 @@ export const MistakeBook: React.FC = () => {
 
             return (
               <Card key={m.id} className="p-5 space-y-3">
-                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+                <div className="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
                   <div className="flex items-center gap-2 text-xs">
                     <span className="font-bold text-slate-900 dark:text-white">{m.subject}</span>
                     <span className="text-slate-400">•</span>
@@ -219,13 +219,13 @@ export const MistakeBook: React.FC = () => {
                     </button>
 
                     {m.mistakeCount > 1 && (
-                      <span className="text-[11px] font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-md border border-rose-200">
+                      <span className="text-[11px] font-semibold text-rose-700 bg-rose-50 dark:bg-rose-950/40 px-2 py-0.5 rounded-md border border-rose-200 dark:border-rose-900/50">
                         Failed {m.mistakeCount}x
                       </span>
                     )}
 
                     {m.resolved && (
-                      <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">
+                      <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md border border-emerald-200 dark:border-emerald-900/50">
                         Resolved
                       </span>
                     )}
@@ -242,7 +242,7 @@ export const MistakeBook: React.FC = () => {
                   </div>
                 )}
 
-                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100 text-xs">
+                <div className="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-800 text-xs">
                   <span className="text-[11px] text-slate-400">
                     Last Attempted: {m.lastAttemptedDate}
                   </span>
@@ -345,12 +345,12 @@ export const MistakeBook: React.FC = () => {
                 variant="primary"
                 onClick={handleCheckRetry}
                 disabled={retryAnswer === null}
-                className="font-semibold bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer"
+                className="font-semibold bg-brand-600 hover:bg-brand-700 text-white shadow-sm shadow-brand-600/20 cursor-pointer"
               >
                 Check Answer
               </Button>
             ) : (
-              <Button variant="primary" onClick={() => setRetryItem(null)}>
+              <Button variant="primary" onClick={() => setRetryItem(null)} className="bg-brand-600 hover:bg-brand-700 text-white shadow-sm shadow-brand-600/20 cursor-pointer">
                 Done
               </Button>
             )}
@@ -370,12 +370,12 @@ export const MistakeBook: React.FC = () => {
                 const isSelected = retryAnswer === idx;
                 const isCorrectOpt = retryItem.question.correctAnswer === idx;
 
-                let style = 'bg-white border-slate-200 text-slate-700';
+                let style = 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-700/50';
                 if (retryChecked) {
-                  if (isCorrectOpt) style = 'bg-emerald-50 border-emerald-500 text-emerald-950 font-bold';
-                  else if (isSelected) style = 'bg-rose-50 border-rose-500 text-rose-950';
+                  if (isCorrectOpt) style = 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-500 text-emerald-950 dark:text-emerald-200 font-bold';
+                  else if (isSelected) style = 'bg-rose-50 dark:bg-rose-950/40 border-rose-500 text-rose-950 dark:text-rose-200';
                 } else if (isSelected) {
-                  style = 'bg-slate-900 text-white border-slate-900';
+                  style = 'bg-brand-600 text-white border-brand-600 shadow-sm';
                 }
 
                 return (
@@ -399,8 +399,8 @@ export const MistakeBook: React.FC = () => {
                 <div
                   className={`p-3 rounded-xl text-xs font-semibold ${
                     retryAnswer === retryItem.question.correctAnswer
-                      ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
-                      : 'bg-rose-50 text-rose-800 border border-rose-200'
+                      ? 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
+                      : 'bg-rose-50 dark:bg-rose-950/40 text-rose-800 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
                   }`}
                 >
                   {retryAnswer === retryItem.question.correctAnswer
@@ -410,7 +410,7 @@ export const MistakeBook: React.FC = () => {
 
                 <div className="p-3 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-200 dark:border-slate-800 text-xs space-y-1">
                   <div className="font-semibold text-slate-900 dark:text-white">Explanation:</div>
-                  <p className="text-slate-600 leading-relaxed">{retryItem.question.explanation}</p>
+                  <p className="text-slate-600 dark:text-slate-300 leading-relaxed">{retryItem.question.explanation}</p>
                 </div>
               </div>
             )}
@@ -428,7 +428,7 @@ export const MistakeBook: React.FC = () => {
             <Button variant="outline" onClick={() => setEditingMistake(null)}>
               Cancel
             </Button>
-            <Button variant="primary" onClick={handleSaveTag} className="bg-emerald-600 hover:bg-emerald-700 text-white shadow-sm shadow-emerald-600/20 cursor-pointer">
+            <Button variant="primary" onClick={handleSaveTag} className="bg-brand-600 hover:bg-brand-700 text-white shadow-sm shadow-brand-600/20 cursor-pointer">
               Save
             </Button>
           </div>
@@ -455,8 +455,8 @@ export const MistakeBook: React.FC = () => {
                   onClick={() => setEditReason(reason)}
                   className={`p-2 rounded-lg border text-left text-xs font-medium transition-all ${
                     editReason === reason
-                      ? 'border-slate-900 bg-slate-900 text-white'
-                      : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                      ? 'border-brand-600 bg-brand-600 text-white shadow-sm font-bold'
+                      : 'border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   {reason}

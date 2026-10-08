@@ -446,63 +446,63 @@ export const AdminPapers: React.FC = () => {
 
       {/* Top 5 Key Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4">
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="text-xs text-slate-400 font-semibold flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center justify-between">
             <span>Total Papers</span>
-            <BookOpen className="w-4 h-4 text-brand-400" />
+            <BookOpen className="w-4 h-4 text-brand-500 dark:text-brand-400" />
           </div>
-          <div className="text-2xl font-black text-white mt-2">{loading ? '...' : totalCount}</div>
+          <div className="text-2xl font-black text-slate-900 dark:text-white mt-2">{loading ? '...' : totalCount}</div>
           <div className="text-[11px] text-slate-500 mt-0.5">Catalogued Archives</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="text-xs text-slate-400 font-semibold flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center justify-between">
             <span>Live Published</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-emerald-400 mt-2">{loading ? '...' : publishedCount}</div>
-          <div className="text-[11px] text-emerald-400/80 mt-0.5">Accessible to Students</div>
+          <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{loading ? '...' : publishedCount}</div>
+          <div className="text-[11px] text-emerald-600 dark:text-emerald-400/80 mt-0.5">Accessible to Students</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="text-xs text-slate-400 font-semibold flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center justify-between">
             <span>Drafts / In Prep</span>
-            <Clock className="w-4 h-4 text-amber-400" />
+            <Clock className="w-4 h-4 text-amber-500 dark:text-amber-400" />
           </div>
-          <div className="text-2xl font-black text-amber-400 mt-2">{loading ? '...' : draftCount}</div>
-          <div className="text-[11px] text-amber-400/80 mt-0.5">Pending Verification</div>
+          <div className="text-2xl font-black text-amber-600 dark:text-amber-400 mt-2">{loading ? '...' : draftCount}</div>
+          <div className="text-[11px] text-amber-600 dark:text-amber-400/80 mt-0.5">Pending Verification</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="text-xs text-slate-400 font-semibold flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center justify-between">
             <span>Verified Real PYQs</span>
-            <ShieldCheck className="w-4 h-4 text-emerald-400" />
+            <ShieldCheck className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
           </div>
-          <div className="text-2xl font-black text-emerald-400 mt-2">{loading ? '...' : realPyqCount}</div>
-          <div className="text-[11px] text-emerald-400/80 mt-0.5">Authentic Exams</div>
+          <div className="text-2xl font-black text-emerald-600 dark:text-emerald-400 mt-2">{loading ? '...' : realPyqCount}</div>
+          <div className="text-[11px] text-emerald-600 dark:text-emerald-400/80 mt-0.5">Authentic Exams</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="text-xs text-slate-400 font-semibold flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center justify-between">
             <span>Official Models</span>
-            <Layers className="w-4 h-4 text-blue-400" />
+            <Layers className="w-4 h-4 text-blue-500 dark:text-blue-400" />
           </div>
-          <div className="text-2xl font-black text-white mt-2">{loading ? '...' : modelCount}</div>
-          <div className="text-[11px] text-blue-400 mt-0.5">Board Model Sets</div>
+          <div className="text-2xl font-black text-slate-900 dark:text-white mt-2">{loading ? '...' : modelCount}</div>
+          <div className="text-[11px] text-blue-600 dark:text-blue-400 mt-0.5">Board Model Sets</div>
         </div>
 
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800">
-          <div className="text-xs text-slate-400 font-semibold flex items-center justify-between">
+        <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs">
+          <div className="text-xs text-slate-500 dark:text-slate-400 font-semibold flex items-center justify-between">
             <span>Mocks & Samples</span>
-            <BookOpen className="w-4 h-4 text-purple-400" />
+            <BookOpen className="w-4 h-4 text-purple-500 dark:text-purple-400" />
           </div>
-          <div className="text-2xl font-black text-white mt-2">{loading ? '...' : mockCount + sampleCount}</div>
-          <div className="text-[11px] text-purple-400 mt-0.5">{mockCount} Mocks • {sampleCount} Samples</div>
+          <div className="text-2xl font-black text-slate-900 dark:text-white mt-2">{loading ? '...' : mockCount + sampleCount}</div>
+          <div className="text-[11px] text-purple-600 dark:text-purple-400 mt-0.5">{mockCount} Mocks • {sampleCount} Samples</div>
         </div>
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
+      <div className="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-3 text-xs">
         <div className="relative flex-1">
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
@@ -510,7 +510,7 @@ export const AdminPapers: React.FC = () => {
             placeholder="Search papers by title, subject, session, or year..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-9 pr-4 py-2 rounded-lg bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+            className="w-full pl-9 pr-4 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
           />
         </div>
 
@@ -519,7 +519,7 @@ export const AdminPapers: React.FC = () => {
           <select
             value={selectedExam}
             onChange={(e) => setSelectedExam(e.target.value)}
-            className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 font-semibold focus:outline-none focus:border-brand-500"
+            className="px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-semibold focus:outline-none focus:border-brand-500"
           >
             <option value="All">All Exams</option>
             <option value="JEE">JEE Main / Advanced</option>
@@ -532,7 +532,7 @@ export const AdminPapers: React.FC = () => {
           <select
             value={selectedContentType}
             onChange={(e) => setSelectedContentType(e.target.value)}
-            className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 font-semibold focus:outline-none focus:border-brand-500"
+            className="px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-semibold focus:outline-none focus:border-brand-500"
           >
             <option value="All">All Content Types</option>
             <option value="REAL_PYQ">Official Real PYQs Only</option>
@@ -545,7 +545,7 @@ export const AdminPapers: React.FC = () => {
           <select
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
-            className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 font-semibold focus:outline-none focus:border-brand-500"
+            className="px-3 py-2 rounded-lg bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-semibold focus:outline-none focus:border-brand-500"
           >
             <option value="All">All Statuses</option>
             <option value="Published">Published</option>
@@ -561,7 +561,7 @@ export const AdminPapers: React.FC = () => {
                 setSelectedContentType('All');
                 setSelectedStatus('All');
               }}
-              className="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-rose-400 font-bold transition"
+              className="px-3 py-2 rounded-lg bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-rose-500 font-bold transition"
             >
               Reset Filters
             </button>
@@ -570,10 +570,10 @@ export const AdminPapers: React.FC = () => {
       </div>
 
       {/* Papers Table */}
-      <div className="rounded-2xl bg-slate-900 border border-slate-800 overflow-hidden shadow-xl">
+      <div className="rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 overflow-hidden shadow-xs">
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-xs text-slate-300">
-            <thead className="bg-slate-850/80 border-b border-slate-800 text-slate-400 font-bold uppercase tracking-wider text-[11px]">
+          <table className="w-full text-left text-xs text-slate-700 dark:text-slate-300">
+            <thead className="bg-slate-50 dark:bg-slate-850/80 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider text-[11px]">
               <tr>
                 <th className="py-3.5 px-4">Paper Title & Details</th>
                 <th className="py-3.5 px-4">Exam / Board</th>
@@ -585,26 +585,26 @@ export const AdminPapers: React.FC = () => {
                 <th className="py-3.5 px-4 text-right">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-800/80">
+            <tbody className="divide-y divide-slate-100 dark:divide-slate-800/80">
               {filteredPapers.length === 0 ? (
                 <tr>
-                  <td colSpan={8} className="py-12 text-center text-slate-500">
-                    <FileText className="w-8 h-8 mx-auto mb-2 text-slate-600" />
+                  <td colSpan={8} className="py-12 text-center text-slate-400">
+                    <FileText className="w-8 h-8 mx-auto mb-2 text-slate-400" />
                     <p className="font-semibold">No papers match your search criteria.</p>
-                    <p className="text-[11px] text-slate-600 mt-1">Try resetting filters or upload a new paper above.</p>
+                    <p className="text-[11px] text-slate-400 mt-1">Try resetting filters or upload a new paper above.</p>
                   </td>
                 </tr>
               ) : (
                 filteredPapers.map((p) => (
-                  <tr key={p.id} className="hover:bg-slate-850/60 transition-colors">
+                  <tr key={p.id} className="hover:bg-slate-50 dark:hover:bg-slate-850/60 transition-colors">
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-white text-sm hover:text-brand-300 cursor-pointer" onClick={() => setPreviewPaper(p)}>
+                      <div className="font-bold text-slate-900 dark:text-white text-sm hover:text-brand-600 dark:hover:text-brand-300 cursor-pointer" onClick={() => setPreviewPaper(p)}>
                         {p.title}
                       </div>
-                      <div className="text-[11px] text-slate-400 mt-0.5 flex items-center gap-2">
-                        <span>Subject: <strong className="text-slate-300">{p.subject || 'Full Syllabus'}</strong></span>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5 flex items-center gap-2">
+                        <span>Subject: <strong className="text-slate-700 dark:text-slate-300">{p.subject || 'Full Syllabus'}</strong></span>
                         <span>•</span>
-                        <span>Source: <strong className="text-slate-300">{p.source || 'Official'}</strong></span>
+                        <span>Source: <strong className="text-slate-700 dark:text-slate-300">{p.source || 'Official'}</strong></span>
                       </div>
                     </td>
 
@@ -612,10 +612,10 @@ export const AdminPapers: React.FC = () => {
                       <span
                         className={`inline-flex items-center px-2 py-0.5 rounded text-[10px] font-black uppercase ${
                           p.exam === 'JEE'
-                            ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20'
+                            ? 'bg-blue-500/10 text-blue-500 dark:text-blue-400 border border-blue-500/20'
                             : p.exam === 'NEET'
-                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
-                            : 'bg-amber-500/10 text-amber-400 border border-amber-500/20'
+                            ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20'
+                            : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20'
                         }`}
                       >
                         {p.exam} {p.board ? `(${p.board})` : ''}
@@ -623,8 +623,8 @@ export const AdminPapers: React.FC = () => {
                     </td>
 
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-white">{p.year}</div>
-                      <div className="text-[11px] text-slate-400 truncate max-w-[140px]" title={p.shift || 'General'}>
+                      <div className="font-bold text-slate-900 dark:text-white">{p.year}</div>
+                      <div className="text-[11px] text-slate-500 dark:text-slate-400 truncate max-w-[140px]" title={p.shift || 'General'}>
                         {p.shift || 'General'}
                       </div>
                     </td>
@@ -760,25 +760,25 @@ export const AdminPapers: React.FC = () => {
 
       {/* CREATE / EDIT MODAL */}
       {isEditorOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-5">
-            <div className="flex items-center justify-between border-b border-slate-800 pb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-5">
+            <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
               <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-brand-500/10 text-brand-400">
+                <div className="p-2 rounded-xl bg-brand-500/10 text-brand-500 dark:text-brand-400">
                   <FileText className="w-5 h-5" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-base text-white">
+                  <h3 className="font-bold text-base text-slate-900 dark:text-white">
                     {editingPaper ? 'Edit Paper Metadata' : 'Upload / Add Curriculum Paper'}
                   </h3>
-                  <p className="text-xs text-slate-400">
+                  <p className="text-xs text-slate-500 dark:text-slate-400">
                     Conforms to official NTA & CBSE examination blueprint archives.
                   </p>
                 </div>
               </div>
               <button
                 onClick={() => setIsEditorOpen(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -787,7 +787,7 @@ export const AdminPapers: React.FC = () => {
             <form onSubmit={handleSavePaper} className="space-y-4 text-xs">
               {/* Paper Title */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1">
+                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
                   Paper Title <span className="text-rose-400">*</span>
                 </label>
                 <input
@@ -796,18 +796,18 @@ export const AdminPapers: React.FC = () => {
                   placeholder="e.g. JEE Main 2024 Session 1 (27 Jan Shift 1)"
                   value={formTitle}
                   onChange={(e) => setFormTitle(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                 />
               </div>
 
               {/* 3-Column: Exam, Year, Subject */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Exam Type</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Exam Type</label>
                   <select
                     value={formExam}
                     onChange={(e) => setFormExam(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   >
                     <option value="JEE">JEE Main / Advanced</option>
                     <option value="NEET">NEET UG</option>
@@ -818,23 +818,23 @@ export const AdminPapers: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Year</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Year</label>
                   <input
                     type="number"
                     min="1990"
                     max="2030"
                     value={formYear}
                     onChange={(e) => setFormYear(Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Subject Scope</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Subject Scope</label>
                   <select
                     value={formSubject}
                     onChange={(e) => setFormSubject(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   >
                     <option value="Full Syllabus">Full Syllabus (All Subjects)</option>
                     <option value="Physics">Physics</option>
@@ -849,35 +849,35 @@ export const AdminPapers: React.FC = () => {
               {/* Provenance: Session, Date, Shift */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Session / Term</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Session / Term</label>
                   <input
                     type="text"
                     placeholder="e.g. Session 1 or Main Exam"
                     value={formSession}
                     onChange={(e) => setFormSession(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Exam Date</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Exam Date</label>
                   <input
                     type="text"
                     placeholder="e.g. 2024-01-27"
                     value={formDate}
                     onChange={(e) => setFormDate(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Shift / Slot</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Shift / Slot</label>
                   <input
                     type="text"
                     placeholder="e.g. Shift 1 (9 AM - 12 PM)"
                     value={formShift}
                     onChange={(e) => setFormShift(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                   />
                 </div>
               </div>
@@ -885,7 +885,7 @@ export const AdminPapers: React.FC = () => {
               {/* Classification & Verification */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
                     Canonical Content Type <span className="text-rose-400">*</span>
                   </label>
                   <select
@@ -905,7 +905,7 @@ export const AdminPapers: React.FC = () => {
                         setFormType('Sample Paper');
                       }
                     }}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   >
                     <option value="REAL_PYQ">Official Real PYQ (Verified Exam)</option>
                     <option value="MODEL_PAPER">Official Model Paper (Board Authority)</option>
@@ -916,11 +916,11 @@ export const AdminPapers: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Audit Verification Status</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Audit Verification Status</label>
                   <select
                     value={formVerificationStatus}
                     onChange={(e) => setFormVerificationStatus(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   >
                     <option value="VERIFIED">VERIFIED (Authenticated Source)</option>
                     <option value="UNVERIFIED">UNVERIFIED (Review Required)</option>
@@ -929,26 +929,26 @@ export const AdminPapers: React.FC = () => {
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Issuing Authority</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Issuing Authority</label>
                   <input
                     type="text"
                     placeholder="e.g. Official NTA, CBSE New Delhi"
                     value={formSourceType}
                     onChange={(e) => setFormSourceType(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                   />
                 </div>
               </div>
 
               {/* Answer Key Source & Verification */}
-              <div className="p-3.5 rounded-xl bg-slate-800/40 border border-slate-750 space-y-3">
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-750 space-y-3">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-slate-300 font-bold mb-1">Answer Key Provenance</label>
+                    <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Answer Key Provenance</label>
                     <select
                       value={formAnswerKeySource}
                       onChange={(e) => setFormAnswerKeySource(e.target.value as any)}
-                      className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                      className="w-full px-3 py-2 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                     >
                       <option value="Official">Official Examination Authority</option>
                       <option value="PREPORA">Study Up Pedagogical Expert Faculty</option>
@@ -957,12 +957,12 @@ export const AdminPapers: React.FC = () => {
                   </div>
 
                   <div className="flex items-center pt-5">
-                    <label className="flex items-center gap-2 cursor-pointer select-none text-slate-300">
+                    <label className="flex items-center gap-2 cursor-pointer select-none text-slate-700 dark:text-slate-300">
                       <input
                         type="checkbox"
                         checked={formAnswerKeyVerified}
                         onChange={(e) => setFormAnswerKeyVerified(e.target.checked)}
-                        className="w-4 h-4 rounded text-brand-600 focus:ring-brand-500 bg-slate-800 border-slate-700"
+                        className="w-4 h-4 rounded text-brand-600 focus:ring-brand-500 bg-white dark:bg-slate-800 border-slate-300 dark:border-slate-700"
                       />
                       <span className="font-semibold text-xs">
                         Attest: Answer Key verified with official notification
@@ -975,35 +975,35 @@ export const AdminPapers: React.FC = () => {
               {/* 3-Column: Duration, Questions, Status */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Duration (Minutes)</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Duration (Minutes)</label>
                   <input
                     type="number"
                     min="15"
                     max="360"
                     value={formDuration}
                     onChange={(e) => setFormDuration(Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Total Questions</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Total Questions</label>
                   <input
                     type="number"
                     min="1"
                     max="300"
                     value={formQuestions}
                     onChange={(e) => setFormQuestions(Number(e.target.value))}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Publication Status</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Publication Status</label>
                   <select
                     value={formStatus}
                     onChange={(e) => setFormStatus(e.target.value as any)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white focus:outline-none focus:border-brand-500"
                   >
                     <option value="Published">Published (Live)</option>
                     <option value="Draft">Draft (Hidden)</option>
@@ -1015,55 +1015,55 @@ export const AdminPapers: React.FC = () => {
               {/* Official URLs */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">
-                    Official Source URL {formContentType === 'REAL_PYQ' && <span className="text-emerald-400 font-normal">(Required for Real PYQ)</span>}
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">
+                    Official Source URL {formContentType === 'REAL_PYQ' && <span className="text-emerald-500 dark:text-emerald-400 font-normal">(Required for Real PYQ)</span>}
                   </label>
                   <input
                     type="url"
                     placeholder="https://jeemain.nta.ac.in or https://cbseacademic.nic.in"
                     value={formSourceURL}
                     onChange={(e) => setFormSourceURL(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-slate-300 font-bold mb-1">Official Key / Document Link</label>
+                  <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Official Key / Document Link</label>
                   <input
                     type="url"
                     placeholder="https://... or PDF reference"
                     value={formFileUrl}
                     onChange={(e) => setFormFileUrl(e.target.value)}
-                    className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                    className="w-full px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                   />
                 </div>
               </div>
 
               {/* Description */}
               <div>
-                <label className="block text-slate-300 font-bold mb-1">Description / Exam Blueprint Notes</label>
+                <label className="block text-slate-700 dark:text-slate-300 font-bold mb-1">Description / Exam Blueprint Notes</label>
                 <textarea
                   rows={3}
                   placeholder="Provide syllabus highlights, sectional pattern, or test taker guidance..."
                   value={formDescription}
                   onChange={(e) => setFormDescription(e.target.value)}
-                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 focus:outline-none focus:border-brand-500"
+                  className="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:border-brand-500"
                 ></textarea>
               </div>
 
               {/* Modal Buttons */}
-              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-800">
+              <div className="flex items-center justify-end gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setIsEditorOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-bold transition"
+                  className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 font-bold transition cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold transition flex items-center gap-2 shadow-lg shadow-brand-600/30"
+                  className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition flex items-center gap-2 shadow-md shadow-brand-600/30 cursor-pointer"
                 >
                   {submitting ? (
                     <>
@@ -1085,68 +1085,68 @@ export const AdminPapers: React.FC = () => {
 
       {/* PREVIEW PAPER MODAL */}
       {previewPaper && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-xl shadow-2xl p-6 space-y-5">
-            <div className="flex items-start justify-between border-b border-slate-800 pb-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-xl shadow-2xl p-6 space-y-5">
+            <div className="flex items-start justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
               <div>
                 <div className="flex flex-wrap items-center gap-1.5 mb-1.5">
-                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-brand-500/10 text-brand-400 border border-brand-500/20">
+                  <span className="inline-block px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-wider bg-brand-500/10 text-brand-600 dark:text-brand-400 border border-brand-500/20">
                     {previewPaper.exam} {previewPaper.board ? `(${previewPaper.board})` : ''}
                   </span>
                   <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded text-[10px] font-black uppercase ${
                     (previewPaper.contentType === 'REAL_PYQ' || (!previewPaper.contentType && previewPaper.paperType === 'PYQ'))
-                      ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/30'
+                      ? 'bg-emerald-500/15 text-emerald-600 dark:text-emerald-300 border border-emerald-500/30'
                       : (previewPaper.contentType === 'MODEL_PAPER' || (!previewPaper.contentType && previewPaper.paperType === 'Model Paper'))
-                      ? 'bg-blue-500/20 text-blue-300 border border-blue-500/30'
-                      : 'bg-purple-500/20 text-purple-300 border border-purple-500/30'
+                      ? 'bg-blue-500/15 text-blue-600 dark:text-blue-300 border border-blue-500/30'
+                      : 'bg-purple-500/15 text-purple-600 dark:text-purple-300 border border-purple-500/30'
                   }`}>
                     {(previewPaper.contentType === 'REAL_PYQ' || (!previewPaper.contentType && previewPaper.paperType === 'PYQ')) && (
-                      <ShieldCheck className="w-3 h-3 text-emerald-400" />
+                      <ShieldCheck className="w-3 h-3 text-emerald-500 dark:text-emerald-400" />
                     )}
                     {previewPaper.contentType || previewPaper.paperType}
                   </span>
                   <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-bold ${
                     previewPaper.verificationStatus === 'VERIFIED'
-                      ? 'bg-emerald-950/60 text-emerald-400 border border-emerald-500/40'
-                      : 'bg-amber-950/60 text-amber-400 border border-amber-500/40'
+                      ? 'bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-500/30'
+                      : 'bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 border border-amber-500/30'
                   }`}>
                     {previewPaper.verificationStatus || 'VERIFIED'}
                   </span>
                 </div>
-                <h3 className="text-lg font-black text-white">{previewPaper.title}</h3>
-                <p className="text-xs text-slate-400 mt-1">
+                <h3 className="text-lg font-black text-slate-900 dark:text-white">{previewPaper.title}</h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                   Year: {previewPaper.year} {previewPaper.session ? `• ${previewPaper.session}` : ''} {previewPaper.shift ? `• ${previewPaper.shift}` : ''}
                 </p>
               </div>
               <button
                 onClick={() => setPreviewPaper(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
             </div>
 
             <div className="space-y-4 text-xs">
-              <div className="p-3.5 rounded-xl bg-slate-800/60 border border-slate-750 text-slate-300 leading-relaxed">
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-750 text-slate-700 dark:text-slate-300 leading-relaxed">
                 {previewPaper.description || 'No additional description provided.'}
               </div>
 
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center">
-                <div className="p-2.5 rounded-lg bg-slate-800/40 border border-slate-750">
-                  <div className="text-slate-400 text-[10px]">Total Questions</div>
-                  <div className="text-base font-bold text-white mt-0.5">{previewPaper.totalQuestions}</div>
+                <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-750">
+                  <div className="text-slate-500 dark:text-slate-400 text-[10px]">Total Questions</div>
+                  <div className="text-base font-bold text-slate-900 dark:text-white mt-0.5">{previewPaper.totalQuestions}</div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-slate-800/40 border border-slate-750">
-                  <div className="text-slate-400 text-[10px]">Time Allowed</div>
-                  <div className="text-base font-bold text-white mt-0.5">{previewPaper.durationMinutes}m</div>
+                <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-750">
+                  <div className="text-slate-500 dark:text-slate-400 text-[10px]">Time Allowed</div>
+                  <div className="text-base font-bold text-slate-900 dark:text-white mt-0.5">{previewPaper.durationMinutes}m</div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-slate-800/40 border border-slate-750">
-                  <div className="text-slate-400 text-[10px]">Source</div>
-                  <div className="text-base font-bold text-slate-200 mt-0.5">{previewPaper.source}</div>
+                <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-750">
+                  <div className="text-slate-500 dark:text-slate-400 text-[10px]">Source</div>
+                  <div className="text-base font-bold text-slate-800 dark:text-slate-200 mt-0.5">{previewPaper.source}</div>
                 </div>
-                <div className="p-2.5 rounded-lg bg-slate-800/40 border border-slate-750">
-                  <div className="text-slate-400 text-[10px]">Status</div>
-                  <div className="text-base font-bold text-emerald-400 mt-0.5">{previewPaper.status}</div>
+                <div className="p-2.5 rounded-lg bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-750">
+                  <div className="text-slate-500 dark:text-slate-400 text-[10px]">Status</div>
+                  <div className="text-base font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">{previewPaper.status}</div>
                 </div>
               </div>
 
@@ -1157,7 +1157,7 @@ export const AdminPapers: React.FC = () => {
                     href={previewPaper.fileUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-xl bg-brand-500/10 hover:bg-brand-500/20 border border-brand-500/30 text-brand-300 font-bold transition"
+                    className="flex items-center justify-between p-3 rounded-xl bg-brand-500/10 hover:bg-brand-500/20 border border-brand-500/30 text-brand-600 dark:text-brand-300 font-bold transition"
                   >
                     <span className="flex items-center gap-2">
                       <FileText className="w-4 h-4" />
@@ -1166,7 +1166,7 @@ export const AdminPapers: React.FC = () => {
                     <ExternalLink className="w-4 h-4" />
                   </a>
                 ) : (
-                  <div className="p-3 rounded-xl bg-slate-800/30 border border-slate-750 text-slate-400">
+                  <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/30 border border-slate-200 dark:border-slate-750 text-slate-500 dark:text-slate-400">
                     Direct PDF link not configured. Paper questions stored in database.
                   </div>
                 )}
@@ -1176,10 +1176,10 @@ export const AdminPapers: React.FC = () => {
                     href={previewPaper.answerKeyUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-xl bg-slate-800 hover:bg-slate-750 border border-slate-700 text-slate-200 font-bold transition"
+                    className="flex items-center justify-between p-3 rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-750 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-bold transition"
                   >
                     <span className="flex items-center gap-2">
-                      <Award className="w-4 h-4 text-emerald-400" />
+                      <Award className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
                       <span>Official Answer Key & Verification Key</span>
                     </span>
                     <ExternalLink className="w-4 h-4" />
@@ -1188,13 +1188,13 @@ export const AdminPapers: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center justify-between pt-4 border-t border-slate-800">
+            <div className="flex items-center justify-between pt-4 border-t border-slate-100 dark:border-slate-800">
               <button
                 onClick={() => {
                   setPreviewPaper(null);
                   openEditModal(previewPaper);
                 }}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold transition text-xs"
+                className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold transition text-xs cursor-pointer"
               >
                 Edit Metadata
               </button>
@@ -1204,7 +1204,7 @@ export const AdminPapers: React.FC = () => {
                   setPreviewPaper(null);
                   navigate(`/papers/${previewPaper.id}`);
                 }}
-                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold transition text-xs shadow-lg shadow-brand-600/30"
+                className="flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition text-xs shadow-md shadow-brand-600/30 cursor-pointer"
               >
                 <span>Open Student View</span>
                 <Play className="w-3.5 h-3.5" />
@@ -1216,27 +1216,27 @@ export const AdminPapers: React.FC = () => {
 
       {/* DELETE CONFIRMATION MODAL */}
       {deleteConfirmId && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-sm p-6 space-y-4 text-center shadow-2xl">
-            <div className="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-400 flex items-center justify-center mx-auto">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in">
+          <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full max-w-sm p-6 space-y-4 text-center shadow-2xl">
+            <div className="w-12 h-12 rounded-2xl bg-rose-500/10 border border-rose-500/20 text-rose-500 dark:text-rose-400 flex items-center justify-center mx-auto">
               <Trash2 className="w-6 h-6" />
             </div>
             <div>
-              <h3 className="font-bold text-base text-white">Delete Paper Record?</h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <h3 className="font-bold text-base text-slate-900 dark:text-white">Delete Paper Record?</h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
                 Are you sure you want to delete this paper? This action will be logged in the administrative audit records.
               </p>
             </div>
             <div className="flex items-center justify-center gap-3 pt-2">
               <button
                 onClick={() => setDeleteConfirmId(null)}
-                className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 text-xs font-bold transition"
+                className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 text-xs font-bold transition cursor-pointer"
               >
                 Cancel
               </button>
               <button
                 onClick={() => handleDeletePaper(deleteConfirmId)}
-                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold transition shadow-lg shadow-rose-600/30"
+                className="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold transition shadow-md shadow-rose-600/30 cursor-pointer"
               >
                 Confirm Delete
               </button>

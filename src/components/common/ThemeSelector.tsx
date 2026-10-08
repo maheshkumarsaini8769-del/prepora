@@ -74,7 +74,7 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ compact = false })
             <span className="text-xs font-black text-slate-900 dark:text-white uppercase tracking-wider">
               Website Color Theme
             </span>
-            <span className="text-[10px] font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold text-brand-600 dark:text-brand-400 bg-brand-50 dark:bg-brand-950/60 px-2 py-0.5 rounded-full">
               Live Preview
             </span>
           </div>
@@ -87,10 +87,10 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ compact = false })
                   key={theme.key}
                   type="button"
                   onClick={() => handleSelectTheme(theme.key)}
-                  className={`w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all ${
+                  className={`w-full flex items-center justify-between p-2.5 rounded-xl text-left transition-all cursor-pointer ${
                     isSelected
-                      ? 'bg-brand-50/80 text-brand-950 font-bold'
-                      : 'hover:bg-slate-50 text-slate-700'
+                      ? 'bg-brand-50 dark:bg-brand-950/60 text-brand-900 dark:text-brand-300 font-bold ring-1 ring-brand-500/30'
+                      : 'hover:bg-slate-100 dark:hover:bg-slate-800/80 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   <div className="flex items-center gap-2.5">
@@ -101,13 +101,13 @@ export const ThemeSelector: React.FC<ThemeSelectorProps> = ({ compact = false })
                       {isSelected && <Check className="w-3 h-3 stroke-[3]" />}
                     </span>
                     <div>
-                      <div className="text-xs font-bold leading-tight">{theme.name}</div>
-                      <div className="text-[10px] text-slate-400 leading-tight mt-0.5">{theme.subtitle}</div>
+                      <div className="text-xs font-bold leading-tight text-slate-900 dark:text-white">{theme.name}</div>
+                      <div className="text-[10px] text-slate-500 dark:text-slate-400 leading-tight mt-0.5">{theme.subtitle}</div>
                     </div>
                   </div>
 
                   {isSelected && (
-                    <span className="text-[10px] font-extrabold text-brand-600">Active</span>
+                    <span className="text-[10px] font-extrabold text-brand-600 dark:text-brand-400">Active</span>
                   )}
                 </button>
               );

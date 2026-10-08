@@ -86,14 +86,14 @@ export const AdminDashboard: React.FC = () => {
   return (
     <div className="space-y-6 max-w-7xl mx-auto animate-in fade-in duration-200 pb-12">
       {/* Header Banner */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-gradient-to-r from-slate-900 via-slate-850 to-slate-900 border border-slate-800 shadow-xl">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-5 sm:p-6 rounded-2xl bg-white dark:bg-gradient-to-r dark:from-slate-900 dark:via-slate-850 dark:to-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-xl">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-black mb-2">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 text-xs font-black mb-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span>SUPER ADMIN CONTROL CENTER</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-white tracking-tight">Admin Overview & Control Center</h1>
-          <p className="text-xs sm:text-sm text-slate-400 mt-1 max-w-2xl">
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Admin Overview & Control Center</h1>
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400 mt-1 max-w-2xl">
             Live student telemetry monitor, curriculum questions bank, mock test management aur active session controls.
           </p>
         </div>
@@ -102,9 +102,9 @@ export const AdminDashboard: React.FC = () => {
           <button
             onClick={() => fetchStats(true)}
             disabled={refreshing}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 transition cursor-pointer self-start sm:self-auto shadow-sm"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold border border-slate-300 dark:border-slate-700 transition cursor-pointer self-start sm:self-auto shadow-sm"
           >
-            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin text-emerald-400' : ''}`} />
+            <RefreshCw className={`w-3.5 h-3.5 ${refreshing ? 'animate-spin text-emerald-600 dark:text-emerald-400' : ''}`} />
             <span>{refreshing ? 'Refreshing...' : 'Refresh Metrics'}</span>
           </button>
         </div>

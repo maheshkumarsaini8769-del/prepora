@@ -49,6 +49,7 @@ import { StudentFeedbackModal } from '../components/common/StudentFeedbackModal'
 import { StudentGuideModal } from '../components/common/StudentGuideModal';
 import { NotificationDropdown } from '../components/common/NotificationDropdown';
 import { InstallAppBanner } from '../components/common/InstallAppBanner';
+import { ThemeSelector } from '../components/common/ThemeSelector';
 import { soundFeedback } from '../utils/audioFeedback';
 import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
 import { getAllowedSubjectsForExam } from '../utils/examUtils';
@@ -303,12 +304,15 @@ export const MainLayout: React.FC = () => {
           </div>
 
           {/* Right Controls: Dark/Light Mode, Notifications, Profile */}
-          <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-2.5">
+            {/* Color Palette Theme Selector */}
+            <ThemeSelector compact={true} />
+
             {/* Dark / Light Mode Switcher (Moon/Sun) */}
             <button
               type="button"
               onClick={handleToggleColorMode}
-              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               title={`Switch to ${colorMode === 'dark' ? 'Light' : 'Dark'} Mode`}
               aria-label="Toggle Dark/Light Mode"
             >
