@@ -21,6 +21,7 @@ import plannerRoutes from './routes/planner.routes.js';
 import lectureRoutes from './routes/lecture.routes.js';
 import formulaRoutes from './routes/formula.routes.js';
 import searchRoutes from './routes/search.routes.js';
+import feedbackRoutes from './routes/feedback.routes.js';
 
 import { securityHeaders } from './middleware/securityHeaders.js';
 import { mongoSanitizer } from './middleware/mongoSanitizer.js';
@@ -80,6 +81,7 @@ app.use('/api/formulas', formulaRoutes);
 app.use('/api/search', searchRoutes);
 app.use('/api/attempts', attemptRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/feedback', feedbackRoutes);
 app.use('/api/audit', auditRoutes);
 app.use('/api', entitiesRoutes);
 app.use('/api/entities', entitiesRoutes);

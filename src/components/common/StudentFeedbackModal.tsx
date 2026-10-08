@@ -13,6 +13,7 @@ import {
   Phone
 } from 'lucide-react';
 import { userService } from '../../services/userService';
+import { soundFeedback } from '../../utils/audioFeedback';
 
 export const StudentFeedbackModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +21,9 @@ export const StudentFeedbackModal: React.FC = () => {
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const [category, setCategory] = useState('Formula Sheet / Notes');
-  const [name, setName] = useState(() => userService.getProfile().name || '');
-  const [phone, setPhone] = useState(() => userService.getProfile().phone || '');
+  const profile = userService.getProfile();
+  const [name, setName] = useState(() => (profile.name && profile.name !== 'Aspirant' ? profile.name : ''));
+  const [phone, setPhone] = useState(() => profile.phone || profile.mobile || '');
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
@@ -48,23 +50,46 @@ export const StudentFeedbackModal: React.FC = () => {
     setLoading(true);
     setErrorMsg('');
 
+    const resolvedName = name.trim() || profile.name || 'Student';
+    const resolvedPhone = phone.trim() || profile.phone || profile.mobile || '';
+    const payload = {
+      type: activeTab,
+      category,
+      title: title.trim(),
+      description: description.trim(),
+      studentName: resolvedName,
+      userName: resolvedName,
+      studentPhone: resolvedPhone || undefined,
+      userPhone: resolvedPhone || undefined,
+      userEmail: profile.email || undefined,
+      email: profile.email || undefined,
+      userId: profile.id || 'anonymous',
+      pageUrl: location.pathname
+    };
+
     try {
-      const res = await fetch('/api/feedback', {
+      // Primary endpoint: /api/feedback, with automatic fallback to /api/reports/feedback
+      let res = await fetch('/api/feedback', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: activeTab,
-          category,
-          title: title.trim(),
-          description: description.trim(),
-          studentName: name.trim() || 'Anonymous Student',
-          studentPhone: phone.trim() || undefined,
-          pageUrl: location.pathname
-        })
-      });
+        body: JSON.stringify(payload)
+      }).catch(() => null);
 
-      const data = await res.json();
-      if (data.success) {
+      if (!res || !res.ok) {
+        res = await fetch('/api/reports/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(() => null);
+      }
+
+      if (!res) {
+        throw new Error('Network error. Unable to reach the server.');
+      }
+
+      const data = await res.json().catch(() => ({}));
+      if (res.ok && (data.success !== false)) {
+        soundFeedback.playSuccess();
         setSubmitted(true);
         setTimeout(() => {
           setSubmitted(false);
@@ -75,8 +100,8 @@ export const StudentFeedbackModal: React.FC = () => {
       } else {
         setErrorMsg(data.message || 'Submission failed. Please try again.');
       }
-    } catch {
-      setErrorMsg('Could not connect to server. Please try again.');
+    } catch (err: any) {
+      setErrorMsg(err.message || 'Could not connect to server. Please try again.');
     } finally {
       setLoading(false);
     }
