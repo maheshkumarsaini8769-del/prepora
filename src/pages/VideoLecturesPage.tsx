@@ -24,7 +24,12 @@ import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
 import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
 import { continueLearningService } from '../services/continueLearningService';
-import { sortChapterNamesCanonical, sortChaptersCanonical } from '../utils/chapterOrder';
+import {
+  sortChapterNamesCanonical,
+  sortChaptersCanonical,
+  getChapterOrderInfo,
+  formatChapterDropdownLabel
+} from '../utils/chapterOrder';
 
 export const VideoLecturesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -161,7 +166,8 @@ export const VideoLecturesPage: React.FC = () => {
     });
     const chaps = sortChapterNamesCanonical(
       Array.from(new Set(vids.map(v => v.chapter))),
-      selectedSubject !== 'All' ? selectedSubject : undefined
+      selectedSubject !== 'All' ? selectedSubject : undefined,
+      selectedClass !== 'All' ? selectedClass : undefined
     );
     if (selectedChapter !== 'All' && !chaps.includes(selectedChapter)) {
       chaps.unshift(selectedChapter);
@@ -175,6 +181,14 @@ export const VideoLecturesPage: React.FC = () => {
       // If all chapters are shown and in topic-wise mode, collect distinct topics
       const topicVids = allVideos.filter(v => v.isTopicWise && v.topic);
       return Array.from(new Set(topicVids.map(v => v.topic!))).slice(0, 15);
+    }
+    const info = getChapterOrderInfo(
+      selectedChapter,
+      selectedSubject !== 'All' ? selectedSubject : undefined,
+      selectedClass !== 'All' ? selectedClass : undefined
+    );
+    if (info.topics && info.topics.length > 0) {
+      return [...info.topics].sort((a, b) => a.order - b.order).map(t => t.name);
     }
     const notes = comprehensiveFormulaNotes.filter(
       n => n.chapter.toLowerCase() === selectedChapter.toLowerCase()
@@ -192,7 +206,7 @@ export const VideoLecturesPage: React.FC = () => {
       'High-Yield Exam Applications',
       'Advanced Problem Solving'
     ];
-  }, [selectedChapter, allVideos]);
+  }, [selectedChapter, allVideos, selectedSubject, selectedClass]);
 
   // Multi-dimensional filtering logic: Exam, Class, Subject, Mode, Chapter, Topic, Search
   const filteredVideos: VideoResource[] = useMemo(() => {
@@ -272,8 +286,14 @@ export const VideoLecturesPage: React.FC = () => {
       }
     }
 
-    // Line-wise canonical curriculum sort
-    return sortChaptersCanonical(list, v => v.chapter, v => v.subject);
+    // Line-wise canonical curriculum sort with topic tie-breaking
+    return sortChaptersCanonical(
+      list,
+      v => v.chapter,
+      v => v.subject,
+      v => v.classLevel,
+      v => v.topic
+    );
   }, [allVideos, selectedExam, selectedClass, selectedSubject, lectureMode, selectedChapter, selectedTopic, searchQuery, availableTopics]);
 
   const handlePlayVideo = (video: VideoResource) => {
@@ -549,7 +569,17 @@ export const VideoLecturesPage: React.FC = () => {
             >
               <option value="All">All Chapters ({distinctChapters.length})</option>
               {distinctChapters.map((ch) => (
-                <option key={ch} value={ch}>{ch}</option>
+                <option key={ch} value={ch}>
+                  {formatChapterDropdownLabel(
+                    ch,
+                    selectedSubject !== 'All' ? selectedSubject : undefined,
+                    selectedClass !== 'All' ? selectedClass : undefined,
+                    {
+                      isSubjectAll: selectedSubject === 'All',
+                      isClassAll: selectedClass === 'All'
+                    }
+                  )}
+                </option>
               ))}
             </select>
           </div>
@@ -610,7 +640,7 @@ export const VideoLecturesPage: React.FC = () => {
                     : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200'
                 }`}
               >
-                {topic}
+                {tidx + 1}. {topic}
               </button>
             ))}
           </div>
@@ -621,6 +651,10 @@ export const VideoLecturesPage: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {filteredVideos.map((video, vidx) => {
           const colors = getSubjectColor(video.subject);
+          const info = getChapterOrderInfo(video.chapter, video.subject, video.classLevel);
+          const chNum = info.order !== 999 ? info.classChapterNumber : (vidx + 1);
+          const sNo = info.order !== 999 ? info.order : (vidx + 1);
+
           return (
             <div
               key={`${video.id || video.youtubeId}-${vidx}`}
@@ -655,18 +689,26 @@ export const VideoLecturesPage: React.FC = () => {
                   <Sparkles className="w-3 h-3 text-emerald-400" />
                   <span>{video.isTopicWise ? 'Topic Deep Dive' : 'Full Chapter One-Shot'}</span>
                 </div>
+
+                {/* Badge: S.No / Chapter Number on Thumbnail */}
+                <div className="absolute top-2 right-2 px-2.5 py-0.5 bg-black/85 border border-emerald-500/50 text-emerald-300 text-[11px] font-black rounded-md backdrop-blur-xs shadow-md">
+                  Ch {chNum < 10 ? `0${chNum}` : chNum}
+                </div>
               </div>
 
               {/* Card Body */}
               <div className="p-4 sm:p-5 flex-1 flex flex-col justify-between space-y-3">
                 <div className="space-y-2">
-                  {/* Badges: Subject, Class, Exam Tags */}
+                  {/* Badges: Subject, Class, Chapter Number, Exam Tags */}
                   <div className="flex flex-wrap items-center gap-1.5">
                     <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-md border ${colors.badge}`}>
                       {video.subject}
                     </span>
                     <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300">
                       Class {video.classLevel || '11'}
+                    </span>
+                    <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                      Chapter {chNum} <span className="opacity-75 font-normal text-[9px]">(S.No {sNo})</span>
                     </span>
                     {video.targetExams && video.targetExams.map((ex) => (
                       <span
@@ -682,6 +724,12 @@ export const VideoLecturesPage: React.FC = () => {
                         {ex}
                       </span>
                     ))}
+                  </div>
+
+                  {/* Chapter Title with S.No */}
+                  <div className="text-xs font-black text-slate-700 dark:text-slate-200 flex items-center gap-1.5 pt-0.5">
+                    <BookOpen className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
+                    <span className="line-clamp-1">Chapter {chNum}: {video.chapter}</span>
                   </div>
 
                   {video.topic && (
@@ -787,7 +835,14 @@ export const VideoLecturesPage: React.FC = () => {
                     {activeVideo.subject} • Class {activeVideo.classLevel || '11'}
                   </span>
                   <span className="text-slate-600">•</span>
-                  <span className="text-xs text-slate-300 font-semibold">{activeVideo.chapter}</span>
+                  <span className="text-xs text-slate-300 font-semibold">
+                    {(() => {
+                      const meta = getChapterOrderInfo(activeVideo.chapter, activeVideo.subject, activeVideo.classLevel);
+                      return meta.order !== 999
+                        ? `Chapter ${meta.classChapterNumber} (S.No ${meta.order}): ${activeVideo.chapter}`
+                        : activeVideo.chapter;
+                    })()}
+                  </span>
                   {activeVideo.topic && (
                     <>
                       <span className="text-slate-600">•</span>

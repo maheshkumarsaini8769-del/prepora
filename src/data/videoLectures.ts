@@ -1,5 +1,6 @@
 import { comprehensiveFormulaNotes } from './comprehensiveFormulaNotes';
 import { COMPREHENSIVE_TOPIC_VIDEOS } from './topicVideosData';
+import { getChapterOrderInfo } from '../utils/chapterOrder';
 
 export interface VideoResource {
   id: string;
@@ -1343,22 +1344,35 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     "id": "vid-mathematics-relations-and-functions",
     "chapter": "Relations and Functions",
     "subject": "Mathematics",
-    "title": "Relations and Functions — Full Chapter High-Yield One-Shot",
+    "classLevel": "12",
+    "title": "Relations and Functions (Class 12) — Full Chapter High-Yield One-Shot",
     "youtubeId": "PHXKDfENOrA",
     "channelName": "Next Toppers - 12th Science",
     "duration": "33m",
     "description": "Complete NCERT and entrance exam theory, concept derivations, and high-yield problem solving for Relations and Functions (Mathematics). Taught by Next Toppers - 12th Science."
-},
+  },
+  "mathematics:relations and functions:11": {
+    "id": "vid-mathematics-relations-and-functions-11",
+    "chapter": "Relations and Functions",
+    "subject": "Mathematics",
+    "classLevel": "11",
+    "title": "Relations and Functions (Class 11) — Full Chapter One-Shot",
+    "youtubeId": "W2q2B2r85tI",
+    "channelName": "Neha Agrawal Mathematically Inclined",
+    "duration": "1h 45m",
+    "description": "Cartesian product, ordered pairs, relations domain and range, functions and special graphs for Class 11 JEE & CBSE."
+  },
   "relations and functions": {
     "id": "vid-mathematics-relations-and-functions",
     "chapter": "Relations and Functions",
     "subject": "Mathematics",
-    "title": "Relations and Functions — Full Chapter High-Yield One-Shot",
+    "classLevel": "12",
+    "title": "Relations and Functions (Class 12) — Full Chapter High-Yield One-Shot",
     "youtubeId": "PHXKDfENOrA",
     "channelName": "Next Toppers - 12th Science",
     "duration": "33m",
     "description": "Complete NCERT and entrance exam theory, concept derivations, and high-yield problem solving for Relations and Functions (Mathematics). Taught by Next Toppers - 12th Science."
-},
+  },
   "mathematics:trigonometric functions": {
     "id": "vid-mathematics-trigonometric-functions",
     "chapter": "Trigonometric Functions",
@@ -1583,22 +1597,35 @@ export const CURATED_CHAPTER_VIDEOS: Record<string, VideoResource> = {
     "id": "vid-mathematics-probability",
     "chapter": "Probability",
     "subject": "Mathematics",
-    "title": "Probability — Full Chapter High-Yield One-Shot",
+    "classLevel": "12",
+    "title": "Probability (Class 12) — Full Chapter High-Yield One-Shot",
     "youtubeId": "oqQDUjpI4BU",
     "channelName": "NCERT Wallah",
     "duration": "4h 48m",
     "description": "Complete NCERT and entrance exam theory, concept derivations, and high-yield problem solving for Probability (Mathematics). Taught by NCERT Wallah."
-},
+  },
+  "mathematics:probability:11": {
+    "id": "vid-mathematics-probability-11",
+    "chapter": "Probability",
+    "subject": "Mathematics",
+    "classLevel": "11",
+    "title": "Probability (Class 11) — Full Chapter One-Shot",
+    "youtubeId": "zXj0C2sB64g",
+    "channelName": "Neha Agrawal Mathematically Inclined",
+    "duration": "1h 50m",
+    "description": "Sample space, outcomes, events, mutually exclusive & exhaustive events, and axiomatic probability for Class 11 JEE & CBSE."
+  },
   "probability": {
     "id": "vid-mathematics-probability",
     "chapter": "Probability",
     "subject": "Mathematics",
-    "title": "Probability — Full Chapter High-Yield One-Shot",
+    "classLevel": "12",
+    "title": "Probability (Class 12) — Full Chapter High-Yield One-Shot",
     "youtubeId": "oqQDUjpI4BU",
     "channelName": "NCERT Wallah",
     "duration": "4h 48m",
     "description": "Complete NCERT and entrance exam theory, concept derivations, and high-yield problem solving for Probability (Mathematics). Taught by NCERT Wallah."
-},
+  },
   "mathematics:inverse trigonometric functions": {
     "id": "vid-mathematics-inverse-trigonometric-functions",
     "chapter": "Inverse Trigonometric Functions",
@@ -3210,26 +3237,55 @@ export function getVideoForTopic(
 export function getAllCuratedVideos(): VideoResource[] {
   const map = new Map<string, VideoResource>();
 
-  // 1. Add all Curated Chapter One-Shots enriched with classLevel & targetExams
+  // 1. Add all Curated Chapter One-Shots enriched with canonical metadata, classLevel & targetExams
+  const seenChapters = new Set<string>();
   for (const v of Object.values(CURATED_CHAPTER_VIDEOS)) {
-    if (!map.has(v.id)) {
-      const cleanChap = v.chapter.toLowerCase().trim();
-      const mappedClass = CHAPTER_CLASS_MAP[cleanChap] || "11";
-      const mappedExams = getTargetExamsForSubject(v.subject);
+    // Skip duplicate alias entries so fake chapters do not appear in curriculum
+    if (v.id.startsWith('vid-alias-')) continue;
 
-      map.set(v.id, {
-        ...v,
-        classLevel: mappedClass,
-        targetExams: mappedExams,
-        isTopicWise: false
-      });
-    }
+    const cleanChap = v.chapter.toLowerCase().trim();
+    const info = getChapterOrderInfo(v.chapter, v.subject, v.classLevel);
+    const mappedClass =
+      info && info.order !== 999
+        ? (info.classLevel as '11' | '12')
+        : CHAPTER_CLASS_MAP[cleanChap] || v.classLevel || '11';
+    const canonicalChapter =
+      info && info.order !== 999 ? info.canonicalName : v.chapter;
+
+    const chapKey = `${v.subject}::${canonicalChapter}::${mappedClass}`;
+    if (seenChapters.has(chapKey)) continue;
+    seenChapters.add(chapKey);
+
+    const mappedExams = getTargetExamsForSubject(v.subject);
+
+    map.set(v.id, {
+      ...v,
+      chapter: canonicalChapter,
+      classLevel: mappedClass,
+      targetExams: mappedExams,
+      isTopicWise: false
+    });
   }
 
   // 2. Add all curated Topic-Wise Videos
   for (const tv of TOPIC_VIDEOS) {
     if (!map.has(tv.id)) {
-      map.set(tv.id, tv);
+      const info = getChapterOrderInfo(tv.chapter, tv.subject, tv.classLevel);
+      const mappedClass =
+        info && info.order !== 999
+          ? (info.classLevel as '11' | '12')
+          : CHAPTER_CLASS_MAP[tv.chapter.toLowerCase().trim()] || tv.classLevel || '11';
+      const canonicalChapter =
+        info && info.order !== 999 ? info.canonicalName : tv.chapter;
+      const mappedExams = tv.targetExams || getTargetExamsForSubject(tv.subject);
+
+      map.set(tv.id, {
+        ...tv,
+        chapter: canonicalChapter,
+        classLevel: mappedClass,
+        targetExams: mappedExams,
+        isTopicWise: true
+      });
     }
   }
 
@@ -3239,7 +3295,20 @@ export function getAllCuratedVideos(): VideoResource[] {
     if (!note.topic || !note.chapter) continue;
     const synthVid = getVideoForTopic(note.chapter, note.topic, note.subject);
     if (!map.has(synthVid.id)) {
-      map.set(synthVid.id, synthVid);
+      const info = getChapterOrderInfo(note.chapter, note.subject, String(note.classLevel));
+      const mappedClass =
+        info && info.order !== 999
+          ? (info.classLevel as '11' | '12')
+          : (String(note.classLevel || '11') as '11' | '12');
+      const canonicalChapter =
+        info && info.order !== 999 ? info.canonicalName : note.chapter;
+
+      map.set(synthVid.id, {
+        ...synthVid,
+        chapter: canonicalChapter,
+        classLevel: mappedClass,
+        isTopicWise: true
+      });
     }
   }
 
