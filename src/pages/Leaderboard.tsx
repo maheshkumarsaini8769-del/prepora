@@ -33,7 +33,7 @@ export const Leaderboard: React.FC = () => {
         <Card className="p-4 text-center bg-gradient-to-br from-purple-50 to-indigo-50 dark:from-purple-950/40 dark:to-indigo-950/40 border-purple-200 dark:border-purple-800/60">
           <div className="text-xs text-purple-700 dark:text-purple-300 font-bold mb-1">Your Standing</div>
           <div className="text-3xl font-black text-purple-950 dark:text-purple-200">#{data.userRank}</div>
-          <div className="text-[11px] text-purple-600 dark:text-purple-300 mt-0.5">Top 8th percentile</div>
+          <div className="text-[11px] text-purple-600 dark:text-purple-300 mt-0.5">{data.userPercentile || 'Weekly Peer Cohort'}</div>
         </Card>
 
         <Card className="p-4 text-center">

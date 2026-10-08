@@ -14,6 +14,7 @@ import { Card, Button } from '../components/common/UIComponents';
 import { progressService } from '../services/progressService';
 import { testService } from '../services/testService';
 import { userService } from '../services/userService';
+import { rankPredictorService } from '../services/rankPredictorService';
 import { SubjectName } from '../types';
 
 export const Performance: React.FC = () => {
@@ -22,16 +23,29 @@ export const Performance: React.FC = () => {
   const attempts = testService.getAllAttempts();
   const user = userService.getProfile();
 
-  // State for interactive secondary diagnostics
+  // Authentic live ranking calibrated from real test attempts and official NTA curves
+  const liveRanking = rankPredictorService.getStudentLiveRanking();
+
+  // State for interactive secondary diagnostics & simulator
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>('All');
-  const [targetScoreSlider, setTargetScoreSlider] = useState<number>(user.targetExam === 'NEET' ? 620 : 220);
+  const isNEET = user.targetExam === 'NEET';
+  const isBoard = user.targetExam === 'CBSE' || user.targetExam === 'RBSE';
+  const maxPossibleScore = isNEET ? 720 : (isBoard ? 100 : 300);
+
+  const defaultSliderScore = liveRanking.score > 0
+    ? liveRanking.score
+    : (isNEET ? 580 : (isBoard ? 85 : 180));
+
+  const [targetScoreSlider, setTargetScoreSlider] = useState<number>(defaultSliderScore);
   const [showAdvancedDiagnostics, setShowAdvancedDiagnostics] = useState<boolean>(false);
 
-  const maxPossibleScore = user.targetExam === 'NEET' ? 720 : 300;
-  const scoreRatio = targetScoreSlider / maxPossibleScore;
-  const predictedRankLow = Math.max(150, Math.round(100000 * Math.pow(1 - scoreRatio, 2.2)));
-  const predictedRankHigh = Math.round(predictedRankLow * 1.35);
-  const predictedPercentile = (Math.max(80, Math.min(99.9, (scoreRatio * 100) + (metrics.overallAccuracy - 70) * 0.2))).toFixed(1);
+  // Simulated rank when moving slider
+  const simulatedRanking = rankPredictorService.predictRankForScore(
+    user.targetExam,
+    targetScoreSlider,
+    maxPossibleScore,
+    'custom_input'
+  );
 
   const weakTopics = [
     { name: 'Kinematics Graphs', chapter: 'Kinematics', accuracy: 43, reason: 'Rushed slopes & negative signs', actionUrl: '/practice?chapter=Kinematics&topic=Velocity%20%26%20Acceleration%20Graphs' },
@@ -99,11 +113,26 @@ export const Performance: React.FC = () => {
           </div>
 
           <div>
-            <div className="text-xs font-medium text-slate-500 mb-1">Projected AIR</div>
-            <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
-              ~{predictedRankLow.toLocaleString()}
+            <div className="text-xs font-medium text-slate-500 mb-1 flex items-center justify-between">
+              <span>{isBoard ? 'Projected Result' : 'Projected AIR'}</span>
+              {liveRanking.attemptsCount > 0 && (
+                <span className="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/60 px-1.5 py-0.5 rounded">
+                  ✓ Verified
+                </span>
+              )}
             </div>
-            <div className="text-[11px] text-slate-500 mt-0.5">{predictedPercentile}th percentile</div>
+            <div className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white truncate" title={liveRanking.rankFormatted}>
+              {liveRanking.rankFormatted}
+            </div>
+            <div className="text-[11px] text-slate-500 mt-0.5">
+              {isBoard ? (
+                <span>{liveRanking.divisionOrGrade || 'Merit Band'}</span>
+              ) : (
+                <span>
+                  {liveRanking.percentile > 0 ? `${liveRanking.percentileFormatted} percentile` : 'Provisional'} • {liveRanking.tierBadge}
+                </span>
+              )}
+            </div>
           </div>
         </div>
       </Card>
@@ -241,16 +270,26 @@ export const Performance: React.FC = () => {
               </div>
               <input
                 type="range"
-                min={user.targetExam === 'NEET' ? 300 : 80}
+                min={isNEET ? 100 : (isBoard ? 33 : 30)}
                 max={maxPossibleScore}
-                step={5}
+                step={isNEET ? 5 : 2}
                 value={targetScoreSlider}
                 onChange={(e) => setTargetScoreSlider(Number(e.target.value))}
-                className="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-slate-900"
+                className="w-full h-2 bg-slate-200 dark:bg-slate-700 rounded-lg appearance-none cursor-pointer accent-emerald-600"
               />
-              <div className="p-3 rounded-lg bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-600 flex justify-between">
-                <span>Predicted Rank: <strong>AIR {predictedRankLow.toLocaleString()} - {predictedRankHigh.toLocaleString()}</strong></span>
-                <span>Projected Percentile: <strong>{predictedPercentile}th</strong></span>
+              <div className="p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs space-y-2">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
+                  <span>
+                    Estimated Standing: <strong className="text-slate-900 dark:text-white">{simulatedRanking.rankFormatted}</strong>
+                  </span>
+                  <span>
+                    Official Percentile: <strong className="text-emerald-700 dark:text-emerald-400">{simulatedRanking.percentileFormatted}</strong>
+                  </span>
+                </div>
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-slate-500 pt-1.5 border-t border-slate-200/60 dark:border-slate-700/60">
+                  <span>Target Zone: <strong className="text-slate-700 dark:text-slate-300">{simulatedRanking.collegeZone}</strong></span>
+                  <span className="font-semibold text-purple-600 dark:text-purple-300">{simulatedRanking.tierBadge}</span>
+                </div>
               </div>
             </div>
 

@@ -21,6 +21,8 @@ import {
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { testService } from '../services/testService';
 import { questionService } from '../services/questionService';
+import { rankPredictorService } from '../services/rankPredictorService';
+import { ExamType } from '../types';
 
 export const TestResult: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -63,6 +65,18 @@ export const TestResult: React.FC = () => {
   });
   const savedTrapSeconds = negativeTrapAnswers.reduce((sum: number, a: any) => sum + (a.timeSpentSeconds || 0), 0);
 
+  const examType: ExamType = (attempt.testTitle.includes('NEET') || attempt.maxScore === 720)
+    ? 'NEET'
+    : (attempt.testTitle.includes('CBSE') ? 'CBSE' : (attempt.testTitle.includes('RBSE') ? 'RBSE' : 'JEE'));
+
+  const rankPrediction = rankPredictorService.predictRankForScore(
+    examType,
+    attempt.totalScore,
+    attempt.maxScore,
+    'mock_test',
+    1
+  );
+
   return (
     <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-300">
       {/* Top Banner with Score */}
@@ -86,6 +100,44 @@ export const TestResult: React.FC = () => {
               <span className="text-sm font-semibold text-brand-200">/ {attempt.maxScore}</span>
             </div>
             <div className="text-[11px] font-bold text-emerald-300 mt-0.5">{scorePercentage}% Marks</div>
+          </div>
+        </div>
+      </Card>
+
+      {/* Official Ranking & Percentile Benchmark */}
+      <Card className="p-5 bg-gradient-to-r from-purple-900/10 via-indigo-900/10 to-blue-900/10 border-indigo-200/60 dark:border-indigo-900/40">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <div className="flex items-center gap-2">
+              <span className="p-1 rounded-md bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 text-xs font-bold">
+                🎯 {rankPrediction.isBoard ? 'Board Performance Benchmark' : 'Official NTA Rank Benchmark'}
+              </span>
+              <span className="text-xs font-semibold text-slate-500">
+                Calibrated against {rankPrediction.totalCandidates.toLocaleString()} real aspirants
+              </span>
+            </div>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white flex items-center gap-3">
+              <span>{rankPrediction.isBoard ? rankPrediction.divisionOrGrade : rankPrediction.rankFormatted}</span>
+              {!rankPrediction.isBoard && (
+                <span className="text-sm font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full">
+                  {rankPrediction.percentileFormatted} Percentile
+                </span>
+              )}
+            </h3>
+            <p className="text-xs text-slate-600 dark:text-slate-300">
+              Admission Target: <strong className="text-slate-900 dark:text-white">{rankPrediction.collegeZone}</strong>
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 text-center">
+              <div className="text-[10px] text-slate-500 font-bold uppercase">Cutoff Status</div>
+              <div className="text-xs font-black text-indigo-700 dark:text-indigo-300">{rankPrediction.cutoffStatus}</div>
+            </div>
+            <div className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-800 text-center">
+              <div className="text-[10px] text-slate-500 font-bold uppercase">Cohort Tier</div>
+              <div className="text-xs font-black text-purple-700 dark:text-purple-300">{rankPrediction.tierBadge}</div>
+            </div>
           </div>
         </div>
       </Card>

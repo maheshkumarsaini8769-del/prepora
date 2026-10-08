@@ -27,6 +27,7 @@ import { questionService } from './questionService';
 import { userService } from './userService';
 import { progressService } from './progressService';
 import { syncEngine } from './syncEngine';
+import { rankPredictorService } from './rankPredictorService';
 import { canonicalSyllabus } from '../data/canonicalSyllabusData';
 
 const DAILY_PLAN_KEY = 'prepora_daily_plan';
@@ -677,12 +678,15 @@ class MockEcosystemService {
     topperAverage: number;
     medianScore: number;
     userRank: number;
+    userPercentile: string;
     entries: LeaderboardEntry[];
   } {
+    const standing = rankPredictorService.getCohortStanding();
     return {
       topperAverage: 284,
       medianScore: 198,
-      userRank: 14,
+      userRank: standing.userRank,
+      userPercentile: standing.percentileBadge,
       entries: [
         { rank: 1, studentName: 'Aarav S. (Kota)', score: 295, accuracy: 96, testsTaken: 12 },
         { rank: 2, studentName: 'Ananya P. (Delhi)', score: 288, accuracy: 94, testsTaken: 11 },

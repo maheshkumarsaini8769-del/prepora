@@ -39,6 +39,7 @@ import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
 import { continueLearningService, LearningActivity } from '../services/continueLearningService';
 import { StudentGuideModal } from '../components/common/StudentGuideModal';
+import { rankPredictorService } from '../services/rankPredictorService';
 import { DailyPlan, MistakeItem, PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
 
 // Helper Vector Icons for Subject Progress
@@ -161,6 +162,7 @@ export const Home: React.FC = () => {
   const [continueLearning, setContinueLearning] = useState<LearningActivity | null>(() => continueLearningService.getLatestActivity());
   const completedTasksCount = dailyPlan.items.filter(i => i.status === 'completed').length;
   const totalTasksCount = Math.max(5, dailyPlan.items.length || 5);
+  const cohort = rankPredictorService.getCohortStanding();
 
   useEffect(() => {
     const handleContinueUpdate = () => {
@@ -1044,8 +1046,8 @@ export const Home: React.FC = () => {
         <div className="flex items-center justify-between pt-1 border-t border-amber-200/40 dark:border-slate-800/80 text-[11px]">
           <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-semibold">
             <Crown className="w-3.5 h-3.5 text-amber-500" />
-            <span>Rank <strong>#4</strong> in {prepType} {classLevel} Batch</span>
-            <span className="text-slate-400 dark:text-slate-500">• Top 3%</span>
+            <span>Rank <strong>#{cohort.userRank}</strong> in {prepType} {classLevel} Batch</span>
+            <span className="text-slate-400 dark:text-slate-500">• {cohort.percentileBadge}</span>
           </div>
 
           <Link
