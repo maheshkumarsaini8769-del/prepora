@@ -18,7 +18,7 @@ import {
   GraduationCap,
   Filter
 } from 'lucide-react';
-import { getAllCuratedVideos, VideoResource } from '../data/videoLectures';
+import { getAllCuratedVideos, getChapterVideo, VideoResource } from '../data/videoLectures';
 import { SubjectName, ClassLevel } from '../types';
 import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
@@ -99,13 +99,32 @@ export const VideoLecturesPage: React.FC = () => {
 
   // Sync state if URL query param changes
   useEffect(() => {
-    const sub = searchParams.get('subject') as SubjectName | null;
+    const sub = searchParams.get('subject') as string | null;
     if (sub) {
-      setSelectedSubject(sub);
+      const lower = sub.toLowerCase();
+      let matchedSub: SubjectName | 'All' = 'All';
+      if (lower.includes('phy')) matchedSub = 'Physics';
+      else if (lower.includes('chem')) matchedSub = 'Chemistry';
+      else if (lower.includes('math')) matchedSub = 'Mathematics';
+      else if (lower.includes('bio')) matchedSub = 'Biology';
+      if (matchedSub !== 'All') {
+        setSelectedSubject(matchedSub);
+      }
     }
     const chap = searchParams.get('chapter');
     if (chap) {
       setSelectedChapter(chap);
+    }
+    const cls = searchParams.get('class');
+    if (cls && (cls === '11' || cls === '12' || cls === 'All')) {
+      setSelectedClass(cls as any);
+    }
+    const ex = searchParams.get('exam');
+    if (ex) {
+      const normEx = ex === 'NEET_UG' ? 'NEET' : ex.startsWith('JEE') ? 'JEE' : ex === 'CBSE' ? 'CBSE' : ex;
+      if (normEx === 'JEE' || normEx === 'NEET' || normEx === 'CBSE' || normEx === 'All') {
+        setSelectedExam(normEx as any);
+      }
     }
   }, [searchParams]);
 
@@ -137,8 +156,12 @@ export const VideoLecturesPage: React.FC = () => {
       if (selectedClass !== 'All' && v.classLevel && v.classLevel !== selectedClass && v.classLevel !== 'All') return false;
       return true;
     });
-    return Array.from(new Set(vids.map(v => v.chapter))).sort();
-  }, [allVideos, selectedSubject, selectedExam, selectedClass]);
+    const chaps = Array.from(new Set(vids.map(v => v.chapter))).sort();
+    if (selectedChapter !== 'All' && !chaps.includes(selectedChapter)) {
+      chaps.unshift(selectedChapter);
+    }
+    return chaps;
+  }, [allVideos, selectedSubject, selectedExam, selectedClass, selectedChapter]);
 
   // Available topics for currently selected chapter
   const availableTopics = useMemo(() => {
@@ -166,8 +189,8 @@ export const VideoLecturesPage: React.FC = () => {
   }, [selectedChapter, allVideos]);
 
   // Multi-dimensional filtering logic: Exam, Class, Subject, Mode, Chapter, Topic, Search
-  const filteredVideos = useMemo(() => {
-    return allVideos.filter((v) => {
+  const filteredVideos: VideoResource[] = useMemo(() => {
+    const list = allVideos.filter((v) => {
       // 1. Exam Filter
       if (selectedExam !== 'All') {
         const exams = v.targetExams || ['JEE', 'NEET', 'CBSE'];
@@ -196,8 +219,12 @@ export const VideoLecturesPage: React.FC = () => {
       }
 
       // 5. Chapter Filter
-      if (selectedChapter !== 'All' && v.chapter.toLowerCase() !== selectedChapter.toLowerCase()) {
-        return false;
+      if (selectedChapter !== 'All') {
+        const normSel = selectedChapter.toLowerCase().replace(/[^a-z0-9]/g, '');
+        const normChap = v.chapter.toLowerCase().replace(/[^a-z0-9]/g, '');
+        if (normSel !== normChap && !normChap.includes(normSel) && !normSel.includes(normChap)) {
+          return false;
+        }
       }
 
       // 6. Topic Filter
@@ -224,6 +251,15 @@ export const VideoLecturesPage: React.FC = () => {
 
       return true;
     });
+
+    if (list.length === 0 && selectedChapter !== 'All') {
+      const fallbackVid = getChapterVideo(selectedChapter, selectedSubject !== 'All' ? selectedSubject : 'Physics');
+      if (fallbackVid) {
+        return [fallbackVid];
+      }
+    }
+
+    return list;
   }, [allVideos, selectedExam, selectedClass, selectedSubject, lectureMode, selectedChapter, selectedTopic, searchQuery]);
 
   const handlePlayVideo = (video: VideoResource) => {

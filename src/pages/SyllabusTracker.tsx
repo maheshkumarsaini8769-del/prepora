@@ -18,11 +18,16 @@ import {
   Stethoscope,
   Award,
   Compass,
-  X
+  X,
+  Tv,
+  Video,
+  ExternalLink,
+  Clock
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { syllabusService } from '../services/syllabusService';
+import { getChapterVideo, VideoResource } from '../data/videoLectures';
 import {
   SubjectName,
   CanonicalSubjectId,
@@ -55,6 +60,15 @@ export const SyllabusTracker: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState<CanonicalSubjectId | 'All'>(initialSubject);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [refreshTrigger, setRefreshTrigger] = useState<number>(0);
+  const [activeLecture, setActiveLecture] = useState<{
+    chapter: CanonicalSyllabusChapter;
+    video: VideoResource;
+  } | null>(null);
+
+  const handleWatchLecture = (ch: CanonicalSyllabusChapter) => {
+    const vid = getChapterVideo(ch.name, ch.subjectName);
+    setActiveLecture({ chapter: ch, video: vid });
+  };
 
   // Available subjects for the currently selected exam
   const currentPrepType: PreparationType =
@@ -144,6 +158,17 @@ export const SyllabusTracker: React.FC = () => {
             <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               Track your authentic curriculum progress across NTA, NCERT, and BSER standards. All 439 chapters and subtopics verified with zero synthetic placeholders.
             </p>
+            <div className="pt-2 flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={() => navigate('/lectures')}
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-white/15 hover:bg-white/25 text-white text-xs font-bold transition-all backdrop-blur-md border border-white/20 cursor-pointer shadow-xs group"
+              >
+                <Tv className="w-3.5 h-3.5 text-rose-300 group-hover:scale-110 transition-transform" />
+                <span>Browse Video Lectures Hub</span>
+                <ArrowRight className="w-3 h-3 text-white/70 ml-0.5 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+            </div>
           </div>
 
           {/* Real Coverage vs Mastery Metric Cards */}
@@ -307,9 +332,23 @@ export const SyllabusTracker: React.FC = () => {
                 <div className="space-y-3">
                   {/* Header row */}
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-md">
-                      Class {ch.classLevel} • {ch.subjectName}
-                    </span>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <span className="text-[11px] font-black uppercase tracking-wider text-slate-500 bg-slate-100 dark:bg-slate-800 px-2.5 py-0.5 rounded-md">
+                        Class {ch.classLevel} • {ch.subjectName}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          handleWatchLecture(ch);
+                        }}
+                        className="inline-flex items-center gap-1 text-[10px] font-bold text-rose-700 dark:text-rose-300 bg-rose-50 dark:bg-rose-950/60 hover:bg-rose-100 dark:hover:bg-rose-900/50 border border-rose-200 dark:border-rose-900/60 px-2 py-0.5 rounded-md transition-all cursor-pointer shadow-2xs group"
+                        title="Watch One-Shot Video Lecture"
+                      >
+                        <Play className="w-2.5 h-2.5 fill-rose-600 text-rose-600 group-hover:scale-110 transition-transform" />
+                        <span>Lecture</span>
+                      </button>
+                    </div>
                     {getStatusBadge(status)}
                   </div>
 
@@ -373,7 +412,23 @@ export const SyllabusTracker: React.FC = () => {
                     </select>
                   </div>
 
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5">
+                  {/* Primary Video Lecture Action Button */}
+                  <button
+                    type="button"
+                    onClick={() => handleWatchLecture(ch)}
+                    className="w-full flex items-center justify-center gap-2 py-2 px-3 rounded-xl bg-gradient-to-r from-rose-50 via-rose-50/80 to-pink-50 hover:from-rose-100 hover:to-pink-100 dark:from-rose-950/40 dark:via-rose-950/30 dark:to-pink-950/20 dark:hover:from-rose-900/50 dark:hover:to-pink-900/40 border border-rose-200/80 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 font-bold text-xs transition-all cursor-pointer shadow-2xs group/btn"
+                  >
+                    <span className="w-5 h-5 rounded-full bg-rose-600 text-white flex items-center justify-center shrink-0 group-hover/btn:scale-110 transition-transform shadow-xs">
+                      <Play className="w-2.5 h-2.5 fill-current ml-0.5" />
+                    </span>
+                    <span>Watch Video Lecture</span>
+                    <span className="ml-auto text-[10px] text-rose-600 dark:text-rose-400 font-semibold flex items-center gap-1 opacity-85">
+                      <Tv className="w-3 h-3" />
+                      <span>One-Shot</span>
+                    </span>
+                  </button>
+
+                  <div className="grid grid-cols-4 gap-1.5">
                     <Button
                       size="sm"
                       variant="outline"
@@ -386,7 +441,7 @@ export const SyllabusTracker: React.FC = () => {
                       size="sm"
                       variant="primary"
                       onClick={() => navigate(`/practice?chapter=${encodeURIComponent(ch.name)}&subject=${ch.subjectId}`)}
-                      className="text-[11px] font-bold py-1 px-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer shadow-sm shadow-emerald-600/20"
+                      className="text-[11px] font-bold py-1 px-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer shadow-xs shadow-emerald-600/20"
                     >
                       Practice
                     </Button>
@@ -411,6 +466,124 @@ export const SyllabusTracker: React.FC = () => {
               </div>
             );
           })}
+        </div>
+      )}
+
+      {/* Quick Video Lecture Modal */}
+      {activeLecture && (
+        <div
+          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4 animate-in fade-in duration-200"
+          onClick={() => setActiveLecture(null)}
+        >
+          <div
+            className="bg-slate-900 border border-slate-800 rounded-3xl max-w-3xl w-full overflow-hidden shadow-2xl flex flex-col max-h-[90vh] text-white"
+            onClick={e => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="p-4 sm:p-5 flex items-start justify-between gap-4 border-b border-slate-800 bg-slate-950/60">
+              <div className="space-y-1">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="px-2 py-0.5 rounded text-[11px] font-bold bg-rose-600 text-white">
+                    Curated One-Shot Lecture
+                  </span>
+                  <span className="text-xs text-slate-400 font-semibold">
+                    Class {activeLecture.chapter.classLevel} • {activeLecture.chapter.subjectName}
+                  </span>
+                  <span className="text-xs text-slate-400 font-semibold flex items-center gap-1">
+                    <Clock className="w-3.5 h-3.5 text-slate-500" /> {activeLecture.video.duration}
+                  </span>
+                </div>
+                <h2 className="text-base sm:text-lg font-black text-white">
+                  {activeLecture.video.title}
+                </h2>
+                <p className="text-xs text-slate-400">
+                  Channel: <span className="text-slate-200 font-bold">{activeLecture.video.channelName}</span>
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveLecture(null)}
+                className="w-8 h-8 rounded-full bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white flex items-center justify-center transition-colors shrink-0 cursor-pointer"
+                aria-label="Close lecture modal"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Embedded Video Player */}
+            <div className="p-4 sm:p-5 space-y-3 overflow-y-auto">
+              <div className="relative w-full aspect-video rounded-2xl overflow-hidden bg-black shadow-xl border border-slate-800">
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${activeLecture.video.youtubeId}?autoplay=1&rel=0&modestbranding=1`}
+                  title={activeLecture.video.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="absolute inset-0 w-full h-full border-0"
+                />
+              </div>
+
+              {activeLecture.video.description && (
+                <p className="text-xs text-slate-400 leading-relaxed bg-slate-800/40 p-3 rounded-xl border border-slate-800">
+                  {activeLecture.video.description}
+                </p>
+              )}
+            </div>
+
+            {/* Modal Actions */}
+            <div className="p-4 sm:p-5 border-t border-slate-800 bg-slate-950/80 flex flex-wrap items-center justify-between gap-2.5">
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  href={`https://www.youtube.com/watch?v=${activeLecture.video.youtubeId}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700"
+                >
+                  <ExternalLink className="w-3.5 h-3.5 text-rose-400" />
+                  <span>Open in YouTube</span>
+                </a>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const sub = activeLecture.chapter.subjectName;
+                    const chap = activeLecture.chapter.name;
+                    setActiveLecture(null);
+                    navigate(`/lectures?subject=${encodeURIComponent(sub)}&chapter=${encodeURIComponent(chap)}`);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                >
+                  <Tv className="w-3.5 h-3.5" />
+                  <span>Open in Lectures Hub</span>
+                </button>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => {
+                    const chap = activeLecture.chapter.name;
+                    const subId = activeLecture.chapter.subjectId;
+                    setActiveLecture(null);
+                    navigate(`/practice?chapter=${encodeURIComponent(chap)}&subject=${subId}`);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Practice Chapter</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const chap = activeLecture.chapter.name;
+                    setActiveLecture(null);
+                    navigate(`/build-test?chapter=${encodeURIComponent(chap)}`);
+                  }}
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-all border border-slate-700 cursor-pointer"
+                >
+                  <span>Build Test</span>
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </div>
