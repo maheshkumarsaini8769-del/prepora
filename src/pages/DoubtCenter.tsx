@@ -46,6 +46,7 @@ export const DoubtCenter: React.FC = () => {
   const [savedToNotesMsg, setSavedToNotesMsg] = useState(false);
   const [addedToRevisionMsg, setAddedToRevisionMsg] = useState(false);
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [showWorkedExample, setShowWorkedExample] = useState(false);
 
   // Progressive Hints Mode State
   const [solverMode, setSolverMode] = useState<'direct' | 'hints'>('direct');
@@ -107,6 +108,7 @@ export const DoubtCenter: React.FC = () => {
     setAiChapter(effectiveChapter);
 
     setIsSolving(true);
+    setShowWorkedExample(false);
     setSavedToNotesMsg(false);
     setAddedToRevisionMsg(false);
 
@@ -217,7 +219,7 @@ export const DoubtCenter: React.FC = () => {
                 : 'bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-700/50'
             }`}
           >
-            Faculty Questions ({doubts.length})
+            Teacher-Verified Doubts ({doubts.length})
           </button>
         </div>
       </div>
@@ -494,8 +496,8 @@ export const DoubtCenter: React.FC = () => {
                 </div>
               )}
 
-              {/* Governing Formula */}
-              {currentSolution.keyFormula && (
+              {/* Governing Formula (only if not already included in direct answer) */}
+              {currentSolution.keyFormula && (!currentSolution.answer || !currentSolution.answer.includes(currentSolution.keyFormula)) && (
                 <div className="p-3 rounded-lg bg-slate-900 dark:bg-slate-950 border border-slate-800 text-white text-xs space-y-1">
                   <span className="text-[10px] uppercase font-semibold text-slate-400 tracking-wider">
                     Governing Relation
@@ -506,21 +508,62 @@ export const DoubtCenter: React.FC = () => {
                 </div>
               )}
 
-              {/* Worked Numerical Example Card */}
-              {currentSolution.example && currentSolution.example !== currentSolution.answer && (
-                <div className="p-4 rounded-xl bg-violet-50/70 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900/50 space-y-2">
-                  <div className="flex items-center gap-1.5 text-xs font-bold text-violet-900 dark:text-violet-300">
-                    <span>📝</span>
-                    <span>Worked Numerical Example</span>
-                  </div>
-                  <div className="text-xs text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
-                    <MathRenderer content={currentSolution.example} />
-                  </div>
-                </div>
-              )}
+              {/* Worked Numerical Example:
+                  - If user requested an example (intent === 'example'): show directly!
+                  - If user asked for formula or concept, but an example exists: provide a clean collapsible toggle */}
+              {(() => {
+                const effectiveExample = currentSolution.example || currentSolution.optionalExample;
+                const isExampleIntent = currentSolution.understanding?.intent === 'example' || !currentSolution.answer;
 
-              {/* Step-by-Step Breakdown */}
-              {currentSolution.stepByStepSolution && currentSolution.stepByStepSolution.length > 0 && (
+                if (!effectiveExample || effectiveExample === currentSolution.answer) return null;
+
+                if (isExampleIntent) {
+                  return (
+                    <div className="p-4 rounded-xl bg-violet-50/70 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900/50 space-y-2">
+                      <div className="flex items-center gap-1.5 text-xs font-bold text-violet-900 dark:text-violet-300">
+                        <span>📝</span>
+                        <span>Worked Numerical Example</span>
+                      </div>
+                      <div className="text-xs text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
+                        <MathRenderer content={effectiveExample} />
+                      </div>
+                    </div>
+                  );
+                }
+
+                return (
+                  <div className="space-y-2">
+                    <div className="p-3 rounded-xl bg-violet-50/60 dark:bg-violet-950/30 border border-violet-200/70 dark:border-violet-900/40 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs">
+                      <div className="flex items-center gap-2 text-violet-900 dark:text-violet-300">
+                        <span>💡</span>
+                        <span className="font-semibold">Solved numerical problem available for this concept</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => setShowWorkedExample(!showWorkedExample)}
+                        className="px-3 py-1.5 rounded-lg bg-violet-600 hover:bg-violet-700 text-white font-bold text-xs transition cursor-pointer self-start sm:self-auto"
+                      >
+                        {showWorkedExample ? 'Hide Numerical Example ▲' : 'View Numerical Example ▼'}
+                      </button>
+                    </div>
+                    {showWorkedExample && (
+                      <div className="p-4 rounded-xl bg-violet-50/70 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900/50 space-y-2 animate-in fade-in duration-150">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-violet-900 dark:text-violet-300">
+                          <span>📝</span>
+                          <span>Worked Numerical Example</span>
+                        </div>
+                        <div className="text-xs text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
+                          <MathRenderer content={effectiveExample} />
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                );
+              })()}
+
+              {/* Step-by-Step Breakdown (only if not already printed in the main answer) */}
+              {currentSolution.stepByStepSolution && currentSolution.stepByStepSolution.length > 0 &&
+               (!currentSolution.answer || !currentSolution.answer.includes(currentSolution.stepByStepSolution[0])) && (
                 <div className="space-y-2">
                   <h4 className="text-xs font-bold text-slate-900 dark:text-white uppercase tracking-wider">
                     Step-by-Step Breakdown
@@ -571,6 +614,22 @@ export const DoubtCenter: React.FC = () => {
       ) : (
         /* Faculty / Community Doubts List */
         <div className="space-y-4">
+          {/* Informational Guidance Banner */}
+          <div className="p-4 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-transparent border border-emerald-500/20 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                <span>👨‍🏫</span>
+                <span>Teacher-Verified Doubts & Faculty Q&A</span>
+              </h3>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                Authentic doubts asked by students and answered with step-by-step derivations by senior academic faculty. Click &ldquo;Ask Question&rdquo; to submit your own doubt.
+              </p>
+            </div>
+            <div className="text-[11px] font-bold text-emerald-700 dark:text-emerald-400 shrink-0">
+              100% Expert Verified Solutions
+            </div>
+          </div>
+
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-1.5 overflow-x-auto">
               {subjects.map((sub) => (

@@ -692,7 +692,7 @@ export const VideoLecturesPage: React.FC = () => {
 
                 {/* Badge: S.No / Chapter Number on Thumbnail */}
                 <div className="absolute top-2 right-2 px-2.5 py-0.5 bg-black/85 border border-emerald-500/50 text-emerald-300 text-[11px] font-black rounded-md backdrop-blur-xs shadow-md">
-                  Ch {chNum < 10 ? `0${chNum}` : chNum}
+                  S.No {sNo < 10 ? `0${sNo}` : sNo} • Ch {chNum}
                 </div>
               </div>
 
@@ -708,7 +708,7 @@ export const VideoLecturesPage: React.FC = () => {
                       Class {video.classLevel || '11'}
                     </span>
                     <span className="text-[10px] font-black px-2 py-0.5 rounded-md bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
-                      Chapter {chNum} <span className="opacity-75 font-normal text-[9px]">(S.No {sNo})</span>
+                      S.No {sNo < 10 ? `0${sNo}` : sNo} • Chapter {chNum}
                     </span>
                     {video.targetExams && video.targetExams.map((ex) => (
                       <span
@@ -729,7 +729,7 @@ export const VideoLecturesPage: React.FC = () => {
                   {/* Chapter Title with S.No */}
                   <div className="text-xs font-black text-slate-700 dark:text-slate-200 flex items-center gap-1.5 pt-0.5">
                     <BookOpen className="w-3.5 h-3.5 text-emerald-500 shrink-0" />
-                    <span className="line-clamp-1">Chapter {chNum}: {video.chapter}</span>
+                    <span className="line-clamp-1">S.No {sNo < 10 ? `0${sNo}` : sNo} • Chapter {chNum}: {video.chapter}</span>
                   </div>
 
                   {video.topic && (

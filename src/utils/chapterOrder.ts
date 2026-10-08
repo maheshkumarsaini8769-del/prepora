@@ -252,15 +252,16 @@ export function formatChapterDropdownLabel(
   if (info.order === 999) return chapterName;
 
   const chNum = info.classChapterNumber;
+  const sNoStr = `S.No ${info.order < 10 ? '0' + info.order : info.order}`;
   const chLabel = `Ch ${chNum}`;
 
   if (context?.isSubjectAll) {
-    return `${info.subject} • Class ${info.classLevel} • ${chLabel}: ${info.canonicalName || chapterName}`;
+    return `${info.subject} • Class ${info.classLevel} • ${sNoStr} • ${chLabel}: ${info.canonicalName || chapterName}`;
   }
   if (context?.isClassAll) {
-    return `Class ${info.classLevel} • ${chLabel}: ${info.canonicalName || chapterName}`;
+    return `Class ${info.classLevel} • ${sNoStr} • ${chLabel}: ${info.canonicalName || chapterName}`;
   }
-  return `${chLabel}. ${info.canonicalName || chapterName}`;
+  return `${sNoStr} • ${chLabel}: ${info.canonicalName || chapterName}`;
 }
 
 /**

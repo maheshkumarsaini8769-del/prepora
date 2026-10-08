@@ -13,7 +13,17 @@ export interface LearningActivity {
   timestamp: number;
 }
 
-const STORAGE_KEY = 'prepora_continue_learning';
+function getActiveUserKey(): string {
+  try {
+    const raw = localStorage.getItem('prepora_auth_user');
+    if (raw) {
+      const u = JSON.parse(raw);
+      if (u?.id) return `prepora_continue_learning_${u.id}`;
+      if (u?.phone) return `prepora_continue_learning_${u.phone}`;
+    }
+  } catch {}
+  return 'prepora_continue_learning_guest';
+}
 
 export const continueLearningService = {
   recordActivity(activity: Omit<LearningActivity, 'id' | 'timestamp'>) {
@@ -23,14 +33,16 @@ export const continueLearningService = {
         id: `act-${Date.now()}`,
         timestamp: Date.now()
       };
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(entry));
+      const key = getActiveUserKey();
+      localStorage.setItem(key, JSON.stringify(entry));
       window.dispatchEvent(new CustomEvent('prepora:continue_learning_updated', { detail: entry }));
     } catch {}
   },
 
   getLatestActivity(): LearningActivity | null {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
+      const key = getActiveUserKey();
+      const saved = localStorage.getItem(key);
       if (!saved) return null;
       const parsed = JSON.parse(saved);
       // Valid if less than 14 days old
@@ -45,7 +57,9 @@ export const continueLearningService = {
 
   clearActivity() {
     try {
-      localStorage.removeItem(STORAGE_KEY);
+      const key = getActiveUserKey();
+      localStorage.removeItem(key);
+      localStorage.removeItem('prepora_continue_learning'); // Also clean legacy global key
     } catch {}
   }
 };

@@ -15,6 +15,7 @@ export interface SolvedDoubtResponse {
   keyFormula?: string;
   variables?: string;
   example?: string;
+  optionalExample?: string;
   examinerTrap: string;
   examTip: string;
   timestamp: string;
@@ -107,6 +108,7 @@ export class AIDoubtSolverService {
             keyFormula: d.keyFormula,
             variables: d.variables,
             example: d.example,
+            optionalExample: d.optionalExample || d.example,
             examinerTrap: d.examinerTrap || 'Check all unit conversions and sign conventions.',
             examTip: d.examTip || 'High-yield concept in national entrance examinations.',
             understanding: d.understanding,
@@ -206,7 +208,8 @@ export class AIDoubtSolverService {
         keyFormula: formulaMatch.formula,
         variables: formulaMatch.variables,
         stepByStepSolution: formulaMatch.stepByStep,
-        example: formulaMatch.example,
+        example: formulaMatch.detectedIntent === 'example' ? formulaMatch.example : undefined,
+        optionalExample: formulaMatch.example,
         examinerTrap: formulaMatch.trap,
         examTip: formulaMatch.examTip,
         verificationPassed: true,

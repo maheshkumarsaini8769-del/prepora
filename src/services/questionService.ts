@@ -33,6 +33,8 @@ export function matchesFuzzy(val1: any, val2: any): boolean {
 export function normalizeCanonicalChapter(ch: string): string {
   const c = cleanStr(ch);
   if (!c) return '';
+
+  // === PHYSICS ===
   if (c.includes('unit') || c.includes('measurement')) return 'Units and Measurements';
   if (c.includes('straightline') || c.includes('motionin1d')) return 'Motion in a Straight Line';
   if (c.includes('motioninaplane') || c.includes('projectile') || c.includes('motionin2d')) return 'Motion in a Plane';
@@ -44,6 +46,7 @@ export function normalizeCanonicalChapter(ch: string): string {
   if (c.includes('mechanicalpropertiesofsolids') || c.includes('elasticity')) return 'Mechanical Properties of Solids';
   if (c.includes('mechanicalpropertiesoffluids') || c.includes('fluiddynamics') || c.includes('hydrodynamics')) return 'Mechanical Properties of Fluids';
   if (c.includes('thermalproperties') || c.includes('calorimetry')) return 'Thermal Properties of Matter';
+  if (c.includes('chemicalthermodynamic')) return 'Chemical Thermodynamics';
   if (c.includes('thermodynamic')) return 'Thermodynamics';
   if (c.includes('kinetictheory')) return 'Kinetic Theory of Gases';
   if (c.includes('oscillation') || c.includes('shm')) return 'Oscillations';
@@ -59,9 +62,103 @@ export function normalizeCanonicalChapter(ch: string): string {
   if (c.includes('rayoptics') || c.includes('opticalinstrument')) return 'Ray Optics and Optical Instruments';
   if (c.includes('waveoptics')) return 'Wave Optics';
   if (c.includes('dualnature') || c.includes('photoelectric')) return 'Dual Nature of Radiation and Matter';
-  if (c.includes('atom')) return 'Atoms';
+  if (c.includes('atomicstructure') || c.includes('structureofatom')) return 'Structure of Atom';
+  if (c.includes('atom') && !c.includes('molecule')) return 'Atoms';
   if (c.includes('nuclei') || c.includes('nuclearphysics') || c.includes('radioactivity')) return 'Nuclei';
   if (c.includes('semiconductor')) return 'Semiconductor Electronics';
+
+  // === CHEMISTRY ===
+  if (c.includes('basicconceptsofchemistry') || c.includes('moleconcept')) return 'Some Basic Concepts of Chemistry';
+  if (c.includes('classificationofelements') || c.includes('periodicity') || c.includes('periodictable')) return 'Classification of Elements and Periodicity';
+  if (c.includes('chemicalbonding') || c.includes('molecularstructure')) return 'Chemical Bonding and Molecular Structure';
+  if (c.includes('statesofmatter') || c.includes('gasesandliquids')) return 'States of Matter: Gases and Liquids';
+  if (c.includes('sblock')) return 's-Block Elements (Alkali & Alkaline Earth Metals)';
+  if (c.includes('pblock') && (c.includes('13') || c.includes('14'))) return 'p-Block Elements (Group 13 & 14)';
+  if (c.includes('pblock') && (c.includes('15') || c.includes('16') || c.includes('17') || c.includes('18'))) return 'p-Block Elements (Group 15, 16, 17 & 18)';
+  if (c.includes('hydrogen') && !c.includes('hydrocarbon')) return 'Hydrogen & Its Compounds';
+  if (c.includes('environmentalchemistry')) return 'Environmental Chemistry';
+  if (c.includes('practicalchemistry')) return 'Principles Related to Practical Chemistry';
+  if (c.includes('solidstate')) return 'Solid State';
+  if (c.includes('solution')) return 'Solutions';
+  if (c.includes('electrochem')) return 'Electrochemistry';
+  if (c.includes('chemicalkinetic') || c.includes('kinetics')) return 'Chemical Kinetics';
+  if (c.includes('surfacechem')) return 'Surface Chemistry';
+  if (c.includes('isolationofelements') || c.includes('metallurgy')) return 'General Principles and Processes of Isolation of Elements';
+  if (c.includes('dandfblock') || c.includes('dfblock')) return 'The d- and f-Block Elements';
+  if (c.includes('coordinationcompound') || c.includes('coordinationchemistry')) return 'Coordination Compounds';
+  if (c.includes('haloalkane') || c.includes('haloarene')) return 'Haloalkanes and Haloarenes';
+  if (c.includes('alcohol') || c.includes('phenol') || c.includes('ether')) return 'Alcohols, Phenols and Ethers';
+  if (c.includes('aldehyde') || c.includes('ketone') || c.includes('carboxylic')) return 'Aldehydes, Ketones and Carboxylic Acids';
+  if (c.includes('amine') || c.includes('nitrogencontaining') || c.includes('compoundsofnitrogen')) return 'Amines';
+  if (c.includes('biomolecule')) return 'Biomolecules';
+  if (c.includes('polymer')) return 'Polymers';
+  if (c.includes('chemistryineverydaylife')) return 'Chemistry in Everyday Life';
+  if (c.includes('organicchemistry') || c.includes('goc') || c.includes('generalorganic')) return 'Organic Chemistry: Some Basic Principles and Techniques';
+  if (c.includes('hydrocarbon')) return 'Hydrocarbons';
+  if (c.includes('equilibrium')) return 'Equilibrium';
+  if (c.includes('redox')) return 'Redox Reactions';
+
+  // === MATHEMATICS ===
+  if (c.includes('complexnumber') || c.includes('quadraticequation')) return 'Complex Numbers and Quadratic Equations';
+  if (c.includes('linearinequalit')) return 'Linear Inequalities';
+  if (c.includes('permutation') || c.includes('combination')) return 'Permutations and Combinations';
+  if (c.includes('binomial')) return 'Binomial Theorem';
+  if (c.includes('sequence') || c.includes('series')) return 'Sequences and Series';
+  if (c.includes('straightline')) return 'Straight Lines';
+  if (c.includes('conicsection') || c.includes('parabola') || c.includes('ellipse') || c.includes('hyperbola')) return 'Conic Sections';
+  if (c.includes('introductiontothreedimensional') || c === '3dgeometry') return 'Introduction to Three Dimensional Geometry';
+  if (c.includes('threedimensionalgeometry')) return 'Three Dimensional Geometry';
+  if (c.includes('limitsandderivative') || c.includes('limitscontinuity')) return 'Limits and Derivatives';
+  if (c.includes('continuityanddifferentiabilit')) return 'Continuity and Differentiability';
+  if (c.includes('applicationofderivative') || c.includes('applicationsofderivative')) return 'Application of Derivatives';
+  if (c.includes('applicationofintegral') || c.includes('applicationsofintegral') || c.includes('areaundercirve')) return 'Applications of Integrals';
+  if (c.includes('integral') && !c.includes('application')) return 'Integrals';
+  if (c.includes('differentialequation')) return 'Differential Equations';
+  if (c.includes('vector') && !c.includes('threedimensional')) return 'Vector Algebra';
+  if (c.includes('linearprogramming') || c === 'lpp') return 'Linear Programming';
+  if (c.includes('inversetrigonometric')) return 'Inverse Trigonometric Functions';
+  if (c.includes('trigonometricfunction') || c === 'trigonometry') return 'Trigonometric Functions';
+  if (c.includes('matrix') || c.includes('matrices') && !c.includes('determinant')) return 'Matrices';
+  if (c.includes('determinant') && !c.includes('matrices')) return 'Determinants';
+  if (c.includes('matricesanddeterminant')) return 'Matrices';
+  if (c.includes('relation') || c.includes('function') && !c.includes('trigonometric')) return 'Relations and Functions';
+  if (c.includes('set') && !c.includes('offset')) return 'Sets';
+  if (c.includes('statistic')) return 'Statistics';
+  if (c.includes('probabilit')) return 'Probability';
+
+  // === BIOLOGY ===
+  if (c.includes('livingworld')) return 'The Living World';
+  if (c.includes('biologicalclassification')) return 'Biological Classification';
+  if (c.includes('plantkingdom')) return 'Plant Kingdom';
+  if (c.includes('animalkingdom')) return 'Animal Kingdom';
+  if (c.includes('morphologyoffloweringplants')) return 'Morphology of Flowering Plants';
+  if (c.includes('anatomyoffloweringplants')) return 'Anatomy of Flowering Plants';
+  if (c.includes('structuralorganisation') || c.includes('structuralorganization')) return 'Structural Organisation in Animals';
+  if (c.includes('celltheunitoflife') || c.includes('cellunitoflife')) return 'Cell: The Unit of Life';
+  if (c.includes('cellcycle') || c.includes('celldivision')) return 'Cell Cycle and Cell Division';
+  if (c.includes('photosynthesis')) return 'Photosynthesis in Higher Plants';
+  if (c.includes('respirationinplants')) return 'Respiration in Plants';
+  if (c.includes('plantgrowth')) return 'Plant Growth and Development';
+  if (c.includes('breathingandexchange')) return 'Breathing and Exchange of Gases';
+  if (c.includes('bodyfluids')) return 'Body Fluids and Circulation';
+  if (c.includes('excretoryproduct')) return 'Excretory Products and their Elimination';
+  if (c.includes('locomotionandmovement')) return 'Locomotion and Movement';
+  if (c.includes('neuralcontrol')) return 'Neural Control and Coordination';
+  if (c.includes('chemicalcoordination')) return 'Chemical Coordination and Integration';
+  if (c.includes('sexualreproductioninfloweringplants')) return 'Sexual Reproduction in Flowering Plants';
+  if (c.includes('humanreproduction')) return 'Human Reproduction';
+  if (c.includes('reproductivehealth')) return 'Reproductive Health';
+  if (c.includes('principlesofinheritance') || c.includes('genetics')) return 'Principles of Inheritance and Variation';
+  if (c.includes('molecularbasisofinheritance')) return 'Molecular Basis of Inheritance';
+  if (c.includes('evolution')) return 'Evolution';
+  if (c.includes('humanhealthanddisease')) return 'Human Health and Disease';
+  if (c.includes('microbesinhumanwelfare')) return 'Microbes in Human Welfare';
+  if (c.includes('biotechnologyprinciples')) return 'Biotechnology: Principles and Processes';
+  if (c.includes('biotechnologyanditsapplications')) return 'Biotechnology and its Applications';
+  if (c.includes('organismsandpopulation')) return 'Organisms and Populations';
+  if (c.includes('ecosystem')) return 'Ecosystem';
+  if (c.includes('biodiversity')) return 'Biodiversity and Conservation';
+
   return ch;
 }
 
@@ -278,7 +375,7 @@ class ApiQuestionService {
   public filterQuestions(filters: QuestionFilters): Question[] {
     const hasSpecificChapter = Boolean(filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL');
 
-    const pool = this.getAllQuestions().filter(q => {
+    let pool = this.getAllQuestions().filter(q => {
       // Content Type Isolation
       const isModelPaper = q.contentType === 'MODEL_PAPER' || q.source === 'Model Paper';
       const isPYQ = q.contentType === 'PYQ' || q.source === 'PYQ' || q.source === 'Official PYQ';
@@ -341,6 +438,27 @@ class ApiQuestionService {
       }
       return true;
     });
+
+    // If topic filtering was requested but returned 0 matches, fall back to chapter-level pool with keyword relevance
+    if (pool.length === 0 && filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL' && filters.chapter && filters.chapter !== 'All') {
+      const chapterPool = this.filterQuestions({
+        ...filters,
+        topic: 'All'
+      });
+      if (chapterPool.length > 0) {
+        const topWords = String(filters.topic).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length >= 4);
+        const scored = chapterPool.map(q => {
+          let score = 0;
+          const qText = `${q.topic || ''} ${q.question || ''} ${q.concept || ''}`.toLowerCase();
+          for (const w of topWords) {
+            if (qText.includes(w)) score += 2;
+          }
+          return { q, score };
+        });
+        scored.sort((a, b) => b.score - a.score);
+        pool = scored.map(s => s.q);
+      }
+    }
 
     // Handle excludeIds gracefully
     if (filters.excludeIds && filters.excludeIds.length > 0) {

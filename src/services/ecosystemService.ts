@@ -464,13 +464,14 @@ class MockEcosystemService {
     if (saved.length > 0) return saved;
 
     const initialDoubts: DoubtItem[] = [
+      // --- Physics ---
       {
         id: 'd-001',
         subject: 'Physics',
-        chapter: 'Kinematics',
+        chapter: 'Motion in a Plane',
         topic: 'Projectile Motion',
         questionId: 'phy-11-003',
-        questionSnippet: 'A projectile launched at angle θ with the horizontal reaches a maximum height equal to one-fourth...',
+        questionSnippet: 'A projectile launched at angle θ with the horizontal reaches a maximum height equal to one-fourth of its range...',
         studentQuestion: 'Why do we equate sin θ = cos θ directly in the formula? How does tan θ = 1 come out?',
         timestamp: 'Yesterday at 4:15 PM',
         status: 'resolved',
@@ -478,27 +479,159 @@ class MockEcosystemService {
           {
             id: 'r-001',
             sender: 'mentor',
-            senderName: 'Prof. Verma (Study Up Physics)',
-            message: 'Great query! Standard projectile relations give H = (u² sin²θ)/(2g) and R = (2u² sinθ cosθ)/g. When H = R/4, we get (u² sin²θ)/(2g) = (2u² sinθ cosθ)/(4g). Cancelling common terms (u²/g and factors of 2) leaves sin²θ = sinθ cosθ => sinθ = cosθ => tanθ = 1, hence θ = 45°.',
+            senderName: 'Prof. Verma (Senior Physics Faculty)',
+            message: 'Great query! Standard projectile relations give Maximum Height H = (u² sin²θ)/(2g) and Horizontal Range R = (2u² sinθ cosθ)/g. When H = R/4, we get (u² sin²θ)/(2g) = (2u² sinθ cosθ)/(4g). Cancelling common terms (u²/g and factor of 2) leaves: sin²θ = sinθ cosθ ⇒ sinθ = cosθ ⇒ tanθ = 1. Therefore, launching angle θ = 45°.',
             timestamp: 'Yesterday at 4:40 PM'
           }
         ]
       },
       {
         id: 'd-002',
-        subject: 'Chemistry',
-        chapter: 'Thermodynamics',
-        topic: 'Gibbs Free Energy',
-        studentQuestion: 'Under what exact condition is an endothermic reaction (ΔH > 0) spontaneous at room temperature?',
-        timestamp: '2 days ago',
+        subject: 'Physics',
+        chapter: 'Electromagnetic Induction',
+        topic: "Faraday's & Lenz's Law",
+        studentQuestion: 'Why is there a negative sign in Faraday’s Law ε = -dΦ/dt? Does it violate energy conservation if positive?',
+        timestamp: '3 days ago',
         status: 'resolved',
         replies: [
           {
             id: 'r-002',
             sender: 'mentor',
-            senderName: 'Dr. Sharma (Study Up Chemistry)',
-            message: 'Recall ΔG = ΔH - TΔS. If ΔH > 0, spontaneity requires ΔG < 0, which is only possible if ΔS > 0 and the temperature is high enough such that TΔS > ΔH.',
+            senderName: 'Prof. Verma (Senior Physics Faculty)',
+            message: 'The negative sign represents Lenz’s Law, which is a direct consequence of the Law of Conservation of Energy! The induced EMF always opposes the change in magnetic flux that creates it. If the sign were positive, an increasing flux would induce a current that further increases the flux, creating endless kinetic and electrical energy from nothing, which is impossible in nature.',
+            timestamp: '3 days ago'
+          }
+        ]
+      },
+      {
+        id: 'd-003',
+        subject: 'Physics',
+        chapter: 'Current Electricity',
+        topic: "Kirchhoff's Laws",
+        studentQuestion: 'When traversing a closed circuit loop, how do we decide the positive vs negative sign for resistors and batteries?',
+        timestamp: '4 days ago',
+        status: 'resolved',
+        replies: [
+          {
+            id: 'r-003',
+            sender: 'mentor',
+            senderName: 'Prof. Verma (Senior Physics Faculty)',
+            message: 'Follow this golden sign convention:\n1. For a Resistor: If you traverse in the same direction as the assumed current, potential drops by -I·R. If you traverse against current direction, potential increases by +I·R.\n2. For a Battery: Moving from negative to positive terminal gives +E (potential gain), while moving from positive to negative terminal gives -E (potential drop), regardless of current direction.',
+            timestamp: '4 days ago'
+          }
+        ]
+      },
+
+      // --- Chemistry ---
+      {
+        id: 'd-004',
+        subject: 'Chemistry',
+        chapter: 'Chemical Thermodynamics',
+        topic: 'Gibbs Free Energy & Spontaneity',
+        studentQuestion: 'Under what exact condition is an endothermic reaction (ΔH > 0) spontaneous at room temperature?',
+        timestamp: '2 days ago',
+        status: 'resolved',
+        replies: [
+          {
+            id: 'r-004',
+            sender: 'mentor',
+            senderName: 'Dr. Sharma (Senior Chemistry Faculty)',
+            message: 'Recall the fundamental criterion: ΔG = ΔH - T·ΔS. For spontaneity at constant temperature and pressure, we require ΔG < 0. If the reaction is endothermic (ΔH > 0), ΔG can only become negative if the entropy change is positive (ΔS > 0) AND the temperature is high enough so that T·ΔS > ΔH. At room temperature, this happens only if ΔS is exceptionally large (e.g., dissolution of NH4Cl in water).',
             timestamp: '2 days ago'
+          }
+        ]
+      },
+      {
+        id: 'd-005',
+        subject: 'Chemistry',
+        chapter: 'Chemical Bonding and Molecular Structure',
+        topic: 'VSEPR Theory & Molecular Geometry',
+        studentQuestion: 'Why is the molecular geometry of XeF4 square planar and not tetrahedral even though it has 4 fluorine atoms?',
+        timestamp: '3 days ago',
+        status: 'resolved',
+        replies: [
+          {
+            id: 'r-005',
+            sender: 'mentor',
+            senderName: 'Dr. Sharma (Senior Chemistry Faculty)',
+            message: 'Xenon (Xe) has 8 valence electrons. In XeF4, it forms 4 single bonds with Fluorine atoms and retains 2 lone pairs. Total electron pairs = 4 bond pairs + 2 lone pairs = 6 (sp³d² hybridization, octahedral electron geometry). To minimize 90° lone pair-lone pair repulsions, the two lone pairs occupy opposite trans positions (above and below the plane). The 4 fluorine atoms lie in a single plane, creating a square planar molecular geometry.',
+            timestamp: '3 days ago'
+          }
+        ]
+      },
+
+      // --- Mathematics ---
+      {
+        id: 'd-006',
+        subject: 'Mathematics',
+        chapter: 'Integrals',
+        topic: 'Integration of Rational Functions',
+        studentQuestion: 'What is the fastest substitution method to integrate ∫ dx / [x(x^n + 1)] without long partial fractions?',
+        timestamp: 'Yesterday at 7:30 PM',
+        status: 'resolved',
+        replies: [
+          {
+            id: 'r-006',
+            sender: 'mentor',
+            senderName: 'Er. Gupta (Senior Mathematics Faculty)',
+            message: 'Use the standard exam trick: Multiply numerator and denominator by x^(n-1):\n∫ dx / [x(x^n + 1)] = ∫ x^(n-1) dx / [x^n (x^n + 1)].\nNow substitute t = x^n ⇒ dt = n x^(n-1) dx.\nThe integral simplifies to: (1/n) ∫ dt / [t(t + 1)] = (1/n) ∫ [1/t - 1/(t+1)] dt = (1/n) ln| t / (t + 1) | + C.\nSubstitute t = x^n back: (1/n) ln| x^n / (x^n + 1) | + C. This solves in under 30 seconds!',
+            timestamp: 'Yesterday at 8:00 PM'
+          }
+        ]
+      },
+      {
+        id: 'd-007',
+        subject: 'Mathematics',
+        chapter: 'Probability',
+        topic: "Bayes' Theorem",
+        studentQuestion: 'How do I clearly identify when a question requires Bayes\' Theorem versus simple conditional probability P(A|B)?',
+        timestamp: '3 days ago',
+        status: 'resolved',
+        replies: [
+          {
+            id: 'r-007',
+            sender: 'mentor',
+            senderName: 'Er. Gupta (Senior Mathematics Faculty)',
+            message: 'Key rule of thumb:\n1. If you are asked for the probability of an outcome given a cause (forward probability: "Given that Bag 1 was chosen, what is the probability of a red ball?"), use Law of Total Probability.\n2. If you are asked for the probability of the CAUSE given the final outcome (reverse/inverse probability: "A red ball is drawn; what is the probability that it came from Bag 1?"), that is ALWAYS Bayes\' Theorem: P(E₁|A) = [P(E₁)·P(A|E₁)] / Σ [P(Eᵢ)·P(A|Eᵢ)].',
+            timestamp: '3 days ago'
+          }
+        ]
+      },
+
+      // --- Biology ---
+      {
+        id: 'd-008',
+        subject: 'Biology',
+        chapter: 'Ecosystem',
+        topic: 'Energy Flow & 10% Law',
+        studentQuestion: 'Why are trophic levels in a food chain practically restricted to 4 or 5 levels only?',
+        timestamp: '2 days ago',
+        status: 'resolved',
+        replies: [
+          {
+            id: 'r-008',
+            sender: 'mentor',
+            senderName: 'Dr. Mukherjee (Senior Biology Faculty)',
+            message: 'According to Lindeman’s 10% Ecological Law, only 10% of the energy is transferred from one trophic level to the next higher level; 90% is dissipated as metabolic heat and respiration. For example: 10,000 J (Producers) → 1,000 J (Herbivores) → 100 J (Carnivores) → 10 J (Top Carnivores) → 1 J (5th level). Beyond 4-5 levels, the remaining energy is too minuscule to sustain the life and reproductive needs of another population.',
+            timestamp: '2 days ago'
+          }
+        ]
+      },
+      {
+        id: 'd-009',
+        subject: 'Biology',
+        chapter: 'Cell Cycle and Cell Division',
+        topic: 'Meiosis I & Recombination',
+        studentQuestion: 'At which exact sub-stage of Prophase I does crossing over occur, and when do chiasmata become visible?',
+        timestamp: '4 days ago',
+        status: 'resolved',
+        replies: [
+          {
+            id: 'r-009',
+            sender: 'mentor',
+            senderName: 'Dr. Mukherjee (Senior Biology Faculty)',
+            message: 'NCERT high-yield distinction:\n1. Crossing Over occurs during PACHYTENE stage, mediated by the enzyme recombinase between non-sister chromatids of homologous chromosomes.\n2. Chiasmata (X-shaped structures) become visible only in the subsequent DIPLOTENE stage, as the synaptonemal complex dissolves and homologous chromosomes begin to separate except at crossover sites.',
+            timestamp: '4 days ago'
           }
         ]
       }

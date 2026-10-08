@@ -3289,12 +3289,14 @@ export function getAllCuratedVideos(): VideoResource[] {
     }
   }
 
-  // 3. Populate topic-wise videos for all syllabus topics from comprehensiveFormulaNotes
-  // so EVERY topic has a real, working, playable YouTube lecture attached!
+  // 3. Populate topic-wise videos for syllabus topics only if they have distinct dedicated videos
   for (const note of comprehensiveFormulaNotes) {
     if (!note.topic || !note.chapter) continue;
     const synthVid = getVideoForTopic(note.chapter, note.topic, note.subject);
-    if (!map.has(synthVid.id)) {
+    const parentVid = getChapterVideo(note.chapter, note.subject);
+
+    // Only add if the video has a distinct topic video ID (do not reuse parent one-shot across topics)
+    if (synthVid.youtubeId !== parentVid.youtubeId && !map.has(synthVid.id)) {
       const info = getChapterOrderInfo(note.chapter, note.subject, String(note.classLevel));
       const mappedClass =
         info && info.order !== 999

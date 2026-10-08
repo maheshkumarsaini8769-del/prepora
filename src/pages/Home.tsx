@@ -193,7 +193,103 @@ export const Home: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. PRIMARY ACTION HUB: 4 CORE JUMP CARDS (WHAT DO YOU WANT TO STUDY?)    */}
+      {/* 2. NEW STUDENT ORIENTATION GUIDE (SHOWN AT TOP FOR NEW REGISTRATIONS)     */}
+      {/* ========================================================================= */}
+      {isNewStudent && (
+        <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-blue-500/10 border border-emerald-500/30 space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-xl shadow-xs shrink-0">
+                🚀
+              </div>
+              <div>
+                <h3 className="text-base font-black text-slate-900 dark:text-white">
+                  Welcome to STUDY UP! Quick-Start Guide:
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Follow these 4 simple steps to start your exam preparation:
+                </p>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={() => navigate('/practice')}
+              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition shadow-sm self-start sm:self-auto cursor-pointer"
+            >
+              Start Practice Session →
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+            <div 
+              onClick={() => navigate('/practice')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 space-y-1.5 cursor-pointer hover:border-blue-500 transition-all"
+            >
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 font-black text-xs flex items-center justify-center">
+                  1
+                </span>
+                <span className="text-[10px] font-bold text-blue-600">Practice</span>
+              </div>
+              <h4 className="text-xs font-black text-slate-900 dark:text-white">Solve 10 Questions</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Choose any chapter and practice with hints & step-by-step solutions.
+              </p>
+            </div>
+
+            <div 
+              onClick={() => navigate('/tests')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 space-y-1.5 cursor-pointer hover:border-emerald-500 transition-all"
+            >
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 font-black text-xs flex items-center justify-center">
+                  2
+                </span>
+                <span className="text-[10px] font-bold text-emerald-600">Mock Exam</span>
+              </div>
+              <h4 className="text-xs font-black text-slate-900 dark:text-white">Take a Mock Test</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Experience real CBT test interface with countdown timers & scoring.
+              </p>
+            </div>
+
+            <div 
+              onClick={() => navigate('/lectures')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 space-y-1.5 cursor-pointer hover:border-rose-500 transition-all"
+            >
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-lg bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-400 font-black text-xs flex items-center justify-center">
+                  3
+                </span>
+                <span className="text-[10px] font-bold text-rose-600">Lectures</span>
+              </div>
+              <h4 className="text-xs font-black text-slate-900 dark:text-white">Watch Video Lectures</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Curated one-shots and topic deep-dives sorted by NCERT chapter order.
+              </p>
+            </div>
+
+            <div 
+              onClick={() => navigate('/formula-sheet')}
+              className="p-4 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 space-y-1.5 cursor-pointer hover:border-amber-500 transition-all"
+            >
+              <div className="flex items-center justify-between">
+                <span className="w-6 h-6 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 font-black text-xs flex items-center justify-center">
+                  4
+                </span>
+                <span className="text-[10px] font-bold text-amber-600">Formulas</span>
+              </div>
+              <h4 className="text-xs font-black text-slate-900 dark:text-white">Revise Formula Sheets</h4>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Chapter-wise formula sheets with KaTeX math & solved examples.
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ========================================================================= */}
+      {/* 3. PRIMARY ACTION HUB: 4 CORE JUMP CARDS (WHAT DO YOU WANT TO STUDY?)    */}
       {/* ========================================================================= */}
       <div className="space-y-3">
         <div className="flex items-center justify-between">
@@ -333,66 +429,6 @@ export const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* ========================================================================= */}
-      {/* 3. NEW STUDENT ORIENTATION GUIDE (IF ZERO QUESTIONS SOLVED)               */}
-      {/* ========================================================================= */}
-      {isNewStudent ? (
-        <div className="p-6 rounded-3xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-blue-500/10 border border-emerald-500/30 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center font-black text-xl shadow-xs shrink-0">
-                🚀
-              </div>
-              <div>
-                <h3 className="text-base font-black text-slate-900 dark:text-white">
-                  Welcome to STUDY UP! How to start your preparation:
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Here is your recommended 3-step path to begin scoring high:
-                </p>
-              </div>
-            </div>
-            <button
-              onClick={() => navigate('/practice')}
-              className="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs transition shadow-sm self-start sm:self-auto cursor-pointer"
-            >
-              Start Practice Session →
-            </button>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
-            <div className="p-4 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 space-y-1.5">
-              <span className="w-6 h-6 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 font-black text-xs flex items-center justify-center">
-                1
-              </span>
-              <h4 className="text-xs font-black text-slate-900 dark:text-white">Practice 10-15 Questions</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Pick Physics, Chemistry, or Maths/Biology and solve a small set of questions to test your basics.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 space-y-1.5">
-              <span className="w-6 h-6 rounded-lg bg-blue-100 dark:bg-blue-950/60 text-blue-700 dark:text-blue-400 font-black text-xs flex items-center justify-center">
-                2
-              </span>
-              <h4 className="text-xs font-black text-slate-900 dark:text-white">Watch Verified Lectures</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Whenever you get stuck on a tough concept, watch the curated one-shot video lecture.
-              </p>
-            </div>
-
-            <div className="p-4 rounded-2xl bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 space-y-1.5">
-              <span className="w-6 h-6 rounded-lg bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 font-black text-xs flex items-center justify-center">
-                3
-              </span>
-              <h4 className="text-xs font-black text-slate-900 dark:text-white">Revise Chapter Formulas</h4>
-              <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                Use the dedicated formula sheets before every mock test to memorize equations & units.
-              </p>
-            </div>
-          </div>
-        </div>
-      ) : null}
 
       {/* ========================================================================= */}
       {/* 4. CONTINUE LEARNING (RESUME UNFINISHED LECTURE OR FORMULA)                */}
