@@ -295,6 +295,10 @@ export interface FormulaCard {
   variables: string;
   siUnit?: string;
   importantNote?: string;
+  example?: {
+    problem: string;
+    solution: string;
+  };
   learnedStatus?: 'unlearned' | 'need-revision' | 'mastered';
 }
 

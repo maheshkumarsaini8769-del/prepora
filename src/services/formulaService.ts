@@ -23,7 +23,8 @@ for (const item of comprehensiveFormulaNotes) {
       formula: f.formula,
       variables: f.variables || '',
       siUnit: '',
-      importantNote: f.examTip || f.trap || item.concept
+      importantNote: f.examTip || f.trap || item.concept,
+      example: f.example
     });
   });
 }
