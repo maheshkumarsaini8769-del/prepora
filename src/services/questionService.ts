@@ -30,6 +30,76 @@ export function matchesFuzzy(val1: any, val2: any): boolean {
   return common.length >= required;
 }
 
+export function normalizeCanonicalChapter(ch: string): string {
+  const c = cleanStr(ch);
+  if (!c) return '';
+  if (c.includes('unit') || c.includes('measurement')) return 'Units and Measurements';
+  if (c.includes('straightline') || c.includes('motionin1d')) return 'Motion in a Straight Line';
+  if (c.includes('motioninaplane') || c.includes('projectile') || c.includes('motionin2d')) return 'Motion in a Plane';
+  if (c === 'kinematics') return 'Motion in a Straight Line';
+  if (c.includes('lawofmotion') || c.includes('lawsofmotion') || c.includes('newtonslaw')) return 'Laws of Motion';
+  if (c.includes('workenergy') || c.includes('workpower')) return 'Work, Energy and Power';
+  if (c.includes('systemofparticles') || c.includes('rotationalmotion') || c.includes('rigidbodies')) return 'System of Particles and Rotational Motion';
+  if (c.includes('gravitat')) return 'Gravitation';
+  if (c.includes('mechanicalpropertiesofsolids') || c.includes('elasticity')) return 'Mechanical Properties of Solids';
+  if (c.includes('mechanicalpropertiesoffluids') || c.includes('fluiddynamics') || c.includes('hydrodynamics')) return 'Mechanical Properties of Fluids';
+  if (c.includes('thermalproperties') || c.includes('calorimetry')) return 'Thermal Properties of Matter';
+  if (c.includes('thermodynamic')) return 'Thermodynamics';
+  if (c.includes('kinetictheory')) return 'Kinetic Theory of Gases';
+  if (c.includes('oscillation') || c.includes('shm')) return 'Oscillations';
+  if (c.includes('wave') && !c.includes('electromagneticwave') && !c.includes('waveoptic')) return 'Waves';
+  if (c.includes('electrostaticpotential') || c.includes('capacitance') || c.includes('capacitors')) return 'Electrostatic Potential and Capacitance';
+  if (c.includes('electriccharge') || c.includes('electricfield') || c === 'electrostatics') return 'Electric Charges and Fields';
+  if (c.includes('currentelectricity') || c === 'current') return 'Current Electricity';
+  if (c.includes('movingcharge') || c.includes('magneticeffectsofcurrent')) return 'Moving Charges and Magnetism';
+  if (c.includes('magnetismandmatter') || c === 'magnetism') return 'Magnetism and Matter';
+  if (c.includes('electromagneticinduction') || c === 'emi') return 'Electromagnetic Induction';
+  if (c.includes('alternatingcurrent') || c === 'accircuits' || c === 'ac') return 'Alternating Current';
+  if (c.includes('electromagneticwaves') || c === 'emwaves') return 'Electromagnetic Waves';
+  if (c.includes('rayoptics') || c.includes('opticalinstrument')) return 'Ray Optics and Optical Instruments';
+  if (c.includes('waveoptics')) return 'Wave Optics';
+  if (c.includes('dualnature') || c.includes('photoelectric')) return 'Dual Nature of Radiation and Matter';
+  if (c.includes('atom')) return 'Atoms';
+  if (c.includes('nuclei') || c.includes('nuclearphysics') || c.includes('radioactivity')) return 'Nuclei';
+  if (c.includes('semiconductor')) return 'Semiconductor Electronics';
+  return ch;
+}
+
+export function matchesChapterCanonical(qChapter: string, filterChapter: string): boolean {
+  if (!qChapter || !filterChapter) return false;
+  if (filterChapter === 'All' || filterChapter === 'ALL') return true;
+  if (cleanStr(qChapter) === cleanStr(filterChapter)) return true;
+
+  const normQ = normalizeCanonicalChapter(qChapter);
+  const normF = normalizeCanonicalChapter(filterChapter);
+  if (normQ && normF && normQ === normF) return true;
+
+  if (cleanStr(filterChapter).includes('kinematics')) {
+    if (normQ === 'Motion in a Straight Line' || normQ === 'Motion in a Plane') return true;
+  }
+  if (cleanStr(filterChapter) === 'electrostatics') {
+    if (normQ === 'Electric Charges and Fields' || normQ === 'Electrostatic Potential and Capacitance') return true;
+  }
+
+  return matchesFuzzy(qChapter, filterChapter);
+}
+
+export function matchesTopicCanonical(qTopic: string, filterTopic: string): boolean {
+  if (!qTopic || !filterTopic) return false;
+  if (filterTopic === 'All' || filterTopic === 'ALL') return true;
+  if (cleanStr(qTopic) === cleanStr(filterTopic)) return true;
+
+  const normT1 = cleanStr(qTopic).replace(/center/g, 'centre').replace(/caliper/g, 'calliper').replace(/ies$/g, 'y').replace(/s$/g, '');
+  const normT2 = cleanStr(filterTopic).replace(/center/g, 'centre').replace(/caliper/g, 'calliper').replace(/ies$/g, 'y').replace(/s$/g, '');
+  if (normT1 === normT2) return true;
+  if (normT1.includes(normT2) || normT2.includes(normT1)) {
+    const minLen = Math.min(normT1.length, normT2.length);
+    if (minLen >= 6) return true;
+  }
+
+  return matchesFuzzy(qTopic, filterTopic);
+}
+
 export function isAuthenticTopic(topic: string, chapter?: string): boolean {
   if (!topic || typeof topic !== 'string') return false;
   const t = topic.trim();
@@ -206,13 +276,10 @@ class ApiQuestionService {
   }
 
   public filterQuestions(filters: QuestionFilters): Question[] {
-    return this.getAllQuestions().filter(q => {
-      // Exclude already attempted questions so student always gets fresh questions
-      if (filters.excludeIds && filters.excludeIds.length > 0 && filters.excludeIds.includes(q.id)) {
-        return false;
-      }
+    const hasSpecificChapter = Boolean(filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL');
 
-      // Content Type Isolation (Task.md section 1, 2, 4, 6)
+    const pool = this.getAllQuestions().filter(q => {
+      // Content Type Isolation
       const isModelPaper = q.contentType === 'MODEL_PAPER' || q.source === 'Model Paper';
       const isPYQ = q.contentType === 'PYQ' || q.source === 'PYQ' || q.source === 'Official PYQ';
 
@@ -227,21 +294,26 @@ class ApiQuestionService {
       }
 
       if (filters.exam && filters.exam !== 'All') {
-        if (filters.exam === 'Board') {
-          if (q.exam !== 'Board' && q.exam !== 'CBSE' && q.exam !== 'RBSE') return false;
-        } else if (filters.exam === 'JEE') {
-          // Questions tagged JEE, or general science/math entrance questions
-          if (q.exam && q.exam !== 'JEE' && (q.exam as string) !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
-        } else if (filters.exam === 'NEET') {
-          // Questions tagged NEET, or general PCB questions
-          if (q.exam && q.exam !== 'NEET' && (q.exam as string) !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
-        } else if (q.exam !== filters.exam) {
-          return false;
+        if (!hasSpecificChapter) {
+          if (filters.exam === 'Board') {
+            if (q.exam !== 'Board' && q.exam !== 'CBSE' && q.exam !== 'RBSE') return false;
+          } else if (filters.exam === 'JEE') {
+            if (q.exam && q.exam !== 'JEE' && (q.exam as string) !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
+          } else if (filters.exam === 'NEET') {
+            if (q.exam && q.exam !== 'NEET' && (q.exam as string) !== 'All' && q.exam !== 'Board' && q.exam !== 'CBSE') return false;
+          } else if (q.exam !== filters.exam) {
+            return false;
+          }
+        } else {
+          // When specific chapter is selected: only exclude if Board is selected and question is purely JEE Advanced specific
+          if (filters.exam === 'Board' && (q.exam === 'JEE' || q.exam === 'NEET')) {
+            // Keep question if it matches the chapter
+          }
         }
       }
 
-      // Strict Class 11 vs 12 filtering: when a student specifies 11 or 12, isolate questions to that class
-      if (filters.classLevel && filters.classLevel !== 'All' && (filters.classLevel as string) !== 'Dropper') {
+      // Class 11 vs 12 filtering: when a student specifies 11 or 12 without a specific chapter, isolate questions
+      if (!hasSpecificChapter && filters.classLevel && filters.classLevel !== 'All' && (filters.classLevel as string) !== 'Dropper') {
         const qClass = String(q.class || '');
         if (qClass && qClass !== filters.classLevel && qClass !== 'Both' && qClass !== 'All') {
           return false;
@@ -249,10 +321,10 @@ class ApiQuestionService {
       }
 
       if (filters.subject && filters.subject !== 'All' && !matchesFuzzy(q.subject, filters.subject)) return false;
-      if (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL' && !matchesFuzzy(q.chapter, filters.chapter)) return false;
+      if (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL' && !matchesChapterCanonical(q.chapter, filters.chapter)) return false;
       
       // Resilient topic filtering
-      if (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL' && !matchesFuzzy(q.topic, filters.topic)) return false;
+      if (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL' && !matchesTopicCanonical(q.topic, filters.topic)) return false;
       
       if (filters.difficulty && filters.difficulty !== 'All' && (filters.difficulty as string) !== 'Mixed') {
         if (String(q.difficulty || '').trim().toLowerCase() !== String(filters.difficulty).trim().toLowerCase()) {
@@ -269,6 +341,19 @@ class ApiQuestionService {
       }
       return true;
     });
+
+    // Handle excludeIds gracefully
+    if (filters.excludeIds && filters.excludeIds.length > 0) {
+      const excludeSet = new Set(filters.excludeIds);
+      const unattempted = pool.filter(q => !excludeSet.has(q.id));
+      if (unattempted.length > 0) {
+        return unattempted;
+      }
+      // If student has solved all questions in this topic/pool, recycle pool so they can revise/practice!
+      return pool;
+    }
+
+    return pool;
   }
 
   /**
@@ -516,7 +601,7 @@ class ApiQuestionService {
 
     // 0. From canonical syllabus (highest priority for clean, authoritative curriculum topics)
     let foundChapter = canonicalSyllabus.find(c => {
-      if (norm(c.name) !== chNorm && !matchesFuzzy(c.name, chapter)) return false;
+      if (!matchesChapterCanonical(c.name, chapter)) return false;
       if (subNorm && norm(c.subjectName) !== subNorm && !matchesFuzzy(c.subjectName, subject)) return false;
       if (exNorm && c.examId && !c.examId.toUpperCase().includes(exNorm) && !exNorm.includes(c.examId.toUpperCase())) return false;
       return true;
@@ -524,13 +609,13 @@ class ApiQuestionService {
 
     if (!foundChapter && subNorm) {
       foundChapter = canonicalSyllabus.find(c => {
-        return (norm(c.name) === chNorm || matchesFuzzy(c.name, chapter)) &&
+        return matchesChapterCanonical(c.name, chapter) &&
                (norm(c.subjectName) === subNorm || matchesFuzzy(c.subjectName, subject));
       });
     }
 
     if (!foundChapter) {
-      foundChapter = canonicalSyllabus.find(c => norm(c.name) === chNorm || matchesFuzzy(c.name, chapter));
+      foundChapter = canonicalSyllabus.find(c => matchesChapterCanonical(c.name, chapter));
     }
 
     if (foundChapter && Array.isArray(foundChapter.topics) && foundChapter.topics.length > 0) {
@@ -547,7 +632,7 @@ class ApiQuestionService {
     try {
       const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
       if (Array.isArray(savedSyllabus)) {
-        const sylChapter = savedSyllabus.find((c: any) => norm(c.name) === chNorm || matchesFuzzy(c.name, chapter));
+        const sylChapter = savedSyllabus.find((c: any) => matchesChapterCanonical(c.name, chapter));
         if (sylChapter && Array.isArray(sylChapter.subtopics)) {
           sylChapter.subtopics.forEach((st: any) => {
             const name = typeof st === 'string' ? st : st?.name;
@@ -564,7 +649,7 @@ class ApiQuestionService {
     // 2. Question bank topics fallback
     if (topics.size === 0) {
       this.getAllQuestions().forEach(q => {
-        if ((norm(q.chapter) === chNorm || matchesFuzzy(q.chapter, chapter)) && q.topic && isAuthenticTopic(q.topic, chapter)) {
+        if (matchesChapterCanonical(q.chapter, chapter) && q.topic && isAuthenticTopic(q.topic, chapter)) {
           topics.add(q.topic);
         }
       });

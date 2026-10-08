@@ -11,6 +11,7 @@ export const StorageKeys = {
 
 export function getStorageItem<T>(key: string, defaultValue: T): T {
   try {
+    if (typeof window === 'undefined' || typeof localStorage === 'undefined') return defaultValue;
     const item = localStorage.getItem(key);
     if (item === null) return defaultValue;
     return JSON.parse(item) as T;

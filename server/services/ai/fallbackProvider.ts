@@ -40,6 +40,11 @@ export class FallbackProvider implements IAIProvider {
     const isExampleReq = qLower.startsWith('give me a step-by-step example') || qLower.includes('example in') || qLower.includes('worked example') || req.requestFollowUp === 'example';
     const isSolutionReq = qLower.startsWith('explain the core formulas') || qLower.includes('solution method for') || req.requestFollowUp === 'solution';
 
+    const isEx = isExampleReq || /\b(example|examples|with example|worked example|numerical|problem|problems|sawal|udaharana|ek example|solve an example)\b/i.test(qLower);
+    const isForm = !isEx && (isSolutionReq || /\b(formula|formulas|equation|equations|sutra|expression|relation|law statement)\b/i.test(qLower));
+    const isDeriv = !isEx && !isForm && /\b(derive|derivation|kaise aaya|proof|prove)\b/i.test(qLower);
+    const isDef = !isEx && !isForm && !isDeriv;
+
     if (isHintReq) {
       concept = `Strategic Problem-Solving Hint for ${chapter}`;
       answer = `### 💡 Pro Tutor Hint for ${chapter} (${subject})\n\nWhen tackling examination problems in **${chapter}**, follow this step-by-step heuristic:\n1. **Identify Given Quantities**: Read the question twice, list known quantities with SI units, and clearly identify the unknown.\n2. **Isolate Free Body / State**: Draw a clear diagram (FBD, ray diagram, circuit diagram, or PV curve) before attempting any algebraic substitutions.\n3. **Pick the Conservation Law / Primary Equation**: Link the knowns to the target unknown using the governing equation of ${chapter}.`;
@@ -80,219 +85,253 @@ export class FallbackProvider implements IAIProvider {
       concept = `Worked Example in ${chapter}`;
       isNumerical = true;
       if (chapter.toLowerCase().includes('kinematics') || subject === 'Physics') {
-        answer = `### 📝 Step-by-Step Worked Example: ${chapter}\n\n**Problem:** A particle is projected vertically upwards with an initial velocity $u = 29.4\\text{ m/s}$. Find the maximum height reached and the total time taken to return to the ground. (Take $g = 9.8\\text{ m/s}^2$).\n\n**Given:** $u = +29.4\\text{ m/s}$, at highest point $v = 0\\text{ m/s}$, $a = -g = -9.8\\text{ m/s}^2$.\n\n**Calculation:**\n1. At apex, $v^2 = u^2 - 2gH \\implies 0 = (29.4)^2 - 2(9.8)H \\implies H = \\frac{864.36}{19.6} = 44.1\\text{ m}$.\n2. Time of ascent: $v = u - gt \\implies 0 = 29.4 - 9.8 t \\implies t = 3\\text{ s}$.\n3. Total time of flight: $T = 2t = 2 \\times 3 = 6\\text{ s}$.\n\n**Final Answer:** Maximum Height $H = 44.1\\text{ m}$, Total Time $T = 6\\text{ s}$.`;
+        answer = `Here is a standard step-by-step numerical worked example for **${chapter}**:`;
+        const exText = `### 📝 Problem: Maximum Height & Time of Flight\n\n**Question:** A particle is projected vertically upwards with an initial velocity $u = 29.4\\text{ m/s}$. Find the maximum height reached and the total time taken to return to the ground. (Take $g = 9.8\\text{ m/s}^2$).\n\n**Given:** $u = +29.4\\text{ m/s}$, at apex $v = 0\\text{ m/s}$, $a = -g = -9.8\\text{ m/s}^2$.\n\n**Calculation:**\n1. At apex, $v^2 = u^2 - 2gH \\implies 0 = (29.4)^2 - 2(9.8)H \\implies H = \\frac{864.36}{19.6} = 44.1\\text{ m}$.\n2. Time of ascent: $v = u - gt \\implies 0 = 29.4 - 9.8 t \\implies t = 3\\text{ s}$.\n3. Total round-trip time: $T = 2t = 2 \\times 3 = 6\\text{ s}$.\n\n**Final Answer:** Maximum Height $H = 44.1\\text{ m}$, Total Time $T = 6\\text{ s}$.`;
         keyFormula = String.raw`H_{\max} = \frac{u^2}{2g}, \quad T = \frac{2u}{g}`;
         variables = "u = Initial velocity (m/s), g = Acceleration due to gravity (9.8 m/s²), H = Maximum height (m), T = Time of flight (s)";
-        steps.push("1. Set upward direction as positive (+), downward as negative (-).");
-        steps.push("2. Substitute into kinematic equations: v² = u² - 2gH.");
-        steps.push("3. Solve for maximum height H = 44.1 m.");
-        steps.push("4. Multiply ascent time by 2 to obtain symmetrical total round-trip time: T = 6 s.");
-      } else if (subject === 'Chemistry') {
-        answer = `### 📝 Step-by-Step Worked Example: ${chapter}\n\n**Problem:** Calculate the molarity of a solution containing $4\\text{ g}$ of $\\text{NaOH}$ dissolved in enough water to prepare $250\\text{ mL}$ of solution. (Molar mass of $\\text{NaOH} = 40\\text{ g/mol}$).\n\n**Given:** Mass of solute $w = 4\\text{ g}$, Molar mass $M_w = 40\\text{ g/mol}$, Volume of solution $V = 250\\text{ mL} = 0.25\\text{ L}$.\n\n**Calculation:**\n1. Number of moles: $n = \\frac{w}{M_w} = \\frac{4}{40} = 0.1\\text{ mol}$.\n2. Molarity: $M = \\frac{n}{V\\text{ (in L)}} = \\frac{0.1}{0.25} = 0.4\\text{ M}$.\n\n**Final Answer:** Concentration $= 0.4\\text{ mol/L}$ (or $0.4\\text{ M}$).`;
-        keyFormula = String.raw`M = \frac{\text{moles of solute}}{\text{volume of solution (L)}} = \frac{w_B \times 1000}{M_B \times V(\text{mL})}`;
-        variables = "M = Molarity (mol/L), w_B = Mass of solute (g), M_B = Molar mass (g/mol), V = Solution volume (mL)";
-        steps.push("1. Convert solute mass to moles using molar mass: n = 4 / 40 = 0.1 mol.");
-        steps.push("2. Convert solution volume to liters: 250 mL = 0.25 L.");
-        steps.push("3. Compute molarity M = 0.1 / 0.25 = 0.4 M.");
-      } else {
-        answer = `### 📝 Step-by-Step Worked Example: ${chapter}\n\n**Problem:** Solve the quadratic equation $x^2 - 5x + 6 = 0$ and find its roots.\n\n**Given:** $a = 1$, $b = -5$, $c = 6$.\n\n**Calculation:**\n1. Discriminant: $D = b^2 - 4ac = (-5)^2 - 4(1)(6) = 25 - 24 = 1 > 0$ (Two distinct real roots).\n2. Quadratic Formula: $x = \\frac{-b \\pm \\sqrt{D}}{2a} = \\frac{5 \\pm 1}{2}$.\n3. $x_1 = \\frac{6}{2} = 3$, $x_2 = \\frac{4}{2} = 2$.\n\n**Final Answer:** The roots are $x = 2$ and $x = 3$.`;
-        keyFormula = String.raw`x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}, \quad D = b^2 - 4ac`;
-        variables = "a, b, c = Polynomial coefficients, D = Discriminant, x = Real roots";
-        steps.push("1. Calculate discriminant D = (-5)² - 4(1)(6) = 1.");
-        steps.push("2. Substitute into quadratic formula x = (5 ± 1) / 2.");
-        steps.push("3. Obtain roots x = 2 and x = 3.");
+        steps.push("Step 1: Set upward direction as positive (+), downward as negative (-).");
+        steps.push("Step 2: Substitute into kinematic equations: v² = u² - 2gH.");
+        steps.push("Step 3: Solve for maximum height H = 44.1 m.");
+        steps.push("Step 4: Total flight time is twice ascent time: T = 6 s.");
+        return {
+          answer,
+          coreConcept: concept,
+          stepByStepSolution: steps,
+          keyFormula,
+          variables,
+          example: exText,
+          examinerTrap: "At the highest point, velocity is zero but acceleration is still -9.8 m/s² downward!",
+          examTip: "Time of ascent equals time of descent in free fall without air resistance.",
+          understanding: {
+            intent: 'example',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Medium',
+            isNumerical: true,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show another example', 'Show governing formulas', 'Give practical hint'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
       }
-      trap = "Always double check calculation arithmetic and sign reversals (+ vs -).";
-      tip = "Verify solutions by substituting the answers back into the problem statement.";
-
-      return {
-        answer,
-        coreConcept: concept,
-        stepByStepSolution: steps,
-        keyFormula,
-        variables,
-        example: undefined,
-        examinerTrap: trap,
-        examTip: tip,
-        understanding: {
-          intent: 'example',
-          subject: subject as any,
-          chapter,
-          topic,
-          concept,
-          difficulty: 'Medium',
-          isNumerical: true,
-          requiresCurrentInfo: false
-        },
-        verificationPassed: true,
-        groundedInPrepora: true,
-        suggestedFollowUps: ['Show another example', 'Show governing formulas', 'Give practical hint'],
-        suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
-        confidence: 0.98,
-        provider: this.name,
-        latencyMs: Date.now() - startTime
-      };
-    } else if (isSolutionReq) {
-      concept = `Master Formula Sheet & Framework: ${chapter}`;
-      answer = `### 📚 Comprehensive Formula & Method Guide: ${chapter}\n\nIn **${chapter}** (${subject}), standard entrance examination questions center around these core mathematical relationships:`;
-      if (subject === 'Physics') {
-        keyFormula = String.raw`v = u + at, \quad s = ut + \frac{1}{2}at^2, \quad v^2 = u^2 + 2as, \quad F = ma, \quad W = \vec{F} \cdot \vec{d}`;
-        steps.push("1. Kinematic Equations: Use when acceleration is strictly constant.");
-        steps.push("2. Work-Energy Principle: W_net = ΔK. Applicable to both constant and variable forces.");
-        steps.push("3. Momentum Conservation: Σ p_initial = Σ p_final when net external force is zero.");
-      } else if (subject === 'Chemistry') {
-        keyFormula = String.raw`n = \frac{m}{M}, \quad PV = nRT, \quad \Delta G = \Delta H - T\Delta S, \quad K_{eq} = \frac{[C]^c[D]^d}{[A]^a[B]^b}`;
-        steps.push("1. Stoichiometry: Convert given quantities to moles as the first operational step.");
-        steps.push("2. Thermodynamics: Check spontaneity using ΔG < 0 criteria.");
-        steps.push("3. Equilibrium: Apply Le Chatelier's principle to evaluate shifts in concentration, temperature, or pressure.");
-      } else {
-        keyFormula = String.raw`\frac{d}{dx}[x^n] = n x^{n-1}, \quad \int x^n dx = \frac{x^{n+1}}{n+1}, \quad \sin^2\theta + \cos^2\theta = 1`;
-        steps.push("1. Simplify algebraic expressions before taking derivatives or integrals.");
-        steps.push("2. Use standard substitution techniques (u-substitution or trigonometric identity).");
-        steps.push("3. Verify boundary conditions and integration constants (+ C).");
-      }
-
-      return {
-        answer,
-        coreConcept: concept,
-        stepByStepSolution: steps,
-        keyFormula,
-        variables,
-        example: undefined,
-        examinerTrap: trap,
-        examTip: tip,
-        understanding: {
-          intent: 'solution',
-          subject: subject as any,
-          chapter,
-          topic,
-          concept,
-          difficulty: 'Medium',
-          isNumerical: false,
-          requiresCurrentInfo: false
-        },
-        verificationPassed: true,
-        groundedInPrepora: true,
-        suggestedFollowUps: ['Show step-by-step example', 'Give practical hint', 'Test me on this'],
-        suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
-        confidence: 0.98,
-        provider: this.name,
-        latencyMs: Date.now() - startTime
-      };
     }
 
-    // 2. High-Yield Academic Concept Mapping (Specific concepts like Friction, Photosynthesis, Newton's Laws, Gravity)
+    // 2. High-Yield Academic Concept Mapping (Intent-Aware)
     if (qLower.includes('friction') || qLower.includes('gharshan')) {
       subject = 'Physics';
       chapter = 'Laws of Motion';
       topic = 'Friction (Static, Kinetic, Rolling)';
-      concept = 'Frictional Force and Coefficient of Friction';
-      answer = "Friction is the resistive contact force that opposes the relative motion (or impending relative motion) between two surfaces in contact. Static friction self-adjusts up to a maximum limiting value $f_{s,\\max} = \\mu_s N$. Once relative motion begins, kinetic friction $f_k = \\mu_k N$ acts opposite to the velocity vector (with $\\mu_k < \\mu_s$).";
-      keyFormula = String.raw`f_s \le \mu_s N, \quad f_k = \mu_k N, \quad \tan\theta_s = \mu_s \text{ (Angle of Repose)}`;
-      variables = "f_s = Static friction force (N), f_k = Kinetic friction force (N), μ_s = Coefficient of static friction, μ_k = Coefficient of kinetic friction, N = Normal reaction force (N), θ_s = Angle of repose";
-      steps.push("1. Calculate the normal reaction force N perpendicular to the contact interface (N = mg on horizontal surface, N = mg cos θ on incline).");
-      steps.push("2. Find limiting friction: f_lim = μ_s N.");
-      steps.push("3. Compare applied external parallel force F_ext with f_lim:");
-      steps.push("   - If F_ext ≤ f_lim: body remains at rest, static friction self-adjusts to f_s = F_ext.");
-      steps.push("   - If F_ext > f_lim: body accelerates, and kinetic friction f_k = μ_k N opposes motion.");
-      trap = "Static friction is a SELF-ADJUSTING force! It is NOT always equal to μ_s N. It equals applied force until limiting friction is reached.";
-      tip = "On an inclined plane of inclination θ, sliding begins when tan θ > μ_s. The angle of repose equals the angle of friction!";
+      concept = 'Frictional Force & Laws of Friction';
+      variables = "f_s = Static friction force (N), f_k = Kinetic friction force (N), μ_s = Coefficient of static friction, μ_k = Coefficient of kinetic friction, N = Normal reaction force (N), θ = Angle of repose";
+      trap = "Static friction is a SELF-ADJUSTING force! It does NOT always equal μ_s N; it equals the applied force up to the limiting threshold.";
+      tip = "On an inclined plane, sliding begins when tan θ > μ_s. The angle of repose equals the angle of friction!";
+
+      if (isEx) {
+        answer = "Here is an entrance-exam standard numerical worked problem on Friction:";
+        const exText = `### 📝 Problem: Static vs Kinetic Friction on Horizontal Surface\n\n**Question:** A block of mass $m = 5\\text{ kg}$ rests on a rough horizontal floor with $\\mu_s = 0.4$ and $\\mu_k = 0.3$. A horizontal force $F = 15\\text{ N}$ is applied to the block. Find the friction force acting on the block and the acceleration of the block. (Take $g = 10\\text{ m/s}^2$).\n\n**Given:** $m = 5\\text{ kg}$, $\\mu_s = 0.4$, $\\mu_k = 0.3$, $F = 15\\text{ N}$, $g = 10\\text{ m/s}^2$.\n\n**Step-by-Step Calculation:**\n1. Normal reaction: $N = mg = 5 \\times 10 = 50\\text{ N}$.\n2. Limiting static friction: $f_{lim} = \\mu_s N = 0.4 \\times 50 = 20\\text{ N}$.\n3. Since the applied force $F = 15\\text{ N} < f_{lim} = 20\\text{ N}$, the block does NOT move!\n4. The static friction self-adjusts to match the applied force: $f_s = F = 15\\text{ N}$.\n5. Acceleration $a = 0\\text{ m/s}^2$.\n\n**Final Answer:** Friction Force $= 15\\text{ N}$, Acceleration $= 0\\text{ m/s}^2$.`;
+        keyFormula = String.raw`f_{lim} = \mu_s N, \quad f_k = \mu_k N`;
+        steps.push("Step 1: Calculate normal reaction force N = mg = 50 N.");
+        steps.push("Step 2: Calculate limiting friction threshold f_lim = μ_s N = 20 N.");
+        steps.push("Step 3: Compare F_applied (15 N) with f_lim (20 N). Since F < f_lim, the body remains at rest and static friction f_s = 15 N.");
+        return {
+          answer,
+          coreConcept: 'Worked Example in Friction',
+          stepByStepSolution: steps,
+          keyFormula,
+          variables,
+          example: exText,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'example',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Medium',
+            isNumerical: true,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show friction formulas', 'What is angle of repose', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
+      } else if (isForm) {
+        answer = `### 📐 Master Formula Sheet: Friction\n\n**1. Limiting Static Friction:**\n$$f_{lim} = \\mu_s N$$\n*(Note: Actual static friction satisfies $0 \\le f_s \\le \\mu_s N$ and self-adjusts to external force).*\n\n**2. Kinetic (Sliding) Friction:**\n$$f_k = \\mu_k N \\quad (\\text{where } \\mu_k < \\mu_s)$$\n\n**3. Angle of Friction ($\\lambda$) & Angle of Repose ($\\theta$):**\n$$\\tan\\lambda = \\mu_s, \\quad \\tan\\theta = \\mu_s \\implies \\theta = \\lambda$$\n\n**4. Acceleration on Rough Incline:**\n• Downward sliding: $a = g(\\sin\\theta - \\mu_k\\cos\\theta)$\n• Upward projection: $a = g(\\sin\\theta + \\mu_k\\cos\\theta)$`;
+        keyFormula = String.raw`f_s \le \mu_s N, \quad f_k = \mu_k N, \quad \tan\theta = \mu_s`;
+        return {
+          answer,
+          coreConcept: 'Friction Formulas & Relations',
+          stepByStepSolution: [],
+          keyFormula,
+          variables,
+          example: undefined,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'formula',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Easy',
+            isNumerical: false,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show worked example on friction', 'Explain static vs kinetic friction', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
+      } else {
+        answer = `### 📘 What is Friction?\n\n**Core Physical Concept:**\nFriction is the contact resistance force that opposes the relative motion (or tendency of relative motion) between two surfaces in physical contact. It acts tangentially along the contact interface.\n\n**Microscopic Origin:**\nAt the microscopic level, even highly polished surfaces have irregularities (asperities). When two surfaces touch, contact occurs only at high points where immense local pressure causes microscopic 'cold-welding'. Overcoming this interlocking requires external force.\n\n**Types of Friction:**\n1. **Static Friction ($f_s$):** Operates when surfaces are stationary relative to each other. It is self-adjusting ($f_s = F_{ext}$) up to a maximum limiting value $f_{lim} = \\mu_s N$.\n2. **Kinetic Friction ($f_k$):** Operates once relative sliding begins. It is constant and slightly smaller than limiting static friction ($\\mu_k < \\mu_s$).\n3. **Rolling Friction ($f_r$):** Operates when a cylindrical or spherical body rolls on a surface; significantly smaller than sliding friction due to minimal contact point deformation.`;
+        keyFormula = String.raw`f_{lim} = \mu_s N, \quad f_k = \mu_k N`;
+        return {
+          answer,
+          coreConcept: 'Concept of Friction',
+          stepByStepSolution: [],
+          keyFormula,
+          variables,
+          example: undefined,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'definition',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Easy',
+            isNumerical: false,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show friction formulas', 'Give numerical example', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
+      }
     } else if (qLower.includes('gravity') || qLower.includes('gravitation') || qLower.includes('gurutvakarshan')) {
       subject = 'Physics';
       chapter = 'Gravitation';
       topic = 'Universal Gravitation & Acceleration due to Gravity';
-      concept = 'Gravity and Gravitational Attraction';
-      answer = "Gravity is the universal attractive force exerted between any two bodies with mass. By Newton's Law of Universal Gravitation, the force is proportional to the product of masses and inversely proportional to the square of their distance. Near Earth's surface, it produces a gravitational acceleration $g = \\frac{GM}{R^2} \\approx 9.8\\text{ m/s}^2$ directed toward the center of mass.";
-      keyFormula = String.raw`F = \frac{G m_1 m_2}{r^2}, \quad g = \frac{GM}{R^2}, \quad v_e = \sqrt{\frac{2GM}{R}} = \sqrt{2gR} \approx 11.2\text{ km/s}`;
-      variables = "G = Universal Gravitational Constant (6.674 × 10⁻¹¹ N·m²/kg²), M = Mass of Earth (kg), R = Radius of Earth (m), g = Acceleration due to gravity (9.8 m/s²), v_e = Escape velocity (km/s)";
-      steps.push("1. Gravitational field strength depends only on source mass and separation distance: g = GM/r².");
-      steps.push("2. Variation with altitude h (small height): g' = g (1 - 2h/R).");
-      steps.push("3. Variation with depth d below surface: g' = g (1 - d/R). At the center of Earth (d = R), g = 0.");
-      steps.push("4. Weight of a body of mass m is W = mg (force in Newtons).");
-      trap = "Mass is scalar and constant everywhere in the universe (kg). Weight is a force vector (Newtons) that varies with local g.";
-      tip = "Escape velocity from Earth is independent of the mass of the projectile and the angle of projection: v_e = √(2gR) ≈ 11.2 km/s.";
-    } else if (qLower.includes('projectile') || qLower.includes('praksepya')) {
-      subject = 'Physics';
-      chapter = 'Motion in a Plane';
-      topic = 'Projectile Motion under Gravity';
-      concept = 'Two-Dimensional Projectile Kinematics';
-      answer = "Projectile motion is two-dimensional motion in a vertical plane where the only acceleration acting is constant downward gravity ($g = 9.8\\text{ m/s}^2$). The horizontal motion is completely unaccelerated ($a_x = 0$), while vertical motion is uniformly accelerated ($a_y = -g$). The trajectory is a parabolic path.";
-      keyFormula = String.raw`T = \frac{2u \sin\theta}{g}, \quad H = \frac{u^2 \sin^2\theta}{2g}, \quad R = \frac{u^2 \sin 2\theta}{g}, \quad y = x\tan\theta - \frac{g x^2}{2 u^2 \cos^2\theta}`;
-      variables = "u = Launch velocity (m/s), θ = Launch angle with horizontal, T = Total time of flight (s), H = Maximum height (m), R = Horizontal range (m)";
-      steps.push("1. Resolve initial velocity into orthogonal components: u_x = u cos θ and u_y = u sin θ.");
-      steps.push("2. Horizontal position at time t: x = u_x t = (u cos θ) t (constant horizontal velocity).");
-      steps.push("3. Vertical velocity at time t: v_y = u sin θ - gt.");
-      steps.push("4. At maximum height, vertical velocity v_y = 0, giving time to apex t_h = u sin θ / g.");
-      trap = "At the highest point of trajectory, velocity is NOT zero! The horizontal component v_x = u cos θ remains non-zero. Only vertical velocity v_y is zero.";
-      tip = "Complementary launch angles (θ and 90° - θ) produce the exact same horizontal range R for the same initial speed u.";
-    } else if (qLower.includes('work') && (qLower.includes('energy') || qLower.includes('power') || qLower.includes('karya'))) {
-      subject = 'Physics';
-      chapter = 'Work, Energy and Power';
-      topic = 'Work-Energy Theorem & Conservation of Energy';
-      concept = 'Mechanical Work and Energy Transformation';
-      answer = "Work is the scalar product of force and displacement vectors ($W = \\vec{F} \\cdot \\vec{d} = F d \\cos\\theta$). The **Work-Energy Theorem** states that the total work done by all forces (conservative, non-conservative, internal, and external) on a particle equals the change in its kinetic energy: $W_{net} = \\Delta K = K_f - K_i$.";
-      keyFormula = String.raw`W = \int \vec{F} \cdot d\vec{r} = F d \cos\theta, \quad W_{net} = \Delta K = \frac{1}{2}m v_f^2 - \frac{1}{2}m v_i^2, \quad P = \frac{dW}{dt} = \vec{F} \cdot \vec{v}`;
-      variables = "W = Work done (Joules J), F = Force (N), d = Displacement (m), θ = Angle between force and displacement, K = Kinetic energy (J), P = Power (Watts W)";
-      steps.push("1. Calculate individual work done by every force acting on the body: W_g (gravity), W_N (normal), W_f (friction), W_app (applied).");
-      steps.push("2. Normal force perpendicular to instantaneous displacement does zero work: W_N = 0.");
-      steps.push("3. Sum all work contributions: W_total = W_g + W_N + W_f + W_app.");
-      steps.push("4. Equate W_total to change in kinetic energy: W_total = 1/2 m v_f² - 1/2 m v_i².");
-      trap = "When a body moves in a circular path at constant speed, centripetal force acts towards the center (perpendicular to displacement), so centripetal force does ZERO work!";
-      tip = "For a conservative force field (like gravity or electrostatic field), force is the negative gradient of potential energy: F = -dU/dx.";
-    } else if (qLower.includes('newton') && (qLower.includes('law') || qLower.includes('niyam') || qLower.includes('motion') || qLower.includes('third') || qLower.includes('second') || qLower.includes('first'))) {
-      subject = 'Physics';
-      chapter = 'Laws of Motion';
-      topic = "Newton's Laws of Motion";
-      concept = 'Inertia, Force Momentum Relation, and Action-Reaction';
-      answer = "Newton formulated three fundamental laws of classical mechanics:\n1. **First Law (Law of Inertia)**: A body remains at rest or in uniform motion unless acted upon by a net external force.\n2. **Second Law (Fundamental Law)**: The rate of change of momentum is directly proportional to net applied force: $\\vec{F} = \\frac{d\\vec{p}}{dt} = m\\vec{a}$.\n3. **Third Law (Action-Reaction)**: For every action force, there is an equal and opposite reaction force ($F_{AB} = -F_{BA}$).";
-      keyFormula = String.raw`\vec{F}_{net} = m \vec{a} = \frac{d\vec{p}}{dt}, \quad \vec{F}_{AB} = -\vec{F}_{BA}, \quad \vec{J} = \Delta \vec{p} = \int \vec{F} dt`;
-      variables = "F = Force (N), m = Mass (kg), a = Acceleration (m/s²), p = Linear momentum (kg·m/s), J = Impulse (N·s)";
-      steps.push("1. Draw a Free Body Diagram (FBD) for every individual body in the system.");
-      steps.push("2. Set up Cartesian axes along acceleration and perpendicular to acceleration.");
-      steps.push("3. Write Newton's 2nd Law for each body: Σ F_x = m a_x, Σ F_y = m a_y.");
-      steps.push("4. Solve simultaneous equations for tension, normal force, and system acceleration.");
-      trap = "Action and Reaction force pairs NEVER cancel each other out because they act on DIFFERENT bodies! (Force on A by B vs Force on B by A).";
-      tip = "Newton's First and Third Laws can be derived from the Second Law; hence the Second Law is the most fundamental law of motion.";
-    } else if (qLower.includes('photosynthesis') || qLower.includes('prakash sanshleshan')) {
-      subject = 'Biology';
-      chapter = 'Plant Physiology';
-      topic = 'Photosynthesis in Higher Plants';
-      concept = 'Light Reaction, Photophosphorylation, and Calvin Cycle';
-      answer = "Photosynthesis is the fundamental photochemical process by which green plants and cyanobacteria convert light energy into chemical energy (glucose), utilizing atmospheric carbon dioxide and water while releasing oxygen gas. It occurs in two stages: Light-dependent reactions in thylakoids (producing ATP and NADPH) and Light-independent Dark reactions (Calvin cycle) in stroma.";
-      keyFormula = String.raw`6\text{CO}_2 + 12\text{H}_2\text{O} \xrightarrow[\text{Chlorophyll}]{\text{Light Energy}} \text{C}_6\text{H}_{12}\text{O}_6 + 6\text{H}_2\text{O} + 6\text{O}_2 \uparrow`;
-      variables = "CO₂ = Carbon dioxide (fixed into carbohydrate), H₂O = Water (source of electrons and oxygen), ATP/NADPH = Energy currency generated in thylakoid";
-      steps.push("1. Light Absorption & Photolysis: Chlorophyll pigments in PSII absorb light at 680 nm. Water is split into 2H⁺, 2e⁻, and 1/2 O₂.");
-      steps.push("2. Z-Scheme Electron Transport: Electrons flow from PSII to PSI (700 nm), driving proton pumping across thylakoid membrane to synthesize ATP via ATP synthase.");
-      steps.push("3. Calvin Cycle (C3 Cycle in Stroma): Carbon fixation catalyzed by RuBisCO: RuBP + CO₂ → 2 molecules of 3-PGA.");
-      steps.push("4. Reduction & Regeneration: 3-PGA is reduced to Triose Phosphate (using ATP + NADPH) and RuBP is regenerated.");
-      trap = "The oxygen (O₂) released during photosynthesis originates from WATER (H₂O via photolysis in PSII), NOT from carbon dioxide (CO₂)! Verified by Ruben and Kamen using O-18 isotopes.";
-      tip = "RuBisCO is the most abundant protein on Earth, exhibiting both carboxylase and oxygenase activity depending on CO₂/O₂ concentration and temperature.";
-    } else if (qLower.includes('cell') || qLower.includes('koshika') || qLower.includes('mitochondria')) {
-      subject = 'Biology';
-      chapter = 'Cell: The Unit of Life';
-      topic = 'Cell Structure, Organelles & Endomembrane System';
-      concept = 'Prokaryotic vs Eukaryotic Cell Architecture';
-      answer = "The cell is the basic structural, functional, and biological unit of all known living organisms. All cells are surrounded by a phospholipid bilayer plasma membrane. Eukaryotic cells possess membrane-bound organelles: Mitochondria (cellular respiration, ATP powerhouse with 70S ribosomes and circular DNA), Ribosomes (protein synthesis, 80S in cytoplasm, 70S in organelles), and Nucleus (genetic material DNA).";
-      keyFormula = String.raw`\text{Cell Cycle: } \text{G}_1 \to \text{S (DNA Replication)} \to \text{G}_2 \to \text{M (Mitosis/Meiosis)}`;
-      variables = "Mitochondria = Powerhouse (ATP synthesis via oxidative phosphorylation), Ribosome = Protein factory (non-membrane bound), Chloroplast = Photosynthetic organelle";
-      steps.push("1. Cell Theory (Schleiden, Schwann, Virchow): All living organisms are composed of cells, and all cells arise from pre-existing cells ('Omnis cellula-e-cellula').");
-      steps.push("2. Endosymbiotic Theory: Mitochondria and Chloroplasts originated as symbiotic prokaryotes, retaining their own circular DNA and 70S ribosomes.");
-      steps.push("3. Fluid Mosaic Model (Singer & Nicolson, 1972): Plasma membrane is a quasi-fluid lipid bilayer with embedded and peripheral proteins.");
-      trap = "Mitochondria and chloroplasts have 70S ribosomes, identical to bacteria, while eukaryotic cytoplasm contains 80S ribosomes.";
-      tip = "DNA replication occurs exclusively in the S-phase (Synthesis Phase) of interphase in the cell cycle.";
-    } else if ((qLower.includes('force') || qLower === 'what is force' || qLower === 'what is force?') && !qLower.includes('frictional force')) {
-      subject = 'Physics';
-      chapter = 'Laws of Motion';
-      topic = "Newton's Second Law of Motion & Force";
-      concept = 'Force and Momentum Change (F = ma)';
-      answer = "Force is an external push or pull that changes or tends to change the state of rest or uniform motion of a body in a straight line. By Newton's Second Law, net external force equals the rate of change of linear momentum: $\\vec{F} = \\frac{d\\vec{p}}{dt} = m\\vec{a}$ (for constant mass). The SI unit of force is the Newton (N).";
-      keyFormula = String.raw`F = ma = \frac{dp}{dt}`;
-      variables = "F = Force (Newtons N), m = Mass (kg), a = Acceleration (m/s²), p = Linear momentum (kg·m/s)";
-      steps.push("1. Draw a Free Body Diagram (FBD) displaying all acting forces.");
-      steps.push("2. Resolve forces along coordinate axes: Σ F_x = m a_x, Σ F_y = m a_y.");
-      steps.push("3. For constant mass m, apply net force relation: F = m a.");
-      trap = "Force is a VECTOR quantity. You must compute vector resultant components (Σ F), not simple scalar sum.";
-      tip = "1 Newton is the force needed to accelerate a 1 kg mass by 1 m/s² (1 N = 10⁵ dynes in CGS units).";
+      concept = 'Gravitation and Acceleration Due to Gravity';
+      variables = "G = Universal Gravitational Constant (6.674 × 10⁻¹¹ N·m²/kg²), M = Earth Mass (kg), R = Earth Radius (6400 km), g = 9.8 m/s², v_e = Escape velocity";
+      trap = "Mass is constant everywhere in the universe (scalar in kg). Weight is a force (vector in N) that varies directly with local g.";
+      tip = "Escape velocity from Earth (11.2 km/s) is independent of the mass of the projectile and the launch angle!";
+
+      if (isEx) {
+        answer = "Here is an entrance examination worked numerical problem on Gravitation:";
+        const exText = `### 📝 Problem: Variation of Gravity with Altitude\n\n**Question:** At what height $h$ above the Earth's surface does the acceleration due to gravity become $\\frac{g}{4}$ (one-fourth of its surface value)? (Let $R$ be the radius of Earth).\n\n**Given:** $g' = \\frac{g}{4}$, surface gravity $g = \\frac{GM}{R^2}$, gravity at height $h$: $g' = \\frac{GM}{(R + h)^2}$.\n\n**Step-by-Step Calculation:**\n1. Write the ratio equation:\n$$\\frac{g'}{g} = \\left(\\frac{R}{R + h}\\right)^2$$\n2. Substitute $g' = \\frac{g}{4}$:\n$$\\frac{1}{4} = \\left(\\frac{R}{R + h}\\right)^2$$\n3. Take square root on both sides:\n$$\\frac{1}{2} = \\frac{R}{R + h} \\implies R + h = 2R \\implies h = R$$\n\n**Final Answer:** Height $h = R = 6400\\text{ km}$ above the surface of the Earth.`;
+        keyFormula = String.raw`g' = g \left(\frac{R}{R+h}\right)^2`;
+        steps.push("Step 1: Write the exact inverse-square formula for gravity at height h: g' = g [R / (R+h)]².");
+        steps.push("Step 2: Substitute g' / g = 1/4 and take square root: 1/2 = R / (R+h).");
+        steps.push("Step 3: Solve for h: R + h = 2R, giving h = R.");
+        return {
+          answer,
+          coreConcept: 'Worked Example in Gravitation',
+          stepByStepSolution: steps,
+          keyFormula,
+          variables,
+          example: exText,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'example',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Medium',
+            isNumerical: true,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show gravitation formulas', 'What is escape velocity', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
+      } else if (isForm) {
+        answer = `### 📐 Master Formula Sheet: Gravitation\n\n**1. Universal Law of Gravitation:**\n$$F = G \\frac{m_1 m_2}{r^2} \\quad (G = 6.674 \\times 10^{-11}\\text{ N}\\cdot\\text{m}^2/\\text{kg}^2)$$\n\n**2. Acceleration Due to Gravity on Surface:**\n$$g = \\frac{GM}{R^2} \\approx 9.8\\text{ m/s}^2$$\n\n**3. Variation of $g$:**\n• At height $h$: $g' = g\\left(\\frac{R}{R+h}\\right)^2 \\approx g\\left(1 - \\frac{2h}{R}\\right) \\quad (\\text{for } h \\ll R)$\n• At depth $d$: $g' = g\\left(1 - \\frac{d}{R}\\right) \\implies g = 0 \\text{ at Earth's center}$\n• With latitude $\\phi$: $g' = g - R\\omega^2\\cos^2\\phi$\n\n**4. Orbital & Escape Velocities:**\n$$v_o = \\sqrt{\\frac{GM}{R}} = \\sqrt{gR} \\approx 7.92\\text{ km/s}, \\quad v_e = \\sqrt{2gR} = \\sqrt{2} v_o \\approx 11.2\\text{ km/s}$$`;
+        keyFormula = String.raw`F = \frac{G m_1 m_2}{r^2}, \quad g = \frac{GM}{R^2}, \quad v_e = \sqrt{2gR}`;
+        return {
+          answer,
+          coreConcept: 'Gravitation Formulas & Relations',
+          stepByStepSolution: [],
+          keyFormula,
+          variables,
+          example: undefined,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'formula',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Easy',
+            isNumerical: false,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show worked example on gravity', 'Explain escape velocity', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
+      } else {
+        answer = `### 📘 What is Gravity & Universal Gravitation?\n\n**Core Physical Concept:**\nGravity is the fundamental attractive force that acts between all objects with mass in the universe. It is one of the four fundamental forces of nature (the weakest, yet dominant on astronomical scales).\n\n**Newton's Universal Law:**\nEvery particle in the universe attracts every other particle with a force directly proportional to the product of their masses and inversely proportional to the square of the distance separating them:\n$$F = G \\frac{m_1 m_2}{r^2}$$\n\n**Key Characteristics:**\n• **Always Attractive:** Unlike electrostatic forces, gravitational force is never repulsive.\n• **Action at a Distance & Field Nature:** Every mass sets up a gravitational field $\\vec{g}$ around itself.\n• **Medium Independent:** The force between two masses does NOT depend on the intervening medium (water, vacuum, or rock).`;
+        keyFormula = String.raw`F = G \frac{m_1 m_2}{r^2}, \quad g = \frac{GM}{R^2}`;
+        return {
+          answer,
+          coreConcept: 'Concept of Gravitation',
+          stepByStepSolution: [],
+          keyFormula,
+          variables,
+          example: undefined,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'definition',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Easy',
+            isNumerical: false,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show gravity formulas', 'Show numerical example', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
+      }
     } else if (
       qLower.includes('broglie') || qLower.includes('debrolie') || qLower.includes('debrolige') ||
       qLower.includes('matter wave') || qLower.includes('wavelength of electron') || qLower.includes('wave particle duality')
@@ -301,66 +340,138 @@ export class FallbackProvider implements IAIProvider {
       chapter = 'Dual Nature of Radiation and Matter';
       topic = 'Wave Nature of Matter (de Broglie Hypothesis)';
       concept = 'de Broglie Wavelength & Matter Waves';
-      keyFormula = String.raw`\lambda = \frac{h}{p} = \frac{h}{m v} = \frac{h}{\sqrt{2mK}} = \frac{12.27}{\sqrt{V}}\text{ Å}`;
       variables = "λ = de Broglie wavelength (m or Å), h = Planck's constant (6.626 × 10⁻³⁴ J·s), p = Linear momentum (kg·m/s), m = Mass (kg), v = Speed (m/s), K = Kinetic energy (J), V = Accelerating potential (Volts)";
       trap = "For macroscopic bodies (cricket ball), λ is ~10⁻³⁴ m (undetectable). For microscopic electrons, λ is ~1 Å (detected by crystal diffraction).";
       tip = "For charged particles accelerated from rest by voltage V: λ_e = 12.27/√V Å (electron), λ_p = 0.286/√V Å (proton), λ_α = 0.101/√V Å (alpha particle).";
-      steps.push("1. Fundamental formula: λ = h / p.");
-      steps.push("2. In terms of mass and speed: λ = h / (m v).");
-      steps.push("3. In terms of Kinetic Energy K: λ = h / √(2mK).");
-      steps.push("4. In terms of accelerating potential V: λ = h / √(2mqV).");
-
-      const isEx = isExampleReq || /\b(example|examples|with example|worked example|numerical|problem)\b/i.test(qLower);
-      const isForm = !isEx && /\b(formula|formulas|equation|equations|sutra|expression|relation)\b/i.test(qLower);
-      const isDeriv = !isEx && !isForm && /\b(derive|derivation|kaise aaya|proof)\b/i.test(qLower);
 
       if (isEx) {
-        answer = `### 📝 Worked Numerical Example: de Broglie Wavelength\n\n**Problem 1 (Entrance Exam Standard Numerical):** An electron is accelerated from rest through a potential difference of $V = 100\\text{ Volts}$. Calculate:\n(a) Its kinetic energy in Joules and eV.\n(b) Its de Broglie wavelength.\n\n**Given:** $V = 100\\text{ V}$, $m_e = 9.1 \\times 10^{-31}\\text{ kg}$, $e = 1.6 \\times 10^{-19}\\text{ C}$, $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$.\n\n**Step-by-Step Calculation:**\n1. Kinetic Energy acquired: $K = qV = (1.6 \\times 10^{-19})(100) = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$.\n2. Linear Momentum: $p = \\sqrt{2mK} = \\sqrt{2(9.1 \\times 10^{-31})(1.6 \\times 10^{-17})} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$.\n3. Wavelength from First Principles:\n$$\\lambda = \\frac{h}{p} = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å} = 0.123\\text{ nm}$$\n4. **Quick Shortcut Method:**\n$$\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{100}} = \\frac{12.27}{10} = 1.227\\text{ Å}$$\n\n**Problem 2 (Cricket Ball vs Electron Comparison):**\nA cricket ball of mass $0.15\\text{ kg}$ is thrown at $30\\text{ m/s}$. Find its de Broglie wavelength.\n$$\\lambda = \\frac{h}{mv} = \\frac{6.626 \\times 10^{-34}}{0.15 \\times 30} = 1.47 \\times 10^{-34}\\text{ m}$$\n**Physical Takeaway:** Wavelength ($10^{-34}\\text{ m}$) is trillions of times smaller than any measuring apparatus, explaining why everyday objects do NOT display detectable wave nature!`;
+        answer = "Here is a standard examination worked numerical example on de Broglie wavelength:";
+        const workedEx = `### 📝 Problem: Electron Accelerated Through Potential Difference\n\n**Question:** An electron is accelerated from rest through a potential difference of $V = 100\\text{ Volts}$. Calculate:\n1. Its kinetic energy in Joules and electron-volts (eV).\n2. Its de Broglie wavelength in Angstroms (Å).\n\n**Given:** $V = 100\\text{ V}$, $m_e = 9.1 \\times 10^{-31}\\text{ kg}$, $e = 1.6 \\times 10^{-19}\\text{ C}$, $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$.\n\n**Step-by-Step Calculation:**\n1. Kinetic Energy acquired: $K = qV = (1.6 \\times 10^{-19})(100) = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$.\n2. Linear Momentum: $p = \\sqrt{2m_e K} = \\sqrt{2(9.1 \\times 10^{-31})(1.6 \\times 10^{-17})} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$.\n3. Wavelength from First Principles:\n$$\\lambda = \\frac{h}{p} = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å}$$\n4. **High-Yield Shortcut Method:**\n$$\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{100}} = \\frac{12.27}{10} = 1.227\\text{ Å}$$\n\n**Final Answer:** Kinetic Energy $= 100\\text{ eV}$, de Broglie Wavelength $\\lambda = 1.227\\text{ Å}$.`;
+        keyFormula = String.raw`\lambda_e = \frac{12.27}{\sqrt{V}}\text{ Å}`;
+        steps.push("Step 1: Identify given accelerating potential V = 100 V.");
+        steps.push("Step 2: Calculate kinetic energy K = qV = 100 eV.");
+        steps.push("Step 3: Apply the high-yield shortcut: λ_e = 12.27 / √V Å = 12.27 / 10 = 1.227 Å.");
+        return {
+          answer,
+          coreConcept: 'Worked Example in de Broglie Wavelength',
+          stepByStepSolution: steps,
+          keyFormula,
+          variables,
+          example: workedEx,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'example',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Medium',
+            isNumerical: true,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show governing formulas', 'Step-by-step derivation', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
       } else if (isForm) {
-        answer = `### 📐 Governing Formulas & Equation Sheet: de Broglie Matter Waves\n\n**Primary Formula:**\n$$\\lambda = \\frac{h}{p} = \\frac{h}{m v}$$\n\n**Important Equation Forms for Entrance Exams:**\n1. **In terms of Linear Momentum ($p$):** $\\lambda = \\frac{h}{p}$ (universal, applies to both photons and particles)\n2. **In terms of Kinetic Energy ($K$):** Since $p = \\sqrt{2mK}$,\n$$\\lambda = \\frac{h}{\\sqrt{2mK}}$$\n3. **For Charged Particle accelerated by Potential Difference ($V$):** Since $K = qV$,\n$$\\lambda = \\frac{h}{\\sqrt{2mqV}}$$\n4. **High-Yield Entrance Exam Shortcuts:**\n• **Electron:** $\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{V}}\\text{ nm}$\n• **Proton:** $\\lambda_p = \\frac{0.286}{\\sqrt{V}}\\text{ Å}$\n• **Deuteron:** $\\lambda_d = \\frac{0.202}{\\sqrt{V}}\\text{ Å}$\n• **$\\alpha$-Particle:** $\\lambda_\\alpha = \\frac{0.101}{\\sqrt{V}}\\text{ Å}$\n• **Gas Molecule at Temperature $T$:** $\\lambda = \\frac{h}{\\sqrt{3 m k_B T}}$`;
+        answer = `### 📐 Master Formula Sheet: de Broglie Matter Waves\n\n**1. Primary Relation (Momentum Form):**\n$$\\lambda = \\frac{h}{p} = \\frac{h}{m v}$$\n\n**2. Kinetic Energy ($K$) Form:**\nSince $p = \\sqrt{2mK}$:\n$$\\lambda = \\frac{h}{\\sqrt{2mK}}$$\n\n**3. Potential Difference ($V$) Form (Charged Particles):**\nSince $K = qV$:\n$$\\lambda = \\frac{h}{\\sqrt{2mqV}}$$\n\n**4. High-Yield Exam Shortcut Formulas:**\n• **Electron:** $\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{1.227}{\\sqrt{V}}\\text{ nm}$\n• **Proton:** $\\lambda_p = \\frac{0.286}{\\sqrt{V}}\\text{ Å}$\n• **Deuteron:** $\\lambda_d = \\frac{0.202}{\\sqrt{V}}\\text{ Å}$\n• **$\\alpha$-Particle:** $\\lambda_\\alpha = \\frac{0.101}{\\sqrt{V}}\\text{ Å}$\n• **Thermal Gas Molecule at Temperature $T$:** $\\lambda = \\frac{h}{\\sqrt{3 m k_B T}}$`;
+        keyFormula = String.raw`\lambda = \frac{h}{p} = \frac{h}{mv} = \frac{h}{\sqrt{2mK}} = \frac{12.27}{\sqrt{V}}\text{ Å}`;
+        return {
+          answer,
+          coreConcept: 'de Broglie Wavelength Governing Formulas',
+          stepByStepSolution: [],
+          keyFormula,
+          variables,
+          example: undefined,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'formula',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Medium',
+            isNumerical: false,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show worked example', 'Step-by-step derivation', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
       } else if (isDeriv) {
-        answer = `### 🔬 Step-by-Step Derivation: de Broglie Wavelength\n\n1. According to Planck's Quantum Theory, the energy of a photon of frequency $\\nu$ is:\n$$E = h\\nu = \\frac{hc}{\\lambda}$$\n2. According to Einstein's Mass-Energy Equivalence Principle:\n$$E = mc^2$$\n3. Equating both expressions for energy:\n$$mc^2 = \\frac{hc}{\\lambda} \\implies \\lambda = \\frac{h}{mc} = \\frac{h}{p}$$\n(where $p = mc$ is the photon momentum).\n4. **Louis de Broglie's Hypothesis (1924):** Symmetrically extending this to any moving material particle with rest mass $m$ and velocity $v$:\n$$\\lambda = \\frac{h}{mv} = \\frac{h}{p}$$\n5. In terms of Kinetic Energy $K = \\frac{p^2}{2m} \\implies p = \\sqrt{2mK}$, so:\n$$\\lambda = \\frac{h}{\\sqrt{2mK}}$$\n6. For a charge $q$ accelerated by potential difference $V$ from rest: $K = qV \\implies \\lambda = \\frac{h}{\\sqrt{2mqV}}$.`;
+        answer = `### 🔬 Step-by-Step Derivation: de Broglie Wavelength\n\n1. From Planck's Quantum Theory, photon energy: $E = h\\nu = \\frac{hc}{\\lambda}$.\n2. From Einstein's Mass-Energy Equivalence: $E = mc^2$.\n3. Equating both expressions: $mc^2 = \\frac{hc}{\\lambda} \\implies \\lambda = \\frac{h}{mc} = \\frac{h}{p}$ (for photon with momentum $p = mc$).\n4. **de Broglie's Hypothesis (1924):** Generalizing symmetrically to any material particle of mass $m$ moving with speed $v$:\n$$\\lambda = \\frac{h}{mv} = \\frac{h}{p}$$\n5. In terms of Kinetic Energy $K = \\frac{p^2}{2m} \\implies p = \\sqrt{2mK}$, yielding: $\\lambda = \\frac{h}{\\sqrt{2mK}}$.\n6. For a charge $q$ accelerated by potential difference $V$ from rest: $K = qV \\implies \\lambda = \\frac{h}{\\sqrt{2mqV}}$.`;
+        keyFormula = String.raw`\lambda = \frac{h}{p} = \frac{h}{mv}`;
+        steps.push("Step 1: Set Planck's photon energy equal to Einstein's mass-energy: hc/λ = mc².");
+        steps.push("Step 2: Solve for photon wavelength: λ = h / (mc) = h / p.");
+        steps.push("Step 3: Generalize to material particles by replacing speed of light c with particle speed v.");
+        return {
+          answer,
+          coreConcept: 'Derivation of de Broglie Wavelength',
+          stepByStepSolution: steps,
+          keyFormula,
+          variables,
+          example: undefined,
+          examinerTrap: trap,
+          examTip: tip,
+          understanding: {
+            intent: 'derivation',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Medium',
+            isNumerical: false,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show worked example', 'Show governing formulas', 'Test me on this'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
       } else {
-        answer = `### 📘 What is the de Broglie Hypothesis & Matter Waves?\n\n**Core Concept (Symmetry of Nature):**\nIn 1924, French physicist Louis de Broglie hypothesized that nature is symmetrical: if electromagnetic radiation (light) can exhibit dual behavior (acting both as waves and as particles), then **moving material particles (matter) must also possess wave-like properties**.\n\n**What are Matter Waves?**\nThe waves associated with any moving material particle are called **matter waves** or **de Broglie waves**. They are NOT electromagnetic waves (they are emitted by both charged and uncharged particles) and NOT mechanical waves; they are probability amplitude waves describing the state of the moving particle.\n\n**Why don't everyday objects exhibit wave nature?**\nBecause Planck's constant $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$ is extremely tiny. For a macroscopic body of mass $m \\approx 0.15\\text{ kg}$ (like a cricket ball) moving at $30\\text{ m/s}$, the wavelength is:\n$$\\lambda = \\frac{h}{mv} \\approx 1.47 \\times 10^{-34}\\text{ m}$$\nThis is quadrillions of times smaller than an atomic nucleus ($10^{-15}\\text{ m}$), making wave diffraction completely undetectable. However, for an electron with $m_e \\approx 9.1 \\times 10^{-31}\\text{ kg}$, the wavelength is around $1\\text{ Å} = 10^{-10}\\text{ m}$, which perfectly matches the spacing between atoms in a crystal lattice!\n\n**Experimental Proof:**\nVerified experimentally in 1927 by the **Davisson and Germer Experiment** and **G.P. Thomson** using electron diffraction through nickel crystals, confirming de Broglie's prediction and earning them the Nobel Prize.`;
+        answer = `### 📘 What is the de Broglie Hypothesis & Matter Waves?\n\n**Fundamental Principle (Symmetry of Nature):**\nIn 1924, French physicist Louis de Broglie hypothesized that nature exhibits fundamental symmetry. If electromagnetic radiation (light) can exhibit dual behavior (acting both as continuous waves and as discrete particles/photons), then **moving material particles (electrons, protons, atoms) must also possess wave-like properties**.\n\n**What are Matter Waves?**\nThe waves associated with any moving material particle are called **matter waves** or **de Broglie waves**. Crucially:\n• They are NOT electromagnetic waves (they accompany uncharged particles like neutrons as well as charged particles).\n• They are NOT mechanical waves (they travel through vacuum without a physical medium).\n• They are probability amplitude waves describing the state of the moving particle.\n\n**Why don't everyday objects exhibit wave nature?**\nBecause Planck's constant $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$ is extraordinarily small. For an everyday object like a $0.15\\text{ kg}$ cricket ball moving at $30\\text{ m/s}$, the wavelength is:\n$$\\lambda = \\frac{h}{mv} \\approx 1.47 \\times 10^{-34}\\text{ m}$$\nThis is trillions of times smaller than an atomic nucleus ($10^{-15}\\text{ m}$), making wave diffraction completely undetectable. However, for a microscopic electron with $m_e \\approx 9.1 \\times 10^{-31}\\text{ kg}$, the wavelength is around $1\\text{ Å} = 10^{-10}\\text{ m}$, which perfectly matches the spacing between atoms in a crystal lattice!\n\n**Experimental Proof:**\nVerified experimentally in 1927 by the **Davisson and Germer Experiment** and **G.P. Thomson** using electron diffraction through nickel crystals, confirming de Broglie's prediction and earning them the Nobel Prize.`;
+        keyFormula = String.raw`\lambda = \frac{h}{p}`;
+        return {
+          answer,
+          coreConcept: 'de Broglie Hypothesis & Matter Waves',
+          stepByStepSolution: [],
+          keyFormula,
+          variables,
+          example: undefined,
+          examinerTrap: "Matter waves are NOT electromagnetic waves! They are probability amplitude waves describing the particle.",
+          examTip: "Davisson and Germer proved wave-particle duality experimentally by observing electron diffraction through nickel crystals.",
+          understanding: {
+            intent: 'definition',
+            subject: 'Physics',
+            chapter,
+            topic,
+            concept,
+            difficulty: 'Easy',
+            isNumerical: false,
+            requiresCurrentInfo: false
+          },
+          verificationPassed: true,
+          groundedInPrepora: true,
+          suggestedFollowUps: ['Show worked example', 'Show governing formulas', 'Step-by-step derivation'],
+          suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+          confidence: 0.98,
+          provider: this.name,
+          latencyMs: Date.now() - startTime
+        };
       }
-
-      return {
-        answer,
-        coreConcept: isEx ? 'Worked Example in de Broglie Wavelength' : isForm ? 'de Broglie Formulas & Relations' : isDeriv ? 'Derivation of de Broglie Wavelength' : concept,
-        stepByStepSolution: steps,
-        keyFormula,
-        variables,
-        example: isEx ? answer : undefined,
-        examinerTrap: trap,
-        examTip: tip,
-        understanding: {
-          intent: (isEx ? 'example' : isForm ? 'formula' : isDeriv ? 'derivation' : 'definition') as any,
-          subject: 'Physics',
-          chapter,
-          topic,
-          concept,
-          difficulty: 'Medium',
-          isNumerical: isEx,
-          requiresCurrentInfo: false
-        },
-        verificationPassed: true,
-        groundedInPrepora: true,
-        suggestedFollowUps: isEx
-          ? ['Show another example', 'Show governing formulas', 'Test me on this']
-          : isForm
-          ? ['Show worked example', 'Step-by-step derivation', 'Test me on this']
-          : ['Give worked example', 'Show governing formulas', 'Test me on this'],
-        suggestedPractice: {
-          subject,
-          chapter,
-          topic,
-          count: 5,
-          actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}`
-        },
-        confidence: 0.98,
-        provider: this.name,
-        latencyMs: Date.now() - startTime
-      };
     } else {
       // 3. Check Formula Knowledge Search
       const formulaMatch = searchFormulaKnowledge(q, subject, chapter);

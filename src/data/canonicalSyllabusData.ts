@@ -13,58 +13,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "UNITS_AND_MEASUREMENTS|DIMENSIONAL_ANALYSIS",
-        "name": "Dimensional Analysis",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_1",
+        "name": "Dimensional Analysis & Applications",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Dimensional Analysis - Core Theory & Derivation",
-          "Dimensional Analysis - Standard Formula Drill",
-          "Dimensional Analysis - Previous Exam Applications"
+          "Dimensional Analysis & Applications - Core Theory & Derivations",
+          "Dimensional Analysis & Applications - Standard Formula Drill",
+          "Dimensional Analysis & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SIGNIFICANT_FIGURES",
-        "name": "Significant Figures",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_2",
+        "name": "Significant Figures & Rounding Off",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Significant Figures - Core Theory & Derivation",
-          "Significant Figures - Standard Formula Drill",
-          "Significant Figures - Previous Exam Applications"
+          "Significant Figures & Rounding Off - Core Theory & Derivations",
+          "Significant Figures & Rounding Off - Standard Formula Drill",
+          "Significant Figures & Rounding Off - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SCREW_GAUGE_VERNIER",
-        "name": "Screw Gauge & Vernier",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_3",
+        "name": "Errors in Measurement & Propagation of Errors",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Screw Gauge & Vernier - Core Theory & Derivation",
-          "Screw Gauge & Vernier - Standard Formula Drill",
-          "Screw Gauge & Vernier - Previous Exam Applications"
+          "Errors in Measurement & Propagation of Errors - Core Theory & Derivations",
+          "Errors in Measurement & Propagation of Errors - Standard Formula Drill",
+          "Errors in Measurement & Propagation of Errors - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|ERROR_PROPAGATION",
-        "name": "Error Propagation",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_4",
+        "name": "Vernier Calliper & Screw Gauge",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Error Propagation - Core Theory & Derivation",
-          "Error Propagation - Standard Formula Drill",
-          "Error Propagation - Previous Exam Applications"
+          "Vernier Calliper & Screw Gauge - Core Theory & Derivations",
+          "Vernier Calliper & Screw Gauge - Standard Formula Drill",
+          "Vernier Calliper & Screw Gauge - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|UNIT_CONVERSIONS",
-        "name": "Unit Conversions",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_5",
+        "name": "Units and Measurement Systems",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Unit Conversions - Core Theory & Derivation",
-          "Unit Conversions - Standard Formula Drill",
-          "Unit Conversions - Previous Exam Applications"
+          "Units and Measurement Systems - Core Theory & Derivations",
+          "Units and Measurement Systems - Standard Formula Drill",
+          "Units and Measurement Systems - Previous Exam Applications"
         ]
       }
     ],
@@ -85,58 +85,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|DISPLACEMENT_VELOCITY",
-        "name": "Displacement & Velocity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_1",
+        "name": "Position, Distance & Displacement",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement & Velocity - Core Theory & Derivation",
-          "Displacement & Velocity - Standard Formula Drill",
-          "Displacement & Velocity - Previous Exam Applications"
+          "Position, Distance & Displacement - Core Theory & Derivations",
+          "Position, Distance & Displacement - Standard Formula Drill",
+          "Position, Distance & Displacement - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|UNIFORM_ACCELERATION",
-        "name": "Uniform Acceleration",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_2",
+        "name": "Speed, Velocity & Instantaneous Velocity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Uniform Acceleration - Core Theory & Derivation",
-          "Uniform Acceleration - Standard Formula Drill",
-          "Uniform Acceleration - Previous Exam Applications"
+          "Speed, Velocity & Instantaneous Velocity - Core Theory & Derivations",
+          "Speed, Velocity & Instantaneous Velocity - Standard Formula Drill",
+          "Speed, Velocity & Instantaneous Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|FREE_FALL_UNDER_GRAVITY",
-        "name": "Free Fall under Gravity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_3",
+        "name": "Uniform Acceleration & Kinematic Equations",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Free Fall under Gravity - Core Theory & Derivation",
-          "Free Fall under Gravity - Standard Formula Drill",
-          "Free Fall under Gravity - Previous Exam Applications"
+          "Uniform Acceleration & Kinematic Equations - Core Theory & Derivations",
+          "Uniform Acceleration & Kinematic Equations - Standard Formula Drill",
+          "Uniform Acceleration & Kinematic Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|RELATIVE_VELOCITY_1D",
-        "name": "Relative Velocity 1D",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_4",
+        "name": "Free Fall Under Gravity & Stopping Distance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 1D - Core Theory & Derivation",
-          "Relative Velocity 1D - Standard Formula Drill",
-          "Relative Velocity 1D - Previous Exam Applications"
+          "Free Fall Under Gravity & Stopping Distance - Core Theory & Derivations",
+          "Free Fall Under Gravity & Stopping Distance - Standard Formula Drill",
+          "Free Fall Under Gravity & Stopping Distance - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|KINEMATICS_GRAPHS",
-        "name": "Kinematics Graphs",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_5",
+        "name": "Relative Velocity in 1D",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kinematics Graphs - Core Theory & Derivation",
-          "Kinematics Graphs - Standard Formula Drill",
-          "Kinematics Graphs - Previous Exam Applications"
+          "Relative Velocity in 1D - Core Theory & Derivations",
+          "Relative Velocity in 1D - Standard Formula Drill",
+          "Relative Velocity in 1D - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_6",
+        "name": "Kinematics Graphs (x-t, v-t, a-t)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Kinematics Graphs (x-t, v-t, a-t) - Core Theory & Derivations",
+          "Kinematics Graphs (x-t, v-t, a-t) - Standard Formula Drill",
+          "Kinematics Graphs (x-t, v-t, a-t) - Previous Exam Applications"
         ]
       }
     ],
@@ -157,58 +168,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_PLANE|PROJECTILE_TRAJECTORY",
-        "name": "Projectile Trajectory",
+        "id": "MOTION_IN_A_PLANE|TOPIC_1",
+        "name": "Vectors: Resolution, Addition & Dot/Cross Product",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Projectile Trajectory - Core Theory & Derivation",
-          "Projectile Trajectory - Standard Formula Drill",
-          "Projectile Trajectory - Previous Exam Applications"
+          "Vectors: Resolution, Addition & Dot/Cross Product - Core Theory & Derivations",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Standard Formula Drill",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|MAXIMUM_HEIGHT_RANGE",
-        "name": "Maximum Height & Range",
+        "id": "MOTION_IN_A_PLANE|TOPIC_2",
+        "name": "Projectile Motion (Trajectory, Range & Apex)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maximum Height & Range - Core Theory & Derivation",
-          "Maximum Height & Range - Standard Formula Drill",
-          "Maximum Height & Range - Previous Exam Applications"
+          "Projectile Motion (Trajectory, Range & Apex) - Core Theory & Derivations",
+          "Projectile Motion (Trajectory, Range & Apex) - Standard Formula Drill",
+          "Projectile Motion (Trajectory, Range & Apex) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|UNIFORM_CIRCULAR_MOTION",
-        "name": "Uniform Circular Motion",
+        "id": "MOTION_IN_A_PLANE|TOPIC_3",
+        "name": "Uniform Circular Motion & Centripetal Acceleration",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Uniform Circular Motion - Core Theory & Derivation",
-          "Uniform Circular Motion - Standard Formula Drill",
-          "Uniform Circular Motion - Previous Exam Applications"
+          "Uniform Circular Motion & Centripetal Acceleration - Core Theory & Derivations",
+          "Uniform Circular Motion & Centripetal Acceleration - Standard Formula Drill",
+          "Uniform Circular Motion & Centripetal Acceleration - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|RELATIVE_VELOCITY_2D",
-        "name": "Relative Velocity 2D",
+        "id": "MOTION_IN_A_PLANE|TOPIC_4",
+        "name": "Relative Velocity in 2D (River-Boat & Rain Problems)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 2D - Core Theory & Derivation",
-          "Relative Velocity 2D - Standard Formula Drill",
-          "Relative Velocity 2D - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MOTION_IN_A_PLANE|CENTRIPETAL_ACCELERATION",
-        "name": "Centripetal Acceleration",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Centripetal Acceleration - Core Theory & Derivation",
-          "Centripetal Acceleration - Standard Formula Drill",
-          "Centripetal Acceleration - Previous Exam Applications"
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Core Theory & Derivations",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Standard Formula Drill",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Previous Exam Applications"
         ]
       }
     ],
@@ -229,58 +229,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "LAWS_OF_MOTION|NEWTON_S_SECOND_LAW",
-        "name": "Newton's Second Law",
+        "id": "LAWS_OF_MOTION|TOPIC_1",
+        "name": "Newton's First Law & Inertia",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Second Law - Core Theory & Derivation",
-          "Newton's Second Law - Standard Formula Drill",
-          "Newton's Second Law - Previous Exam Applications"
+          "Newton's First Law & Inertia - Core Theory & Derivations",
+          "Newton's First Law & Inertia - Standard Formula Drill",
+          "Newton's First Law & Inertia - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|FRICTION_ANGLE_OF_REPOSE",
-        "name": "Friction & Angle of Repose",
+        "id": "LAWS_OF_MOTION|TOPIC_2",
+        "name": "Newton's Second Law & Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Friction & Angle of Repose - Core Theory & Derivation",
-          "Friction & Angle of Repose - Standard Formula Drill",
-          "Friction & Angle of Repose - Previous Exam Applications"
+          "Newton's Second Law & Momentum - Core Theory & Derivations",
+          "Newton's Second Law & Momentum - Standard Formula Drill",
+          "Newton's Second Law & Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|CONNECTED_BODIES_PULLEYS",
-        "name": "Connected Bodies & Pulleys",
+        "id": "LAWS_OF_MOTION|TOPIC_3",
+        "name": "Newton's Third Law & Impulse",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Connected Bodies & Pulleys - Core Theory & Derivation",
-          "Connected Bodies & Pulleys - Standard Formula Drill",
-          "Connected Bodies & Pulleys - Previous Exam Applications"
+          "Newton's Third Law & Impulse - Core Theory & Derivations",
+          "Newton's Third Law & Impulse - Standard Formula Drill",
+          "Newton's Third Law & Impulse - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|BANKING_OF_ROADS",
-        "name": "Banking of Roads",
+        "id": "LAWS_OF_MOTION|TOPIC_4",
+        "name": "Connected Bodies, Pulleys & Tension",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Banking of Roads - Core Theory & Derivation",
-          "Banking of Roads - Standard Formula Drill",
-          "Banking of Roads - Previous Exam Applications"
+          "Connected Bodies, Pulleys & Tension - Core Theory & Derivations",
+          "Connected Bodies, Pulleys & Tension - Standard Formula Drill",
+          "Connected Bodies, Pulleys & Tension - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|IMPULSE_MOMENTUM",
-        "name": "Impulse & Momentum",
+        "id": "LAWS_OF_MOTION|TOPIC_5",
+        "name": "Friction: Static, Kinetic & Angle of Repose",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Impulse & Momentum - Core Theory & Derivation",
-          "Impulse & Momentum - Standard Formula Drill",
-          "Impulse & Momentum - Previous Exam Applications"
+          "Friction: Static, Kinetic & Angle of Repose - Core Theory & Derivations",
+          "Friction: Static, Kinetic & Angle of Repose - Standard Formula Drill",
+          "Friction: Static, Kinetic & Angle of Repose - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "LAWS_OF_MOTION|TOPIC_6",
+        "name": "Circular Motion Dynamics & Banking of Roads",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Circular Motion Dynamics & Banking of Roads - Core Theory & Derivations",
+          "Circular Motion Dynamics & Banking of Roads - Standard Formula Drill",
+          "Circular Motion Dynamics & Banking of Roads - Previous Exam Applications"
         ]
       }
     ],
@@ -301,58 +312,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "WORK_ENERGY_AND_POWER|WORK_ENERGY_THEOREM",
-        "name": "Work-Energy Theorem",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_1",
+        "name": "Work Done by Constant & Variable Forces",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Work-Energy Theorem - Core Theory & Derivation",
-          "Work-Energy Theorem - Standard Formula Drill",
-          "Work-Energy Theorem - Previous Exam Applications"
+          "Work Done by Constant & Variable Forces - Core Theory & Derivations",
+          "Work Done by Constant & Variable Forces - Standard Formula Drill",
+          "Work Done by Constant & Variable Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|CONSERVATIVE_FORCES_POTENTIAL_ENERGY",
-        "name": "Conservative Forces & Potential Energy",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_2",
+        "name": "Kinetic Energy & Work-Energy Theorem",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Conservative Forces & Potential Energy - Core Theory & Derivation",
-          "Conservative Forces & Potential Energy - Standard Formula Drill",
-          "Conservative Forces & Potential Energy - Previous Exam Applications"
+          "Kinetic Energy & Work-Energy Theorem - Core Theory & Derivations",
+          "Kinetic Energy & Work-Energy Theorem - Standard Formula Drill",
+          "Kinetic Energy & Work-Energy Theorem - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|1D_2D_ELASTIC_COLLISIONS",
-        "name": "1D & 2D Elastic Collisions",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_3",
+        "name": "Potential Energy & Conservative Forces",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "1D & 2D Elastic Collisions - Core Theory & Derivation",
-          "1D & 2D Elastic Collisions - Standard Formula Drill",
-          "1D & 2D Elastic Collisions - Previous Exam Applications"
+          "Potential Energy & Conservative Forces - Core Theory & Derivations",
+          "Potential Energy & Conservative Forces - Standard Formula Drill",
+          "Potential Energy & Conservative Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|POWER_EFFICIENCY",
-        "name": "Power & Efficiency",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_4",
+        "name": "Conservation of Mechanical Energy & Vertical Circle",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Power & Efficiency - Core Theory & Derivation",
+          "Conservation of Mechanical Energy & Vertical Circle - Core Theory & Derivations",
+          "Conservation of Mechanical Energy & Vertical Circle - Standard Formula Drill",
+          "Conservation of Mechanical Energy & Vertical Circle - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_5",
+        "name": "Power & Efficiency",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Power & Efficiency - Core Theory & Derivations",
           "Power & Efficiency - Standard Formula Drill",
           "Power & Efficiency - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|SPRING_POTENTIAL_ENERGY",
-        "name": "Spring Potential Energy",
-        "order": 5,
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_6",
+        "name": "Collisions in 1D and 2D (Elastic & Inelastic)",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring Potential Energy - Core Theory & Derivation",
-          "Spring Potential Energy - Standard Formula Drill",
-          "Spring Potential Energy - Previous Exam Applications"
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Core Theory & Derivations",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Standard Formula Drill",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Previous Exam Applications"
         ]
       }
     ],
@@ -373,58 +395,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CENTER_OF_MASS",
-        "name": "Center of Mass",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_1",
+        "name": "Centre of Mass & Motion of Centre of Mass",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Center of Mass - Core Theory & Derivation",
-          "Center of Mass - Standard Formula Drill",
-          "Center of Mass - Previous Exam Applications"
+          "Centre of Mass & Motion of Centre of Mass - Core Theory & Derivations",
+          "Centre of Mass & Motion of Centre of Mass - Standard Formula Drill",
+          "Centre of Mass & Motion of Centre of Mass - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|MOMENT_OF_INERTIA_THEOREMS",
-        "name": "Moment of Inertia Theorems",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_2",
+        "name": "Torque & Angular Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Moment of Inertia Theorems - Core Theory & Derivation",
-          "Moment of Inertia Theorems - Standard Formula Drill",
-          "Moment of Inertia Theorems - Previous Exam Applications"
+          "Torque & Angular Momentum - Core Theory & Derivations",
+          "Torque & Angular Momentum - Standard Formula Drill",
+          "Torque & Angular Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TORQUE_ANGULAR_ACCELERATION",
-        "name": "Torque & Angular Acceleration",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_3",
+        "name": "Moment of Inertia & Parallel/Perpendicular Axes",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Torque & Angular Acceleration - Core Theory & Derivation",
-          "Torque & Angular Acceleration - Standard Formula Drill",
-          "Torque & Angular Acceleration - Previous Exam Applications"
+          "Moment of Inertia & Parallel/Perpendicular Axes - Core Theory & Derivations",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Standard Formula Drill",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CONSERVATION_OF_ANGULAR_MOMENTUM",
-        "name": "Conservation of Angular Momentum",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_4",
+        "name": "Rotational Kinematics & Dynamics",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conservation of Angular Momentum - Core Theory & Derivation",
-          "Conservation of Angular Momentum - Standard Formula Drill",
-          "Conservation of Angular Momentum - Previous Exam Applications"
+          "Rotational Kinematics & Dynamics - Core Theory & Derivations",
+          "Rotational Kinematics & Dynamics - Standard Formula Drill",
+          "Rotational Kinematics & Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|ROLLING_WITHOUT_SLIPPING",
-        "name": "Rolling without Slipping",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_5",
+        "name": "Rolling Motion without Slipping",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Rolling without Slipping - Core Theory & Derivation",
-          "Rolling without Slipping - Standard Formula Drill",
-          "Rolling without Slipping - Previous Exam Applications"
+          "Rolling Motion without Slipping - Core Theory & Derivations",
+          "Rolling Motion without Slipping - Standard Formula Drill",
+          "Rolling Motion without Slipping - Previous Exam Applications"
         ]
       }
     ],
@@ -445,58 +467,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "GRAVITATION|NEWTON_S_LAW_OF_GRAVITATION",
+        "id": "GRAVITATION|TOPIC_1",
         "name": "Newton's Law of Gravitation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Law of Gravitation - Core Theory & Derivation",
+          "Newton's Law of Gravitation - Core Theory & Derivations",
           "Newton's Law of Gravitation - Standard Formula Drill",
           "Newton's Law of Gravitation - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ACCELERATION_DUE_TO_GRAVITY_G",
-        "name": "Acceleration due to Gravity g",
+        "id": "GRAVITATION|TOPIC_2",
+        "name": "Acceleration Due to Gravity & Its Variations",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Acceleration due to Gravity g - Core Theory & Derivation",
-          "Acceleration due to Gravity g - Standard Formula Drill",
-          "Acceleration due to Gravity g - Previous Exam Applications"
+          "Acceleration Due to Gravity & Its Variations - Core Theory & Derivations",
+          "Acceleration Due to Gravity & Its Variations - Standard Formula Drill",
+          "Acceleration Due to Gravity & Its Variations - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|GRAVITATIONAL_POTENTIAL_FIELD",
-        "name": "Gravitational Potential & Field",
+        "id": "GRAVITATION|TOPIC_3",
+        "name": "Gravitational Potential Energy & Potential",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Gravitational Potential & Field - Core Theory & Derivation",
-          "Gravitational Potential & Field - Standard Formula Drill",
-          "Gravitational Potential & Field - Previous Exam Applications"
+          "Gravitational Potential Energy & Potential - Core Theory & Derivations",
+          "Gravitational Potential Energy & Potential - Standard Formula Drill",
+          "Gravitational Potential Energy & Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ESCAPE_VELOCITY",
-        "name": "Escape Velocity",
+        "id": "GRAVITATION|TOPIC_4",
+        "name": "Escape Velocity & Orbital Velocity",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Escape Velocity - Core Theory & Derivation",
-          "Escape Velocity - Standard Formula Drill",
-          "Escape Velocity - Previous Exam Applications"
+          "Escape Velocity & Orbital Velocity - Core Theory & Derivations",
+          "Escape Velocity & Orbital Velocity - Standard Formula Drill",
+          "Escape Velocity & Orbital Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|KEPLER_S_LAWS_SATELLITES",
-        "name": "Kepler's Laws & Satellites",
+        "id": "GRAVITATION|TOPIC_5",
+        "name": "Kepler's Laws of Planetary Motion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kepler's Laws & Satellites - Core Theory & Derivation",
-          "Kepler's Laws & Satellites - Standard Formula Drill",
-          "Kepler's Laws & Satellites - Previous Exam Applications"
+          "Kepler's Laws of Planetary Motion - Core Theory & Derivations",
+          "Kepler's Laws of Planetary Motion - Standard Formula Drill",
+          "Kepler's Laws of Planetary Motion - Previous Exam Applications"
         ]
       }
     ],
@@ -517,58 +539,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|STRESS_STRAIN_CURVE",
-        "name": "Stress-Strain Curve",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_1",
+        "name": "Stress, Strain & Hooke's Law",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Stress-Strain Curve - Core Theory & Derivation",
-          "Stress-Strain Curve - Standard Formula Drill",
-          "Stress-Strain Curve - Previous Exam Applications"
+          "Stress, Strain & Hooke's Law - Core Theory & Derivations",
+          "Stress, Strain & Hooke's Law - Standard Formula Drill",
+          "Stress, Strain & Hooke's Law - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|HOOKE_S_LAW_YOUNG_S_MODULUS",
-        "name": "Hooke's Law & Young's Modulus",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_2",
+        "name": "Elastic Moduli (Young's, Bulk, Shear Modulus)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Hooke's Law & Young's Modulus - Core Theory & Derivation",
-          "Hooke's Law & Young's Modulus - Standard Formula Drill",
-          "Hooke's Law & Young's Modulus - Previous Exam Applications"
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Core Theory & Derivations",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Standard Formula Drill",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|BULK_MODULUS_RIGIDITY",
-        "name": "Bulk Modulus & Rigidity",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_3",
+        "name": "Elastic Potential Energy in Stretched Wire",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Bulk Modulus & Rigidity - Core Theory & Derivation",
-          "Bulk Modulus & Rigidity - Standard Formula Drill",
-          "Bulk Modulus & Rigidity - Previous Exam Applications"
+          "Elastic Potential Energy in Stretched Wire - Core Theory & Derivations",
+          "Elastic Potential Energy in Stretched Wire - Standard Formula Drill",
+          "Elastic Potential Energy in Stretched Wire - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|ELASTIC_POTENTIAL_ENERGY",
-        "name": "Elastic Potential Energy",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_4",
+        "name": "Thermal Stress & Breaking Stress",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Elastic Potential Energy - Core Theory & Derivation",
-          "Elastic Potential Energy - Standard Formula Drill",
-          "Elastic Potential Energy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|THERMAL_STRESS",
-        "name": "Thermal Stress",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Thermal Stress - Core Theory & Derivation",
-          "Thermal Stress - Standard Formula Drill",
-          "Thermal Stress - Previous Exam Applications"
+          "Thermal Stress & Breaking Stress - Core Theory & Derivations",
+          "Thermal Stress & Breaking Stress - Standard Formula Drill",
+          "Thermal Stress & Breaking Stress - Previous Exam Applications"
         ]
       }
     ],
@@ -589,69 +600,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|PASCAL_S_LAW_HYDRAULIC_LIFT",
-        "name": "Pascal's Law & Hydraulic Lift",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_1",
+        "name": "Pressure, Pascal's Law & Hydraulic Lift",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Pascal's Law & Hydraulic Lift - Core Theory & Derivation",
-          "Pascal's Law & Hydraulic Lift - Standard Formula Drill",
-          "Pascal's Law & Hydraulic Lift - Previous Exam Applications"
+          "Pressure, Pascal's Law & Hydraulic Lift - Core Theory & Derivations",
+          "Pressure, Pascal's Law & Hydraulic Lift - Standard Formula Drill",
+          "Pressure, Pascal's Law & Hydraulic Lift - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|ARCHIMEDES_PRINCIPLE_BUOYANCY",
-        "name": "Archimedes Principle & Buoyancy",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_2",
+        "name": "Archimedes' Principle & Buoyancy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Archimedes Principle & Buoyancy - Core Theory & Derivation",
-          "Archimedes Principle & Buoyancy - Standard Formula Drill",
-          "Archimedes Principle & Buoyancy - Previous Exam Applications"
+          "Archimedes' Principle & Buoyancy - Core Theory & Derivations",
+          "Archimedes' Principle & Buoyancy - Standard Formula Drill",
+          "Archimedes' Principle & Buoyancy - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|CONTINUITY_EQUATION",
-        "name": "Continuity Equation",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_3",
+        "name": "Equation of Continuity & Fluid Dynamics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Continuity Equation - Core Theory & Derivation",
-          "Continuity Equation - Standard Formula Drill",
-          "Continuity Equation - Previous Exam Applications"
+          "Equation of Continuity & Fluid Dynamics - Core Theory & Derivations",
+          "Equation of Continuity & Fluid Dynamics - Standard Formula Drill",
+          "Equation of Continuity & Fluid Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|BERNOULLI_S_THEOREM",
-        "name": "Bernoulli's Theorem",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_4",
+        "name": "Bernoulli's Theorem & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Bernoulli's Theorem - Core Theory & Derivation",
-          "Bernoulli's Theorem - Standard Formula Drill",
-          "Bernoulli's Theorem - Previous Exam Applications"
+          "Bernoulli's Theorem & Applications - Core Theory & Derivations",
+          "Bernoulli's Theorem & Applications - Standard Formula Drill",
+          "Bernoulli's Theorem & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|VISCOSITY_TERMINAL_VELOCITY",
-        "name": "Viscosity & Terminal Velocity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_5",
+        "name": "Viscosity, Stokes' Law & Terminal Velocity",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Viscosity & Terminal Velocity - Core Theory & Derivation",
-          "Viscosity & Terminal Velocity - Standard Formula Drill",
-          "Viscosity & Terminal Velocity - Previous Exam Applications"
+          "Viscosity, Stokes' Law & Terminal Velocity - Core Theory & Derivations",
+          "Viscosity, Stokes' Law & Terminal Velocity - Standard Formula Drill",
+          "Viscosity, Stokes' Law & Terminal Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|SURFACE_TENSION_CAPILLARITY",
-        "name": "Surface Tension & Capillarity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_6",
+        "name": "Surface Tension, Angle of Contact & Capillarity",
         "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Surface Tension & Capillarity - Core Theory & Derivation",
-          "Surface Tension & Capillarity - Standard Formula Drill",
-          "Surface Tension & Capillarity - Previous Exam Applications"
+          "Surface Tension, Angle of Contact & Capillarity - Core Theory & Derivations",
+          "Surface Tension, Angle of Contact & Capillarity - Standard Formula Drill",
+          "Surface Tension, Angle of Contact & Capillarity - Previous Exam Applications"
         ]
       }
     ],
@@ -672,69 +683,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|THERMAL_EXPANSION",
-        "name": "Thermal Expansion",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_1",
+        "name": "Thermal Expansion of Solids, Liquids & Gases",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Thermal Expansion - Core Theory & Derivation",
-          "Thermal Expansion - Standard Formula Drill",
-          "Thermal Expansion - Previous Exam Applications"
+          "Thermal Expansion of Solids, Liquids & Gases - Core Theory & Derivations",
+          "Thermal Expansion of Solids, Liquids & Gases - Standard Formula Drill",
+          "Thermal Expansion of Solids, Liquids & Gases - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|SPECIFIC_HEAT_CALORIMETRY",
-        "name": "Specific Heat & Calorimetry",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_2",
+        "name": "Specific Heat Capacity & Calorimetry",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Specific Heat & Calorimetry - Core Theory & Derivation",
-          "Specific Heat & Calorimetry - Standard Formula Drill",
-          "Specific Heat & Calorimetry - Previous Exam Applications"
+          "Specific Heat Capacity & Calorimetry - Core Theory & Derivations",
+          "Specific Heat Capacity & Calorimetry - Standard Formula Drill",
+          "Specific Heat Capacity & Calorimetry - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|LATENT_HEAT_PHASE_CHANGE",
-        "name": "Latent Heat & Phase Change",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_3",
+        "name": "Latent Heat & Phase Transitions",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Latent Heat & Phase Change - Core Theory & Derivation",
-          "Latent Heat & Phase Change - Standard Formula Drill",
-          "Latent Heat & Phase Change - Previous Exam Applications"
+          "Latent Heat & Phase Transitions - Core Theory & Derivations",
+          "Latent Heat & Phase Transitions - Standard Formula Drill",
+          "Latent Heat & Phase Transitions - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|CONDUCTION_THERMAL_RESISTANCE",
-        "name": "Conduction & Thermal Resistance",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_4",
+        "name": "Heat Conduction & Thermal Resistance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conduction & Thermal Resistance - Core Theory & Derivation",
-          "Conduction & Thermal Resistance - Standard Formula Drill",
-          "Conduction & Thermal Resistance - Previous Exam Applications"
+          "Heat Conduction & Thermal Resistance - Core Theory & Derivations",
+          "Heat Conduction & Thermal Resistance - Standard Formula Drill",
+          "Heat Conduction & Thermal Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|NEWTON_S_LAW_OF_COOLING",
-        "name": "Newton's Law of Cooling",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_5",
+        "name": "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Newton's Law of Cooling - Core Theory & Derivation",
-          "Newton's Law of Cooling - Standard Formula Drill",
-          "Newton's Law of Cooling - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|STEFAN_BOLTZMANN_WIEN_S_LAW",
-        "name": "Stefan-Boltzmann & Wien's Law",
-        "order": 6,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Stefan-Boltzmann & Wien's Law - Core Theory & Derivation",
-          "Stefan-Boltzmann & Wien's Law - Standard Formula Drill",
-          "Stefan-Boltzmann & Wien's Law - Previous Exam Applications"
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Core Theory & Derivations",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Standard Formula Drill",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Previous Exam Applications"
         ]
       }
     ],
@@ -755,58 +755,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
+        "id": "THERMODYNAMICS|TOPIC_1",
+        "name": "Zeroth Law & Thermal Equilibrium",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
+          "Zeroth Law & Thermal Equilibrium - Core Theory & Derivations",
+          "Zeroth Law & Thermal Equilibrium - Standard Formula Drill",
+          "Zeroth Law & Thermal Equilibrium - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOTHERMAL_ADIABATIC_PROCESSES",
-        "name": "Isothermal & Adiabatic Processes",
+        "id": "THERMODYNAMICS|TOPIC_2",
+        "name": "First Law of Thermodynamics & Internal Energy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Isothermal & Adiabatic Processes - Core Theory & Derivation",
-          "Isothermal & Adiabatic Processes - Standard Formula Drill",
-          "Isothermal & Adiabatic Processes - Previous Exam Applications"
+          "First Law of Thermodynamics & Internal Energy - Core Theory & Derivations",
+          "First Law of Thermodynamics & Internal Energy - Standard Formula Drill",
+          "First Law of Thermodynamics & Internal Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOCHORIC_ISOBARIC_PROCESSES",
-        "name": "Isochoric & Isobaric Processes",
+        "id": "THERMODYNAMICS|TOPIC_3",
+        "name": "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Isochoric & Isobaric Processes - Core Theory & Derivation",
-          "Isochoric & Isobaric Processes - Standard Formula Drill",
-          "Isochoric & Isobaric Processes - Previous Exam Applications"
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Core Theory & Derivations",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Standard Formula Drill",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|HEAT_ENGINES_CARNOT_CYCLE",
-        "name": "Heat Engines & Carnot Cycle",
+        "id": "THERMODYNAMICS|TOPIC_4",
+        "name": "Work Done in Thermodynamic Processes & PV Diagrams",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Heat Engines & Carnot Cycle - Core Theory & Derivation",
-          "Heat Engines & Carnot Cycle - Standard Formula Drill",
-          "Heat Engines & Carnot Cycle - Previous Exam Applications"
+          "Work Done in Thermodynamic Processes & PV Diagrams - Core Theory & Derivations",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Standard Formula Drill",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|SECOND_LAW_ENTROPY",
-        "name": "Second Law & Entropy",
+        "id": "THERMODYNAMICS|TOPIC_5",
+        "name": "Second Law of Thermodynamics, Heat Engines & Carnot Cycle",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Second Law & Entropy - Core Theory & Derivation",
-          "Second Law & Entropy - Standard Formula Drill",
-          "Second Law & Entropy - Previous Exam Applications"
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Core Theory & Derivations",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Standard Formula Drill",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Previous Exam Applications"
         ]
       }
     ],
@@ -827,58 +827,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "KINETIC_THEORY_OF_GASES|IDEAL_GAS_EQUATION",
-        "name": "Ideal Gas Equation",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_1",
+        "name": "Ideal Gas Equation & Gas Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ideal Gas Equation - Core Theory & Derivation",
-          "Ideal Gas Equation - Standard Formula Drill",
-          "Ideal Gas Equation - Previous Exam Applications"
+          "Ideal Gas Equation & Gas Laws - Core Theory & Derivations",
+          "Ideal Gas Equation & Gas Laws - Standard Formula Drill",
+          "Ideal Gas Equation & Gas Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|PRESSURE_OF_AN_IDEAL_GAS",
-        "name": "Pressure of an Ideal Gas",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_2",
+        "name": "Pressure & Kinetic Energy of an Ideal Gas",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Pressure of an Ideal Gas - Core Theory & Derivation",
-          "Pressure of an Ideal Gas - Standard Formula Drill",
-          "Pressure of an Ideal Gas - Previous Exam Applications"
+          "Pressure & Kinetic Energy of an Ideal Gas - Core Theory & Derivations",
+          "Pressure & Kinetic Energy of an Ideal Gas - Standard Formula Drill",
+          "Pressure & Kinetic Energy of an Ideal Gas - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|RMS_AVERAGE_MOST_PROBABLE_SPEED",
-        "name": "RMS, Average & Most Probable Speed",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_3",
+        "name": "RMS Speed, Average Speed & Most Probable Speed",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "RMS, Average & Most Probable Speed - Core Theory & Derivation",
-          "RMS, Average & Most Probable Speed - Standard Formula Drill",
-          "RMS, Average & Most Probable Speed - Previous Exam Applications"
+          "RMS Speed, Average Speed & Most Probable Speed - Core Theory & Derivations",
+          "RMS Speed, Average Speed & Most Probable Speed - Standard Formula Drill",
+          "RMS Speed, Average Speed & Most Probable Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|DEGREES_OF_FREEDOM_EQUIPARTITION",
-        "name": "Degrees of Freedom & Equipartition",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_4",
+        "name": "Degrees of Freedom & Law of Equipartition of Energy",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Degrees of Freedom & Equipartition - Core Theory & Derivation",
-          "Degrees of Freedom & Equipartition - Standard Formula Drill",
-          "Degrees of Freedom & Equipartition - Previous Exam Applications"
+          "Degrees of Freedom & Law of Equipartition of Energy - Core Theory & Derivations",
+          "Degrees of Freedom & Law of Equipartition of Energy - Standard Formula Drill",
+          "Degrees of Freedom & Law of Equipartition of Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|MEAN_FREE_PATH",
-        "name": "Mean Free Path",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_5",
+        "name": "Specific Heat Capacities & Mean Free Path",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Mean Free Path - Core Theory & Derivation",
-          "Mean Free Path - Standard Formula Drill",
-          "Mean Free Path - Previous Exam Applications"
+          "Specific Heat Capacities & Mean Free Path - Core Theory & Derivations",
+          "Specific Heat Capacities & Mean Free Path - Standard Formula Drill",
+          "Specific Heat Capacities & Mean Free Path - Previous Exam Applications"
         ]
       }
     ],
@@ -899,58 +899,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "OSCILLATIONS|SIMPLE_HARMONIC_MOTION_SHM",
-        "name": "Simple Harmonic Motion (SHM)",
+        "id": "OSCILLATIONS|TOPIC_1",
+        "name": "Simple Harmonic Motion (SHM) Kinematics",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Simple Harmonic Motion (SHM) - Core Theory & Derivation",
-          "Simple Harmonic Motion (SHM) - Standard Formula Drill",
-          "Simple Harmonic Motion (SHM) - Previous Exam Applications"
+          "Simple Harmonic Motion (SHM) Kinematics - Core Theory & Derivations",
+          "Simple Harmonic Motion (SHM) Kinematics - Standard Formula Drill",
+          "Simple Harmonic Motion (SHM) Kinematics - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|VELOCITY_ACCELERATION_IN_SHM",
-        "name": "Velocity & Acceleration in SHM",
+        "id": "OSCILLATIONS|TOPIC_2",
+        "name": "Velocity, Acceleration & Phase in SHM",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Velocity & Acceleration in SHM - Core Theory & Derivation",
-          "Velocity & Acceleration in SHM - Standard Formula Drill",
-          "Velocity & Acceleration in SHM - Previous Exam Applications"
+          "Velocity, Acceleration & Phase in SHM - Core Theory & Derivations",
+          "Velocity, Acceleration & Phase in SHM - Standard Formula Drill",
+          "Velocity, Acceleration & Phase in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|ENERGY_IN_SHM",
-        "name": "Energy in SHM",
+        "id": "OSCILLATIONS|TOPIC_3",
+        "name": "Kinetic and Potential Energy in SHM",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy in SHM - Core Theory & Derivation",
-          "Energy in SHM - Standard Formula Drill",
-          "Energy in SHM - Previous Exam Applications"
+          "Kinetic and Potential Energy in SHM - Core Theory & Derivations",
+          "Kinetic and Potential Energy in SHM - Standard Formula Drill",
+          "Kinetic and Potential Energy in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SIMPLE_PENDULUM",
+        "id": "OSCILLATIONS|TOPIC_4",
         "name": "Simple Pendulum",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Simple Pendulum - Core Theory & Derivation",
+          "Simple Pendulum - Core Theory & Derivations",
           "Simple Pendulum - Standard Formula Drill",
           "Simple Pendulum - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SPRING_MASS_SYSTEMS",
-        "name": "Spring-Mass Systems",
+        "id": "OSCILLATIONS|TOPIC_5",
+        "name": "Spring-Mass Systems (Series & Parallel)",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring-Mass Systems - Core Theory & Derivation",
-          "Spring-Mass Systems - Standard Formula Drill",
-          "Spring-Mass Systems - Previous Exam Applications"
+          "Spring-Mass Systems (Series & Parallel) - Core Theory & Derivations",
+          "Spring-Mass Systems (Series & Parallel) - Standard Formula Drill",
+          "Spring-Mass Systems (Series & Parallel) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "OSCILLATIONS|TOPIC_6",
+        "name": "Damped & Forced Oscillations, Resonance",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Damped & Forced Oscillations, Resonance - Core Theory & Derivations",
+          "Damped & Forced Oscillations, Resonance - Standard Formula Drill",
+          "Damped & Forced Oscillations, Resonance - Previous Exam Applications"
         ]
       }
     ],
@@ -971,58 +982,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVES|WAVE_EQUATION_SPEED",
-        "name": "Wave Equation & Speed",
+        "id": "WAVES|TOPIC_1",
+        "name": "Wave Equation, Frequency & Speed",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Wave Equation & Speed - Core Theory & Derivation",
-          "Wave Equation & Speed - Standard Formula Drill",
-          "Wave Equation & Speed - Previous Exam Applications"
+          "Wave Equation, Frequency & Speed - Core Theory & Derivations",
+          "Wave Equation, Frequency & Speed - Standard Formula Drill",
+          "Wave Equation, Frequency & Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|SOUND_WAVES_IN_GASES",
-        "name": "Sound Waves in Gases",
+        "id": "WAVES|TOPIC_2",
+        "name": "Speed of Sound in Gases (Newton-Laplace)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Sound Waves in Gases - Core Theory & Derivation",
-          "Sound Waves in Gases - Standard Formula Drill",
-          "Sound Waves in Gases - Previous Exam Applications"
+          "Speed of Sound in Gases (Newton-Laplace) - Core Theory & Derivations",
+          "Speed of Sound in Gases (Newton-Laplace) - Standard Formula Drill",
+          "Speed of Sound in Gases (Newton-Laplace) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|INTERFERENCE_STANDING_WAVES",
-        "name": "Interference & Standing Waves",
+        "id": "WAVES|TOPIC_3",
+        "name": "Standing Waves in Stretched Strings",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Interference & Standing Waves - Core Theory & Derivation",
-          "Interference & Standing Waves - Standard Formula Drill",
-          "Interference & Standing Waves - Previous Exam Applications"
+          "Standing Waves in Stretched Strings - Core Theory & Derivations",
+          "Standing Waves in Stretched Strings - Standard Formula Drill",
+          "Standing Waves in Stretched Strings - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|ORGAN_PIPES_RESONANCE",
-        "name": "Organ Pipes & Resonance",
+        "id": "WAVES|TOPIC_4",
+        "name": "Organ Pipes (Open & Closed)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Organ Pipes & Resonance - Core Theory & Derivation",
-          "Organ Pipes & Resonance - Standard Formula Drill",
-          "Organ Pipes & Resonance - Previous Exam Applications"
+          "Organ Pipes (Open & Closed) - Core Theory & Derivations",
+          "Organ Pipes (Open & Closed) - Standard Formula Drill",
+          "Organ Pipes (Open & Closed) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|DOPPLER_EFFECT_BEATS",
-        "name": "Doppler Effect & Beats",
+        "id": "WAVES|TOPIC_5",
+        "name": "Beats & Interference of Sound",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Doppler Effect & Beats - Core Theory & Derivation",
-          "Doppler Effect & Beats - Standard Formula Drill",
-          "Doppler Effect & Beats - Previous Exam Applications"
+          "Beats & Interference of Sound - Core Theory & Derivations",
+          "Beats & Interference of Sound - Standard Formula Drill",
+          "Beats & Interference of Sound - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WAVES|TOPIC_6",
+        "name": "Doppler Effect in Sound",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Doppler Effect in Sound - Core Theory & Derivations",
+          "Doppler Effect in Sound - Standard Formula Drill",
+          "Doppler Effect in Sound - Previous Exam Applications"
         ]
       }
     ],
@@ -1043,58 +1065,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|COULOMB_S_LAW_SUPERPOSITION",
-        "name": "Coulomb's Law & Superposition",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_1",
+        "name": "Electric Charge, Quantization & Conservation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Coulomb's Law & Superposition - Core Theory & Derivation",
-          "Coulomb's Law & Superposition - Standard Formula Drill",
-          "Coulomb's Law & Superposition - Previous Exam Applications"
+          "Electric Charge, Quantization & Conservation - Core Theory & Derivations",
+          "Electric Charge, Quantization & Conservation - Standard Formula Drill",
+          "Electric Charge, Quantization & Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_FIELD_FIELD_LINES",
-        "name": "Electric Field & Field Lines",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_2",
+        "name": "Coulomb's Law & Superposition Principle",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Electric Field & Field Lines - Core Theory & Derivation",
-          "Electric Field & Field Lines - Standard Formula Drill",
-          "Electric Field & Field Lines - Previous Exam Applications"
+          "Coulomb's Law & Superposition Principle - Core Theory & Derivations",
+          "Coulomb's Law & Superposition Principle - Standard Formula Drill",
+          "Coulomb's Law & Superposition Principle - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_DIPOLE_TORQUE_FIELD",
-        "name": "Electric Dipole Torque & Field",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_3",
+        "name": "Electric Field, Field Lines & Dipole Moment",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Electric Dipole Torque & Field - Core Theory & Derivation",
-          "Electric Dipole Torque & Field - Standard Formula Drill",
-          "Electric Dipole Torque & Field - Previous Exam Applications"
+          "Electric Field, Field Lines & Dipole Moment - Core Theory & Derivations",
+          "Electric Field, Field Lines & Dipole Moment - Standard Formula Drill",
+          "Electric Field, Field Lines & Dipole Moment - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|GAUSS_S_LAW_FLUX",
-        "name": "Gauss's Law & Flux",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_4",
+        "name": "Torque on Dipole in Uniform Field",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Gauss's Law & Flux - Core Theory & Derivation",
-          "Gauss's Law & Flux - Standard Formula Drill",
-          "Gauss's Law & Flux - Previous Exam Applications"
+          "Torque on Dipole in Uniform Field - Core Theory & Derivations",
+          "Torque on Dipole in Uniform Field - Standard Formula Drill",
+          "Torque on Dipole in Uniform Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|FIELD_OF_CONTINUOUS_CHARGE_DISTRIBUTIONS",
-        "name": "Field of Continuous Charge Distributions",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_5",
+        "name": "Gauss's Law & Electric Flux",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Field of Continuous Charge Distributions - Core Theory & Derivation",
-          "Field of Continuous Charge Distributions - Standard Formula Drill",
-          "Field of Continuous Charge Distributions - Previous Exam Applications"
+          "Gauss's Law & Electric Flux - Core Theory & Derivations",
+          "Gauss's Law & Electric Flux - Standard Formula Drill",
+          "Gauss's Law & Electric Flux - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_6",
+        "name": "Applications of Gauss's Law (Line, Sheet, Sphere)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Core Theory & Derivations",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Standard Formula Drill",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Previous Exam Applications"
         ]
       }
     ],
@@ -1115,58 +1148,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|ELECTROSTATIC_POTENTIAL_WORK",
-        "name": "Electrostatic Potential & Work",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_1",
+        "name": "Electrostatic Potential & Potential Difference",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Electrostatic Potential & Work - Core Theory & Derivation",
-          "Electrostatic Potential & Work - Standard Formula Drill",
-          "Electrostatic Potential & Work - Previous Exam Applications"
+          "Electrostatic Potential & Potential Difference - Core Theory & Derivations",
+          "Electrostatic Potential & Potential Difference - Standard Formula Drill",
+          "Electrostatic Potential & Potential Difference - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|EQUIPOTENTIAL_SURFACES",
-        "name": "Equipotential Surfaces",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_2",
+        "name": "Potential Due to Point Charge & Dipole",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Equipotential Surfaces - Core Theory & Derivation",
-          "Equipotential Surfaces - Standard Formula Drill",
-          "Equipotential Surfaces - Previous Exam Applications"
+          "Potential Due to Point Charge & Dipole - Core Theory & Derivations",
+          "Potential Due to Point Charge & Dipole - Standard Formula Drill",
+          "Potential Due to Point Charge & Dipole - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|POTENTIAL_ENERGY_OF_SYSTEM_OF_CHARGES",
-        "name": "Potential Energy of System of Charges",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_3",
+        "name": "Equipotential Surfaces & Field-Potential Relation",
         "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Equipotential Surfaces & Field-Potential Relation - Core Theory & Derivations",
+          "Equipotential Surfaces & Field-Potential Relation - Standard Formula Drill",
+          "Equipotential Surfaces & Field-Potential Relation - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_4",
+        "name": "Potential Energy of System of Charges",
+        "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Potential Energy of System of Charges - Core Theory & Derivation",
+          "Potential Energy of System of Charges - Core Theory & Derivations",
           "Potential Energy of System of Charges - Standard Formula Drill",
           "Potential Energy of System of Charges - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|CAPACITANCE_OF_PARALLEL_PLATES",
-        "name": "Capacitance of Parallel Plates",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Capacitance of Parallel Plates - Core Theory & Derivation",
-          "Capacitance of Parallel Plates - Standard Formula Drill",
-          "Capacitance of Parallel Plates - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|DIELECTRICS_ENERGY_STORED",
-        "name": "Dielectrics & Energy Stored",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_5",
+        "name": "Parallel Plate Capacitor & Dielectrics",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Dielectrics & Energy Stored - Core Theory & Derivation",
-          "Dielectrics & Energy Stored - Standard Formula Drill",
-          "Dielectrics & Energy Stored - Previous Exam Applications"
+          "Parallel Plate Capacitor & Dielectrics - Core Theory & Derivations",
+          "Parallel Plate Capacitor & Dielectrics - Standard Formula Drill",
+          "Parallel Plate Capacitor & Dielectrics - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_6",
+        "name": "Combination of Capacitors & Energy Stored",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Capacitors & Energy Stored - Core Theory & Derivations",
+          "Combination of Capacitors & Energy Stored - Standard Formula Drill",
+          "Combination of Capacitors & Energy Stored - Previous Exam Applications"
         ]
       }
     ],
@@ -1187,58 +1231,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "CURRENT_ELECTRICITY|OHM_S_LAW_DRIFT_VELOCITY",
-        "name": "Ohm's Law & Drift Velocity",
+        "id": "CURRENT_ELECTRICITY|TOPIC_1",
+        "name": "Electric Current, Drift Velocity & Mobility",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ohm's Law & Drift Velocity - Core Theory & Derivation",
-          "Ohm's Law & Drift Velocity - Standard Formula Drill",
-          "Ohm's Law & Drift Velocity - Previous Exam Applications"
+          "Electric Current, Drift Velocity & Mobility - Core Theory & Derivations",
+          "Electric Current, Drift Velocity & Mobility - Standard Formula Drill",
+          "Electric Current, Drift Velocity & Mobility - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|RESISTIVITY_TEMPERATURE_COEFFICIENT",
-        "name": "Resistivity & Temperature Coefficient",
+        "id": "CURRENT_ELECTRICITY|TOPIC_2",
+        "name": "Ohm's Law, Resistance & Resistivity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Resistivity & Temperature Coefficient - Core Theory & Derivation",
-          "Resistivity & Temperature Coefficient - Standard Formula Drill",
-          "Resistivity & Temperature Coefficient - Previous Exam Applications"
+          "Ohm's Law, Resistance & Resistivity - Core Theory & Derivations",
+          "Ohm's Law, Resistance & Resistivity - Standard Formula Drill",
+          "Ohm's Law, Resistance & Resistivity - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|KIRCHHOFF_S_LAWS_CIRCUITS",
-        "name": "Kirchhoff's Laws & Circuits",
+        "id": "CURRENT_ELECTRICITY|TOPIC_3",
+        "name": "Temperature Dependence of Resistance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Kirchhoff's Laws & Circuits - Core Theory & Derivation",
-          "Kirchhoff's Laws & Circuits - Standard Formula Drill",
-          "Kirchhoff's Laws & Circuits - Previous Exam Applications"
+          "Temperature Dependence of Resistance - Core Theory & Derivations",
+          "Temperature Dependence of Resistance - Standard Formula Drill",
+          "Temperature Dependence of Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|WHEATSTONE_BRIDGE_METER_BRIDGE",
-        "name": "Wheatstone Bridge & Meter Bridge",
+        "id": "CURRENT_ELECTRICITY|TOPIC_4",
+        "name": "Kirchhoff's Laws & Circuit Analysis",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Wheatstone Bridge & Meter Bridge - Core Theory & Derivation",
-          "Wheatstone Bridge & Meter Bridge - Standard Formula Drill",
-          "Wheatstone Bridge & Meter Bridge - Previous Exam Applications"
+          "Kirchhoff's Laws & Circuit Analysis - Core Theory & Derivations",
+          "Kirchhoff's Laws & Circuit Analysis - Standard Formula Drill",
+          "Kirchhoff's Laws & Circuit Analysis - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|POTENTIOMETER_CELL_EMF",
-        "name": "Potentiometer & Cell EMF",
+        "id": "CURRENT_ELECTRICITY|TOPIC_5",
+        "name": "Combination of Resistors & Cells",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Potentiometer & Cell EMF - Core Theory & Derivation",
-          "Potentiometer & Cell EMF - Standard Formula Drill",
-          "Potentiometer & Cell EMF - Previous Exam Applications"
+          "Combination of Resistors & Cells - Core Theory & Derivations",
+          "Combination of Resistors & Cells - Standard Formula Drill",
+          "Combination of Resistors & Cells - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "CURRENT_ELECTRICITY|TOPIC_6",
+        "name": "Wheatstone Bridge, Meter Bridge & Potentiometer",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Core Theory & Derivations",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Standard Formula Drill",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Previous Exam Applications"
         ]
       }
     ],
@@ -1259,58 +1314,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|BIOT_SAVART_LAW",
-        "name": "Biot-Savart Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_1",
+        "name": "Lorentz Magnetic Force & Motion of Charge",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Biot-Savart Law - Core Theory & Derivation",
-          "Biot-Savart Law - Standard Formula Drill",
-          "Biot-Savart Law - Previous Exam Applications"
+          "Lorentz Magnetic Force & Motion of Charge - Core Theory & Derivations",
+          "Lorentz Magnetic Force & Motion of Charge - Standard Formula Drill",
+          "Lorentz Magnetic Force & Motion of Charge - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|AMPERE_S_CIRCUITAL_LAW",
-        "name": "Ampere's Circuital Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_2",
+        "name": "Biot-Savart Law & Circular Coil Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Ampere's Circuital Law - Core Theory & Derivation",
-          "Ampere's Circuital Law - Standard Formula Drill",
-          "Ampere's Circuital Law - Previous Exam Applications"
+          "Biot-Savart Law & Circular Coil Magnetic Field - Core Theory & Derivations",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Standard Formula Drill",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MAGNETIC_FORCE_ON_MOVING_CHARGE",
-        "name": "Magnetic Force on Moving Charge",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_3",
+        "name": "Ampere's Circuital Law & Solenoid",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Force on Moving Charge - Core Theory & Derivation",
-          "Magnetic Force on Moving Charge - Standard Formula Drill",
-          "Magnetic Force on Moving Charge - Previous Exam Applications"
+          "Ampere's Circuital Law & Solenoid - Core Theory & Derivations",
+          "Ampere's Circuital Law & Solenoid - Standard Formula Drill",
+          "Ampere's Circuital Law & Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|FORCE_ON_CURRENT_CARRYING_CONDUCTOR",
-        "name": "Force on Current Carrying Conductor",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_4",
+        "name": "Force Between Parallel Current-Carrying Conductors",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Force on Current Carrying Conductor - Core Theory & Derivation",
-          "Force on Current Carrying Conductor - Standard Formula Drill",
-          "Force on Current Carrying Conductor - Previous Exam Applications"
+          "Force Between Parallel Current-Carrying Conductors - Core Theory & Derivations",
+          "Force Between Parallel Current-Carrying Conductors - Standard Formula Drill",
+          "Force Between Parallel Current-Carrying Conductors - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MOVING_COIL_GALVANOMETER",
-        "name": "Moving Coil Galvanometer",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_5",
+        "name": "Torque on Current Loop & Magnetic Dipole",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Moving Coil Galvanometer - Core Theory & Derivation",
-          "Moving Coil Galvanometer - Standard Formula Drill",
-          "Moving Coil Galvanometer - Previous Exam Applications"
+          "Torque on Current Loop & Magnetic Dipole - Core Theory & Derivations",
+          "Torque on Current Loop & Magnetic Dipole - Standard Formula Drill",
+          "Torque on Current Loop & Magnetic Dipole - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_6",
+        "name": "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Core Theory & Derivations",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Standard Formula Drill",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Previous Exam Applications"
         ]
       }
     ],
@@ -1331,58 +1397,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MAGNETISM_AND_MATTER|BAR_MAGNET_AS_EQUIVALENT_SOLENOID",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_1",
         "name": "Bar Magnet as Equivalent Solenoid",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivation",
+          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivations",
           "Bar Magnet as Equivalent Solenoid - Standard Formula Drill",
           "Bar Magnet as Equivalent Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|EARTH_S_MAGNETISM_DIP",
-        "name": "Earth's Magnetism & Dip",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_2",
+        "name": "Magnetic Dipole in Uniform Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Earth's Magnetism & Dip - Core Theory & Derivation",
-          "Earth's Magnetism & Dip - Standard Formula Drill",
-          "Earth's Magnetism & Dip - Previous Exam Applications"
+          "Magnetic Dipole in Uniform Magnetic Field - Core Theory & Derivations",
+          "Magnetic Dipole in Uniform Magnetic Field - Standard Formula Drill",
+          "Magnetic Dipole in Uniform Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|MAGNETIC_PROPERTIES_DIA_PARA_FERRO",
-        "name": "Magnetic Properties (Dia, Para, Ferro)",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_3",
+        "name": "Earth's Magnetism & Magnetic Elements",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Properties (Dia, Para, Ferro) - Core Theory & Derivation",
-          "Magnetic Properties (Dia, Para, Ferro) - Standard Formula Drill",
-          "Magnetic Properties (Dia, Para, Ferro) - Previous Exam Applications"
+          "Earth's Magnetism & Magnetic Elements - Core Theory & Derivations",
+          "Earth's Magnetism & Magnetic Elements - Standard Formula Drill",
+          "Earth's Magnetism & Magnetic Elements - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|HYSTERESIS_LOOP",
-        "name": "Hysteresis Loop",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_4",
+        "name": "Magnetic Properties of Materials (Dia, Para, Ferro)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Hysteresis Loop - Core Theory & Derivation",
-          "Hysteresis Loop - Standard Formula Drill",
-          "Hysteresis Loop - Previous Exam Applications"
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Core Theory & Derivations",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Standard Formula Drill",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|CURIE_S_LAW",
-        "name": "Curie's Law",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_5",
+        "name": "Curie's Law, Hysteresis & Electromagnets",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Curie's Law - Core Theory & Derivation",
-          "Curie's Law - Standard Formula Drill",
-          "Curie's Law - Previous Exam Applications"
+          "Curie's Law, Hysteresis & Electromagnets - Core Theory & Derivations",
+          "Curie's Law, Hysteresis & Electromagnets - Standard Formula Drill",
+          "Curie's Law, Hysteresis & Electromagnets - Previous Exam Applications"
         ]
       }
     ],
@@ -1403,58 +1469,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MAGNETIC_FLUX_FARADAY_S_LAWS",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_1",
         "name": "Magnetic Flux & Faraday's Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Flux & Faraday's Laws - Core Theory & Derivation",
+          "Magnetic Flux & Faraday's Laws - Core Theory & Derivations",
           "Magnetic Flux & Faraday's Laws - Standard Formula Drill",
           "Magnetic Flux & Faraday's Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|LENZ_S_LAW_CONSERVATION_OF_ENERGY",
-        "name": "Lenz's Law & Conservation of Energy",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_2",
+        "name": "Lenz's Law & Energy Conservation",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Lenz's Law & Conservation of Energy - Core Theory & Derivation",
-          "Lenz's Law & Conservation of Energy - Standard Formula Drill",
-          "Lenz's Law & Conservation of Energy - Previous Exam Applications"
+          "Lenz's Law & Energy Conservation - Core Theory & Derivations",
+          "Lenz's Law & Energy Conservation - Standard Formula Drill",
+          "Lenz's Law & Energy Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MOTIONAL_EMF",
-        "name": "Motional EMF",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_3",
+        "name": "Motional EMF & Eddy Currents",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Motional EMF - Core Theory & Derivation",
-          "Motional EMF - Standard Formula Drill",
-          "Motional EMF - Previous Exam Applications"
+          "Motional EMF & Eddy Currents - Core Theory & Derivations",
+          "Motional EMF & Eddy Currents - Standard Formula Drill",
+          "Motional EMF & Eddy Currents - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|SELF_MUTUAL_INDUCTANCE",
-        "name": "Self & Mutual Inductance",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_4",
+        "name": "Self-Inductance & Mutual Inductance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Self & Mutual Inductance - Core Theory & Derivation",
-          "Self & Mutual Inductance - Standard Formula Drill",
-          "Self & Mutual Inductance - Previous Exam Applications"
+          "Self-Inductance & Mutual Inductance - Core Theory & Derivations",
+          "Self-Inductance & Mutual Inductance - Standard Formula Drill",
+          "Self-Inductance & Mutual Inductance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|AC_GENERATOR_EDDY_CURRENTS",
-        "name": "AC Generator & Eddy Currents",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_5",
+        "name": "AC Generator Principle & Working",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "AC Generator & Eddy Currents - Core Theory & Derivation",
-          "AC Generator & Eddy Currents - Standard Formula Drill",
-          "AC Generator & Eddy Currents - Previous Exam Applications"
+          "AC Generator Principle & Working - Core Theory & Derivations",
+          "AC Generator Principle & Working - Standard Formula Drill",
+          "AC Generator Principle & Working - Previous Exam Applications"
         ]
       }
     ],
@@ -1475,58 +1541,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ALTERNATING_CURRENT|PEAK_AVERAGE_RMS_VALUES",
-        "name": "Peak, Average & RMS Values",
+        "id": "ALTERNATING_CURRENT|TOPIC_1",
+        "name": "AC Voltage, Peak & RMS Values",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Peak, Average & RMS Values - Core Theory & Derivation",
-          "Peak, Average & RMS Values - Standard Formula Drill",
-          "Peak, Average & RMS Values - Previous Exam Applications"
+          "AC Voltage, Peak & RMS Values - Core Theory & Derivations",
+          "AC Voltage, Peak & RMS Values - Standard Formula Drill",
+          "AC Voltage, Peak & RMS Values - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|AC_ACROSS_R_L_AND_C",
-        "name": "AC across R, L, and C",
+        "id": "ALTERNATING_CURRENT|TOPIC_2",
+        "name": "AC across Pure R, L, and C",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "AC across R, L, and C - Core Theory & Derivation",
-          "AC across R, L, and C - Standard Formula Drill",
-          "AC across R, L, and C - Previous Exam Applications"
+          "AC across Pure R, L, and C - Core Theory & Derivations",
+          "AC across Pure R, L, and C - Standard Formula Drill",
+          "AC across Pure R, L, and C - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|SERIES_LCR_CIRCUIT_PHASOR",
-        "name": "Series LCR Circuit & Phasor",
+        "id": "ALTERNATING_CURRENT|TOPIC_3",
+        "name": "Series LCR Circuit & Impedance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Series LCR Circuit & Phasor - Core Theory & Derivation",
-          "Series LCR Circuit & Phasor - Standard Formula Drill",
-          "Series LCR Circuit & Phasor - Previous Exam Applications"
+          "Series LCR Circuit & Impedance - Core Theory & Derivations",
+          "Series LCR Circuit & Impedance - Standard Formula Drill",
+          "Series LCR Circuit & Impedance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|RESONANCE_QUALITY_FACTOR",
-        "name": "Resonance & Quality Factor",
+        "id": "ALTERNATING_CURRENT|TOPIC_4",
+        "name": "Resonance & Quality Factor in LCR",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Resonance & Quality Factor - Core Theory & Derivation",
-          "Resonance & Quality Factor - Standard Formula Drill",
-          "Resonance & Quality Factor - Previous Exam Applications"
+          "Resonance & Quality Factor in LCR - Core Theory & Derivations",
+          "Resonance & Quality Factor in LCR - Standard Formula Drill",
+          "Resonance & Quality Factor in LCR - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|POWER_IN_AC_CIRCUITS_TRANSFORMERS",
-        "name": "Power in AC Circuits & Transformers",
+        "id": "ALTERNATING_CURRENT|TOPIC_5",
+        "name": "Power in AC Circuits & Power Factor",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Power in AC Circuits & Transformers - Core Theory & Derivation",
-          "Power in AC Circuits & Transformers - Standard Formula Drill",
-          "Power in AC Circuits & Transformers - Previous Exam Applications"
+          "Power in AC Circuits & Power Factor - Core Theory & Derivations",
+          "Power in AC Circuits & Power Factor - Standard Formula Drill",
+          "Power in AC Circuits & Power Factor - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ALTERNATING_CURRENT|TOPIC_6",
+        "name": "Transformers: Principles & Efficiency",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Transformers: Principles & Efficiency - Core Theory & Derivations",
+          "Transformers: Principles & Efficiency - Standard Formula Drill",
+          "Transformers: Principles & Efficiency - Previous Exam Applications"
         ]
       }
     ],
@@ -1547,58 +1624,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_WAVES|DISPLACEMENT_CURRENT",
-        "name": "Displacement Current",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_1",
+        "name": "Displacement Current & Maxwell's Equations",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement Current - Core Theory & Derivation",
-          "Displacement Current - Standard Formula Drill",
-          "Displacement Current - Previous Exam Applications"
+          "Displacement Current & Maxwell's Equations - Core Theory & Derivations",
+          "Displacement Current & Maxwell's Equations - Standard Formula Drill",
+          "Displacement Current & Maxwell's Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|MAXWELL_S_EQUATIONS",
-        "name": "Maxwell's Equations",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_2",
+        "name": "Characteristics & Speed of EM Waves",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maxwell's Equations - Core Theory & Derivation",
-          "Maxwell's Equations - Standard Formula Drill",
-          "Maxwell's Equations - Previous Exam Applications"
+          "Characteristics & Speed of EM Waves - Core Theory & Derivations",
+          "Characteristics & Speed of EM Waves - Standard Formula Drill",
+          "Characteristics & Speed of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|CHARACTERISTICS_OF_EM_WAVES",
-        "name": "Characteristics of EM Waves",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_3",
+        "name": "Energy Density & Momentum of EM Waves",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Characteristics of EM Waves - Core Theory & Derivation",
-          "Characteristics of EM Waves - Standard Formula Drill",
-          "Characteristics of EM Waves - Previous Exam Applications"
+          "Energy Density & Momentum of EM Waves - Core Theory & Derivations",
+          "Energy Density & Momentum of EM Waves - Standard Formula Drill",
+          "Energy Density & Momentum of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|ELECTROMAGNETIC_SPECTRUM",
-        "name": "Electromagnetic Spectrum",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_4",
+        "name": "Electromagnetic Spectrum & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Electromagnetic Spectrum - Core Theory & Derivation",
-          "Electromagnetic Spectrum - Standard Formula Drill",
-          "Electromagnetic Spectrum - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROMAGNETIC_WAVES|ENERGY_MOMENTUM_OF_EM_WAVES",
-        "name": "Energy & Momentum of EM Waves",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Energy & Momentum of EM Waves - Core Theory & Derivation",
-          "Energy & Momentum of EM Waves - Standard Formula Drill",
-          "Energy & Momentum of EM Waves - Previous Exam Applications"
+          "Electromagnetic Spectrum & Applications - Core Theory & Derivations",
+          "Electromagnetic Spectrum & Applications - Standard Formula Drill",
+          "Electromagnetic Spectrum & Applications - Previous Exam Applications"
         ]
       }
     ],
@@ -1619,56 +1685,67 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFLECTION_SPHERICAL_MIRRORS",
-        "name": "Reflection & Spherical Mirrors",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_1",
+        "name": "Reflection by Spherical Mirrors & Mirror Formula",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Reflection & Spherical Mirrors - Core Theory & Derivation",
-          "Reflection & Spherical Mirrors - Standard Formula Drill",
-          "Reflection & Spherical Mirrors - Previous Exam Applications"
+          "Reflection by Spherical Mirrors & Mirror Formula - Core Theory & Derivations",
+          "Reflection by Spherical Mirrors & Mirror Formula - Standard Formula Drill",
+          "Reflection by Spherical Mirrors & Mirror Formula - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFRACTION_TOTAL_INTERNAL_REFLECTION",
-        "name": "Refraction & Total Internal Reflection",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_2",
+        "name": "Refraction of Light & Total Internal Reflection",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Refraction & Total Internal Reflection - Core Theory & Derivation",
-          "Refraction & Total Internal Reflection - Standard Formula Drill",
-          "Refraction & Total Internal Reflection - Previous Exam Applications"
+          "Refraction of Light & Total Internal Reflection - Core Theory & Derivations",
+          "Refraction of Light & Total Internal Reflection - Standard Formula Drill",
+          "Refraction of Light & Total Internal Reflection - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|PRISM_FORMULA_DISPERSION",
-        "name": "Prism Formula & Dispersion",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Prism Formula & Dispersion - Core Theory & Derivation",
-          "Prism Formula & Dispersion - Standard Formula Drill",
-          "Prism Formula & Dispersion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|LENS_MAKER_S_FORMULA_THIN_LENSES",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_3",
         "name": "Lens Maker's Formula & Thin Lenses",
-        "order": 4,
-        "isKeyTopic": false,
+        "order": 3,
+        "isKeyTopic": true,
         "subtopics": [
-          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivation",
+          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivations",
           "Lens Maker's Formula & Thin Lenses - Standard Formula Drill",
           "Lens Maker's Formula & Thin Lenses - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|MICROSCOPES_TELESCOPES",
-        "name": "Microscopes & Telescopes",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_4",
+        "name": "Combination of Lenses in Contact",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Lenses in Contact - Core Theory & Derivations",
+          "Combination of Lenses in Contact - Standard Formula Drill",
+          "Combination of Lenses in Contact - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_5",
+        "name": "Refraction through Prism & Dispersion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Microscopes & Telescopes - Core Theory & Derivation",
+          "Refraction through Prism & Dispersion - Core Theory & Derivations",
+          "Refraction through Prism & Dispersion - Standard Formula Drill",
+          "Refraction through Prism & Dispersion - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_6",
+        "name": "Microscopes & Telescopes",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Microscopes & Telescopes - Core Theory & Derivations",
           "Microscopes & Telescopes - Standard Formula Drill",
           "Microscopes & Telescopes - Previous Exam Applications"
         ]
@@ -1691,58 +1768,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVE_OPTICS|HUYGENS_PRINCIPLE_WAVEFRONTS",
+        "id": "WAVE_OPTICS|TOPIC_1",
         "name": "Huygens' Principle & Wavefronts",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Huygens' Principle & Wavefronts - Core Theory & Derivation",
+          "Huygens' Principle & Wavefronts - Core Theory & Derivations",
           "Huygens' Principle & Wavefronts - Standard Formula Drill",
           "Huygens' Principle & Wavefronts - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|INTERFERENCE_OF_LIGHT",
-        "name": "Interference of Light",
+        "id": "WAVE_OPTICS|TOPIC_2",
+        "name": "Interference of Light & Coherent Sources",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Interference of Light - Core Theory & Derivation",
-          "Interference of Light - Standard Formula Drill",
-          "Interference of Light - Previous Exam Applications"
+          "Interference of Light & Coherent Sources - Core Theory & Derivations",
+          "Interference of Light & Coherent Sources - Standard Formula Drill",
+          "Interference of Light & Coherent Sources - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|YOUNG_S_DOUBLE_SLIT_EXPERIMENT_YDSE",
+        "id": "WAVE_OPTICS|TOPIC_3",
         "name": "Young's Double Slit Experiment (YDSE)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivation",
+          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivations",
           "Young's Double Slit Experiment (YDSE) - Standard Formula Drill",
           "Young's Double Slit Experiment (YDSE) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|DIFFRACTION_AT_A_SINGLE_SLIT",
-        "name": "Diffraction at a Single Slit",
+        "id": "WAVE_OPTICS|TOPIC_4",
+        "name": "Diffraction of Light (Single Slit)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Diffraction at a Single Slit - Core Theory & Derivation",
-          "Diffraction at a Single Slit - Standard Formula Drill",
-          "Diffraction at a Single Slit - Previous Exam Applications"
+          "Diffraction of Light (Single Slit) - Core Theory & Derivations",
+          "Diffraction of Light (Single Slit) - Standard Formula Drill",
+          "Diffraction of Light (Single Slit) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|POLARISATION_BREWSTER_S_LAW",
-        "name": "Polarisation & Brewster's Law",
+        "id": "WAVE_OPTICS|TOPIC_5",
+        "name": "Polarisation of Light & Brewster's Law",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Polarisation & Brewster's Law - Core Theory & Derivation",
-          "Polarisation & Brewster's Law - Standard Formula Drill",
-          "Polarisation & Brewster's Law - Previous Exam Applications"
+          "Polarisation of Light & Brewster's Law - Core Theory & Derivations",
+          "Polarisation of Light & Brewster's Law - Standard Formula Drill",
+          "Polarisation of Light & Brewster's Law - Previous Exam Applications"
         ]
       }
     ],
@@ -1763,58 +1840,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|PHOTOELECTRIC_EFFECT_OBSERVATIONS",
-        "name": "Photoelectric Effect Observations",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_1",
+        "name": "Photoelectric Effect Observations & Thresholds",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Photoelectric Effect Observations - Core Theory & Derivation",
-          "Photoelectric Effect Observations - Standard Formula Drill",
-          "Photoelectric Effect Observations - Previous Exam Applications"
+          "Photoelectric Effect Observations & Thresholds - Core Theory & Derivations",
+          "Photoelectric Effect Observations & Thresholds - Standard Formula Drill",
+          "Photoelectric Effect Observations & Thresholds - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|EINSTEIN_S_PHOTOELECTRIC_EQUATION",
-        "name": "Einstein's Photoelectric Equation",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_2",
+        "name": "Einstein's Photoelectric Equation & Stopping Potential",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Einstein's Photoelectric Equation - Core Theory & Derivation",
-          "Einstein's Photoelectric Equation - Standard Formula Drill",
-          "Einstein's Photoelectric Equation - Previous Exam Applications"
+          "Einstein's Photoelectric Equation & Stopping Potential - Core Theory & Derivations",
+          "Einstein's Photoelectric Equation & Stopping Potential - Standard Formula Drill",
+          "Einstein's Photoelectric Equation & Stopping Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|WORK_FUNCTION_STOPPING_POTENTIAL",
-        "name": "Work Function & Stopping Potential",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_3",
+        "name": "Photon Characteristics & Radiation Pressure",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Work Function & Stopping Potential - Core Theory & Derivation",
-          "Work Function & Stopping Potential - Standard Formula Drill",
-          "Work Function & Stopping Potential - Previous Exam Applications"
+          "Photon Characteristics & Radiation Pressure - Core Theory & Derivations",
+          "Photon Characteristics & Radiation Pressure - Standard Formula Drill",
+          "Photon Characteristics & Radiation Pressure - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DE_BROGLIE_WAVELENGTH",
-        "name": "de Broglie Wavelength",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_4",
+        "name": "de Broglie Wavelength of Matter Waves",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "de Broglie Wavelength - Core Theory & Derivation",
-          "de Broglie Wavelength - Standard Formula Drill",
-          "de Broglie Wavelength - Previous Exam Applications"
+          "de Broglie Wavelength of Matter Waves - Core Theory & Derivations",
+          "de Broglie Wavelength of Matter Waves - Standard Formula Drill",
+          "de Broglie Wavelength of Matter Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DAVISSON_GERMER_EXPERIMENT",
-        "name": "Davisson-Germer Experiment",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_5",
+        "name": "Davisson and Germer Experiment",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Davisson-Germer Experiment - Core Theory & Derivation",
-          "Davisson-Germer Experiment - Standard Formula Drill",
-          "Davisson-Germer Experiment - Previous Exam Applications"
+          "Davisson and Germer Experiment - Core Theory & Derivations",
+          "Davisson and Germer Experiment - Standard Formula Drill",
+          "Davisson and Germer Experiment - Previous Exam Applications"
         ]
       }
     ],
@@ -1835,58 +1912,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ATOMS|RUTHERFORD_S_ALPHA_SCATTERING_MODEL",
+        "id": "ATOMS|TOPIC_1",
         "name": "Rutherford's Alpha Scattering Model",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Rutherford's Alpha Scattering Model - Core Theory & Derivation",
+          "Rutherford's Alpha Scattering Model - Core Theory & Derivations",
           "Rutherford's Alpha Scattering Model - Standard Formula Drill",
           "Rutherford's Alpha Scattering Model - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|BOHR_S_MODEL_OF_HYDROGEN_ATOM",
-        "name": "Bohr's Model of Hydrogen Atom",
+        "id": "ATOMS|TOPIC_2",
+        "name": "Bohr's Model of Hydrogen Atom (Radii & Energy)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Bohr's Model of Hydrogen Atom - Core Theory & Derivation",
-          "Bohr's Model of Hydrogen Atom - Standard Formula Drill",
-          "Bohr's Model of Hydrogen Atom - Previous Exam Applications"
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Core Theory & Derivations",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Standard Formula Drill",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|ENERGY_LEVELS_SPECTRAL_SERIES",
-        "name": "Energy Levels & Spectral Series",
+        "id": "ATOMS|TOPIC_3",
+        "name": "Hydrogen Emission Spectral Series",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy Levels & Spectral Series - Core Theory & Derivation",
-          "Energy Levels & Spectral Series - Standard Formula Drill",
-          "Energy Levels & Spectral Series - Previous Exam Applications"
+          "Hydrogen Emission Spectral Series - Core Theory & Derivations",
+          "Hydrogen Emission Spectral Series - Standard Formula Drill",
+          "Hydrogen Emission Spectral Series - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|DE_BROGLIE_S_EXPLANATION_OF_BOHR_POSTULATE",
-        "name": "De Broglie's Explanation of Bohr Postulate",
+        "id": "ATOMS|TOPIC_4",
+        "name": "de Broglie's Explanation of Bohr's Quantization",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "De Broglie's Explanation of Bohr Postulate - Core Theory & Derivation",
-          "De Broglie's Explanation of Bohr Postulate - Standard Formula Drill",
-          "De Broglie's Explanation of Bohr Postulate - Previous Exam Applications"
+          "de Broglie's Explanation of Bohr's Quantization - Core Theory & Derivations",
+          "de Broglie's Explanation of Bohr's Quantization - Standard Formula Drill",
+          "de Broglie's Explanation of Bohr's Quantization - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|EXCITATION_IONIZATION_POTENTIALS",
-        "name": "Excitation & Ionization Potentials",
+        "id": "ATOMS|TOPIC_5",
+        "name": "Excitation & Ionization Energies",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Excitation & Ionization Potentials - Core Theory & Derivation",
-          "Excitation & Ionization Potentials - Standard Formula Drill",
-          "Excitation & Ionization Potentials - Previous Exam Applications"
+          "Excitation & Ionization Energies - Core Theory & Derivations",
+          "Excitation & Ionization Energies - Standard Formula Drill",
+          "Excitation & Ionization Energies - Previous Exam Applications"
         ]
       }
     ],
@@ -1907,58 +1984,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "NUCLEI|NUCLEAR_SIZE_DENSITY",
-        "name": "Nuclear Size & Density",
+        "id": "NUCLEI|TOPIC_1",
+        "name": "Nuclear Size, Mass & Nuclear Density",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Size & Density - Core Theory & Derivation",
-          "Nuclear Size & Density - Standard Formula Drill",
-          "Nuclear Size & Density - Previous Exam Applications"
+          "Nuclear Size, Mass & Nuclear Density - Core Theory & Derivations",
+          "Nuclear Size, Mass & Nuclear Density - Standard Formula Drill",
+          "Nuclear Size, Mass & Nuclear Density - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|MASS_DEFECT_BINDING_ENERGY",
-        "name": "Mass Defect & Binding Energy",
+        "id": "NUCLEI|TOPIC_2",
+        "name": "Mass Defect & Binding Energy per Nucleon",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Mass Defect & Binding Energy - Core Theory & Derivation",
-          "Mass Defect & Binding Energy - Standard Formula Drill",
-          "Mass Defect & Binding Energy - Previous Exam Applications"
+          "Mass Defect & Binding Energy per Nucleon - Core Theory & Derivations",
+          "Mass Defect & Binding Energy per Nucleon - Standard Formula Drill",
+          "Mass Defect & Binding Energy per Nucleon - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FORCES_CHARACTERISTICS",
+        "id": "NUCLEI|TOPIC_3",
         "name": "Nuclear Forces Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Forces Characteristics - Core Theory & Derivation",
+          "Nuclear Forces Characteristics - Core Theory & Derivations",
           "Nuclear Forces Characteristics - Standard Formula Drill",
           "Nuclear Forces Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|RADIOACTIVE_DECAY_LAW_HALF_LIFE",
-        "name": "Radioactive Decay Law & Half Life",
+        "id": "NUCLEI|TOPIC_4",
+        "name": "Radioactive Decay Law, Half-Life & Mean-Life",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Radioactive Decay Law & Half Life - Core Theory & Derivation",
-          "Radioactive Decay Law & Half Life - Standard Formula Drill",
-          "Radioactive Decay Law & Half Life - Previous Exam Applications"
+          "Radioactive Decay Law, Half-Life & Mean-Life - Core Theory & Derivations",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Standard Formula Drill",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FISSION_FUSION",
-        "name": "Nuclear Fission & Fusion",
+        "id": "NUCLEI|TOPIC_5",
+        "name": "Nuclear Fission & Nuclear Fusion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Nuclear Fission & Fusion - Core Theory & Derivation",
-          "Nuclear Fission & Fusion - Standard Formula Drill",
-          "Nuclear Fission & Fusion - Previous Exam Applications"
+          "Nuclear Fission & Nuclear Fusion - Core Theory & Derivations",
+          "Nuclear Fission & Nuclear Fusion - Standard Formula Drill",
+          "Nuclear Fission & Nuclear Fusion - Previous Exam Applications"
         ]
       }
     ],
@@ -1979,58 +2056,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|INTRINSIC_EXTRINSIC_SEMICONDUCTORS",
-        "name": "Intrinsic & Extrinsic Semiconductors",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_1",
+        "name": "Energy Bands (Conductors, Semiconductors, Insulators)",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Intrinsic & Extrinsic Semiconductors - Core Theory & Derivation",
-          "Intrinsic & Extrinsic Semiconductors - Standard Formula Drill",
-          "Intrinsic & Extrinsic Semiconductors - Previous Exam Applications"
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Core Theory & Derivations",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Standard Formula Drill",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|P_N_JUNCTION_DIODE_CHARACTERISTICS",
-        "name": "p-n Junction Diode Characteristics",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_2",
+        "name": "Intrinsic & Extrinsic Semiconductors (n-type & p-type)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "p-n Junction Diode Characteristics - Core Theory & Derivation",
-          "p-n Junction Diode Characteristics - Standard Formula Drill",
-          "p-n Junction Diode Characteristics - Previous Exam Applications"
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Core Theory & Derivations",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Standard Formula Drill",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|HALF_WAVE_FULL_WAVE_RECTIFIERS",
-        "name": "Half-Wave & Full-Wave Rectifiers",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_3",
+        "name": "p-n Junction Diode V-I Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Half-Wave & Full-Wave Rectifiers - Core Theory & Derivation",
-          "Half-Wave & Full-Wave Rectifiers - Standard Formula Drill",
-          "Half-Wave & Full-Wave Rectifiers - Previous Exam Applications"
+          "p-n Junction Diode V-I Characteristics - Core Theory & Derivations",
+          "p-n Junction Diode V-I Characteristics - Standard Formula Drill",
+          "p-n Junction Diode V-I Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|ZENER_DIODE_AS_VOLTAGE_REGULATOR",
-        "name": "Zener Diode as Voltage Regulator",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_4",
+        "name": "Diode Rectifiers (Half-Wave & Full-Wave)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Zener Diode as Voltage Regulator - Core Theory & Derivation",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Core Theory & Derivations",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Standard Formula Drill",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_5",
+        "name": "Zener Diode as Voltage Regulator",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Zener Diode as Voltage Regulator - Core Theory & Derivations",
           "Zener Diode as Voltage Regulator - Standard Formula Drill",
           "Zener Diode as Voltage Regulator - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|LOGIC_GATES_AND_OR_NOT_NAND_NOR",
-        "name": "Logic Gates (AND, OR, NOT, NAND, NOR)",
-        "order": 5,
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_6",
+        "name": "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Core Theory & Derivation",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Standard Formula Drill",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Previous Exam Applications"
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Core Theory & Derivations",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Standard Formula Drill",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Previous Exam Applications"
         ]
       }
     ],
@@ -3962,58 +4050,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "UNITS_AND_MEASUREMENTS|DIMENSIONAL_ANALYSIS",
-        "name": "Dimensional Analysis",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_1",
+        "name": "Dimensional Analysis & Applications",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Dimensional Analysis - Core Theory & Derivation",
-          "Dimensional Analysis - Standard Formula Drill",
-          "Dimensional Analysis - Previous Exam Applications"
+          "Dimensional Analysis & Applications - Core Theory & Derivations",
+          "Dimensional Analysis & Applications - Standard Formula Drill",
+          "Dimensional Analysis & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SIGNIFICANT_FIGURES",
-        "name": "Significant Figures",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_2",
+        "name": "Significant Figures & Rounding Off",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Significant Figures - Core Theory & Derivation",
-          "Significant Figures - Standard Formula Drill",
-          "Significant Figures - Previous Exam Applications"
+          "Significant Figures & Rounding Off - Core Theory & Derivations",
+          "Significant Figures & Rounding Off - Standard Formula Drill",
+          "Significant Figures & Rounding Off - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SCREW_GAUGE_VERNIER",
-        "name": "Screw Gauge & Vernier",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_3",
+        "name": "Errors in Measurement & Propagation of Errors",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Screw Gauge & Vernier - Core Theory & Derivation",
-          "Screw Gauge & Vernier - Standard Formula Drill",
-          "Screw Gauge & Vernier - Previous Exam Applications"
+          "Errors in Measurement & Propagation of Errors - Core Theory & Derivations",
+          "Errors in Measurement & Propagation of Errors - Standard Formula Drill",
+          "Errors in Measurement & Propagation of Errors - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|ERROR_PROPAGATION",
-        "name": "Error Propagation",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_4",
+        "name": "Vernier Calliper & Screw Gauge",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Error Propagation - Core Theory & Derivation",
-          "Error Propagation - Standard Formula Drill",
-          "Error Propagation - Previous Exam Applications"
+          "Vernier Calliper & Screw Gauge - Core Theory & Derivations",
+          "Vernier Calliper & Screw Gauge - Standard Formula Drill",
+          "Vernier Calliper & Screw Gauge - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|UNIT_CONVERSIONS",
-        "name": "Unit Conversions",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_5",
+        "name": "Units and Measurement Systems",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Unit Conversions - Core Theory & Derivation",
-          "Unit Conversions - Standard Formula Drill",
-          "Unit Conversions - Previous Exam Applications"
+          "Units and Measurement Systems - Core Theory & Derivations",
+          "Units and Measurement Systems - Standard Formula Drill",
+          "Units and Measurement Systems - Previous Exam Applications"
         ]
       }
     ],
@@ -4034,58 +4122,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|DISPLACEMENT_VELOCITY",
-        "name": "Displacement & Velocity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_1",
+        "name": "Position, Distance & Displacement",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement & Velocity - Core Theory & Derivation",
-          "Displacement & Velocity - Standard Formula Drill",
-          "Displacement & Velocity - Previous Exam Applications"
+          "Position, Distance & Displacement - Core Theory & Derivations",
+          "Position, Distance & Displacement - Standard Formula Drill",
+          "Position, Distance & Displacement - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|UNIFORM_ACCELERATION",
-        "name": "Uniform Acceleration",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_2",
+        "name": "Speed, Velocity & Instantaneous Velocity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Uniform Acceleration - Core Theory & Derivation",
-          "Uniform Acceleration - Standard Formula Drill",
-          "Uniform Acceleration - Previous Exam Applications"
+          "Speed, Velocity & Instantaneous Velocity - Core Theory & Derivations",
+          "Speed, Velocity & Instantaneous Velocity - Standard Formula Drill",
+          "Speed, Velocity & Instantaneous Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|FREE_FALL_UNDER_GRAVITY",
-        "name": "Free Fall under Gravity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_3",
+        "name": "Uniform Acceleration & Kinematic Equations",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Free Fall under Gravity - Core Theory & Derivation",
-          "Free Fall under Gravity - Standard Formula Drill",
-          "Free Fall under Gravity - Previous Exam Applications"
+          "Uniform Acceleration & Kinematic Equations - Core Theory & Derivations",
+          "Uniform Acceleration & Kinematic Equations - Standard Formula Drill",
+          "Uniform Acceleration & Kinematic Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|RELATIVE_VELOCITY_1D",
-        "name": "Relative Velocity 1D",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_4",
+        "name": "Free Fall Under Gravity & Stopping Distance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 1D - Core Theory & Derivation",
-          "Relative Velocity 1D - Standard Formula Drill",
-          "Relative Velocity 1D - Previous Exam Applications"
+          "Free Fall Under Gravity & Stopping Distance - Core Theory & Derivations",
+          "Free Fall Under Gravity & Stopping Distance - Standard Formula Drill",
+          "Free Fall Under Gravity & Stopping Distance - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|KINEMATICS_GRAPHS",
-        "name": "Kinematics Graphs",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_5",
+        "name": "Relative Velocity in 1D",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kinematics Graphs - Core Theory & Derivation",
-          "Kinematics Graphs - Standard Formula Drill",
-          "Kinematics Graphs - Previous Exam Applications"
+          "Relative Velocity in 1D - Core Theory & Derivations",
+          "Relative Velocity in 1D - Standard Formula Drill",
+          "Relative Velocity in 1D - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_6",
+        "name": "Kinematics Graphs (x-t, v-t, a-t)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Kinematics Graphs (x-t, v-t, a-t) - Core Theory & Derivations",
+          "Kinematics Graphs (x-t, v-t, a-t) - Standard Formula Drill",
+          "Kinematics Graphs (x-t, v-t, a-t) - Previous Exam Applications"
         ]
       }
     ],
@@ -4106,58 +4205,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_PLANE|PROJECTILE_TRAJECTORY",
-        "name": "Projectile Trajectory",
+        "id": "MOTION_IN_A_PLANE|TOPIC_1",
+        "name": "Vectors: Resolution, Addition & Dot/Cross Product",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Projectile Trajectory - Core Theory & Derivation",
-          "Projectile Trajectory - Standard Formula Drill",
-          "Projectile Trajectory - Previous Exam Applications"
+          "Vectors: Resolution, Addition & Dot/Cross Product - Core Theory & Derivations",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Standard Formula Drill",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|MAXIMUM_HEIGHT_RANGE",
-        "name": "Maximum Height & Range",
+        "id": "MOTION_IN_A_PLANE|TOPIC_2",
+        "name": "Projectile Motion (Trajectory, Range & Apex)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maximum Height & Range - Core Theory & Derivation",
-          "Maximum Height & Range - Standard Formula Drill",
-          "Maximum Height & Range - Previous Exam Applications"
+          "Projectile Motion (Trajectory, Range & Apex) - Core Theory & Derivations",
+          "Projectile Motion (Trajectory, Range & Apex) - Standard Formula Drill",
+          "Projectile Motion (Trajectory, Range & Apex) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|UNIFORM_CIRCULAR_MOTION",
-        "name": "Uniform Circular Motion",
+        "id": "MOTION_IN_A_PLANE|TOPIC_3",
+        "name": "Uniform Circular Motion & Centripetal Acceleration",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Uniform Circular Motion - Core Theory & Derivation",
-          "Uniform Circular Motion - Standard Formula Drill",
-          "Uniform Circular Motion - Previous Exam Applications"
+          "Uniform Circular Motion & Centripetal Acceleration - Core Theory & Derivations",
+          "Uniform Circular Motion & Centripetal Acceleration - Standard Formula Drill",
+          "Uniform Circular Motion & Centripetal Acceleration - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|RELATIVE_VELOCITY_2D",
-        "name": "Relative Velocity 2D",
+        "id": "MOTION_IN_A_PLANE|TOPIC_4",
+        "name": "Relative Velocity in 2D (River-Boat & Rain Problems)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 2D - Core Theory & Derivation",
-          "Relative Velocity 2D - Standard Formula Drill",
-          "Relative Velocity 2D - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MOTION_IN_A_PLANE|CENTRIPETAL_ACCELERATION",
-        "name": "Centripetal Acceleration",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Centripetal Acceleration - Core Theory & Derivation",
-          "Centripetal Acceleration - Standard Formula Drill",
-          "Centripetal Acceleration - Previous Exam Applications"
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Core Theory & Derivations",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Standard Formula Drill",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Previous Exam Applications"
         ]
       }
     ],
@@ -4178,58 +4266,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "LAWS_OF_MOTION|NEWTON_S_SECOND_LAW",
-        "name": "Newton's Second Law",
+        "id": "LAWS_OF_MOTION|TOPIC_1",
+        "name": "Newton's First Law & Inertia",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Second Law - Core Theory & Derivation",
-          "Newton's Second Law - Standard Formula Drill",
-          "Newton's Second Law - Previous Exam Applications"
+          "Newton's First Law & Inertia - Core Theory & Derivations",
+          "Newton's First Law & Inertia - Standard Formula Drill",
+          "Newton's First Law & Inertia - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|FRICTION_ANGLE_OF_REPOSE",
-        "name": "Friction & Angle of Repose",
+        "id": "LAWS_OF_MOTION|TOPIC_2",
+        "name": "Newton's Second Law & Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Friction & Angle of Repose - Core Theory & Derivation",
-          "Friction & Angle of Repose - Standard Formula Drill",
-          "Friction & Angle of Repose - Previous Exam Applications"
+          "Newton's Second Law & Momentum - Core Theory & Derivations",
+          "Newton's Second Law & Momentum - Standard Formula Drill",
+          "Newton's Second Law & Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|CONNECTED_BODIES_PULLEYS",
-        "name": "Connected Bodies & Pulleys",
+        "id": "LAWS_OF_MOTION|TOPIC_3",
+        "name": "Newton's Third Law & Impulse",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Connected Bodies & Pulleys - Core Theory & Derivation",
-          "Connected Bodies & Pulleys - Standard Formula Drill",
-          "Connected Bodies & Pulleys - Previous Exam Applications"
+          "Newton's Third Law & Impulse - Core Theory & Derivations",
+          "Newton's Third Law & Impulse - Standard Formula Drill",
+          "Newton's Third Law & Impulse - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|BANKING_OF_ROADS",
-        "name": "Banking of Roads",
+        "id": "LAWS_OF_MOTION|TOPIC_4",
+        "name": "Connected Bodies, Pulleys & Tension",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Banking of Roads - Core Theory & Derivation",
-          "Banking of Roads - Standard Formula Drill",
-          "Banking of Roads - Previous Exam Applications"
+          "Connected Bodies, Pulleys & Tension - Core Theory & Derivations",
+          "Connected Bodies, Pulleys & Tension - Standard Formula Drill",
+          "Connected Bodies, Pulleys & Tension - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|IMPULSE_MOMENTUM",
-        "name": "Impulse & Momentum",
+        "id": "LAWS_OF_MOTION|TOPIC_5",
+        "name": "Friction: Static, Kinetic & Angle of Repose",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Impulse & Momentum - Core Theory & Derivation",
-          "Impulse & Momentum - Standard Formula Drill",
-          "Impulse & Momentum - Previous Exam Applications"
+          "Friction: Static, Kinetic & Angle of Repose - Core Theory & Derivations",
+          "Friction: Static, Kinetic & Angle of Repose - Standard Formula Drill",
+          "Friction: Static, Kinetic & Angle of Repose - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "LAWS_OF_MOTION|TOPIC_6",
+        "name": "Circular Motion Dynamics & Banking of Roads",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Circular Motion Dynamics & Banking of Roads - Core Theory & Derivations",
+          "Circular Motion Dynamics & Banking of Roads - Standard Formula Drill",
+          "Circular Motion Dynamics & Banking of Roads - Previous Exam Applications"
         ]
       }
     ],
@@ -4250,58 +4349,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "WORK_ENERGY_AND_POWER|WORK_ENERGY_THEOREM",
-        "name": "Work-Energy Theorem",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_1",
+        "name": "Work Done by Constant & Variable Forces",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Work-Energy Theorem - Core Theory & Derivation",
-          "Work-Energy Theorem - Standard Formula Drill",
-          "Work-Energy Theorem - Previous Exam Applications"
+          "Work Done by Constant & Variable Forces - Core Theory & Derivations",
+          "Work Done by Constant & Variable Forces - Standard Formula Drill",
+          "Work Done by Constant & Variable Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|CONSERVATIVE_FORCES_POTENTIAL_ENERGY",
-        "name": "Conservative Forces & Potential Energy",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_2",
+        "name": "Kinetic Energy & Work-Energy Theorem",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Conservative Forces & Potential Energy - Core Theory & Derivation",
-          "Conservative Forces & Potential Energy - Standard Formula Drill",
-          "Conservative Forces & Potential Energy - Previous Exam Applications"
+          "Kinetic Energy & Work-Energy Theorem - Core Theory & Derivations",
+          "Kinetic Energy & Work-Energy Theorem - Standard Formula Drill",
+          "Kinetic Energy & Work-Energy Theorem - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|1D_2D_ELASTIC_COLLISIONS",
-        "name": "1D & 2D Elastic Collisions",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_3",
+        "name": "Potential Energy & Conservative Forces",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "1D & 2D Elastic Collisions - Core Theory & Derivation",
-          "1D & 2D Elastic Collisions - Standard Formula Drill",
-          "1D & 2D Elastic Collisions - Previous Exam Applications"
+          "Potential Energy & Conservative Forces - Core Theory & Derivations",
+          "Potential Energy & Conservative Forces - Standard Formula Drill",
+          "Potential Energy & Conservative Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|POWER_EFFICIENCY",
-        "name": "Power & Efficiency",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_4",
+        "name": "Conservation of Mechanical Energy & Vertical Circle",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Power & Efficiency - Core Theory & Derivation",
+          "Conservation of Mechanical Energy & Vertical Circle - Core Theory & Derivations",
+          "Conservation of Mechanical Energy & Vertical Circle - Standard Formula Drill",
+          "Conservation of Mechanical Energy & Vertical Circle - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_5",
+        "name": "Power & Efficiency",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Power & Efficiency - Core Theory & Derivations",
           "Power & Efficiency - Standard Formula Drill",
           "Power & Efficiency - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|SPRING_POTENTIAL_ENERGY",
-        "name": "Spring Potential Energy",
-        "order": 5,
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_6",
+        "name": "Collisions in 1D and 2D (Elastic & Inelastic)",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring Potential Energy - Core Theory & Derivation",
-          "Spring Potential Energy - Standard Formula Drill",
-          "Spring Potential Energy - Previous Exam Applications"
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Core Theory & Derivations",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Standard Formula Drill",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Previous Exam Applications"
         ]
       }
     ],
@@ -4322,58 +4432,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CENTER_OF_MASS",
-        "name": "Center of Mass",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_1",
+        "name": "Centre of Mass & Motion of Centre of Mass",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Center of Mass - Core Theory & Derivation",
-          "Center of Mass - Standard Formula Drill",
-          "Center of Mass - Previous Exam Applications"
+          "Centre of Mass & Motion of Centre of Mass - Core Theory & Derivations",
+          "Centre of Mass & Motion of Centre of Mass - Standard Formula Drill",
+          "Centre of Mass & Motion of Centre of Mass - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|MOMENT_OF_INERTIA_THEOREMS",
-        "name": "Moment of Inertia Theorems",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_2",
+        "name": "Torque & Angular Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Moment of Inertia Theorems - Core Theory & Derivation",
-          "Moment of Inertia Theorems - Standard Formula Drill",
-          "Moment of Inertia Theorems - Previous Exam Applications"
+          "Torque & Angular Momentum - Core Theory & Derivations",
+          "Torque & Angular Momentum - Standard Formula Drill",
+          "Torque & Angular Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TORQUE_ANGULAR_ACCELERATION",
-        "name": "Torque & Angular Acceleration",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_3",
+        "name": "Moment of Inertia & Parallel/Perpendicular Axes",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Torque & Angular Acceleration - Core Theory & Derivation",
-          "Torque & Angular Acceleration - Standard Formula Drill",
-          "Torque & Angular Acceleration - Previous Exam Applications"
+          "Moment of Inertia & Parallel/Perpendicular Axes - Core Theory & Derivations",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Standard Formula Drill",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CONSERVATION_OF_ANGULAR_MOMENTUM",
-        "name": "Conservation of Angular Momentum",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_4",
+        "name": "Rotational Kinematics & Dynamics",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conservation of Angular Momentum - Core Theory & Derivation",
-          "Conservation of Angular Momentum - Standard Formula Drill",
-          "Conservation of Angular Momentum - Previous Exam Applications"
+          "Rotational Kinematics & Dynamics - Core Theory & Derivations",
+          "Rotational Kinematics & Dynamics - Standard Formula Drill",
+          "Rotational Kinematics & Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|ROLLING_WITHOUT_SLIPPING",
-        "name": "Rolling without Slipping",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_5",
+        "name": "Rolling Motion without Slipping",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Rolling without Slipping - Core Theory & Derivation",
-          "Rolling without Slipping - Standard Formula Drill",
-          "Rolling without Slipping - Previous Exam Applications"
+          "Rolling Motion without Slipping - Core Theory & Derivations",
+          "Rolling Motion without Slipping - Standard Formula Drill",
+          "Rolling Motion without Slipping - Previous Exam Applications"
         ]
       }
     ],
@@ -4394,58 +4504,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "GRAVITATION|NEWTON_S_LAW_OF_GRAVITATION",
+        "id": "GRAVITATION|TOPIC_1",
         "name": "Newton's Law of Gravitation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Law of Gravitation - Core Theory & Derivation",
+          "Newton's Law of Gravitation - Core Theory & Derivations",
           "Newton's Law of Gravitation - Standard Formula Drill",
           "Newton's Law of Gravitation - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ACCELERATION_DUE_TO_GRAVITY_G",
-        "name": "Acceleration due to Gravity g",
+        "id": "GRAVITATION|TOPIC_2",
+        "name": "Acceleration Due to Gravity & Its Variations",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Acceleration due to Gravity g - Core Theory & Derivation",
-          "Acceleration due to Gravity g - Standard Formula Drill",
-          "Acceleration due to Gravity g - Previous Exam Applications"
+          "Acceleration Due to Gravity & Its Variations - Core Theory & Derivations",
+          "Acceleration Due to Gravity & Its Variations - Standard Formula Drill",
+          "Acceleration Due to Gravity & Its Variations - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|GRAVITATIONAL_POTENTIAL_FIELD",
-        "name": "Gravitational Potential & Field",
+        "id": "GRAVITATION|TOPIC_3",
+        "name": "Gravitational Potential Energy & Potential",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Gravitational Potential & Field - Core Theory & Derivation",
-          "Gravitational Potential & Field - Standard Formula Drill",
-          "Gravitational Potential & Field - Previous Exam Applications"
+          "Gravitational Potential Energy & Potential - Core Theory & Derivations",
+          "Gravitational Potential Energy & Potential - Standard Formula Drill",
+          "Gravitational Potential Energy & Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ESCAPE_VELOCITY",
-        "name": "Escape Velocity",
+        "id": "GRAVITATION|TOPIC_4",
+        "name": "Escape Velocity & Orbital Velocity",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Escape Velocity - Core Theory & Derivation",
-          "Escape Velocity - Standard Formula Drill",
-          "Escape Velocity - Previous Exam Applications"
+          "Escape Velocity & Orbital Velocity - Core Theory & Derivations",
+          "Escape Velocity & Orbital Velocity - Standard Formula Drill",
+          "Escape Velocity & Orbital Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|KEPLER_S_LAWS_SATELLITES",
-        "name": "Kepler's Laws & Satellites",
+        "id": "GRAVITATION|TOPIC_5",
+        "name": "Kepler's Laws of Planetary Motion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kepler's Laws & Satellites - Core Theory & Derivation",
-          "Kepler's Laws & Satellites - Standard Formula Drill",
-          "Kepler's Laws & Satellites - Previous Exam Applications"
+          "Kepler's Laws of Planetary Motion - Core Theory & Derivations",
+          "Kepler's Laws of Planetary Motion - Standard Formula Drill",
+          "Kepler's Laws of Planetary Motion - Previous Exam Applications"
         ]
       }
     ],
@@ -4466,58 +4576,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|STRESS_STRAIN_CURVE",
-        "name": "Stress-Strain Curve",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_1",
+        "name": "Stress, Strain & Hooke's Law",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Stress-Strain Curve - Core Theory & Derivation",
-          "Stress-Strain Curve - Standard Formula Drill",
-          "Stress-Strain Curve - Previous Exam Applications"
+          "Stress, Strain & Hooke's Law - Core Theory & Derivations",
+          "Stress, Strain & Hooke's Law - Standard Formula Drill",
+          "Stress, Strain & Hooke's Law - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|HOOKE_S_LAW_YOUNG_S_MODULUS",
-        "name": "Hooke's Law & Young's Modulus",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_2",
+        "name": "Elastic Moduli (Young's, Bulk, Shear Modulus)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Hooke's Law & Young's Modulus - Core Theory & Derivation",
-          "Hooke's Law & Young's Modulus - Standard Formula Drill",
-          "Hooke's Law & Young's Modulus - Previous Exam Applications"
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Core Theory & Derivations",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Standard Formula Drill",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|BULK_MODULUS_RIGIDITY",
-        "name": "Bulk Modulus & Rigidity",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_3",
+        "name": "Elastic Potential Energy in Stretched Wire",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Bulk Modulus & Rigidity - Core Theory & Derivation",
-          "Bulk Modulus & Rigidity - Standard Formula Drill",
-          "Bulk Modulus & Rigidity - Previous Exam Applications"
+          "Elastic Potential Energy in Stretched Wire - Core Theory & Derivations",
+          "Elastic Potential Energy in Stretched Wire - Standard Formula Drill",
+          "Elastic Potential Energy in Stretched Wire - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|ELASTIC_POTENTIAL_ENERGY",
-        "name": "Elastic Potential Energy",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_4",
+        "name": "Thermal Stress & Breaking Stress",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Elastic Potential Energy - Core Theory & Derivation",
-          "Elastic Potential Energy - Standard Formula Drill",
-          "Elastic Potential Energy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|THERMAL_STRESS",
-        "name": "Thermal Stress",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Thermal Stress - Core Theory & Derivation",
-          "Thermal Stress - Standard Formula Drill",
-          "Thermal Stress - Previous Exam Applications"
+          "Thermal Stress & Breaking Stress - Core Theory & Derivations",
+          "Thermal Stress & Breaking Stress - Standard Formula Drill",
+          "Thermal Stress & Breaking Stress - Previous Exam Applications"
         ]
       }
     ],
@@ -4538,69 +4637,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|PASCAL_S_LAW_HYDRAULIC_LIFT",
-        "name": "Pascal's Law & Hydraulic Lift",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_1",
+        "name": "Pressure, Pascal's Law & Hydraulic Lift",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Pascal's Law & Hydraulic Lift - Core Theory & Derivation",
-          "Pascal's Law & Hydraulic Lift - Standard Formula Drill",
-          "Pascal's Law & Hydraulic Lift - Previous Exam Applications"
+          "Pressure, Pascal's Law & Hydraulic Lift - Core Theory & Derivations",
+          "Pressure, Pascal's Law & Hydraulic Lift - Standard Formula Drill",
+          "Pressure, Pascal's Law & Hydraulic Lift - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|ARCHIMEDES_PRINCIPLE_BUOYANCY",
-        "name": "Archimedes Principle & Buoyancy",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_2",
+        "name": "Archimedes' Principle & Buoyancy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Archimedes Principle & Buoyancy - Core Theory & Derivation",
-          "Archimedes Principle & Buoyancy - Standard Formula Drill",
-          "Archimedes Principle & Buoyancy - Previous Exam Applications"
+          "Archimedes' Principle & Buoyancy - Core Theory & Derivations",
+          "Archimedes' Principle & Buoyancy - Standard Formula Drill",
+          "Archimedes' Principle & Buoyancy - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|CONTINUITY_EQUATION",
-        "name": "Continuity Equation",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_3",
+        "name": "Equation of Continuity & Fluid Dynamics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Continuity Equation - Core Theory & Derivation",
-          "Continuity Equation - Standard Formula Drill",
-          "Continuity Equation - Previous Exam Applications"
+          "Equation of Continuity & Fluid Dynamics - Core Theory & Derivations",
+          "Equation of Continuity & Fluid Dynamics - Standard Formula Drill",
+          "Equation of Continuity & Fluid Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|BERNOULLI_S_THEOREM",
-        "name": "Bernoulli's Theorem",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_4",
+        "name": "Bernoulli's Theorem & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Bernoulli's Theorem - Core Theory & Derivation",
-          "Bernoulli's Theorem - Standard Formula Drill",
-          "Bernoulli's Theorem - Previous Exam Applications"
+          "Bernoulli's Theorem & Applications - Core Theory & Derivations",
+          "Bernoulli's Theorem & Applications - Standard Formula Drill",
+          "Bernoulli's Theorem & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|VISCOSITY_TERMINAL_VELOCITY",
-        "name": "Viscosity & Terminal Velocity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_5",
+        "name": "Viscosity, Stokes' Law & Terminal Velocity",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Viscosity & Terminal Velocity - Core Theory & Derivation",
-          "Viscosity & Terminal Velocity - Standard Formula Drill",
-          "Viscosity & Terminal Velocity - Previous Exam Applications"
+          "Viscosity, Stokes' Law & Terminal Velocity - Core Theory & Derivations",
+          "Viscosity, Stokes' Law & Terminal Velocity - Standard Formula Drill",
+          "Viscosity, Stokes' Law & Terminal Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|SURFACE_TENSION_CAPILLARITY",
-        "name": "Surface Tension & Capillarity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_6",
+        "name": "Surface Tension, Angle of Contact & Capillarity",
         "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Surface Tension & Capillarity - Core Theory & Derivation",
-          "Surface Tension & Capillarity - Standard Formula Drill",
-          "Surface Tension & Capillarity - Previous Exam Applications"
+          "Surface Tension, Angle of Contact & Capillarity - Core Theory & Derivations",
+          "Surface Tension, Angle of Contact & Capillarity - Standard Formula Drill",
+          "Surface Tension, Angle of Contact & Capillarity - Previous Exam Applications"
         ]
       }
     ],
@@ -4621,69 +4720,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|THERMAL_EXPANSION",
-        "name": "Thermal Expansion",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_1",
+        "name": "Thermal Expansion of Solids, Liquids & Gases",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Thermal Expansion - Core Theory & Derivation",
-          "Thermal Expansion - Standard Formula Drill",
-          "Thermal Expansion - Previous Exam Applications"
+          "Thermal Expansion of Solids, Liquids & Gases - Core Theory & Derivations",
+          "Thermal Expansion of Solids, Liquids & Gases - Standard Formula Drill",
+          "Thermal Expansion of Solids, Liquids & Gases - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|SPECIFIC_HEAT_CALORIMETRY",
-        "name": "Specific Heat & Calorimetry",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_2",
+        "name": "Specific Heat Capacity & Calorimetry",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Specific Heat & Calorimetry - Core Theory & Derivation",
-          "Specific Heat & Calorimetry - Standard Formula Drill",
-          "Specific Heat & Calorimetry - Previous Exam Applications"
+          "Specific Heat Capacity & Calorimetry - Core Theory & Derivations",
+          "Specific Heat Capacity & Calorimetry - Standard Formula Drill",
+          "Specific Heat Capacity & Calorimetry - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|LATENT_HEAT_PHASE_CHANGE",
-        "name": "Latent Heat & Phase Change",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_3",
+        "name": "Latent Heat & Phase Transitions",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Latent Heat & Phase Change - Core Theory & Derivation",
-          "Latent Heat & Phase Change - Standard Formula Drill",
-          "Latent Heat & Phase Change - Previous Exam Applications"
+          "Latent Heat & Phase Transitions - Core Theory & Derivations",
+          "Latent Heat & Phase Transitions - Standard Formula Drill",
+          "Latent Heat & Phase Transitions - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|CONDUCTION_THERMAL_RESISTANCE",
-        "name": "Conduction & Thermal Resistance",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_4",
+        "name": "Heat Conduction & Thermal Resistance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conduction & Thermal Resistance - Core Theory & Derivation",
-          "Conduction & Thermal Resistance - Standard Formula Drill",
-          "Conduction & Thermal Resistance - Previous Exam Applications"
+          "Heat Conduction & Thermal Resistance - Core Theory & Derivations",
+          "Heat Conduction & Thermal Resistance - Standard Formula Drill",
+          "Heat Conduction & Thermal Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|NEWTON_S_LAW_OF_COOLING",
-        "name": "Newton's Law of Cooling",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_5",
+        "name": "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Newton's Law of Cooling - Core Theory & Derivation",
-          "Newton's Law of Cooling - Standard Formula Drill",
-          "Newton's Law of Cooling - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|STEFAN_BOLTZMANN_WIEN_S_LAW",
-        "name": "Stefan-Boltzmann & Wien's Law",
-        "order": 6,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Stefan-Boltzmann & Wien's Law - Core Theory & Derivation",
-          "Stefan-Boltzmann & Wien's Law - Standard Formula Drill",
-          "Stefan-Boltzmann & Wien's Law - Previous Exam Applications"
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Core Theory & Derivations",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Standard Formula Drill",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Previous Exam Applications"
         ]
       }
     ],
@@ -4704,58 +4792,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
+        "id": "THERMODYNAMICS|TOPIC_1",
+        "name": "Zeroth Law & Thermal Equilibrium",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
+          "Zeroth Law & Thermal Equilibrium - Core Theory & Derivations",
+          "Zeroth Law & Thermal Equilibrium - Standard Formula Drill",
+          "Zeroth Law & Thermal Equilibrium - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOTHERMAL_ADIABATIC_PROCESSES",
-        "name": "Isothermal & Adiabatic Processes",
+        "id": "THERMODYNAMICS|TOPIC_2",
+        "name": "First Law of Thermodynamics & Internal Energy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Isothermal & Adiabatic Processes - Core Theory & Derivation",
-          "Isothermal & Adiabatic Processes - Standard Formula Drill",
-          "Isothermal & Adiabatic Processes - Previous Exam Applications"
+          "First Law of Thermodynamics & Internal Energy - Core Theory & Derivations",
+          "First Law of Thermodynamics & Internal Energy - Standard Formula Drill",
+          "First Law of Thermodynamics & Internal Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOCHORIC_ISOBARIC_PROCESSES",
-        "name": "Isochoric & Isobaric Processes",
+        "id": "THERMODYNAMICS|TOPIC_3",
+        "name": "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Isochoric & Isobaric Processes - Core Theory & Derivation",
-          "Isochoric & Isobaric Processes - Standard Formula Drill",
-          "Isochoric & Isobaric Processes - Previous Exam Applications"
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Core Theory & Derivations",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Standard Formula Drill",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|HEAT_ENGINES_CARNOT_CYCLE",
-        "name": "Heat Engines & Carnot Cycle",
+        "id": "THERMODYNAMICS|TOPIC_4",
+        "name": "Work Done in Thermodynamic Processes & PV Diagrams",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Heat Engines & Carnot Cycle - Core Theory & Derivation",
-          "Heat Engines & Carnot Cycle - Standard Formula Drill",
-          "Heat Engines & Carnot Cycle - Previous Exam Applications"
+          "Work Done in Thermodynamic Processes & PV Diagrams - Core Theory & Derivations",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Standard Formula Drill",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|SECOND_LAW_ENTROPY",
-        "name": "Second Law & Entropy",
+        "id": "THERMODYNAMICS|TOPIC_5",
+        "name": "Second Law of Thermodynamics, Heat Engines & Carnot Cycle",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Second Law & Entropy - Core Theory & Derivation",
-          "Second Law & Entropy - Standard Formula Drill",
-          "Second Law & Entropy - Previous Exam Applications"
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Core Theory & Derivations",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Standard Formula Drill",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Previous Exam Applications"
         ]
       }
     ],
@@ -4776,58 +4864,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "KINETIC_THEORY_OF_GASES|IDEAL_GAS_EQUATION",
-        "name": "Ideal Gas Equation",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_1",
+        "name": "Ideal Gas Equation & Gas Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ideal Gas Equation - Core Theory & Derivation",
-          "Ideal Gas Equation - Standard Formula Drill",
-          "Ideal Gas Equation - Previous Exam Applications"
+          "Ideal Gas Equation & Gas Laws - Core Theory & Derivations",
+          "Ideal Gas Equation & Gas Laws - Standard Formula Drill",
+          "Ideal Gas Equation & Gas Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|PRESSURE_OF_AN_IDEAL_GAS",
-        "name": "Pressure of an Ideal Gas",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_2",
+        "name": "Pressure & Kinetic Energy of an Ideal Gas",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Pressure of an Ideal Gas - Core Theory & Derivation",
-          "Pressure of an Ideal Gas - Standard Formula Drill",
-          "Pressure of an Ideal Gas - Previous Exam Applications"
+          "Pressure & Kinetic Energy of an Ideal Gas - Core Theory & Derivations",
+          "Pressure & Kinetic Energy of an Ideal Gas - Standard Formula Drill",
+          "Pressure & Kinetic Energy of an Ideal Gas - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|RMS_AVERAGE_MOST_PROBABLE_SPEED",
-        "name": "RMS, Average & Most Probable Speed",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_3",
+        "name": "RMS Speed, Average Speed & Most Probable Speed",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "RMS, Average & Most Probable Speed - Core Theory & Derivation",
-          "RMS, Average & Most Probable Speed - Standard Formula Drill",
-          "RMS, Average & Most Probable Speed - Previous Exam Applications"
+          "RMS Speed, Average Speed & Most Probable Speed - Core Theory & Derivations",
+          "RMS Speed, Average Speed & Most Probable Speed - Standard Formula Drill",
+          "RMS Speed, Average Speed & Most Probable Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|DEGREES_OF_FREEDOM_EQUIPARTITION",
-        "name": "Degrees of Freedom & Equipartition",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_4",
+        "name": "Degrees of Freedom & Law of Equipartition of Energy",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Degrees of Freedom & Equipartition - Core Theory & Derivation",
-          "Degrees of Freedom & Equipartition - Standard Formula Drill",
-          "Degrees of Freedom & Equipartition - Previous Exam Applications"
+          "Degrees of Freedom & Law of Equipartition of Energy - Core Theory & Derivations",
+          "Degrees of Freedom & Law of Equipartition of Energy - Standard Formula Drill",
+          "Degrees of Freedom & Law of Equipartition of Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|MEAN_FREE_PATH",
-        "name": "Mean Free Path",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_5",
+        "name": "Specific Heat Capacities & Mean Free Path",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Mean Free Path - Core Theory & Derivation",
-          "Mean Free Path - Standard Formula Drill",
-          "Mean Free Path - Previous Exam Applications"
+          "Specific Heat Capacities & Mean Free Path - Core Theory & Derivations",
+          "Specific Heat Capacities & Mean Free Path - Standard Formula Drill",
+          "Specific Heat Capacities & Mean Free Path - Previous Exam Applications"
         ]
       }
     ],
@@ -4848,58 +4936,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "OSCILLATIONS|SIMPLE_HARMONIC_MOTION_SHM",
-        "name": "Simple Harmonic Motion (SHM)",
+        "id": "OSCILLATIONS|TOPIC_1",
+        "name": "Simple Harmonic Motion (SHM) Kinematics",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Simple Harmonic Motion (SHM) - Core Theory & Derivation",
-          "Simple Harmonic Motion (SHM) - Standard Formula Drill",
-          "Simple Harmonic Motion (SHM) - Previous Exam Applications"
+          "Simple Harmonic Motion (SHM) Kinematics - Core Theory & Derivations",
+          "Simple Harmonic Motion (SHM) Kinematics - Standard Formula Drill",
+          "Simple Harmonic Motion (SHM) Kinematics - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|VELOCITY_ACCELERATION_IN_SHM",
-        "name": "Velocity & Acceleration in SHM",
+        "id": "OSCILLATIONS|TOPIC_2",
+        "name": "Velocity, Acceleration & Phase in SHM",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Velocity & Acceleration in SHM - Core Theory & Derivation",
-          "Velocity & Acceleration in SHM - Standard Formula Drill",
-          "Velocity & Acceleration in SHM - Previous Exam Applications"
+          "Velocity, Acceleration & Phase in SHM - Core Theory & Derivations",
+          "Velocity, Acceleration & Phase in SHM - Standard Formula Drill",
+          "Velocity, Acceleration & Phase in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|ENERGY_IN_SHM",
-        "name": "Energy in SHM",
+        "id": "OSCILLATIONS|TOPIC_3",
+        "name": "Kinetic and Potential Energy in SHM",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy in SHM - Core Theory & Derivation",
-          "Energy in SHM - Standard Formula Drill",
-          "Energy in SHM - Previous Exam Applications"
+          "Kinetic and Potential Energy in SHM - Core Theory & Derivations",
+          "Kinetic and Potential Energy in SHM - Standard Formula Drill",
+          "Kinetic and Potential Energy in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SIMPLE_PENDULUM",
+        "id": "OSCILLATIONS|TOPIC_4",
         "name": "Simple Pendulum",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Simple Pendulum - Core Theory & Derivation",
+          "Simple Pendulum - Core Theory & Derivations",
           "Simple Pendulum - Standard Formula Drill",
           "Simple Pendulum - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SPRING_MASS_SYSTEMS",
-        "name": "Spring-Mass Systems",
+        "id": "OSCILLATIONS|TOPIC_5",
+        "name": "Spring-Mass Systems (Series & Parallel)",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring-Mass Systems - Core Theory & Derivation",
-          "Spring-Mass Systems - Standard Formula Drill",
-          "Spring-Mass Systems - Previous Exam Applications"
+          "Spring-Mass Systems (Series & Parallel) - Core Theory & Derivations",
+          "Spring-Mass Systems (Series & Parallel) - Standard Formula Drill",
+          "Spring-Mass Systems (Series & Parallel) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "OSCILLATIONS|TOPIC_6",
+        "name": "Damped & Forced Oscillations, Resonance",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Damped & Forced Oscillations, Resonance - Core Theory & Derivations",
+          "Damped & Forced Oscillations, Resonance - Standard Formula Drill",
+          "Damped & Forced Oscillations, Resonance - Previous Exam Applications"
         ]
       }
     ],
@@ -4920,58 +5019,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVES|WAVE_EQUATION_SPEED",
-        "name": "Wave Equation & Speed",
+        "id": "WAVES|TOPIC_1",
+        "name": "Wave Equation, Frequency & Speed",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Wave Equation & Speed - Core Theory & Derivation",
-          "Wave Equation & Speed - Standard Formula Drill",
-          "Wave Equation & Speed - Previous Exam Applications"
+          "Wave Equation, Frequency & Speed - Core Theory & Derivations",
+          "Wave Equation, Frequency & Speed - Standard Formula Drill",
+          "Wave Equation, Frequency & Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|SOUND_WAVES_IN_GASES",
-        "name": "Sound Waves in Gases",
+        "id": "WAVES|TOPIC_2",
+        "name": "Speed of Sound in Gases (Newton-Laplace)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Sound Waves in Gases - Core Theory & Derivation",
-          "Sound Waves in Gases - Standard Formula Drill",
-          "Sound Waves in Gases - Previous Exam Applications"
+          "Speed of Sound in Gases (Newton-Laplace) - Core Theory & Derivations",
+          "Speed of Sound in Gases (Newton-Laplace) - Standard Formula Drill",
+          "Speed of Sound in Gases (Newton-Laplace) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|INTERFERENCE_STANDING_WAVES",
-        "name": "Interference & Standing Waves",
+        "id": "WAVES|TOPIC_3",
+        "name": "Standing Waves in Stretched Strings",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Interference & Standing Waves - Core Theory & Derivation",
-          "Interference & Standing Waves - Standard Formula Drill",
-          "Interference & Standing Waves - Previous Exam Applications"
+          "Standing Waves in Stretched Strings - Core Theory & Derivations",
+          "Standing Waves in Stretched Strings - Standard Formula Drill",
+          "Standing Waves in Stretched Strings - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|ORGAN_PIPES_RESONANCE",
-        "name": "Organ Pipes & Resonance",
+        "id": "WAVES|TOPIC_4",
+        "name": "Organ Pipes (Open & Closed)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Organ Pipes & Resonance - Core Theory & Derivation",
-          "Organ Pipes & Resonance - Standard Formula Drill",
-          "Organ Pipes & Resonance - Previous Exam Applications"
+          "Organ Pipes (Open & Closed) - Core Theory & Derivations",
+          "Organ Pipes (Open & Closed) - Standard Formula Drill",
+          "Organ Pipes (Open & Closed) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|DOPPLER_EFFECT_BEATS",
-        "name": "Doppler Effect & Beats",
+        "id": "WAVES|TOPIC_5",
+        "name": "Beats & Interference of Sound",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Doppler Effect & Beats - Core Theory & Derivation",
-          "Doppler Effect & Beats - Standard Formula Drill",
-          "Doppler Effect & Beats - Previous Exam Applications"
+          "Beats & Interference of Sound - Core Theory & Derivations",
+          "Beats & Interference of Sound - Standard Formula Drill",
+          "Beats & Interference of Sound - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WAVES|TOPIC_6",
+        "name": "Doppler Effect in Sound",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Doppler Effect in Sound - Core Theory & Derivations",
+          "Doppler Effect in Sound - Standard Formula Drill",
+          "Doppler Effect in Sound - Previous Exam Applications"
         ]
       }
     ],
@@ -4992,58 +5102,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|COULOMB_S_LAW_SUPERPOSITION",
-        "name": "Coulomb's Law & Superposition",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_1",
+        "name": "Electric Charge, Quantization & Conservation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Coulomb's Law & Superposition - Core Theory & Derivation",
-          "Coulomb's Law & Superposition - Standard Formula Drill",
-          "Coulomb's Law & Superposition - Previous Exam Applications"
+          "Electric Charge, Quantization & Conservation - Core Theory & Derivations",
+          "Electric Charge, Quantization & Conservation - Standard Formula Drill",
+          "Electric Charge, Quantization & Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_FIELD_FIELD_LINES",
-        "name": "Electric Field & Field Lines",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_2",
+        "name": "Coulomb's Law & Superposition Principle",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Electric Field & Field Lines - Core Theory & Derivation",
-          "Electric Field & Field Lines - Standard Formula Drill",
-          "Electric Field & Field Lines - Previous Exam Applications"
+          "Coulomb's Law & Superposition Principle - Core Theory & Derivations",
+          "Coulomb's Law & Superposition Principle - Standard Formula Drill",
+          "Coulomb's Law & Superposition Principle - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_DIPOLE_TORQUE_FIELD",
-        "name": "Electric Dipole Torque & Field",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_3",
+        "name": "Electric Field, Field Lines & Dipole Moment",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Electric Dipole Torque & Field - Core Theory & Derivation",
-          "Electric Dipole Torque & Field - Standard Formula Drill",
-          "Electric Dipole Torque & Field - Previous Exam Applications"
+          "Electric Field, Field Lines & Dipole Moment - Core Theory & Derivations",
+          "Electric Field, Field Lines & Dipole Moment - Standard Formula Drill",
+          "Electric Field, Field Lines & Dipole Moment - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|GAUSS_S_LAW_FLUX",
-        "name": "Gauss's Law & Flux",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_4",
+        "name": "Torque on Dipole in Uniform Field",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Gauss's Law & Flux - Core Theory & Derivation",
-          "Gauss's Law & Flux - Standard Formula Drill",
-          "Gauss's Law & Flux - Previous Exam Applications"
+          "Torque on Dipole in Uniform Field - Core Theory & Derivations",
+          "Torque on Dipole in Uniform Field - Standard Formula Drill",
+          "Torque on Dipole in Uniform Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|FIELD_OF_CONTINUOUS_CHARGE_DISTRIBUTIONS",
-        "name": "Field of Continuous Charge Distributions",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_5",
+        "name": "Gauss's Law & Electric Flux",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Field of Continuous Charge Distributions - Core Theory & Derivation",
-          "Field of Continuous Charge Distributions - Standard Formula Drill",
-          "Field of Continuous Charge Distributions - Previous Exam Applications"
+          "Gauss's Law & Electric Flux - Core Theory & Derivations",
+          "Gauss's Law & Electric Flux - Standard Formula Drill",
+          "Gauss's Law & Electric Flux - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_6",
+        "name": "Applications of Gauss's Law (Line, Sheet, Sphere)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Core Theory & Derivations",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Standard Formula Drill",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Previous Exam Applications"
         ]
       }
     ],
@@ -5064,58 +5185,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|ELECTROSTATIC_POTENTIAL_WORK",
-        "name": "Electrostatic Potential & Work",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_1",
+        "name": "Electrostatic Potential & Potential Difference",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Electrostatic Potential & Work - Core Theory & Derivation",
-          "Electrostatic Potential & Work - Standard Formula Drill",
-          "Electrostatic Potential & Work - Previous Exam Applications"
+          "Electrostatic Potential & Potential Difference - Core Theory & Derivations",
+          "Electrostatic Potential & Potential Difference - Standard Formula Drill",
+          "Electrostatic Potential & Potential Difference - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|EQUIPOTENTIAL_SURFACES",
-        "name": "Equipotential Surfaces",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_2",
+        "name": "Potential Due to Point Charge & Dipole",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Equipotential Surfaces - Core Theory & Derivation",
-          "Equipotential Surfaces - Standard Formula Drill",
-          "Equipotential Surfaces - Previous Exam Applications"
+          "Potential Due to Point Charge & Dipole - Core Theory & Derivations",
+          "Potential Due to Point Charge & Dipole - Standard Formula Drill",
+          "Potential Due to Point Charge & Dipole - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|POTENTIAL_ENERGY_OF_SYSTEM_OF_CHARGES",
-        "name": "Potential Energy of System of Charges",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_3",
+        "name": "Equipotential Surfaces & Field-Potential Relation",
         "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Equipotential Surfaces & Field-Potential Relation - Core Theory & Derivations",
+          "Equipotential Surfaces & Field-Potential Relation - Standard Formula Drill",
+          "Equipotential Surfaces & Field-Potential Relation - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_4",
+        "name": "Potential Energy of System of Charges",
+        "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Potential Energy of System of Charges - Core Theory & Derivation",
+          "Potential Energy of System of Charges - Core Theory & Derivations",
           "Potential Energy of System of Charges - Standard Formula Drill",
           "Potential Energy of System of Charges - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|CAPACITANCE_OF_PARALLEL_PLATES",
-        "name": "Capacitance of Parallel Plates",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Capacitance of Parallel Plates - Core Theory & Derivation",
-          "Capacitance of Parallel Plates - Standard Formula Drill",
-          "Capacitance of Parallel Plates - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|DIELECTRICS_ENERGY_STORED",
-        "name": "Dielectrics & Energy Stored",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_5",
+        "name": "Parallel Plate Capacitor & Dielectrics",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Dielectrics & Energy Stored - Core Theory & Derivation",
-          "Dielectrics & Energy Stored - Standard Formula Drill",
-          "Dielectrics & Energy Stored - Previous Exam Applications"
+          "Parallel Plate Capacitor & Dielectrics - Core Theory & Derivations",
+          "Parallel Plate Capacitor & Dielectrics - Standard Formula Drill",
+          "Parallel Plate Capacitor & Dielectrics - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_6",
+        "name": "Combination of Capacitors & Energy Stored",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Capacitors & Energy Stored - Core Theory & Derivations",
+          "Combination of Capacitors & Energy Stored - Standard Formula Drill",
+          "Combination of Capacitors & Energy Stored - Previous Exam Applications"
         ]
       }
     ],
@@ -5136,58 +5268,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "CURRENT_ELECTRICITY|OHM_S_LAW_DRIFT_VELOCITY",
-        "name": "Ohm's Law & Drift Velocity",
+        "id": "CURRENT_ELECTRICITY|TOPIC_1",
+        "name": "Electric Current, Drift Velocity & Mobility",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ohm's Law & Drift Velocity - Core Theory & Derivation",
-          "Ohm's Law & Drift Velocity - Standard Formula Drill",
-          "Ohm's Law & Drift Velocity - Previous Exam Applications"
+          "Electric Current, Drift Velocity & Mobility - Core Theory & Derivations",
+          "Electric Current, Drift Velocity & Mobility - Standard Formula Drill",
+          "Electric Current, Drift Velocity & Mobility - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|RESISTIVITY_TEMPERATURE_COEFFICIENT",
-        "name": "Resistivity & Temperature Coefficient",
+        "id": "CURRENT_ELECTRICITY|TOPIC_2",
+        "name": "Ohm's Law, Resistance & Resistivity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Resistivity & Temperature Coefficient - Core Theory & Derivation",
-          "Resistivity & Temperature Coefficient - Standard Formula Drill",
-          "Resistivity & Temperature Coefficient - Previous Exam Applications"
+          "Ohm's Law, Resistance & Resistivity - Core Theory & Derivations",
+          "Ohm's Law, Resistance & Resistivity - Standard Formula Drill",
+          "Ohm's Law, Resistance & Resistivity - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|KIRCHHOFF_S_LAWS_CIRCUITS",
-        "name": "Kirchhoff's Laws & Circuits",
+        "id": "CURRENT_ELECTRICITY|TOPIC_3",
+        "name": "Temperature Dependence of Resistance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Kirchhoff's Laws & Circuits - Core Theory & Derivation",
-          "Kirchhoff's Laws & Circuits - Standard Formula Drill",
-          "Kirchhoff's Laws & Circuits - Previous Exam Applications"
+          "Temperature Dependence of Resistance - Core Theory & Derivations",
+          "Temperature Dependence of Resistance - Standard Formula Drill",
+          "Temperature Dependence of Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|WHEATSTONE_BRIDGE_METER_BRIDGE",
-        "name": "Wheatstone Bridge & Meter Bridge",
+        "id": "CURRENT_ELECTRICITY|TOPIC_4",
+        "name": "Kirchhoff's Laws & Circuit Analysis",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Wheatstone Bridge & Meter Bridge - Core Theory & Derivation",
-          "Wheatstone Bridge & Meter Bridge - Standard Formula Drill",
-          "Wheatstone Bridge & Meter Bridge - Previous Exam Applications"
+          "Kirchhoff's Laws & Circuit Analysis - Core Theory & Derivations",
+          "Kirchhoff's Laws & Circuit Analysis - Standard Formula Drill",
+          "Kirchhoff's Laws & Circuit Analysis - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|POTENTIOMETER_CELL_EMF",
-        "name": "Potentiometer & Cell EMF",
+        "id": "CURRENT_ELECTRICITY|TOPIC_5",
+        "name": "Combination of Resistors & Cells",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Potentiometer & Cell EMF - Core Theory & Derivation",
-          "Potentiometer & Cell EMF - Standard Formula Drill",
-          "Potentiometer & Cell EMF - Previous Exam Applications"
+          "Combination of Resistors & Cells - Core Theory & Derivations",
+          "Combination of Resistors & Cells - Standard Formula Drill",
+          "Combination of Resistors & Cells - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "CURRENT_ELECTRICITY|TOPIC_6",
+        "name": "Wheatstone Bridge, Meter Bridge & Potentiometer",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Core Theory & Derivations",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Standard Formula Drill",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Previous Exam Applications"
         ]
       }
     ],
@@ -5208,58 +5351,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|BIOT_SAVART_LAW",
-        "name": "Biot-Savart Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_1",
+        "name": "Lorentz Magnetic Force & Motion of Charge",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Biot-Savart Law - Core Theory & Derivation",
-          "Biot-Savart Law - Standard Formula Drill",
-          "Biot-Savart Law - Previous Exam Applications"
+          "Lorentz Magnetic Force & Motion of Charge - Core Theory & Derivations",
+          "Lorentz Magnetic Force & Motion of Charge - Standard Formula Drill",
+          "Lorentz Magnetic Force & Motion of Charge - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|AMPERE_S_CIRCUITAL_LAW",
-        "name": "Ampere's Circuital Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_2",
+        "name": "Biot-Savart Law & Circular Coil Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Ampere's Circuital Law - Core Theory & Derivation",
-          "Ampere's Circuital Law - Standard Formula Drill",
-          "Ampere's Circuital Law - Previous Exam Applications"
+          "Biot-Savart Law & Circular Coil Magnetic Field - Core Theory & Derivations",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Standard Formula Drill",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MAGNETIC_FORCE_ON_MOVING_CHARGE",
-        "name": "Magnetic Force on Moving Charge",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_3",
+        "name": "Ampere's Circuital Law & Solenoid",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Force on Moving Charge - Core Theory & Derivation",
-          "Magnetic Force on Moving Charge - Standard Formula Drill",
-          "Magnetic Force on Moving Charge - Previous Exam Applications"
+          "Ampere's Circuital Law & Solenoid - Core Theory & Derivations",
+          "Ampere's Circuital Law & Solenoid - Standard Formula Drill",
+          "Ampere's Circuital Law & Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|FORCE_ON_CURRENT_CARRYING_CONDUCTOR",
-        "name": "Force on Current Carrying Conductor",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_4",
+        "name": "Force Between Parallel Current-Carrying Conductors",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Force on Current Carrying Conductor - Core Theory & Derivation",
-          "Force on Current Carrying Conductor - Standard Formula Drill",
-          "Force on Current Carrying Conductor - Previous Exam Applications"
+          "Force Between Parallel Current-Carrying Conductors - Core Theory & Derivations",
+          "Force Between Parallel Current-Carrying Conductors - Standard Formula Drill",
+          "Force Between Parallel Current-Carrying Conductors - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MOVING_COIL_GALVANOMETER",
-        "name": "Moving Coil Galvanometer",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_5",
+        "name": "Torque on Current Loop & Magnetic Dipole",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Moving Coil Galvanometer - Core Theory & Derivation",
-          "Moving Coil Galvanometer - Standard Formula Drill",
-          "Moving Coil Galvanometer - Previous Exam Applications"
+          "Torque on Current Loop & Magnetic Dipole - Core Theory & Derivations",
+          "Torque on Current Loop & Magnetic Dipole - Standard Formula Drill",
+          "Torque on Current Loop & Magnetic Dipole - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_6",
+        "name": "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Core Theory & Derivations",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Standard Formula Drill",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Previous Exam Applications"
         ]
       }
     ],
@@ -5280,58 +5434,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MAGNETISM_AND_MATTER|BAR_MAGNET_AS_EQUIVALENT_SOLENOID",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_1",
         "name": "Bar Magnet as Equivalent Solenoid",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivation",
+          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivations",
           "Bar Magnet as Equivalent Solenoid - Standard Formula Drill",
           "Bar Magnet as Equivalent Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|EARTH_S_MAGNETISM_DIP",
-        "name": "Earth's Magnetism & Dip",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_2",
+        "name": "Magnetic Dipole in Uniform Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Earth's Magnetism & Dip - Core Theory & Derivation",
-          "Earth's Magnetism & Dip - Standard Formula Drill",
-          "Earth's Magnetism & Dip - Previous Exam Applications"
+          "Magnetic Dipole in Uniform Magnetic Field - Core Theory & Derivations",
+          "Magnetic Dipole in Uniform Magnetic Field - Standard Formula Drill",
+          "Magnetic Dipole in Uniform Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|MAGNETIC_PROPERTIES_DIA_PARA_FERRO",
-        "name": "Magnetic Properties (Dia, Para, Ferro)",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_3",
+        "name": "Earth's Magnetism & Magnetic Elements",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Properties (Dia, Para, Ferro) - Core Theory & Derivation",
-          "Magnetic Properties (Dia, Para, Ferro) - Standard Formula Drill",
-          "Magnetic Properties (Dia, Para, Ferro) - Previous Exam Applications"
+          "Earth's Magnetism & Magnetic Elements - Core Theory & Derivations",
+          "Earth's Magnetism & Magnetic Elements - Standard Formula Drill",
+          "Earth's Magnetism & Magnetic Elements - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|HYSTERESIS_LOOP",
-        "name": "Hysteresis Loop",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_4",
+        "name": "Magnetic Properties of Materials (Dia, Para, Ferro)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Hysteresis Loop - Core Theory & Derivation",
-          "Hysteresis Loop - Standard Formula Drill",
-          "Hysteresis Loop - Previous Exam Applications"
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Core Theory & Derivations",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Standard Formula Drill",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|CURIE_S_LAW",
-        "name": "Curie's Law",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_5",
+        "name": "Curie's Law, Hysteresis & Electromagnets",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Curie's Law - Core Theory & Derivation",
-          "Curie's Law - Standard Formula Drill",
-          "Curie's Law - Previous Exam Applications"
+          "Curie's Law, Hysteresis & Electromagnets - Core Theory & Derivations",
+          "Curie's Law, Hysteresis & Electromagnets - Standard Formula Drill",
+          "Curie's Law, Hysteresis & Electromagnets - Previous Exam Applications"
         ]
       }
     ],
@@ -5352,58 +5506,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MAGNETIC_FLUX_FARADAY_S_LAWS",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_1",
         "name": "Magnetic Flux & Faraday's Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Flux & Faraday's Laws - Core Theory & Derivation",
+          "Magnetic Flux & Faraday's Laws - Core Theory & Derivations",
           "Magnetic Flux & Faraday's Laws - Standard Formula Drill",
           "Magnetic Flux & Faraday's Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|LENZ_S_LAW_CONSERVATION_OF_ENERGY",
-        "name": "Lenz's Law & Conservation of Energy",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_2",
+        "name": "Lenz's Law & Energy Conservation",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Lenz's Law & Conservation of Energy - Core Theory & Derivation",
-          "Lenz's Law & Conservation of Energy - Standard Formula Drill",
-          "Lenz's Law & Conservation of Energy - Previous Exam Applications"
+          "Lenz's Law & Energy Conservation - Core Theory & Derivations",
+          "Lenz's Law & Energy Conservation - Standard Formula Drill",
+          "Lenz's Law & Energy Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MOTIONAL_EMF",
-        "name": "Motional EMF",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_3",
+        "name": "Motional EMF & Eddy Currents",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Motional EMF - Core Theory & Derivation",
-          "Motional EMF - Standard Formula Drill",
-          "Motional EMF - Previous Exam Applications"
+          "Motional EMF & Eddy Currents - Core Theory & Derivations",
+          "Motional EMF & Eddy Currents - Standard Formula Drill",
+          "Motional EMF & Eddy Currents - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|SELF_MUTUAL_INDUCTANCE",
-        "name": "Self & Mutual Inductance",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_4",
+        "name": "Self-Inductance & Mutual Inductance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Self & Mutual Inductance - Core Theory & Derivation",
-          "Self & Mutual Inductance - Standard Formula Drill",
-          "Self & Mutual Inductance - Previous Exam Applications"
+          "Self-Inductance & Mutual Inductance - Core Theory & Derivations",
+          "Self-Inductance & Mutual Inductance - Standard Formula Drill",
+          "Self-Inductance & Mutual Inductance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|AC_GENERATOR_EDDY_CURRENTS",
-        "name": "AC Generator & Eddy Currents",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_5",
+        "name": "AC Generator Principle & Working",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "AC Generator & Eddy Currents - Core Theory & Derivation",
-          "AC Generator & Eddy Currents - Standard Formula Drill",
-          "AC Generator & Eddy Currents - Previous Exam Applications"
+          "AC Generator Principle & Working - Core Theory & Derivations",
+          "AC Generator Principle & Working - Standard Formula Drill",
+          "AC Generator Principle & Working - Previous Exam Applications"
         ]
       }
     ],
@@ -5424,58 +5578,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ALTERNATING_CURRENT|PEAK_AVERAGE_RMS_VALUES",
-        "name": "Peak, Average & RMS Values",
+        "id": "ALTERNATING_CURRENT|TOPIC_1",
+        "name": "AC Voltage, Peak & RMS Values",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Peak, Average & RMS Values - Core Theory & Derivation",
-          "Peak, Average & RMS Values - Standard Formula Drill",
-          "Peak, Average & RMS Values - Previous Exam Applications"
+          "AC Voltage, Peak & RMS Values - Core Theory & Derivations",
+          "AC Voltage, Peak & RMS Values - Standard Formula Drill",
+          "AC Voltage, Peak & RMS Values - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|AC_ACROSS_R_L_AND_C",
-        "name": "AC across R, L, and C",
+        "id": "ALTERNATING_CURRENT|TOPIC_2",
+        "name": "AC across Pure R, L, and C",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "AC across R, L, and C - Core Theory & Derivation",
-          "AC across R, L, and C - Standard Formula Drill",
-          "AC across R, L, and C - Previous Exam Applications"
+          "AC across Pure R, L, and C - Core Theory & Derivations",
+          "AC across Pure R, L, and C - Standard Formula Drill",
+          "AC across Pure R, L, and C - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|SERIES_LCR_CIRCUIT_PHASOR",
-        "name": "Series LCR Circuit & Phasor",
+        "id": "ALTERNATING_CURRENT|TOPIC_3",
+        "name": "Series LCR Circuit & Impedance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Series LCR Circuit & Phasor - Core Theory & Derivation",
-          "Series LCR Circuit & Phasor - Standard Formula Drill",
-          "Series LCR Circuit & Phasor - Previous Exam Applications"
+          "Series LCR Circuit & Impedance - Core Theory & Derivations",
+          "Series LCR Circuit & Impedance - Standard Formula Drill",
+          "Series LCR Circuit & Impedance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|RESONANCE_QUALITY_FACTOR",
-        "name": "Resonance & Quality Factor",
+        "id": "ALTERNATING_CURRENT|TOPIC_4",
+        "name": "Resonance & Quality Factor in LCR",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Resonance & Quality Factor - Core Theory & Derivation",
-          "Resonance & Quality Factor - Standard Formula Drill",
-          "Resonance & Quality Factor - Previous Exam Applications"
+          "Resonance & Quality Factor in LCR - Core Theory & Derivations",
+          "Resonance & Quality Factor in LCR - Standard Formula Drill",
+          "Resonance & Quality Factor in LCR - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|POWER_IN_AC_CIRCUITS_TRANSFORMERS",
-        "name": "Power in AC Circuits & Transformers",
+        "id": "ALTERNATING_CURRENT|TOPIC_5",
+        "name": "Power in AC Circuits & Power Factor",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Power in AC Circuits & Transformers - Core Theory & Derivation",
-          "Power in AC Circuits & Transformers - Standard Formula Drill",
-          "Power in AC Circuits & Transformers - Previous Exam Applications"
+          "Power in AC Circuits & Power Factor - Core Theory & Derivations",
+          "Power in AC Circuits & Power Factor - Standard Formula Drill",
+          "Power in AC Circuits & Power Factor - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ALTERNATING_CURRENT|TOPIC_6",
+        "name": "Transformers: Principles & Efficiency",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Transformers: Principles & Efficiency - Core Theory & Derivations",
+          "Transformers: Principles & Efficiency - Standard Formula Drill",
+          "Transformers: Principles & Efficiency - Previous Exam Applications"
         ]
       }
     ],
@@ -5496,58 +5661,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_WAVES|DISPLACEMENT_CURRENT",
-        "name": "Displacement Current",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_1",
+        "name": "Displacement Current & Maxwell's Equations",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement Current - Core Theory & Derivation",
-          "Displacement Current - Standard Formula Drill",
-          "Displacement Current - Previous Exam Applications"
+          "Displacement Current & Maxwell's Equations - Core Theory & Derivations",
+          "Displacement Current & Maxwell's Equations - Standard Formula Drill",
+          "Displacement Current & Maxwell's Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|MAXWELL_S_EQUATIONS",
-        "name": "Maxwell's Equations",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_2",
+        "name": "Characteristics & Speed of EM Waves",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maxwell's Equations - Core Theory & Derivation",
-          "Maxwell's Equations - Standard Formula Drill",
-          "Maxwell's Equations - Previous Exam Applications"
+          "Characteristics & Speed of EM Waves - Core Theory & Derivations",
+          "Characteristics & Speed of EM Waves - Standard Formula Drill",
+          "Characteristics & Speed of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|CHARACTERISTICS_OF_EM_WAVES",
-        "name": "Characteristics of EM Waves",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_3",
+        "name": "Energy Density & Momentum of EM Waves",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Characteristics of EM Waves - Core Theory & Derivation",
-          "Characteristics of EM Waves - Standard Formula Drill",
-          "Characteristics of EM Waves - Previous Exam Applications"
+          "Energy Density & Momentum of EM Waves - Core Theory & Derivations",
+          "Energy Density & Momentum of EM Waves - Standard Formula Drill",
+          "Energy Density & Momentum of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|ELECTROMAGNETIC_SPECTRUM",
-        "name": "Electromagnetic Spectrum",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_4",
+        "name": "Electromagnetic Spectrum & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Electromagnetic Spectrum - Core Theory & Derivation",
-          "Electromagnetic Spectrum - Standard Formula Drill",
-          "Electromagnetic Spectrum - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROMAGNETIC_WAVES|ENERGY_MOMENTUM_OF_EM_WAVES",
-        "name": "Energy & Momentum of EM Waves",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Energy & Momentum of EM Waves - Core Theory & Derivation",
-          "Energy & Momentum of EM Waves - Standard Formula Drill",
-          "Energy & Momentum of EM Waves - Previous Exam Applications"
+          "Electromagnetic Spectrum & Applications - Core Theory & Derivations",
+          "Electromagnetic Spectrum & Applications - Standard Formula Drill",
+          "Electromagnetic Spectrum & Applications - Previous Exam Applications"
         ]
       }
     ],
@@ -5568,56 +5722,67 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFLECTION_SPHERICAL_MIRRORS",
-        "name": "Reflection & Spherical Mirrors",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_1",
+        "name": "Reflection by Spherical Mirrors & Mirror Formula",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Reflection & Spherical Mirrors - Core Theory & Derivation",
-          "Reflection & Spherical Mirrors - Standard Formula Drill",
-          "Reflection & Spherical Mirrors - Previous Exam Applications"
+          "Reflection by Spherical Mirrors & Mirror Formula - Core Theory & Derivations",
+          "Reflection by Spherical Mirrors & Mirror Formula - Standard Formula Drill",
+          "Reflection by Spherical Mirrors & Mirror Formula - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFRACTION_TOTAL_INTERNAL_REFLECTION",
-        "name": "Refraction & Total Internal Reflection",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_2",
+        "name": "Refraction of Light & Total Internal Reflection",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Refraction & Total Internal Reflection - Core Theory & Derivation",
-          "Refraction & Total Internal Reflection - Standard Formula Drill",
-          "Refraction & Total Internal Reflection - Previous Exam Applications"
+          "Refraction of Light & Total Internal Reflection - Core Theory & Derivations",
+          "Refraction of Light & Total Internal Reflection - Standard Formula Drill",
+          "Refraction of Light & Total Internal Reflection - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|PRISM_FORMULA_DISPERSION",
-        "name": "Prism Formula & Dispersion",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Prism Formula & Dispersion - Core Theory & Derivation",
-          "Prism Formula & Dispersion - Standard Formula Drill",
-          "Prism Formula & Dispersion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|LENS_MAKER_S_FORMULA_THIN_LENSES",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_3",
         "name": "Lens Maker's Formula & Thin Lenses",
-        "order": 4,
-        "isKeyTopic": false,
+        "order": 3,
+        "isKeyTopic": true,
         "subtopics": [
-          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivation",
+          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivations",
           "Lens Maker's Formula & Thin Lenses - Standard Formula Drill",
           "Lens Maker's Formula & Thin Lenses - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|MICROSCOPES_TELESCOPES",
-        "name": "Microscopes & Telescopes",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_4",
+        "name": "Combination of Lenses in Contact",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Lenses in Contact - Core Theory & Derivations",
+          "Combination of Lenses in Contact - Standard Formula Drill",
+          "Combination of Lenses in Contact - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_5",
+        "name": "Refraction through Prism & Dispersion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Microscopes & Telescopes - Core Theory & Derivation",
+          "Refraction through Prism & Dispersion - Core Theory & Derivations",
+          "Refraction through Prism & Dispersion - Standard Formula Drill",
+          "Refraction through Prism & Dispersion - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_6",
+        "name": "Microscopes & Telescopes",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Microscopes & Telescopes - Core Theory & Derivations",
           "Microscopes & Telescopes - Standard Formula Drill",
           "Microscopes & Telescopes - Previous Exam Applications"
         ]
@@ -5640,58 +5805,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVE_OPTICS|HUYGENS_PRINCIPLE_WAVEFRONTS",
+        "id": "WAVE_OPTICS|TOPIC_1",
         "name": "Huygens' Principle & Wavefronts",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Huygens' Principle & Wavefronts - Core Theory & Derivation",
+          "Huygens' Principle & Wavefronts - Core Theory & Derivations",
           "Huygens' Principle & Wavefronts - Standard Formula Drill",
           "Huygens' Principle & Wavefronts - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|INTERFERENCE_OF_LIGHT",
-        "name": "Interference of Light",
+        "id": "WAVE_OPTICS|TOPIC_2",
+        "name": "Interference of Light & Coherent Sources",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Interference of Light - Core Theory & Derivation",
-          "Interference of Light - Standard Formula Drill",
-          "Interference of Light - Previous Exam Applications"
+          "Interference of Light & Coherent Sources - Core Theory & Derivations",
+          "Interference of Light & Coherent Sources - Standard Formula Drill",
+          "Interference of Light & Coherent Sources - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|YOUNG_S_DOUBLE_SLIT_EXPERIMENT_YDSE",
+        "id": "WAVE_OPTICS|TOPIC_3",
         "name": "Young's Double Slit Experiment (YDSE)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivation",
+          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivations",
           "Young's Double Slit Experiment (YDSE) - Standard Formula Drill",
           "Young's Double Slit Experiment (YDSE) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|DIFFRACTION_AT_A_SINGLE_SLIT",
-        "name": "Diffraction at a Single Slit",
+        "id": "WAVE_OPTICS|TOPIC_4",
+        "name": "Diffraction of Light (Single Slit)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Diffraction at a Single Slit - Core Theory & Derivation",
-          "Diffraction at a Single Slit - Standard Formula Drill",
-          "Diffraction at a Single Slit - Previous Exam Applications"
+          "Diffraction of Light (Single Slit) - Core Theory & Derivations",
+          "Diffraction of Light (Single Slit) - Standard Formula Drill",
+          "Diffraction of Light (Single Slit) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|POLARISATION_BREWSTER_S_LAW",
-        "name": "Polarisation & Brewster's Law",
+        "id": "WAVE_OPTICS|TOPIC_5",
+        "name": "Polarisation of Light & Brewster's Law",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Polarisation & Brewster's Law - Core Theory & Derivation",
-          "Polarisation & Brewster's Law - Standard Formula Drill",
-          "Polarisation & Brewster's Law - Previous Exam Applications"
+          "Polarisation of Light & Brewster's Law - Core Theory & Derivations",
+          "Polarisation of Light & Brewster's Law - Standard Formula Drill",
+          "Polarisation of Light & Brewster's Law - Previous Exam Applications"
         ]
       }
     ],
@@ -5712,58 +5877,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|PHOTOELECTRIC_EFFECT_OBSERVATIONS",
-        "name": "Photoelectric Effect Observations",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_1",
+        "name": "Photoelectric Effect Observations & Thresholds",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Photoelectric Effect Observations - Core Theory & Derivation",
-          "Photoelectric Effect Observations - Standard Formula Drill",
-          "Photoelectric Effect Observations - Previous Exam Applications"
+          "Photoelectric Effect Observations & Thresholds - Core Theory & Derivations",
+          "Photoelectric Effect Observations & Thresholds - Standard Formula Drill",
+          "Photoelectric Effect Observations & Thresholds - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|EINSTEIN_S_PHOTOELECTRIC_EQUATION",
-        "name": "Einstein's Photoelectric Equation",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_2",
+        "name": "Einstein's Photoelectric Equation & Stopping Potential",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Einstein's Photoelectric Equation - Core Theory & Derivation",
-          "Einstein's Photoelectric Equation - Standard Formula Drill",
-          "Einstein's Photoelectric Equation - Previous Exam Applications"
+          "Einstein's Photoelectric Equation & Stopping Potential - Core Theory & Derivations",
+          "Einstein's Photoelectric Equation & Stopping Potential - Standard Formula Drill",
+          "Einstein's Photoelectric Equation & Stopping Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|WORK_FUNCTION_STOPPING_POTENTIAL",
-        "name": "Work Function & Stopping Potential",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_3",
+        "name": "Photon Characteristics & Radiation Pressure",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Work Function & Stopping Potential - Core Theory & Derivation",
-          "Work Function & Stopping Potential - Standard Formula Drill",
-          "Work Function & Stopping Potential - Previous Exam Applications"
+          "Photon Characteristics & Radiation Pressure - Core Theory & Derivations",
+          "Photon Characteristics & Radiation Pressure - Standard Formula Drill",
+          "Photon Characteristics & Radiation Pressure - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DE_BROGLIE_WAVELENGTH",
-        "name": "de Broglie Wavelength",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_4",
+        "name": "de Broglie Wavelength of Matter Waves",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "de Broglie Wavelength - Core Theory & Derivation",
-          "de Broglie Wavelength - Standard Formula Drill",
-          "de Broglie Wavelength - Previous Exam Applications"
+          "de Broglie Wavelength of Matter Waves - Core Theory & Derivations",
+          "de Broglie Wavelength of Matter Waves - Standard Formula Drill",
+          "de Broglie Wavelength of Matter Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DAVISSON_GERMER_EXPERIMENT",
-        "name": "Davisson-Germer Experiment",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_5",
+        "name": "Davisson and Germer Experiment",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Davisson-Germer Experiment - Core Theory & Derivation",
-          "Davisson-Germer Experiment - Standard Formula Drill",
-          "Davisson-Germer Experiment - Previous Exam Applications"
+          "Davisson and Germer Experiment - Core Theory & Derivations",
+          "Davisson and Germer Experiment - Standard Formula Drill",
+          "Davisson and Germer Experiment - Previous Exam Applications"
         ]
       }
     ],
@@ -5784,58 +5949,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ATOMS|RUTHERFORD_S_ALPHA_SCATTERING_MODEL",
+        "id": "ATOMS|TOPIC_1",
         "name": "Rutherford's Alpha Scattering Model",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Rutherford's Alpha Scattering Model - Core Theory & Derivation",
+          "Rutherford's Alpha Scattering Model - Core Theory & Derivations",
           "Rutherford's Alpha Scattering Model - Standard Formula Drill",
           "Rutherford's Alpha Scattering Model - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|BOHR_S_MODEL_OF_HYDROGEN_ATOM",
-        "name": "Bohr's Model of Hydrogen Atom",
+        "id": "ATOMS|TOPIC_2",
+        "name": "Bohr's Model of Hydrogen Atom (Radii & Energy)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Bohr's Model of Hydrogen Atom - Core Theory & Derivation",
-          "Bohr's Model of Hydrogen Atom - Standard Formula Drill",
-          "Bohr's Model of Hydrogen Atom - Previous Exam Applications"
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Core Theory & Derivations",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Standard Formula Drill",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|ENERGY_LEVELS_SPECTRAL_SERIES",
-        "name": "Energy Levels & Spectral Series",
+        "id": "ATOMS|TOPIC_3",
+        "name": "Hydrogen Emission Spectral Series",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy Levels & Spectral Series - Core Theory & Derivation",
-          "Energy Levels & Spectral Series - Standard Formula Drill",
-          "Energy Levels & Spectral Series - Previous Exam Applications"
+          "Hydrogen Emission Spectral Series - Core Theory & Derivations",
+          "Hydrogen Emission Spectral Series - Standard Formula Drill",
+          "Hydrogen Emission Spectral Series - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|DE_BROGLIE_S_EXPLANATION_OF_BOHR_POSTULATE",
-        "name": "De Broglie's Explanation of Bohr Postulate",
+        "id": "ATOMS|TOPIC_4",
+        "name": "de Broglie's Explanation of Bohr's Quantization",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "De Broglie's Explanation of Bohr Postulate - Core Theory & Derivation",
-          "De Broglie's Explanation of Bohr Postulate - Standard Formula Drill",
-          "De Broglie's Explanation of Bohr Postulate - Previous Exam Applications"
+          "de Broglie's Explanation of Bohr's Quantization - Core Theory & Derivations",
+          "de Broglie's Explanation of Bohr's Quantization - Standard Formula Drill",
+          "de Broglie's Explanation of Bohr's Quantization - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|EXCITATION_IONIZATION_POTENTIALS",
-        "name": "Excitation & Ionization Potentials",
+        "id": "ATOMS|TOPIC_5",
+        "name": "Excitation & Ionization Energies",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Excitation & Ionization Potentials - Core Theory & Derivation",
-          "Excitation & Ionization Potentials - Standard Formula Drill",
-          "Excitation & Ionization Potentials - Previous Exam Applications"
+          "Excitation & Ionization Energies - Core Theory & Derivations",
+          "Excitation & Ionization Energies - Standard Formula Drill",
+          "Excitation & Ionization Energies - Previous Exam Applications"
         ]
       }
     ],
@@ -5856,58 +6021,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "NUCLEI|NUCLEAR_SIZE_DENSITY",
-        "name": "Nuclear Size & Density",
+        "id": "NUCLEI|TOPIC_1",
+        "name": "Nuclear Size, Mass & Nuclear Density",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Size & Density - Core Theory & Derivation",
-          "Nuclear Size & Density - Standard Formula Drill",
-          "Nuclear Size & Density - Previous Exam Applications"
+          "Nuclear Size, Mass & Nuclear Density - Core Theory & Derivations",
+          "Nuclear Size, Mass & Nuclear Density - Standard Formula Drill",
+          "Nuclear Size, Mass & Nuclear Density - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|MASS_DEFECT_BINDING_ENERGY",
-        "name": "Mass Defect & Binding Energy",
+        "id": "NUCLEI|TOPIC_2",
+        "name": "Mass Defect & Binding Energy per Nucleon",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Mass Defect & Binding Energy - Core Theory & Derivation",
-          "Mass Defect & Binding Energy - Standard Formula Drill",
-          "Mass Defect & Binding Energy - Previous Exam Applications"
+          "Mass Defect & Binding Energy per Nucleon - Core Theory & Derivations",
+          "Mass Defect & Binding Energy per Nucleon - Standard Formula Drill",
+          "Mass Defect & Binding Energy per Nucleon - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FORCES_CHARACTERISTICS",
+        "id": "NUCLEI|TOPIC_3",
         "name": "Nuclear Forces Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Forces Characteristics - Core Theory & Derivation",
+          "Nuclear Forces Characteristics - Core Theory & Derivations",
           "Nuclear Forces Characteristics - Standard Formula Drill",
           "Nuclear Forces Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|RADIOACTIVE_DECAY_LAW_HALF_LIFE",
-        "name": "Radioactive Decay Law & Half Life",
+        "id": "NUCLEI|TOPIC_4",
+        "name": "Radioactive Decay Law, Half-Life & Mean-Life",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Radioactive Decay Law & Half Life - Core Theory & Derivation",
-          "Radioactive Decay Law & Half Life - Standard Formula Drill",
-          "Radioactive Decay Law & Half Life - Previous Exam Applications"
+          "Radioactive Decay Law, Half-Life & Mean-Life - Core Theory & Derivations",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Standard Formula Drill",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FISSION_FUSION",
-        "name": "Nuclear Fission & Fusion",
+        "id": "NUCLEI|TOPIC_5",
+        "name": "Nuclear Fission & Nuclear Fusion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Nuclear Fission & Fusion - Core Theory & Derivation",
-          "Nuclear Fission & Fusion - Standard Formula Drill",
-          "Nuclear Fission & Fusion - Previous Exam Applications"
+          "Nuclear Fission & Nuclear Fusion - Core Theory & Derivations",
+          "Nuclear Fission & Nuclear Fusion - Standard Formula Drill",
+          "Nuclear Fission & Nuclear Fusion - Previous Exam Applications"
         ]
       }
     ],
@@ -5928,58 +6093,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|INTRINSIC_EXTRINSIC_SEMICONDUCTORS",
-        "name": "Intrinsic & Extrinsic Semiconductors",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_1",
+        "name": "Energy Bands (Conductors, Semiconductors, Insulators)",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Intrinsic & Extrinsic Semiconductors - Core Theory & Derivation",
-          "Intrinsic & Extrinsic Semiconductors - Standard Formula Drill",
-          "Intrinsic & Extrinsic Semiconductors - Previous Exam Applications"
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Core Theory & Derivations",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Standard Formula Drill",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|P_N_JUNCTION_DIODE_CHARACTERISTICS",
-        "name": "p-n Junction Diode Characteristics",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_2",
+        "name": "Intrinsic & Extrinsic Semiconductors (n-type & p-type)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "p-n Junction Diode Characteristics - Core Theory & Derivation",
-          "p-n Junction Diode Characteristics - Standard Formula Drill",
-          "p-n Junction Diode Characteristics - Previous Exam Applications"
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Core Theory & Derivations",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Standard Formula Drill",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|HALF_WAVE_FULL_WAVE_RECTIFIERS",
-        "name": "Half-Wave & Full-Wave Rectifiers",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_3",
+        "name": "p-n Junction Diode V-I Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Half-Wave & Full-Wave Rectifiers - Core Theory & Derivation",
-          "Half-Wave & Full-Wave Rectifiers - Standard Formula Drill",
-          "Half-Wave & Full-Wave Rectifiers - Previous Exam Applications"
+          "p-n Junction Diode V-I Characteristics - Core Theory & Derivations",
+          "p-n Junction Diode V-I Characteristics - Standard Formula Drill",
+          "p-n Junction Diode V-I Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|ZENER_DIODE_AS_VOLTAGE_REGULATOR",
-        "name": "Zener Diode as Voltage Regulator",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_4",
+        "name": "Diode Rectifiers (Half-Wave & Full-Wave)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Zener Diode as Voltage Regulator - Core Theory & Derivation",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Core Theory & Derivations",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Standard Formula Drill",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_5",
+        "name": "Zener Diode as Voltage Regulator",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Zener Diode as Voltage Regulator - Core Theory & Derivations",
           "Zener Diode as Voltage Regulator - Standard Formula Drill",
           "Zener Diode as Voltage Regulator - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|LOGIC_GATES_AND_OR_NOT_NAND_NOR",
-        "name": "Logic Gates (AND, OR, NOT, NAND, NOR)",
-        "order": 5,
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_6",
+        "name": "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Core Theory & Derivation",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Standard Formula Drill",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Previous Exam Applications"
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Core Theory & Derivations",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Standard Formula Drill",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Previous Exam Applications"
         ]
       }
     ],
@@ -7911,58 +8087,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "UNITS_AND_MEASUREMENTS|DIMENSIONAL_ANALYSIS",
-        "name": "Dimensional Analysis",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_1",
+        "name": "Dimensional Analysis & Applications",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Dimensional Analysis - Core Theory & Derivation",
-          "Dimensional Analysis - Standard Formula Drill",
-          "Dimensional Analysis - Previous Exam Applications"
+          "Dimensional Analysis & Applications - Core Theory & Derivations",
+          "Dimensional Analysis & Applications - Standard Formula Drill",
+          "Dimensional Analysis & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SIGNIFICANT_FIGURES",
-        "name": "Significant Figures",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_2",
+        "name": "Significant Figures & Rounding Off",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Significant Figures - Core Theory & Derivation",
-          "Significant Figures - Standard Formula Drill",
-          "Significant Figures - Previous Exam Applications"
+          "Significant Figures & Rounding Off - Core Theory & Derivations",
+          "Significant Figures & Rounding Off - Standard Formula Drill",
+          "Significant Figures & Rounding Off - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SCREW_GAUGE_VERNIER",
-        "name": "Screw Gauge & Vernier",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_3",
+        "name": "Errors in Measurement & Propagation of Errors",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Screw Gauge & Vernier - Core Theory & Derivation",
-          "Screw Gauge & Vernier - Standard Formula Drill",
-          "Screw Gauge & Vernier - Previous Exam Applications"
+          "Errors in Measurement & Propagation of Errors - Core Theory & Derivations",
+          "Errors in Measurement & Propagation of Errors - Standard Formula Drill",
+          "Errors in Measurement & Propagation of Errors - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|ERROR_PROPAGATION",
-        "name": "Error Propagation",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_4",
+        "name": "Vernier Calliper & Screw Gauge",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Error Propagation - Core Theory & Derivation",
-          "Error Propagation - Standard Formula Drill",
-          "Error Propagation - Previous Exam Applications"
+          "Vernier Calliper & Screw Gauge - Core Theory & Derivations",
+          "Vernier Calliper & Screw Gauge - Standard Formula Drill",
+          "Vernier Calliper & Screw Gauge - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|UNIT_CONVERSIONS",
-        "name": "Unit Conversions",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_5",
+        "name": "Units and Measurement Systems",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Unit Conversions - Core Theory & Derivation",
-          "Unit Conversions - Standard Formula Drill",
-          "Unit Conversions - Previous Exam Applications"
+          "Units and Measurement Systems - Core Theory & Derivations",
+          "Units and Measurement Systems - Standard Formula Drill",
+          "Units and Measurement Systems - Previous Exam Applications"
         ]
       }
     ],
@@ -7983,58 +8159,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|DISPLACEMENT_VELOCITY",
-        "name": "Displacement & Velocity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_1",
+        "name": "Position, Distance & Displacement",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement & Velocity - Core Theory & Derivation",
-          "Displacement & Velocity - Standard Formula Drill",
-          "Displacement & Velocity - Previous Exam Applications"
+          "Position, Distance & Displacement - Core Theory & Derivations",
+          "Position, Distance & Displacement - Standard Formula Drill",
+          "Position, Distance & Displacement - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|UNIFORM_ACCELERATION",
-        "name": "Uniform Acceleration",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_2",
+        "name": "Speed, Velocity & Instantaneous Velocity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Uniform Acceleration - Core Theory & Derivation",
-          "Uniform Acceleration - Standard Formula Drill",
-          "Uniform Acceleration - Previous Exam Applications"
+          "Speed, Velocity & Instantaneous Velocity - Core Theory & Derivations",
+          "Speed, Velocity & Instantaneous Velocity - Standard Formula Drill",
+          "Speed, Velocity & Instantaneous Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|FREE_FALL_UNDER_GRAVITY",
-        "name": "Free Fall under Gravity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_3",
+        "name": "Uniform Acceleration & Kinematic Equations",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Free Fall under Gravity - Core Theory & Derivation",
-          "Free Fall under Gravity - Standard Formula Drill",
-          "Free Fall under Gravity - Previous Exam Applications"
+          "Uniform Acceleration & Kinematic Equations - Core Theory & Derivations",
+          "Uniform Acceleration & Kinematic Equations - Standard Formula Drill",
+          "Uniform Acceleration & Kinematic Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|RELATIVE_VELOCITY_1D",
-        "name": "Relative Velocity 1D",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_4",
+        "name": "Free Fall Under Gravity & Stopping Distance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 1D - Core Theory & Derivation",
-          "Relative Velocity 1D - Standard Formula Drill",
-          "Relative Velocity 1D - Previous Exam Applications"
+          "Free Fall Under Gravity & Stopping Distance - Core Theory & Derivations",
+          "Free Fall Under Gravity & Stopping Distance - Standard Formula Drill",
+          "Free Fall Under Gravity & Stopping Distance - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|KINEMATICS_GRAPHS",
-        "name": "Kinematics Graphs",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_5",
+        "name": "Relative Velocity in 1D",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kinematics Graphs - Core Theory & Derivation",
-          "Kinematics Graphs - Standard Formula Drill",
-          "Kinematics Graphs - Previous Exam Applications"
+          "Relative Velocity in 1D - Core Theory & Derivations",
+          "Relative Velocity in 1D - Standard Formula Drill",
+          "Relative Velocity in 1D - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_6",
+        "name": "Kinematics Graphs (x-t, v-t, a-t)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Kinematics Graphs (x-t, v-t, a-t) - Core Theory & Derivations",
+          "Kinematics Graphs (x-t, v-t, a-t) - Standard Formula Drill",
+          "Kinematics Graphs (x-t, v-t, a-t) - Previous Exam Applications"
         ]
       }
     ],
@@ -8055,58 +8242,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_PLANE|PROJECTILE_TRAJECTORY",
-        "name": "Projectile Trajectory",
+        "id": "MOTION_IN_A_PLANE|TOPIC_1",
+        "name": "Vectors: Resolution, Addition & Dot/Cross Product",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Projectile Trajectory - Core Theory & Derivation",
-          "Projectile Trajectory - Standard Formula Drill",
-          "Projectile Trajectory - Previous Exam Applications"
+          "Vectors: Resolution, Addition & Dot/Cross Product - Core Theory & Derivations",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Standard Formula Drill",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|MAXIMUM_HEIGHT_RANGE",
-        "name": "Maximum Height & Range",
+        "id": "MOTION_IN_A_PLANE|TOPIC_2",
+        "name": "Projectile Motion (Trajectory, Range & Apex)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maximum Height & Range - Core Theory & Derivation",
-          "Maximum Height & Range - Standard Formula Drill",
-          "Maximum Height & Range - Previous Exam Applications"
+          "Projectile Motion (Trajectory, Range & Apex) - Core Theory & Derivations",
+          "Projectile Motion (Trajectory, Range & Apex) - Standard Formula Drill",
+          "Projectile Motion (Trajectory, Range & Apex) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|UNIFORM_CIRCULAR_MOTION",
-        "name": "Uniform Circular Motion",
+        "id": "MOTION_IN_A_PLANE|TOPIC_3",
+        "name": "Uniform Circular Motion & Centripetal Acceleration",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Uniform Circular Motion - Core Theory & Derivation",
-          "Uniform Circular Motion - Standard Formula Drill",
-          "Uniform Circular Motion - Previous Exam Applications"
+          "Uniform Circular Motion & Centripetal Acceleration - Core Theory & Derivations",
+          "Uniform Circular Motion & Centripetal Acceleration - Standard Formula Drill",
+          "Uniform Circular Motion & Centripetal Acceleration - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|RELATIVE_VELOCITY_2D",
-        "name": "Relative Velocity 2D",
+        "id": "MOTION_IN_A_PLANE|TOPIC_4",
+        "name": "Relative Velocity in 2D (River-Boat & Rain Problems)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 2D - Core Theory & Derivation",
-          "Relative Velocity 2D - Standard Formula Drill",
-          "Relative Velocity 2D - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MOTION_IN_A_PLANE|CENTRIPETAL_ACCELERATION",
-        "name": "Centripetal Acceleration",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Centripetal Acceleration - Core Theory & Derivation",
-          "Centripetal Acceleration - Standard Formula Drill",
-          "Centripetal Acceleration - Previous Exam Applications"
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Core Theory & Derivations",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Standard Formula Drill",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Previous Exam Applications"
         ]
       }
     ],
@@ -8127,58 +8303,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "LAWS_OF_MOTION|NEWTON_S_SECOND_LAW",
-        "name": "Newton's Second Law",
+        "id": "LAWS_OF_MOTION|TOPIC_1",
+        "name": "Newton's First Law & Inertia",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Second Law - Core Theory & Derivation",
-          "Newton's Second Law - Standard Formula Drill",
-          "Newton's Second Law - Previous Exam Applications"
+          "Newton's First Law & Inertia - Core Theory & Derivations",
+          "Newton's First Law & Inertia - Standard Formula Drill",
+          "Newton's First Law & Inertia - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|FRICTION_ANGLE_OF_REPOSE",
-        "name": "Friction & Angle of Repose",
+        "id": "LAWS_OF_MOTION|TOPIC_2",
+        "name": "Newton's Second Law & Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Friction & Angle of Repose - Core Theory & Derivation",
-          "Friction & Angle of Repose - Standard Formula Drill",
-          "Friction & Angle of Repose - Previous Exam Applications"
+          "Newton's Second Law & Momentum - Core Theory & Derivations",
+          "Newton's Second Law & Momentum - Standard Formula Drill",
+          "Newton's Second Law & Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|CONNECTED_BODIES_PULLEYS",
-        "name": "Connected Bodies & Pulleys",
+        "id": "LAWS_OF_MOTION|TOPIC_3",
+        "name": "Newton's Third Law & Impulse",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Connected Bodies & Pulleys - Core Theory & Derivation",
-          "Connected Bodies & Pulleys - Standard Formula Drill",
-          "Connected Bodies & Pulleys - Previous Exam Applications"
+          "Newton's Third Law & Impulse - Core Theory & Derivations",
+          "Newton's Third Law & Impulse - Standard Formula Drill",
+          "Newton's Third Law & Impulse - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|BANKING_OF_ROADS",
-        "name": "Banking of Roads",
+        "id": "LAWS_OF_MOTION|TOPIC_4",
+        "name": "Connected Bodies, Pulleys & Tension",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Banking of Roads - Core Theory & Derivation",
-          "Banking of Roads - Standard Formula Drill",
-          "Banking of Roads - Previous Exam Applications"
+          "Connected Bodies, Pulleys & Tension - Core Theory & Derivations",
+          "Connected Bodies, Pulleys & Tension - Standard Formula Drill",
+          "Connected Bodies, Pulleys & Tension - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|IMPULSE_MOMENTUM",
-        "name": "Impulse & Momentum",
+        "id": "LAWS_OF_MOTION|TOPIC_5",
+        "name": "Friction: Static, Kinetic & Angle of Repose",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Impulse & Momentum - Core Theory & Derivation",
-          "Impulse & Momentum - Standard Formula Drill",
-          "Impulse & Momentum - Previous Exam Applications"
+          "Friction: Static, Kinetic & Angle of Repose - Core Theory & Derivations",
+          "Friction: Static, Kinetic & Angle of Repose - Standard Formula Drill",
+          "Friction: Static, Kinetic & Angle of Repose - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "LAWS_OF_MOTION|TOPIC_6",
+        "name": "Circular Motion Dynamics & Banking of Roads",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Circular Motion Dynamics & Banking of Roads - Core Theory & Derivations",
+          "Circular Motion Dynamics & Banking of Roads - Standard Formula Drill",
+          "Circular Motion Dynamics & Banking of Roads - Previous Exam Applications"
         ]
       }
     ],
@@ -8199,58 +8386,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "WORK_ENERGY_AND_POWER|WORK_ENERGY_THEOREM",
-        "name": "Work-Energy Theorem",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_1",
+        "name": "Work Done by Constant & Variable Forces",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Work-Energy Theorem - Core Theory & Derivation",
-          "Work-Energy Theorem - Standard Formula Drill",
-          "Work-Energy Theorem - Previous Exam Applications"
+          "Work Done by Constant & Variable Forces - Core Theory & Derivations",
+          "Work Done by Constant & Variable Forces - Standard Formula Drill",
+          "Work Done by Constant & Variable Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|CONSERVATIVE_FORCES_POTENTIAL_ENERGY",
-        "name": "Conservative Forces & Potential Energy",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_2",
+        "name": "Kinetic Energy & Work-Energy Theorem",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Conservative Forces & Potential Energy - Core Theory & Derivation",
-          "Conservative Forces & Potential Energy - Standard Formula Drill",
-          "Conservative Forces & Potential Energy - Previous Exam Applications"
+          "Kinetic Energy & Work-Energy Theorem - Core Theory & Derivations",
+          "Kinetic Energy & Work-Energy Theorem - Standard Formula Drill",
+          "Kinetic Energy & Work-Energy Theorem - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|1D_2D_ELASTIC_COLLISIONS",
-        "name": "1D & 2D Elastic Collisions",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_3",
+        "name": "Potential Energy & Conservative Forces",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "1D & 2D Elastic Collisions - Core Theory & Derivation",
-          "1D & 2D Elastic Collisions - Standard Formula Drill",
-          "1D & 2D Elastic Collisions - Previous Exam Applications"
+          "Potential Energy & Conservative Forces - Core Theory & Derivations",
+          "Potential Energy & Conservative Forces - Standard Formula Drill",
+          "Potential Energy & Conservative Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|POWER_EFFICIENCY",
-        "name": "Power & Efficiency",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_4",
+        "name": "Conservation of Mechanical Energy & Vertical Circle",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Power & Efficiency - Core Theory & Derivation",
+          "Conservation of Mechanical Energy & Vertical Circle - Core Theory & Derivations",
+          "Conservation of Mechanical Energy & Vertical Circle - Standard Formula Drill",
+          "Conservation of Mechanical Energy & Vertical Circle - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_5",
+        "name": "Power & Efficiency",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Power & Efficiency - Core Theory & Derivations",
           "Power & Efficiency - Standard Formula Drill",
           "Power & Efficiency - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|SPRING_POTENTIAL_ENERGY",
-        "name": "Spring Potential Energy",
-        "order": 5,
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_6",
+        "name": "Collisions in 1D and 2D (Elastic & Inelastic)",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring Potential Energy - Core Theory & Derivation",
-          "Spring Potential Energy - Standard Formula Drill",
-          "Spring Potential Energy - Previous Exam Applications"
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Core Theory & Derivations",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Standard Formula Drill",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Previous Exam Applications"
         ]
       }
     ],
@@ -8271,58 +8469,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CENTER_OF_MASS",
-        "name": "Center of Mass",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_1",
+        "name": "Centre of Mass & Motion of Centre of Mass",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Center of Mass - Core Theory & Derivation",
-          "Center of Mass - Standard Formula Drill",
-          "Center of Mass - Previous Exam Applications"
+          "Centre of Mass & Motion of Centre of Mass - Core Theory & Derivations",
+          "Centre of Mass & Motion of Centre of Mass - Standard Formula Drill",
+          "Centre of Mass & Motion of Centre of Mass - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|MOMENT_OF_INERTIA_THEOREMS",
-        "name": "Moment of Inertia Theorems",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_2",
+        "name": "Torque & Angular Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Moment of Inertia Theorems - Core Theory & Derivation",
-          "Moment of Inertia Theorems - Standard Formula Drill",
-          "Moment of Inertia Theorems - Previous Exam Applications"
+          "Torque & Angular Momentum - Core Theory & Derivations",
+          "Torque & Angular Momentum - Standard Formula Drill",
+          "Torque & Angular Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TORQUE_ANGULAR_ACCELERATION",
-        "name": "Torque & Angular Acceleration",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_3",
+        "name": "Moment of Inertia & Parallel/Perpendicular Axes",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Torque & Angular Acceleration - Core Theory & Derivation",
-          "Torque & Angular Acceleration - Standard Formula Drill",
-          "Torque & Angular Acceleration - Previous Exam Applications"
+          "Moment of Inertia & Parallel/Perpendicular Axes - Core Theory & Derivations",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Standard Formula Drill",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CONSERVATION_OF_ANGULAR_MOMENTUM",
-        "name": "Conservation of Angular Momentum",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_4",
+        "name": "Rotational Kinematics & Dynamics",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conservation of Angular Momentum - Core Theory & Derivation",
-          "Conservation of Angular Momentum - Standard Formula Drill",
-          "Conservation of Angular Momentum - Previous Exam Applications"
+          "Rotational Kinematics & Dynamics - Core Theory & Derivations",
+          "Rotational Kinematics & Dynamics - Standard Formula Drill",
+          "Rotational Kinematics & Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|ROLLING_WITHOUT_SLIPPING",
-        "name": "Rolling without Slipping",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_5",
+        "name": "Rolling Motion without Slipping",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Rolling without Slipping - Core Theory & Derivation",
-          "Rolling without Slipping - Standard Formula Drill",
-          "Rolling without Slipping - Previous Exam Applications"
+          "Rolling Motion without Slipping - Core Theory & Derivations",
+          "Rolling Motion without Slipping - Standard Formula Drill",
+          "Rolling Motion without Slipping - Previous Exam Applications"
         ]
       }
     ],
@@ -8343,58 +8541,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "GRAVITATION|NEWTON_S_LAW_OF_GRAVITATION",
+        "id": "GRAVITATION|TOPIC_1",
         "name": "Newton's Law of Gravitation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Law of Gravitation - Core Theory & Derivation",
+          "Newton's Law of Gravitation - Core Theory & Derivations",
           "Newton's Law of Gravitation - Standard Formula Drill",
           "Newton's Law of Gravitation - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ACCELERATION_DUE_TO_GRAVITY_G",
-        "name": "Acceleration due to Gravity g",
+        "id": "GRAVITATION|TOPIC_2",
+        "name": "Acceleration Due to Gravity & Its Variations",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Acceleration due to Gravity g - Core Theory & Derivation",
-          "Acceleration due to Gravity g - Standard Formula Drill",
-          "Acceleration due to Gravity g - Previous Exam Applications"
+          "Acceleration Due to Gravity & Its Variations - Core Theory & Derivations",
+          "Acceleration Due to Gravity & Its Variations - Standard Formula Drill",
+          "Acceleration Due to Gravity & Its Variations - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|GRAVITATIONAL_POTENTIAL_FIELD",
-        "name": "Gravitational Potential & Field",
+        "id": "GRAVITATION|TOPIC_3",
+        "name": "Gravitational Potential Energy & Potential",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Gravitational Potential & Field - Core Theory & Derivation",
-          "Gravitational Potential & Field - Standard Formula Drill",
-          "Gravitational Potential & Field - Previous Exam Applications"
+          "Gravitational Potential Energy & Potential - Core Theory & Derivations",
+          "Gravitational Potential Energy & Potential - Standard Formula Drill",
+          "Gravitational Potential Energy & Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ESCAPE_VELOCITY",
-        "name": "Escape Velocity",
+        "id": "GRAVITATION|TOPIC_4",
+        "name": "Escape Velocity & Orbital Velocity",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Escape Velocity - Core Theory & Derivation",
-          "Escape Velocity - Standard Formula Drill",
-          "Escape Velocity - Previous Exam Applications"
+          "Escape Velocity & Orbital Velocity - Core Theory & Derivations",
+          "Escape Velocity & Orbital Velocity - Standard Formula Drill",
+          "Escape Velocity & Orbital Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|KEPLER_S_LAWS_SATELLITES",
-        "name": "Kepler's Laws & Satellites",
+        "id": "GRAVITATION|TOPIC_5",
+        "name": "Kepler's Laws of Planetary Motion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kepler's Laws & Satellites - Core Theory & Derivation",
-          "Kepler's Laws & Satellites - Standard Formula Drill",
-          "Kepler's Laws & Satellites - Previous Exam Applications"
+          "Kepler's Laws of Planetary Motion - Core Theory & Derivations",
+          "Kepler's Laws of Planetary Motion - Standard Formula Drill",
+          "Kepler's Laws of Planetary Motion - Previous Exam Applications"
         ]
       }
     ],
@@ -8415,58 +8613,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|STRESS_STRAIN_CURVE",
-        "name": "Stress-Strain Curve",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_1",
+        "name": "Stress, Strain & Hooke's Law",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Stress-Strain Curve - Core Theory & Derivation",
-          "Stress-Strain Curve - Standard Formula Drill",
-          "Stress-Strain Curve - Previous Exam Applications"
+          "Stress, Strain & Hooke's Law - Core Theory & Derivations",
+          "Stress, Strain & Hooke's Law - Standard Formula Drill",
+          "Stress, Strain & Hooke's Law - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|HOOKE_S_LAW_YOUNG_S_MODULUS",
-        "name": "Hooke's Law & Young's Modulus",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_2",
+        "name": "Elastic Moduli (Young's, Bulk, Shear Modulus)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Hooke's Law & Young's Modulus - Core Theory & Derivation",
-          "Hooke's Law & Young's Modulus - Standard Formula Drill",
-          "Hooke's Law & Young's Modulus - Previous Exam Applications"
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Core Theory & Derivations",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Standard Formula Drill",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|BULK_MODULUS_RIGIDITY",
-        "name": "Bulk Modulus & Rigidity",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_3",
+        "name": "Elastic Potential Energy in Stretched Wire",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Bulk Modulus & Rigidity - Core Theory & Derivation",
-          "Bulk Modulus & Rigidity - Standard Formula Drill",
-          "Bulk Modulus & Rigidity - Previous Exam Applications"
+          "Elastic Potential Energy in Stretched Wire - Core Theory & Derivations",
+          "Elastic Potential Energy in Stretched Wire - Standard Formula Drill",
+          "Elastic Potential Energy in Stretched Wire - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|ELASTIC_POTENTIAL_ENERGY",
-        "name": "Elastic Potential Energy",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_4",
+        "name": "Thermal Stress & Breaking Stress",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Elastic Potential Energy - Core Theory & Derivation",
-          "Elastic Potential Energy - Standard Formula Drill",
-          "Elastic Potential Energy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|THERMAL_STRESS",
-        "name": "Thermal Stress",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Thermal Stress - Core Theory & Derivation",
-          "Thermal Stress - Standard Formula Drill",
-          "Thermal Stress - Previous Exam Applications"
+          "Thermal Stress & Breaking Stress - Core Theory & Derivations",
+          "Thermal Stress & Breaking Stress - Standard Formula Drill",
+          "Thermal Stress & Breaking Stress - Previous Exam Applications"
         ]
       }
     ],
@@ -8487,69 +8674,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|PASCAL_S_LAW_HYDRAULIC_LIFT",
-        "name": "Pascal's Law & Hydraulic Lift",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_1",
+        "name": "Pressure, Pascal's Law & Hydraulic Lift",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Pascal's Law & Hydraulic Lift - Core Theory & Derivation",
-          "Pascal's Law & Hydraulic Lift - Standard Formula Drill",
-          "Pascal's Law & Hydraulic Lift - Previous Exam Applications"
+          "Pressure, Pascal's Law & Hydraulic Lift - Core Theory & Derivations",
+          "Pressure, Pascal's Law & Hydraulic Lift - Standard Formula Drill",
+          "Pressure, Pascal's Law & Hydraulic Lift - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|ARCHIMEDES_PRINCIPLE_BUOYANCY",
-        "name": "Archimedes Principle & Buoyancy",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_2",
+        "name": "Archimedes' Principle & Buoyancy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Archimedes Principle & Buoyancy - Core Theory & Derivation",
-          "Archimedes Principle & Buoyancy - Standard Formula Drill",
-          "Archimedes Principle & Buoyancy - Previous Exam Applications"
+          "Archimedes' Principle & Buoyancy - Core Theory & Derivations",
+          "Archimedes' Principle & Buoyancy - Standard Formula Drill",
+          "Archimedes' Principle & Buoyancy - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|CONTINUITY_EQUATION",
-        "name": "Continuity Equation",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_3",
+        "name": "Equation of Continuity & Fluid Dynamics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Continuity Equation - Core Theory & Derivation",
-          "Continuity Equation - Standard Formula Drill",
-          "Continuity Equation - Previous Exam Applications"
+          "Equation of Continuity & Fluid Dynamics - Core Theory & Derivations",
+          "Equation of Continuity & Fluid Dynamics - Standard Formula Drill",
+          "Equation of Continuity & Fluid Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|BERNOULLI_S_THEOREM",
-        "name": "Bernoulli's Theorem",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_4",
+        "name": "Bernoulli's Theorem & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Bernoulli's Theorem - Core Theory & Derivation",
-          "Bernoulli's Theorem - Standard Formula Drill",
-          "Bernoulli's Theorem - Previous Exam Applications"
+          "Bernoulli's Theorem & Applications - Core Theory & Derivations",
+          "Bernoulli's Theorem & Applications - Standard Formula Drill",
+          "Bernoulli's Theorem & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|VISCOSITY_TERMINAL_VELOCITY",
-        "name": "Viscosity & Terminal Velocity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_5",
+        "name": "Viscosity, Stokes' Law & Terminal Velocity",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Viscosity & Terminal Velocity - Core Theory & Derivation",
-          "Viscosity & Terminal Velocity - Standard Formula Drill",
-          "Viscosity & Terminal Velocity - Previous Exam Applications"
+          "Viscosity, Stokes' Law & Terminal Velocity - Core Theory & Derivations",
+          "Viscosity, Stokes' Law & Terminal Velocity - Standard Formula Drill",
+          "Viscosity, Stokes' Law & Terminal Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|SURFACE_TENSION_CAPILLARITY",
-        "name": "Surface Tension & Capillarity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_6",
+        "name": "Surface Tension, Angle of Contact & Capillarity",
         "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Surface Tension & Capillarity - Core Theory & Derivation",
-          "Surface Tension & Capillarity - Standard Formula Drill",
-          "Surface Tension & Capillarity - Previous Exam Applications"
+          "Surface Tension, Angle of Contact & Capillarity - Core Theory & Derivations",
+          "Surface Tension, Angle of Contact & Capillarity - Standard Formula Drill",
+          "Surface Tension, Angle of Contact & Capillarity - Previous Exam Applications"
         ]
       }
     ],
@@ -8570,69 +8757,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|THERMAL_EXPANSION",
-        "name": "Thermal Expansion",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_1",
+        "name": "Thermal Expansion of Solids, Liquids & Gases",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Thermal Expansion - Core Theory & Derivation",
-          "Thermal Expansion - Standard Formula Drill",
-          "Thermal Expansion - Previous Exam Applications"
+          "Thermal Expansion of Solids, Liquids & Gases - Core Theory & Derivations",
+          "Thermal Expansion of Solids, Liquids & Gases - Standard Formula Drill",
+          "Thermal Expansion of Solids, Liquids & Gases - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|SPECIFIC_HEAT_CALORIMETRY",
-        "name": "Specific Heat & Calorimetry",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_2",
+        "name": "Specific Heat Capacity & Calorimetry",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Specific Heat & Calorimetry - Core Theory & Derivation",
-          "Specific Heat & Calorimetry - Standard Formula Drill",
-          "Specific Heat & Calorimetry - Previous Exam Applications"
+          "Specific Heat Capacity & Calorimetry - Core Theory & Derivations",
+          "Specific Heat Capacity & Calorimetry - Standard Formula Drill",
+          "Specific Heat Capacity & Calorimetry - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|LATENT_HEAT_PHASE_CHANGE",
-        "name": "Latent Heat & Phase Change",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_3",
+        "name": "Latent Heat & Phase Transitions",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Latent Heat & Phase Change - Core Theory & Derivation",
-          "Latent Heat & Phase Change - Standard Formula Drill",
-          "Latent Heat & Phase Change - Previous Exam Applications"
+          "Latent Heat & Phase Transitions - Core Theory & Derivations",
+          "Latent Heat & Phase Transitions - Standard Formula Drill",
+          "Latent Heat & Phase Transitions - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|CONDUCTION_THERMAL_RESISTANCE",
-        "name": "Conduction & Thermal Resistance",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_4",
+        "name": "Heat Conduction & Thermal Resistance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conduction & Thermal Resistance - Core Theory & Derivation",
-          "Conduction & Thermal Resistance - Standard Formula Drill",
-          "Conduction & Thermal Resistance - Previous Exam Applications"
+          "Heat Conduction & Thermal Resistance - Core Theory & Derivations",
+          "Heat Conduction & Thermal Resistance - Standard Formula Drill",
+          "Heat Conduction & Thermal Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|NEWTON_S_LAW_OF_COOLING",
-        "name": "Newton's Law of Cooling",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_5",
+        "name": "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Newton's Law of Cooling - Core Theory & Derivation",
-          "Newton's Law of Cooling - Standard Formula Drill",
-          "Newton's Law of Cooling - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|STEFAN_BOLTZMANN_WIEN_S_LAW",
-        "name": "Stefan-Boltzmann & Wien's Law",
-        "order": 6,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Stefan-Boltzmann & Wien's Law - Core Theory & Derivation",
-          "Stefan-Boltzmann & Wien's Law - Standard Formula Drill",
-          "Stefan-Boltzmann & Wien's Law - Previous Exam Applications"
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Core Theory & Derivations",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Standard Formula Drill",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Previous Exam Applications"
         ]
       }
     ],
@@ -8653,58 +8829,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
+        "id": "THERMODYNAMICS|TOPIC_1",
+        "name": "Zeroth Law & Thermal Equilibrium",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
+          "Zeroth Law & Thermal Equilibrium - Core Theory & Derivations",
+          "Zeroth Law & Thermal Equilibrium - Standard Formula Drill",
+          "Zeroth Law & Thermal Equilibrium - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOTHERMAL_ADIABATIC_PROCESSES",
-        "name": "Isothermal & Adiabatic Processes",
+        "id": "THERMODYNAMICS|TOPIC_2",
+        "name": "First Law of Thermodynamics & Internal Energy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Isothermal & Adiabatic Processes - Core Theory & Derivation",
-          "Isothermal & Adiabatic Processes - Standard Formula Drill",
-          "Isothermal & Adiabatic Processes - Previous Exam Applications"
+          "First Law of Thermodynamics & Internal Energy - Core Theory & Derivations",
+          "First Law of Thermodynamics & Internal Energy - Standard Formula Drill",
+          "First Law of Thermodynamics & Internal Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOCHORIC_ISOBARIC_PROCESSES",
-        "name": "Isochoric & Isobaric Processes",
+        "id": "THERMODYNAMICS|TOPIC_3",
+        "name": "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Isochoric & Isobaric Processes - Core Theory & Derivation",
-          "Isochoric & Isobaric Processes - Standard Formula Drill",
-          "Isochoric & Isobaric Processes - Previous Exam Applications"
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Core Theory & Derivations",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Standard Formula Drill",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|HEAT_ENGINES_CARNOT_CYCLE",
-        "name": "Heat Engines & Carnot Cycle",
+        "id": "THERMODYNAMICS|TOPIC_4",
+        "name": "Work Done in Thermodynamic Processes & PV Diagrams",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Heat Engines & Carnot Cycle - Core Theory & Derivation",
-          "Heat Engines & Carnot Cycle - Standard Formula Drill",
-          "Heat Engines & Carnot Cycle - Previous Exam Applications"
+          "Work Done in Thermodynamic Processes & PV Diagrams - Core Theory & Derivations",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Standard Formula Drill",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|SECOND_LAW_ENTROPY",
-        "name": "Second Law & Entropy",
+        "id": "THERMODYNAMICS|TOPIC_5",
+        "name": "Second Law of Thermodynamics, Heat Engines & Carnot Cycle",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Second Law & Entropy - Core Theory & Derivation",
-          "Second Law & Entropy - Standard Formula Drill",
-          "Second Law & Entropy - Previous Exam Applications"
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Core Theory & Derivations",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Standard Formula Drill",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Previous Exam Applications"
         ]
       }
     ],
@@ -8725,58 +8901,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "KINETIC_THEORY_OF_GASES|IDEAL_GAS_EQUATION",
-        "name": "Ideal Gas Equation",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_1",
+        "name": "Ideal Gas Equation & Gas Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ideal Gas Equation - Core Theory & Derivation",
-          "Ideal Gas Equation - Standard Formula Drill",
-          "Ideal Gas Equation - Previous Exam Applications"
+          "Ideal Gas Equation & Gas Laws - Core Theory & Derivations",
+          "Ideal Gas Equation & Gas Laws - Standard Formula Drill",
+          "Ideal Gas Equation & Gas Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|PRESSURE_OF_AN_IDEAL_GAS",
-        "name": "Pressure of an Ideal Gas",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_2",
+        "name": "Pressure & Kinetic Energy of an Ideal Gas",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Pressure of an Ideal Gas - Core Theory & Derivation",
-          "Pressure of an Ideal Gas - Standard Formula Drill",
-          "Pressure of an Ideal Gas - Previous Exam Applications"
+          "Pressure & Kinetic Energy of an Ideal Gas - Core Theory & Derivations",
+          "Pressure & Kinetic Energy of an Ideal Gas - Standard Formula Drill",
+          "Pressure & Kinetic Energy of an Ideal Gas - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|RMS_AVERAGE_MOST_PROBABLE_SPEED",
-        "name": "RMS, Average & Most Probable Speed",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_3",
+        "name": "RMS Speed, Average Speed & Most Probable Speed",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "RMS, Average & Most Probable Speed - Core Theory & Derivation",
-          "RMS, Average & Most Probable Speed - Standard Formula Drill",
-          "RMS, Average & Most Probable Speed - Previous Exam Applications"
+          "RMS Speed, Average Speed & Most Probable Speed - Core Theory & Derivations",
+          "RMS Speed, Average Speed & Most Probable Speed - Standard Formula Drill",
+          "RMS Speed, Average Speed & Most Probable Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|DEGREES_OF_FREEDOM_EQUIPARTITION",
-        "name": "Degrees of Freedom & Equipartition",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_4",
+        "name": "Degrees of Freedom & Law of Equipartition of Energy",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Degrees of Freedom & Equipartition - Core Theory & Derivation",
-          "Degrees of Freedom & Equipartition - Standard Formula Drill",
-          "Degrees of Freedom & Equipartition - Previous Exam Applications"
+          "Degrees of Freedom & Law of Equipartition of Energy - Core Theory & Derivations",
+          "Degrees of Freedom & Law of Equipartition of Energy - Standard Formula Drill",
+          "Degrees of Freedom & Law of Equipartition of Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|MEAN_FREE_PATH",
-        "name": "Mean Free Path",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_5",
+        "name": "Specific Heat Capacities & Mean Free Path",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Mean Free Path - Core Theory & Derivation",
-          "Mean Free Path - Standard Formula Drill",
-          "Mean Free Path - Previous Exam Applications"
+          "Specific Heat Capacities & Mean Free Path - Core Theory & Derivations",
+          "Specific Heat Capacities & Mean Free Path - Standard Formula Drill",
+          "Specific Heat Capacities & Mean Free Path - Previous Exam Applications"
         ]
       }
     ],
@@ -8797,58 +8973,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "OSCILLATIONS|SIMPLE_HARMONIC_MOTION_SHM",
-        "name": "Simple Harmonic Motion (SHM)",
+        "id": "OSCILLATIONS|TOPIC_1",
+        "name": "Simple Harmonic Motion (SHM) Kinematics",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Simple Harmonic Motion (SHM) - Core Theory & Derivation",
-          "Simple Harmonic Motion (SHM) - Standard Formula Drill",
-          "Simple Harmonic Motion (SHM) - Previous Exam Applications"
+          "Simple Harmonic Motion (SHM) Kinematics - Core Theory & Derivations",
+          "Simple Harmonic Motion (SHM) Kinematics - Standard Formula Drill",
+          "Simple Harmonic Motion (SHM) Kinematics - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|VELOCITY_ACCELERATION_IN_SHM",
-        "name": "Velocity & Acceleration in SHM",
+        "id": "OSCILLATIONS|TOPIC_2",
+        "name": "Velocity, Acceleration & Phase in SHM",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Velocity & Acceleration in SHM - Core Theory & Derivation",
-          "Velocity & Acceleration in SHM - Standard Formula Drill",
-          "Velocity & Acceleration in SHM - Previous Exam Applications"
+          "Velocity, Acceleration & Phase in SHM - Core Theory & Derivations",
+          "Velocity, Acceleration & Phase in SHM - Standard Formula Drill",
+          "Velocity, Acceleration & Phase in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|ENERGY_IN_SHM",
-        "name": "Energy in SHM",
+        "id": "OSCILLATIONS|TOPIC_3",
+        "name": "Kinetic and Potential Energy in SHM",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy in SHM - Core Theory & Derivation",
-          "Energy in SHM - Standard Formula Drill",
-          "Energy in SHM - Previous Exam Applications"
+          "Kinetic and Potential Energy in SHM - Core Theory & Derivations",
+          "Kinetic and Potential Energy in SHM - Standard Formula Drill",
+          "Kinetic and Potential Energy in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SIMPLE_PENDULUM",
+        "id": "OSCILLATIONS|TOPIC_4",
         "name": "Simple Pendulum",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Simple Pendulum - Core Theory & Derivation",
+          "Simple Pendulum - Core Theory & Derivations",
           "Simple Pendulum - Standard Formula Drill",
           "Simple Pendulum - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SPRING_MASS_SYSTEMS",
-        "name": "Spring-Mass Systems",
+        "id": "OSCILLATIONS|TOPIC_5",
+        "name": "Spring-Mass Systems (Series & Parallel)",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring-Mass Systems - Core Theory & Derivation",
-          "Spring-Mass Systems - Standard Formula Drill",
-          "Spring-Mass Systems - Previous Exam Applications"
+          "Spring-Mass Systems (Series & Parallel) - Core Theory & Derivations",
+          "Spring-Mass Systems (Series & Parallel) - Standard Formula Drill",
+          "Spring-Mass Systems (Series & Parallel) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "OSCILLATIONS|TOPIC_6",
+        "name": "Damped & Forced Oscillations, Resonance",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Damped & Forced Oscillations, Resonance - Core Theory & Derivations",
+          "Damped & Forced Oscillations, Resonance - Standard Formula Drill",
+          "Damped & Forced Oscillations, Resonance - Previous Exam Applications"
         ]
       }
     ],
@@ -8869,58 +9056,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVES|WAVE_EQUATION_SPEED",
-        "name": "Wave Equation & Speed",
+        "id": "WAVES|TOPIC_1",
+        "name": "Wave Equation, Frequency & Speed",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Wave Equation & Speed - Core Theory & Derivation",
-          "Wave Equation & Speed - Standard Formula Drill",
-          "Wave Equation & Speed - Previous Exam Applications"
+          "Wave Equation, Frequency & Speed - Core Theory & Derivations",
+          "Wave Equation, Frequency & Speed - Standard Formula Drill",
+          "Wave Equation, Frequency & Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|SOUND_WAVES_IN_GASES",
-        "name": "Sound Waves in Gases",
+        "id": "WAVES|TOPIC_2",
+        "name": "Speed of Sound in Gases (Newton-Laplace)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Sound Waves in Gases - Core Theory & Derivation",
-          "Sound Waves in Gases - Standard Formula Drill",
-          "Sound Waves in Gases - Previous Exam Applications"
+          "Speed of Sound in Gases (Newton-Laplace) - Core Theory & Derivations",
+          "Speed of Sound in Gases (Newton-Laplace) - Standard Formula Drill",
+          "Speed of Sound in Gases (Newton-Laplace) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|INTERFERENCE_STANDING_WAVES",
-        "name": "Interference & Standing Waves",
+        "id": "WAVES|TOPIC_3",
+        "name": "Standing Waves in Stretched Strings",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Interference & Standing Waves - Core Theory & Derivation",
-          "Interference & Standing Waves - Standard Formula Drill",
-          "Interference & Standing Waves - Previous Exam Applications"
+          "Standing Waves in Stretched Strings - Core Theory & Derivations",
+          "Standing Waves in Stretched Strings - Standard Formula Drill",
+          "Standing Waves in Stretched Strings - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|ORGAN_PIPES_RESONANCE",
-        "name": "Organ Pipes & Resonance",
+        "id": "WAVES|TOPIC_4",
+        "name": "Organ Pipes (Open & Closed)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Organ Pipes & Resonance - Core Theory & Derivation",
-          "Organ Pipes & Resonance - Standard Formula Drill",
-          "Organ Pipes & Resonance - Previous Exam Applications"
+          "Organ Pipes (Open & Closed) - Core Theory & Derivations",
+          "Organ Pipes (Open & Closed) - Standard Formula Drill",
+          "Organ Pipes (Open & Closed) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|DOPPLER_EFFECT_BEATS",
-        "name": "Doppler Effect & Beats",
+        "id": "WAVES|TOPIC_5",
+        "name": "Beats & Interference of Sound",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Doppler Effect & Beats - Core Theory & Derivation",
-          "Doppler Effect & Beats - Standard Formula Drill",
-          "Doppler Effect & Beats - Previous Exam Applications"
+          "Beats & Interference of Sound - Core Theory & Derivations",
+          "Beats & Interference of Sound - Standard Formula Drill",
+          "Beats & Interference of Sound - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WAVES|TOPIC_6",
+        "name": "Doppler Effect in Sound",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Doppler Effect in Sound - Core Theory & Derivations",
+          "Doppler Effect in Sound - Standard Formula Drill",
+          "Doppler Effect in Sound - Previous Exam Applications"
         ]
       }
     ],
@@ -8941,58 +9139,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|COULOMB_S_LAW_SUPERPOSITION",
-        "name": "Coulomb's Law & Superposition",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_1",
+        "name": "Electric Charge, Quantization & Conservation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Coulomb's Law & Superposition - Core Theory & Derivation",
-          "Coulomb's Law & Superposition - Standard Formula Drill",
-          "Coulomb's Law & Superposition - Previous Exam Applications"
+          "Electric Charge, Quantization & Conservation - Core Theory & Derivations",
+          "Electric Charge, Quantization & Conservation - Standard Formula Drill",
+          "Electric Charge, Quantization & Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_FIELD_FIELD_LINES",
-        "name": "Electric Field & Field Lines",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_2",
+        "name": "Coulomb's Law & Superposition Principle",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Electric Field & Field Lines - Core Theory & Derivation",
-          "Electric Field & Field Lines - Standard Formula Drill",
-          "Electric Field & Field Lines - Previous Exam Applications"
+          "Coulomb's Law & Superposition Principle - Core Theory & Derivations",
+          "Coulomb's Law & Superposition Principle - Standard Formula Drill",
+          "Coulomb's Law & Superposition Principle - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_DIPOLE_TORQUE_FIELD",
-        "name": "Electric Dipole Torque & Field",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_3",
+        "name": "Electric Field, Field Lines & Dipole Moment",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Electric Dipole Torque & Field - Core Theory & Derivation",
-          "Electric Dipole Torque & Field - Standard Formula Drill",
-          "Electric Dipole Torque & Field - Previous Exam Applications"
+          "Electric Field, Field Lines & Dipole Moment - Core Theory & Derivations",
+          "Electric Field, Field Lines & Dipole Moment - Standard Formula Drill",
+          "Electric Field, Field Lines & Dipole Moment - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|GAUSS_S_LAW_FLUX",
-        "name": "Gauss's Law & Flux",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_4",
+        "name": "Torque on Dipole in Uniform Field",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Gauss's Law & Flux - Core Theory & Derivation",
-          "Gauss's Law & Flux - Standard Formula Drill",
-          "Gauss's Law & Flux - Previous Exam Applications"
+          "Torque on Dipole in Uniform Field - Core Theory & Derivations",
+          "Torque on Dipole in Uniform Field - Standard Formula Drill",
+          "Torque on Dipole in Uniform Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|FIELD_OF_CONTINUOUS_CHARGE_DISTRIBUTIONS",
-        "name": "Field of Continuous Charge Distributions",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_5",
+        "name": "Gauss's Law & Electric Flux",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Field of Continuous Charge Distributions - Core Theory & Derivation",
-          "Field of Continuous Charge Distributions - Standard Formula Drill",
-          "Field of Continuous Charge Distributions - Previous Exam Applications"
+          "Gauss's Law & Electric Flux - Core Theory & Derivations",
+          "Gauss's Law & Electric Flux - Standard Formula Drill",
+          "Gauss's Law & Electric Flux - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_6",
+        "name": "Applications of Gauss's Law (Line, Sheet, Sphere)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Core Theory & Derivations",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Standard Formula Drill",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Previous Exam Applications"
         ]
       }
     ],
@@ -9013,58 +9222,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|ELECTROSTATIC_POTENTIAL_WORK",
-        "name": "Electrostatic Potential & Work",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_1",
+        "name": "Electrostatic Potential & Potential Difference",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Electrostatic Potential & Work - Core Theory & Derivation",
-          "Electrostatic Potential & Work - Standard Formula Drill",
-          "Electrostatic Potential & Work - Previous Exam Applications"
+          "Electrostatic Potential & Potential Difference - Core Theory & Derivations",
+          "Electrostatic Potential & Potential Difference - Standard Formula Drill",
+          "Electrostatic Potential & Potential Difference - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|EQUIPOTENTIAL_SURFACES",
-        "name": "Equipotential Surfaces",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_2",
+        "name": "Potential Due to Point Charge & Dipole",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Equipotential Surfaces - Core Theory & Derivation",
-          "Equipotential Surfaces - Standard Formula Drill",
-          "Equipotential Surfaces - Previous Exam Applications"
+          "Potential Due to Point Charge & Dipole - Core Theory & Derivations",
+          "Potential Due to Point Charge & Dipole - Standard Formula Drill",
+          "Potential Due to Point Charge & Dipole - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|POTENTIAL_ENERGY_OF_SYSTEM_OF_CHARGES",
-        "name": "Potential Energy of System of Charges",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_3",
+        "name": "Equipotential Surfaces & Field-Potential Relation",
         "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Equipotential Surfaces & Field-Potential Relation - Core Theory & Derivations",
+          "Equipotential Surfaces & Field-Potential Relation - Standard Formula Drill",
+          "Equipotential Surfaces & Field-Potential Relation - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_4",
+        "name": "Potential Energy of System of Charges",
+        "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Potential Energy of System of Charges - Core Theory & Derivation",
+          "Potential Energy of System of Charges - Core Theory & Derivations",
           "Potential Energy of System of Charges - Standard Formula Drill",
           "Potential Energy of System of Charges - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|CAPACITANCE_OF_PARALLEL_PLATES",
-        "name": "Capacitance of Parallel Plates",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Capacitance of Parallel Plates - Core Theory & Derivation",
-          "Capacitance of Parallel Plates - Standard Formula Drill",
-          "Capacitance of Parallel Plates - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|DIELECTRICS_ENERGY_STORED",
-        "name": "Dielectrics & Energy Stored",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_5",
+        "name": "Parallel Plate Capacitor & Dielectrics",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Dielectrics & Energy Stored - Core Theory & Derivation",
-          "Dielectrics & Energy Stored - Standard Formula Drill",
-          "Dielectrics & Energy Stored - Previous Exam Applications"
+          "Parallel Plate Capacitor & Dielectrics - Core Theory & Derivations",
+          "Parallel Plate Capacitor & Dielectrics - Standard Formula Drill",
+          "Parallel Plate Capacitor & Dielectrics - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_6",
+        "name": "Combination of Capacitors & Energy Stored",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Capacitors & Energy Stored - Core Theory & Derivations",
+          "Combination of Capacitors & Energy Stored - Standard Formula Drill",
+          "Combination of Capacitors & Energy Stored - Previous Exam Applications"
         ]
       }
     ],
@@ -9085,58 +9305,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "CURRENT_ELECTRICITY|OHM_S_LAW_DRIFT_VELOCITY",
-        "name": "Ohm's Law & Drift Velocity",
+        "id": "CURRENT_ELECTRICITY|TOPIC_1",
+        "name": "Electric Current, Drift Velocity & Mobility",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ohm's Law & Drift Velocity - Core Theory & Derivation",
-          "Ohm's Law & Drift Velocity - Standard Formula Drill",
-          "Ohm's Law & Drift Velocity - Previous Exam Applications"
+          "Electric Current, Drift Velocity & Mobility - Core Theory & Derivations",
+          "Electric Current, Drift Velocity & Mobility - Standard Formula Drill",
+          "Electric Current, Drift Velocity & Mobility - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|RESISTIVITY_TEMPERATURE_COEFFICIENT",
-        "name": "Resistivity & Temperature Coefficient",
+        "id": "CURRENT_ELECTRICITY|TOPIC_2",
+        "name": "Ohm's Law, Resistance & Resistivity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Resistivity & Temperature Coefficient - Core Theory & Derivation",
-          "Resistivity & Temperature Coefficient - Standard Formula Drill",
-          "Resistivity & Temperature Coefficient - Previous Exam Applications"
+          "Ohm's Law, Resistance & Resistivity - Core Theory & Derivations",
+          "Ohm's Law, Resistance & Resistivity - Standard Formula Drill",
+          "Ohm's Law, Resistance & Resistivity - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|KIRCHHOFF_S_LAWS_CIRCUITS",
-        "name": "Kirchhoff's Laws & Circuits",
+        "id": "CURRENT_ELECTRICITY|TOPIC_3",
+        "name": "Temperature Dependence of Resistance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Kirchhoff's Laws & Circuits - Core Theory & Derivation",
-          "Kirchhoff's Laws & Circuits - Standard Formula Drill",
-          "Kirchhoff's Laws & Circuits - Previous Exam Applications"
+          "Temperature Dependence of Resistance - Core Theory & Derivations",
+          "Temperature Dependence of Resistance - Standard Formula Drill",
+          "Temperature Dependence of Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|WHEATSTONE_BRIDGE_METER_BRIDGE",
-        "name": "Wheatstone Bridge & Meter Bridge",
+        "id": "CURRENT_ELECTRICITY|TOPIC_4",
+        "name": "Kirchhoff's Laws & Circuit Analysis",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Wheatstone Bridge & Meter Bridge - Core Theory & Derivation",
-          "Wheatstone Bridge & Meter Bridge - Standard Formula Drill",
-          "Wheatstone Bridge & Meter Bridge - Previous Exam Applications"
+          "Kirchhoff's Laws & Circuit Analysis - Core Theory & Derivations",
+          "Kirchhoff's Laws & Circuit Analysis - Standard Formula Drill",
+          "Kirchhoff's Laws & Circuit Analysis - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|POTENTIOMETER_CELL_EMF",
-        "name": "Potentiometer & Cell EMF",
+        "id": "CURRENT_ELECTRICITY|TOPIC_5",
+        "name": "Combination of Resistors & Cells",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Potentiometer & Cell EMF - Core Theory & Derivation",
-          "Potentiometer & Cell EMF - Standard Formula Drill",
-          "Potentiometer & Cell EMF - Previous Exam Applications"
+          "Combination of Resistors & Cells - Core Theory & Derivations",
+          "Combination of Resistors & Cells - Standard Formula Drill",
+          "Combination of Resistors & Cells - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "CURRENT_ELECTRICITY|TOPIC_6",
+        "name": "Wheatstone Bridge, Meter Bridge & Potentiometer",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Core Theory & Derivations",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Standard Formula Drill",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Previous Exam Applications"
         ]
       }
     ],
@@ -9157,58 +9388,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|BIOT_SAVART_LAW",
-        "name": "Biot-Savart Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_1",
+        "name": "Lorentz Magnetic Force & Motion of Charge",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Biot-Savart Law - Core Theory & Derivation",
-          "Biot-Savart Law - Standard Formula Drill",
-          "Biot-Savart Law - Previous Exam Applications"
+          "Lorentz Magnetic Force & Motion of Charge - Core Theory & Derivations",
+          "Lorentz Magnetic Force & Motion of Charge - Standard Formula Drill",
+          "Lorentz Magnetic Force & Motion of Charge - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|AMPERE_S_CIRCUITAL_LAW",
-        "name": "Ampere's Circuital Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_2",
+        "name": "Biot-Savart Law & Circular Coil Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Ampere's Circuital Law - Core Theory & Derivation",
-          "Ampere's Circuital Law - Standard Formula Drill",
-          "Ampere's Circuital Law - Previous Exam Applications"
+          "Biot-Savart Law & Circular Coil Magnetic Field - Core Theory & Derivations",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Standard Formula Drill",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MAGNETIC_FORCE_ON_MOVING_CHARGE",
-        "name": "Magnetic Force on Moving Charge",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_3",
+        "name": "Ampere's Circuital Law & Solenoid",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Force on Moving Charge - Core Theory & Derivation",
-          "Magnetic Force on Moving Charge - Standard Formula Drill",
-          "Magnetic Force on Moving Charge - Previous Exam Applications"
+          "Ampere's Circuital Law & Solenoid - Core Theory & Derivations",
+          "Ampere's Circuital Law & Solenoid - Standard Formula Drill",
+          "Ampere's Circuital Law & Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|FORCE_ON_CURRENT_CARRYING_CONDUCTOR",
-        "name": "Force on Current Carrying Conductor",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_4",
+        "name": "Force Between Parallel Current-Carrying Conductors",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Force on Current Carrying Conductor - Core Theory & Derivation",
-          "Force on Current Carrying Conductor - Standard Formula Drill",
-          "Force on Current Carrying Conductor - Previous Exam Applications"
+          "Force Between Parallel Current-Carrying Conductors - Core Theory & Derivations",
+          "Force Between Parallel Current-Carrying Conductors - Standard Formula Drill",
+          "Force Between Parallel Current-Carrying Conductors - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MOVING_COIL_GALVANOMETER",
-        "name": "Moving Coil Galvanometer",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_5",
+        "name": "Torque on Current Loop & Magnetic Dipole",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Moving Coil Galvanometer - Core Theory & Derivation",
-          "Moving Coil Galvanometer - Standard Formula Drill",
-          "Moving Coil Galvanometer - Previous Exam Applications"
+          "Torque on Current Loop & Magnetic Dipole - Core Theory & Derivations",
+          "Torque on Current Loop & Magnetic Dipole - Standard Formula Drill",
+          "Torque on Current Loop & Magnetic Dipole - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_6",
+        "name": "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Core Theory & Derivations",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Standard Formula Drill",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Previous Exam Applications"
         ]
       }
     ],
@@ -9229,58 +9471,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MAGNETISM_AND_MATTER|BAR_MAGNET_AS_EQUIVALENT_SOLENOID",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_1",
         "name": "Bar Magnet as Equivalent Solenoid",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivation",
+          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivations",
           "Bar Magnet as Equivalent Solenoid - Standard Formula Drill",
           "Bar Magnet as Equivalent Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|EARTH_S_MAGNETISM_DIP",
-        "name": "Earth's Magnetism & Dip",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_2",
+        "name": "Magnetic Dipole in Uniform Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Earth's Magnetism & Dip - Core Theory & Derivation",
-          "Earth's Magnetism & Dip - Standard Formula Drill",
-          "Earth's Magnetism & Dip - Previous Exam Applications"
+          "Magnetic Dipole in Uniform Magnetic Field - Core Theory & Derivations",
+          "Magnetic Dipole in Uniform Magnetic Field - Standard Formula Drill",
+          "Magnetic Dipole in Uniform Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|MAGNETIC_PROPERTIES_DIA_PARA_FERRO",
-        "name": "Magnetic Properties (Dia, Para, Ferro)",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_3",
+        "name": "Earth's Magnetism & Magnetic Elements",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Properties (Dia, Para, Ferro) - Core Theory & Derivation",
-          "Magnetic Properties (Dia, Para, Ferro) - Standard Formula Drill",
-          "Magnetic Properties (Dia, Para, Ferro) - Previous Exam Applications"
+          "Earth's Magnetism & Magnetic Elements - Core Theory & Derivations",
+          "Earth's Magnetism & Magnetic Elements - Standard Formula Drill",
+          "Earth's Magnetism & Magnetic Elements - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|HYSTERESIS_LOOP",
-        "name": "Hysteresis Loop",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_4",
+        "name": "Magnetic Properties of Materials (Dia, Para, Ferro)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Hysteresis Loop - Core Theory & Derivation",
-          "Hysteresis Loop - Standard Formula Drill",
-          "Hysteresis Loop - Previous Exam Applications"
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Core Theory & Derivations",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Standard Formula Drill",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|CURIE_S_LAW",
-        "name": "Curie's Law",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_5",
+        "name": "Curie's Law, Hysteresis & Electromagnets",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Curie's Law - Core Theory & Derivation",
-          "Curie's Law - Standard Formula Drill",
-          "Curie's Law - Previous Exam Applications"
+          "Curie's Law, Hysteresis & Electromagnets - Core Theory & Derivations",
+          "Curie's Law, Hysteresis & Electromagnets - Standard Formula Drill",
+          "Curie's Law, Hysteresis & Electromagnets - Previous Exam Applications"
         ]
       }
     ],
@@ -9301,58 +9543,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MAGNETIC_FLUX_FARADAY_S_LAWS",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_1",
         "name": "Magnetic Flux & Faraday's Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Flux & Faraday's Laws - Core Theory & Derivation",
+          "Magnetic Flux & Faraday's Laws - Core Theory & Derivations",
           "Magnetic Flux & Faraday's Laws - Standard Formula Drill",
           "Magnetic Flux & Faraday's Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|LENZ_S_LAW_CONSERVATION_OF_ENERGY",
-        "name": "Lenz's Law & Conservation of Energy",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_2",
+        "name": "Lenz's Law & Energy Conservation",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Lenz's Law & Conservation of Energy - Core Theory & Derivation",
-          "Lenz's Law & Conservation of Energy - Standard Formula Drill",
-          "Lenz's Law & Conservation of Energy - Previous Exam Applications"
+          "Lenz's Law & Energy Conservation - Core Theory & Derivations",
+          "Lenz's Law & Energy Conservation - Standard Formula Drill",
+          "Lenz's Law & Energy Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MOTIONAL_EMF",
-        "name": "Motional EMF",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_3",
+        "name": "Motional EMF & Eddy Currents",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Motional EMF - Core Theory & Derivation",
-          "Motional EMF - Standard Formula Drill",
-          "Motional EMF - Previous Exam Applications"
+          "Motional EMF & Eddy Currents - Core Theory & Derivations",
+          "Motional EMF & Eddy Currents - Standard Formula Drill",
+          "Motional EMF & Eddy Currents - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|SELF_MUTUAL_INDUCTANCE",
-        "name": "Self & Mutual Inductance",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_4",
+        "name": "Self-Inductance & Mutual Inductance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Self & Mutual Inductance - Core Theory & Derivation",
-          "Self & Mutual Inductance - Standard Formula Drill",
-          "Self & Mutual Inductance - Previous Exam Applications"
+          "Self-Inductance & Mutual Inductance - Core Theory & Derivations",
+          "Self-Inductance & Mutual Inductance - Standard Formula Drill",
+          "Self-Inductance & Mutual Inductance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|AC_GENERATOR_EDDY_CURRENTS",
-        "name": "AC Generator & Eddy Currents",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_5",
+        "name": "AC Generator Principle & Working",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "AC Generator & Eddy Currents - Core Theory & Derivation",
-          "AC Generator & Eddy Currents - Standard Formula Drill",
-          "AC Generator & Eddy Currents - Previous Exam Applications"
+          "AC Generator Principle & Working - Core Theory & Derivations",
+          "AC Generator Principle & Working - Standard Formula Drill",
+          "AC Generator Principle & Working - Previous Exam Applications"
         ]
       }
     ],
@@ -9373,58 +9615,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ALTERNATING_CURRENT|PEAK_AVERAGE_RMS_VALUES",
-        "name": "Peak, Average & RMS Values",
+        "id": "ALTERNATING_CURRENT|TOPIC_1",
+        "name": "AC Voltage, Peak & RMS Values",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Peak, Average & RMS Values - Core Theory & Derivation",
-          "Peak, Average & RMS Values - Standard Formula Drill",
-          "Peak, Average & RMS Values - Previous Exam Applications"
+          "AC Voltage, Peak & RMS Values - Core Theory & Derivations",
+          "AC Voltage, Peak & RMS Values - Standard Formula Drill",
+          "AC Voltage, Peak & RMS Values - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|AC_ACROSS_R_L_AND_C",
-        "name": "AC across R, L, and C",
+        "id": "ALTERNATING_CURRENT|TOPIC_2",
+        "name": "AC across Pure R, L, and C",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "AC across R, L, and C - Core Theory & Derivation",
-          "AC across R, L, and C - Standard Formula Drill",
-          "AC across R, L, and C - Previous Exam Applications"
+          "AC across Pure R, L, and C - Core Theory & Derivations",
+          "AC across Pure R, L, and C - Standard Formula Drill",
+          "AC across Pure R, L, and C - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|SERIES_LCR_CIRCUIT_PHASOR",
-        "name": "Series LCR Circuit & Phasor",
+        "id": "ALTERNATING_CURRENT|TOPIC_3",
+        "name": "Series LCR Circuit & Impedance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Series LCR Circuit & Phasor - Core Theory & Derivation",
-          "Series LCR Circuit & Phasor - Standard Formula Drill",
-          "Series LCR Circuit & Phasor - Previous Exam Applications"
+          "Series LCR Circuit & Impedance - Core Theory & Derivations",
+          "Series LCR Circuit & Impedance - Standard Formula Drill",
+          "Series LCR Circuit & Impedance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|RESONANCE_QUALITY_FACTOR",
-        "name": "Resonance & Quality Factor",
+        "id": "ALTERNATING_CURRENT|TOPIC_4",
+        "name": "Resonance & Quality Factor in LCR",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Resonance & Quality Factor - Core Theory & Derivation",
-          "Resonance & Quality Factor - Standard Formula Drill",
-          "Resonance & Quality Factor - Previous Exam Applications"
+          "Resonance & Quality Factor in LCR - Core Theory & Derivations",
+          "Resonance & Quality Factor in LCR - Standard Formula Drill",
+          "Resonance & Quality Factor in LCR - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|POWER_IN_AC_CIRCUITS_TRANSFORMERS",
-        "name": "Power in AC Circuits & Transformers",
+        "id": "ALTERNATING_CURRENT|TOPIC_5",
+        "name": "Power in AC Circuits & Power Factor",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Power in AC Circuits & Transformers - Core Theory & Derivation",
-          "Power in AC Circuits & Transformers - Standard Formula Drill",
-          "Power in AC Circuits & Transformers - Previous Exam Applications"
+          "Power in AC Circuits & Power Factor - Core Theory & Derivations",
+          "Power in AC Circuits & Power Factor - Standard Formula Drill",
+          "Power in AC Circuits & Power Factor - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ALTERNATING_CURRENT|TOPIC_6",
+        "name": "Transformers: Principles & Efficiency",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Transformers: Principles & Efficiency - Core Theory & Derivations",
+          "Transformers: Principles & Efficiency - Standard Formula Drill",
+          "Transformers: Principles & Efficiency - Previous Exam Applications"
         ]
       }
     ],
@@ -9445,58 +9698,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_WAVES|DISPLACEMENT_CURRENT",
-        "name": "Displacement Current",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_1",
+        "name": "Displacement Current & Maxwell's Equations",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement Current - Core Theory & Derivation",
-          "Displacement Current - Standard Formula Drill",
-          "Displacement Current - Previous Exam Applications"
+          "Displacement Current & Maxwell's Equations - Core Theory & Derivations",
+          "Displacement Current & Maxwell's Equations - Standard Formula Drill",
+          "Displacement Current & Maxwell's Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|MAXWELL_S_EQUATIONS",
-        "name": "Maxwell's Equations",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_2",
+        "name": "Characteristics & Speed of EM Waves",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maxwell's Equations - Core Theory & Derivation",
-          "Maxwell's Equations - Standard Formula Drill",
-          "Maxwell's Equations - Previous Exam Applications"
+          "Characteristics & Speed of EM Waves - Core Theory & Derivations",
+          "Characteristics & Speed of EM Waves - Standard Formula Drill",
+          "Characteristics & Speed of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|CHARACTERISTICS_OF_EM_WAVES",
-        "name": "Characteristics of EM Waves",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_3",
+        "name": "Energy Density & Momentum of EM Waves",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Characteristics of EM Waves - Core Theory & Derivation",
-          "Characteristics of EM Waves - Standard Formula Drill",
-          "Characteristics of EM Waves - Previous Exam Applications"
+          "Energy Density & Momentum of EM Waves - Core Theory & Derivations",
+          "Energy Density & Momentum of EM Waves - Standard Formula Drill",
+          "Energy Density & Momentum of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|ELECTROMAGNETIC_SPECTRUM",
-        "name": "Electromagnetic Spectrum",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_4",
+        "name": "Electromagnetic Spectrum & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Electromagnetic Spectrum - Core Theory & Derivation",
-          "Electromagnetic Spectrum - Standard Formula Drill",
-          "Electromagnetic Spectrum - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROMAGNETIC_WAVES|ENERGY_MOMENTUM_OF_EM_WAVES",
-        "name": "Energy & Momentum of EM Waves",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Energy & Momentum of EM Waves - Core Theory & Derivation",
-          "Energy & Momentum of EM Waves - Standard Formula Drill",
-          "Energy & Momentum of EM Waves - Previous Exam Applications"
+          "Electromagnetic Spectrum & Applications - Core Theory & Derivations",
+          "Electromagnetic Spectrum & Applications - Standard Formula Drill",
+          "Electromagnetic Spectrum & Applications - Previous Exam Applications"
         ]
       }
     ],
@@ -9517,56 +9759,67 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFLECTION_SPHERICAL_MIRRORS",
-        "name": "Reflection & Spherical Mirrors",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_1",
+        "name": "Reflection by Spherical Mirrors & Mirror Formula",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Reflection & Spherical Mirrors - Core Theory & Derivation",
-          "Reflection & Spherical Mirrors - Standard Formula Drill",
-          "Reflection & Spherical Mirrors - Previous Exam Applications"
+          "Reflection by Spherical Mirrors & Mirror Formula - Core Theory & Derivations",
+          "Reflection by Spherical Mirrors & Mirror Formula - Standard Formula Drill",
+          "Reflection by Spherical Mirrors & Mirror Formula - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFRACTION_TOTAL_INTERNAL_REFLECTION",
-        "name": "Refraction & Total Internal Reflection",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_2",
+        "name": "Refraction of Light & Total Internal Reflection",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Refraction & Total Internal Reflection - Core Theory & Derivation",
-          "Refraction & Total Internal Reflection - Standard Formula Drill",
-          "Refraction & Total Internal Reflection - Previous Exam Applications"
+          "Refraction of Light & Total Internal Reflection - Core Theory & Derivations",
+          "Refraction of Light & Total Internal Reflection - Standard Formula Drill",
+          "Refraction of Light & Total Internal Reflection - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|PRISM_FORMULA_DISPERSION",
-        "name": "Prism Formula & Dispersion",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Prism Formula & Dispersion - Core Theory & Derivation",
-          "Prism Formula & Dispersion - Standard Formula Drill",
-          "Prism Formula & Dispersion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|LENS_MAKER_S_FORMULA_THIN_LENSES",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_3",
         "name": "Lens Maker's Formula & Thin Lenses",
-        "order": 4,
-        "isKeyTopic": false,
+        "order": 3,
+        "isKeyTopic": true,
         "subtopics": [
-          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivation",
+          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivations",
           "Lens Maker's Formula & Thin Lenses - Standard Formula Drill",
           "Lens Maker's Formula & Thin Lenses - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|MICROSCOPES_TELESCOPES",
-        "name": "Microscopes & Telescopes",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_4",
+        "name": "Combination of Lenses in Contact",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Lenses in Contact - Core Theory & Derivations",
+          "Combination of Lenses in Contact - Standard Formula Drill",
+          "Combination of Lenses in Contact - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_5",
+        "name": "Refraction through Prism & Dispersion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Microscopes & Telescopes - Core Theory & Derivation",
+          "Refraction through Prism & Dispersion - Core Theory & Derivations",
+          "Refraction through Prism & Dispersion - Standard Formula Drill",
+          "Refraction through Prism & Dispersion - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_6",
+        "name": "Microscopes & Telescopes",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Microscopes & Telescopes - Core Theory & Derivations",
           "Microscopes & Telescopes - Standard Formula Drill",
           "Microscopes & Telescopes - Previous Exam Applications"
         ]
@@ -9589,58 +9842,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVE_OPTICS|HUYGENS_PRINCIPLE_WAVEFRONTS",
+        "id": "WAVE_OPTICS|TOPIC_1",
         "name": "Huygens' Principle & Wavefronts",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Huygens' Principle & Wavefronts - Core Theory & Derivation",
+          "Huygens' Principle & Wavefronts - Core Theory & Derivations",
           "Huygens' Principle & Wavefronts - Standard Formula Drill",
           "Huygens' Principle & Wavefronts - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|INTERFERENCE_OF_LIGHT",
-        "name": "Interference of Light",
+        "id": "WAVE_OPTICS|TOPIC_2",
+        "name": "Interference of Light & Coherent Sources",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Interference of Light - Core Theory & Derivation",
-          "Interference of Light - Standard Formula Drill",
-          "Interference of Light - Previous Exam Applications"
+          "Interference of Light & Coherent Sources - Core Theory & Derivations",
+          "Interference of Light & Coherent Sources - Standard Formula Drill",
+          "Interference of Light & Coherent Sources - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|YOUNG_S_DOUBLE_SLIT_EXPERIMENT_YDSE",
+        "id": "WAVE_OPTICS|TOPIC_3",
         "name": "Young's Double Slit Experiment (YDSE)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivation",
+          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivations",
           "Young's Double Slit Experiment (YDSE) - Standard Formula Drill",
           "Young's Double Slit Experiment (YDSE) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|DIFFRACTION_AT_A_SINGLE_SLIT",
-        "name": "Diffraction at a Single Slit",
+        "id": "WAVE_OPTICS|TOPIC_4",
+        "name": "Diffraction of Light (Single Slit)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Diffraction at a Single Slit - Core Theory & Derivation",
-          "Diffraction at a Single Slit - Standard Formula Drill",
-          "Diffraction at a Single Slit - Previous Exam Applications"
+          "Diffraction of Light (Single Slit) - Core Theory & Derivations",
+          "Diffraction of Light (Single Slit) - Standard Formula Drill",
+          "Diffraction of Light (Single Slit) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|POLARISATION_BREWSTER_S_LAW",
-        "name": "Polarisation & Brewster's Law",
+        "id": "WAVE_OPTICS|TOPIC_5",
+        "name": "Polarisation of Light & Brewster's Law",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Polarisation & Brewster's Law - Core Theory & Derivation",
-          "Polarisation & Brewster's Law - Standard Formula Drill",
-          "Polarisation & Brewster's Law - Previous Exam Applications"
+          "Polarisation of Light & Brewster's Law - Core Theory & Derivations",
+          "Polarisation of Light & Brewster's Law - Standard Formula Drill",
+          "Polarisation of Light & Brewster's Law - Previous Exam Applications"
         ]
       }
     ],
@@ -9661,58 +9914,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|PHOTOELECTRIC_EFFECT_OBSERVATIONS",
-        "name": "Photoelectric Effect Observations",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_1",
+        "name": "Photoelectric Effect Observations & Thresholds",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Photoelectric Effect Observations - Core Theory & Derivation",
-          "Photoelectric Effect Observations - Standard Formula Drill",
-          "Photoelectric Effect Observations - Previous Exam Applications"
+          "Photoelectric Effect Observations & Thresholds - Core Theory & Derivations",
+          "Photoelectric Effect Observations & Thresholds - Standard Formula Drill",
+          "Photoelectric Effect Observations & Thresholds - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|EINSTEIN_S_PHOTOELECTRIC_EQUATION",
-        "name": "Einstein's Photoelectric Equation",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_2",
+        "name": "Einstein's Photoelectric Equation & Stopping Potential",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Einstein's Photoelectric Equation - Core Theory & Derivation",
-          "Einstein's Photoelectric Equation - Standard Formula Drill",
-          "Einstein's Photoelectric Equation - Previous Exam Applications"
+          "Einstein's Photoelectric Equation & Stopping Potential - Core Theory & Derivations",
+          "Einstein's Photoelectric Equation & Stopping Potential - Standard Formula Drill",
+          "Einstein's Photoelectric Equation & Stopping Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|WORK_FUNCTION_STOPPING_POTENTIAL",
-        "name": "Work Function & Stopping Potential",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_3",
+        "name": "Photon Characteristics & Radiation Pressure",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Work Function & Stopping Potential - Core Theory & Derivation",
-          "Work Function & Stopping Potential - Standard Formula Drill",
-          "Work Function & Stopping Potential - Previous Exam Applications"
+          "Photon Characteristics & Radiation Pressure - Core Theory & Derivations",
+          "Photon Characteristics & Radiation Pressure - Standard Formula Drill",
+          "Photon Characteristics & Radiation Pressure - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DE_BROGLIE_WAVELENGTH",
-        "name": "de Broglie Wavelength",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_4",
+        "name": "de Broglie Wavelength of Matter Waves",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "de Broglie Wavelength - Core Theory & Derivation",
-          "de Broglie Wavelength - Standard Formula Drill",
-          "de Broglie Wavelength - Previous Exam Applications"
+          "de Broglie Wavelength of Matter Waves - Core Theory & Derivations",
+          "de Broglie Wavelength of Matter Waves - Standard Formula Drill",
+          "de Broglie Wavelength of Matter Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DAVISSON_GERMER_EXPERIMENT",
-        "name": "Davisson-Germer Experiment",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_5",
+        "name": "Davisson and Germer Experiment",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Davisson-Germer Experiment - Core Theory & Derivation",
-          "Davisson-Germer Experiment - Standard Formula Drill",
-          "Davisson-Germer Experiment - Previous Exam Applications"
+          "Davisson and Germer Experiment - Core Theory & Derivations",
+          "Davisson and Germer Experiment - Standard Formula Drill",
+          "Davisson and Germer Experiment - Previous Exam Applications"
         ]
       }
     ],
@@ -9733,58 +9986,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ATOMS|RUTHERFORD_S_ALPHA_SCATTERING_MODEL",
+        "id": "ATOMS|TOPIC_1",
         "name": "Rutherford's Alpha Scattering Model",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Rutherford's Alpha Scattering Model - Core Theory & Derivation",
+          "Rutherford's Alpha Scattering Model - Core Theory & Derivations",
           "Rutherford's Alpha Scattering Model - Standard Formula Drill",
           "Rutherford's Alpha Scattering Model - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|BOHR_S_MODEL_OF_HYDROGEN_ATOM",
-        "name": "Bohr's Model of Hydrogen Atom",
+        "id": "ATOMS|TOPIC_2",
+        "name": "Bohr's Model of Hydrogen Atom (Radii & Energy)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Bohr's Model of Hydrogen Atom - Core Theory & Derivation",
-          "Bohr's Model of Hydrogen Atom - Standard Formula Drill",
-          "Bohr's Model of Hydrogen Atom - Previous Exam Applications"
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Core Theory & Derivations",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Standard Formula Drill",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|ENERGY_LEVELS_SPECTRAL_SERIES",
-        "name": "Energy Levels & Spectral Series",
+        "id": "ATOMS|TOPIC_3",
+        "name": "Hydrogen Emission Spectral Series",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy Levels & Spectral Series - Core Theory & Derivation",
-          "Energy Levels & Spectral Series - Standard Formula Drill",
-          "Energy Levels & Spectral Series - Previous Exam Applications"
+          "Hydrogen Emission Spectral Series - Core Theory & Derivations",
+          "Hydrogen Emission Spectral Series - Standard Formula Drill",
+          "Hydrogen Emission Spectral Series - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|DE_BROGLIE_S_EXPLANATION_OF_BOHR_POSTULATE",
-        "name": "De Broglie's Explanation of Bohr Postulate",
+        "id": "ATOMS|TOPIC_4",
+        "name": "de Broglie's Explanation of Bohr's Quantization",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "De Broglie's Explanation of Bohr Postulate - Core Theory & Derivation",
-          "De Broglie's Explanation of Bohr Postulate - Standard Formula Drill",
-          "De Broglie's Explanation of Bohr Postulate - Previous Exam Applications"
+          "de Broglie's Explanation of Bohr's Quantization - Core Theory & Derivations",
+          "de Broglie's Explanation of Bohr's Quantization - Standard Formula Drill",
+          "de Broglie's Explanation of Bohr's Quantization - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|EXCITATION_IONIZATION_POTENTIALS",
-        "name": "Excitation & Ionization Potentials",
+        "id": "ATOMS|TOPIC_5",
+        "name": "Excitation & Ionization Energies",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Excitation & Ionization Potentials - Core Theory & Derivation",
-          "Excitation & Ionization Potentials - Standard Formula Drill",
-          "Excitation & Ionization Potentials - Previous Exam Applications"
+          "Excitation & Ionization Energies - Core Theory & Derivations",
+          "Excitation & Ionization Energies - Standard Formula Drill",
+          "Excitation & Ionization Energies - Previous Exam Applications"
         ]
       }
     ],
@@ -9805,58 +10058,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "NUCLEI|NUCLEAR_SIZE_DENSITY",
-        "name": "Nuclear Size & Density",
+        "id": "NUCLEI|TOPIC_1",
+        "name": "Nuclear Size, Mass & Nuclear Density",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Size & Density - Core Theory & Derivation",
-          "Nuclear Size & Density - Standard Formula Drill",
-          "Nuclear Size & Density - Previous Exam Applications"
+          "Nuclear Size, Mass & Nuclear Density - Core Theory & Derivations",
+          "Nuclear Size, Mass & Nuclear Density - Standard Formula Drill",
+          "Nuclear Size, Mass & Nuclear Density - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|MASS_DEFECT_BINDING_ENERGY",
-        "name": "Mass Defect & Binding Energy",
+        "id": "NUCLEI|TOPIC_2",
+        "name": "Mass Defect & Binding Energy per Nucleon",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Mass Defect & Binding Energy - Core Theory & Derivation",
-          "Mass Defect & Binding Energy - Standard Formula Drill",
-          "Mass Defect & Binding Energy - Previous Exam Applications"
+          "Mass Defect & Binding Energy per Nucleon - Core Theory & Derivations",
+          "Mass Defect & Binding Energy per Nucleon - Standard Formula Drill",
+          "Mass Defect & Binding Energy per Nucleon - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FORCES_CHARACTERISTICS",
+        "id": "NUCLEI|TOPIC_3",
         "name": "Nuclear Forces Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Forces Characteristics - Core Theory & Derivation",
+          "Nuclear Forces Characteristics - Core Theory & Derivations",
           "Nuclear Forces Characteristics - Standard Formula Drill",
           "Nuclear Forces Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|RADIOACTIVE_DECAY_LAW_HALF_LIFE",
-        "name": "Radioactive Decay Law & Half Life",
+        "id": "NUCLEI|TOPIC_4",
+        "name": "Radioactive Decay Law, Half-Life & Mean-Life",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Radioactive Decay Law & Half Life - Core Theory & Derivation",
-          "Radioactive Decay Law & Half Life - Standard Formula Drill",
-          "Radioactive Decay Law & Half Life - Previous Exam Applications"
+          "Radioactive Decay Law, Half-Life & Mean-Life - Core Theory & Derivations",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Standard Formula Drill",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FISSION_FUSION",
-        "name": "Nuclear Fission & Fusion",
+        "id": "NUCLEI|TOPIC_5",
+        "name": "Nuclear Fission & Nuclear Fusion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Nuclear Fission & Fusion - Core Theory & Derivation",
-          "Nuclear Fission & Fusion - Standard Formula Drill",
-          "Nuclear Fission & Fusion - Previous Exam Applications"
+          "Nuclear Fission & Nuclear Fusion - Core Theory & Derivations",
+          "Nuclear Fission & Nuclear Fusion - Standard Formula Drill",
+          "Nuclear Fission & Nuclear Fusion - Previous Exam Applications"
         ]
       }
     ],
@@ -9877,58 +10130,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|INTRINSIC_EXTRINSIC_SEMICONDUCTORS",
-        "name": "Intrinsic & Extrinsic Semiconductors",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_1",
+        "name": "Energy Bands (Conductors, Semiconductors, Insulators)",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Intrinsic & Extrinsic Semiconductors - Core Theory & Derivation",
-          "Intrinsic & Extrinsic Semiconductors - Standard Formula Drill",
-          "Intrinsic & Extrinsic Semiconductors - Previous Exam Applications"
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Core Theory & Derivations",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Standard Formula Drill",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|P_N_JUNCTION_DIODE_CHARACTERISTICS",
-        "name": "p-n Junction Diode Characteristics",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_2",
+        "name": "Intrinsic & Extrinsic Semiconductors (n-type & p-type)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "p-n Junction Diode Characteristics - Core Theory & Derivation",
-          "p-n Junction Diode Characteristics - Standard Formula Drill",
-          "p-n Junction Diode Characteristics - Previous Exam Applications"
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Core Theory & Derivations",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Standard Formula Drill",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|HALF_WAVE_FULL_WAVE_RECTIFIERS",
-        "name": "Half-Wave & Full-Wave Rectifiers",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_3",
+        "name": "p-n Junction Diode V-I Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Half-Wave & Full-Wave Rectifiers - Core Theory & Derivation",
-          "Half-Wave & Full-Wave Rectifiers - Standard Formula Drill",
-          "Half-Wave & Full-Wave Rectifiers - Previous Exam Applications"
+          "p-n Junction Diode V-I Characteristics - Core Theory & Derivations",
+          "p-n Junction Diode V-I Characteristics - Standard Formula Drill",
+          "p-n Junction Diode V-I Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|ZENER_DIODE_AS_VOLTAGE_REGULATOR",
-        "name": "Zener Diode as Voltage Regulator",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_4",
+        "name": "Diode Rectifiers (Half-Wave & Full-Wave)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Zener Diode as Voltage Regulator - Core Theory & Derivation",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Core Theory & Derivations",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Standard Formula Drill",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_5",
+        "name": "Zener Diode as Voltage Regulator",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Zener Diode as Voltage Regulator - Core Theory & Derivations",
           "Zener Diode as Voltage Regulator - Standard Formula Drill",
           "Zener Diode as Voltage Regulator - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|LOGIC_GATES_AND_OR_NOT_NAND_NOR",
-        "name": "Logic Gates (AND, OR, NOT, NAND, NOR)",
-        "order": 5,
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_6",
+        "name": "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Core Theory & Derivation",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Standard Formula Drill",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Previous Exam Applications"
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Core Theory & Derivations",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Standard Formula Drill",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Previous Exam Applications"
         ]
       }
     ],
@@ -12275,58 +12539,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "UNITS_AND_MEASUREMENTS|DIMENSIONAL_ANALYSIS",
-        "name": "Dimensional Analysis",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_1",
+        "name": "Dimensional Analysis & Applications",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Dimensional Analysis - Core Theory & Derivation",
-          "Dimensional Analysis - Standard Formula Drill",
-          "Dimensional Analysis - Previous Exam Applications"
+          "Dimensional Analysis & Applications - Core Theory & Derivations",
+          "Dimensional Analysis & Applications - Standard Formula Drill",
+          "Dimensional Analysis & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SIGNIFICANT_FIGURES",
-        "name": "Significant Figures",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_2",
+        "name": "Significant Figures & Rounding Off",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Significant Figures - Core Theory & Derivation",
-          "Significant Figures - Standard Formula Drill",
-          "Significant Figures - Previous Exam Applications"
+          "Significant Figures & Rounding Off - Core Theory & Derivations",
+          "Significant Figures & Rounding Off - Standard Formula Drill",
+          "Significant Figures & Rounding Off - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SCREW_GAUGE_VERNIER",
-        "name": "Screw Gauge & Vernier",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_3",
+        "name": "Errors in Measurement & Propagation of Errors",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Screw Gauge & Vernier - Core Theory & Derivation",
-          "Screw Gauge & Vernier - Standard Formula Drill",
-          "Screw Gauge & Vernier - Previous Exam Applications"
+          "Errors in Measurement & Propagation of Errors - Core Theory & Derivations",
+          "Errors in Measurement & Propagation of Errors - Standard Formula Drill",
+          "Errors in Measurement & Propagation of Errors - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|ERROR_PROPAGATION",
-        "name": "Error Propagation",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_4",
+        "name": "Vernier Calliper & Screw Gauge",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Error Propagation - Core Theory & Derivation",
-          "Error Propagation - Standard Formula Drill",
-          "Error Propagation - Previous Exam Applications"
+          "Vernier Calliper & Screw Gauge - Core Theory & Derivations",
+          "Vernier Calliper & Screw Gauge - Standard Formula Drill",
+          "Vernier Calliper & Screw Gauge - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|UNIT_CONVERSIONS",
-        "name": "Unit Conversions",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_5",
+        "name": "Units and Measurement Systems",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Unit Conversions - Core Theory & Derivation",
-          "Unit Conversions - Standard Formula Drill",
-          "Unit Conversions - Previous Exam Applications"
+          "Units and Measurement Systems - Core Theory & Derivations",
+          "Units and Measurement Systems - Standard Formula Drill",
+          "Units and Measurement Systems - Previous Exam Applications"
         ]
       }
     ],
@@ -12347,58 +12611,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|DISPLACEMENT_VELOCITY",
-        "name": "Displacement & Velocity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_1",
+        "name": "Position, Distance & Displacement",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement & Velocity - Core Theory & Derivation",
-          "Displacement & Velocity - Standard Formula Drill",
-          "Displacement & Velocity - Previous Exam Applications"
+          "Position, Distance & Displacement - Core Theory & Derivations",
+          "Position, Distance & Displacement - Standard Formula Drill",
+          "Position, Distance & Displacement - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|UNIFORM_ACCELERATION",
-        "name": "Uniform Acceleration",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_2",
+        "name": "Speed, Velocity & Instantaneous Velocity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Uniform Acceleration - Core Theory & Derivation",
-          "Uniform Acceleration - Standard Formula Drill",
-          "Uniform Acceleration - Previous Exam Applications"
+          "Speed, Velocity & Instantaneous Velocity - Core Theory & Derivations",
+          "Speed, Velocity & Instantaneous Velocity - Standard Formula Drill",
+          "Speed, Velocity & Instantaneous Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|FREE_FALL_UNDER_GRAVITY",
-        "name": "Free Fall under Gravity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_3",
+        "name": "Uniform Acceleration & Kinematic Equations",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Free Fall under Gravity - Core Theory & Derivation",
-          "Free Fall under Gravity - Standard Formula Drill",
-          "Free Fall under Gravity - Previous Exam Applications"
+          "Uniform Acceleration & Kinematic Equations - Core Theory & Derivations",
+          "Uniform Acceleration & Kinematic Equations - Standard Formula Drill",
+          "Uniform Acceleration & Kinematic Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|RELATIVE_VELOCITY_1D",
-        "name": "Relative Velocity 1D",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_4",
+        "name": "Free Fall Under Gravity & Stopping Distance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 1D - Core Theory & Derivation",
-          "Relative Velocity 1D - Standard Formula Drill",
-          "Relative Velocity 1D - Previous Exam Applications"
+          "Free Fall Under Gravity & Stopping Distance - Core Theory & Derivations",
+          "Free Fall Under Gravity & Stopping Distance - Standard Formula Drill",
+          "Free Fall Under Gravity & Stopping Distance - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|KINEMATICS_GRAPHS",
-        "name": "Kinematics Graphs",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_5",
+        "name": "Relative Velocity in 1D",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kinematics Graphs - Core Theory & Derivation",
-          "Kinematics Graphs - Standard Formula Drill",
-          "Kinematics Graphs - Previous Exam Applications"
+          "Relative Velocity in 1D - Core Theory & Derivations",
+          "Relative Velocity in 1D - Standard Formula Drill",
+          "Relative Velocity in 1D - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_6",
+        "name": "Kinematics Graphs (x-t, v-t, a-t)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Kinematics Graphs (x-t, v-t, a-t) - Core Theory & Derivations",
+          "Kinematics Graphs (x-t, v-t, a-t) - Standard Formula Drill",
+          "Kinematics Graphs (x-t, v-t, a-t) - Previous Exam Applications"
         ]
       }
     ],
@@ -12419,58 +12694,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_PLANE|PROJECTILE_TRAJECTORY",
-        "name": "Projectile Trajectory",
+        "id": "MOTION_IN_A_PLANE|TOPIC_1",
+        "name": "Vectors: Resolution, Addition & Dot/Cross Product",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Projectile Trajectory - Core Theory & Derivation",
-          "Projectile Trajectory - Standard Formula Drill",
-          "Projectile Trajectory - Previous Exam Applications"
+          "Vectors: Resolution, Addition & Dot/Cross Product - Core Theory & Derivations",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Standard Formula Drill",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|MAXIMUM_HEIGHT_RANGE",
-        "name": "Maximum Height & Range",
+        "id": "MOTION_IN_A_PLANE|TOPIC_2",
+        "name": "Projectile Motion (Trajectory, Range & Apex)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maximum Height & Range - Core Theory & Derivation",
-          "Maximum Height & Range - Standard Formula Drill",
-          "Maximum Height & Range - Previous Exam Applications"
+          "Projectile Motion (Trajectory, Range & Apex) - Core Theory & Derivations",
+          "Projectile Motion (Trajectory, Range & Apex) - Standard Formula Drill",
+          "Projectile Motion (Trajectory, Range & Apex) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|UNIFORM_CIRCULAR_MOTION",
-        "name": "Uniform Circular Motion",
+        "id": "MOTION_IN_A_PLANE|TOPIC_3",
+        "name": "Uniform Circular Motion & Centripetal Acceleration",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Uniform Circular Motion - Core Theory & Derivation",
-          "Uniform Circular Motion - Standard Formula Drill",
-          "Uniform Circular Motion - Previous Exam Applications"
+          "Uniform Circular Motion & Centripetal Acceleration - Core Theory & Derivations",
+          "Uniform Circular Motion & Centripetal Acceleration - Standard Formula Drill",
+          "Uniform Circular Motion & Centripetal Acceleration - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|RELATIVE_VELOCITY_2D",
-        "name": "Relative Velocity 2D",
+        "id": "MOTION_IN_A_PLANE|TOPIC_4",
+        "name": "Relative Velocity in 2D (River-Boat & Rain Problems)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 2D - Core Theory & Derivation",
-          "Relative Velocity 2D - Standard Formula Drill",
-          "Relative Velocity 2D - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MOTION_IN_A_PLANE|CENTRIPETAL_ACCELERATION",
-        "name": "Centripetal Acceleration",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Centripetal Acceleration - Core Theory & Derivation",
-          "Centripetal Acceleration - Standard Formula Drill",
-          "Centripetal Acceleration - Previous Exam Applications"
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Core Theory & Derivations",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Standard Formula Drill",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Previous Exam Applications"
         ]
       }
     ],
@@ -12491,58 +12755,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "LAWS_OF_MOTION|NEWTON_S_SECOND_LAW",
-        "name": "Newton's Second Law",
+        "id": "LAWS_OF_MOTION|TOPIC_1",
+        "name": "Newton's First Law & Inertia",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Second Law - Core Theory & Derivation",
-          "Newton's Second Law - Standard Formula Drill",
-          "Newton's Second Law - Previous Exam Applications"
+          "Newton's First Law & Inertia - Core Theory & Derivations",
+          "Newton's First Law & Inertia - Standard Formula Drill",
+          "Newton's First Law & Inertia - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|FRICTION_ANGLE_OF_REPOSE",
-        "name": "Friction & Angle of Repose",
+        "id": "LAWS_OF_MOTION|TOPIC_2",
+        "name": "Newton's Second Law & Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Friction & Angle of Repose - Core Theory & Derivation",
-          "Friction & Angle of Repose - Standard Formula Drill",
-          "Friction & Angle of Repose - Previous Exam Applications"
+          "Newton's Second Law & Momentum - Core Theory & Derivations",
+          "Newton's Second Law & Momentum - Standard Formula Drill",
+          "Newton's Second Law & Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|CONNECTED_BODIES_PULLEYS",
-        "name": "Connected Bodies & Pulleys",
+        "id": "LAWS_OF_MOTION|TOPIC_3",
+        "name": "Newton's Third Law & Impulse",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Connected Bodies & Pulleys - Core Theory & Derivation",
-          "Connected Bodies & Pulleys - Standard Formula Drill",
-          "Connected Bodies & Pulleys - Previous Exam Applications"
+          "Newton's Third Law & Impulse - Core Theory & Derivations",
+          "Newton's Third Law & Impulse - Standard Formula Drill",
+          "Newton's Third Law & Impulse - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|BANKING_OF_ROADS",
-        "name": "Banking of Roads",
+        "id": "LAWS_OF_MOTION|TOPIC_4",
+        "name": "Connected Bodies, Pulleys & Tension",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Banking of Roads - Core Theory & Derivation",
-          "Banking of Roads - Standard Formula Drill",
-          "Banking of Roads - Previous Exam Applications"
+          "Connected Bodies, Pulleys & Tension - Core Theory & Derivations",
+          "Connected Bodies, Pulleys & Tension - Standard Formula Drill",
+          "Connected Bodies, Pulleys & Tension - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|IMPULSE_MOMENTUM",
-        "name": "Impulse & Momentum",
+        "id": "LAWS_OF_MOTION|TOPIC_5",
+        "name": "Friction: Static, Kinetic & Angle of Repose",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Impulse & Momentum - Core Theory & Derivation",
-          "Impulse & Momentum - Standard Formula Drill",
-          "Impulse & Momentum - Previous Exam Applications"
+          "Friction: Static, Kinetic & Angle of Repose - Core Theory & Derivations",
+          "Friction: Static, Kinetic & Angle of Repose - Standard Formula Drill",
+          "Friction: Static, Kinetic & Angle of Repose - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "LAWS_OF_MOTION|TOPIC_6",
+        "name": "Circular Motion Dynamics & Banking of Roads",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Circular Motion Dynamics & Banking of Roads - Core Theory & Derivations",
+          "Circular Motion Dynamics & Banking of Roads - Standard Formula Drill",
+          "Circular Motion Dynamics & Banking of Roads - Previous Exam Applications"
         ]
       }
     ],
@@ -12563,58 +12838,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "WORK_ENERGY_AND_POWER|WORK_ENERGY_THEOREM",
-        "name": "Work-Energy Theorem",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_1",
+        "name": "Work Done by Constant & Variable Forces",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Work-Energy Theorem - Core Theory & Derivation",
-          "Work-Energy Theorem - Standard Formula Drill",
-          "Work-Energy Theorem - Previous Exam Applications"
+          "Work Done by Constant & Variable Forces - Core Theory & Derivations",
+          "Work Done by Constant & Variable Forces - Standard Formula Drill",
+          "Work Done by Constant & Variable Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|CONSERVATIVE_FORCES_POTENTIAL_ENERGY",
-        "name": "Conservative Forces & Potential Energy",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_2",
+        "name": "Kinetic Energy & Work-Energy Theorem",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Conservative Forces & Potential Energy - Core Theory & Derivation",
-          "Conservative Forces & Potential Energy - Standard Formula Drill",
-          "Conservative Forces & Potential Energy - Previous Exam Applications"
+          "Kinetic Energy & Work-Energy Theorem - Core Theory & Derivations",
+          "Kinetic Energy & Work-Energy Theorem - Standard Formula Drill",
+          "Kinetic Energy & Work-Energy Theorem - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|1D_2D_ELASTIC_COLLISIONS",
-        "name": "1D & 2D Elastic Collisions",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_3",
+        "name": "Potential Energy & Conservative Forces",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "1D & 2D Elastic Collisions - Core Theory & Derivation",
-          "1D & 2D Elastic Collisions - Standard Formula Drill",
-          "1D & 2D Elastic Collisions - Previous Exam Applications"
+          "Potential Energy & Conservative Forces - Core Theory & Derivations",
+          "Potential Energy & Conservative Forces - Standard Formula Drill",
+          "Potential Energy & Conservative Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|POWER_EFFICIENCY",
-        "name": "Power & Efficiency",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_4",
+        "name": "Conservation of Mechanical Energy & Vertical Circle",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Power & Efficiency - Core Theory & Derivation",
+          "Conservation of Mechanical Energy & Vertical Circle - Core Theory & Derivations",
+          "Conservation of Mechanical Energy & Vertical Circle - Standard Formula Drill",
+          "Conservation of Mechanical Energy & Vertical Circle - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_5",
+        "name": "Power & Efficiency",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Power & Efficiency - Core Theory & Derivations",
           "Power & Efficiency - Standard Formula Drill",
           "Power & Efficiency - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|SPRING_POTENTIAL_ENERGY",
-        "name": "Spring Potential Energy",
-        "order": 5,
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_6",
+        "name": "Collisions in 1D and 2D (Elastic & Inelastic)",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring Potential Energy - Core Theory & Derivation",
-          "Spring Potential Energy - Standard Formula Drill",
-          "Spring Potential Energy - Previous Exam Applications"
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Core Theory & Derivations",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Standard Formula Drill",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Previous Exam Applications"
         ]
       }
     ],
@@ -12635,58 +12921,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CENTER_OF_MASS",
-        "name": "Center of Mass",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_1",
+        "name": "Centre of Mass & Motion of Centre of Mass",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Center of Mass - Core Theory & Derivation",
-          "Center of Mass - Standard Formula Drill",
-          "Center of Mass - Previous Exam Applications"
+          "Centre of Mass & Motion of Centre of Mass - Core Theory & Derivations",
+          "Centre of Mass & Motion of Centre of Mass - Standard Formula Drill",
+          "Centre of Mass & Motion of Centre of Mass - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|MOMENT_OF_INERTIA_THEOREMS",
-        "name": "Moment of Inertia Theorems",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_2",
+        "name": "Torque & Angular Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Moment of Inertia Theorems - Core Theory & Derivation",
-          "Moment of Inertia Theorems - Standard Formula Drill",
-          "Moment of Inertia Theorems - Previous Exam Applications"
+          "Torque & Angular Momentum - Core Theory & Derivations",
+          "Torque & Angular Momentum - Standard Formula Drill",
+          "Torque & Angular Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TORQUE_ANGULAR_ACCELERATION",
-        "name": "Torque & Angular Acceleration",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_3",
+        "name": "Moment of Inertia & Parallel/Perpendicular Axes",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Torque & Angular Acceleration - Core Theory & Derivation",
-          "Torque & Angular Acceleration - Standard Formula Drill",
-          "Torque & Angular Acceleration - Previous Exam Applications"
+          "Moment of Inertia & Parallel/Perpendicular Axes - Core Theory & Derivations",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Standard Formula Drill",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CONSERVATION_OF_ANGULAR_MOMENTUM",
-        "name": "Conservation of Angular Momentum",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_4",
+        "name": "Rotational Kinematics & Dynamics",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conservation of Angular Momentum - Core Theory & Derivation",
-          "Conservation of Angular Momentum - Standard Formula Drill",
-          "Conservation of Angular Momentum - Previous Exam Applications"
+          "Rotational Kinematics & Dynamics - Core Theory & Derivations",
+          "Rotational Kinematics & Dynamics - Standard Formula Drill",
+          "Rotational Kinematics & Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|ROLLING_WITHOUT_SLIPPING",
-        "name": "Rolling without Slipping",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_5",
+        "name": "Rolling Motion without Slipping",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Rolling without Slipping - Core Theory & Derivation",
-          "Rolling without Slipping - Standard Formula Drill",
-          "Rolling without Slipping - Previous Exam Applications"
+          "Rolling Motion without Slipping - Core Theory & Derivations",
+          "Rolling Motion without Slipping - Standard Formula Drill",
+          "Rolling Motion without Slipping - Previous Exam Applications"
         ]
       }
     ],
@@ -12707,58 +12993,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "GRAVITATION|NEWTON_S_LAW_OF_GRAVITATION",
+        "id": "GRAVITATION|TOPIC_1",
         "name": "Newton's Law of Gravitation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Law of Gravitation - Core Theory & Derivation",
+          "Newton's Law of Gravitation - Core Theory & Derivations",
           "Newton's Law of Gravitation - Standard Formula Drill",
           "Newton's Law of Gravitation - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ACCELERATION_DUE_TO_GRAVITY_G",
-        "name": "Acceleration due to Gravity g",
+        "id": "GRAVITATION|TOPIC_2",
+        "name": "Acceleration Due to Gravity & Its Variations",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Acceleration due to Gravity g - Core Theory & Derivation",
-          "Acceleration due to Gravity g - Standard Formula Drill",
-          "Acceleration due to Gravity g - Previous Exam Applications"
+          "Acceleration Due to Gravity & Its Variations - Core Theory & Derivations",
+          "Acceleration Due to Gravity & Its Variations - Standard Formula Drill",
+          "Acceleration Due to Gravity & Its Variations - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|GRAVITATIONAL_POTENTIAL_FIELD",
-        "name": "Gravitational Potential & Field",
+        "id": "GRAVITATION|TOPIC_3",
+        "name": "Gravitational Potential Energy & Potential",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Gravitational Potential & Field - Core Theory & Derivation",
-          "Gravitational Potential & Field - Standard Formula Drill",
-          "Gravitational Potential & Field - Previous Exam Applications"
+          "Gravitational Potential Energy & Potential - Core Theory & Derivations",
+          "Gravitational Potential Energy & Potential - Standard Formula Drill",
+          "Gravitational Potential Energy & Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ESCAPE_VELOCITY",
-        "name": "Escape Velocity",
+        "id": "GRAVITATION|TOPIC_4",
+        "name": "Escape Velocity & Orbital Velocity",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Escape Velocity - Core Theory & Derivation",
-          "Escape Velocity - Standard Formula Drill",
-          "Escape Velocity - Previous Exam Applications"
+          "Escape Velocity & Orbital Velocity - Core Theory & Derivations",
+          "Escape Velocity & Orbital Velocity - Standard Formula Drill",
+          "Escape Velocity & Orbital Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|KEPLER_S_LAWS_SATELLITES",
-        "name": "Kepler's Laws & Satellites",
+        "id": "GRAVITATION|TOPIC_5",
+        "name": "Kepler's Laws of Planetary Motion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kepler's Laws & Satellites - Core Theory & Derivation",
-          "Kepler's Laws & Satellites - Standard Formula Drill",
-          "Kepler's Laws & Satellites - Previous Exam Applications"
+          "Kepler's Laws of Planetary Motion - Core Theory & Derivations",
+          "Kepler's Laws of Planetary Motion - Standard Formula Drill",
+          "Kepler's Laws of Planetary Motion - Previous Exam Applications"
         ]
       }
     ],
@@ -12779,58 +13065,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|STRESS_STRAIN_CURVE",
-        "name": "Stress-Strain Curve",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_1",
+        "name": "Stress, Strain & Hooke's Law",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Stress-Strain Curve - Core Theory & Derivation",
-          "Stress-Strain Curve - Standard Formula Drill",
-          "Stress-Strain Curve - Previous Exam Applications"
+          "Stress, Strain & Hooke's Law - Core Theory & Derivations",
+          "Stress, Strain & Hooke's Law - Standard Formula Drill",
+          "Stress, Strain & Hooke's Law - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|HOOKE_S_LAW_YOUNG_S_MODULUS",
-        "name": "Hooke's Law & Young's Modulus",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_2",
+        "name": "Elastic Moduli (Young's, Bulk, Shear Modulus)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Hooke's Law & Young's Modulus - Core Theory & Derivation",
-          "Hooke's Law & Young's Modulus - Standard Formula Drill",
-          "Hooke's Law & Young's Modulus - Previous Exam Applications"
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Core Theory & Derivations",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Standard Formula Drill",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|BULK_MODULUS_RIGIDITY",
-        "name": "Bulk Modulus & Rigidity",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_3",
+        "name": "Elastic Potential Energy in Stretched Wire",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Bulk Modulus & Rigidity - Core Theory & Derivation",
-          "Bulk Modulus & Rigidity - Standard Formula Drill",
-          "Bulk Modulus & Rigidity - Previous Exam Applications"
+          "Elastic Potential Energy in Stretched Wire - Core Theory & Derivations",
+          "Elastic Potential Energy in Stretched Wire - Standard Formula Drill",
+          "Elastic Potential Energy in Stretched Wire - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|ELASTIC_POTENTIAL_ENERGY",
-        "name": "Elastic Potential Energy",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_4",
+        "name": "Thermal Stress & Breaking Stress",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Elastic Potential Energy - Core Theory & Derivation",
-          "Elastic Potential Energy - Standard Formula Drill",
-          "Elastic Potential Energy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|THERMAL_STRESS",
-        "name": "Thermal Stress",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Thermal Stress - Core Theory & Derivation",
-          "Thermal Stress - Standard Formula Drill",
-          "Thermal Stress - Previous Exam Applications"
+          "Thermal Stress & Breaking Stress - Core Theory & Derivations",
+          "Thermal Stress & Breaking Stress - Standard Formula Drill",
+          "Thermal Stress & Breaking Stress - Previous Exam Applications"
         ]
       }
     ],
@@ -12851,69 +13126,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|PASCAL_S_LAW_HYDRAULIC_LIFT",
-        "name": "Pascal's Law & Hydraulic Lift",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_1",
+        "name": "Pressure, Pascal's Law & Hydraulic Lift",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Pascal's Law & Hydraulic Lift - Core Theory & Derivation",
-          "Pascal's Law & Hydraulic Lift - Standard Formula Drill",
-          "Pascal's Law & Hydraulic Lift - Previous Exam Applications"
+          "Pressure, Pascal's Law & Hydraulic Lift - Core Theory & Derivations",
+          "Pressure, Pascal's Law & Hydraulic Lift - Standard Formula Drill",
+          "Pressure, Pascal's Law & Hydraulic Lift - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|ARCHIMEDES_PRINCIPLE_BUOYANCY",
-        "name": "Archimedes Principle & Buoyancy",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_2",
+        "name": "Archimedes' Principle & Buoyancy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Archimedes Principle & Buoyancy - Core Theory & Derivation",
-          "Archimedes Principle & Buoyancy - Standard Formula Drill",
-          "Archimedes Principle & Buoyancy - Previous Exam Applications"
+          "Archimedes' Principle & Buoyancy - Core Theory & Derivations",
+          "Archimedes' Principle & Buoyancy - Standard Formula Drill",
+          "Archimedes' Principle & Buoyancy - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|CONTINUITY_EQUATION",
-        "name": "Continuity Equation",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_3",
+        "name": "Equation of Continuity & Fluid Dynamics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Continuity Equation - Core Theory & Derivation",
-          "Continuity Equation - Standard Formula Drill",
-          "Continuity Equation - Previous Exam Applications"
+          "Equation of Continuity & Fluid Dynamics - Core Theory & Derivations",
+          "Equation of Continuity & Fluid Dynamics - Standard Formula Drill",
+          "Equation of Continuity & Fluid Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|BERNOULLI_S_THEOREM",
-        "name": "Bernoulli's Theorem",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_4",
+        "name": "Bernoulli's Theorem & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Bernoulli's Theorem - Core Theory & Derivation",
-          "Bernoulli's Theorem - Standard Formula Drill",
-          "Bernoulli's Theorem - Previous Exam Applications"
+          "Bernoulli's Theorem & Applications - Core Theory & Derivations",
+          "Bernoulli's Theorem & Applications - Standard Formula Drill",
+          "Bernoulli's Theorem & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|VISCOSITY_TERMINAL_VELOCITY",
-        "name": "Viscosity & Terminal Velocity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_5",
+        "name": "Viscosity, Stokes' Law & Terminal Velocity",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Viscosity & Terminal Velocity - Core Theory & Derivation",
-          "Viscosity & Terminal Velocity - Standard Formula Drill",
-          "Viscosity & Terminal Velocity - Previous Exam Applications"
+          "Viscosity, Stokes' Law & Terminal Velocity - Core Theory & Derivations",
+          "Viscosity, Stokes' Law & Terminal Velocity - Standard Formula Drill",
+          "Viscosity, Stokes' Law & Terminal Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|SURFACE_TENSION_CAPILLARITY",
-        "name": "Surface Tension & Capillarity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_6",
+        "name": "Surface Tension, Angle of Contact & Capillarity",
         "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Surface Tension & Capillarity - Core Theory & Derivation",
-          "Surface Tension & Capillarity - Standard Formula Drill",
-          "Surface Tension & Capillarity - Previous Exam Applications"
+          "Surface Tension, Angle of Contact & Capillarity - Core Theory & Derivations",
+          "Surface Tension, Angle of Contact & Capillarity - Standard Formula Drill",
+          "Surface Tension, Angle of Contact & Capillarity - Previous Exam Applications"
         ]
       }
     ],
@@ -12934,69 +13209,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|THERMAL_EXPANSION",
-        "name": "Thermal Expansion",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_1",
+        "name": "Thermal Expansion of Solids, Liquids & Gases",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Thermal Expansion - Core Theory & Derivation",
-          "Thermal Expansion - Standard Formula Drill",
-          "Thermal Expansion - Previous Exam Applications"
+          "Thermal Expansion of Solids, Liquids & Gases - Core Theory & Derivations",
+          "Thermal Expansion of Solids, Liquids & Gases - Standard Formula Drill",
+          "Thermal Expansion of Solids, Liquids & Gases - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|SPECIFIC_HEAT_CALORIMETRY",
-        "name": "Specific Heat & Calorimetry",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_2",
+        "name": "Specific Heat Capacity & Calorimetry",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Specific Heat & Calorimetry - Core Theory & Derivation",
-          "Specific Heat & Calorimetry - Standard Formula Drill",
-          "Specific Heat & Calorimetry - Previous Exam Applications"
+          "Specific Heat Capacity & Calorimetry - Core Theory & Derivations",
+          "Specific Heat Capacity & Calorimetry - Standard Formula Drill",
+          "Specific Heat Capacity & Calorimetry - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|LATENT_HEAT_PHASE_CHANGE",
-        "name": "Latent Heat & Phase Change",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_3",
+        "name": "Latent Heat & Phase Transitions",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Latent Heat & Phase Change - Core Theory & Derivation",
-          "Latent Heat & Phase Change - Standard Formula Drill",
-          "Latent Heat & Phase Change - Previous Exam Applications"
+          "Latent Heat & Phase Transitions - Core Theory & Derivations",
+          "Latent Heat & Phase Transitions - Standard Formula Drill",
+          "Latent Heat & Phase Transitions - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|CONDUCTION_THERMAL_RESISTANCE",
-        "name": "Conduction & Thermal Resistance",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_4",
+        "name": "Heat Conduction & Thermal Resistance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conduction & Thermal Resistance - Core Theory & Derivation",
-          "Conduction & Thermal Resistance - Standard Formula Drill",
-          "Conduction & Thermal Resistance - Previous Exam Applications"
+          "Heat Conduction & Thermal Resistance - Core Theory & Derivations",
+          "Heat Conduction & Thermal Resistance - Standard Formula Drill",
+          "Heat Conduction & Thermal Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|NEWTON_S_LAW_OF_COOLING",
-        "name": "Newton's Law of Cooling",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_5",
+        "name": "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Newton's Law of Cooling - Core Theory & Derivation",
-          "Newton's Law of Cooling - Standard Formula Drill",
-          "Newton's Law of Cooling - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|STEFAN_BOLTZMANN_WIEN_S_LAW",
-        "name": "Stefan-Boltzmann & Wien's Law",
-        "order": 6,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Stefan-Boltzmann & Wien's Law - Core Theory & Derivation",
-          "Stefan-Boltzmann & Wien's Law - Standard Formula Drill",
-          "Stefan-Boltzmann & Wien's Law - Previous Exam Applications"
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Core Theory & Derivations",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Standard Formula Drill",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Previous Exam Applications"
         ]
       }
     ],
@@ -13017,58 +13281,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
+        "id": "THERMODYNAMICS|TOPIC_1",
+        "name": "Zeroth Law & Thermal Equilibrium",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
+          "Zeroth Law & Thermal Equilibrium - Core Theory & Derivations",
+          "Zeroth Law & Thermal Equilibrium - Standard Formula Drill",
+          "Zeroth Law & Thermal Equilibrium - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOTHERMAL_ADIABATIC_PROCESSES",
-        "name": "Isothermal & Adiabatic Processes",
+        "id": "THERMODYNAMICS|TOPIC_2",
+        "name": "First Law of Thermodynamics & Internal Energy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Isothermal & Adiabatic Processes - Core Theory & Derivation",
-          "Isothermal & Adiabatic Processes - Standard Formula Drill",
-          "Isothermal & Adiabatic Processes - Previous Exam Applications"
+          "First Law of Thermodynamics & Internal Energy - Core Theory & Derivations",
+          "First Law of Thermodynamics & Internal Energy - Standard Formula Drill",
+          "First Law of Thermodynamics & Internal Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOCHORIC_ISOBARIC_PROCESSES",
-        "name": "Isochoric & Isobaric Processes",
+        "id": "THERMODYNAMICS|TOPIC_3",
+        "name": "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Isochoric & Isobaric Processes - Core Theory & Derivation",
-          "Isochoric & Isobaric Processes - Standard Formula Drill",
-          "Isochoric & Isobaric Processes - Previous Exam Applications"
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Core Theory & Derivations",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Standard Formula Drill",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|HEAT_ENGINES_CARNOT_CYCLE",
-        "name": "Heat Engines & Carnot Cycle",
+        "id": "THERMODYNAMICS|TOPIC_4",
+        "name": "Work Done in Thermodynamic Processes & PV Diagrams",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Heat Engines & Carnot Cycle - Core Theory & Derivation",
-          "Heat Engines & Carnot Cycle - Standard Formula Drill",
-          "Heat Engines & Carnot Cycle - Previous Exam Applications"
+          "Work Done in Thermodynamic Processes & PV Diagrams - Core Theory & Derivations",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Standard Formula Drill",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|SECOND_LAW_ENTROPY",
-        "name": "Second Law & Entropy",
+        "id": "THERMODYNAMICS|TOPIC_5",
+        "name": "Second Law of Thermodynamics, Heat Engines & Carnot Cycle",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Second Law & Entropy - Core Theory & Derivation",
-          "Second Law & Entropy - Standard Formula Drill",
-          "Second Law & Entropy - Previous Exam Applications"
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Core Theory & Derivations",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Standard Formula Drill",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Previous Exam Applications"
         ]
       }
     ],
@@ -13089,58 +13353,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "KINETIC_THEORY_OF_GASES|IDEAL_GAS_EQUATION",
-        "name": "Ideal Gas Equation",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_1",
+        "name": "Ideal Gas Equation & Gas Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ideal Gas Equation - Core Theory & Derivation",
-          "Ideal Gas Equation - Standard Formula Drill",
-          "Ideal Gas Equation - Previous Exam Applications"
+          "Ideal Gas Equation & Gas Laws - Core Theory & Derivations",
+          "Ideal Gas Equation & Gas Laws - Standard Formula Drill",
+          "Ideal Gas Equation & Gas Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|PRESSURE_OF_AN_IDEAL_GAS",
-        "name": "Pressure of an Ideal Gas",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_2",
+        "name": "Pressure & Kinetic Energy of an Ideal Gas",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Pressure of an Ideal Gas - Core Theory & Derivation",
-          "Pressure of an Ideal Gas - Standard Formula Drill",
-          "Pressure of an Ideal Gas - Previous Exam Applications"
+          "Pressure & Kinetic Energy of an Ideal Gas - Core Theory & Derivations",
+          "Pressure & Kinetic Energy of an Ideal Gas - Standard Formula Drill",
+          "Pressure & Kinetic Energy of an Ideal Gas - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|RMS_AVERAGE_MOST_PROBABLE_SPEED",
-        "name": "RMS, Average & Most Probable Speed",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_3",
+        "name": "RMS Speed, Average Speed & Most Probable Speed",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "RMS, Average & Most Probable Speed - Core Theory & Derivation",
-          "RMS, Average & Most Probable Speed - Standard Formula Drill",
-          "RMS, Average & Most Probable Speed - Previous Exam Applications"
+          "RMS Speed, Average Speed & Most Probable Speed - Core Theory & Derivations",
+          "RMS Speed, Average Speed & Most Probable Speed - Standard Formula Drill",
+          "RMS Speed, Average Speed & Most Probable Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|DEGREES_OF_FREEDOM_EQUIPARTITION",
-        "name": "Degrees of Freedom & Equipartition",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_4",
+        "name": "Degrees of Freedom & Law of Equipartition of Energy",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Degrees of Freedom & Equipartition - Core Theory & Derivation",
-          "Degrees of Freedom & Equipartition - Standard Formula Drill",
-          "Degrees of Freedom & Equipartition - Previous Exam Applications"
+          "Degrees of Freedom & Law of Equipartition of Energy - Core Theory & Derivations",
+          "Degrees of Freedom & Law of Equipartition of Energy - Standard Formula Drill",
+          "Degrees of Freedom & Law of Equipartition of Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|MEAN_FREE_PATH",
-        "name": "Mean Free Path",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_5",
+        "name": "Specific Heat Capacities & Mean Free Path",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Mean Free Path - Core Theory & Derivation",
-          "Mean Free Path - Standard Formula Drill",
-          "Mean Free Path - Previous Exam Applications"
+          "Specific Heat Capacities & Mean Free Path - Core Theory & Derivations",
+          "Specific Heat Capacities & Mean Free Path - Standard Formula Drill",
+          "Specific Heat Capacities & Mean Free Path - Previous Exam Applications"
         ]
       }
     ],
@@ -13161,58 +13425,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "OSCILLATIONS|SIMPLE_HARMONIC_MOTION_SHM",
-        "name": "Simple Harmonic Motion (SHM)",
+        "id": "OSCILLATIONS|TOPIC_1",
+        "name": "Simple Harmonic Motion (SHM) Kinematics",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Simple Harmonic Motion (SHM) - Core Theory & Derivation",
-          "Simple Harmonic Motion (SHM) - Standard Formula Drill",
-          "Simple Harmonic Motion (SHM) - Previous Exam Applications"
+          "Simple Harmonic Motion (SHM) Kinematics - Core Theory & Derivations",
+          "Simple Harmonic Motion (SHM) Kinematics - Standard Formula Drill",
+          "Simple Harmonic Motion (SHM) Kinematics - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|VELOCITY_ACCELERATION_IN_SHM",
-        "name": "Velocity & Acceleration in SHM",
+        "id": "OSCILLATIONS|TOPIC_2",
+        "name": "Velocity, Acceleration & Phase in SHM",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Velocity & Acceleration in SHM - Core Theory & Derivation",
-          "Velocity & Acceleration in SHM - Standard Formula Drill",
-          "Velocity & Acceleration in SHM - Previous Exam Applications"
+          "Velocity, Acceleration & Phase in SHM - Core Theory & Derivations",
+          "Velocity, Acceleration & Phase in SHM - Standard Formula Drill",
+          "Velocity, Acceleration & Phase in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|ENERGY_IN_SHM",
-        "name": "Energy in SHM",
+        "id": "OSCILLATIONS|TOPIC_3",
+        "name": "Kinetic and Potential Energy in SHM",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy in SHM - Core Theory & Derivation",
-          "Energy in SHM - Standard Formula Drill",
-          "Energy in SHM - Previous Exam Applications"
+          "Kinetic and Potential Energy in SHM - Core Theory & Derivations",
+          "Kinetic and Potential Energy in SHM - Standard Formula Drill",
+          "Kinetic and Potential Energy in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SIMPLE_PENDULUM",
+        "id": "OSCILLATIONS|TOPIC_4",
         "name": "Simple Pendulum",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Simple Pendulum - Core Theory & Derivation",
+          "Simple Pendulum - Core Theory & Derivations",
           "Simple Pendulum - Standard Formula Drill",
           "Simple Pendulum - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SPRING_MASS_SYSTEMS",
-        "name": "Spring-Mass Systems",
+        "id": "OSCILLATIONS|TOPIC_5",
+        "name": "Spring-Mass Systems (Series & Parallel)",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring-Mass Systems - Core Theory & Derivation",
-          "Spring-Mass Systems - Standard Formula Drill",
-          "Spring-Mass Systems - Previous Exam Applications"
+          "Spring-Mass Systems (Series & Parallel) - Core Theory & Derivations",
+          "Spring-Mass Systems (Series & Parallel) - Standard Formula Drill",
+          "Spring-Mass Systems (Series & Parallel) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "OSCILLATIONS|TOPIC_6",
+        "name": "Damped & Forced Oscillations, Resonance",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Damped & Forced Oscillations, Resonance - Core Theory & Derivations",
+          "Damped & Forced Oscillations, Resonance - Standard Formula Drill",
+          "Damped & Forced Oscillations, Resonance - Previous Exam Applications"
         ]
       }
     ],
@@ -13233,58 +13508,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVES|WAVE_EQUATION_SPEED",
-        "name": "Wave Equation & Speed",
+        "id": "WAVES|TOPIC_1",
+        "name": "Wave Equation, Frequency & Speed",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Wave Equation & Speed - Core Theory & Derivation",
-          "Wave Equation & Speed - Standard Formula Drill",
-          "Wave Equation & Speed - Previous Exam Applications"
+          "Wave Equation, Frequency & Speed - Core Theory & Derivations",
+          "Wave Equation, Frequency & Speed - Standard Formula Drill",
+          "Wave Equation, Frequency & Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|SOUND_WAVES_IN_GASES",
-        "name": "Sound Waves in Gases",
+        "id": "WAVES|TOPIC_2",
+        "name": "Speed of Sound in Gases (Newton-Laplace)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Sound Waves in Gases - Core Theory & Derivation",
-          "Sound Waves in Gases - Standard Formula Drill",
-          "Sound Waves in Gases - Previous Exam Applications"
+          "Speed of Sound in Gases (Newton-Laplace) - Core Theory & Derivations",
+          "Speed of Sound in Gases (Newton-Laplace) - Standard Formula Drill",
+          "Speed of Sound in Gases (Newton-Laplace) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|INTERFERENCE_STANDING_WAVES",
-        "name": "Interference & Standing Waves",
+        "id": "WAVES|TOPIC_3",
+        "name": "Standing Waves in Stretched Strings",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Interference & Standing Waves - Core Theory & Derivation",
-          "Interference & Standing Waves - Standard Formula Drill",
-          "Interference & Standing Waves - Previous Exam Applications"
+          "Standing Waves in Stretched Strings - Core Theory & Derivations",
+          "Standing Waves in Stretched Strings - Standard Formula Drill",
+          "Standing Waves in Stretched Strings - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|ORGAN_PIPES_RESONANCE",
-        "name": "Organ Pipes & Resonance",
+        "id": "WAVES|TOPIC_4",
+        "name": "Organ Pipes (Open & Closed)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Organ Pipes & Resonance - Core Theory & Derivation",
-          "Organ Pipes & Resonance - Standard Formula Drill",
-          "Organ Pipes & Resonance - Previous Exam Applications"
+          "Organ Pipes (Open & Closed) - Core Theory & Derivations",
+          "Organ Pipes (Open & Closed) - Standard Formula Drill",
+          "Organ Pipes (Open & Closed) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|DOPPLER_EFFECT_BEATS",
-        "name": "Doppler Effect & Beats",
+        "id": "WAVES|TOPIC_5",
+        "name": "Beats & Interference of Sound",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Doppler Effect & Beats - Core Theory & Derivation",
-          "Doppler Effect & Beats - Standard Formula Drill",
-          "Doppler Effect & Beats - Previous Exam Applications"
+          "Beats & Interference of Sound - Core Theory & Derivations",
+          "Beats & Interference of Sound - Standard Formula Drill",
+          "Beats & Interference of Sound - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WAVES|TOPIC_6",
+        "name": "Doppler Effect in Sound",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Doppler Effect in Sound - Core Theory & Derivations",
+          "Doppler Effect in Sound - Standard Formula Drill",
+          "Doppler Effect in Sound - Previous Exam Applications"
         ]
       }
     ],
@@ -13305,58 +13591,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|COULOMB_S_LAW_SUPERPOSITION",
-        "name": "Coulomb's Law & Superposition",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_1",
+        "name": "Electric Charge, Quantization & Conservation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Coulomb's Law & Superposition - Core Theory & Derivation",
-          "Coulomb's Law & Superposition - Standard Formula Drill",
-          "Coulomb's Law & Superposition - Previous Exam Applications"
+          "Electric Charge, Quantization & Conservation - Core Theory & Derivations",
+          "Electric Charge, Quantization & Conservation - Standard Formula Drill",
+          "Electric Charge, Quantization & Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_FIELD_FIELD_LINES",
-        "name": "Electric Field & Field Lines",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_2",
+        "name": "Coulomb's Law & Superposition Principle",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Electric Field & Field Lines - Core Theory & Derivation",
-          "Electric Field & Field Lines - Standard Formula Drill",
-          "Electric Field & Field Lines - Previous Exam Applications"
+          "Coulomb's Law & Superposition Principle - Core Theory & Derivations",
+          "Coulomb's Law & Superposition Principle - Standard Formula Drill",
+          "Coulomb's Law & Superposition Principle - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_DIPOLE_TORQUE_FIELD",
-        "name": "Electric Dipole Torque & Field",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_3",
+        "name": "Electric Field, Field Lines & Dipole Moment",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Electric Dipole Torque & Field - Core Theory & Derivation",
-          "Electric Dipole Torque & Field - Standard Formula Drill",
-          "Electric Dipole Torque & Field - Previous Exam Applications"
+          "Electric Field, Field Lines & Dipole Moment - Core Theory & Derivations",
+          "Electric Field, Field Lines & Dipole Moment - Standard Formula Drill",
+          "Electric Field, Field Lines & Dipole Moment - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|GAUSS_S_LAW_FLUX",
-        "name": "Gauss's Law & Flux",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_4",
+        "name": "Torque on Dipole in Uniform Field",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Gauss's Law & Flux - Core Theory & Derivation",
-          "Gauss's Law & Flux - Standard Formula Drill",
-          "Gauss's Law & Flux - Previous Exam Applications"
+          "Torque on Dipole in Uniform Field - Core Theory & Derivations",
+          "Torque on Dipole in Uniform Field - Standard Formula Drill",
+          "Torque on Dipole in Uniform Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|FIELD_OF_CONTINUOUS_CHARGE_DISTRIBUTIONS",
-        "name": "Field of Continuous Charge Distributions",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_5",
+        "name": "Gauss's Law & Electric Flux",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Field of Continuous Charge Distributions - Core Theory & Derivation",
-          "Field of Continuous Charge Distributions - Standard Formula Drill",
-          "Field of Continuous Charge Distributions - Previous Exam Applications"
+          "Gauss's Law & Electric Flux - Core Theory & Derivations",
+          "Gauss's Law & Electric Flux - Standard Formula Drill",
+          "Gauss's Law & Electric Flux - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_6",
+        "name": "Applications of Gauss's Law (Line, Sheet, Sphere)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Core Theory & Derivations",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Standard Formula Drill",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Previous Exam Applications"
         ]
       }
     ],
@@ -13377,58 +13674,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|ELECTROSTATIC_POTENTIAL_WORK",
-        "name": "Electrostatic Potential & Work",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_1",
+        "name": "Electrostatic Potential & Potential Difference",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Electrostatic Potential & Work - Core Theory & Derivation",
-          "Electrostatic Potential & Work - Standard Formula Drill",
-          "Electrostatic Potential & Work - Previous Exam Applications"
+          "Electrostatic Potential & Potential Difference - Core Theory & Derivations",
+          "Electrostatic Potential & Potential Difference - Standard Formula Drill",
+          "Electrostatic Potential & Potential Difference - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|EQUIPOTENTIAL_SURFACES",
-        "name": "Equipotential Surfaces",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_2",
+        "name": "Potential Due to Point Charge & Dipole",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Equipotential Surfaces - Core Theory & Derivation",
-          "Equipotential Surfaces - Standard Formula Drill",
-          "Equipotential Surfaces - Previous Exam Applications"
+          "Potential Due to Point Charge & Dipole - Core Theory & Derivations",
+          "Potential Due to Point Charge & Dipole - Standard Formula Drill",
+          "Potential Due to Point Charge & Dipole - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|POTENTIAL_ENERGY_OF_SYSTEM_OF_CHARGES",
-        "name": "Potential Energy of System of Charges",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_3",
+        "name": "Equipotential Surfaces & Field-Potential Relation",
         "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Equipotential Surfaces & Field-Potential Relation - Core Theory & Derivations",
+          "Equipotential Surfaces & Field-Potential Relation - Standard Formula Drill",
+          "Equipotential Surfaces & Field-Potential Relation - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_4",
+        "name": "Potential Energy of System of Charges",
+        "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Potential Energy of System of Charges - Core Theory & Derivation",
+          "Potential Energy of System of Charges - Core Theory & Derivations",
           "Potential Energy of System of Charges - Standard Formula Drill",
           "Potential Energy of System of Charges - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|CAPACITANCE_OF_PARALLEL_PLATES",
-        "name": "Capacitance of Parallel Plates",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Capacitance of Parallel Plates - Core Theory & Derivation",
-          "Capacitance of Parallel Plates - Standard Formula Drill",
-          "Capacitance of Parallel Plates - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|DIELECTRICS_ENERGY_STORED",
-        "name": "Dielectrics & Energy Stored",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_5",
+        "name": "Parallel Plate Capacitor & Dielectrics",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Dielectrics & Energy Stored - Core Theory & Derivation",
-          "Dielectrics & Energy Stored - Standard Formula Drill",
-          "Dielectrics & Energy Stored - Previous Exam Applications"
+          "Parallel Plate Capacitor & Dielectrics - Core Theory & Derivations",
+          "Parallel Plate Capacitor & Dielectrics - Standard Formula Drill",
+          "Parallel Plate Capacitor & Dielectrics - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_6",
+        "name": "Combination of Capacitors & Energy Stored",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Capacitors & Energy Stored - Core Theory & Derivations",
+          "Combination of Capacitors & Energy Stored - Standard Formula Drill",
+          "Combination of Capacitors & Energy Stored - Previous Exam Applications"
         ]
       }
     ],
@@ -13449,58 +13757,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "CURRENT_ELECTRICITY|OHM_S_LAW_DRIFT_VELOCITY",
-        "name": "Ohm's Law & Drift Velocity",
+        "id": "CURRENT_ELECTRICITY|TOPIC_1",
+        "name": "Electric Current, Drift Velocity & Mobility",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ohm's Law & Drift Velocity - Core Theory & Derivation",
-          "Ohm's Law & Drift Velocity - Standard Formula Drill",
-          "Ohm's Law & Drift Velocity - Previous Exam Applications"
+          "Electric Current, Drift Velocity & Mobility - Core Theory & Derivations",
+          "Electric Current, Drift Velocity & Mobility - Standard Formula Drill",
+          "Electric Current, Drift Velocity & Mobility - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|RESISTIVITY_TEMPERATURE_COEFFICIENT",
-        "name": "Resistivity & Temperature Coefficient",
+        "id": "CURRENT_ELECTRICITY|TOPIC_2",
+        "name": "Ohm's Law, Resistance & Resistivity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Resistivity & Temperature Coefficient - Core Theory & Derivation",
-          "Resistivity & Temperature Coefficient - Standard Formula Drill",
-          "Resistivity & Temperature Coefficient - Previous Exam Applications"
+          "Ohm's Law, Resistance & Resistivity - Core Theory & Derivations",
+          "Ohm's Law, Resistance & Resistivity - Standard Formula Drill",
+          "Ohm's Law, Resistance & Resistivity - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|KIRCHHOFF_S_LAWS_CIRCUITS",
-        "name": "Kirchhoff's Laws & Circuits",
+        "id": "CURRENT_ELECTRICITY|TOPIC_3",
+        "name": "Temperature Dependence of Resistance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Kirchhoff's Laws & Circuits - Core Theory & Derivation",
-          "Kirchhoff's Laws & Circuits - Standard Formula Drill",
-          "Kirchhoff's Laws & Circuits - Previous Exam Applications"
+          "Temperature Dependence of Resistance - Core Theory & Derivations",
+          "Temperature Dependence of Resistance - Standard Formula Drill",
+          "Temperature Dependence of Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|WHEATSTONE_BRIDGE_METER_BRIDGE",
-        "name": "Wheatstone Bridge & Meter Bridge",
+        "id": "CURRENT_ELECTRICITY|TOPIC_4",
+        "name": "Kirchhoff's Laws & Circuit Analysis",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Wheatstone Bridge & Meter Bridge - Core Theory & Derivation",
-          "Wheatstone Bridge & Meter Bridge - Standard Formula Drill",
-          "Wheatstone Bridge & Meter Bridge - Previous Exam Applications"
+          "Kirchhoff's Laws & Circuit Analysis - Core Theory & Derivations",
+          "Kirchhoff's Laws & Circuit Analysis - Standard Formula Drill",
+          "Kirchhoff's Laws & Circuit Analysis - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|POTENTIOMETER_CELL_EMF",
-        "name": "Potentiometer & Cell EMF",
+        "id": "CURRENT_ELECTRICITY|TOPIC_5",
+        "name": "Combination of Resistors & Cells",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Potentiometer & Cell EMF - Core Theory & Derivation",
-          "Potentiometer & Cell EMF - Standard Formula Drill",
-          "Potentiometer & Cell EMF - Previous Exam Applications"
+          "Combination of Resistors & Cells - Core Theory & Derivations",
+          "Combination of Resistors & Cells - Standard Formula Drill",
+          "Combination of Resistors & Cells - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "CURRENT_ELECTRICITY|TOPIC_6",
+        "name": "Wheatstone Bridge, Meter Bridge & Potentiometer",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Core Theory & Derivations",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Standard Formula Drill",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Previous Exam Applications"
         ]
       }
     ],
@@ -13521,58 +13840,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|BIOT_SAVART_LAW",
-        "name": "Biot-Savart Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_1",
+        "name": "Lorentz Magnetic Force & Motion of Charge",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Biot-Savart Law - Core Theory & Derivation",
-          "Biot-Savart Law - Standard Formula Drill",
-          "Biot-Savart Law - Previous Exam Applications"
+          "Lorentz Magnetic Force & Motion of Charge - Core Theory & Derivations",
+          "Lorentz Magnetic Force & Motion of Charge - Standard Formula Drill",
+          "Lorentz Magnetic Force & Motion of Charge - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|AMPERE_S_CIRCUITAL_LAW",
-        "name": "Ampere's Circuital Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_2",
+        "name": "Biot-Savart Law & Circular Coil Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Ampere's Circuital Law - Core Theory & Derivation",
-          "Ampere's Circuital Law - Standard Formula Drill",
-          "Ampere's Circuital Law - Previous Exam Applications"
+          "Biot-Savart Law & Circular Coil Magnetic Field - Core Theory & Derivations",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Standard Formula Drill",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MAGNETIC_FORCE_ON_MOVING_CHARGE",
-        "name": "Magnetic Force on Moving Charge",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_3",
+        "name": "Ampere's Circuital Law & Solenoid",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Force on Moving Charge - Core Theory & Derivation",
-          "Magnetic Force on Moving Charge - Standard Formula Drill",
-          "Magnetic Force on Moving Charge - Previous Exam Applications"
+          "Ampere's Circuital Law & Solenoid - Core Theory & Derivations",
+          "Ampere's Circuital Law & Solenoid - Standard Formula Drill",
+          "Ampere's Circuital Law & Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|FORCE_ON_CURRENT_CARRYING_CONDUCTOR",
-        "name": "Force on Current Carrying Conductor",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_4",
+        "name": "Force Between Parallel Current-Carrying Conductors",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Force on Current Carrying Conductor - Core Theory & Derivation",
-          "Force on Current Carrying Conductor - Standard Formula Drill",
-          "Force on Current Carrying Conductor - Previous Exam Applications"
+          "Force Between Parallel Current-Carrying Conductors - Core Theory & Derivations",
+          "Force Between Parallel Current-Carrying Conductors - Standard Formula Drill",
+          "Force Between Parallel Current-Carrying Conductors - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MOVING_COIL_GALVANOMETER",
-        "name": "Moving Coil Galvanometer",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_5",
+        "name": "Torque on Current Loop & Magnetic Dipole",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Moving Coil Galvanometer - Core Theory & Derivation",
-          "Moving Coil Galvanometer - Standard Formula Drill",
-          "Moving Coil Galvanometer - Previous Exam Applications"
+          "Torque on Current Loop & Magnetic Dipole - Core Theory & Derivations",
+          "Torque on Current Loop & Magnetic Dipole - Standard Formula Drill",
+          "Torque on Current Loop & Magnetic Dipole - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_6",
+        "name": "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Core Theory & Derivations",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Standard Formula Drill",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Previous Exam Applications"
         ]
       }
     ],
@@ -13593,58 +13923,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MAGNETISM_AND_MATTER|BAR_MAGNET_AS_EQUIVALENT_SOLENOID",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_1",
         "name": "Bar Magnet as Equivalent Solenoid",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivation",
+          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivations",
           "Bar Magnet as Equivalent Solenoid - Standard Formula Drill",
           "Bar Magnet as Equivalent Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|EARTH_S_MAGNETISM_DIP",
-        "name": "Earth's Magnetism & Dip",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_2",
+        "name": "Magnetic Dipole in Uniform Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Earth's Magnetism & Dip - Core Theory & Derivation",
-          "Earth's Magnetism & Dip - Standard Formula Drill",
-          "Earth's Magnetism & Dip - Previous Exam Applications"
+          "Magnetic Dipole in Uniform Magnetic Field - Core Theory & Derivations",
+          "Magnetic Dipole in Uniform Magnetic Field - Standard Formula Drill",
+          "Magnetic Dipole in Uniform Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|MAGNETIC_PROPERTIES_DIA_PARA_FERRO",
-        "name": "Magnetic Properties (Dia, Para, Ferro)",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_3",
+        "name": "Earth's Magnetism & Magnetic Elements",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Properties (Dia, Para, Ferro) - Core Theory & Derivation",
-          "Magnetic Properties (Dia, Para, Ferro) - Standard Formula Drill",
-          "Magnetic Properties (Dia, Para, Ferro) - Previous Exam Applications"
+          "Earth's Magnetism & Magnetic Elements - Core Theory & Derivations",
+          "Earth's Magnetism & Magnetic Elements - Standard Formula Drill",
+          "Earth's Magnetism & Magnetic Elements - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|HYSTERESIS_LOOP",
-        "name": "Hysteresis Loop",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_4",
+        "name": "Magnetic Properties of Materials (Dia, Para, Ferro)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Hysteresis Loop - Core Theory & Derivation",
-          "Hysteresis Loop - Standard Formula Drill",
-          "Hysteresis Loop - Previous Exam Applications"
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Core Theory & Derivations",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Standard Formula Drill",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|CURIE_S_LAW",
-        "name": "Curie's Law",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_5",
+        "name": "Curie's Law, Hysteresis & Electromagnets",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Curie's Law - Core Theory & Derivation",
-          "Curie's Law - Standard Formula Drill",
-          "Curie's Law - Previous Exam Applications"
+          "Curie's Law, Hysteresis & Electromagnets - Core Theory & Derivations",
+          "Curie's Law, Hysteresis & Electromagnets - Standard Formula Drill",
+          "Curie's Law, Hysteresis & Electromagnets - Previous Exam Applications"
         ]
       }
     ],
@@ -13665,58 +13995,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MAGNETIC_FLUX_FARADAY_S_LAWS",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_1",
         "name": "Magnetic Flux & Faraday's Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Flux & Faraday's Laws - Core Theory & Derivation",
+          "Magnetic Flux & Faraday's Laws - Core Theory & Derivations",
           "Magnetic Flux & Faraday's Laws - Standard Formula Drill",
           "Magnetic Flux & Faraday's Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|LENZ_S_LAW_CONSERVATION_OF_ENERGY",
-        "name": "Lenz's Law & Conservation of Energy",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_2",
+        "name": "Lenz's Law & Energy Conservation",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Lenz's Law & Conservation of Energy - Core Theory & Derivation",
-          "Lenz's Law & Conservation of Energy - Standard Formula Drill",
-          "Lenz's Law & Conservation of Energy - Previous Exam Applications"
+          "Lenz's Law & Energy Conservation - Core Theory & Derivations",
+          "Lenz's Law & Energy Conservation - Standard Formula Drill",
+          "Lenz's Law & Energy Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MOTIONAL_EMF",
-        "name": "Motional EMF",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_3",
+        "name": "Motional EMF & Eddy Currents",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Motional EMF - Core Theory & Derivation",
-          "Motional EMF - Standard Formula Drill",
-          "Motional EMF - Previous Exam Applications"
+          "Motional EMF & Eddy Currents - Core Theory & Derivations",
+          "Motional EMF & Eddy Currents - Standard Formula Drill",
+          "Motional EMF & Eddy Currents - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|SELF_MUTUAL_INDUCTANCE",
-        "name": "Self & Mutual Inductance",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_4",
+        "name": "Self-Inductance & Mutual Inductance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Self & Mutual Inductance - Core Theory & Derivation",
-          "Self & Mutual Inductance - Standard Formula Drill",
-          "Self & Mutual Inductance - Previous Exam Applications"
+          "Self-Inductance & Mutual Inductance - Core Theory & Derivations",
+          "Self-Inductance & Mutual Inductance - Standard Formula Drill",
+          "Self-Inductance & Mutual Inductance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|AC_GENERATOR_EDDY_CURRENTS",
-        "name": "AC Generator & Eddy Currents",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_5",
+        "name": "AC Generator Principle & Working",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "AC Generator & Eddy Currents - Core Theory & Derivation",
-          "AC Generator & Eddy Currents - Standard Formula Drill",
-          "AC Generator & Eddy Currents - Previous Exam Applications"
+          "AC Generator Principle & Working - Core Theory & Derivations",
+          "AC Generator Principle & Working - Standard Formula Drill",
+          "AC Generator Principle & Working - Previous Exam Applications"
         ]
       }
     ],
@@ -13737,58 +14067,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ALTERNATING_CURRENT|PEAK_AVERAGE_RMS_VALUES",
-        "name": "Peak, Average & RMS Values",
+        "id": "ALTERNATING_CURRENT|TOPIC_1",
+        "name": "AC Voltage, Peak & RMS Values",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Peak, Average & RMS Values - Core Theory & Derivation",
-          "Peak, Average & RMS Values - Standard Formula Drill",
-          "Peak, Average & RMS Values - Previous Exam Applications"
+          "AC Voltage, Peak & RMS Values - Core Theory & Derivations",
+          "AC Voltage, Peak & RMS Values - Standard Formula Drill",
+          "AC Voltage, Peak & RMS Values - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|AC_ACROSS_R_L_AND_C",
-        "name": "AC across R, L, and C",
+        "id": "ALTERNATING_CURRENT|TOPIC_2",
+        "name": "AC across Pure R, L, and C",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "AC across R, L, and C - Core Theory & Derivation",
-          "AC across R, L, and C - Standard Formula Drill",
-          "AC across R, L, and C - Previous Exam Applications"
+          "AC across Pure R, L, and C - Core Theory & Derivations",
+          "AC across Pure R, L, and C - Standard Formula Drill",
+          "AC across Pure R, L, and C - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|SERIES_LCR_CIRCUIT_PHASOR",
-        "name": "Series LCR Circuit & Phasor",
+        "id": "ALTERNATING_CURRENT|TOPIC_3",
+        "name": "Series LCR Circuit & Impedance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Series LCR Circuit & Phasor - Core Theory & Derivation",
-          "Series LCR Circuit & Phasor - Standard Formula Drill",
-          "Series LCR Circuit & Phasor - Previous Exam Applications"
+          "Series LCR Circuit & Impedance - Core Theory & Derivations",
+          "Series LCR Circuit & Impedance - Standard Formula Drill",
+          "Series LCR Circuit & Impedance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|RESONANCE_QUALITY_FACTOR",
-        "name": "Resonance & Quality Factor",
+        "id": "ALTERNATING_CURRENT|TOPIC_4",
+        "name": "Resonance & Quality Factor in LCR",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Resonance & Quality Factor - Core Theory & Derivation",
-          "Resonance & Quality Factor - Standard Formula Drill",
-          "Resonance & Quality Factor - Previous Exam Applications"
+          "Resonance & Quality Factor in LCR - Core Theory & Derivations",
+          "Resonance & Quality Factor in LCR - Standard Formula Drill",
+          "Resonance & Quality Factor in LCR - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|POWER_IN_AC_CIRCUITS_TRANSFORMERS",
-        "name": "Power in AC Circuits & Transformers",
+        "id": "ALTERNATING_CURRENT|TOPIC_5",
+        "name": "Power in AC Circuits & Power Factor",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Power in AC Circuits & Transformers - Core Theory & Derivation",
-          "Power in AC Circuits & Transformers - Standard Formula Drill",
-          "Power in AC Circuits & Transformers - Previous Exam Applications"
+          "Power in AC Circuits & Power Factor - Core Theory & Derivations",
+          "Power in AC Circuits & Power Factor - Standard Formula Drill",
+          "Power in AC Circuits & Power Factor - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ALTERNATING_CURRENT|TOPIC_6",
+        "name": "Transformers: Principles & Efficiency",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Transformers: Principles & Efficiency - Core Theory & Derivations",
+          "Transformers: Principles & Efficiency - Standard Formula Drill",
+          "Transformers: Principles & Efficiency - Previous Exam Applications"
         ]
       }
     ],
@@ -13809,58 +14150,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_WAVES|DISPLACEMENT_CURRENT",
-        "name": "Displacement Current",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_1",
+        "name": "Displacement Current & Maxwell's Equations",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement Current - Core Theory & Derivation",
-          "Displacement Current - Standard Formula Drill",
-          "Displacement Current - Previous Exam Applications"
+          "Displacement Current & Maxwell's Equations - Core Theory & Derivations",
+          "Displacement Current & Maxwell's Equations - Standard Formula Drill",
+          "Displacement Current & Maxwell's Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|MAXWELL_S_EQUATIONS",
-        "name": "Maxwell's Equations",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_2",
+        "name": "Characteristics & Speed of EM Waves",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maxwell's Equations - Core Theory & Derivation",
-          "Maxwell's Equations - Standard Formula Drill",
-          "Maxwell's Equations - Previous Exam Applications"
+          "Characteristics & Speed of EM Waves - Core Theory & Derivations",
+          "Characteristics & Speed of EM Waves - Standard Formula Drill",
+          "Characteristics & Speed of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|CHARACTERISTICS_OF_EM_WAVES",
-        "name": "Characteristics of EM Waves",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_3",
+        "name": "Energy Density & Momentum of EM Waves",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Characteristics of EM Waves - Core Theory & Derivation",
-          "Characteristics of EM Waves - Standard Formula Drill",
-          "Characteristics of EM Waves - Previous Exam Applications"
+          "Energy Density & Momentum of EM Waves - Core Theory & Derivations",
+          "Energy Density & Momentum of EM Waves - Standard Formula Drill",
+          "Energy Density & Momentum of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|ELECTROMAGNETIC_SPECTRUM",
-        "name": "Electromagnetic Spectrum",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_4",
+        "name": "Electromagnetic Spectrum & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Electromagnetic Spectrum - Core Theory & Derivation",
-          "Electromagnetic Spectrum - Standard Formula Drill",
-          "Electromagnetic Spectrum - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROMAGNETIC_WAVES|ENERGY_MOMENTUM_OF_EM_WAVES",
-        "name": "Energy & Momentum of EM Waves",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Energy & Momentum of EM Waves - Core Theory & Derivation",
-          "Energy & Momentum of EM Waves - Standard Formula Drill",
-          "Energy & Momentum of EM Waves - Previous Exam Applications"
+          "Electromagnetic Spectrum & Applications - Core Theory & Derivations",
+          "Electromagnetic Spectrum & Applications - Standard Formula Drill",
+          "Electromagnetic Spectrum & Applications - Previous Exam Applications"
         ]
       }
     ],
@@ -13881,56 +14211,67 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFLECTION_SPHERICAL_MIRRORS",
-        "name": "Reflection & Spherical Mirrors",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_1",
+        "name": "Reflection by Spherical Mirrors & Mirror Formula",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Reflection & Spherical Mirrors - Core Theory & Derivation",
-          "Reflection & Spherical Mirrors - Standard Formula Drill",
-          "Reflection & Spherical Mirrors - Previous Exam Applications"
+          "Reflection by Spherical Mirrors & Mirror Formula - Core Theory & Derivations",
+          "Reflection by Spherical Mirrors & Mirror Formula - Standard Formula Drill",
+          "Reflection by Spherical Mirrors & Mirror Formula - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFRACTION_TOTAL_INTERNAL_REFLECTION",
-        "name": "Refraction & Total Internal Reflection",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_2",
+        "name": "Refraction of Light & Total Internal Reflection",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Refraction & Total Internal Reflection - Core Theory & Derivation",
-          "Refraction & Total Internal Reflection - Standard Formula Drill",
-          "Refraction & Total Internal Reflection - Previous Exam Applications"
+          "Refraction of Light & Total Internal Reflection - Core Theory & Derivations",
+          "Refraction of Light & Total Internal Reflection - Standard Formula Drill",
+          "Refraction of Light & Total Internal Reflection - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|PRISM_FORMULA_DISPERSION",
-        "name": "Prism Formula & Dispersion",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Prism Formula & Dispersion - Core Theory & Derivation",
-          "Prism Formula & Dispersion - Standard Formula Drill",
-          "Prism Formula & Dispersion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|LENS_MAKER_S_FORMULA_THIN_LENSES",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_3",
         "name": "Lens Maker's Formula & Thin Lenses",
-        "order": 4,
-        "isKeyTopic": false,
+        "order": 3,
+        "isKeyTopic": true,
         "subtopics": [
-          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivation",
+          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivations",
           "Lens Maker's Formula & Thin Lenses - Standard Formula Drill",
           "Lens Maker's Formula & Thin Lenses - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|MICROSCOPES_TELESCOPES",
-        "name": "Microscopes & Telescopes",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_4",
+        "name": "Combination of Lenses in Contact",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Lenses in Contact - Core Theory & Derivations",
+          "Combination of Lenses in Contact - Standard Formula Drill",
+          "Combination of Lenses in Contact - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_5",
+        "name": "Refraction through Prism & Dispersion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Microscopes & Telescopes - Core Theory & Derivation",
+          "Refraction through Prism & Dispersion - Core Theory & Derivations",
+          "Refraction through Prism & Dispersion - Standard Formula Drill",
+          "Refraction through Prism & Dispersion - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_6",
+        "name": "Microscopes & Telescopes",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Microscopes & Telescopes - Core Theory & Derivations",
           "Microscopes & Telescopes - Standard Formula Drill",
           "Microscopes & Telescopes - Previous Exam Applications"
         ]
@@ -13953,58 +14294,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVE_OPTICS|HUYGENS_PRINCIPLE_WAVEFRONTS",
+        "id": "WAVE_OPTICS|TOPIC_1",
         "name": "Huygens' Principle & Wavefronts",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Huygens' Principle & Wavefronts - Core Theory & Derivation",
+          "Huygens' Principle & Wavefronts - Core Theory & Derivations",
           "Huygens' Principle & Wavefronts - Standard Formula Drill",
           "Huygens' Principle & Wavefronts - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|INTERFERENCE_OF_LIGHT",
-        "name": "Interference of Light",
+        "id": "WAVE_OPTICS|TOPIC_2",
+        "name": "Interference of Light & Coherent Sources",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Interference of Light - Core Theory & Derivation",
-          "Interference of Light - Standard Formula Drill",
-          "Interference of Light - Previous Exam Applications"
+          "Interference of Light & Coherent Sources - Core Theory & Derivations",
+          "Interference of Light & Coherent Sources - Standard Formula Drill",
+          "Interference of Light & Coherent Sources - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|YOUNG_S_DOUBLE_SLIT_EXPERIMENT_YDSE",
+        "id": "WAVE_OPTICS|TOPIC_3",
         "name": "Young's Double Slit Experiment (YDSE)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivation",
+          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivations",
           "Young's Double Slit Experiment (YDSE) - Standard Formula Drill",
           "Young's Double Slit Experiment (YDSE) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|DIFFRACTION_AT_A_SINGLE_SLIT",
-        "name": "Diffraction at a Single Slit",
+        "id": "WAVE_OPTICS|TOPIC_4",
+        "name": "Diffraction of Light (Single Slit)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Diffraction at a Single Slit - Core Theory & Derivation",
-          "Diffraction at a Single Slit - Standard Formula Drill",
-          "Diffraction at a Single Slit - Previous Exam Applications"
+          "Diffraction of Light (Single Slit) - Core Theory & Derivations",
+          "Diffraction of Light (Single Slit) - Standard Formula Drill",
+          "Diffraction of Light (Single Slit) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|POLARISATION_BREWSTER_S_LAW",
-        "name": "Polarisation & Brewster's Law",
+        "id": "WAVE_OPTICS|TOPIC_5",
+        "name": "Polarisation of Light & Brewster's Law",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Polarisation & Brewster's Law - Core Theory & Derivation",
-          "Polarisation & Brewster's Law - Standard Formula Drill",
-          "Polarisation & Brewster's Law - Previous Exam Applications"
+          "Polarisation of Light & Brewster's Law - Core Theory & Derivations",
+          "Polarisation of Light & Brewster's Law - Standard Formula Drill",
+          "Polarisation of Light & Brewster's Law - Previous Exam Applications"
         ]
       }
     ],
@@ -14025,58 +14366,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|PHOTOELECTRIC_EFFECT_OBSERVATIONS",
-        "name": "Photoelectric Effect Observations",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_1",
+        "name": "Photoelectric Effect Observations & Thresholds",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Photoelectric Effect Observations - Core Theory & Derivation",
-          "Photoelectric Effect Observations - Standard Formula Drill",
-          "Photoelectric Effect Observations - Previous Exam Applications"
+          "Photoelectric Effect Observations & Thresholds - Core Theory & Derivations",
+          "Photoelectric Effect Observations & Thresholds - Standard Formula Drill",
+          "Photoelectric Effect Observations & Thresholds - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|EINSTEIN_S_PHOTOELECTRIC_EQUATION",
-        "name": "Einstein's Photoelectric Equation",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_2",
+        "name": "Einstein's Photoelectric Equation & Stopping Potential",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Einstein's Photoelectric Equation - Core Theory & Derivation",
-          "Einstein's Photoelectric Equation - Standard Formula Drill",
-          "Einstein's Photoelectric Equation - Previous Exam Applications"
+          "Einstein's Photoelectric Equation & Stopping Potential - Core Theory & Derivations",
+          "Einstein's Photoelectric Equation & Stopping Potential - Standard Formula Drill",
+          "Einstein's Photoelectric Equation & Stopping Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|WORK_FUNCTION_STOPPING_POTENTIAL",
-        "name": "Work Function & Stopping Potential",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_3",
+        "name": "Photon Characteristics & Radiation Pressure",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Work Function & Stopping Potential - Core Theory & Derivation",
-          "Work Function & Stopping Potential - Standard Formula Drill",
-          "Work Function & Stopping Potential - Previous Exam Applications"
+          "Photon Characteristics & Radiation Pressure - Core Theory & Derivations",
+          "Photon Characteristics & Radiation Pressure - Standard Formula Drill",
+          "Photon Characteristics & Radiation Pressure - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DE_BROGLIE_WAVELENGTH",
-        "name": "de Broglie Wavelength",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_4",
+        "name": "de Broglie Wavelength of Matter Waves",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "de Broglie Wavelength - Core Theory & Derivation",
-          "de Broglie Wavelength - Standard Formula Drill",
-          "de Broglie Wavelength - Previous Exam Applications"
+          "de Broglie Wavelength of Matter Waves - Core Theory & Derivations",
+          "de Broglie Wavelength of Matter Waves - Standard Formula Drill",
+          "de Broglie Wavelength of Matter Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DAVISSON_GERMER_EXPERIMENT",
-        "name": "Davisson-Germer Experiment",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_5",
+        "name": "Davisson and Germer Experiment",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Davisson-Germer Experiment - Core Theory & Derivation",
-          "Davisson-Germer Experiment - Standard Formula Drill",
-          "Davisson-Germer Experiment - Previous Exam Applications"
+          "Davisson and Germer Experiment - Core Theory & Derivations",
+          "Davisson and Germer Experiment - Standard Formula Drill",
+          "Davisson and Germer Experiment - Previous Exam Applications"
         ]
       }
     ],
@@ -14097,58 +14438,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ATOMS|RUTHERFORD_S_ALPHA_SCATTERING_MODEL",
+        "id": "ATOMS|TOPIC_1",
         "name": "Rutherford's Alpha Scattering Model",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Rutherford's Alpha Scattering Model - Core Theory & Derivation",
+          "Rutherford's Alpha Scattering Model - Core Theory & Derivations",
           "Rutherford's Alpha Scattering Model - Standard Formula Drill",
           "Rutherford's Alpha Scattering Model - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|BOHR_S_MODEL_OF_HYDROGEN_ATOM",
-        "name": "Bohr's Model of Hydrogen Atom",
+        "id": "ATOMS|TOPIC_2",
+        "name": "Bohr's Model of Hydrogen Atom (Radii & Energy)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Bohr's Model of Hydrogen Atom - Core Theory & Derivation",
-          "Bohr's Model of Hydrogen Atom - Standard Formula Drill",
-          "Bohr's Model of Hydrogen Atom - Previous Exam Applications"
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Core Theory & Derivations",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Standard Formula Drill",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|ENERGY_LEVELS_SPECTRAL_SERIES",
-        "name": "Energy Levels & Spectral Series",
+        "id": "ATOMS|TOPIC_3",
+        "name": "Hydrogen Emission Spectral Series",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy Levels & Spectral Series - Core Theory & Derivation",
-          "Energy Levels & Spectral Series - Standard Formula Drill",
-          "Energy Levels & Spectral Series - Previous Exam Applications"
+          "Hydrogen Emission Spectral Series - Core Theory & Derivations",
+          "Hydrogen Emission Spectral Series - Standard Formula Drill",
+          "Hydrogen Emission Spectral Series - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|DE_BROGLIE_S_EXPLANATION_OF_BOHR_POSTULATE",
-        "name": "De Broglie's Explanation of Bohr Postulate",
+        "id": "ATOMS|TOPIC_4",
+        "name": "de Broglie's Explanation of Bohr's Quantization",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "De Broglie's Explanation of Bohr Postulate - Core Theory & Derivation",
-          "De Broglie's Explanation of Bohr Postulate - Standard Formula Drill",
-          "De Broglie's Explanation of Bohr Postulate - Previous Exam Applications"
+          "de Broglie's Explanation of Bohr's Quantization - Core Theory & Derivations",
+          "de Broglie's Explanation of Bohr's Quantization - Standard Formula Drill",
+          "de Broglie's Explanation of Bohr's Quantization - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|EXCITATION_IONIZATION_POTENTIALS",
-        "name": "Excitation & Ionization Potentials",
+        "id": "ATOMS|TOPIC_5",
+        "name": "Excitation & Ionization Energies",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Excitation & Ionization Potentials - Core Theory & Derivation",
-          "Excitation & Ionization Potentials - Standard Formula Drill",
-          "Excitation & Ionization Potentials - Previous Exam Applications"
+          "Excitation & Ionization Energies - Core Theory & Derivations",
+          "Excitation & Ionization Energies - Standard Formula Drill",
+          "Excitation & Ionization Energies - Previous Exam Applications"
         ]
       }
     ],
@@ -14169,58 +14510,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "NUCLEI|NUCLEAR_SIZE_DENSITY",
-        "name": "Nuclear Size & Density",
+        "id": "NUCLEI|TOPIC_1",
+        "name": "Nuclear Size, Mass & Nuclear Density",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Size & Density - Core Theory & Derivation",
-          "Nuclear Size & Density - Standard Formula Drill",
-          "Nuclear Size & Density - Previous Exam Applications"
+          "Nuclear Size, Mass & Nuclear Density - Core Theory & Derivations",
+          "Nuclear Size, Mass & Nuclear Density - Standard Formula Drill",
+          "Nuclear Size, Mass & Nuclear Density - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|MASS_DEFECT_BINDING_ENERGY",
-        "name": "Mass Defect & Binding Energy",
+        "id": "NUCLEI|TOPIC_2",
+        "name": "Mass Defect & Binding Energy per Nucleon",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Mass Defect & Binding Energy - Core Theory & Derivation",
-          "Mass Defect & Binding Energy - Standard Formula Drill",
-          "Mass Defect & Binding Energy - Previous Exam Applications"
+          "Mass Defect & Binding Energy per Nucleon - Core Theory & Derivations",
+          "Mass Defect & Binding Energy per Nucleon - Standard Formula Drill",
+          "Mass Defect & Binding Energy per Nucleon - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FORCES_CHARACTERISTICS",
+        "id": "NUCLEI|TOPIC_3",
         "name": "Nuclear Forces Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Forces Characteristics - Core Theory & Derivation",
+          "Nuclear Forces Characteristics - Core Theory & Derivations",
           "Nuclear Forces Characteristics - Standard Formula Drill",
           "Nuclear Forces Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|RADIOACTIVE_DECAY_LAW_HALF_LIFE",
-        "name": "Radioactive Decay Law & Half Life",
+        "id": "NUCLEI|TOPIC_4",
+        "name": "Radioactive Decay Law, Half-Life & Mean-Life",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Radioactive Decay Law & Half Life - Core Theory & Derivation",
-          "Radioactive Decay Law & Half Life - Standard Formula Drill",
-          "Radioactive Decay Law & Half Life - Previous Exam Applications"
+          "Radioactive Decay Law, Half-Life & Mean-Life - Core Theory & Derivations",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Standard Formula Drill",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FISSION_FUSION",
-        "name": "Nuclear Fission & Fusion",
+        "id": "NUCLEI|TOPIC_5",
+        "name": "Nuclear Fission & Nuclear Fusion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Nuclear Fission & Fusion - Core Theory & Derivation",
-          "Nuclear Fission & Fusion - Standard Formula Drill",
-          "Nuclear Fission & Fusion - Previous Exam Applications"
+          "Nuclear Fission & Nuclear Fusion - Core Theory & Derivations",
+          "Nuclear Fission & Nuclear Fusion - Standard Formula Drill",
+          "Nuclear Fission & Nuclear Fusion - Previous Exam Applications"
         ]
       }
     ],
@@ -14241,58 +14582,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|INTRINSIC_EXTRINSIC_SEMICONDUCTORS",
-        "name": "Intrinsic & Extrinsic Semiconductors",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_1",
+        "name": "Energy Bands (Conductors, Semiconductors, Insulators)",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Intrinsic & Extrinsic Semiconductors - Core Theory & Derivation",
-          "Intrinsic & Extrinsic Semiconductors - Standard Formula Drill",
-          "Intrinsic & Extrinsic Semiconductors - Previous Exam Applications"
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Core Theory & Derivations",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Standard Formula Drill",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|P_N_JUNCTION_DIODE_CHARACTERISTICS",
-        "name": "p-n Junction Diode Characteristics",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_2",
+        "name": "Intrinsic & Extrinsic Semiconductors (n-type & p-type)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "p-n Junction Diode Characteristics - Core Theory & Derivation",
-          "p-n Junction Diode Characteristics - Standard Formula Drill",
-          "p-n Junction Diode Characteristics - Previous Exam Applications"
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Core Theory & Derivations",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Standard Formula Drill",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|HALF_WAVE_FULL_WAVE_RECTIFIERS",
-        "name": "Half-Wave & Full-Wave Rectifiers",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_3",
+        "name": "p-n Junction Diode V-I Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Half-Wave & Full-Wave Rectifiers - Core Theory & Derivation",
-          "Half-Wave & Full-Wave Rectifiers - Standard Formula Drill",
-          "Half-Wave & Full-Wave Rectifiers - Previous Exam Applications"
+          "p-n Junction Diode V-I Characteristics - Core Theory & Derivations",
+          "p-n Junction Diode V-I Characteristics - Standard Formula Drill",
+          "p-n Junction Diode V-I Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|ZENER_DIODE_AS_VOLTAGE_REGULATOR",
-        "name": "Zener Diode as Voltage Regulator",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_4",
+        "name": "Diode Rectifiers (Half-Wave & Full-Wave)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Zener Diode as Voltage Regulator - Core Theory & Derivation",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Core Theory & Derivations",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Standard Formula Drill",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_5",
+        "name": "Zener Diode as Voltage Regulator",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Zener Diode as Voltage Regulator - Core Theory & Derivations",
           "Zener Diode as Voltage Regulator - Standard Formula Drill",
           "Zener Diode as Voltage Regulator - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|LOGIC_GATES_AND_OR_NOT_NAND_NOR",
-        "name": "Logic Gates (AND, OR, NOT, NAND, NOR)",
-        "order": 5,
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_6",
+        "name": "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Core Theory & Derivation",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Standard Formula Drill",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Previous Exam Applications"
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Core Theory & Derivations",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Standard Formula Drill",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Previous Exam Applications"
         ]
       }
     ],
@@ -18550,58 +18902,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "UNITS_AND_MEASUREMENTS|DIMENSIONAL_ANALYSIS",
-        "name": "Dimensional Analysis",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_1",
+        "name": "Dimensional Analysis & Applications",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Dimensional Analysis - Core Theory & Derivation",
-          "Dimensional Analysis - Standard Formula Drill",
-          "Dimensional Analysis - Previous Exam Applications"
+          "Dimensional Analysis & Applications - Core Theory & Derivations",
+          "Dimensional Analysis & Applications - Standard Formula Drill",
+          "Dimensional Analysis & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SIGNIFICANT_FIGURES",
-        "name": "Significant Figures",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_2",
+        "name": "Significant Figures & Rounding Off",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Significant Figures - Core Theory & Derivation",
-          "Significant Figures - Standard Formula Drill",
-          "Significant Figures - Previous Exam Applications"
+          "Significant Figures & Rounding Off - Core Theory & Derivations",
+          "Significant Figures & Rounding Off - Standard Formula Drill",
+          "Significant Figures & Rounding Off - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|SCREW_GAUGE_VERNIER",
-        "name": "Screw Gauge & Vernier",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_3",
+        "name": "Errors in Measurement & Propagation of Errors",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Screw Gauge & Vernier - Core Theory & Derivation",
-          "Screw Gauge & Vernier - Standard Formula Drill",
-          "Screw Gauge & Vernier - Previous Exam Applications"
+          "Errors in Measurement & Propagation of Errors - Core Theory & Derivations",
+          "Errors in Measurement & Propagation of Errors - Standard Formula Drill",
+          "Errors in Measurement & Propagation of Errors - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|ERROR_PROPAGATION",
-        "name": "Error Propagation",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_4",
+        "name": "Vernier Calliper & Screw Gauge",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Error Propagation - Core Theory & Derivation",
-          "Error Propagation - Standard Formula Drill",
-          "Error Propagation - Previous Exam Applications"
+          "Vernier Calliper & Screw Gauge - Core Theory & Derivations",
+          "Vernier Calliper & Screw Gauge - Standard Formula Drill",
+          "Vernier Calliper & Screw Gauge - Previous Exam Applications"
         ]
       },
       {
-        "id": "UNITS_AND_MEASUREMENTS|UNIT_CONVERSIONS",
-        "name": "Unit Conversions",
+        "id": "UNITS_AND_MEASUREMENTS|TOPIC_5",
+        "name": "Units and Measurement Systems",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Unit Conversions - Core Theory & Derivation",
-          "Unit Conversions - Standard Formula Drill",
-          "Unit Conversions - Previous Exam Applications"
+          "Units and Measurement Systems - Core Theory & Derivations",
+          "Units and Measurement Systems - Standard Formula Drill",
+          "Units and Measurement Systems - Previous Exam Applications"
         ]
       }
     ],
@@ -18622,58 +18974,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|DISPLACEMENT_VELOCITY",
-        "name": "Displacement & Velocity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_1",
+        "name": "Position, Distance & Displacement",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement & Velocity - Core Theory & Derivation",
-          "Displacement & Velocity - Standard Formula Drill",
-          "Displacement & Velocity - Previous Exam Applications"
+          "Position, Distance & Displacement - Core Theory & Derivations",
+          "Position, Distance & Displacement - Standard Formula Drill",
+          "Position, Distance & Displacement - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|UNIFORM_ACCELERATION",
-        "name": "Uniform Acceleration",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_2",
+        "name": "Speed, Velocity & Instantaneous Velocity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Uniform Acceleration - Core Theory & Derivation",
-          "Uniform Acceleration - Standard Formula Drill",
-          "Uniform Acceleration - Previous Exam Applications"
+          "Speed, Velocity & Instantaneous Velocity - Core Theory & Derivations",
+          "Speed, Velocity & Instantaneous Velocity - Standard Formula Drill",
+          "Speed, Velocity & Instantaneous Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|FREE_FALL_UNDER_GRAVITY",
-        "name": "Free Fall under Gravity",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_3",
+        "name": "Uniform Acceleration & Kinematic Equations",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Free Fall under Gravity - Core Theory & Derivation",
-          "Free Fall under Gravity - Standard Formula Drill",
-          "Free Fall under Gravity - Previous Exam Applications"
+          "Uniform Acceleration & Kinematic Equations - Core Theory & Derivations",
+          "Uniform Acceleration & Kinematic Equations - Standard Formula Drill",
+          "Uniform Acceleration & Kinematic Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|RELATIVE_VELOCITY_1D",
-        "name": "Relative Velocity 1D",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_4",
+        "name": "Free Fall Under Gravity & Stopping Distance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 1D - Core Theory & Derivation",
-          "Relative Velocity 1D - Standard Formula Drill",
-          "Relative Velocity 1D - Previous Exam Applications"
+          "Free Fall Under Gravity & Stopping Distance - Core Theory & Derivations",
+          "Free Fall Under Gravity & Stopping Distance - Standard Formula Drill",
+          "Free Fall Under Gravity & Stopping Distance - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_STRAIGHT_LINE|KINEMATICS_GRAPHS",
-        "name": "Kinematics Graphs",
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_5",
+        "name": "Relative Velocity in 1D",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kinematics Graphs - Core Theory & Derivation",
-          "Kinematics Graphs - Standard Formula Drill",
-          "Kinematics Graphs - Previous Exam Applications"
+          "Relative Velocity in 1D - Core Theory & Derivations",
+          "Relative Velocity in 1D - Standard Formula Drill",
+          "Relative Velocity in 1D - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOTION_IN_A_STRAIGHT_LINE|TOPIC_6",
+        "name": "Kinematics Graphs (x-t, v-t, a-t)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Kinematics Graphs (x-t, v-t, a-t) - Core Theory & Derivations",
+          "Kinematics Graphs (x-t, v-t, a-t) - Standard Formula Drill",
+          "Kinematics Graphs (x-t, v-t, a-t) - Previous Exam Applications"
         ]
       }
     ],
@@ -18694,58 +19057,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOTION_IN_A_PLANE|PROJECTILE_TRAJECTORY",
-        "name": "Projectile Trajectory",
+        "id": "MOTION_IN_A_PLANE|TOPIC_1",
+        "name": "Vectors: Resolution, Addition & Dot/Cross Product",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Projectile Trajectory - Core Theory & Derivation",
-          "Projectile Trajectory - Standard Formula Drill",
-          "Projectile Trajectory - Previous Exam Applications"
+          "Vectors: Resolution, Addition & Dot/Cross Product - Core Theory & Derivations",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Standard Formula Drill",
+          "Vectors: Resolution, Addition & Dot/Cross Product - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|MAXIMUM_HEIGHT_RANGE",
-        "name": "Maximum Height & Range",
+        "id": "MOTION_IN_A_PLANE|TOPIC_2",
+        "name": "Projectile Motion (Trajectory, Range & Apex)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maximum Height & Range - Core Theory & Derivation",
-          "Maximum Height & Range - Standard Formula Drill",
-          "Maximum Height & Range - Previous Exam Applications"
+          "Projectile Motion (Trajectory, Range & Apex) - Core Theory & Derivations",
+          "Projectile Motion (Trajectory, Range & Apex) - Standard Formula Drill",
+          "Projectile Motion (Trajectory, Range & Apex) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|UNIFORM_CIRCULAR_MOTION",
-        "name": "Uniform Circular Motion",
+        "id": "MOTION_IN_A_PLANE|TOPIC_3",
+        "name": "Uniform Circular Motion & Centripetal Acceleration",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Uniform Circular Motion - Core Theory & Derivation",
-          "Uniform Circular Motion - Standard Formula Drill",
-          "Uniform Circular Motion - Previous Exam Applications"
+          "Uniform Circular Motion & Centripetal Acceleration - Core Theory & Derivations",
+          "Uniform Circular Motion & Centripetal Acceleration - Standard Formula Drill",
+          "Uniform Circular Motion & Centripetal Acceleration - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOTION_IN_A_PLANE|RELATIVE_VELOCITY_2D",
-        "name": "Relative Velocity 2D",
+        "id": "MOTION_IN_A_PLANE|TOPIC_4",
+        "name": "Relative Velocity in 2D (River-Boat & Rain Problems)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Relative Velocity 2D - Core Theory & Derivation",
-          "Relative Velocity 2D - Standard Formula Drill",
-          "Relative Velocity 2D - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MOTION_IN_A_PLANE|CENTRIPETAL_ACCELERATION",
-        "name": "Centripetal Acceleration",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Centripetal Acceleration - Core Theory & Derivation",
-          "Centripetal Acceleration - Standard Formula Drill",
-          "Centripetal Acceleration - Previous Exam Applications"
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Core Theory & Derivations",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Standard Formula Drill",
+          "Relative Velocity in 2D (River-Boat & Rain Problems) - Previous Exam Applications"
         ]
       }
     ],
@@ -18766,58 +19118,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "LAWS_OF_MOTION|NEWTON_S_SECOND_LAW",
-        "name": "Newton's Second Law",
+        "id": "LAWS_OF_MOTION|TOPIC_1",
+        "name": "Newton's First Law & Inertia",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Second Law - Core Theory & Derivation",
-          "Newton's Second Law - Standard Formula Drill",
-          "Newton's Second Law - Previous Exam Applications"
+          "Newton's First Law & Inertia - Core Theory & Derivations",
+          "Newton's First Law & Inertia - Standard Formula Drill",
+          "Newton's First Law & Inertia - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|FRICTION_ANGLE_OF_REPOSE",
-        "name": "Friction & Angle of Repose",
+        "id": "LAWS_OF_MOTION|TOPIC_2",
+        "name": "Newton's Second Law & Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Friction & Angle of Repose - Core Theory & Derivation",
-          "Friction & Angle of Repose - Standard Formula Drill",
-          "Friction & Angle of Repose - Previous Exam Applications"
+          "Newton's Second Law & Momentum - Core Theory & Derivations",
+          "Newton's Second Law & Momentum - Standard Formula Drill",
+          "Newton's Second Law & Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|CONNECTED_BODIES_PULLEYS",
-        "name": "Connected Bodies & Pulleys",
+        "id": "LAWS_OF_MOTION|TOPIC_3",
+        "name": "Newton's Third Law & Impulse",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Connected Bodies & Pulleys - Core Theory & Derivation",
-          "Connected Bodies & Pulleys - Standard Formula Drill",
-          "Connected Bodies & Pulleys - Previous Exam Applications"
+          "Newton's Third Law & Impulse - Core Theory & Derivations",
+          "Newton's Third Law & Impulse - Standard Formula Drill",
+          "Newton's Third Law & Impulse - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|BANKING_OF_ROADS",
-        "name": "Banking of Roads",
+        "id": "LAWS_OF_MOTION|TOPIC_4",
+        "name": "Connected Bodies, Pulleys & Tension",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Banking of Roads - Core Theory & Derivation",
-          "Banking of Roads - Standard Formula Drill",
-          "Banking of Roads - Previous Exam Applications"
+          "Connected Bodies, Pulleys & Tension - Core Theory & Derivations",
+          "Connected Bodies, Pulleys & Tension - Standard Formula Drill",
+          "Connected Bodies, Pulleys & Tension - Previous Exam Applications"
         ]
       },
       {
-        "id": "LAWS_OF_MOTION|IMPULSE_MOMENTUM",
-        "name": "Impulse & Momentum",
+        "id": "LAWS_OF_MOTION|TOPIC_5",
+        "name": "Friction: Static, Kinetic & Angle of Repose",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Impulse & Momentum - Core Theory & Derivation",
-          "Impulse & Momentum - Standard Formula Drill",
-          "Impulse & Momentum - Previous Exam Applications"
+          "Friction: Static, Kinetic & Angle of Repose - Core Theory & Derivations",
+          "Friction: Static, Kinetic & Angle of Repose - Standard Formula Drill",
+          "Friction: Static, Kinetic & Angle of Repose - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "LAWS_OF_MOTION|TOPIC_6",
+        "name": "Circular Motion Dynamics & Banking of Roads",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Circular Motion Dynamics & Banking of Roads - Core Theory & Derivations",
+          "Circular Motion Dynamics & Banking of Roads - Standard Formula Drill",
+          "Circular Motion Dynamics & Banking of Roads - Previous Exam Applications"
         ]
       }
     ],
@@ -18838,58 +19201,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "WORK_ENERGY_AND_POWER|WORK_ENERGY_THEOREM",
-        "name": "Work-Energy Theorem",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_1",
+        "name": "Work Done by Constant & Variable Forces",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Work-Energy Theorem - Core Theory & Derivation",
-          "Work-Energy Theorem - Standard Formula Drill",
-          "Work-Energy Theorem - Previous Exam Applications"
+          "Work Done by Constant & Variable Forces - Core Theory & Derivations",
+          "Work Done by Constant & Variable Forces - Standard Formula Drill",
+          "Work Done by Constant & Variable Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|CONSERVATIVE_FORCES_POTENTIAL_ENERGY",
-        "name": "Conservative Forces & Potential Energy",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_2",
+        "name": "Kinetic Energy & Work-Energy Theorem",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Conservative Forces & Potential Energy - Core Theory & Derivation",
-          "Conservative Forces & Potential Energy - Standard Formula Drill",
-          "Conservative Forces & Potential Energy - Previous Exam Applications"
+          "Kinetic Energy & Work-Energy Theorem - Core Theory & Derivations",
+          "Kinetic Energy & Work-Energy Theorem - Standard Formula Drill",
+          "Kinetic Energy & Work-Energy Theorem - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|1D_2D_ELASTIC_COLLISIONS",
-        "name": "1D & 2D Elastic Collisions",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_3",
+        "name": "Potential Energy & Conservative Forces",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "1D & 2D Elastic Collisions - Core Theory & Derivation",
-          "1D & 2D Elastic Collisions - Standard Formula Drill",
-          "1D & 2D Elastic Collisions - Previous Exam Applications"
+          "Potential Energy & Conservative Forces - Core Theory & Derivations",
+          "Potential Energy & Conservative Forces - Standard Formula Drill",
+          "Potential Energy & Conservative Forces - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|POWER_EFFICIENCY",
-        "name": "Power & Efficiency",
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_4",
+        "name": "Conservation of Mechanical Energy & Vertical Circle",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Power & Efficiency - Core Theory & Derivation",
+          "Conservation of Mechanical Energy & Vertical Circle - Core Theory & Derivations",
+          "Conservation of Mechanical Energy & Vertical Circle - Standard Formula Drill",
+          "Conservation of Mechanical Energy & Vertical Circle - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_5",
+        "name": "Power & Efficiency",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Power & Efficiency - Core Theory & Derivations",
           "Power & Efficiency - Standard Formula Drill",
           "Power & Efficiency - Previous Exam Applications"
         ]
       },
       {
-        "id": "WORK_ENERGY_AND_POWER|SPRING_POTENTIAL_ENERGY",
-        "name": "Spring Potential Energy",
-        "order": 5,
+        "id": "WORK_ENERGY_AND_POWER|TOPIC_6",
+        "name": "Collisions in 1D and 2D (Elastic & Inelastic)",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring Potential Energy - Core Theory & Derivation",
-          "Spring Potential Energy - Standard Formula Drill",
-          "Spring Potential Energy - Previous Exam Applications"
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Core Theory & Derivations",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Standard Formula Drill",
+          "Collisions in 1D and 2D (Elastic & Inelastic) - Previous Exam Applications"
         ]
       }
     ],
@@ -18910,58 +19284,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CENTER_OF_MASS",
-        "name": "Center of Mass",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_1",
+        "name": "Centre of Mass & Motion of Centre of Mass",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Center of Mass - Core Theory & Derivation",
-          "Center of Mass - Standard Formula Drill",
-          "Center of Mass - Previous Exam Applications"
+          "Centre of Mass & Motion of Centre of Mass - Core Theory & Derivations",
+          "Centre of Mass & Motion of Centre of Mass - Standard Formula Drill",
+          "Centre of Mass & Motion of Centre of Mass - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|MOMENT_OF_INERTIA_THEOREMS",
-        "name": "Moment of Inertia Theorems",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_2",
+        "name": "Torque & Angular Momentum",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Moment of Inertia Theorems - Core Theory & Derivation",
-          "Moment of Inertia Theorems - Standard Formula Drill",
-          "Moment of Inertia Theorems - Previous Exam Applications"
+          "Torque & Angular Momentum - Core Theory & Derivations",
+          "Torque & Angular Momentum - Standard Formula Drill",
+          "Torque & Angular Momentum - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TORQUE_ANGULAR_ACCELERATION",
-        "name": "Torque & Angular Acceleration",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_3",
+        "name": "Moment of Inertia & Parallel/Perpendicular Axes",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Torque & Angular Acceleration - Core Theory & Derivation",
-          "Torque & Angular Acceleration - Standard Formula Drill",
-          "Torque & Angular Acceleration - Previous Exam Applications"
+          "Moment of Inertia & Parallel/Perpendicular Axes - Core Theory & Derivations",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Standard Formula Drill",
+          "Moment of Inertia & Parallel/Perpendicular Axes - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|CONSERVATION_OF_ANGULAR_MOMENTUM",
-        "name": "Conservation of Angular Momentum",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_4",
+        "name": "Rotational Kinematics & Dynamics",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conservation of Angular Momentum - Core Theory & Derivation",
-          "Conservation of Angular Momentum - Standard Formula Drill",
-          "Conservation of Angular Momentum - Previous Exam Applications"
+          "Rotational Kinematics & Dynamics - Core Theory & Derivations",
+          "Rotational Kinematics & Dynamics - Standard Formula Drill",
+          "Rotational Kinematics & Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|ROLLING_WITHOUT_SLIPPING",
-        "name": "Rolling without Slipping",
+        "id": "SYSTEM_OF_PARTICLES_AND_ROTATIONAL_MOTION|TOPIC_5",
+        "name": "Rolling Motion without Slipping",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Rolling without Slipping - Core Theory & Derivation",
-          "Rolling without Slipping - Standard Formula Drill",
-          "Rolling without Slipping - Previous Exam Applications"
+          "Rolling Motion without Slipping - Core Theory & Derivations",
+          "Rolling Motion without Slipping - Standard Formula Drill",
+          "Rolling Motion without Slipping - Previous Exam Applications"
         ]
       }
     ],
@@ -18982,58 +19356,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "GRAVITATION|NEWTON_S_LAW_OF_GRAVITATION",
+        "id": "GRAVITATION|TOPIC_1",
         "name": "Newton's Law of Gravitation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Newton's Law of Gravitation - Core Theory & Derivation",
+          "Newton's Law of Gravitation - Core Theory & Derivations",
           "Newton's Law of Gravitation - Standard Formula Drill",
           "Newton's Law of Gravitation - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ACCELERATION_DUE_TO_GRAVITY_G",
-        "name": "Acceleration due to Gravity g",
+        "id": "GRAVITATION|TOPIC_2",
+        "name": "Acceleration Due to Gravity & Its Variations",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Acceleration due to Gravity g - Core Theory & Derivation",
-          "Acceleration due to Gravity g - Standard Formula Drill",
-          "Acceleration due to Gravity g - Previous Exam Applications"
+          "Acceleration Due to Gravity & Its Variations - Core Theory & Derivations",
+          "Acceleration Due to Gravity & Its Variations - Standard Formula Drill",
+          "Acceleration Due to Gravity & Its Variations - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|GRAVITATIONAL_POTENTIAL_FIELD",
-        "name": "Gravitational Potential & Field",
+        "id": "GRAVITATION|TOPIC_3",
+        "name": "Gravitational Potential Energy & Potential",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Gravitational Potential & Field - Core Theory & Derivation",
-          "Gravitational Potential & Field - Standard Formula Drill",
-          "Gravitational Potential & Field - Previous Exam Applications"
+          "Gravitational Potential Energy & Potential - Core Theory & Derivations",
+          "Gravitational Potential Energy & Potential - Standard Formula Drill",
+          "Gravitational Potential Energy & Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|ESCAPE_VELOCITY",
-        "name": "Escape Velocity",
+        "id": "GRAVITATION|TOPIC_4",
+        "name": "Escape Velocity & Orbital Velocity",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Escape Velocity - Core Theory & Derivation",
-          "Escape Velocity - Standard Formula Drill",
-          "Escape Velocity - Previous Exam Applications"
+          "Escape Velocity & Orbital Velocity - Core Theory & Derivations",
+          "Escape Velocity & Orbital Velocity - Standard Formula Drill",
+          "Escape Velocity & Orbital Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "GRAVITATION|KEPLER_S_LAWS_SATELLITES",
-        "name": "Kepler's Laws & Satellites",
+        "id": "GRAVITATION|TOPIC_5",
+        "name": "Kepler's Laws of Planetary Motion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Kepler's Laws & Satellites - Core Theory & Derivation",
-          "Kepler's Laws & Satellites - Standard Formula Drill",
-          "Kepler's Laws & Satellites - Previous Exam Applications"
+          "Kepler's Laws of Planetary Motion - Core Theory & Derivations",
+          "Kepler's Laws of Planetary Motion - Standard Formula Drill",
+          "Kepler's Laws of Planetary Motion - Previous Exam Applications"
         ]
       }
     ],
@@ -19054,58 +19428,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|STRESS_STRAIN_CURVE",
-        "name": "Stress-Strain Curve",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_1",
+        "name": "Stress, Strain & Hooke's Law",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Stress-Strain Curve - Core Theory & Derivation",
-          "Stress-Strain Curve - Standard Formula Drill",
-          "Stress-Strain Curve - Previous Exam Applications"
+          "Stress, Strain & Hooke's Law - Core Theory & Derivations",
+          "Stress, Strain & Hooke's Law - Standard Formula Drill",
+          "Stress, Strain & Hooke's Law - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|HOOKE_S_LAW_YOUNG_S_MODULUS",
-        "name": "Hooke's Law & Young's Modulus",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_2",
+        "name": "Elastic Moduli (Young's, Bulk, Shear Modulus)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Hooke's Law & Young's Modulus - Core Theory & Derivation",
-          "Hooke's Law & Young's Modulus - Standard Formula Drill",
-          "Hooke's Law & Young's Modulus - Previous Exam Applications"
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Core Theory & Derivations",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Standard Formula Drill",
+          "Elastic Moduli (Young's, Bulk, Shear Modulus) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|BULK_MODULUS_RIGIDITY",
-        "name": "Bulk Modulus & Rigidity",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_3",
+        "name": "Elastic Potential Energy in Stretched Wire",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Bulk Modulus & Rigidity - Core Theory & Derivation",
-          "Bulk Modulus & Rigidity - Standard Formula Drill",
-          "Bulk Modulus & Rigidity - Previous Exam Applications"
+          "Elastic Potential Energy in Stretched Wire - Core Theory & Derivations",
+          "Elastic Potential Energy in Stretched Wire - Standard Formula Drill",
+          "Elastic Potential Energy in Stretched Wire - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|ELASTIC_POTENTIAL_ENERGY",
-        "name": "Elastic Potential Energy",
+        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|TOPIC_4",
+        "name": "Thermal Stress & Breaking Stress",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Elastic Potential Energy - Core Theory & Derivation",
-          "Elastic Potential Energy - Standard Formula Drill",
-          "Elastic Potential Energy - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "MECHANICAL_PROPERTIES_OF_SOLIDS|THERMAL_STRESS",
-        "name": "Thermal Stress",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Thermal Stress - Core Theory & Derivation",
-          "Thermal Stress - Standard Formula Drill",
-          "Thermal Stress - Previous Exam Applications"
+          "Thermal Stress & Breaking Stress - Core Theory & Derivations",
+          "Thermal Stress & Breaking Stress - Standard Formula Drill",
+          "Thermal Stress & Breaking Stress - Previous Exam Applications"
         ]
       }
     ],
@@ -19126,69 +19489,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|PASCAL_S_LAW_HYDRAULIC_LIFT",
-        "name": "Pascal's Law & Hydraulic Lift",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_1",
+        "name": "Pressure, Pascal's Law & Hydraulic Lift",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Pascal's Law & Hydraulic Lift - Core Theory & Derivation",
-          "Pascal's Law & Hydraulic Lift - Standard Formula Drill",
-          "Pascal's Law & Hydraulic Lift - Previous Exam Applications"
+          "Pressure, Pascal's Law & Hydraulic Lift - Core Theory & Derivations",
+          "Pressure, Pascal's Law & Hydraulic Lift - Standard Formula Drill",
+          "Pressure, Pascal's Law & Hydraulic Lift - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|ARCHIMEDES_PRINCIPLE_BUOYANCY",
-        "name": "Archimedes Principle & Buoyancy",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_2",
+        "name": "Archimedes' Principle & Buoyancy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Archimedes Principle & Buoyancy - Core Theory & Derivation",
-          "Archimedes Principle & Buoyancy - Standard Formula Drill",
-          "Archimedes Principle & Buoyancy - Previous Exam Applications"
+          "Archimedes' Principle & Buoyancy - Core Theory & Derivations",
+          "Archimedes' Principle & Buoyancy - Standard Formula Drill",
+          "Archimedes' Principle & Buoyancy - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|CONTINUITY_EQUATION",
-        "name": "Continuity Equation",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_3",
+        "name": "Equation of Continuity & Fluid Dynamics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Continuity Equation - Core Theory & Derivation",
-          "Continuity Equation - Standard Formula Drill",
-          "Continuity Equation - Previous Exam Applications"
+          "Equation of Continuity & Fluid Dynamics - Core Theory & Derivations",
+          "Equation of Continuity & Fluid Dynamics - Standard Formula Drill",
+          "Equation of Continuity & Fluid Dynamics - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|BERNOULLI_S_THEOREM",
-        "name": "Bernoulli's Theorem",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_4",
+        "name": "Bernoulli's Theorem & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Bernoulli's Theorem - Core Theory & Derivation",
-          "Bernoulli's Theorem - Standard Formula Drill",
-          "Bernoulli's Theorem - Previous Exam Applications"
+          "Bernoulli's Theorem & Applications - Core Theory & Derivations",
+          "Bernoulli's Theorem & Applications - Standard Formula Drill",
+          "Bernoulli's Theorem & Applications - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|VISCOSITY_TERMINAL_VELOCITY",
-        "name": "Viscosity & Terminal Velocity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_5",
+        "name": "Viscosity, Stokes' Law & Terminal Velocity",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Viscosity & Terminal Velocity - Core Theory & Derivation",
-          "Viscosity & Terminal Velocity - Standard Formula Drill",
-          "Viscosity & Terminal Velocity - Previous Exam Applications"
+          "Viscosity, Stokes' Law & Terminal Velocity - Core Theory & Derivations",
+          "Viscosity, Stokes' Law & Terminal Velocity - Standard Formula Drill",
+          "Viscosity, Stokes' Law & Terminal Velocity - Previous Exam Applications"
         ]
       },
       {
-        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|SURFACE_TENSION_CAPILLARITY",
-        "name": "Surface Tension & Capillarity",
+        "id": "MECHANICAL_PROPERTIES_OF_FLUIDS|TOPIC_6",
+        "name": "Surface Tension, Angle of Contact & Capillarity",
         "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Surface Tension & Capillarity - Core Theory & Derivation",
-          "Surface Tension & Capillarity - Standard Formula Drill",
-          "Surface Tension & Capillarity - Previous Exam Applications"
+          "Surface Tension, Angle of Contact & Capillarity - Core Theory & Derivations",
+          "Surface Tension, Angle of Contact & Capillarity - Standard Formula Drill",
+          "Surface Tension, Angle of Contact & Capillarity - Previous Exam Applications"
         ]
       }
     ],
@@ -19209,69 +19572,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|THERMAL_EXPANSION",
-        "name": "Thermal Expansion",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_1",
+        "name": "Thermal Expansion of Solids, Liquids & Gases",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Thermal Expansion - Core Theory & Derivation",
-          "Thermal Expansion - Standard Formula Drill",
-          "Thermal Expansion - Previous Exam Applications"
+          "Thermal Expansion of Solids, Liquids & Gases - Core Theory & Derivations",
+          "Thermal Expansion of Solids, Liquids & Gases - Standard Formula Drill",
+          "Thermal Expansion of Solids, Liquids & Gases - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|SPECIFIC_HEAT_CALORIMETRY",
-        "name": "Specific Heat & Calorimetry",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_2",
+        "name": "Specific Heat Capacity & Calorimetry",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Specific Heat & Calorimetry - Core Theory & Derivation",
-          "Specific Heat & Calorimetry - Standard Formula Drill",
-          "Specific Heat & Calorimetry - Previous Exam Applications"
+          "Specific Heat Capacity & Calorimetry - Core Theory & Derivations",
+          "Specific Heat Capacity & Calorimetry - Standard Formula Drill",
+          "Specific Heat Capacity & Calorimetry - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|LATENT_HEAT_PHASE_CHANGE",
-        "name": "Latent Heat & Phase Change",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_3",
+        "name": "Latent Heat & Phase Transitions",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Latent Heat & Phase Change - Core Theory & Derivation",
-          "Latent Heat & Phase Change - Standard Formula Drill",
-          "Latent Heat & Phase Change - Previous Exam Applications"
+          "Latent Heat & Phase Transitions - Core Theory & Derivations",
+          "Latent Heat & Phase Transitions - Standard Formula Drill",
+          "Latent Heat & Phase Transitions - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|CONDUCTION_THERMAL_RESISTANCE",
-        "name": "Conduction & Thermal Resistance",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_4",
+        "name": "Heat Conduction & Thermal Resistance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Conduction & Thermal Resistance - Core Theory & Derivation",
-          "Conduction & Thermal Resistance - Standard Formula Drill",
-          "Conduction & Thermal Resistance - Previous Exam Applications"
+          "Heat Conduction & Thermal Resistance - Core Theory & Derivations",
+          "Heat Conduction & Thermal Resistance - Standard Formula Drill",
+          "Heat Conduction & Thermal Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|NEWTON_S_LAW_OF_COOLING",
-        "name": "Newton's Law of Cooling",
+        "id": "THERMAL_PROPERTIES_OF_MATTER|TOPIC_5",
+        "name": "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Newton's Law of Cooling - Core Theory & Derivation",
-          "Newton's Law of Cooling - Standard Formula Drill",
-          "Newton's Law of Cooling - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "THERMAL_PROPERTIES_OF_MATTER|STEFAN_BOLTZMANN_WIEN_S_LAW",
-        "name": "Stefan-Boltzmann & Wien's Law",
-        "order": 6,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Stefan-Boltzmann & Wien's Law - Core Theory & Derivation",
-          "Stefan-Boltzmann & Wien's Law - Standard Formula Drill",
-          "Stefan-Boltzmann & Wien's Law - Previous Exam Applications"
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Core Theory & Derivations",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Standard Formula Drill",
+          "Radiation: Stefan-Boltzmann Law, Wien's Law & Newton's Cooling - Previous Exam Applications"
         ]
       }
     ],
@@ -19292,58 +19644,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "THERMODYNAMICS|FIRST_LAW_OF_THERMODYNAMICS",
-        "name": "First Law of Thermodynamics",
+        "id": "THERMODYNAMICS|TOPIC_1",
+        "name": "Zeroth Law & Thermal Equilibrium",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "First Law of Thermodynamics - Core Theory & Derivation",
-          "First Law of Thermodynamics - Standard Formula Drill",
-          "First Law of Thermodynamics - Previous Exam Applications"
+          "Zeroth Law & Thermal Equilibrium - Core Theory & Derivations",
+          "Zeroth Law & Thermal Equilibrium - Standard Formula Drill",
+          "Zeroth Law & Thermal Equilibrium - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOTHERMAL_ADIABATIC_PROCESSES",
-        "name": "Isothermal & Adiabatic Processes",
+        "id": "THERMODYNAMICS|TOPIC_2",
+        "name": "First Law of Thermodynamics & Internal Energy",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Isothermal & Adiabatic Processes - Core Theory & Derivation",
-          "Isothermal & Adiabatic Processes - Standard Formula Drill",
-          "Isothermal & Adiabatic Processes - Previous Exam Applications"
+          "First Law of Thermodynamics & Internal Energy - Core Theory & Derivations",
+          "First Law of Thermodynamics & Internal Energy - Standard Formula Drill",
+          "First Law of Thermodynamics & Internal Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|ISOCHORIC_ISOBARIC_PROCESSES",
-        "name": "Isochoric & Isobaric Processes",
+        "id": "THERMODYNAMICS|TOPIC_3",
+        "name": "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Isochoric & Isobaric Processes - Core Theory & Derivation",
-          "Isochoric & Isobaric Processes - Standard Formula Drill",
-          "Isochoric & Isobaric Processes - Previous Exam Applications"
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Core Theory & Derivations",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Standard Formula Drill",
+          "Thermodynamic Processes (Isothermal, Adiabatic, Isochoric, Isobaric) - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|HEAT_ENGINES_CARNOT_CYCLE",
-        "name": "Heat Engines & Carnot Cycle",
+        "id": "THERMODYNAMICS|TOPIC_4",
+        "name": "Work Done in Thermodynamic Processes & PV Diagrams",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Heat Engines & Carnot Cycle - Core Theory & Derivation",
-          "Heat Engines & Carnot Cycle - Standard Formula Drill",
-          "Heat Engines & Carnot Cycle - Previous Exam Applications"
+          "Work Done in Thermodynamic Processes & PV Diagrams - Core Theory & Derivations",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Standard Formula Drill",
+          "Work Done in Thermodynamic Processes & PV Diagrams - Previous Exam Applications"
         ]
       },
       {
-        "id": "THERMODYNAMICS|SECOND_LAW_ENTROPY",
-        "name": "Second Law & Entropy",
+        "id": "THERMODYNAMICS|TOPIC_5",
+        "name": "Second Law of Thermodynamics, Heat Engines & Carnot Cycle",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Second Law & Entropy - Core Theory & Derivation",
-          "Second Law & Entropy - Standard Formula Drill",
-          "Second Law & Entropy - Previous Exam Applications"
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Core Theory & Derivations",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Standard Formula Drill",
+          "Second Law of Thermodynamics, Heat Engines & Carnot Cycle - Previous Exam Applications"
         ]
       }
     ],
@@ -19364,58 +19716,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "KINETIC_THEORY_OF_GASES|IDEAL_GAS_EQUATION",
-        "name": "Ideal Gas Equation",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_1",
+        "name": "Ideal Gas Equation & Gas Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ideal Gas Equation - Core Theory & Derivation",
-          "Ideal Gas Equation - Standard Formula Drill",
-          "Ideal Gas Equation - Previous Exam Applications"
+          "Ideal Gas Equation & Gas Laws - Core Theory & Derivations",
+          "Ideal Gas Equation & Gas Laws - Standard Formula Drill",
+          "Ideal Gas Equation & Gas Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|PRESSURE_OF_AN_IDEAL_GAS",
-        "name": "Pressure of an Ideal Gas",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_2",
+        "name": "Pressure & Kinetic Energy of an Ideal Gas",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Pressure of an Ideal Gas - Core Theory & Derivation",
-          "Pressure of an Ideal Gas - Standard Formula Drill",
-          "Pressure of an Ideal Gas - Previous Exam Applications"
+          "Pressure & Kinetic Energy of an Ideal Gas - Core Theory & Derivations",
+          "Pressure & Kinetic Energy of an Ideal Gas - Standard Formula Drill",
+          "Pressure & Kinetic Energy of an Ideal Gas - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|RMS_AVERAGE_MOST_PROBABLE_SPEED",
-        "name": "RMS, Average & Most Probable Speed",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_3",
+        "name": "RMS Speed, Average Speed & Most Probable Speed",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "RMS, Average & Most Probable Speed - Core Theory & Derivation",
-          "RMS, Average & Most Probable Speed - Standard Formula Drill",
-          "RMS, Average & Most Probable Speed - Previous Exam Applications"
+          "RMS Speed, Average Speed & Most Probable Speed - Core Theory & Derivations",
+          "RMS Speed, Average Speed & Most Probable Speed - Standard Formula Drill",
+          "RMS Speed, Average Speed & Most Probable Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|DEGREES_OF_FREEDOM_EQUIPARTITION",
-        "name": "Degrees of Freedom & Equipartition",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_4",
+        "name": "Degrees of Freedom & Law of Equipartition of Energy",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Degrees of Freedom & Equipartition - Core Theory & Derivation",
-          "Degrees of Freedom & Equipartition - Standard Formula Drill",
-          "Degrees of Freedom & Equipartition - Previous Exam Applications"
+          "Degrees of Freedom & Law of Equipartition of Energy - Core Theory & Derivations",
+          "Degrees of Freedom & Law of Equipartition of Energy - Standard Formula Drill",
+          "Degrees of Freedom & Law of Equipartition of Energy - Previous Exam Applications"
         ]
       },
       {
-        "id": "KINETIC_THEORY_OF_GASES|MEAN_FREE_PATH",
-        "name": "Mean Free Path",
+        "id": "KINETIC_THEORY_OF_GASES|TOPIC_5",
+        "name": "Specific Heat Capacities & Mean Free Path",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Mean Free Path - Core Theory & Derivation",
-          "Mean Free Path - Standard Formula Drill",
-          "Mean Free Path - Previous Exam Applications"
+          "Specific Heat Capacities & Mean Free Path - Core Theory & Derivations",
+          "Specific Heat Capacities & Mean Free Path - Standard Formula Drill",
+          "Specific Heat Capacities & Mean Free Path - Previous Exam Applications"
         ]
       }
     ],
@@ -19436,58 +19788,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "OSCILLATIONS|SIMPLE_HARMONIC_MOTION_SHM",
-        "name": "Simple Harmonic Motion (SHM)",
+        "id": "OSCILLATIONS|TOPIC_1",
+        "name": "Simple Harmonic Motion (SHM) Kinematics",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Simple Harmonic Motion (SHM) - Core Theory & Derivation",
-          "Simple Harmonic Motion (SHM) - Standard Formula Drill",
-          "Simple Harmonic Motion (SHM) - Previous Exam Applications"
+          "Simple Harmonic Motion (SHM) Kinematics - Core Theory & Derivations",
+          "Simple Harmonic Motion (SHM) Kinematics - Standard Formula Drill",
+          "Simple Harmonic Motion (SHM) Kinematics - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|VELOCITY_ACCELERATION_IN_SHM",
-        "name": "Velocity & Acceleration in SHM",
+        "id": "OSCILLATIONS|TOPIC_2",
+        "name": "Velocity, Acceleration & Phase in SHM",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Velocity & Acceleration in SHM - Core Theory & Derivation",
-          "Velocity & Acceleration in SHM - Standard Formula Drill",
-          "Velocity & Acceleration in SHM - Previous Exam Applications"
+          "Velocity, Acceleration & Phase in SHM - Core Theory & Derivations",
+          "Velocity, Acceleration & Phase in SHM - Standard Formula Drill",
+          "Velocity, Acceleration & Phase in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|ENERGY_IN_SHM",
-        "name": "Energy in SHM",
+        "id": "OSCILLATIONS|TOPIC_3",
+        "name": "Kinetic and Potential Energy in SHM",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy in SHM - Core Theory & Derivation",
-          "Energy in SHM - Standard Formula Drill",
-          "Energy in SHM - Previous Exam Applications"
+          "Kinetic and Potential Energy in SHM - Core Theory & Derivations",
+          "Kinetic and Potential Energy in SHM - Standard Formula Drill",
+          "Kinetic and Potential Energy in SHM - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SIMPLE_PENDULUM",
+        "id": "OSCILLATIONS|TOPIC_4",
         "name": "Simple Pendulum",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Simple Pendulum - Core Theory & Derivation",
+          "Simple Pendulum - Core Theory & Derivations",
           "Simple Pendulum - Standard Formula Drill",
           "Simple Pendulum - Previous Exam Applications"
         ]
       },
       {
-        "id": "OSCILLATIONS|SPRING_MASS_SYSTEMS",
-        "name": "Spring-Mass Systems",
+        "id": "OSCILLATIONS|TOPIC_5",
+        "name": "Spring-Mass Systems (Series & Parallel)",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Spring-Mass Systems - Core Theory & Derivation",
-          "Spring-Mass Systems - Standard Formula Drill",
-          "Spring-Mass Systems - Previous Exam Applications"
+          "Spring-Mass Systems (Series & Parallel) - Core Theory & Derivations",
+          "Spring-Mass Systems (Series & Parallel) - Standard Formula Drill",
+          "Spring-Mass Systems (Series & Parallel) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "OSCILLATIONS|TOPIC_6",
+        "name": "Damped & Forced Oscillations, Resonance",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Damped & Forced Oscillations, Resonance - Core Theory & Derivations",
+          "Damped & Forced Oscillations, Resonance - Standard Formula Drill",
+          "Damped & Forced Oscillations, Resonance - Previous Exam Applications"
         ]
       }
     ],
@@ -19508,58 +19871,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVES|WAVE_EQUATION_SPEED",
-        "name": "Wave Equation & Speed",
+        "id": "WAVES|TOPIC_1",
+        "name": "Wave Equation, Frequency & Speed",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Wave Equation & Speed - Core Theory & Derivation",
-          "Wave Equation & Speed - Standard Formula Drill",
-          "Wave Equation & Speed - Previous Exam Applications"
+          "Wave Equation, Frequency & Speed - Core Theory & Derivations",
+          "Wave Equation, Frequency & Speed - Standard Formula Drill",
+          "Wave Equation, Frequency & Speed - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|SOUND_WAVES_IN_GASES",
-        "name": "Sound Waves in Gases",
+        "id": "WAVES|TOPIC_2",
+        "name": "Speed of Sound in Gases (Newton-Laplace)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Sound Waves in Gases - Core Theory & Derivation",
-          "Sound Waves in Gases - Standard Formula Drill",
-          "Sound Waves in Gases - Previous Exam Applications"
+          "Speed of Sound in Gases (Newton-Laplace) - Core Theory & Derivations",
+          "Speed of Sound in Gases (Newton-Laplace) - Standard Formula Drill",
+          "Speed of Sound in Gases (Newton-Laplace) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|INTERFERENCE_STANDING_WAVES",
-        "name": "Interference & Standing Waves",
+        "id": "WAVES|TOPIC_3",
+        "name": "Standing Waves in Stretched Strings",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Interference & Standing Waves - Core Theory & Derivation",
-          "Interference & Standing Waves - Standard Formula Drill",
-          "Interference & Standing Waves - Previous Exam Applications"
+          "Standing Waves in Stretched Strings - Core Theory & Derivations",
+          "Standing Waves in Stretched Strings - Standard Formula Drill",
+          "Standing Waves in Stretched Strings - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|ORGAN_PIPES_RESONANCE",
-        "name": "Organ Pipes & Resonance",
+        "id": "WAVES|TOPIC_4",
+        "name": "Organ Pipes (Open & Closed)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Organ Pipes & Resonance - Core Theory & Derivation",
-          "Organ Pipes & Resonance - Standard Formula Drill",
-          "Organ Pipes & Resonance - Previous Exam Applications"
+          "Organ Pipes (Open & Closed) - Core Theory & Derivations",
+          "Organ Pipes (Open & Closed) - Standard Formula Drill",
+          "Organ Pipes (Open & Closed) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVES|DOPPLER_EFFECT_BEATS",
-        "name": "Doppler Effect & Beats",
+        "id": "WAVES|TOPIC_5",
+        "name": "Beats & Interference of Sound",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Doppler Effect & Beats - Core Theory & Derivation",
-          "Doppler Effect & Beats - Standard Formula Drill",
-          "Doppler Effect & Beats - Previous Exam Applications"
+          "Beats & Interference of Sound - Core Theory & Derivations",
+          "Beats & Interference of Sound - Standard Formula Drill",
+          "Beats & Interference of Sound - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "WAVES|TOPIC_6",
+        "name": "Doppler Effect in Sound",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Doppler Effect in Sound - Core Theory & Derivations",
+          "Doppler Effect in Sound - Standard Formula Drill",
+          "Doppler Effect in Sound - Previous Exam Applications"
         ]
       }
     ],
@@ -19580,58 +19954,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|COULOMB_S_LAW_SUPERPOSITION",
-        "name": "Coulomb's Law & Superposition",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_1",
+        "name": "Electric Charge, Quantization & Conservation",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Coulomb's Law & Superposition - Core Theory & Derivation",
-          "Coulomb's Law & Superposition - Standard Formula Drill",
-          "Coulomb's Law & Superposition - Previous Exam Applications"
+          "Electric Charge, Quantization & Conservation - Core Theory & Derivations",
+          "Electric Charge, Quantization & Conservation - Standard Formula Drill",
+          "Electric Charge, Quantization & Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_FIELD_FIELD_LINES",
-        "name": "Electric Field & Field Lines",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_2",
+        "name": "Coulomb's Law & Superposition Principle",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Electric Field & Field Lines - Core Theory & Derivation",
-          "Electric Field & Field Lines - Standard Formula Drill",
-          "Electric Field & Field Lines - Previous Exam Applications"
+          "Coulomb's Law & Superposition Principle - Core Theory & Derivations",
+          "Coulomb's Law & Superposition Principle - Standard Formula Drill",
+          "Coulomb's Law & Superposition Principle - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|ELECTRIC_DIPOLE_TORQUE_FIELD",
-        "name": "Electric Dipole Torque & Field",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_3",
+        "name": "Electric Field, Field Lines & Dipole Moment",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Electric Dipole Torque & Field - Core Theory & Derivation",
-          "Electric Dipole Torque & Field - Standard Formula Drill",
-          "Electric Dipole Torque & Field - Previous Exam Applications"
+          "Electric Field, Field Lines & Dipole Moment - Core Theory & Derivations",
+          "Electric Field, Field Lines & Dipole Moment - Standard Formula Drill",
+          "Electric Field, Field Lines & Dipole Moment - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|GAUSS_S_LAW_FLUX",
-        "name": "Gauss's Law & Flux",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_4",
+        "name": "Torque on Dipole in Uniform Field",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Gauss's Law & Flux - Core Theory & Derivation",
-          "Gauss's Law & Flux - Standard Formula Drill",
-          "Gauss's Law & Flux - Previous Exam Applications"
+          "Torque on Dipole in Uniform Field - Core Theory & Derivations",
+          "Torque on Dipole in Uniform Field - Standard Formula Drill",
+          "Torque on Dipole in Uniform Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTRIC_CHARGES_AND_FIELDS|FIELD_OF_CONTINUOUS_CHARGE_DISTRIBUTIONS",
-        "name": "Field of Continuous Charge Distributions",
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_5",
+        "name": "Gauss's Law & Electric Flux",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Field of Continuous Charge Distributions - Core Theory & Derivation",
-          "Field of Continuous Charge Distributions - Standard Formula Drill",
-          "Field of Continuous Charge Distributions - Previous Exam Applications"
+          "Gauss's Law & Electric Flux - Core Theory & Derivations",
+          "Gauss's Law & Electric Flux - Standard Formula Drill",
+          "Gauss's Law & Electric Flux - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTRIC_CHARGES_AND_FIELDS|TOPIC_6",
+        "name": "Applications of Gauss's Law (Line, Sheet, Sphere)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Core Theory & Derivations",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Standard Formula Drill",
+          "Applications of Gauss's Law (Line, Sheet, Sphere) - Previous Exam Applications"
         ]
       }
     ],
@@ -19652,58 +20037,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|ELECTROSTATIC_POTENTIAL_WORK",
-        "name": "Electrostatic Potential & Work",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_1",
+        "name": "Electrostatic Potential & Potential Difference",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Electrostatic Potential & Work - Core Theory & Derivation",
-          "Electrostatic Potential & Work - Standard Formula Drill",
-          "Electrostatic Potential & Work - Previous Exam Applications"
+          "Electrostatic Potential & Potential Difference - Core Theory & Derivations",
+          "Electrostatic Potential & Potential Difference - Standard Formula Drill",
+          "Electrostatic Potential & Potential Difference - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|EQUIPOTENTIAL_SURFACES",
-        "name": "Equipotential Surfaces",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_2",
+        "name": "Potential Due to Point Charge & Dipole",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Equipotential Surfaces - Core Theory & Derivation",
-          "Equipotential Surfaces - Standard Formula Drill",
-          "Equipotential Surfaces - Previous Exam Applications"
+          "Potential Due to Point Charge & Dipole - Core Theory & Derivations",
+          "Potential Due to Point Charge & Dipole - Standard Formula Drill",
+          "Potential Due to Point Charge & Dipole - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|POTENTIAL_ENERGY_OF_SYSTEM_OF_CHARGES",
-        "name": "Potential Energy of System of Charges",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_3",
+        "name": "Equipotential Surfaces & Field-Potential Relation",
         "order": 3,
+        "isKeyTopic": true,
+        "subtopics": [
+          "Equipotential Surfaces & Field-Potential Relation - Core Theory & Derivations",
+          "Equipotential Surfaces & Field-Potential Relation - Standard Formula Drill",
+          "Equipotential Surfaces & Field-Potential Relation - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_4",
+        "name": "Potential Energy of System of Charges",
+        "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Potential Energy of System of Charges - Core Theory & Derivation",
+          "Potential Energy of System of Charges - Core Theory & Derivations",
           "Potential Energy of System of Charges - Standard Formula Drill",
           "Potential Energy of System of Charges - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|CAPACITANCE_OF_PARALLEL_PLATES",
-        "name": "Capacitance of Parallel Plates",
-        "order": 4,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Capacitance of Parallel Plates - Core Theory & Derivation",
-          "Capacitance of Parallel Plates - Standard Formula Drill",
-          "Capacitance of Parallel Plates - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|DIELECTRICS_ENERGY_STORED",
-        "name": "Dielectrics & Energy Stored",
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_5",
+        "name": "Parallel Plate Capacitor & Dielectrics",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Dielectrics & Energy Stored - Core Theory & Derivation",
-          "Dielectrics & Energy Stored - Standard Formula Drill",
-          "Dielectrics & Energy Stored - Previous Exam Applications"
+          "Parallel Plate Capacitor & Dielectrics - Core Theory & Derivations",
+          "Parallel Plate Capacitor & Dielectrics - Standard Formula Drill",
+          "Parallel Plate Capacitor & Dielectrics - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ELECTROSTATIC_POTENTIAL_AND_CAPACITANCE|TOPIC_6",
+        "name": "Combination of Capacitors & Energy Stored",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Capacitors & Energy Stored - Core Theory & Derivations",
+          "Combination of Capacitors & Energy Stored - Standard Formula Drill",
+          "Combination of Capacitors & Energy Stored - Previous Exam Applications"
         ]
       }
     ],
@@ -19724,58 +20120,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "CURRENT_ELECTRICITY|OHM_S_LAW_DRIFT_VELOCITY",
-        "name": "Ohm's Law & Drift Velocity",
+        "id": "CURRENT_ELECTRICITY|TOPIC_1",
+        "name": "Electric Current, Drift Velocity & Mobility",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Ohm's Law & Drift Velocity - Core Theory & Derivation",
-          "Ohm's Law & Drift Velocity - Standard Formula Drill",
-          "Ohm's Law & Drift Velocity - Previous Exam Applications"
+          "Electric Current, Drift Velocity & Mobility - Core Theory & Derivations",
+          "Electric Current, Drift Velocity & Mobility - Standard Formula Drill",
+          "Electric Current, Drift Velocity & Mobility - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|RESISTIVITY_TEMPERATURE_COEFFICIENT",
-        "name": "Resistivity & Temperature Coefficient",
+        "id": "CURRENT_ELECTRICITY|TOPIC_2",
+        "name": "Ohm's Law, Resistance & Resistivity",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Resistivity & Temperature Coefficient - Core Theory & Derivation",
-          "Resistivity & Temperature Coefficient - Standard Formula Drill",
-          "Resistivity & Temperature Coefficient - Previous Exam Applications"
+          "Ohm's Law, Resistance & Resistivity - Core Theory & Derivations",
+          "Ohm's Law, Resistance & Resistivity - Standard Formula Drill",
+          "Ohm's Law, Resistance & Resistivity - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|KIRCHHOFF_S_LAWS_CIRCUITS",
-        "name": "Kirchhoff's Laws & Circuits",
+        "id": "CURRENT_ELECTRICITY|TOPIC_3",
+        "name": "Temperature Dependence of Resistance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Kirchhoff's Laws & Circuits - Core Theory & Derivation",
-          "Kirchhoff's Laws & Circuits - Standard Formula Drill",
-          "Kirchhoff's Laws & Circuits - Previous Exam Applications"
+          "Temperature Dependence of Resistance - Core Theory & Derivations",
+          "Temperature Dependence of Resistance - Standard Formula Drill",
+          "Temperature Dependence of Resistance - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|WHEATSTONE_BRIDGE_METER_BRIDGE",
-        "name": "Wheatstone Bridge & Meter Bridge",
+        "id": "CURRENT_ELECTRICITY|TOPIC_4",
+        "name": "Kirchhoff's Laws & Circuit Analysis",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Wheatstone Bridge & Meter Bridge - Core Theory & Derivation",
-          "Wheatstone Bridge & Meter Bridge - Standard Formula Drill",
-          "Wheatstone Bridge & Meter Bridge - Previous Exam Applications"
+          "Kirchhoff's Laws & Circuit Analysis - Core Theory & Derivations",
+          "Kirchhoff's Laws & Circuit Analysis - Standard Formula Drill",
+          "Kirchhoff's Laws & Circuit Analysis - Previous Exam Applications"
         ]
       },
       {
-        "id": "CURRENT_ELECTRICITY|POTENTIOMETER_CELL_EMF",
-        "name": "Potentiometer & Cell EMF",
+        "id": "CURRENT_ELECTRICITY|TOPIC_5",
+        "name": "Combination of Resistors & Cells",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Potentiometer & Cell EMF - Core Theory & Derivation",
-          "Potentiometer & Cell EMF - Standard Formula Drill",
-          "Potentiometer & Cell EMF - Previous Exam Applications"
+          "Combination of Resistors & Cells - Core Theory & Derivations",
+          "Combination of Resistors & Cells - Standard Formula Drill",
+          "Combination of Resistors & Cells - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "CURRENT_ELECTRICITY|TOPIC_6",
+        "name": "Wheatstone Bridge, Meter Bridge & Potentiometer",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Core Theory & Derivations",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Standard Formula Drill",
+          "Wheatstone Bridge, Meter Bridge & Potentiometer - Previous Exam Applications"
         ]
       }
     ],
@@ -19796,58 +20203,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|BIOT_SAVART_LAW",
-        "name": "Biot-Savart Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_1",
+        "name": "Lorentz Magnetic Force & Motion of Charge",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Biot-Savart Law - Core Theory & Derivation",
-          "Biot-Savart Law - Standard Formula Drill",
-          "Biot-Savart Law - Previous Exam Applications"
+          "Lorentz Magnetic Force & Motion of Charge - Core Theory & Derivations",
+          "Lorentz Magnetic Force & Motion of Charge - Standard Formula Drill",
+          "Lorentz Magnetic Force & Motion of Charge - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|AMPERE_S_CIRCUITAL_LAW",
-        "name": "Ampere's Circuital Law",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_2",
+        "name": "Biot-Savart Law & Circular Coil Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Ampere's Circuital Law - Core Theory & Derivation",
-          "Ampere's Circuital Law - Standard Formula Drill",
-          "Ampere's Circuital Law - Previous Exam Applications"
+          "Biot-Savart Law & Circular Coil Magnetic Field - Core Theory & Derivations",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Standard Formula Drill",
+          "Biot-Savart Law & Circular Coil Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MAGNETIC_FORCE_ON_MOVING_CHARGE",
-        "name": "Magnetic Force on Moving Charge",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_3",
+        "name": "Ampere's Circuital Law & Solenoid",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Force on Moving Charge - Core Theory & Derivation",
-          "Magnetic Force on Moving Charge - Standard Formula Drill",
-          "Magnetic Force on Moving Charge - Previous Exam Applications"
+          "Ampere's Circuital Law & Solenoid - Core Theory & Derivations",
+          "Ampere's Circuital Law & Solenoid - Standard Formula Drill",
+          "Ampere's Circuital Law & Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|FORCE_ON_CURRENT_CARRYING_CONDUCTOR",
-        "name": "Force on Current Carrying Conductor",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_4",
+        "name": "Force Between Parallel Current-Carrying Conductors",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Force on Current Carrying Conductor - Core Theory & Derivation",
-          "Force on Current Carrying Conductor - Standard Formula Drill",
-          "Force on Current Carrying Conductor - Previous Exam Applications"
+          "Force Between Parallel Current-Carrying Conductors - Core Theory & Derivations",
+          "Force Between Parallel Current-Carrying Conductors - Standard Formula Drill",
+          "Force Between Parallel Current-Carrying Conductors - Previous Exam Applications"
         ]
       },
       {
-        "id": "MOVING_CHARGES_AND_MAGNETISM|MOVING_COIL_GALVANOMETER",
-        "name": "Moving Coil Galvanometer",
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_5",
+        "name": "Torque on Current Loop & Magnetic Dipole",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Moving Coil Galvanometer - Core Theory & Derivation",
-          "Moving Coil Galvanometer - Standard Formula Drill",
-          "Moving Coil Galvanometer - Previous Exam Applications"
+          "Torque on Current Loop & Magnetic Dipole - Core Theory & Derivations",
+          "Torque on Current Loop & Magnetic Dipole - Standard Formula Drill",
+          "Torque on Current Loop & Magnetic Dipole - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "MOVING_CHARGES_AND_MAGNETISM|TOPIC_6",
+        "name": "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion)",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Core Theory & Derivations",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Standard Formula Drill",
+          "Moving Coil Galvanometer (Ammeter & Voltmeter Conversion) - Previous Exam Applications"
         ]
       }
     ],
@@ -19868,58 +20286,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "MAGNETISM_AND_MATTER|BAR_MAGNET_AS_EQUIVALENT_SOLENOID",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_1",
         "name": "Bar Magnet as Equivalent Solenoid",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivation",
+          "Bar Magnet as Equivalent Solenoid - Core Theory & Derivations",
           "Bar Magnet as Equivalent Solenoid - Standard Formula Drill",
           "Bar Magnet as Equivalent Solenoid - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|EARTH_S_MAGNETISM_DIP",
-        "name": "Earth's Magnetism & Dip",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_2",
+        "name": "Magnetic Dipole in Uniform Magnetic Field",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Earth's Magnetism & Dip - Core Theory & Derivation",
-          "Earth's Magnetism & Dip - Standard Formula Drill",
-          "Earth's Magnetism & Dip - Previous Exam Applications"
+          "Magnetic Dipole in Uniform Magnetic Field - Core Theory & Derivations",
+          "Magnetic Dipole in Uniform Magnetic Field - Standard Formula Drill",
+          "Magnetic Dipole in Uniform Magnetic Field - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|MAGNETIC_PROPERTIES_DIA_PARA_FERRO",
-        "name": "Magnetic Properties (Dia, Para, Ferro)",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_3",
+        "name": "Earth's Magnetism & Magnetic Elements",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Properties (Dia, Para, Ferro) - Core Theory & Derivation",
-          "Magnetic Properties (Dia, Para, Ferro) - Standard Formula Drill",
-          "Magnetic Properties (Dia, Para, Ferro) - Previous Exam Applications"
+          "Earth's Magnetism & Magnetic Elements - Core Theory & Derivations",
+          "Earth's Magnetism & Magnetic Elements - Standard Formula Drill",
+          "Earth's Magnetism & Magnetic Elements - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|HYSTERESIS_LOOP",
-        "name": "Hysteresis Loop",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_4",
+        "name": "Magnetic Properties of Materials (Dia, Para, Ferro)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Hysteresis Loop - Core Theory & Derivation",
-          "Hysteresis Loop - Standard Formula Drill",
-          "Hysteresis Loop - Previous Exam Applications"
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Core Theory & Derivations",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Standard Formula Drill",
+          "Magnetic Properties of Materials (Dia, Para, Ferro) - Previous Exam Applications"
         ]
       },
       {
-        "id": "MAGNETISM_AND_MATTER|CURIE_S_LAW",
-        "name": "Curie's Law",
+        "id": "MAGNETISM_AND_MATTER|TOPIC_5",
+        "name": "Curie's Law, Hysteresis & Electromagnets",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Curie's Law - Core Theory & Derivation",
-          "Curie's Law - Standard Formula Drill",
-          "Curie's Law - Previous Exam Applications"
+          "Curie's Law, Hysteresis & Electromagnets - Core Theory & Derivations",
+          "Curie's Law, Hysteresis & Electromagnets - Standard Formula Drill",
+          "Curie's Law, Hysteresis & Electromagnets - Previous Exam Applications"
         ]
       }
     ],
@@ -19940,58 +20358,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MAGNETIC_FLUX_FARADAY_S_LAWS",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_1",
         "name": "Magnetic Flux & Faraday's Laws",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Magnetic Flux & Faraday's Laws - Core Theory & Derivation",
+          "Magnetic Flux & Faraday's Laws - Core Theory & Derivations",
           "Magnetic Flux & Faraday's Laws - Standard Formula Drill",
           "Magnetic Flux & Faraday's Laws - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|LENZ_S_LAW_CONSERVATION_OF_ENERGY",
-        "name": "Lenz's Law & Conservation of Energy",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_2",
+        "name": "Lenz's Law & Energy Conservation",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Lenz's Law & Conservation of Energy - Core Theory & Derivation",
-          "Lenz's Law & Conservation of Energy - Standard Formula Drill",
-          "Lenz's Law & Conservation of Energy - Previous Exam Applications"
+          "Lenz's Law & Energy Conservation - Core Theory & Derivations",
+          "Lenz's Law & Energy Conservation - Standard Formula Drill",
+          "Lenz's Law & Energy Conservation - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|MOTIONAL_EMF",
-        "name": "Motional EMF",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_3",
+        "name": "Motional EMF & Eddy Currents",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Motional EMF - Core Theory & Derivation",
-          "Motional EMF - Standard Formula Drill",
-          "Motional EMF - Previous Exam Applications"
+          "Motional EMF & Eddy Currents - Core Theory & Derivations",
+          "Motional EMF & Eddy Currents - Standard Formula Drill",
+          "Motional EMF & Eddy Currents - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|SELF_MUTUAL_INDUCTANCE",
-        "name": "Self & Mutual Inductance",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_4",
+        "name": "Self-Inductance & Mutual Inductance",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Self & Mutual Inductance - Core Theory & Derivation",
-          "Self & Mutual Inductance - Standard Formula Drill",
-          "Self & Mutual Inductance - Previous Exam Applications"
+          "Self-Inductance & Mutual Inductance - Core Theory & Derivations",
+          "Self-Inductance & Mutual Inductance - Standard Formula Drill",
+          "Self-Inductance & Mutual Inductance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_INDUCTION|AC_GENERATOR_EDDY_CURRENTS",
-        "name": "AC Generator & Eddy Currents",
+        "id": "ELECTROMAGNETIC_INDUCTION|TOPIC_5",
+        "name": "AC Generator Principle & Working",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "AC Generator & Eddy Currents - Core Theory & Derivation",
-          "AC Generator & Eddy Currents - Standard Formula Drill",
-          "AC Generator & Eddy Currents - Previous Exam Applications"
+          "AC Generator Principle & Working - Core Theory & Derivations",
+          "AC Generator Principle & Working - Standard Formula Drill",
+          "AC Generator Principle & Working - Previous Exam Applications"
         ]
       }
     ],
@@ -20012,58 +20430,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ALTERNATING_CURRENT|PEAK_AVERAGE_RMS_VALUES",
-        "name": "Peak, Average & RMS Values",
+        "id": "ALTERNATING_CURRENT|TOPIC_1",
+        "name": "AC Voltage, Peak & RMS Values",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Peak, Average & RMS Values - Core Theory & Derivation",
-          "Peak, Average & RMS Values - Standard Formula Drill",
-          "Peak, Average & RMS Values - Previous Exam Applications"
+          "AC Voltage, Peak & RMS Values - Core Theory & Derivations",
+          "AC Voltage, Peak & RMS Values - Standard Formula Drill",
+          "AC Voltage, Peak & RMS Values - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|AC_ACROSS_R_L_AND_C",
-        "name": "AC across R, L, and C",
+        "id": "ALTERNATING_CURRENT|TOPIC_2",
+        "name": "AC across Pure R, L, and C",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "AC across R, L, and C - Core Theory & Derivation",
-          "AC across R, L, and C - Standard Formula Drill",
-          "AC across R, L, and C - Previous Exam Applications"
+          "AC across Pure R, L, and C - Core Theory & Derivations",
+          "AC across Pure R, L, and C - Standard Formula Drill",
+          "AC across Pure R, L, and C - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|SERIES_LCR_CIRCUIT_PHASOR",
-        "name": "Series LCR Circuit & Phasor",
+        "id": "ALTERNATING_CURRENT|TOPIC_3",
+        "name": "Series LCR Circuit & Impedance",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Series LCR Circuit & Phasor - Core Theory & Derivation",
-          "Series LCR Circuit & Phasor - Standard Formula Drill",
-          "Series LCR Circuit & Phasor - Previous Exam Applications"
+          "Series LCR Circuit & Impedance - Core Theory & Derivations",
+          "Series LCR Circuit & Impedance - Standard Formula Drill",
+          "Series LCR Circuit & Impedance - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|RESONANCE_QUALITY_FACTOR",
-        "name": "Resonance & Quality Factor",
+        "id": "ALTERNATING_CURRENT|TOPIC_4",
+        "name": "Resonance & Quality Factor in LCR",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Resonance & Quality Factor - Core Theory & Derivation",
-          "Resonance & Quality Factor - Standard Formula Drill",
-          "Resonance & Quality Factor - Previous Exam Applications"
+          "Resonance & Quality Factor in LCR - Core Theory & Derivations",
+          "Resonance & Quality Factor in LCR - Standard Formula Drill",
+          "Resonance & Quality Factor in LCR - Previous Exam Applications"
         ]
       },
       {
-        "id": "ALTERNATING_CURRENT|POWER_IN_AC_CIRCUITS_TRANSFORMERS",
-        "name": "Power in AC Circuits & Transformers",
+        "id": "ALTERNATING_CURRENT|TOPIC_5",
+        "name": "Power in AC Circuits & Power Factor",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Power in AC Circuits & Transformers - Core Theory & Derivation",
-          "Power in AC Circuits & Transformers - Standard Formula Drill",
-          "Power in AC Circuits & Transformers - Previous Exam Applications"
+          "Power in AC Circuits & Power Factor - Core Theory & Derivations",
+          "Power in AC Circuits & Power Factor - Standard Formula Drill",
+          "Power in AC Circuits & Power Factor - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "ALTERNATING_CURRENT|TOPIC_6",
+        "name": "Transformers: Principles & Efficiency",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Transformers: Principles & Efficiency - Core Theory & Derivations",
+          "Transformers: Principles & Efficiency - Standard Formula Drill",
+          "Transformers: Principles & Efficiency - Previous Exam Applications"
         ]
       }
     ],
@@ -20084,58 +20513,47 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Low",
     "topics": [
       {
-        "id": "ELECTROMAGNETIC_WAVES|DISPLACEMENT_CURRENT",
-        "name": "Displacement Current",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_1",
+        "name": "Displacement Current & Maxwell's Equations",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Displacement Current - Core Theory & Derivation",
-          "Displacement Current - Standard Formula Drill",
-          "Displacement Current - Previous Exam Applications"
+          "Displacement Current & Maxwell's Equations - Core Theory & Derivations",
+          "Displacement Current & Maxwell's Equations - Standard Formula Drill",
+          "Displacement Current & Maxwell's Equations - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|MAXWELL_S_EQUATIONS",
-        "name": "Maxwell's Equations",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_2",
+        "name": "Characteristics & Speed of EM Waves",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Maxwell's Equations - Core Theory & Derivation",
-          "Maxwell's Equations - Standard Formula Drill",
-          "Maxwell's Equations - Previous Exam Applications"
+          "Characteristics & Speed of EM Waves - Core Theory & Derivations",
+          "Characteristics & Speed of EM Waves - Standard Formula Drill",
+          "Characteristics & Speed of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|CHARACTERISTICS_OF_EM_WAVES",
-        "name": "Characteristics of EM Waves",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_3",
+        "name": "Energy Density & Momentum of EM Waves",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Characteristics of EM Waves - Core Theory & Derivation",
-          "Characteristics of EM Waves - Standard Formula Drill",
-          "Characteristics of EM Waves - Previous Exam Applications"
+          "Energy Density & Momentum of EM Waves - Core Theory & Derivations",
+          "Energy Density & Momentum of EM Waves - Standard Formula Drill",
+          "Energy Density & Momentum of EM Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "ELECTROMAGNETIC_WAVES|ELECTROMAGNETIC_SPECTRUM",
-        "name": "Electromagnetic Spectrum",
+        "id": "ELECTROMAGNETIC_WAVES|TOPIC_4",
+        "name": "Electromagnetic Spectrum & Applications",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Electromagnetic Spectrum - Core Theory & Derivation",
-          "Electromagnetic Spectrum - Standard Formula Drill",
-          "Electromagnetic Spectrum - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "ELECTROMAGNETIC_WAVES|ENERGY_MOMENTUM_OF_EM_WAVES",
-        "name": "Energy & Momentum of EM Waves",
-        "order": 5,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Energy & Momentum of EM Waves - Core Theory & Derivation",
-          "Energy & Momentum of EM Waves - Standard Formula Drill",
-          "Energy & Momentum of EM Waves - Previous Exam Applications"
+          "Electromagnetic Spectrum & Applications - Core Theory & Derivations",
+          "Electromagnetic Spectrum & Applications - Standard Formula Drill",
+          "Electromagnetic Spectrum & Applications - Previous Exam Applications"
         ]
       }
     ],
@@ -20156,56 +20574,67 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFLECTION_SPHERICAL_MIRRORS",
-        "name": "Reflection & Spherical Mirrors",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_1",
+        "name": "Reflection by Spherical Mirrors & Mirror Formula",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Reflection & Spherical Mirrors - Core Theory & Derivation",
-          "Reflection & Spherical Mirrors - Standard Formula Drill",
-          "Reflection & Spherical Mirrors - Previous Exam Applications"
+          "Reflection by Spherical Mirrors & Mirror Formula - Core Theory & Derivations",
+          "Reflection by Spherical Mirrors & Mirror Formula - Standard Formula Drill",
+          "Reflection by Spherical Mirrors & Mirror Formula - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|REFRACTION_TOTAL_INTERNAL_REFLECTION",
-        "name": "Refraction & Total Internal Reflection",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_2",
+        "name": "Refraction of Light & Total Internal Reflection",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Refraction & Total Internal Reflection - Core Theory & Derivation",
-          "Refraction & Total Internal Reflection - Standard Formula Drill",
-          "Refraction & Total Internal Reflection - Previous Exam Applications"
+          "Refraction of Light & Total Internal Reflection - Core Theory & Derivations",
+          "Refraction of Light & Total Internal Reflection - Standard Formula Drill",
+          "Refraction of Light & Total Internal Reflection - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|PRISM_FORMULA_DISPERSION",
-        "name": "Prism Formula & Dispersion",
-        "order": 3,
-        "isKeyTopic": false,
-        "subtopics": [
-          "Prism Formula & Dispersion - Core Theory & Derivation",
-          "Prism Formula & Dispersion - Standard Formula Drill",
-          "Prism Formula & Dispersion - Previous Exam Applications"
-        ]
-      },
-      {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|LENS_MAKER_S_FORMULA_THIN_LENSES",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_3",
         "name": "Lens Maker's Formula & Thin Lenses",
-        "order": 4,
-        "isKeyTopic": false,
+        "order": 3,
+        "isKeyTopic": true,
         "subtopics": [
-          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivation",
+          "Lens Maker's Formula & Thin Lenses - Core Theory & Derivations",
           "Lens Maker's Formula & Thin Lenses - Standard Formula Drill",
           "Lens Maker's Formula & Thin Lenses - Previous Exam Applications"
         ]
       },
       {
-        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|MICROSCOPES_TELESCOPES",
-        "name": "Microscopes & Telescopes",
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_4",
+        "name": "Combination of Lenses in Contact",
+        "order": 4,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Combination of Lenses in Contact - Core Theory & Derivations",
+          "Combination of Lenses in Contact - Standard Formula Drill",
+          "Combination of Lenses in Contact - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_5",
+        "name": "Refraction through Prism & Dispersion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Microscopes & Telescopes - Core Theory & Derivation",
+          "Refraction through Prism & Dispersion - Core Theory & Derivations",
+          "Refraction through Prism & Dispersion - Standard Formula Drill",
+          "Refraction through Prism & Dispersion - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "RAY_OPTICS_AND_OPTICAL_INSTRUMENTS|TOPIC_6",
+        "name": "Microscopes & Telescopes",
+        "order": 6,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Microscopes & Telescopes - Core Theory & Derivations",
           "Microscopes & Telescopes - Standard Formula Drill",
           "Microscopes & Telescopes - Previous Exam Applications"
         ]
@@ -20228,58 +20657,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "WAVE_OPTICS|HUYGENS_PRINCIPLE_WAVEFRONTS",
+        "id": "WAVE_OPTICS|TOPIC_1",
         "name": "Huygens' Principle & Wavefronts",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Huygens' Principle & Wavefronts - Core Theory & Derivation",
+          "Huygens' Principle & Wavefronts - Core Theory & Derivations",
           "Huygens' Principle & Wavefronts - Standard Formula Drill",
           "Huygens' Principle & Wavefronts - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|INTERFERENCE_OF_LIGHT",
-        "name": "Interference of Light",
+        "id": "WAVE_OPTICS|TOPIC_2",
+        "name": "Interference of Light & Coherent Sources",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Interference of Light - Core Theory & Derivation",
-          "Interference of Light - Standard Formula Drill",
-          "Interference of Light - Previous Exam Applications"
+          "Interference of Light & Coherent Sources - Core Theory & Derivations",
+          "Interference of Light & Coherent Sources - Standard Formula Drill",
+          "Interference of Light & Coherent Sources - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|YOUNG_S_DOUBLE_SLIT_EXPERIMENT_YDSE",
+        "id": "WAVE_OPTICS|TOPIC_3",
         "name": "Young's Double Slit Experiment (YDSE)",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivation",
+          "Young's Double Slit Experiment (YDSE) - Core Theory & Derivations",
           "Young's Double Slit Experiment (YDSE) - Standard Formula Drill",
           "Young's Double Slit Experiment (YDSE) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|DIFFRACTION_AT_A_SINGLE_SLIT",
-        "name": "Diffraction at a Single Slit",
+        "id": "WAVE_OPTICS|TOPIC_4",
+        "name": "Diffraction of Light (Single Slit)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Diffraction at a Single Slit - Core Theory & Derivation",
-          "Diffraction at a Single Slit - Standard Formula Drill",
-          "Diffraction at a Single Slit - Previous Exam Applications"
+          "Diffraction of Light (Single Slit) - Core Theory & Derivations",
+          "Diffraction of Light (Single Slit) - Standard Formula Drill",
+          "Diffraction of Light (Single Slit) - Previous Exam Applications"
         ]
       },
       {
-        "id": "WAVE_OPTICS|POLARISATION_BREWSTER_S_LAW",
-        "name": "Polarisation & Brewster's Law",
+        "id": "WAVE_OPTICS|TOPIC_5",
+        "name": "Polarisation of Light & Brewster's Law",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Polarisation & Brewster's Law - Core Theory & Derivation",
-          "Polarisation & Brewster's Law - Standard Formula Drill",
-          "Polarisation & Brewster's Law - Previous Exam Applications"
+          "Polarisation of Light & Brewster's Law - Core Theory & Derivations",
+          "Polarisation of Light & Brewster's Law - Standard Formula Drill",
+          "Polarisation of Light & Brewster's Law - Previous Exam Applications"
         ]
       }
     ],
@@ -20300,58 +20729,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|PHOTOELECTRIC_EFFECT_OBSERVATIONS",
-        "name": "Photoelectric Effect Observations",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_1",
+        "name": "Photoelectric Effect Observations & Thresholds",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Photoelectric Effect Observations - Core Theory & Derivation",
-          "Photoelectric Effect Observations - Standard Formula Drill",
-          "Photoelectric Effect Observations - Previous Exam Applications"
+          "Photoelectric Effect Observations & Thresholds - Core Theory & Derivations",
+          "Photoelectric Effect Observations & Thresholds - Standard Formula Drill",
+          "Photoelectric Effect Observations & Thresholds - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|EINSTEIN_S_PHOTOELECTRIC_EQUATION",
-        "name": "Einstein's Photoelectric Equation",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_2",
+        "name": "Einstein's Photoelectric Equation & Stopping Potential",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Einstein's Photoelectric Equation - Core Theory & Derivation",
-          "Einstein's Photoelectric Equation - Standard Formula Drill",
-          "Einstein's Photoelectric Equation - Previous Exam Applications"
+          "Einstein's Photoelectric Equation & Stopping Potential - Core Theory & Derivations",
+          "Einstein's Photoelectric Equation & Stopping Potential - Standard Formula Drill",
+          "Einstein's Photoelectric Equation & Stopping Potential - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|WORK_FUNCTION_STOPPING_POTENTIAL",
-        "name": "Work Function & Stopping Potential",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_3",
+        "name": "Photon Characteristics & Radiation Pressure",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Work Function & Stopping Potential - Core Theory & Derivation",
-          "Work Function & Stopping Potential - Standard Formula Drill",
-          "Work Function & Stopping Potential - Previous Exam Applications"
+          "Photon Characteristics & Radiation Pressure - Core Theory & Derivations",
+          "Photon Characteristics & Radiation Pressure - Standard Formula Drill",
+          "Photon Characteristics & Radiation Pressure - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DE_BROGLIE_WAVELENGTH",
-        "name": "de Broglie Wavelength",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_4",
+        "name": "de Broglie Wavelength of Matter Waves",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "de Broglie Wavelength - Core Theory & Derivation",
-          "de Broglie Wavelength - Standard Formula Drill",
-          "de Broglie Wavelength - Previous Exam Applications"
+          "de Broglie Wavelength of Matter Waves - Core Theory & Derivations",
+          "de Broglie Wavelength of Matter Waves - Standard Formula Drill",
+          "de Broglie Wavelength of Matter Waves - Previous Exam Applications"
         ]
       },
       {
-        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|DAVISSON_GERMER_EXPERIMENT",
-        "name": "Davisson-Germer Experiment",
+        "id": "DUAL_NATURE_OF_RADIATION_AND_MATTER|TOPIC_5",
+        "name": "Davisson and Germer Experiment",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Davisson-Germer Experiment - Core Theory & Derivation",
-          "Davisson-Germer Experiment - Standard Formula Drill",
-          "Davisson-Germer Experiment - Previous Exam Applications"
+          "Davisson and Germer Experiment - Core Theory & Derivations",
+          "Davisson and Germer Experiment - Standard Formula Drill",
+          "Davisson and Germer Experiment - Previous Exam Applications"
         ]
       }
     ],
@@ -20372,58 +20801,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "ATOMS|RUTHERFORD_S_ALPHA_SCATTERING_MODEL",
+        "id": "ATOMS|TOPIC_1",
         "name": "Rutherford's Alpha Scattering Model",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Rutherford's Alpha Scattering Model - Core Theory & Derivation",
+          "Rutherford's Alpha Scattering Model - Core Theory & Derivations",
           "Rutherford's Alpha Scattering Model - Standard Formula Drill",
           "Rutherford's Alpha Scattering Model - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|BOHR_S_MODEL_OF_HYDROGEN_ATOM",
-        "name": "Bohr's Model of Hydrogen Atom",
+        "id": "ATOMS|TOPIC_2",
+        "name": "Bohr's Model of Hydrogen Atom (Radii & Energy)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Bohr's Model of Hydrogen Atom - Core Theory & Derivation",
-          "Bohr's Model of Hydrogen Atom - Standard Formula Drill",
-          "Bohr's Model of Hydrogen Atom - Previous Exam Applications"
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Core Theory & Derivations",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Standard Formula Drill",
+          "Bohr's Model of Hydrogen Atom (Radii & Energy) - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|ENERGY_LEVELS_SPECTRAL_SERIES",
-        "name": "Energy Levels & Spectral Series",
+        "id": "ATOMS|TOPIC_3",
+        "name": "Hydrogen Emission Spectral Series",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Energy Levels & Spectral Series - Core Theory & Derivation",
-          "Energy Levels & Spectral Series - Standard Formula Drill",
-          "Energy Levels & Spectral Series - Previous Exam Applications"
+          "Hydrogen Emission Spectral Series - Core Theory & Derivations",
+          "Hydrogen Emission Spectral Series - Standard Formula Drill",
+          "Hydrogen Emission Spectral Series - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|DE_BROGLIE_S_EXPLANATION_OF_BOHR_POSTULATE",
-        "name": "De Broglie's Explanation of Bohr Postulate",
+        "id": "ATOMS|TOPIC_4",
+        "name": "de Broglie's Explanation of Bohr's Quantization",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "De Broglie's Explanation of Bohr Postulate - Core Theory & Derivation",
-          "De Broglie's Explanation of Bohr Postulate - Standard Formula Drill",
-          "De Broglie's Explanation of Bohr Postulate - Previous Exam Applications"
+          "de Broglie's Explanation of Bohr's Quantization - Core Theory & Derivations",
+          "de Broglie's Explanation of Bohr's Quantization - Standard Formula Drill",
+          "de Broglie's Explanation of Bohr's Quantization - Previous Exam Applications"
         ]
       },
       {
-        "id": "ATOMS|EXCITATION_IONIZATION_POTENTIALS",
-        "name": "Excitation & Ionization Potentials",
+        "id": "ATOMS|TOPIC_5",
+        "name": "Excitation & Ionization Energies",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Excitation & Ionization Potentials - Core Theory & Derivation",
-          "Excitation & Ionization Potentials - Standard Formula Drill",
-          "Excitation & Ionization Potentials - Previous Exam Applications"
+          "Excitation & Ionization Energies - Core Theory & Derivations",
+          "Excitation & Ionization Energies - Standard Formula Drill",
+          "Excitation & Ionization Energies - Previous Exam Applications"
         ]
       }
     ],
@@ -20444,58 +20873,58 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "Medium",
     "topics": [
       {
-        "id": "NUCLEI|NUCLEAR_SIZE_DENSITY",
-        "name": "Nuclear Size & Density",
+        "id": "NUCLEI|TOPIC_1",
+        "name": "Nuclear Size, Mass & Nuclear Density",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Size & Density - Core Theory & Derivation",
-          "Nuclear Size & Density - Standard Formula Drill",
-          "Nuclear Size & Density - Previous Exam Applications"
+          "Nuclear Size, Mass & Nuclear Density - Core Theory & Derivations",
+          "Nuclear Size, Mass & Nuclear Density - Standard Formula Drill",
+          "Nuclear Size, Mass & Nuclear Density - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|MASS_DEFECT_BINDING_ENERGY",
-        "name": "Mass Defect & Binding Energy",
+        "id": "NUCLEI|TOPIC_2",
+        "name": "Mass Defect & Binding Energy per Nucleon",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "Mass Defect & Binding Energy - Core Theory & Derivation",
-          "Mass Defect & Binding Energy - Standard Formula Drill",
-          "Mass Defect & Binding Energy - Previous Exam Applications"
+          "Mass Defect & Binding Energy per Nucleon - Core Theory & Derivations",
+          "Mass Defect & Binding Energy per Nucleon - Standard Formula Drill",
+          "Mass Defect & Binding Energy per Nucleon - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FORCES_CHARACTERISTICS",
+        "id": "NUCLEI|TOPIC_3",
         "name": "Nuclear Forces Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Nuclear Forces Characteristics - Core Theory & Derivation",
+          "Nuclear Forces Characteristics - Core Theory & Derivations",
           "Nuclear Forces Characteristics - Standard Formula Drill",
           "Nuclear Forces Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|RADIOACTIVE_DECAY_LAW_HALF_LIFE",
-        "name": "Radioactive Decay Law & Half Life",
+        "id": "NUCLEI|TOPIC_4",
+        "name": "Radioactive Decay Law, Half-Life & Mean-Life",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Radioactive Decay Law & Half Life - Core Theory & Derivation",
-          "Radioactive Decay Law & Half Life - Standard Formula Drill",
-          "Radioactive Decay Law & Half Life - Previous Exam Applications"
+          "Radioactive Decay Law, Half-Life & Mean-Life - Core Theory & Derivations",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Standard Formula Drill",
+          "Radioactive Decay Law, Half-Life & Mean-Life - Previous Exam Applications"
         ]
       },
       {
-        "id": "NUCLEI|NUCLEAR_FISSION_FUSION",
-        "name": "Nuclear Fission & Fusion",
+        "id": "NUCLEI|TOPIC_5",
+        "name": "Nuclear Fission & Nuclear Fusion",
         "order": 5,
         "isKeyTopic": false,
         "subtopics": [
-          "Nuclear Fission & Fusion - Core Theory & Derivation",
-          "Nuclear Fission & Fusion - Standard Formula Drill",
-          "Nuclear Fission & Fusion - Previous Exam Applications"
+          "Nuclear Fission & Nuclear Fusion - Core Theory & Derivations",
+          "Nuclear Fission & Nuclear Fusion - Standard Formula Drill",
+          "Nuclear Fission & Nuclear Fusion - Previous Exam Applications"
         ]
       }
     ],
@@ -20516,58 +20945,69 @@ export const canonicalSyllabus: CanonicalSyllabusChapter[] = [
     "weightage": "High",
     "topics": [
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|INTRINSIC_EXTRINSIC_SEMICONDUCTORS",
-        "name": "Intrinsic & Extrinsic Semiconductors",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_1",
+        "name": "Energy Bands (Conductors, Semiconductors, Insulators)",
         "order": 1,
         "isKeyTopic": true,
         "subtopics": [
-          "Intrinsic & Extrinsic Semiconductors - Core Theory & Derivation",
-          "Intrinsic & Extrinsic Semiconductors - Standard Formula Drill",
-          "Intrinsic & Extrinsic Semiconductors - Previous Exam Applications"
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Core Theory & Derivations",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Standard Formula Drill",
+          "Energy Bands (Conductors, Semiconductors, Insulators) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|P_N_JUNCTION_DIODE_CHARACTERISTICS",
-        "name": "p-n Junction Diode Characteristics",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_2",
+        "name": "Intrinsic & Extrinsic Semiconductors (n-type & p-type)",
         "order": 2,
         "isKeyTopic": true,
         "subtopics": [
-          "p-n Junction Diode Characteristics - Core Theory & Derivation",
-          "p-n Junction Diode Characteristics - Standard Formula Drill",
-          "p-n Junction Diode Characteristics - Previous Exam Applications"
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Core Theory & Derivations",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Standard Formula Drill",
+          "Intrinsic & Extrinsic Semiconductors (n-type & p-type) - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|HALF_WAVE_FULL_WAVE_RECTIFIERS",
-        "name": "Half-Wave & Full-Wave Rectifiers",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_3",
+        "name": "p-n Junction Diode V-I Characteristics",
         "order": 3,
-        "isKeyTopic": false,
+        "isKeyTopic": true,
         "subtopics": [
-          "Half-Wave & Full-Wave Rectifiers - Core Theory & Derivation",
-          "Half-Wave & Full-Wave Rectifiers - Standard Formula Drill",
-          "Half-Wave & Full-Wave Rectifiers - Previous Exam Applications"
+          "p-n Junction Diode V-I Characteristics - Core Theory & Derivations",
+          "p-n Junction Diode V-I Characteristics - Standard Formula Drill",
+          "p-n Junction Diode V-I Characteristics - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|ZENER_DIODE_AS_VOLTAGE_REGULATOR",
-        "name": "Zener Diode as Voltage Regulator",
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_4",
+        "name": "Diode Rectifiers (Half-Wave & Full-Wave)",
         "order": 4,
         "isKeyTopic": false,
         "subtopics": [
-          "Zener Diode as Voltage Regulator - Core Theory & Derivation",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Core Theory & Derivations",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Standard Formula Drill",
+          "Diode Rectifiers (Half-Wave & Full-Wave) - Previous Exam Applications"
+        ]
+      },
+      {
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_5",
+        "name": "Zener Diode as Voltage Regulator",
+        "order": 5,
+        "isKeyTopic": false,
+        "subtopics": [
+          "Zener Diode as Voltage Regulator - Core Theory & Derivations",
           "Zener Diode as Voltage Regulator - Standard Formula Drill",
           "Zener Diode as Voltage Regulator - Previous Exam Applications"
         ]
       },
       {
-        "id": "SEMICONDUCTOR_ELECTRONICS|LOGIC_GATES_AND_OR_NOT_NAND_NOR",
-        "name": "Logic Gates (AND, OR, NOT, NAND, NOR)",
-        "order": 5,
+        "id": "SEMICONDUCTOR_ELECTRONICS|TOPIC_6",
+        "name": "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables",
+        "order": 6,
         "isKeyTopic": false,
         "subtopics": [
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Core Theory & Derivation",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Standard Formula Drill",
-          "Logic Gates (AND, OR, NOT, NAND, NOR) - Previous Exam Applications"
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Core Theory & Derivations",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Standard Formula Drill",
+          "Logic Gates (AND, OR, NOT, NAND, NOR) & Truth Tables - Previous Exam Applications"
         ]
       }
     ],

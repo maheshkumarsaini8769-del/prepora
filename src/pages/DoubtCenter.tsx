@@ -507,7 +507,7 @@ export const DoubtCenter: React.FC = () => {
               )}
 
               {/* Worked Numerical Example Card */}
-              {currentSolution.example && (
+              {currentSolution.example && currentSolution.example !== currentSolution.answer && (
                 <div className="p-4 rounded-xl bg-violet-50/70 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900/50 space-y-2">
                   <div className="flex items-center gap-1.5 text-xs font-bold text-violet-900 dark:text-violet-300">
                     <span>📝</span>
