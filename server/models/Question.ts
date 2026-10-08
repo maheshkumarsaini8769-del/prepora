@@ -82,5 +82,7 @@ const QuestionSchema: Schema = new Schema(
 
 QuestionSchema.index({ exam: 1, subject: 1, chapter: 1, difficulty: 1 });
 
-export const Question = mongoose.model<IQuestion>('Question', QuestionSchema);
+import { questionConnection } from '../config/questionDb.js';
+
+export const Question = questionConnection.model<IQuestion>('Question', QuestionSchema);
 export default Question;
