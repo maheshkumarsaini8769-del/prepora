@@ -98,10 +98,10 @@ export const PaperDetail: React.FC = () => {
     );
   }
 
-  // Load questions for this paper - guaranteed full count (e.g. 75 for JEE, 200 for NEET)
+  // Load questions for this paper - guaranteed full count (e.g. 75 for JEE, 180 for NEET)
   const questions: Question[] = useMemo(() => {
     if (!paper) return [];
-    const targetTotal = paper.totalQuestions || (paper.exam === 'JEE' ? 75 : paper.exam === 'NEET' ? 200 : 50);
+    const targetTotal = paper.totalQuestions || (paper.exam === 'NEET' ? 180 : paper.exam === 'JEE' ? 75 : 50);
 
     // If API returned full set of questions matching target count
     if (apiQuestions.length >= targetTotal) {

@@ -9,19 +9,21 @@ const router = express.Router();
 
 // Real curated papers seed helper
 async function ensureSeededPapers() {
-  const count = await Paper.countDocuments();
-  if (count === 0) {
-    try {
-      const pPath = path.resolve('server/data/realPapers.json');
-      if (fs.existsSync(pPath)) {
+  try {
+    const pPath = path.resolve('server/data/realPapers.json');
+    if (fs.existsSync(pPath)) {
+      const sampleNeet = await Paper.findOne({ id: 'paper-neet-2024-3' });
+      if (!sampleNeet || sampleNeet.totalQuestions !== 180) {
+        console.log('[Paper Seed] Syncing papers in MongoDB to official standards (NEET 180 Qs)...');
         const raw = fs.readFileSync(pPath, 'utf8');
         const papers = JSON.parse(raw);
+        await Paper.deleteMany({});
         await Paper.insertMany(papers.map((p: any) => ({ ...p, status: 'Published' })));
-        return;
+        console.log(`[Paper Seed] Successfully synced ${papers.length} papers in MongoDB.`);
       }
-    } catch (e) {
-      console.warn('[Paper Seed Error]', e);
     }
+  } catch (e) {
+    console.warn('[Paper Seed Error]', e);
   }
 }
 
@@ -188,7 +190,7 @@ router.get('/:id', async (req: Request, res: Response) => {
       return res.status(404).json({ success: false, message: 'Paper not found' });
     }
 
-    const targetTotal = paper.totalQuestions || (paper.exam === 'JEE' ? 75 : paper.exam === 'NEET' ? 200 : 50);
+    const targetTotal = paper.totalQuestions || (paper.exam === 'JEE' ? 75 : paper.exam === 'NEET' ? 180 : 50);
 
     let questions: any[] = [];
     if (paper.questionIds && paper.questionIds.length > 0) {

@@ -45,8 +45,8 @@ async function seed() {
         targetTotal = 75; // Standard JEE Main format
       }
     } else if (isNeet && isFullSyllabus) {
-      if (!targetTotal || targetTotal === 50 || targetTotal === 6) {
-        targetTotal = 200; // Standard NEET UG format (or 180)
+      if (!targetTotal || targetTotal === 50 || targetTotal === 6 || targetTotal === 200) {
+        targetTotal = 180; // Standard official NEET UG format (180 questions: 45 Phys, 45 Chem, 90 Bio)
       }
     } else if (!targetTotal || targetTotal === 6) {
       targetTotal = 50;
