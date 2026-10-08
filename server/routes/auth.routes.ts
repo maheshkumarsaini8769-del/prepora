@@ -582,7 +582,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
         targetExam,
         classLevel,
         targetYear: Number(targetYear) || 2026,
-        streakDays: 1,
+        streakDays: 0,
         totalQuestionsSolved: 0,
         overallAccuracy: 0,
         testsCompleted: 0,

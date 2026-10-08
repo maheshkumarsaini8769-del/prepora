@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import { UserProfile } from '../types';
-import { userService } from '../services/userService';
+import { userService, createFreshStudentProfile } from '../services/userService';
 import { initialUserProfile } from '../data/mockData';
 
 export interface ActiveSession {
@@ -379,16 +379,32 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         setToken(data.token);
         localStorage.setItem(TOKEN_KEY, data.token);
 
+        // Clear previous user's local artifacts if switching users
+        const currentProfile = userService.getProfile();
+        const isSwitchingUser = Boolean(currentProfile.id && currentProfile.id !== data.user.id);
+        if (isSwitchingUser) {
+          localStorage.removeItem('prepora_test_attempts');
+          localStorage.removeItem('prepora_bookmarks');
+          localStorage.removeItem('prepora_mistakes');
+          localStorage.removeItem('prepora_daily_plan');
+          localStorage.removeItem('prepora_daily_planner_tasks');
+          localStorage.removeItem('prepora_recent_activity');
+          localStorage.removeItem('prepora_continue_learning_activity');
+          localStorage.removeItem('prepora_user_profile');
+        }
+
         // Admins skip the student onboarding gate
         if (data.user?.role === 'admin' || isSuperAdmin) {
           localStorage.setItem('prepora_onboarding_completed', 'true');
         }
 
+        const baseProfile = isSwitchingUser ? createFreshStudentProfile() : currentProfile;
         const updatedUser: UserProfile = {
-          ...userService.getProfile(),
+          ...baseProfile,
           ...data.user,
+          name: data.user?.name || (isSuperAdmin ? 'Mahesh Kumar (System Owner)' : baseProfile.name),
           role: isSuperAdmin ? 'admin' : (data.user?.role || 'student'),
-          avatarUrl: data.user.avatar || userService.getProfile().avatarUrl
+          avatarUrl: data.user.avatar || baseProfile.avatarUrl
         };
         setUser(updatedUser);
         userService.updateProfile(updatedUser);
@@ -496,13 +512,28 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return { success: false, message: data.message || 'Registration failed.' };
       }
 
+      // Fresh registration: clear any residual local test data from previous demo sessions
+      localStorage.removeItem('prepora_test_attempts');
+      localStorage.removeItem('prepora_bookmarks');
+      localStorage.removeItem('prepora_mistakes');
+      localStorage.removeItem('prepora_daily_plan');
+      localStorage.removeItem('prepora_daily_planner_tasks');
+      localStorage.removeItem('prepora_recent_activity');
+      localStorage.removeItem('prepora_continue_learning_activity');
+      localStorage.removeItem('prepora_user_profile');
+
       setToken(data.token);
       localStorage.setItem(TOKEN_KEY, data.token);
 
+      const cleanProfile = createFreshStudentProfile();
       const updatedUser: UserProfile = {
-        ...userService.getProfile(),
+        ...cleanProfile,
         ...data.user,
-        avatarUrl: data.user.avatar || userService.getProfile().avatarUrl
+        streakDays: 0,
+        todayQuestionsCount: 0,
+        overallAccuracy: 0,
+        testsCompletedCount: 0,
+        avatarUrl: data.user.avatar || cleanProfile.avatarUrl
       };
       setUser(updatedUser);
       userService.updateProfile(updatedUser);
@@ -559,12 +590,36 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         localStorage.setItem(TOKEN_KEY, data.token);
         localStorage.setItem('prepora_onboarding_completed', 'true');
 
+        const currentProfile = userService.getProfile();
+        const isSwitchingUser = Boolean(currentProfile.id && currentProfile.id !== data.user.id);
+        const isNewStudent = Boolean(data.isNewUser || isSwitchingUser);
+
+        // If new registration or switching to a different user, clear previous user's local artifacts
+        if (isNewStudent) {
+          localStorage.removeItem('prepora_test_attempts');
+          localStorage.removeItem('prepora_bookmarks');
+          localStorage.removeItem('prepora_mistakes');
+          localStorage.removeItem('prepora_daily_plan');
+          localStorage.removeItem('prepora_daily_planner_tasks');
+          localStorage.removeItem('prepora_recent_activity');
+          localStorage.removeItem('prepora_continue_learning_activity');
+          localStorage.removeItem('prepora_user_profile');
+        }
+
         const isUserPasswordSet = Boolean(data.hasPassword ?? data.user?.hasPassword);
+        const baseProfile = isNewStudent ? createFreshStudentProfile() : currentProfile;
+        const cleanName = data.user?.name || metadata?.name?.trim() || (data.user?.phone ? `Student` : 'Aspirant');
+
         const updatedUser: UserProfile = {
-          ...userService.getProfile(),
+          ...baseProfile,
           ...data.user,
+          name: cleanName,
           hasPassword: isUserPasswordSet,
-          avatarUrl: data.user.avatar || userService.getProfile().avatarUrl
+          streakDays: isNewStudent ? 0 : (data.user?.streakDays ?? baseProfile.streakDays ?? 0),
+          todayQuestionsCount: isNewStudent ? 0 : (data.user?.todayQuestionsCount ?? baseProfile.todayQuestionsCount ?? 0),
+          overallAccuracy: isNewStudent ? 0 : (data.user?.overallAccuracy ?? baseProfile.overallAccuracy ?? 0),
+          testsCompletedCount: isNewStudent ? 0 : (data.user?.testsCompletedCount ?? baseProfile.testsCompletedCount ?? 0),
+          avatarUrl: data.user.avatar || baseProfile.avatarUrl
         };
         setUser(updatedUser);
         userService.updateProfile(updatedUser);
