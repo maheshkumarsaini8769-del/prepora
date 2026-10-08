@@ -135,7 +135,7 @@ export const DoubtCenter: React.FC = () => {
     if (action === 'Explain simpler') {
       followUpQuery = `Explain this in simpler terms for a beginner: ${currentSolution.question}`;
     } else if (action === 'Give real-life example' || action === 'Give example') {
-      followUpQuery = `Give a clear real-world practical example of: ${currentSolution.coreConcept || currentSolution.question}`;
+      followUpQuery = `${currentSolution.question} with example`;
     } else if (action === 'Step-by-step derivation') {
       followUpQuery = `Provide complete mathematical step-by-step derivation for: ${currentSolution.question}`;
     } else if (action === 'Test me on this') {
@@ -439,8 +439,26 @@ export const DoubtCenter: React.FC = () => {
             <Card className="p-6 space-y-5">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-slate-100 dark:border-slate-800 pb-3">
                 <div>
-                  <div className="text-xs font-semibold text-slate-400">
-                    {currentSolution.subject} • {currentSolution.chapter}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <span className="text-xs font-semibold text-slate-400">
+                      {currentSolution.subject} • {currentSolution.chapter}
+                    </span>
+                    {currentSolution.understanding?.intent && (
+                      <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                        currentSolution.understanding.intent === 'example'
+                          ? 'bg-violet-100 text-violet-800 dark:bg-violet-900/40 dark:text-violet-300'
+                          : currentSolution.understanding.intent === 'formula'
+                          ? 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/40 dark:text-emerald-300'
+                          : currentSolution.understanding.intent === 'derivation'
+                          ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300'
+                          : 'bg-amber-100 text-amber-800 dark:bg-amber-900/40 dark:text-amber-300'
+                      }`}>
+                        {currentSolution.understanding.intent === 'example' ? '📝 Worked Example' :
+                         currentSolution.understanding.intent === 'formula' ? '📐 Formula Sheet' :
+                         currentSolution.understanding.intent === 'derivation' ? '🔬 Derivation' :
+                         '📘 Conceptual Guide'}
+                      </span>
+                    )}
                   </div>
                   <h3 className="text-sm sm:text-base font-bold text-slate-900 dark:text-white mt-1">
                     {currentSolution.question}
@@ -488,6 +506,19 @@ export const DoubtCenter: React.FC = () => {
                 </div>
               )}
 
+              {/* Worked Numerical Example Card */}
+              {currentSolution.example && (
+                <div className="p-4 rounded-xl bg-violet-50/70 dark:bg-violet-950/30 border border-violet-200 dark:border-violet-900/50 space-y-2">
+                  <div className="flex items-center gap-1.5 text-xs font-bold text-violet-900 dark:text-violet-300">
+                    <span>📝</span>
+                    <span>Worked Numerical Example</span>
+                  </div>
+                  <div className="text-xs text-slate-800 dark:text-slate-100 leading-relaxed font-medium">
+                    <MathRenderer content={currentSolution.example} />
+                  </div>
+                </div>
+              )}
+
               {/* Step-by-Step Breakdown */}
               {currentSolution.stepByStepSolution && currentSolution.stepByStepSolution.length > 0 && (
                 <div className="space-y-2">
@@ -504,13 +535,21 @@ export const DoubtCenter: React.FC = () => {
                 </div>
               )}
 
-              {/* Exam Tip */}
-              {currentSolution.examTip && (
-                <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 text-xs leading-relaxed">
-                  <strong className="font-semibold block mb-0.5">Exam Tip:</strong>
-                  {currentSolution.examTip}
-                </div>
-              )}
+              {/* Examiner Trap & Tip */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {currentSolution.examinerTrap && (
+                  <div className="p-3 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800/60 text-rose-900 dark:text-rose-200 text-xs leading-relaxed">
+                    <strong className="font-semibold block mb-0.5">⚠️ Examiner Trap:</strong>
+                    {currentSolution.examinerTrap}
+                  </div>
+                )}
+                {currentSolution.examTip && (
+                  <div className="p-3 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 text-xs leading-relaxed">
+                    <strong className="font-semibold block mb-0.5">💡 Exam Tip:</strong>
+                    {currentSolution.examTip}
+                  </div>
+                )}
+              </div>
 
               {/* Follow-up actions */}
               <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex flex-wrap items-center gap-1.5 text-xs">

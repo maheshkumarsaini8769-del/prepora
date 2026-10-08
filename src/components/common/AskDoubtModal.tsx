@@ -308,11 +308,19 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                   </div>
                 )}
 
-                {/* Key Formula with MathRenderer */}
+                {/* Governing Formula with MathRenderer */}
                 {aiSolution.keyFormula && (
                   <div className="p-3 bg-slate-900 text-white rounded-xl font-mono text-xs font-bold text-emerald-300">
                     <span className="text-[10px] uppercase tracking-wider text-slate-400 block mb-1">Governing Formula:</span>
                     <MathRenderer content={aiSolution.keyFormula} displayMode={true} />
+                  </div>
+                )}
+
+                {/* Worked Numerical Example with MathRenderer */}
+                {aiSolution.example && (
+                  <div className="p-3.5 bg-violet-50/70 dark:bg-violet-950/30 rounded-xl border border-violet-200 dark:border-violet-900/40 text-xs text-slate-900 dark:text-slate-100 font-medium leading-relaxed">
+                    <strong className="block text-violet-900 dark:text-violet-300 mb-1">📝 Worked Numerical Example:</strong>
+                    <MathRenderer content={aiSolution.example} />
                   </div>
                 )}
 

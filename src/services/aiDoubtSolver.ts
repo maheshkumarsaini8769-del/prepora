@@ -201,17 +201,30 @@ export class AIDoubtSolverService {
         subject: formulaMatch.subject,
         chapter: formulaMatch.chapter,
         topic: formulaMatch.topic,
-        answer: `${formulaMatch.name}: The governing formula is ${formulaMatch.formula}. ${formulaMatch.concept}`,
+        answer: formulaMatch.formattedAnswer || `${formulaMatch.name}: The governing formula is ${formulaMatch.formula}. ${formulaMatch.concept}`,
         coreConcept: `${formulaMatch.name} — ${formulaMatch.concept}`,
         keyFormula: formulaMatch.formula,
         variables: formulaMatch.variables,
         stepByStepSolution: formulaMatch.stepByStep,
+        example: formulaMatch.example,
         examinerTrap: formulaMatch.trap,
         examTip: formulaMatch.examTip,
         verificationPassed: true,
         groundedInPrepora: true,
         confidence: 0.98,
-        suggestedFollowUps: ['Show numerical example', 'Derivation steps', 'Where does this fail?', 'Test me on this'],
+        understanding: {
+          intent: formulaMatch.detectedIntent,
+          subject: formulaMatch.subject,
+          chapter: formulaMatch.chapter,
+          topic: formulaMatch.topic,
+          concept: formulaMatch.concept,
+          difficulty: 'Medium',
+          isNumerical: formulaMatch.detectedIntent === 'example',
+          requiresCurrentInfo: false
+        },
+        suggestedFollowUps: formulaMatch.detectedIntent === 'example'
+          ? ['Show another example', 'Show governing formulas', 'Test me on this']
+          : ['Show worked example', 'Derivation steps', 'Test me on this'],
         timestamp: new Date().toISOString()
       };
     }

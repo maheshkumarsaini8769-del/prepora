@@ -192,6 +192,36 @@ export function getFormulaItemsForChapter(
   return matched;
 }
 
+export const SCIENTIFIC_SPELLING_FIXES: Record<string, string> = {
+  debrolie: 'de broglie',
+  debrolige: 'de broglie',
+  debrogli: 'de broglie',
+  debrogali: 'de broglie',
+  dibroli: 'de broglie',
+  dibroglie: 'de broglie',
+  broglie: 'de broglie',
+  brolie: 'de broglie',
+  schrodinger: 'schrodinger',
+  shrodinger: 'schrodinger',
+  shroedinger: 'schrodinger',
+  heisenberg: 'heisenberg',
+  hiesenberg: 'heisenberg',
+  bernouli: 'bernoulli',
+  barnouli: 'bernoulli',
+  barnoulli: 'bernoulli',
+  kirchof: 'kirchhoff',
+  kirchoff: 'kirchhoff',
+  krichof: 'kirchhoff',
+  coulomb: 'coulomb',
+  culomb: 'coulomb',
+  farade: 'faraday',
+  lechatelier: 'le chatelier',
+  chatelier: 'le chatelier',
+  fotosintesis: 'photosynthesis',
+  mitocondria: 'mitochondria',
+  stochiometry: 'stoichiometry'
+};
+
 /**
  * Curated high-yield core physics/chemistry/math formulas catalog
  * for guaranteed instant matching of common student queries.
@@ -208,10 +238,40 @@ export interface PrimaryFormulaEntry {
   stepByStep: string[];
   examTip: string;
   trap: string;
+  example?: string;
+  derivation?: string[];
+  variations?: string[];
 }
 
 export const PRIMARY_FORMULAS_CATALOG: PrimaryFormulaEntry[] = [
   // --- PHYSICS ---
+  {
+    keywords: ['force', 'what is force', 'f = ma', 'newton second law', 'bal kya hai', 'force formula'],
+    name: "Newton's Second Law of Motion & Force",
+    formula: String.raw`F = ma = \frac{dp}{dt}`,
+    subject: 'Physics',
+    chapter: 'Laws of Motion',
+    topic: "Newton's Second Law",
+    variables: 'F = Net external force (N), m = Inertial mass (kg), a = Linear acceleration (m/s²), p = Momentum (kg·m/s), t = Time (s)',
+    concept: 'Force is an external push or pull that changes or tends to change the state of rest or uniform motion of a body. Newton’s Second Law states that net force equals the time rate of change of linear momentum (F = dp/dt = m·a for constant mass).',
+    stepByStep: [
+      '1. Identify all external forces acting on the body and draw a Free Body Diagram (FBD).',
+      '2. Apply Newton’s Second Law along coordinate axes: Σ F_x = m a_x, Σ F_y = m a_y.',
+      '3. If mass is constant: F = m a.',
+      '4. 1 Newton (N) is defined as the force required to accelerate a 1 kg mass at 1 m/s².'
+    ],
+    examTip: 'High-yield fact: 1 Newton = 10⁵ dynes in CGS units. If momentum p(t) is a function of time, differentiate: F = dp/dt.',
+    trap: 'Force is a vector quantity; remember to calculate the VECTOR resultant of all applied forces, not just scalar arithmetic addition!',
+    example: `**Problem:** A net force of $20\\text{ N}$ acts on a stationary cart of mass $4\\text{ kg}$ for $3\\text{ seconds}$. Calculate:
+(a) The acceleration of the cart.
+(b) Its final velocity after $3\\text{ s}$.
+
+**Given:** Force $F = 20\\text{ N}$, Mass $m = 4\\text{ kg}$, Time $t = 3\\text{ s}$, Initial velocity $u = 0$.
+
+**Solution:**
+1. Acceleration: $a = \\frac{F}{m} = \\frac{20}{4} = 5\\text{ m/s}^2$.
+2. Final velocity: $v = u + at = 0 + (5 \\times 3) = 15\\text{ m/s}$.`
+  },
   {
     keywords: ['kinetic energy', 'ke', 'kinetic', 'gatij urja'],
     name: 'Kinetic Energy & Momentum Relation',
@@ -375,22 +435,59 @@ export const PRIMARY_FORMULAS_CATALOG: PrimaryFormulaEntry[] = [
     trap: 'Always check that angles are measured with respect to the NORMAL, not the surface plane.'
   },
   {
-    keywords: ['de broglie', 'debroglie', 'matter waves', 'wavelength of electron'],
+    keywords: [
+      'de broglie', 'debroglie', 'debrolie', 'debrolige', 'debrogli', 'broglie', 'brolie',
+      'matter waves', 'matter wave', 'wavelength of electron', 'dual nature', 'wave nature of matter',
+      'de broglie hypothesis', 'de broglie formula', 'debrolie formula'
+    ],
     name: 'de Broglie Wavelength of Matter Waves',
     formula: String.raw`\lambda = \frac{h}{p} = \frac{h}{m v} = \frac{h}{\sqrt{2mK}} = \frac{12.27}{\sqrt{V}}\text{ Å (for electron)}`,
     subject: 'Physics',
     chapter: 'Dual Nature of Radiation and Matter',
     topic: 'Wave Nature of Matter',
-    variables: 'λ = de Broglie wavelength (m), h = Planck’s constant (6.626 × 10⁻³⁴ J·s), p = Linear momentum (kg·m/s), K = Kinetic energy (J), V = Accelerating potential difference (Volts)',
-    concept: 'Hypothesizes that all moving matter displays wave-particle duality. The wavelength is inversely proportional to momentum.',
+    variables: 'λ = de Broglie wavelength (m or Å), h = Planck’s constant (6.626 × 10⁻³⁴ J·s), p = Linear momentum (kg·m/s), m = Mass (kg), v = Velocity (m/s), K = Kinetic energy (J), V = Accelerating potential difference (Volts)',
+    concept: 'Louis de Broglie (1924) hypothesized that nature is symmetrical: if electromagnetic radiation behaves as both waves and particles, moving material particles (matter) must also possess wave-like properties. The associated waves are called matter waves or de Broglie waves.',
     stepByStep: [
-      '1. If momentum p is known: λ = h / p.',
-      '2. If accelerated through potential difference V from rest: K = qV ⇒ λ = h / √(2mqV).',
-      '3. For electron: λ = 12.27 / √V Ångströms (Å). For proton: λ = 0.286 / √V Å. For alpha particle: λ = 0.101 / √V Å.',
-      '4. For thermal neutrons at temperature T: λ = h / √(3 m k_B T).'
+      '1. Fundamental Relation: λ = h / p (applies universally to photons and material particles).',
+      '2. For material particles with mass m and speed v: λ = h / (m v).',
+      '3. In terms of Kinetic Energy K: Since p = √(2mK) ⇒ λ = h / √(2mK).',
+      '4. For charged particle accelerated by potential V: K = qV ⇒ λ = h / √(2mqV).',
+      '5. High-Yield Entrance Exam Shortcuts:\n   • Electron: λ_e = 12.27 / √V Å = 1.227 / √V nm\n   • Proton: λ_p = 0.286 / √V Å\n   • Deuteron: λ_d = 0.202 / √V Å\n   • Alpha particle: λ_α = 0.101 / √V Å\n   • Thermal gas molecule at T (Kelvin): λ = h / √(3 m k_B T)'
     ],
-    examTip: 'For equal kinetic energy, the particle with the smallest mass (electron) possesses the largest de Broglie wavelength.',
-    trap: 'Do not confuse kinetic energy in eV with Joules. Convert eV to Joules by multiplying by 1.6 × 10⁻¹⁹!'
+    examTip: 'For equal kinetic energy, the particle with the smallest mass (electron) possesses the largest de Broglie wavelength (λ ∝ 1/√m).',
+    trap: 'Macroscopic objects (e.g. cricket ball) have tiny wavelengths ~10⁻³⁴ m (unobservable diffraction). Subatomic electrons have λ ~ 1 Å, comparable to crystal atomic spacing (verified by Davisson-Germer).',
+    example: `**Problem 1 (Entrance Exam High-Yield Numerical):** An electron is accelerated from rest through a potential difference of $V = 100\\text{ Volts}$. Calculate:
+(a) Its kinetic energy in Joules and eV.
+(b) Its de Broglie wavelength in Ångströms and nanometers.
+
+**Given Data:**
+• Accelerating potential $V = 100\\text{ V}$
+• Mass of electron $m_e = 9.1 \\times 10^{-31}\\text{ kg}$
+• Charge of electron $e = 1.6 \\times 10^{-19}\\text{ C}$
+• Planck's constant $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$
+
+**Step-by-Step Calculation:**
+1. Kinetic Energy acquired:
+   $$K = qV = (1.6 \\times 10^{-19}\\text{ C}) \\times (100\\text{ V}) = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$$
+2. Linear Momentum:
+   $$p = \\sqrt{2mK} = \\sqrt{2 \\times (9.1 \\times 10^{-31}) \\times (1.6 \\times 10^{-17})} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$$
+3. de Broglie Wavelength:
+   $$\\lambda = \\frac{h}{p} = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å} = 0.123\\text{ nm}$$
+4. **Fast Entrance Exam Shortcut:**
+   $$\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{100}} = \\frac{12.27}{10} = 1.227\\text{ Å} = 0.1227\\text{ nm}$$
+
+**Problem 2 (Macroscopic Comparison - Cricket Ball):**
+A cricket ball of mass $0.15\\text{ kg}$ is thrown at $30\\text{ m/s}$. Find its wavelength.
+$$\\lambda = \\frac{h}{mv} = \\frac{6.626 \\times 10^{-34}}{0.15 \\times 30} = 1.47 \\times 10^{-34}\\text{ m}$$
+**Why Everyday Objects Do Not Wave:** Since $10^{-34}\\text{ m}$ is trillions of times smaller than any measuring instrument or atomic nucleus, wave phenomena are completely undetectable for macroscopic objects.`,
+    derivation: [
+      '1. Photon Energy (Planck Quantum Hypothesis): E = hν = (hc) / λ.',
+      '2. Mass-Energy Equivalence (Einstein): E = m c².',
+      '3. Equating photon energies: m c² = (hc) / λ ⇒ λ = h / (mc) = h / p (where p = mc is photon momentum).',
+      '4. De Broglie Hypothesis: By nature\'s symmetry, extend this relation to material particles with mass m and velocity v: λ = h / (mv) = h / p.',
+      '5. Expressing in terms of Kinetic Energy K: Since K = p² / (2m) ⇒ p = √(2mK), we obtain λ = h / √(2mK).',
+      '6. For a charged particle accelerated by potential V: K = qV ⇒ λ = h / √(2mqV).'
+    ]
   },
   {
     keywords: ['acceleration', 'tavran', 'acceleration formula'],
@@ -607,16 +704,7 @@ export const PRIMARY_FORMULAS_CATALOG: PrimaryFormulaEntry[] = [
   }
 ];
 
-/**
- * Searches all formulas using:
- * 1. Curated PRIMARY_FORMULAS_CATALOG (exact keyword match)
- * 2. Full comprehensiveFormulaNotes (895 items)
- */
-export function searchFormulaKnowledge(
-  userQuery: string,
-  preferredSubject?: string,
-  preferredChapter?: string
-): {
+export interface FormulaKnowledgeMatch {
   found: boolean;
   name: string;
   formula: string;
@@ -628,24 +716,138 @@ export function searchFormulaKnowledge(
   stepByStep: string[];
   examTip: string;
   trap: string;
-} | null {
+  example?: string;
+  derivation?: string[];
+  detectedIntent: 'example' | 'formula' | 'derivation' | 'concept';
+  formattedAnswer: string;
+}
+
+export function formatKnowledgeAnswer(
+  entry: {
+    name: string;
+    formula: string;
+    variables: string;
+    concept: string;
+    stepByStep: string[];
+    examTip: string;
+    trap: string;
+    example?: string;
+    derivation?: string[];
+  },
+  intent: 'example' | 'formula' | 'derivation' | 'concept'
+): string {
+  if (intent === 'example') {
+    return `### 📝 Worked Numerical Example: ${entry.name}
+
+${entry.example || `**Problem Statement:** Calculate the primary variable in **${entry.name}** under standard conditions.\n\n**Given:** Standard SI input values.\n\n**Governing Formula:**\n$$${entry.formula}$$\n\n**Solution Steps:**\n${entry.stepByStep.join('\n')}`}
+
+**📌 Governing Relation Used:**
+$$${entry.formula}$$
+
+**💡 Examiner Insight for Problems:**
+${entry.examTip}`;
+  }
+
+  if (intent === 'formula') {
+    return `### 📐 Governing Formulas & Equation Sheet: ${entry.name}
+
+**Primary Formula:**
+$$${entry.formula}$$
+
+**📝 Variables & SI Units:**
+${entry.variables}
+
+**🔢 Step-by-Step Problem-Solving Method:**
+${entry.stepByStep.join('\n')}
+
+**⚠️ High-Yield Examiner Trap:**
+${entry.trap}
+
+**💡 Exam Tip:**
+${entry.examTip}`;
+  }
+
+  if (intent === 'derivation') {
+    return `### 🔬 Mathematical Derivation: ${entry.name}
+
+${(entry.derivation && entry.derivation.join('\n\n')) || entry.stepByStep.join('\n\n')}
+
+**Resulting Formula:**
+$$${entry.formula}$$
+
+**📝 Variables Defined:**
+${entry.variables}`;
+  }
+
+  // Default 'concept'
+  return `### 📘 Concept Guide: ${entry.name}
+
+${entry.concept}
+
+**Physical Mechanism & Core Principles:**
+${entry.stepByStep.slice(0, 3).join('\n')}
+
+**📌 Key Governing Relation:**
+$$${entry.formula}$$
+
+**📝 Variable Meaning:**
+${entry.variables}
+
+**💡 High-Yield Exam Takeaway:**
+${entry.examTip}`;
+}
+
+/**
+ * Searches all formulas using:
+ * 1. Curated PRIMARY_FORMULAS_CATALOG (exact keyword & typo-corrected match)
+ * 2. Full comprehensiveFormulaNotes (895 items)
+ */
+export function searchFormulaKnowledge(
+  userQuery: string,
+  preferredSubject?: string,
+  preferredChapter?: string
+): FormulaKnowledgeMatch | null {
   if (!userQuery || typeof userQuery !== 'string') return null;
 
+  const userLower = userQuery.toLowerCase().trim();
+
+  // 1. Detect Intent from raw query before stripping words
+  let detectedIntent: 'example' | 'formula' | 'derivation' | 'concept' = 'concept';
+  if (/\b(example|examples|with example|worked example|numerical|numerical example|problem|problems|sawal|udaharana|ek example|solve an example)\b/i.test(userLower)) {
+    detectedIntent = 'example';
+  } else if (/\b(derive|derivation|kaise aaya|proof|prove that|how to derive)\b/i.test(userLower)) {
+    detectedIntent = 'derivation';
+  } else if (/\b(formula|formulas|equation|equations|sutra|sambandh|mathematical expression|relation|relations)\b/i.test(userLower)) {
+    detectedIntent = 'formula';
+  }
+
+  // 2. Normalize typos and phonetic misspellings
+  let correctedQuery = userLower;
+  for (const [typo, fixed] of Object.entries(SCIENTIFIC_SPELLING_FIXES)) {
+    const rx = new RegExp(`\\b${typo}\\b`, 'gi');
+    correctedQuery = correctedQuery.replace(rx, fixed);
+  }
+
   const cleanQ = normalizeText(
-    userQuery
+    correctedQuery
       .replace(/\b(what|is|the|formula|of|for|give|me|tell|equation|expression|state|define|write|calculate|find|value|ka|kya|hai|batao|hota|h|a|an|in|to|by|step|steps|example|examples|problem|problems|question|questions|chapter|topic|concept|method|solution|sir|please|karo|do|samjhao|explain|show|detail|details|about|process|processes|law|laws|rule|rules|type|types|diagram|notes|important)\b/gi, ' ')
   );
 
   const queryTokens = cleanQ.split(' ').filter((t) => t.length > 2);
 
-  // 1. Check Primary Formulas Catalog First (Highest precision)
+  // 3. Check Primary Formulas Catalog First (Highest precision)
   for (const entry of PRIMARY_FORMULAS_CATALOG) {
     if (preferredSubject && entry.subject.toLowerCase() !== preferredSubject.toLowerCase()) {
       continue;
     }
     for (const kw of entry.keywords) {
       const normKw = normalizeText(kw);
-      if (cleanQ && (cleanQ === normKw || cleanQ.includes(normKw) || (normKw.length >= 4 && normKw.includes(cleanQ) && queryTokens.length === normKw.split(' ').length))) {
+      const isMatch =
+        (cleanQ && (cleanQ === normKw || cleanQ.includes(normKw) || (normKw.length >= 4 && normKw.includes(cleanQ) && queryTokens.length === normKw.split(' ').length))) ||
+        (queryTokens.length > 0 && queryTokens.every((t) => normKw.includes(t))) ||
+        (correctedQuery.includes(normKw));
+
+      if (isMatch) {
         return {
           found: true,
           name: entry.name,
@@ -657,34 +859,21 @@ export function searchFormulaKnowledge(
           concept: entry.concept,
           stepByStep: entry.stepByStep,
           examTip: entry.examTip,
-          trap: entry.trap
-        };
-      }
-      // Check if all tokens match
-      if (queryTokens.length > 0 && queryTokens.every((t) => normKw.includes(t))) {
-        return {
-          found: true,
-          name: entry.name,
-          formula: entry.formula,
-          subject: entry.subject,
-          chapter: entry.chapter,
-          topic: entry.topic,
-          variables: entry.variables,
-          concept: entry.concept,
-          stepByStep: entry.stepByStep,
-          examTip: entry.examTip,
-          trap: entry.trap
+          trap: entry.trap,
+          example: entry.example,
+          derivation: entry.derivation,
+          detectedIntent,
+          formattedAnswer: formatKnowledgeAnswer(entry, detectedIntent)
         };
       }
     }
   }
 
-  // 2. Search through comprehensiveFormulaNotes
+  // 4. Search through comprehensiveFormulaNotes
   let bestMatch: any = null;
   let highestScore = 0;
 
   for (const item of comprehensiveFormulaNotes) {
-    // Strictly isolate subject if specified
     if (preferredSubject && item.subject.toLowerCase() !== preferredSubject.toLowerCase()) {
       continue;
     }
@@ -723,7 +912,6 @@ export function searchFormulaKnowledge(
         score += 40;
       }
 
-      // If query was just requesting something in this chapter (e.g. Action button "Example in Kinematics")
       if (queryTokens.length === 0 && chapterBoost > 1.0) {
         score += 30;
       }
@@ -735,13 +923,9 @@ export function searchFormulaKnowledge(
 
       if (score > highestScore && score >= minScoreRequired && (matchedTokens >= minTokensRequired || (cleanQ && normFName.includes(cleanQ)))) {
         highestScore = score;
-        bestMatch = {
-          found: true,
+        const entryObj = {
           name: f.name,
           formula: f.formula,
-          subject: item.subject,
-          chapter: item.chapter,
-          topic: item.topic,
           variables: f.variables || 'Standard physical/chemical SI variables.',
           concept: item.concept || `${item.chapter} — ${item.topic}`,
           stepByStep: [
@@ -751,6 +935,21 @@ export function searchFormulaKnowledge(
           ],
           examTip: f.examTip || 'High-yield relation for entrance examinations.',
           trap: f.trap || 'Watch out for unit mismatch and sign conventions.'
+        };
+        bestMatch = {
+          found: true,
+          name: f.name,
+          formula: f.formula,
+          subject: item.subject,
+          chapter: item.chapter,
+          topic: item.topic,
+          variables: entryObj.variables,
+          concept: entryObj.concept,
+          stepByStep: entryObj.stepByStep,
+          examTip: entryObj.examTip,
+          trap: entryObj.trap,
+          detectedIntent,
+          formattedAnswer: formatKnowledgeAnswer(entryObj, detectedIntent)
         };
       }
     }

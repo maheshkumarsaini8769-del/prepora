@@ -280,37 +280,115 @@ export class FallbackProvider implements IAIProvider {
       steps.push("3. Fluid Mosaic Model (Singer & Nicolson, 1972): Plasma membrane is a quasi-fluid lipid bilayer with embedded and peripheral proteins.");
       trap = "Mitochondria and chloroplasts have 70S ribosomes, identical to bacteria, while eukaryotic cytoplasm contains 80S ribosomes.";
       tip = "DNA replication occurs exclusively in the S-phase (Synthesis Phase) of interphase in the cell cycle.";
+    } else if ((qLower.includes('force') || qLower === 'what is force' || qLower === 'what is force?') && !qLower.includes('frictional force')) {
+      subject = 'Physics';
+      chapter = 'Laws of Motion';
+      topic = "Newton's Second Law of Motion & Force";
+      concept = 'Force and Momentum Change (F = ma)';
+      answer = "Force is an external push or pull that changes or tends to change the state of rest or uniform motion of a body in a straight line. By Newton's Second Law, net external force equals the rate of change of linear momentum: $\\vec{F} = \\frac{d\\vec{p}}{dt} = m\\vec{a}$ (for constant mass). The SI unit of force is the Newton (N).";
+      keyFormula = String.raw`F = ma = \frac{dp}{dt}`;
+      variables = "F = Force (Newtons N), m = Mass (kg), a = Acceleration (m/s²), p = Linear momentum (kg·m/s)";
+      steps.push("1. Draw a Free Body Diagram (FBD) displaying all acting forces.");
+      steps.push("2. Resolve forces along coordinate axes: Σ F_x = m a_x, Σ F_y = m a_y.");
+      steps.push("3. For constant mass m, apply net force relation: F = m a.");
+      trap = "Force is a VECTOR quantity. You must compute vector resultant components (Σ F), not simple scalar sum.";
+      tip = "1 Newton is the force needed to accelerate a 1 kg mass by 1 m/s² (1 N = 10⁵ dynes in CGS units).";
+    } else if (
+      qLower.includes('broglie') || qLower.includes('debrolie') || qLower.includes('debrolige') ||
+      qLower.includes('matter wave') || qLower.includes('wavelength of electron') || qLower.includes('wave particle duality')
+    ) {
+      subject = 'Physics';
+      chapter = 'Dual Nature of Radiation and Matter';
+      topic = 'Wave Nature of Matter (de Broglie Hypothesis)';
+      concept = 'de Broglie Wavelength & Matter Waves';
+      keyFormula = String.raw`\lambda = \frac{h}{p} = \frac{h}{m v} = \frac{h}{\sqrt{2mK}} = \frac{12.27}{\sqrt{V}}\text{ Å}`;
+      variables = "λ = de Broglie wavelength (m or Å), h = Planck's constant (6.626 × 10⁻³⁴ J·s), p = Linear momentum (kg·m/s), m = Mass (kg), v = Speed (m/s), K = Kinetic energy (J), V = Accelerating potential (Volts)";
+      trap = "For macroscopic bodies (cricket ball), λ is ~10⁻³⁴ m (undetectable). For microscopic electrons, λ is ~1 Å (detected by crystal diffraction).";
+      tip = "For charged particles accelerated from rest by voltage V: λ_e = 12.27/√V Å (electron), λ_p = 0.286/√V Å (proton), λ_α = 0.101/√V Å (alpha particle).";
+      steps.push("1. Fundamental formula: λ = h / p.");
+      steps.push("2. In terms of mass and speed: λ = h / (m v).");
+      steps.push("3. In terms of Kinetic Energy K: λ = h / √(2mK).");
+      steps.push("4. In terms of accelerating potential V: λ = h / √(2mqV).");
+
+      const isEx = isExampleReq || /\b(example|examples|with example|worked example|numerical|problem)\b/i.test(qLower);
+      const isForm = !isEx && /\b(formula|formulas|equation|equations|sutra|expression|relation)\b/i.test(qLower);
+      const isDeriv = !isEx && !isForm && /\b(derive|derivation|kaise aaya|proof)\b/i.test(qLower);
+
+      if (isEx) {
+        answer = `### 📝 Worked Numerical Example: de Broglie Wavelength\n\n**Problem 1 (Entrance Exam Standard Numerical):** An electron is accelerated from rest through a potential difference of $V = 100\\text{ Volts}$. Calculate:\n(a) Its kinetic energy in Joules and eV.\n(b) Its de Broglie wavelength.\n\n**Given:** $V = 100\\text{ V}$, $m_e = 9.1 \\times 10^{-31}\\text{ kg}$, $e = 1.6 \\times 10^{-19}\\text{ C}$, $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$.\n\n**Step-by-Step Calculation:**\n1. Kinetic Energy acquired: $K = qV = (1.6 \\times 10^{-19})(100) = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$.\n2. Linear Momentum: $p = \\sqrt{2mK} = \\sqrt{2(9.1 \\times 10^{-31})(1.6 \\times 10^{-17})} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$.\n3. Wavelength from First Principles:\n$$\\lambda = \\frac{h}{p} = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å} = 0.123\\text{ nm}$$\n4. **Quick Shortcut Method:**\n$$\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{100}} = \\frac{12.27}{10} = 1.227\\text{ Å}$$\n\n**Problem 2 (Cricket Ball vs Electron Comparison):**\nA cricket ball of mass $0.15\\text{ kg}$ is thrown at $30\\text{ m/s}$. Find its de Broglie wavelength.\n$$\\lambda = \\frac{h}{mv} = \\frac{6.626 \\times 10^{-34}}{0.15 \\times 30} = 1.47 \\times 10^{-34}\\text{ m}$$\n**Physical Takeaway:** Wavelength ($10^{-34}\\text{ m}$) is trillions of times smaller than any measuring apparatus, explaining why everyday objects do NOT display detectable wave nature!`;
+      } else if (isForm) {
+        answer = `### 📐 Governing Formulas & Equation Sheet: de Broglie Matter Waves\n\n**Primary Formula:**\n$$\\lambda = \\frac{h}{p} = \\frac{h}{m v}$$\n\n**Important Equation Forms for Entrance Exams:**\n1. **In terms of Linear Momentum ($p$):** $\\lambda = \\frac{h}{p}$ (universal, applies to both photons and particles)\n2. **In terms of Kinetic Energy ($K$):** Since $p = \\sqrt{2mK}$,\n$$\\lambda = \\frac{h}{\\sqrt{2mK}}$$\n3. **For Charged Particle accelerated by Potential Difference ($V$):** Since $K = qV$,\n$$\\lambda = \\frac{h}{\\sqrt{2mqV}}$$\n4. **High-Yield Entrance Exam Shortcuts:**\n• **Electron:** $\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{V}}\\text{ nm}$\n• **Proton:** $\\lambda_p = \\frac{0.286}{\\sqrt{V}}\\text{ Å}$\n• **Deuteron:** $\\lambda_d = \\frac{0.202}{\\sqrt{V}}\\text{ Å}$\n• **$\\alpha$-Particle:** $\\lambda_\\alpha = \\frac{0.101}{\\sqrt{V}}\\text{ Å}$\n• **Gas Molecule at Temperature $T$:** $\\lambda = \\frac{h}{\\sqrt{3 m k_B T}}$`;
+      } else if (isDeriv) {
+        answer = `### 🔬 Step-by-Step Derivation: de Broglie Wavelength\n\n1. According to Planck's Quantum Theory, the energy of a photon of frequency $\\nu$ is:\n$$E = h\\nu = \\frac{hc}{\\lambda}$$\n2. According to Einstein's Mass-Energy Equivalence Principle:\n$$E = mc^2$$\n3. Equating both expressions for energy:\n$$mc^2 = \\frac{hc}{\\lambda} \\implies \\lambda = \\frac{h}{mc} = \\frac{h}{p}$$\n(where $p = mc$ is the photon momentum).\n4. **Louis de Broglie's Hypothesis (1924):** Symmetrically extending this to any moving material particle with rest mass $m$ and velocity $v$:\n$$\\lambda = \\frac{h}{mv} = \\frac{h}{p}$$\n5. In terms of Kinetic Energy $K = \\frac{p^2}{2m} \\implies p = \\sqrt{2mK}$, so:\n$$\\lambda = \\frac{h}{\\sqrt{2mK}}$$\n6. For a charge $q$ accelerated by potential difference $V$ from rest: $K = qV \\implies \\lambda = \\frac{h}{\\sqrt{2mqV}}$.`;
+      } else {
+        answer = `### 📘 What is the de Broglie Hypothesis & Matter Waves?\n\n**Core Concept (Symmetry of Nature):**\nIn 1924, French physicist Louis de Broglie hypothesized that nature is symmetrical: if electromagnetic radiation (light) can exhibit dual behavior (acting both as waves and as particles), then **moving material particles (matter) must also possess wave-like properties**.\n\n**What are Matter Waves?**\nThe waves associated with any moving material particle are called **matter waves** or **de Broglie waves**. They are NOT electromagnetic waves (they are emitted by both charged and uncharged particles) and NOT mechanical waves; they are probability amplitude waves describing the state of the moving particle.\n\n**Why don't everyday objects exhibit wave nature?**\nBecause Planck's constant $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$ is extremely tiny. For a macroscopic body of mass $m \\approx 0.15\\text{ kg}$ (like a cricket ball) moving at $30\\text{ m/s}$, the wavelength is:\n$$\\lambda = \\frac{h}{mv} \\approx 1.47 \\times 10^{-34}\\text{ m}$$\nThis is quadrillions of times smaller than an atomic nucleus ($10^{-15}\\text{ m}$), making wave diffraction completely undetectable. However, for an electron with $m_e \\approx 9.1 \\times 10^{-31}\\text{ kg}$, the wavelength is around $1\\text{ Å} = 10^{-10}\\text{ m}$, which perfectly matches the spacing between atoms in a crystal lattice!\n\n**Experimental Proof:**\nVerified experimentally in 1927 by the **Davisson and Germer Experiment** and **G.P. Thomson** using electron diffraction through nickel crystals, confirming de Broglie's prediction and earning them the Nobel Prize.`;
+      }
+
+      return {
+        answer,
+        coreConcept: isEx ? 'Worked Example in de Broglie Wavelength' : isForm ? 'de Broglie Formulas & Relations' : isDeriv ? 'Derivation of de Broglie Wavelength' : concept,
+        stepByStepSolution: steps,
+        keyFormula,
+        variables,
+        example: isEx ? answer : undefined,
+        examinerTrap: trap,
+        examTip: tip,
+        understanding: {
+          intent: (isEx ? 'example' : isForm ? 'formula' : isDeriv ? 'derivation' : 'definition') as any,
+          subject: 'Physics',
+          chapter,
+          topic,
+          concept,
+          difficulty: 'Medium',
+          isNumerical: isEx,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: isEx
+          ? ['Show another example', 'Show governing formulas', 'Test me on this']
+          : isForm
+          ? ['Show worked example', 'Step-by-step derivation', 'Test me on this']
+          : ['Give worked example', 'Show governing formulas', 'Test me on this'],
+        suggestedPractice: {
+          subject,
+          chapter,
+          topic,
+          count: 5,
+          actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}`
+        },
+        confidence: 0.98,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
     } else {
       // 3. Check Formula Knowledge Search
       const formulaMatch = searchFormulaKnowledge(q, subject, chapter);
       if (formulaMatch && formulaMatch.found) {
         return {
-          answer: `### ${formulaMatch.name}\n\n${formulaMatch.concept}\n\n**📌 Governing Formula:**\n$$${formulaMatch.formula}$$\n\n**📝 Variables Explained:**\n${formulaMatch.variables}`,
+          answer: formulaMatch.formattedAnswer || `### ${formulaMatch.name}\n\n${formulaMatch.concept}\n\n**📌 Governing Formula:**\n$$${formulaMatch.formula}$$\n\n**📝 Variables Explained:**\n${formulaMatch.variables}`,
           coreConcept: `${formulaMatch.name} — ${formulaMatch.concept}`,
           stepByStepSolution: formulaMatch.stepByStep,
           keyFormula: formulaMatch.formula,
           variables: formulaMatch.variables,
-          example: undefined,
+          example: formulaMatch.example,
           examinerTrap: formulaMatch.trap,
           examTip: formulaMatch.examTip,
           understanding: {
-            intent: 'formula',
+            intent: formulaMatch.detectedIntent as any,
             subject: formulaMatch.subject as any,
             chapter: formulaMatch.chapter,
             topic: formulaMatch.topic,
             concept: formulaMatch.concept,
             difficulty: 'Medium',
-            isNumerical: false,
+            isNumerical: formulaMatch.detectedIntent === 'example',
             requiresCurrentInfo: false
           },
           verificationPassed: true,
           groundedInPrepora: true,
-          suggestedFollowUps: [
-            'Show numerical example',
-            'Step-by-step derivation',
-            'Where does this fail?',
-            'Test me on this'
-          ],
+          suggestedFollowUps: formulaMatch.detectedIntent === 'example'
+            ? ['Show another example', 'Show governing formulas', 'Test me on this']
+            : ['Show worked example', 'Step-by-step derivation', 'Test me on this'],
           suggestedPractice: {
             subject: formulaMatch.subject,
             chapter: formulaMatch.chapter,

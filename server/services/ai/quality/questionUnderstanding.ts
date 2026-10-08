@@ -26,7 +26,8 @@ const SUBJECT_KEYWORDS: Record<EducationalSubject, { terms: string[]; chapters: 
       'diffraction', 'electrostatics', 'coulomb', 'electric field', 'potential', 'capacitance',
       'current', 'resistor', 'ohm', 'kirchhoff', 'magnetic field', 'lorentz', 'biot-savart',
       'faraday', 'lenz', 'inductance', 'ac circuit', 'semiconductor', 'diode', 'transistor',
-      'photoelectric', 'bohr model', 'de broglie', 'nuclear physics', 'radioactivity'
+      'photoelectric', 'bohr model', 'de broglie', 'debrolie', 'debrolige', 'matter wave', 'matter waves',
+      'wavelength of electron', 'dual nature', 'nuclear physics', 'radioactivity'
     ],
     chapters: {
       'Kinematics': ['kinematics', 'motion in 1d', 'motion in 2d', 'velocity', 'acceleration', 'displacement', 'projectile', 'equations of motion'],
@@ -35,7 +36,8 @@ const SUBJECT_KEYWORDS: Record<EducationalSubject, { terms: string[]; chapters: 
       'Work, Energy & Power': ['work done', 'kinetic energy', 'potential energy', 'conservation of energy', 'power', 'collision'],
       'Current Electricity': ['current', 'resistor', 'resistance', 'ohm\'s law', 'kirchhoff', 'wheatstone', 'potentiometer', 'drift velocity'],
       'Ray Optics': ['refraction', 'reflection', 'lens formula', 'mirror formula', 'focal length', 'prism', 'total internal reflection'],
-      'Electrostatics': ['electric field', 'coulomb\'s law', 'electrostatic potential', 'capacitance', 'gauss law']
+      'Electrostatics': ['electric field', 'coulomb\'s law', 'electrostatic potential', 'capacitance', 'gauss law'],
+      'Dual Nature of Radiation and Matter': ['de broglie', 'debrolie', 'debrolige', 'matter wave', 'matter waves', 'wavelength of electron', 'photoelectric effect', 'work function']
     }
   },
   Chemistry: {
@@ -111,10 +113,14 @@ export function analyzeQuestionUnderstanding(
 
   // 1. Detect Intent
   let intent: QuestionIntent = 'explanation';
-  if (/^(what is|define|definition of|meaning of|state\s)/i.test(cleanQ)) {
-    intent = 'definition';
-  } else if (/^(derive|derivation of|show that|prove that)/i.test(cleanQ)) {
+  if (/\b(example|examples|with example|worked example|numerical|numerical example|problem|problems|sawal|udaharana|ek example|solve an example)\b/i.test(lowerQ)) {
+    intent = 'example';
+  } else if (/\b(derive|derivation|derivation of|show that|prove that|kaise aaya|how to derive)\b/i.test(lowerQ)) {
     intent = 'derivation';
+  } else if (/\b(formula|formulas|formula of|equation|equations|sutra|sambandh|mathematical expression|relation|relations)\b/i.test(lowerQ)) {
+    intent = 'formula';
+  } else if (/^(what is|define|definition of|meaning of|state\s)/i.test(cleanQ)) {
+    intent = 'definition';
   } else if (/^(solve|calculate|find\s+(the)?\s+(value|magnitude|speed|force|energy|acceleration)|how much|how many)/i.test(cleanQ) || /[0-9]+\s*[=+\-*/]/.test(cleanQ)) {
     intent = 'calculation';
   } else if (/\b(differentiate between|difference between|compare|vs|versus)\b/i.test(lowerQ)) {

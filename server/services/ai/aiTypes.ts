@@ -3,6 +3,8 @@ export type EducationalSubject = 'Physics' | 'Chemistry' | 'Mathematics' | 'Biol
 export type QuestionIntent = 
   | 'definition'
   | 'explanation'
+  | 'formula'
+  | 'example'
   | 'derivation'
   | 'calculation'
   | 'comparison'

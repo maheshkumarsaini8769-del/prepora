@@ -29,6 +29,45 @@ const CHEMISTRY_KEYWORDS = [
   'aldehyde', 'ketone', 'carboxylic acid', 'amine', 'diazonium', 'biomolecule', 'polymer'
 ];
 
+export const SCIENTIFIC_SPELLING_FIXES: Record<string, string> = {
+  debrolie: 'de broglie',
+  debrolige: 'de broglie',
+  debrogli: 'de broglie',
+  debrogali: 'de broglie',
+  dibroli: 'de broglie',
+  dibroglie: 'de broglie',
+  broglie: 'de broglie',
+  brolie: 'de broglie',
+  schrodinger: 'schrodinger',
+  shrodinger: 'schrodinger',
+  shroedinger: 'schrodinger',
+  heisenberg: 'heisenberg',
+  hiesenberg: 'heisenberg',
+  bernouli: 'bernoulli',
+  barnouli: 'bernoulli',
+  barnoulli: 'bernoulli',
+  kirchof: 'kirchhoff',
+  kirchoff: 'kirchhoff',
+  krichof: 'kirchhoff',
+  coulomb: 'coulomb',
+  culomb: 'coulomb',
+  farade: 'faraday',
+  lechatelier: 'le chatelier',
+  chatelier: 'le chatelier',
+  fotosintesis: 'photosynthesis',
+  mitocondria: 'mitochondria',
+  stochiometry: 'stoichiometry'
+};
+
+export function normalizeAcademicQuery(raw: string): string {
+  let cleaned = (raw || '').toLowerCase().trim();
+  for (const [typo, fixed] of Object.entries(SCIENTIFIC_SPELLING_FIXES)) {
+    const regex = new RegExp(`\\b${typo}\\b`, 'gi');
+    cleaned = cleaned.replace(regex, fixed);
+  }
+  return cleaned;
+}
+
 const PHYSICS_KEYWORDS = [
   'velocity', 'acceleration', 'speed', 'projectile', 'kinematics', 'displacement',
   'newton', 'friction', 'tension', 'pulley', 'work', 'energy', 'power', 'conservation of momentum',
@@ -39,7 +78,8 @@ const PHYSICS_KEYWORDS = [
   'magnetic field', 'lorentz force', 'biot savart', 'cyclotron', 'solenoid', 'faraday law',
   'lenz law', 'alternating current', 'inductance', 'optics', 'reflection', 'refraction',
   'focal length', 'lens', 'mirror', 'interference', 'diffraction', 'polarization',
-  'photoelectric', 'work function', 'de broglie', 'bohr radius', 'semiconductor', 'diode', 'transistor'
+  'photoelectric', 'work function', 'de broglie', 'debrolie', 'debrolige', 'matter wave', 'matter waves',
+  'wavelength of electron', 'dual nature', 'bohr radius', 'semiconductor', 'diode', 'transistor'
 ];
 
 const MATHEMATICS_KEYWORDS = [
@@ -67,7 +107,8 @@ const CHAPTER_TAXONOMY: { [key in SubjectName]: { chapter: string; keywords: str
     { chapter: 'Magnetic Effects of Current', keywords: ['magnetic field', 'biot savart', 'ampere circuital', 'lorentz force', 'solenoid', 'galvanometer', 'cyclotron'] },
     { chapter: 'Electromagnetic Induction & AC', keywords: ['faraday', 'lenz law', 'self induction', 'mutual induction', 'alternating current', 'lcr circuit', 'resonance', 'transformer'] },
     { chapter: 'Ray & Wave Optics', keywords: ['reflection', 'refraction', 'snell law', 'lens maker', 'prism', 'interference', 'diffraction', 'young double slit', 'fringe width'] },
-    { chapter: 'Modern Physics', keywords: ['photoelectric effect', 'work function', 'de broglie', 'bohr model', 'hydrogen spectrum', 'half life', 'nuclear fission', 'mass defect'] },
+    { chapter: 'Dual Nature of Radiation and Matter', keywords: ['de broglie', 'debrolie', 'debrolige', 'debrogli', 'matter wave', 'matter waves', 'wavelength of electron', 'photoelectric effect', 'work function', 'davisson germer'] },
+    { chapter: 'Modern Physics', keywords: ['bohr model', 'hydrogen spectrum', 'half life', 'nuclear fission', 'mass defect', 'radioactivity'] },
     { chapter: 'Semiconductor Electronics', keywords: ['p-n junction', 'diode', 'zener diode', 'rectifier', 'logic gate', 'transistor', 'semiconductor'] }
   ],
   Chemistry: [
@@ -116,7 +157,7 @@ export function classifyAcademicQuery(
   userSelectedSubject: SubjectName,
   targetExam?: ExamType | string
 ): AcademicClassificationResult {
-  const q = query.toLowerCase().trim();
+  const q = normalizeAcademicQuery(query);
   const examNorm = (targetExam || 'JEE').toString().toUpperCase().trim();
 
   const matchesTerm = (text: string, term: string): boolean => {
