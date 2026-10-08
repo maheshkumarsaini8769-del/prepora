@@ -17,15 +17,17 @@ import { testService } from '../services/testService';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question, TestAttempt } from '../types';
+import { isClass11User, getAllowedClassScopes } from '../utils/examUtils';
 
 export const BuildMyTest: React.FC = () => {
   const navigate = useNavigate();
   const profile = userService.getProfile();
+  const isClass11 = isClass11User(profile?.classLevel) || isClass11User(profile?.preparationProfile?.classLevel);
 
   // Core Configuration States
   const [exam, setExam] = useState<ExamType>(profile.targetExam || 'JEE');
   const [classLevel, setClassLevel] = useState<ClassLevel | 'ALL'>(
-    (profile.classLevel as string) === 'Dropper' ? 'ALL' : ((profile.classLevel as ClassLevel) || '11')
+    isClass11 ? '11' : (profile.classLevel as string) === 'Dropper' ? 'ALL' : ((profile.classLevel as ClassLevel) || '11')
   );
   const [selectedSubjects, setSelectedSubjects] = useState<SubjectName[]>(['Physics']);
   const [selectedChapter, setSelectedChapter] = useState<string>('ALL');
@@ -54,10 +56,10 @@ export const BuildMyTest: React.FC = () => {
   const availableChapters = useMemo(() => {
     const chapters = new Set<string>();
     selectedSubjects.forEach((sub) => {
-      questionService.getChapters(sub, classLevel === 'ALL' ? undefined : classLevel).forEach((ch) => chapters.add(ch));
+      questionService.getChapters(sub, isClass11 ? '11' : (classLevel === 'ALL' ? undefined : classLevel)).forEach((ch) => chapters.add(ch));
     });
     return Array.from(chapters).sort();
-  }, [selectedSubjects, classLevel]);
+  }, [selectedSubjects, classLevel, isClass11]);
 
   // Topics loaded from syllabus hierarchy
   const availableTopics = useMemo(() => {
@@ -76,7 +78,7 @@ export const BuildMyTest: React.FC = () => {
     return questionService
       .filterQuestions({
         exam,
-        classLevel: classLevel === 'ALL' ? undefined : classLevel,
+        classLevel: isClass11 ? '11' : (classLevel === 'ALL' ? undefined : classLevel),
         difficulty: difficulty === 'Mixed' ? undefined : difficulty,
         includePYQs,
         includeModelPapers: false,
@@ -84,7 +86,7 @@ export const BuildMyTest: React.FC = () => {
         topic: selectedTopic !== 'ALL' ? selectedTopic : undefined
       })
       .filter((q) => selectedSubjects.includes(q.subject));
-  }, [exam, classLevel, difficulty, includePYQs, selectedChapter, selectedTopic, selectedSubjects]);
+  }, [exam, classLevel, isClass11, difficulty, includePYQs, selectedChapter, selectedTopic, selectedSubjects]);
 
   const [serverCount, setServerCount] = useState<number | null>(null);
 
@@ -101,7 +103,7 @@ export const BuildMyTest: React.FC = () => {
         for (const sub of selectedSubjects) {
           const cnt = await questionService.getEligibleCountAsync({
             exam,
-            classLevel: classLevel === 'ALL' ? undefined : classLevel,
+            classLevel: isClass11 ? '11' : (classLevel === 'ALL' ? undefined : classLevel),
             subject: sub,
             chapter: selectedChapter !== 'ALL' ? selectedChapter : undefined,
             topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
@@ -119,7 +121,7 @@ export const BuildMyTest: React.FC = () => {
     };
     fetchCount();
     return () => { isCancelled = true; };
-  }, [exam, classLevel, selectedSubjects, selectedChapter, selectedTopic, difficulty, includePYQs]);
+  }, [exam, classLevel, isClass11, selectedSubjects, selectedChapter, selectedTopic, difficulty, includePYQs]);
 
   const effectiveAvailableCount = Math.max(availablePool.length, serverCount || 0);
 
@@ -214,7 +216,7 @@ export const BuildMyTest: React.FC = () => {
       userId: profile?.id,
       title: testTitle.trim() || `${exam} Custom Test (${countToUse} Questions)`,
       exam,
-      classLevel: classLevel === 'ALL' ? undefined : classLevel,
+      classLevel: isClass11 ? '11' : (classLevel === 'ALL' ? undefined : classLevel),
       subjects: selectedSubjects,
       chapters: selectedChapter !== 'ALL' ? [selectedChapter] : undefined,
       topic: selectedTopic !== 'ALL' ? selectedTopic : undefined,
@@ -327,9 +329,16 @@ export const BuildMyTest: React.FC = () => {
       <Card className="p-6 space-y-6">
         {/* Step 1: Exam */}
         <div>
-          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-            1. Target Exam
-          </label>
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              1. Target Exam
+            </label>
+            {profile?.targetExam === 'JEE' && (
+              <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                JEE Main & Advanced (Profile)
+              </span>
+            )}
+          </div>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
             {(['JEE', 'NEET', 'CBSE', 'RBSE'] as ExamType[]).map((e) => (
               <button
@@ -350,19 +359,30 @@ export const BuildMyTest: React.FC = () => {
 
         {/* Step 2: Class Scope */}
         <div>
-          <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
-            2. Class Scope
-          </label>
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { id: '11', label: 'Class 11' },
-              { id: '12', label: 'Class 12' },
-              { id: 'ALL', label: 'All (Full Syllabus)' }
-            ].map((scope) => (
+          <div className="flex items-center justify-between mb-2">
+            <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              2. Class Scope
+            </label>
+            {isClass11 && (
+              <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                Class 11 Locked (Profile)
+              </span>
+            )}
+          </div>
+          <div className={`grid gap-2 ${isClass11 ? 'grid-cols-1' : 'grid-cols-3'}`}>
+            {(isClass11
+              ? [{ id: '11', label: 'Class 11 Syllabus Only' }]
+              : [
+                  { id: '11', label: 'Class 11' },
+                  { id: '12', label: 'Class 12' },
+                  { id: 'ALL', label: 'All (Full Syllabus)' }
+                ]
+            ).map((scope) => (
               <button
                 key={scope.id}
                 type="button"
                 onClick={() => {
+                  if (isClass11) return;
                   setClassLevel(scope.id as any);
                   setSelectedChapter('ALL');
                   setSelectedTopic('ALL');

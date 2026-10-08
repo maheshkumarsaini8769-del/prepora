@@ -52,6 +52,27 @@ class MockUserService {
       setStorageItem(StorageKeys.USER_PROFILE, profile);
     }
 
+    // Always synchronize with explicit preparation profile if saved in storage
+    const prepProfile = getStorageItem<any>('prepora_preparation_profile', null);
+    if (prepProfile) {
+      let changed = false;
+      if (prepProfile.classLevel && prepProfile.classLevel !== profile.classLevel) {
+        profile.classLevel = prepProfile.classLevel === 'Dropper' ? '12' : prepProfile.classLevel;
+        changed = true;
+      }
+      if (prepProfile.preparationType && prepProfile.preparationType !== 'UNDECIDED' && prepProfile.preparationType !== profile.targetExam) {
+        profile.targetExam = prepProfile.preparationType;
+        changed = true;
+      }
+      if (!profile.preparationProfile) {
+        profile.preparationProfile = prepProfile;
+        changed = true;
+      }
+      if (changed) {
+        setStorageItem(StorageKeys.USER_PROFILE, profile);
+      }
+    }
+
     return profile;
   }
 

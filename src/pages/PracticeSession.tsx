@@ -31,6 +31,7 @@ import { progressService } from '../services/progressService';
 import { continueLearningService } from '../services/continueLearningService';
 import { soundFeedback } from '../utils/audioFeedback';
 import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel } from '../types';
+import { isClass11User } from '../utils/examUtils';
 
 const MISTAKE_TYPES = [
   { id: 'Concept Gap', label: 'Concept Gap', hint: "Didn't know this concept" },
@@ -46,9 +47,13 @@ const MISTAKE_TYPES = [
 export const PracticeSession: React.FC = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
+  const user = userService.getProfile();
+  const isClass11 = isClass11User(user?.classLevel) || isClass11User(user?.preparationProfile?.classLevel);
 
-  const exam = searchParams.get('exam') as ExamType;
-  const classLevel = searchParams.get('class') as ClassLevel;
+  const rawExam = searchParams.get('exam') as ExamType;
+  const exam = (user?.targetExam === 'JEE' ? 'JEE' : (rawExam && rawExam !== ('All' as any) ? rawExam : user?.targetExam || 'JEE')) as ExamType;
+  const rawClass = searchParams.get('class') as ClassLevel;
+  const classLevel = isClass11 ? '11' : (rawClass && rawClass !== ('All' as any) ? rawClass : (user?.classLevel as ClassLevel) || '11');
   const subject = searchParams.get('subject') as SubjectName;
   const chapter = searchParams.get('chapter');
   const topic = searchParams.get('topic');
@@ -85,8 +90,8 @@ export const PracticeSession: React.FC = () => {
       } catch {}
 
       const filterOpts = {
-        exam: exam && exam !== ('All' as any) ? exam : undefined,
-        classLevel: classLevel && classLevel !== ('All' as any) ? classLevel : undefined,
+        exam: exam && exam !== ('All' as any) ? exam : user?.targetExam || 'JEE',
+        classLevel: isClass11 ? '11' : (classLevel && classLevel !== ('All' as any) ? classLevel : undefined),
         subject: subject && subject !== ('All' as any) ? subject : undefined,
         chapter: chapter && chapter !== 'All' ? chapter : undefined,
         topic: topic && topic !== 'All' ? topic : undefined,

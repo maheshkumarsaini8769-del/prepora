@@ -52,6 +52,50 @@ export const mockTests: Test[] = [
     }
   },
   {
+    id: "test-jee-class11-mock-1",
+    title: "JEE Main Class 11 Full Syllabus Mock #1",
+    exam: "JEE",
+    classLevel: "11",
+    subjects: ["Physics", "Chemistry", "Mathematics"],
+    chapters: ["Kinematics", "Laws of Motion", "Atomic Structure", "Chemical Bonding", "Sets and Relations", "Complex Numbers and Quadratic Equations"],
+    totalQuestions: 15,
+    durationMinutes: 45,
+    difficulty: "Mixed",
+    questionIds: [
+      "phy-11-001", "phy-11-003", "phy-11-004", "phy-11-005", "phy-11-006",
+      "chem-11-001", "chem-11-002", "chem-11-003", "chem-11-004", "chem-11-005",
+      "math-11-001", "math-11-002", "math-11-003", "math-11-004", "math-11-005"
+    ],
+    category: "Full Mock",
+    isAttempted: false,
+    maxScore: 60,
+    negativeMarking: true,
+    calculatorEnabled: true,
+    subjectTimePlan: {
+      Physics: 15,
+      Chemistry: 15,
+      Mathematics: 15
+    }
+  },
+  {
+    id: "test-math-algebra-11",
+    title: "Mathematics: Sets, Relations & Quadratic Equations",
+    exam: "JEE",
+    classLevel: "11",
+    subjects: ["Mathematics"],
+    chapters: ["Sets and Relations", "Complex Numbers and Quadratic Equations", "Sequences and Series"],
+    totalQuestions: 6,
+    durationMinutes: 20,
+    difficulty: "Medium",
+    questionIds: [
+      "math-11-001", "math-11-002", "math-11-003", "math-11-004", "math-11-005"
+    ],
+    category: "Subject Test",
+    isAttempted: false,
+    maxScore: 24,
+    negativeMarking: true
+  },
+  {
     id: "test-phy-mechanics",
     title: "Physics: Mechanics Mastery Test",
     exam: "JEE",
@@ -84,7 +128,7 @@ export const mockTests: Test[] = [
     durationMinutes: 15,
     difficulty: "Medium",
     questionIds: [
-      "chem-11-001", "chem-11-003", "chem-11-004", "chem-12-001", "chem-12-003"
+      "chem-11-001", "chem-11-002", "chem-11-003", "chem-11-004", "chem-11-005"
     ],
     category: "Subject Test",
     isAttempted: false,

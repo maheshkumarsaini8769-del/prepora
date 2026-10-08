@@ -5,13 +5,14 @@ import { Card, Button, CustomSelect } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question } from '../types';
-import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
+import { getAllowedSubjectsForExam, sanitizeSubjectForExam, getAllowedClassScopes, isClass11User } from '../utils/examUtils';
 
 export const Practice: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const user = userService.getProfile();
   const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
+  const isClass11 = isClass11User(user?.classLevel) || isClass11User(user?.preparationProfile?.classLevel);
 
   // Primary Selection States
   const rawSubject = (searchParams.get('subject') as SubjectName) || allowedSubjects[0];
@@ -30,7 +31,7 @@ export const Practice: React.FC = () => {
   const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
   const [exam, setExam] = useState<ExamType | 'All'>((searchParams.get('exam') as ExamType) || user?.targetExam || 'All');
   const [classLevel, setClassLevel] = useState<ClassLevel | 'All'>(
-    (searchParams.get('class') as ClassLevel) || ((user?.classLevel as string) === 'Dropper' ? 'All' : (user?.classLevel as ClassLevel) || '11')
+    isClass11 ? '11' : ((searchParams.get('class') as ClassLevel) || ((user?.classLevel as string) === 'Dropper' ? 'All' : (user?.classLevel as ClassLevel) || '11'))
   );
 
   const chapters = ['All', ...questionService.getChapters(subject, classLevel === 'All' ? undefined : classLevel)];
@@ -71,9 +72,11 @@ export const Practice: React.FC = () => {
 
   const handleStartPractice = (overrideCount?: number) => {
     const finalCount = overrideCount !== undefined ? overrideCount : questionCount;
+    const effectiveExam = user?.targetExam === 'JEE' ? 'JEE' : exam;
+    const effectiveClass = isClass11 ? '11' : classLevel;
     const params = new URLSearchParams({
-      exam,
-      class: classLevel,
+      exam: effectiveExam,
+      class: effectiveClass,
       subject,
       chapter,
       topic,
@@ -150,19 +153,23 @@ export const Practice: React.FC = () => {
       <Card className="space-y-6 p-6 sm:p-7 border-slate-200 dark:border-slate-800 shadow-xs">
         {/* Class Scope Selector */}
         <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
-            Class Scope
-          </label>
-          <div className="grid grid-cols-3 gap-2">
-            {[
-              { id: '11', label: 'Class 11' },
-              { id: '12', label: 'Class 12' },
-              { id: 'All', label: 'All Classes' }
-            ].map((cls) => (
+          <div className="flex items-center justify-between">
+            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
+              Class Scope
+            </label>
+            {isClass11 && (
+              <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
+                Class 11 Locked (Profile)
+              </span>
+            )}
+          </div>
+          <div className={`grid gap-2 ${isClass11 ? 'grid-cols-1' : 'grid-cols-3'}`}>
+            {getAllowedClassScopes(user?.classLevel).map((cls) => (
               <button
                 key={cls.id}
                 type="button"
                 onClick={() => {
+                  if (isClass11) return;
                   setClassLevel(cls.id as any);
                   setChapter('All');
                   setTopic('All');
@@ -356,15 +363,19 @@ export const Practice: React.FC = () => {
                   Target Exam
                 </label>
                 <CustomSelect
-                  value={exam}
+                  value={user?.targetExam === 'JEE' ? 'JEE' : exam}
                   onChange={(val) => setExam(val as any)}
-                  options={[
-                    { value: 'All', label: 'All Exams' },
-                    { value: 'JEE', label: 'JEE Main' },
-                    { value: 'NEET', label: 'NEET UG' },
-                    { value: 'CBSE', label: 'CBSE Board' },
-                    { value: 'RBSE', label: 'RBSE Board' },
-                  ]}
+                  options={
+                    user?.targetExam === 'JEE'
+                      ? [{ value: 'JEE', label: 'JEE (Main & Advanced)' }]
+                      : [
+                          { value: 'All', label: 'All Exams' },
+                          { value: 'JEE', label: 'JEE Main' },
+                          { value: 'NEET', label: 'NEET UG' },
+                          { value: 'CBSE', label: 'CBSE Board' },
+                          { value: 'RBSE', label: 'RBSE Board' },
+                        ]
+                  }
                 />
               </div>
 
@@ -373,13 +384,19 @@ export const Practice: React.FC = () => {
                   Class Level
                 </label>
                 <CustomSelect
-                  value={classLevel}
-                  onChange={(val) => setClassLevel(val as any)}
-                  options={[
-                    { value: 'All', label: 'All Classes' },
-                    { value: '11', label: 'Class 11' },
-                    { value: '12', label: 'Class 12' },
-                  ]}
+                  value={isClass11 ? '11' : classLevel}
+                  onChange={(val) => {
+                    if (!isClass11) setClassLevel(val as any);
+                  }}
+                  options={
+                    isClass11
+                      ? [{ value: '11', label: 'Class 11' }]
+                      : [
+                          { value: 'All', label: 'All Classes' },
+                          { value: '11', label: 'Class 11' },
+                          { value: '12', label: 'Class 12' },
+                        ]
+                  }
                 />
               </div>
             </div>

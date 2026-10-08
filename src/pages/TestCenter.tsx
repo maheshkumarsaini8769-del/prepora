@@ -15,11 +15,12 @@ import { Card, Badge, Button } from '../components/common/UIComponents';
 import { testService } from '../services/testService';
 import { userService } from '../services/userService';
 import { Test, ExamType } from '../types';
-import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
+import { getAllowedSubjectsForExam, isSubjectAllowedForExam, isClass11User } from '../utils/examUtils';
 
 export const TestCenter: React.FC = () => {
   const navigate = useNavigate();
   const user = userService.getProfile();
+  const isClass11 = isClass11User(user?.classLevel) || isClass11User(user?.preparationProfile?.classLevel);
   const defaultExam: ExamType | 'All' = user.targetExam === 'NEET' ? 'NEET' : user.targetExam === 'JEE' ? 'JEE' : 'All';
   const [selectedExam, setSelectedExam] = useState<ExamType | 'All'>(defaultExam);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -29,6 +30,19 @@ export const TestCenter: React.FC = () => {
   const filteredTests = allTests.filter(t => {
     if (selectedExam !== 'All' && t.exam !== selectedExam) return false;
     if (selectedCategory !== 'All' && t.category !== selectedCategory) return false;
+
+    // Strict Class 11 Isolation: Class 11 students must NOT see Class 12 or Dropper tests!
+    if (isClass11) {
+      if (t.classLevel && t.classLevel !== '11') return false;
+      const lowerTitle = (t.title || '').toLowerCase();
+      if (lowerTitle.includes('class 12') || lowerTitle.includes('dropper') || lowerTitle.includes('xii')) {
+        return false;
+      }
+      if (t.category === 'Full Mock' && t.classLevel !== '11') {
+        return false;
+      }
+    }
+
     // Don't show tests containing subjects from forbidden streams
     if (t.subjects && t.subjects.length > 0) {
       const hasForbidden = t.subjects.some(s => !isSubjectAllowedForExam(s, user.targetExam));
@@ -83,10 +97,10 @@ export const TestCenter: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-slate-400">Exam:</span>
-          {(['All', 'JEE', 'NEET', 'Board'] as (ExamType | 'All')[]).map((e) => (
+          {(user?.targetExam === 'JEE' ? ['JEE'] : (['All', 'JEE', 'NEET', 'Board'] as (ExamType | 'All')[])).map((e) => (
             <button
               key={e}
-              onClick={() => setSelectedExam(e)}
+              onClick={() => setSelectedExam(e as any)}
               className={`px-2.5 py-1 rounded-lg text-xs font-bold transition-all ${
                 selectedExam === e
                   ? 'bg-slate-900 dark:bg-emerald-600 text-white'
@@ -98,6 +112,21 @@ export const TestCenter: React.FC = () => {
           ))}
         </div>
       </div>
+
+      {/* Class 11 Personalization Notice */}
+      {isClass11 && (
+        <div className="p-3 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-500/20 rounded-2xl flex items-center justify-between text-xs text-emerald-800 dark:text-emerald-300">
+          <div className="flex items-center gap-2">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+            <span className="font-semibold">
+              Personalized for Class 11 ({user.targetExam || 'JEE'}): Showing Class 11 syllabus tests only. Class 12 & Dropper tests are hidden.
+            </span>
+          </div>
+          <span className="hidden sm:inline-block text-[10px] font-extrabold bg-emerald-100 dark:bg-emerald-900/60 text-emerald-800 dark:text-emerald-200 px-2 py-0.5 rounded-full uppercase tracking-wider">
+            Class 11 Locked
+          </span>
+        </div>
+      )}
 
       {/* Test Cards Grid */}
       {filteredTests.length === 0 ? (

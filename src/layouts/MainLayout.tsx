@@ -650,11 +650,12 @@ export const MainLayout: React.FC = () => {
                   key={ex.key}
                   onClick={() => {
                     const newSubjects = getAllowedSubjectsForExam(ex.key as any);
+                    const effectiveClass = user.classLevel || user.preparationProfile?.classLevel || '11';
                     userService.updateProfile({
                       targetExam: ex.key as any,
                       preparationProfile: {
                         userId: user.id || 'usr-default',
-                        classLevel: user.preparationProfile?.classLevel || '12',
+                        classLevel: effectiveClass as any,
                         onboardingCompleted: true,
                         ...(user.preparationProfile || {}),
                         preparationType: ex.key as any,
@@ -680,6 +681,55 @@ export const MainLayout: React.FC = () => {
                   )}
                 </button>
               ))}
+            </div>
+
+            {/* Class Level Switcher */}
+            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                  Class Level
+                </span>
+                <span className="text-[11px] font-semibold text-emerald-600">
+                  {user.classLevel === '11' ? 'Class 11' : user.classLevel === '12' ? 'Class 12' : 'Dropper'}
+                </span>
+              </div>
+              <div className="grid grid-cols-3 gap-2">
+                {[
+                  { key: '11', label: 'Class 11' },
+                  { key: '12', label: 'Class 12' },
+                  { key: 'Dropper', label: 'Dropper' },
+                ].map(cls => {
+                  const isSelected = (user.classLevel === cls.key || user.preparationProfile?.classLevel === cls.key);
+                  return (
+                    <button
+                      key={cls.key}
+                      onClick={() => {
+                        const updatedPrep = {
+                          ...(user.preparationProfile || {}),
+                          classLevel: cls.key as any,
+                          targetYear: cls.key === '11' ? 2027 : 2026,
+                          onboardingCompleted: true
+                        };
+                        localStorage.setItem('prepora_preparation_profile', JSON.stringify(updatedPrep));
+                        userService.updateProfile({
+                          classLevel: (cls.key === 'Dropper' ? '12' : cls.key) as any,
+                          targetYear: updatedPrep.targetYear,
+                          preparationProfile: updatedPrep as any
+                        });
+                        setExamSwitcherOpen(false);
+                        window.location.reload();
+                      }}
+                      className={`p-2 rounded-xl border text-center font-bold text-xs transition-all cursor-pointer ${
+                        isSelected
+                          ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
+                          : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300'
+                      }`}
+                    >
+                      {cls.label}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

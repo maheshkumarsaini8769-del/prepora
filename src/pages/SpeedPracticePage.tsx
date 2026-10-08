@@ -16,9 +16,14 @@ import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { Question, SubjectName, DifficultyLevel } from '../types';
+import { isClass11User } from '../utils/examUtils';
 
 export const SpeedPracticePage: React.FC = () => {
   const navigate = useNavigate();
+  const user = userService.getProfile();
+  const isClass11 = isClass11User(user?.classLevel) || isClass11User(user?.preparationProfile?.classLevel);
+  const exam = user?.targetExam || 'JEE';
+  const effectiveClass = isClass11 ? '11' : ((user?.classLevel as string) === 'Dropper' ? undefined : user?.classLevel || '11');
 
   // Setup state
   const [selectedDuration, setSelectedDuration] = useState<30 | 60 | 90 | 120>(60);
@@ -67,18 +72,28 @@ export const SpeedPracticePage: React.FC = () => {
     } catch {}
 
     let pool = questionService.filterQuestions({
+      exam,
+      classLevel: effectiveClass,
       subject: selectedSubject,
       difficulty: selectedDifficulty,
       excludeIds: attemptedIds
     });
     if (pool.length < 5) {
       pool = questionService.filterQuestions({
+        exam,
+        classLevel: effectiveClass,
         subject: selectedSubject,
         difficulty: selectedDifficulty
       });
     }
 
-    const selectedPool = (pool.length > 0 ? pool : questionService.getAllQuestions())
+    const backupPool = questionService.filterQuestions({
+      exam,
+      classLevel: effectiveClass,
+      subject: selectedSubject
+    });
+
+    const selectedPool = (pool.length > 0 ? pool : (backupPool.length > 0 ? backupPool : questionService.getAllQuestions()))
       .sort(() => 0.5 - Math.random())
       .slice(0, 5);
 

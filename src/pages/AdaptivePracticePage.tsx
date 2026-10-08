@@ -17,9 +17,14 @@ import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { Question, DifficultyLevel } from '../types';
+import { isClass11User } from '../utils/examUtils';
 
 export const AdaptivePracticePage: React.FC = () => {
   const navigate = useNavigate();
+  const user = userService.getProfile();
+  const isClass11 = isClass11User(user?.classLevel) || isClass11User(user?.preparationProfile?.classLevel);
+  const exam = user?.targetExam || 'JEE';
+  const effectiveClass = isClass11 ? '11' : ((user?.classLevel as string) === 'Dropper' ? undefined : user?.classLevel || '11');
 
   // Difficulty sequence tracker
   const [currentTier, setCurrentTier] = useState<DifficultyLevel>('Easy');
@@ -27,17 +32,22 @@ export const AdaptivePracticePage: React.FC = () => {
   const [streakWrong, setStreakWrong] = useState<number>(0);
 
   // Active question state
-  const [allQuestions] = useState<Question[]>(() => questionService.getAllQuestions());
+  const [allQuestions] = useState<Question[]>(() =>
+    questionService.filterQuestions({
+      exam,
+      classLevel: effectiveClass
+    })
+  );
   const [currentQ, setCurrentQ] = useState<Question>(() => {
     let attemptedIds: string[] = [];
     try {
       const stored = JSON.parse(localStorage.getItem('prepora_attempted_question_ids') || '[]');
       if (Array.isArray(stored)) attemptedIds = stored;
     } catch {}
-    const freshEasy = questionService.filterQuestions({ difficulty: 'Easy', excludeIds: attemptedIds });
+    const freshEasy = questionService.filterQuestions({ exam, classLevel: effectiveClass, difficulty: 'Easy', excludeIds: attemptedIds });
     if (freshEasy.length > 0) return freshEasy[0];
-    const easyQ = questionService.filterQuestions({ difficulty: 'Easy' })[0];
-    return easyQ || questionService.getAllQuestions()[0];
+    const easyQ = questionService.filterQuestions({ exam, classLevel: effectiveClass, difficulty: 'Easy' })[0];
+    return easyQ || allQuestions[0] || questionService.getAllQuestions()[0];
   });
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isChecked, setIsChecked] = useState<boolean>(false);
