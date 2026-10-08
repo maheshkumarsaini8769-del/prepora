@@ -238,7 +238,7 @@ export interface UserProfile {
   name: string;
   email: string;
   avatarUrl?: string;
-  classLevel: ClassLevel;
+  classLevel: ClassLevel | 'Dropper';
   targetExam: ExamType;
   targetYear: number;
   streakDays: number;

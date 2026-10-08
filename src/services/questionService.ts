@@ -31,7 +31,7 @@ export function matchesFuzzy(val1: any, val2: any): boolean {
 
 export interface QuestionFilters {
   exam?: ExamType | 'All';
-  classLevel?: ClassLevel | 'All';
+  classLevel?: ClassLevel | 'All' | 'Dropper';
   subject?: SubjectName | 'All';
   chapter?: string | 'All';
   topic?: string | 'All';

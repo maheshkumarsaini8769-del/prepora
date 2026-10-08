@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { BookOpen, ArrowRight, SlidersHorizontal, ChevronDown, ChevronUp, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
+import { BookOpen, ArrowRight, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Card, Button, CustomSelect } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question } from '../types';
-import { getAllowedSubjectsForExam, sanitizeSubjectForExam, getAllowedClassScopes, isClass11User } from '../utils/examUtils';
+import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 
 export const Practice: React.FC = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const user = userService.getProfile();
-  const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
-  const isClass11 = isClass11User(user?.classLevel) || isClass11User(user?.preparationProfile?.classLevel);
+
+  // Registration Profile Analysis: strictly bind to what student registered with
+  const exam = user?.targetExam || 'JEE';
+  const classLevel = (user?.classLevel as string) === 'Dropper' ? 'All' : (user?.classLevel || '11');
+  const allowedSubjects = getAllowedSubjectsForExam(exam);
 
   // Primary Selection States
   const rawSubject = (searchParams.get('subject') as SubjectName) || allowedSubjects[0];
-  const [subject, setSubject] = useState<SubjectName>(sanitizeSubjectForExam(rawSubject, user.targetExam));
+  const [subject, setSubject] = useState<SubjectName>(sanitizeSubjectForExam(rawSubject, exam));
   const [chapter, setChapter] = useState<string>(searchParams.get('chapter') || 'All');
   const [topic, setTopic] = useState<string>('All');
   const [difficulty, setDifficulty] = useState<DifficultyLevel | 'All'>('All');
@@ -27,20 +30,13 @@ export const Practice: React.FC = () => {
   const [isGeneratingAI, setIsGeneratingAI] = useState<boolean>(false);
   const [aiSuccessMessage, setAiSuccessMessage] = useState<string | null>(null);
 
-  // Advanced Filters Collapsible
-  const [showAdvanced, setShowAdvanced] = useState<boolean>(false);
-  const [exam, setExam] = useState<ExamType | 'All'>((searchParams.get('exam') as ExamType) || user?.targetExam || 'All');
-  const [classLevel, setClassLevel] = useState<ClassLevel | 'All'>(
-    isClass11 ? '11' : ((searchParams.get('class') as ClassLevel) || ((user?.classLevel as string) === 'Dropper' ? 'All' : (user?.classLevel as ClassLevel) || '11'))
-  );
-
   const chapters = ['All', ...questionService.getChapters(subject, classLevel === 'All' ? undefined : classLevel)];
   const topics = chapter !== 'All' ? ['All', ...questionService.getTopics(chapter)] : ['All'];
 
   // Check available question pool
   const matchingPool = questionService.filterQuestions({
-    exam: exam === 'All' ? undefined : exam,
-    classLevel: classLevel === 'All' ? undefined : classLevel,
+    exam,
+    classLevel: classLevel === 'All' ? undefined : (classLevel as ClassLevel),
     subject,
     chapter: chapter === 'All' ? undefined : chapter,
     topic: topic === 'All' ? undefined : topic,
@@ -53,8 +49,8 @@ export const Practice: React.FC = () => {
     let isCancelled = false;
     const fetchCount = async () => {
       const cnt = await questionService.getEligibleCountAsync({
-        exam: exam === 'All' ? undefined : exam,
-        classLevel: classLevel === 'All' ? undefined : classLevel,
+        exam,
+        classLevel: classLevel === 'All' ? undefined : (classLevel as ClassLevel),
         subject,
         chapter: chapter === 'All' ? undefined : chapter,
         topic: topic === 'All' ? undefined : topic,
@@ -72,8 +68,8 @@ export const Practice: React.FC = () => {
 
   const handleStartPractice = (overrideCount?: number) => {
     const finalCount = overrideCount !== undefined ? overrideCount : questionCount;
-    const effectiveExam = user?.targetExam === 'JEE' ? 'JEE' : exam;
-    const effectiveClass = isClass11 ? '11' : classLevel;
+    const effectiveExam = exam;
+    const effectiveClass = classLevel;
     const params = new URLSearchParams({
       exam: effectiveExam,
       class: effectiveClass,
@@ -99,8 +95,8 @@ export const Practice: React.FC = () => {
       for (let i = 0; i < needed; i++) {
         const qIndex = matchingPool.length + i + 1;
         newQuestions.push({
-          exam: exam === 'All' ? 'JEE' : exam,
-          class: classLevel === 'All' ? '12' : classLevel,
+          exam,
+          class: (classLevel === 'All' ? '12' : classLevel) as ClassLevel,
           subject,
           chapter: activeChapter,
           topic: activeTopic,
@@ -139,52 +135,26 @@ export const Practice: React.FC = () => {
 
   return (
     <div className="max-w-2xl mx-auto space-y-6 pb-20 px-2 sm:px-4 animate-in fade-in duration-200">
-      {/* 1. Page Header */}
-      <div className="border-b border-slate-200 dark:border-slate-800 pb-4">
-        <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-          Practice
-        </h1>
-        <p className="text-xs sm:text-sm text-slate-500 mt-1">
-          Select your subject, chapter, and difficulty to begin.
-        </p>
+      {/* 1. Page Header with Registered Syllabus Badge */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+            Practice
+          </h1>
+          <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            Questions tailored strictly to your registered syllabus.
+          </p>
+        </div>
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold self-start sm:self-auto shadow-xs">
+          <BookOpen className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+          <span>
+            {exam} • {user?.classLevel === 'Dropper' ? 'Dropper (Full Syllabus)' : `Class ${user?.classLevel || '11'}`}
+          </span>
+        </div>
       </div>
 
-      {/* 2. Step-by-Step Clean Selection (task5.md Section 137) */}
+      {/* 2. Step-by-Step Clean Selection */}
       <Card className="space-y-6 p-6 sm:p-7 border-slate-200 dark:border-slate-800 shadow-xs">
-        {/* Class Scope Selector */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
-              Class Scope
-            </label>
-            {isClass11 && (
-              <span className="text-[11px] font-semibold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-500/20">
-                Class 11 Locked (Profile)
-              </span>
-            )}
-          </div>
-          <div className={`grid gap-2 ${isClass11 ? 'grid-cols-1' : 'grid-cols-3'}`}>
-            {getAllowedClassScopes(user?.classLevel).map((cls) => (
-              <button
-                key={cls.id}
-                type="button"
-                onClick={() => {
-                  if (isClass11) return;
-                  setClassLevel(cls.id as any);
-                  setChapter('All');
-                  setTopic('All');
-                }}
-                className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition-all text-center cursor-pointer ${
-                  classLevel === cls.id
-                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-750'
-                }`}
-              >
-                {cls.label}
-              </button>
-            ))}
-          </div>
-        </div>
 
         {/* Step 1: Subject */}
         <div className="space-y-2">
@@ -342,66 +312,7 @@ export const Practice: React.FC = () => {
           )}
         </div>
 
-        {/* Collapsible Advanced Filters (task5.md Section 165) */}
-        <div className="pt-2 border-t border-slate-100">
-          <button
-            type="button"
-            onClick={() => setShowAdvanced(!showAdvanced)}
-            className="flex items-center justify-between w-full text-xs font-bold text-slate-500 hover:text-slate-900 py-1"
-          >
-            <span className="flex items-center gap-1.5">
-              <SlidersHorizontal className="w-3.5 h-3.5" />
-              <span>Advanced Filters</span>
-            </span>
-            {showAdvanced ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
-          </button>
 
-          {showAdvanced && (
-            <div className="grid grid-cols-2 gap-3 pt-3">
-              <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                  Target Exam
-                </label>
-                <CustomSelect
-                  value={user?.targetExam === 'JEE' ? 'JEE' : exam}
-                  onChange={(val) => setExam(val as any)}
-                  options={
-                    user?.targetExam === 'JEE'
-                      ? [{ value: 'JEE', label: 'JEE (Main & Advanced)' }]
-                      : [
-                          { value: 'All', label: 'All Exams' },
-                          { value: 'JEE', label: 'JEE Main' },
-                          { value: 'NEET', label: 'NEET UG' },
-                          { value: 'CBSE', label: 'CBSE Board' },
-                          { value: 'RBSE', label: 'RBSE Board' },
-                        ]
-                  }
-                />
-              </div>
-
-              <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                  Class Level
-                </label>
-                <CustomSelect
-                  value={isClass11 ? '11' : classLevel}
-                  onChange={(val) => {
-                    if (!isClass11) setClassLevel(val as any);
-                  }}
-                  options={
-                    isClass11
-                      ? [{ value: '11', label: 'Class 11' }]
-                      : [
-                          { value: 'All', label: 'All Classes' },
-                          { value: '11', label: 'Class 11' },
-                          { value: '12', label: 'Class 12' },
-                        ]
-                  }
-                />
-              </div>
-            </div>
-          )}
-        </div>
 
         {/* AI Success Feedback */}
         {aiSuccessMessage && (

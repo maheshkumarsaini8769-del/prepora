@@ -65,7 +65,7 @@ export const Settings: React.FC = () => {
   // Academic Settings State
   const [name, setName] = useState(profile.name || 'Aspirant');
   const [exam, setExam] = useState<ExamType>(profile.targetExam || 'JEE');
-  const [classLevel, setClassLevel] = useState<ClassLevel>(profile.classLevel || '12');
+  const [classLevel, setClassLevel] = useState<ClassLevel | 'Dropper'>((profile.classLevel as ClassLevel | 'Dropper') || '12');
   const [targetYear, setTargetYear] = useState<number>(profile.targetYear || 2026);
   const [dailyGoal, setDailyGoal] = useState<number>(profile.dailyGoalQuestions || 25);
   const [savedSuccess, setSavedSuccess] = useState(false);
@@ -408,8 +408,8 @@ export const Settings: React.FC = () => {
                 <label className="block text-xs font-bold text-slate-700 dark:text-slate-300 uppercase tracking-wider mb-1.5">
                   Class Level
                 </label>
-                <div className="grid grid-cols-2 gap-2">
-                  {(['11', '12'] as ClassLevel[]).map((c) => (
+                <div className="grid grid-cols-3 gap-2">
+                  {(['11', '12', 'Dropper'] as (ClassLevel | 'Dropper')[]).map((c) => (
                     <button
                       key={c}
                       type="button"
@@ -420,7 +420,7 @@ export const Settings: React.FC = () => {
                           : 'bg-white dark:bg-[#0c131a] border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50'
                       }`}
                     >
-                      Class {c}
+                      {c === 'Dropper' ? 'Dropper' : `Class ${c}`}
                     </button>
                   ))}
                 </div>

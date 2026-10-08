@@ -613,6 +613,16 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       if (name && (!user.name || user.name.startsWith('Student ') || user.name.startsWith('usr-'))) {
         user.name = name.trim();
       }
+      if (targetExam) {
+        user.targetExam = targetExam;
+      }
+      if (classLevel) {
+        user.classLevel = classLevel;
+      }
+      if (user.preparationProfile) {
+        if (targetExam) user.preparationProfile.preparationType = targetExam;
+        if (classLevel) user.preparationProfile.classLevel = classLevel;
+      }
 
       // Existing students without password: do NOT set dummy password! Let them set their own password.
       await user.save();

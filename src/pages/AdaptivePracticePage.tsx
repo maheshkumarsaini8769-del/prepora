@@ -16,7 +16,7 @@ import {
 import { Card, Badge, Button, Modal } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
-import { Question, DifficultyLevel } from '../types';
+import { Question, DifficultyLevel, ClassLevel } from '../types';
 import { isClass11User } from '../utils/examUtils';
 
 export const AdaptivePracticePage: React.FC = () => {
@@ -24,7 +24,7 @@ export const AdaptivePracticePage: React.FC = () => {
   const user = userService.getProfile();
   const isClass11 = isClass11User(user?.classLevel) || isClass11User(user?.preparationProfile?.classLevel);
   const exam = user?.targetExam || 'JEE';
-  const effectiveClass = isClass11 ? '11' : ((user?.classLevel as string) === 'Dropper' ? undefined : user?.classLevel || '11');
+  const effectiveClass: ClassLevel | undefined = isClass11 ? '11' : ((user?.classLevel as string) === 'Dropper' ? undefined : ((user?.classLevel as ClassLevel) || '11'));
 
   // Difficulty sequence tracker
   const [currentTier, setCurrentTier] = useState<DifficultyLevel>('Easy');

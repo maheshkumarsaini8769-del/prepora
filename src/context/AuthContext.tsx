@@ -568,6 +568,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
         setUser(updatedUser);
         userService.updateProfile(updatedUser);
+
+        // Synchronize preparation profile immediately with registration stream
+        const prepProfile = {
+          userId: data.user.id,
+          preparationType: data.user.targetExam || metadata?.targetExam || 'JEE',
+          exam: data.user.targetExam || metadata?.targetExam || 'JEE',
+          classLevel: data.user.classLevel || metadata?.classLevel || '11',
+          subjects: (data.user.targetExam || metadata?.targetExam) === 'NEET' ? ['Physics', 'Chemistry', 'Biology'] : ['Physics', 'Chemistry', 'Mathematics'],
+          onboardingCompleted: true,
+          targetYear: (data.user.classLevel || metadata?.classLevel) === '11' ? 2027 : 2026
+        };
+        localStorage.setItem('prepora_preparation_profile', JSON.stringify(prepProfile));
+
         await syncStudentUserData(data.user.id, data.token);
         fetchSessions(data.token);
         // Modal lifecycle is handled by caller (AuthModal transitions to create-password)
