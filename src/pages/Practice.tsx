@@ -94,6 +94,29 @@ export const Practice: React.FC = () => {
       const newQuestions: Omit<Question, 'id'>[] = [];
       for (let i = 0; i < needed; i++) {
         const qIndex = matchingPool.length + i + 1;
+        const targetCorrectIdx = i % 4;
+        const optLetters = ['A', 'B', 'C', 'D'];
+        const validStatement = 'Conservation relation satisfies fundamental thermodynamic and kinematic theorems';
+        const distractors = [
+          'Linear proportional scaling across all operating boundary regimes',
+          'Gradient vanishes across isotropic spatial divisions',
+          'Rate of variation scales with inverse squared separation'
+        ];
+        const generatedOpts = [
+          'Option A: ',
+          'Option B: ',
+          'Option C: ',
+          'Option D: '
+        ];
+        let dIdx = 0;
+        for (let k = 0; k < 4; k++) {
+          if (k === targetCorrectIdx) {
+            generatedOpts[k] += validStatement;
+          } else {
+            generatedOpts[k] += distractors[dIdx++];
+          }
+        }
+
         newQuestions.push({
           exam,
           class: (classLevel === 'All' ? '12' : classLevel) as ClassLevel,
@@ -103,14 +126,9 @@ export const Practice: React.FC = () => {
           concept: `${activeTopic} Practice Variant #${qIndex}`,
           difficulty: difficulty === 'All' ? (i % 2 === 0 ? 'Medium' : 'Hard') : difficulty,
           question: `In ${subject} (${activeChapter}: ${activeTopic}), variant ${qIndex}: Consider an idealized system conforming to standard conditions. Which statement is mathematically valid?`,
-          options: [
-            'Option A: Linear proportional scaling across all operating boundary regimes',
-            'Option B: Conservation relation satisfies fundamental thermodynamic and kinematic theorems',
-            'Option C: Gradient vanishes across isotropic spatial divisions',
-            'Option D: Rate of variation scales with inverse squared separation'
-          ],
-          correctAnswer: 1,
-          explanation: `Step-by-Step Solution: Based on established principles in ${activeChapter} (${activeTopic}), Option B holds identically. Options A, C, and D are invalid distractors.`,
+          options: generatedOpts,
+          correctAnswer: targetCorrectIdx,
+          explanation: `Step-by-Step Solution: Based on established principles in ${activeChapter} (${activeTopic}), Option ${optLetters[targetCorrectIdx]} holds identically. The other options are invalid distractors.`,
           source: 'Practice Bank',
           contentType: 'AI_GENERATED',
           sourceType: 'AI-GENERATED',

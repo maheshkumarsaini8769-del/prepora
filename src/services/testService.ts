@@ -217,9 +217,25 @@ class ApiTestService {
       while (pool.length < options.questionCount) {
         for (const item of origPool) {
           if (pool.length >= options.questionCount) break;
+          // Rotate variant options so each variant has a distinct, balanced correct answer!
+          const origCa = item.correctAnswer ?? 0;
+          const targetCa = (origCa + counter) % 4;
+          let newOpts = item.options ? [...item.options] : [];
+          if (newOpts.length === 4) {
+            const correctText = newOpts[origCa];
+            const otherOpts = newOpts.filter((_, idx) => idx !== origCa);
+            newOpts = [null, null, null, null] as any;
+            newOpts[targetCa] = correctText;
+            let oi = 0;
+            for (let k = 0; k < 4; k++) {
+              if (newOpts[k] === null) newOpts[k] = otherOpts[oi++];
+            }
+          }
           pool.push({
             ...item,
-            id: `${item.id}-var-${counter}`
+            id: `${item.id}-var-${counter}`,
+            options: newOpts,
+            correctAnswer: targetCa
           });
           counter++;
         }
@@ -233,13 +249,47 @@ class ApiTestService {
       };
     }
 
-    // Uniform random selection without duplicate questions (Task.md section 32, 34)
-    const shuffled = [...pool];
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    // Stratified, balanced selection across answer choices [0, 1, 2, 3] (A, B, C, D)
+    // so no single option dominates the test (prevents "mostly B" or "mostly A" glitch)!
+    const buckets: Question[][] = [[], [], [], []];
+    for (const q of pool) {
+      const ca = Number(q.correctAnswer ?? 0);
+      const bIdx = (ca >= 0 && ca < 4) ? ca : 0;
+      buckets[bIdx].push(q);
     }
-    const selected = shuffled.slice(0, options.questionCount);
+    // Shuffle each bucket (Fisher-Yates)
+    for (const b of buckets) {
+      for (let i = b.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [b[i], b[j]] = [b[j], b[i]];
+      }
+    }
+    // Round-robin pick from buckets to ensure ~25% A, 25% B, 25% C, 25% D
+    const selected: Question[] = [];
+    let bCounter = 0;
+    while (selected.length < options.questionCount && (buckets[0].length || buckets[1].length || buckets[2].length || buckets[3].length)) {
+      const bIdx = bCounter % 4;
+      if (buckets[bIdx].length > 0) {
+        selected.push(buckets[bIdx].pop()!);
+      }
+      bCounter++;
+    }
+    // If still short, draw any remaining
+    if (selected.length < options.questionCount && pool.length > selected.length) {
+      const existing = new Set(selected.map(q => q.id));
+      for (const q of pool) {
+        if (!existing.has(q.id)) {
+          selected.push(q);
+          if (selected.length >= options.questionCount) break;
+        }
+      }
+    }
+    // Randomize the presentation order of questions in the final paper
+    for (let i = selected.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [selected[i], selected[j]] = [selected[j], selected[i]];
+    }
+
     const questionIds = Array.from(new Set(selected.map(q => q.id)));
 
     const markPerQ = 4;

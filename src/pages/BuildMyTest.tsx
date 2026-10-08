@@ -248,6 +248,29 @@ export const BuildMyTest: React.FC = () => {
 
       for (let i = 0; i < neededCount; i++) {
         const qIndex = underflowInfo.available + i + 1;
+        const targetCorrectIdx = i % 4;
+        const optLetters = ['A', 'B', 'C', 'D'];
+        const validStatement = `The equilibrium condition is maintained dynamically as defined by fundamental conservation laws.`;
+        const distractors = [
+          `The quantity fluctuates randomly without conservation symmetry across successive iterations.`,
+          `The scalar magnitude diminishes to absolute zero in all non-inertial reference frames.`,
+          `The physical gradient diverges asymptotically along non-homogeneous boundary planes.`
+        ];
+        const generatedOpts = [
+          `Option A: `,
+          `Option B: `,
+          `Option C: `,
+          `Option D: `
+        ];
+        let dIdx = 0;
+        for (let k = 0; k < 4; k++) {
+          if (k === targetCorrectIdx) {
+            generatedOpts[k] += validStatement;
+          } else {
+            generatedOpts[k] += distractors[dIdx++];
+          }
+        }
+
         generatedQuestions.push({
           exam,
           class: effectiveClass || '11',
@@ -257,14 +280,9 @@ export const BuildMyTest: React.FC = () => {
           concept: `${activeTopic} - In-Depth Problem Solving #${qIndex}`,
           difficulty: difficulty === 'Mixed' ? (i % 3 === 0 ? 'Easy' : i % 3 === 1 ? 'Medium' : 'Hard') : difficulty,
           question: `In ${activeSubject} (${activeChapter}: ${activeTopic}), consider problem variant ${qIndex}: Which of the following statements rigorously satisfies the physical boundary conditions for ${activeTopic}?`,
-          options: [
-            `Option A: The quantity varies linearly with respect to the standard parameter under constant constraints.`,
-            `Option B: The equilibrium condition is maintained dynamically as defined by fundamental laws.`,
-            `Option C: The potential gradient vanishes identically across isotropic boundaries.`,
-            `Option D: The rate of change scales logarithmically with temperature and applied field.`
-          ],
-          correctAnswer: 1,
-          explanation: `Step-by-Step Solution: Based on established principles in ${activeChapter} (${activeTopic}), Option B correctly defines the invariant state. Options A, C, and D violate specific boundary conditions established in standard curriculum references.`,
+          options: generatedOpts,
+          correctAnswer: targetCorrectIdx,
+          explanation: `Step-by-Step Solution: Based on established principles in ${activeChapter} (${activeTopic}), Option ${optLetters[targetCorrectIdx]} correctly defines the governing physical relation. The other options violate specific conservation or boundary constraints.`,
           source: 'Practice Bank',
           contentType: 'AI_GENERATED',
           sourceType: 'AI-GENERATED',

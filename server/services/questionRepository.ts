@@ -99,12 +99,40 @@ export class QuestionRepository {
     if (direct) return direct;
     if (id && (id.endsWith('-v2') || id.includes('-var-'))) {
       const baseId = id.endsWith('-v2') ? id.slice(0, -3) : id.split('-var-')[0];
+      const counter = id.includes('-var-') ? parseInt(id.split('-var-')[1], 10) || 1 : 1;
       const base = this.idMap.get(baseId);
       if (base) {
+        const origCa = typeof base.correctAnswer === 'number' ? base.correctAnswer : 0;
+        const targetCa = (origCa + counter) % 4;
+        let newOpts = Array.isArray(base.options) ? [...base.options] : [];
+        let newOptsHi = Array.isArray(base.optionsHi) ? [...base.optionsHi] : undefined;
+        if (newOpts.length === 4) {
+          const correctText = newOpts[origCa];
+          const otherOpts = newOpts.filter((_, idx) => idx !== origCa);
+          newOpts = [null, null, null, null] as any;
+          newOpts[targetCa] = correctText;
+          let oi = 0;
+          for (let k = 0; k < 4; k++) {
+            if (newOpts[k] === null) newOpts[k] = otherOpts[oi++];
+          }
+        }
+        if (newOptsHi && newOptsHi.length === 4) {
+          const correctTextHi = newOptsHi[origCa];
+          const otherOptsHi = newOptsHi.filter((_, idx) => idx !== origCa);
+          newOptsHi = [null, null, null, null] as any;
+          newOptsHi[targetCa] = correctTextHi;
+          let oi = 0;
+          for (let k = 0; k < 4; k++) {
+            if (newOptsHi[k] === null) newOptsHi[k] = otherOptsHi[oi++];
+          }
+        }
         return {
           ...base,
           id,
-          source: base.source === 'Official PYQ' ? 'PYQ Practice Variant' : (base.source || 'Prepora Question Bank'),
+          options: newOpts,
+          optionsHi: newOptsHi || newOpts,
+          correctAnswer: targetCa,
+          source: base.source === 'Official PYQ' ? 'PYQ Practice Variant' : (base.source || 'Study Up Question Bank'),
           isVariant: true
         };
       }
