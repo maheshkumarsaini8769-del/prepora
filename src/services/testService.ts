@@ -193,6 +193,7 @@ class ApiTestService {
       const fallbackQuestions = questionService.getAllQuestions().filter(q => 
         options.subjects.includes(q.subject) &&
         (!options.classLevel || options.classLevel === 'ALL' || options.classLevel === 'All' || q.class === options.classLevel) &&
+        (!options.difficulty || options.difficulty === 'Mixed' || String(q.difficulty || '').trim().toLowerCase() === String(options.difficulty).trim().toLowerCase()) &&
         !existingIds.has(q.id) &&
         !excludeSet.has(q.id)
       );
@@ -202,6 +203,11 @@ class ApiTestService {
         existingIds.add(q.id);
         if (pool.length >= options.questionCount) break;
       }
+    }
+
+    // Strict difficulty safety guard: ensure no leaked difficulties
+    if (options.difficulty && options.difficulty !== 'Mixed') {
+      pool = pool.filter(q => String(q.difficulty || '').trim().toLowerCase() === String(options.difficulty).trim().toLowerCase());
     }
 
     // If still underflow, repeat questions with variant IDs

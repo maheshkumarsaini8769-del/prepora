@@ -90,10 +90,25 @@ export const SpeedPracticePage: React.FC = () => {
     const backupPool = questionService.filterQuestions({
       exam,
       classLevel: effectiveClass,
-      subject: selectedSubject
+      subject: selectedSubject,
+      difficulty: selectedDifficulty
     });
 
-    const selectedPool = (pool.length > 0 ? pool : (backupPool.length > 0 ? backupPool : questionService.getAllQuestions()))
+    const isMatchDifficulty = (q: Question) =>
+      String(q.difficulty || '').trim().toLowerCase() === selectedDifficulty.toLowerCase();
+
+    let candidatePool = pool.length > 0 ? pool : backupPool;
+    if (candidatePool.length === 0) {
+      candidatePool = questionService.getAllQuestions().filter(q =>
+        q.subject === selectedSubject && isMatchDifficulty(q)
+      );
+    }
+    if (candidatePool.length === 0) {
+      candidatePool = questionService.getAllQuestions().filter(isMatchDifficulty);
+    }
+
+    const selectedPool = candidatePool
+      .filter(isMatchDifficulty)
       .sort(() => 0.5 - Math.random())
       .slice(0, 5);
 

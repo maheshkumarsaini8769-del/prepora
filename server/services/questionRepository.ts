@@ -197,8 +197,8 @@ export class QuestionRepository {
         if (qClass && qClass !== classLevel && qClass !== 'Both' && qClass !== 'All') return false;
       }
 
-      // Difficulty
-      if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed' && q.difficulty !== difficulty) return false;
+      // Difficulty (case-insensitive)
+      if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed' && String(q.difficulty || '').trim().toLowerCase() !== String(difficulty).trim().toLowerCase()) return false;
 
       // Status & content type
       if (status && status !== 'All' && (q.status || 'Approved') !== status) return false;

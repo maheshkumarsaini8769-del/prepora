@@ -198,7 +198,9 @@ function buildQuestionFilter(query: any): any {
   if (topic && topic !== 'All') {
     filter.topic = new RegExp(`^${escapeRegex(String(topic).trim())}$`, 'i');
   }
-  if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed') filter.difficulty = difficulty;
+  if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed') {
+    filter.difficulty = new RegExp(`^${escapeRegex(String(difficulty).trim())}$`, 'i');
+  }
   if (status && status !== 'All') filter.status = status;
   if (contentType && contentType !== 'All') filter.contentType = contentType;
 

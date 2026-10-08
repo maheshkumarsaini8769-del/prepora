@@ -229,7 +229,11 @@ class ApiQuestionService {
       // Resilient topic filtering
       if (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL' && !matchesFuzzy(q.topic, filters.topic)) return false;
       
-      if (filters.difficulty && filters.difficulty !== 'All' && q.difficulty !== filters.difficulty) return false;
+      if (filters.difficulty && filters.difficulty !== 'All' && (filters.difficulty as string) !== 'Mixed') {
+        if (String(q.difficulty || '').trim().toLowerCase() !== String(filters.difficulty).trim().toLowerCase()) {
+          return false;
+        }
+      }
       if (filters.searchQuery) {
         const query = filters.searchQuery.toLowerCase();
         const matchesQ = q.question.toLowerCase().includes(query);
@@ -246,6 +250,7 @@ class ApiQuestionService {
    * Guaranteed Question Batch Retrieval:
    * Ensures that when a student asks for N questions (e.g. 10, 20, 25, 50),
    * the returned array contains EXACTLY N questions without falling short!
+   * Enforces 100% strict difficulty retention (Easy stays Easy).
    */
   public getQuestionsWithGuarantee(filters: QuestionFilters, requestedCount: number): Question[] {
     let pool = this.filterQuestions({
@@ -254,18 +259,24 @@ class ApiQuestionService {
       includeModelPapers: filters.includeModelPapers ?? false
     });
 
-    // Chapter/topic-specific practice: if a specific topic has few questions, supplement from the same chapter
+    const isMatchDifficulty = (q: Question) => {
+      if (!filters.difficulty || filters.difficulty === 'All' || (filters.difficulty as string) === 'Mixed') return true;
+      return String(q.difficulty || '').trim().toLowerCase() === String(filters.difficulty).trim().toLowerCase();
+    };
+
+    // Chapter/topic-specific practice: if a specific topic has few questions, supplement from the same chapter (same difficulty)
     if (pool.length < requestedCount && filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL') {
       const chapterPool = this.filterQuestions({
         subject: filters.subject,
         chapter: filters.chapter,
         classLevel: filters.classLevel,
         exam: filters.exam,
+        difficulty: filters.difficulty,
         includePYQs: true
       });
       const existingIds = new Set(pool.map(q => q.id));
       for (const q of chapterPool) {
-        if (!existingIds.has(q.id)) {
+        if (!existingIds.has(q.id) && isMatchDifficulty(q)) {
           pool.push(q);
           existingIds.add(q.id);
           if (pool.length >= requestedCount) break;
@@ -277,16 +288,18 @@ class ApiQuestionService {
       (filters.chapter && filters.chapter !== 'All' && filters.chapter !== 'ALL') ||
       (filters.topic && filters.topic !== 'All' && filters.topic !== 'ALL');
 
-    // If pool is smaller than requested, supplement from the same subject across other chapters
+    // If pool is smaller than requested, supplement from the same subject across other chapters (same difficulty)
     if (pool.length < requestedCount && !hasChapterOrTopic && filters.subject && filters.subject !== 'All') {
       const subjectPool = this.filterQuestions({
         subject: filters.subject,
         exam: filters.exam,
+        classLevel: filters.classLevel,
+        difficulty: filters.difficulty,
         includePYQs: true
       });
       const existingIds = new Set(pool.map(q => q.id));
       for (const q of subjectPool) {
-        if (!existingIds.has(q.id)) {
+        if (!existingIds.has(q.id) && isMatchDifficulty(q)) {
           pool.push(q);
           existingIds.add(q.id);
           if (pool.length >= requestedCount) break;
@@ -294,9 +307,14 @@ class ApiQuestionService {
       }
     }
 
-    // If still smaller, supplement from all questions matching subject (no chapter/topic filter only)
+    // If still smaller, supplement from all questions matching subject (same difficulty)
     if (pool.length < requestedCount && !hasChapterOrTopic && filters.subject && filters.subject !== 'All') {
-      const allSub = this.getAllQuestions().filter(q => q.subject === filters.subject);
+      const allSub = this.getAllQuestions().filter(q => {
+        if (q.subject !== filters.subject) return false;
+        if (!isMatchDifficulty(q)) return false;
+        if (filters.classLevel && filters.classLevel !== 'All' && filters.classLevel !== 'Dropper' && q.class !== filters.classLevel) return false;
+        return true;
+      });
       const existingIds = new Set(pool.map(q => q.id));
       for (const q of allSub) {
         if (!existingIds.has(q.id)) {
@@ -307,11 +325,13 @@ class ApiQuestionService {
       }
     }
 
-    // If still smaller (e.g. no subject filter, or subject bank was small), supplement from broader questions
+    // If still smaller (e.g. no subject filter, or subject bank was small), supplement from broader questions (same difficulty)
     if (pool.length < requestedCount && !hasChapterOrTopic) {
       const existingIds = new Set(pool.map(q => q.id));
       const fallbackQuestions = this.getAllQuestions().filter(q => {
         if (filters.subject && filters.subject !== 'All' && q.subject !== filters.subject) return false;
+        if (!isMatchDifficulty(q)) return false;
+        if (filters.classLevel && filters.classLevel !== 'All' && filters.classLevel !== 'Dropper' && q.class !== filters.classLevel) return false;
         return !existingIds.has(q.id);
       });
       for (const q of fallbackQuestions) {
@@ -321,12 +341,17 @@ class ApiQuestionService {
       }
     }
 
-    // If still 0, fill with all questions (only when no chapter/topic filter — otherwise stay empty)
+    // If still 0, fill with all questions matching difficulty
     if (pool.length === 0 && !hasChapterOrTopic) {
-      pool = [...this.getAllQuestions()];
+      pool = [...this.getAllQuestions().filter(q => isMatchDifficulty(q))];
     }
 
-    // If still underflow (e.g. requested 100 on small bank), repeat with variant IDs so student is never blocked
+    // Final strict safety guard: NEVER leak non-matching difficulty
+    if (filters.difficulty && filters.difficulty !== 'All' && (filters.difficulty as string) !== 'Mixed') {
+      pool = pool.filter(isMatchDifficulty);
+    }
+
+    // If still underflow (e.g. requested 50 but only 10 exist), repeat variants of valid matching questions
     if (pool.length > 0 && pool.length < requestedCount) {
       const origPool = [...pool];
       let counter = 1;

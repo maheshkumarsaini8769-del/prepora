@@ -247,6 +247,7 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
         exam: effectiveExam,
         classLevel,
         subjects,
+        difficulty: difficulty === 'Mixed' ? undefined : difficulty,
         includeModelPapers: false,
         excludeIds: Array.from(effectiveExclude)
       });
@@ -285,6 +286,11 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
         includePYQs,
         includeModelPapers: false
       });
+    }
+
+    // Strict Difficulty Guard: never leak non-matching difficulty into the test
+    if (difficulty && difficulty !== 'Mixed' && difficulty !== 'All') {
+      pool = pool.filter(q => String(q.difficulty || '').trim().toLowerCase() === String(difficulty).trim().toLowerCase());
     }
 
     // 6. Repeat with variant IDs so question count contract is ALWAYS satisfied

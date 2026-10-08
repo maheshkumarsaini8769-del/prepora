@@ -112,13 +112,15 @@ export const AdaptivePracticePage: React.FC = () => {
     attemptedSet.add(currentQ.id);
 
     // Pick next question matching currentTier, excluding already attempted
-    let pool = allQuestions.filter(q => q.difficulty === currentTier && !attemptedSet.has(q.id));
+    const isMatchTier = (q: Question) => String(q.difficulty || '').trim().toLowerCase() === currentTier.toLowerCase();
+    let pool = allQuestions.filter(q => isMatchTier(q) && !attemptedSet.has(q.id));
     if (pool.length === 0) {
-      pool = allQuestions.filter(q => q.difficulty === currentTier && q.id !== currentQ.id);
+      pool = allQuestions.filter(q => isMatchTier(q) && q.id !== currentQ.id);
     }
+    const tierFallback = allQuestions.filter(isMatchTier);
     const nextQ = pool.length > 0
       ? pool[Math.floor(Math.random() * pool.length)]
-      : allQuestions[Math.floor(Math.random() * allQuestions.length)];
+      : (tierFallback.length > 0 ? tierFallback[0] : allQuestions[0]);
 
     setCurrentQ(nextQ);
     setSelectedAnswer(null);

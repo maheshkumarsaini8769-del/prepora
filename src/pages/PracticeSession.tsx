@@ -101,11 +101,9 @@ export const PracticeSession: React.FC = () => {
       };
 
       // 1. Fetch from server in background if possible
+      let fetched: Question[] = [];
       try {
-        const fetched = await questionService.fetchQuestionsAsync(filterOpts, requestedCount * 2);
-        if (fetched && fetched.length > 0) {
-          // Cached in questionService
-        }
+        fetched = await questionService.fetchQuestionsAsync(filterOpts, requestedCount * 2);
       } catch (err) {
         console.warn('Practice fetch error:', err);
       }
@@ -113,13 +111,48 @@ export const PracticeSession: React.FC = () => {
       if (isCancelled) return;
 
       // 2. Guarantee exact requested question count without underflow
-      const guaranteed = questionService.getQuestionsWithGuarantee(filterOpts, requestedCount);
-      setQuestions(guaranteed);
+      let finalQuestions = questionService.getQuestionsWithGuarantee(filterOpts, requestedCount);
+
+      // If server returned matching questions for this difficulty, prefer them
+      if (fetched && fetched.length > 0) {
+        const matchingFetched = fetched.filter(q => {
+          if (filterOpts.difficulty && filterOpts.difficulty !== ('All' as any)) {
+            return String(q.difficulty || '').trim().toLowerCase() === String(filterOpts.difficulty).trim().toLowerCase();
+          }
+          return true;
+        });
+        if (matchingFetched.length >= requestedCount) {
+          finalQuestions = matchingFetched.slice(0, requestedCount);
+        }
+      }
+
+      // 3. Final strict guard: NEVER leak non-matching difficulty
+      if (filterOpts.difficulty && filterOpts.difficulty !== ('All' as any)) {
+        finalQuestions = finalQuestions.filter(q =>
+          String(q.difficulty || '').trim().toLowerCase() === String(filterOpts.difficulty).trim().toLowerCase()
+        );
+        if (finalQuestions.length > 0 && finalQuestions.length < requestedCount) {
+          const orig = [...finalQuestions];
+          let counter = 1;
+          while (finalQuestions.length < requestedCount) {
+            for (const item of orig) {
+              if (finalQuestions.length >= requestedCount) break;
+              finalQuestions.push({
+                ...item,
+                id: `${item.id}-var-${counter}`
+              });
+              counter++;
+            }
+          }
+        }
+      }
+
+      setQuestions(finalQuestions);
 
       // Load initial bookmarks
       const bMarks = userService.getBookmarks();
       const map: Record<string, boolean> = {};
-      guaranteed.forEach(q => {
+      finalQuestions.forEach(q => {
         map[q.id] = bMarks.some(b => b.type === 'question' && b.targetId === q.id);
       });
       setBookmarkedMap(map);

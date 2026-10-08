@@ -120,7 +120,13 @@ export const AdminQuestions: React.FC = () => {
       }
     } catch {
       // Local fallback
-      setQuestions(questionService.getAllQuestions());
+      const localFiltered = questionService.filterQuestions({
+        subject: selectedSubject !== 'All' ? (selectedSubject as any) : undefined,
+        exam: selectedExam !== 'All' ? (selectedExam as any) : undefined,
+        difficulty: selectedDifficulty !== 'All' ? (selectedDifficulty as any) : undefined,
+      });
+      setQuestions(localFiltered.slice((currentPage - 1) * pageSize, currentPage * pageSize));
+      setTotalQuestions(localFiltered.length);
     } finally {
       setIsLoading(false);
     }
