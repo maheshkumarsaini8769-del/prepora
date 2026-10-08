@@ -8,9 +8,10 @@ import {
   IWeaknessAnalysisResult,
   QuestionUnderstanding
 } from './aiTypes.js';
+import { searchFormulaKnowledge } from '../../../src/utils/formulaKnowledgeBase.js';
 
 export class FallbackProvider implements IAIProvider {
-  public readonly name = 'PREPORA Rule-Based Academic Engine';
+  public readonly name = 'Study Up Rule-Based Academic Engine';
 
   public isConfigured(): boolean {
     return true;
@@ -24,6 +25,50 @@ export class FallbackProvider implements IAIProvider {
     let subject = req.subject || 'General';
     let chapter = req.chapter || 'Foundations';
     let topic = req.topic || 'Core Theory';
+
+    // 0. Comprehensive Formula Knowledge Match
+    const formulaMatch = searchFormulaKnowledge(q, subject, chapter);
+    if (formulaMatch && formulaMatch.found) {
+      return {
+        answer: `${formulaMatch.name}: The governing formula is ${formulaMatch.formula}. ${formulaMatch.concept}`,
+        coreConcept: `${formulaMatch.name} — ${formulaMatch.concept}`,
+        stepByStepSolution: formulaMatch.stepByStep,
+        keyFormula: formulaMatch.formula,
+        variables: formulaMatch.variables,
+        example: undefined,
+        examinerTrap: formulaMatch.trap,
+        examTip: formulaMatch.examTip,
+        understanding: {
+          intent: 'formula',
+          subject: formulaMatch.subject as any,
+          chapter: formulaMatch.chapter,
+          topic: formulaMatch.topic,
+          concept: formulaMatch.concept,
+          difficulty: 'Medium',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: [
+          'Show numerical example',
+          'Step-by-step derivation',
+          'Where does this fail?',
+          'Test me on this'
+        ],
+        suggestedPractice: {
+          subject: formulaMatch.subject,
+          chapter: formulaMatch.chapter,
+          topic: formulaMatch.topic,
+          count: 5,
+          actionUrl: `/practice?subject=${encodeURIComponent(formulaMatch.subject)}&chapter=${encodeURIComponent(formulaMatch.chapter)}&topic=${encodeURIComponent(formulaMatch.topic)}&count=5`
+        },
+        confidence: 0.98,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    }
+
     let concept = q;
     let answer = '';
     let keyFormula: string | undefined = undefined;

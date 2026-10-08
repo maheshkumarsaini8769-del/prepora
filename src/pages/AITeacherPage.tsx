@@ -19,6 +19,7 @@ import { aiDoubtSolver } from '../services/aiDoubtSolver';
 import { SubjectName, Question } from '../types';
 import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 import { classifyAcademicQuery } from '../utils/aiAcademicClassifier';
+import { searchFormulaKnowledge } from '../utils/formulaKnowledgeBase';
 
 export type TutorMode =
   | 'Learn'
@@ -196,14 +197,20 @@ export const AITeacherPage: React.FC = () => {
       );
 
       let replyText = response.coreConcept;
-      if (response.stepByStepSolution && response.stepByStepSolution.length > 0) {
-        replyText += `\n\n**Step-by-Step Breakdown:**\n` + response.stepByStepSolution.map((s, i) => `${i + 1}. ${s}`).join('\n');
-      }
       if (response.keyFormula) {
-        replyText += `\n\n**Key Formula:**\n$${response.keyFormula}$`;
+        replyText += `\n\n**📌 Governing Formula:**\n$$${response.keyFormula}$$`;
+      }
+      if (response.variables) {
+        replyText += `\n\n**📝 Variables Explained:**\n${response.variables}`;
+      }
+      if (response.stepByStepSolution && response.stepByStepSolution.length > 0) {
+        replyText += `\n\n**🔢 Step-by-Step Breakdown:**\n` + response.stepByStepSolution.map((s, i) => `${i + 1}. ${s}`).join('\n');
       }
       if (response.examTip) {
         replyText += `\n\n💡 **Exam Tip:** ${response.examTip}`;
+      }
+      if (response.examinerTrap) {
+        replyText += `\n\n⚠️ **Common Trap:** ${response.examinerTrap}`;
       }
 
       const tutorMsg: ChatMessage = {
@@ -216,10 +223,15 @@ export const AITeacherPage: React.FC = () => {
       };
       setMessages((prev) => [...prev, tutorMsg]);
     } catch {
+      const fallbackFormula = searchFormulaKnowledge(textToSend, selectedSubject, selectedChapter);
+      let fallbackText = `In **${selectedChapter}**, remember to check SI units and sign conventions carefully. Let's break this down into first principles.`;
+      if (fallbackFormula && fallbackFormula.found) {
+        fallbackText = `**${fallbackFormula.name}**\n\n**📌 Governing Formula:**\n$$${fallbackFormula.formula}$$\n\n**📝 Variables:**\n${fallbackFormula.variables}\n\n**🔢 Steps:**\n${fallbackFormula.stepByStep.join('\n')}\n\n💡 **Exam Tip:** ${fallbackFormula.examTip}\n\n⚠️ **Trap:** ${fallbackFormula.trap}`;
+      }
       const tutorMsg: ChatMessage = {
         id: `tutor-${Date.now()}`,
         sender: 'tutor',
-        text: `In **${selectedChapter}**, remember to check SI units and sign conventions carefully. Let's break this down into first principles.`,
+        text: fallbackText,
         mode: currentMode,
         groundedInPrepora: true,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })

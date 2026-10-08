@@ -1,6 +1,7 @@
 import { SubjectName } from '../types';
 import { userService } from './userService';
 import { progressService } from './progressService';
+import { searchFormulaKnowledge } from '../utils/formulaKnowledgeBase';
 
 export interface SolvedDoubtResponse {
   id: string;
@@ -12,6 +13,7 @@ export interface SolvedDoubtResponse {
   coreConcept: string;
   stepByStepSolution: string[];
   keyFormula?: string;
+  variables?: string;
   example?: string;
   examinerTrap: string;
   examTip: string;
@@ -103,6 +105,7 @@ export class AIDoubtSolverService {
             coreConcept: d.coreConcept || d.understanding?.concept || 'Core Academic Principle',
             stepByStepSolution: d.stepByStepSolution || [],
             keyFormula: d.keyFormula,
+            variables: d.variables,
             example: d.example,
             examinerTrap: d.examinerTrap || 'Check all unit conversions and sign conventions.',
             examTip: d.examTip || 'High-yield concept in national entrance examinations.',
@@ -188,6 +191,30 @@ export class AIDoubtSolverService {
   ): SolvedDoubtResponse {
     const q = questionText.trim();
     const qLower = q.toLowerCase();
+
+    // 0. High-Yield Comprehensive Formula Knowledge Search
+    const formulaMatch = searchFormulaKnowledge(q, subject, chapter);
+    if (formulaMatch && formulaMatch.found) {
+      return {
+        id: 'formula-' + Date.now(),
+        question: questionText,
+        subject: formulaMatch.subject,
+        chapter: formulaMatch.chapter,
+        topic: formulaMatch.topic,
+        answer: `${formulaMatch.name}: The governing formula is ${formulaMatch.formula}. ${formulaMatch.concept}`,
+        coreConcept: `${formulaMatch.name} — ${formulaMatch.concept}`,
+        keyFormula: formulaMatch.formula,
+        variables: formulaMatch.variables,
+        stepByStepSolution: formulaMatch.stepByStep,
+        examinerTrap: formulaMatch.trap,
+        examTip: formulaMatch.examTip,
+        verificationPassed: true,
+        groundedInPrepora: true,
+        confidence: 0.98,
+        suggestedFollowUps: ['Show numerical example', 'Derivation steps', 'Where does this fail?', 'Test me on this'],
+        timestamp: new Date().toISOString()
+      };
+    }
 
     let coreConcept = 'Fundamental laws and governing equations in ' + subject + ': ' + chapter + '.';
     let keyFormula = '';

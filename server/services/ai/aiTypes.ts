@@ -38,6 +38,7 @@ export interface IDoubtSolveResult {
   coreConcept: string;
   stepByStepSolution: string[];
   keyFormula?: string;
+  variables?: string;
   numericalBreakdown?: {
     givenValues: string[];
     formulaUsed: string;

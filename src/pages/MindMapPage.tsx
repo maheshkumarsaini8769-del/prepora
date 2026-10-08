@@ -8,6 +8,7 @@ import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { SubjectName, ClassLevel } from '../types';
 import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
+import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
 
 export const MindMapPage: React.FC = () => {
   const navigate = useNavigate();
@@ -20,13 +21,25 @@ export const MindMapPage: React.FC = () => {
   const [selectedSubject, setSelectedSubject] = useState<SubjectName>(initialSubject);
   const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>('All');
 
-  // Load chapters for this subject & class level
+  // Load authoritative curriculum chapters for this subject & class level with formula notes
   const chapters = useMemo(() => {
+    const formulaChapters = new Set<string>();
+    comprehensiveFormulaNotes.forEach((item) => {
+      if (item.subject.toLowerCase() === selectedSubject.toLowerCase()) {
+        if (selectedClass === 'All' || String(item.classLevel) === String(selectedClass)) {
+          formulaChapters.add(item.chapter);
+        }
+      }
+    });
+
+    const canonicalList = Array.from(formulaChapters).sort();
+    if (canonicalList.length > 0) return canonicalList;
+
     const list = questionService.getChapters(selectedSubject, selectedClass);
-    return list.length > 0 ? list : ['Units and Measurements', 'Kinematics', 'Laws of Motion'];
+    return list.length > 0 ? list : ['Units and Measurements', 'Motion in a Straight Line', 'Laws of Motion'];
   }, [selectedSubject, selectedClass]);
 
-  const initialChapter = searchParams.get('chapter') || chapters[0] || 'Kinematics';
+  const initialChapter = searchParams.get('chapter') || chapters[0] || 'Units and Measurements';
   const [selectedChapter, setSelectedChapter] = useState<string>(initialChapter);
 
   // Auto-sync selectedChapter when chapters change
@@ -38,8 +51,16 @@ export const MindMapPage: React.FC = () => {
 
   const handleSubjectChange = (subj: SubjectName) => {
     setSelectedSubject(subj);
-    const chs = questionService.getChapters(subj, selectedClass);
-    const newCh = chs[0] || 'Kinematics';
+    const formulaChapters = new Set<string>();
+    comprehensiveFormulaNotes.forEach((item) => {
+      if (item.subject.toLowerCase() === subj.toLowerCase()) {
+        if (selectedClass === 'All' || String(item.classLevel) === String(selectedClass)) {
+          formulaChapters.add(item.chapter);
+        }
+      }
+    });
+    const chList = Array.from(formulaChapters).sort();
+    const newCh = chList[0] || 'Units and Measurements';
     setSelectedChapter(newCh);
     setSearchParams({ subject: subj, chapter: newCh });
   };

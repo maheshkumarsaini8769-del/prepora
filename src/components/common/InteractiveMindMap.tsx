@@ -27,6 +27,7 @@ import { ecosystemService } from '../../services/ecosystemService';
 import { questionService } from '../../services/questionService';
 import { userService } from '../../services/userService';
 import { comprehensiveFormulaNotes } from '../../data/comprehensiveFormulaNotes';
+import { getFormulaItemsForChapter } from '../../utils/formulaKnowledgeBase';
 import { SubjectName } from '../../types';
 
 export interface MindMapNode {
@@ -69,14 +70,17 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
     (m) => m.chapter.toLowerCase() === chapterName.toLowerCase()
   );
 
-  // 1. Retrieve canonical and formula-rich data for this chapter
+  // 1. Retrieve canonical and formula-rich data for this chapter using alias resolver
   const matchingFormulaItems = useMemo(() => {
+    const list = getFormulaItemsForChapter(chapterName, subject);
+    if (list.length > 0) return list;
+
     const qLower = chapterName.toLowerCase().trim();
     return comprehensiveFormulaNotes.filter((item) => {
       const itLower = item.chapter.toLowerCase().trim();
       return itLower === qLower || itLower.includes(qLower) || qLower.includes(itLower);
     });
-  }, [chapterName]);
+  }, [chapterName, subject]);
 
   // 2. Build structured Mind Map Nodes
   const topicNodes: MindMapNode[] = useMemo(() => {
@@ -502,9 +506,9 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
                         </div>
                       </div>
 
-                      {/* Sub-branches / Formula Cards */}
+                      {/* Sub-branches / Formula Cards with Tree Branch Line */}
                       {isExpanded && top.children && (
-                        <div className="p-3 sm:p-4 space-y-2 bg-slate-50/60 dark:bg-slate-900/30 border-t border-slate-100 dark:border-slate-800">
+                        <div className="p-3 sm:p-4 space-y-2 bg-slate-50/60 dark:bg-slate-900/30 border-t border-slate-100 dark:border-slate-800 border-l-4 border-l-purple-500/50 pl-3 sm:pl-5">
                           {top.children.map((sub) => (
                             <div
                               key={sub.id}
@@ -527,9 +531,9 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
 
                               <div className="flex items-center gap-2 shrink-0 self-end sm:self-auto">
                                 {sub.keyFormula && (
-                                  <span className="font-mono text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[140px] hidden md:inline">
-                                    {sub.keyFormula.slice(0, 20)}...
-                                  </span>
+                                  <div className="px-2 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-800 text-[11px] text-purple-900 dark:text-purple-200 max-w-[200px] overflow-x-auto truncate">
+                                    <MathRenderer content={`$${sub.keyFormula}$`} />
+                                  </div>
                                 )}
                                 <span className="font-mono font-bold text-[11px] text-slate-700 dark:text-slate-200">
                                   {sub.mastery}%
@@ -724,7 +728,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
                   Governing Equation
                 </span>
                 <div className="text-amber-300 font-bold py-1">
-                  <MathRenderer math={`\\[${selectedNode.keyFormula}\\]`} />
+                  <MathRenderer displayMode={true} content={`$$${selectedNode.keyFormula}$$`} />
                 </div>
                 {selectedNode.variables && (
                   <div className="text-[11px] text-slate-300 text-left pt-1 border-t border-slate-800">

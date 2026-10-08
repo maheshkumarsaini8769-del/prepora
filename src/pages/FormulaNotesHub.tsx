@@ -578,11 +578,9 @@ export const FormulaNotesHub: React.FC = () => {
     (searchParams.get('subject') as SubjectName) ||
     (allowedSubjects.includes('Physics') ? 'Physics' : allowedSubjects[0]);
 
-  // Filters
+  // Filters - default to All Classes so all formulas across 11 and 12 are immediately visible
   const [selectedSubject, setSelectedSubject] = useState<SubjectName | 'All'>(initialSubject);
-  const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>(
-    (user?.classLevel === '11' || user?.classLevel === '12') ? user.classLevel : '11'
-  );
+  const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>('All');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [viewMode, setViewMode] = useState<'accordion' | 'studio'>('accordion');
   const [onlyBookmarked, setOnlyBookmarked] = useState<boolean>(false);
@@ -1270,13 +1268,14 @@ export const FormulaNotesHub: React.FC = () => {
         }
       }
 
-      // 3. Default: auto-open the first chapter and its first topic
-      const firstCh = distinctChapters[0].chapter;
-      setExpandedChapters(new Set([firstCh]));
-      const firstTopic = distinctChapters[0].items[0]?.id;
-      if (firstTopic) {
-        setExpandedTopics(new Set([firstTopic]));
-      }
+      // 3. Default: auto-open the first 2 chapters and their topics so formulas are immediately visible on screen
+      const initialChs = distinctChapters.slice(0, 2).map((c) => c.chapter);
+      const initialTopics = new Set<string>();
+      distinctChapters.slice(0, 2).forEach((c) => {
+        c.items.forEach((it) => initialTopics.add(it.id));
+      });
+      setExpandedChapters(new Set(initialChs));
+      setExpandedTopics(initialTopics);
 
       // Sync active for split studio view
       if (!activeChapter || !distinctChapters.some((c) => c.chapter === activeChapter)) {
