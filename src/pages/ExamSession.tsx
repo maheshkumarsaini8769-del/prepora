@@ -123,6 +123,20 @@ export const ExamSession: React.FC = () => {
 
       const targetCount = test.totalQuestions || 75;
 
+      // If launched from a real paper and questions are missing or incomplete, fetch authoritative paper questions from API
+      if (qs.length < targetCount && test.id.startsWith('test-from-')) {
+        const paperId = test.id.replace('test-from-', '');
+        try {
+          const res = await fetch(`/api/papers/${paperId}`);
+          const pData = await res.json();
+          if (pData && pData.success && Array.isArray(pData.questions) && pData.questions.length > 0) {
+            qs = pData.questions.slice(0, targetCount);
+          }
+        } catch {
+          // ignore
+        }
+      }
+
       if (qs.length < targetCount) {
         const existingIds = new Set(qs.map(q => q.id));
         const subjects = (test.subjects && test.subjects.length > 0)

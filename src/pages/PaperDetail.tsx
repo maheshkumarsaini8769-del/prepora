@@ -56,6 +56,11 @@ export const PaperDetail: React.FC = () => {
             setApiPaper(data.paper);
             if (data.questions && data.questions.length > 0) {
               setApiQuestions(data.questions);
+            } else if (data.paper.questionIds && data.paper.questionIds.length > 0) {
+              const fullQs = await questionService.getQuestionsByIdsAsync(data.paper.questionIds);
+              if (!isCancelled && fullQs.length > 0) {
+                setApiQuestions(fullQs);
+              }
             }
           }
         }
@@ -63,6 +68,15 @@ export const PaperDetail: React.FC = () => {
         // Fallback to local
       } finally {
         if (!isCancelled) setLoading(false);
+      }
+
+      // If local paper exists and api didn't fill all questions, try local async lookup
+      if (!isCancelled && localPaper && localPaper.questionIds && localPaper.questionIds.length > 0) {
+        questionService.getQuestionsByIdsAsync(localPaper.questionIds).then((qs) => {
+          if (!isCancelled && qs.length > 0) {
+            setApiQuestions((prev) => (prev.length >= (localPaper.totalQuestions || 50) ? prev : qs));
+          }
+        }).catch(() => null);
       }
     };
     loadPaper();
@@ -487,6 +501,23 @@ export const PaperDetail: React.FC = () => {
               </div>
             </div>
           )}
+
+          {/* Active Filter Bar indicator */}
+          <div className="flex items-center justify-between text-xs font-bold text-slate-500 bg-slate-50 dark:bg-slate-900/40 px-4 py-2.5 rounded-2xl border border-slate-200/60 dark:border-slate-800">
+            <span>
+              Showing <strong className="text-purple-700 dark:text-purple-400">{displayedQuestions.length}</strong> of <strong className="text-slate-800 dark:text-slate-100">{questions.length}</strong> Questions
+              {selectedSubject !== 'All' && ` (${selectedSubject} Section)`}
+            </span>
+            {selectedSubject !== 'All' && (
+              <button
+                type="button"
+                onClick={() => setSelectedSubject('All')}
+                className="text-purple-600 dark:text-purple-400 hover:underline cursor-pointer"
+              >
+                Show All {questions.length} Questions
+              </button>
+            )}
+          </div>
 
           {/* Questions List */}
           <div className="space-y-6">

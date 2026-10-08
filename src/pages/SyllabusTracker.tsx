@@ -27,7 +27,7 @@ import {
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { syllabusService } from '../services/syllabusService';
-import { getChapterVideo, VideoResource } from '../data/videoLectures';
+import { getChapterVideo, getVideoForTopic, VideoResource } from '../data/videoLectures';
 import {
   SubjectName,
   CanonicalSubjectId,
@@ -67,6 +67,11 @@ export const SyllabusTracker: React.FC = () => {
 
   const handleWatchLecture = (ch: CanonicalSyllabusChapter) => {
     const vid = getChapterVideo(ch.name, ch.subjectName);
+    setActiveLecture({ chapter: ch, video: vid });
+  };
+
+  const handleWatchTopicLecture = (ch: CanonicalSyllabusChapter, topicName: string) => {
+    const vid = getVideoForTopic(ch.name, topicName, ch.subjectName);
     setActiveLecture({ chapter: ch, video: vid });
   };
 
@@ -373,15 +378,28 @@ export const SyllabusTracker: React.FC = () => {
 
                   {/* Subtopics Checklist snapshot */}
                   <div className="space-y-1.5 pt-2 border-t border-slate-100">
-                    <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
-                      Canonical Subtopics ({ch.topics.length})
-                    </span>
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 block">
+                        Canonical Subtopics ({ch.topics.length})
+                      </span>
+                      <span className="text-[10px] text-rose-600 dark:text-rose-400 font-semibold">
+                        ▶ Click topic to watch
+                      </span>
+                    </div>
                     <div className="space-y-1 max-h-36 overflow-y-auto pr-1">
                       {ch.topics.map(t => {
                         const isMastered = progressPercent >= 80;
                         return (
-                          <div key={t.id} className="flex items-center justify-between text-xs text-slate-700 dark:text-slate-200 py-0.5">
-                            <span className="truncate pr-2">{t.name}</span>
+                          <div key={t.id} className="flex items-center justify-between text-xs text-slate-700 dark:text-slate-200 py-0.5 group/top">
+                            <button
+                              type="button"
+                              onClick={() => handleWatchTopicLecture(ch, t.name)}
+                              className="truncate pr-2 text-left hover:text-rose-600 dark:hover:text-rose-400 flex items-center gap-1.5 cursor-pointer transition-colors"
+                              title={`Watch lecture for ${t.name}`}
+                            >
+                              <Play className="w-2.5 h-2.5 text-rose-500 fill-rose-500 opacity-60 group-hover/top:opacity-100 group-hover/top:scale-110 transition-all shrink-0" />
+                              <span className="truncate">{t.name}</span>
+                            </button>
                             <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded shrink-0 ${
                               isMastered ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-500'
                             }`}>

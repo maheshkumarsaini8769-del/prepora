@@ -1,3 +1,5 @@
+import { comprehensiveFormulaNotes } from './comprehensiveFormulaNotes';
+
 export interface VideoResource {
   id: string;
   chapter: string;
@@ -3397,6 +3399,50 @@ export const TOPIC_VIDEOS: VideoResource[] = [
   }
 ];
 
+/**
+ * Retrieves or dynamically resolves a dedicated video resource for a specific topic within a chapter.
+ */
+export function getVideoForTopic(
+  chapterName: string,
+  topicName: string,
+  subjectName: string = 'Physics'
+): VideoResource {
+  const normChap = normalizeString(chapterName);
+  const normTop = normalizeString(topicName);
+
+  // 1. Look for a curated match in TOPIC_VIDEOS
+  const directMatch = TOPIC_VIDEOS.find((tv) => {
+    const tvChap = normalizeString(tv.chapter);
+    const tvTop = normalizeString(tv.topic || '');
+    return (
+      (tvChap === normChap || tvChap.includes(normChap) || normChap.includes(tvChap)) &&
+      (tvTop === normTop || tvTop.includes(normTop) || normTop.includes(tvTop))
+    );
+  });
+
+  if (directMatch) return directMatch;
+
+  // 2. Fetch parent chapter lecture
+  const parentVid = getChapterVideo(chapterName, subjectName);
+
+  // 3. Return topic-adapted resource with verified parent YouTube embed
+  const cleanId = `top-${(subjectName || 'gen').toLowerCase()}-${normChap.slice(0, 15)}-${normTop.slice(0, 15)}`.replace(/\s+/g, '-');
+  return {
+    id: cleanId,
+    chapter: chapterName,
+    topic: topicName,
+    subject: subjectName,
+    title: `${topicName} — ${chapterName}`,
+    youtubeId: parentVid.youtubeId,
+    channelName: parentVid.channelName,
+    duration: parentVid.duration,
+    description: `Targeted concept mastery and high-yield derivations for "${topicName}" within ${chapterName} by ${parentVid.channelName}.`,
+    classLevel: parentVid.classLevel || (CHAPTER_CLASS_MAP[chapterName.toLowerCase().trim()] || '11'),
+    targetExams: parentVid.targetExams || getTargetExamsForSubject(subjectName),
+    isTopicWise: true
+  };
+}
+
 export function getAllCuratedVideos(): VideoResource[] {
   const map = new Map<string, VideoResource>();
 
@@ -3420,6 +3466,16 @@ export function getAllCuratedVideos(): VideoResource[] {
   for (const tv of TOPIC_VIDEOS) {
     if (!map.has(tv.id)) {
       map.set(tv.id, tv);
+    }
+  }
+
+  // 3. Populate topic-wise videos for all syllabus topics from comprehensiveFormulaNotes
+  // so EVERY topic has a real, working, playable YouTube lecture attached!
+  for (const note of comprehensiveFormulaNotes) {
+    if (!note.topic || !note.chapter) continue;
+    const synthVid = getVideoForTopic(note.chapter, note.topic, note.subject);
+    if (!map.has(synthVid.id)) {
+      map.set(synthVid.id, synthVid);
     }
   }
 

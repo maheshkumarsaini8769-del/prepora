@@ -18,7 +18,7 @@ import {
   GraduationCap,
   Filter
 } from 'lucide-react';
-import { getAllCuratedVideos, getChapterVideo, VideoResource } from '../data/videoLectures';
+import { getAllCuratedVideos, getChapterVideo, getVideoForTopic, VideoResource } from '../data/videoLectures';
 import { SubjectName, ClassLevel } from '../types';
 import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
@@ -218,7 +218,7 @@ export const VideoLecturesPage: React.FC = () => {
       if (lectureMode === 'FULL_CHAPTER' && v.isTopicWise) {
         return false;
       }
-      if (lectureMode === 'TOPIC_WISE' && !v.isTopicWise && selectedTopic) {
+      if (lectureMode === 'TOPIC_WISE' && !v.isTopicWise) {
         return false;
       }
 
@@ -232,9 +232,9 @@ export const VideoLecturesPage: React.FC = () => {
       }
 
       // 6. Topic Filter
-      if (selectedTopic && v.isTopicWise) {
-        const vidTopic = (v.topic || '').toLowerCase();
-        const selTopic = selectedTopic.toLowerCase();
+      if (selectedTopic) {
+        const vidTopic = (v.topic || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+        const selTopic = selectedTopic.toLowerCase().replace(/[^a-z0-9]/g, '');
         if (!vidTopic.includes(selTopic) && !selTopic.includes(vidTopic)) {
           return false;
         }
@@ -257,7 +257,11 @@ export const VideoLecturesPage: React.FC = () => {
     });
 
     if (list.length === 0 && selectedChapter !== 'All') {
-      const fallbackVid = getChapterVideo(selectedChapter, selectedSubject !== 'All' ? selectedSubject : 'Physics');
+      const activeSub = selectedSubject !== 'All' ? selectedSubject : 'Physics';
+      if (selectedTopic) {
+        return [getVideoForTopic(selectedChapter, selectedTopic, activeSub)];
+      }
+      const fallbackVid = getChapterVideo(selectedChapter, activeSub);
       if (fallbackVid) {
         return [fallbackVid];
       }

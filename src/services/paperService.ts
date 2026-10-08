@@ -230,8 +230,9 @@ class MockPaperService {
     try {
       const res = await fetch('/api/papers');
       const data = await res.json();
-      if (data.success && Array.isArray(data.data)) {
-        this.cache = data.data;
+      const papersList = Array.isArray(data.papers) ? data.papers : Array.isArray(data.data) ? data.data : null;
+      if (data.success && papersList) {
+        this.cache = papersList;
         this.hasFetched = true;
       }
     } catch {

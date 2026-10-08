@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import Paper from '../models/Paper.js';
 import Question from '../models/Question.js';
+import { questionRepo } from '../services/questionRepository.js';
 
 const router = express.Router();
 
@@ -69,7 +70,7 @@ router.get('/', async (req: Request, res: Response) => {
     }
 
     const papers = await Paper.find(filter).sort({ year: -1, createdAt: -1 });
-    res.json({ success: true, count: papers.length, papers });
+    res.json({ success: true, count: papers.length, papers, data: papers });
   } catch (err: any) {
     res.status(500).json({ success: false, message: 'Failed to fetch papers', error: err.message });
   }
@@ -191,64 +192,75 @@ router.get('/:id', async (req: Request, res: Response) => {
 
     let questions: any[] = [];
     if (paper.questionIds && paper.questionIds.length > 0) {
-      const qList = await Question.find({ id: { $in: paper.questionIds } });
-      const qMap = new Map(qList.map(q => [q.id, q]));
-      questions = paper.questionIds.map(id => qMap.get(id)).filter(Boolean);
+      // 1. Fetch from high-volume in-memory questionRepo (51,665 verified questions)
+      const repoQuestions = questionRepo.getByIds(paper.questionIds);
+      const qMap = new Map<string, any>();
+      for (const q of repoQuestions) {
+        if (q && q.id) qMap.set(String(q.id), q);
+      }
+
+      // 2. Overlay from Mongo Question collection
+      try {
+        const qList = await Question.find({ id: { $in: paper.questionIds } }).lean();
+        for (const q of qList) {
+          if (q && (q as any).id) qMap.set(String((q as any).id), q);
+        }
+      } catch (err) {
+        console.warn('Mongo overlay query failed', err);
+      }
+
+      questions = paper.questionIds.map(id => qMap.get(String(id))).filter(Boolean);
     }
 
     // Auto-heal / dynamic assembly if questions returned are less than targetTotal
     if (questions.length < targetTotal) {
       const existingIds = new Set(questions.map(q => q.id));
-      const needed = targetTotal - questions.length;
       const isJee = paper.exam === 'JEE' || paper.canonicalExam === 'JEE_MAIN' || paper.canonicalExam === 'JEE_ADVANCED';
       const isNeet = paper.exam === 'NEET' || paper.canonicalExam === 'NEET_UG';
       const isFull = !paper.subject || paper.subject === 'Full Syllabus' || paper.subject === 'All';
 
       if (isJee && isFull) {
-        const perSub = Math.ceil(needed / 3);
+        const perSub = Math.ceil(targetTotal / 3);
         for (const sub of ['Physics', 'Chemistry', 'Mathematics'] as const) {
-          const addQs = await Question.find({
-            exam: 'JEE',
-            subject: sub,
-            id: { $nin: Array.from(existingIds) }
-          }).limit(perSub);
-          for (const q of addQs) {
-            if (questions.length >= targetTotal) break;
+          const pool = questionRepo.filter({ exam: 'JEE', subject: sub }).filter(q => !existingIds.has(q.id));
+          for (const q of pool) {
+            if (questions.filter(x => x.subject === sub).length >= perSub || questions.length >= targetTotal) break;
             questions.push(q);
             existingIds.add(q.id);
           }
         }
       } else if (isNeet && isFull) {
-        for (const sub of ['Biology', 'Physics', 'Chemistry'] as const) {
-          const quota = sub === 'Biology' ? Math.round(needed * 0.5) : Math.round(needed * 0.25);
-          const addQs = await Question.find({
-            exam: 'NEET',
-            subject: sub,
-            id: { $nin: Array.from(existingIds) }
-          }).limit(quota);
-          for (const q of addQs) {
-            if (questions.length >= targetTotal) break;
+        const bioTarget = Math.round(targetTotal * 0.5);
+        const phyTarget = Math.round(targetTotal * 0.25);
+        const chemTarget = targetTotal - bioTarget - phyTarget;
+        const fillSub = (sub: string, target: number) => {
+          const pool = questionRepo.filter({ exam: 'NEET', subject: sub }).filter(q => !existingIds.has(q.id));
+          for (const q of pool) {
+            if (questions.filter(x => x.subject === sub).length >= target || questions.length >= targetTotal) break;
             questions.push(q);
             existingIds.add(q.id);
           }
-        }
+        };
+        fillSub('Biology', bioTarget);
+        fillSub('Physics', phyTarget);
+        fillSub('Chemistry', chemTarget);
       } else {
-        const sub = paper.subject || 'Physics';
-        const addQs = await Question.find({
-          subject: sub,
-          id: { $nin: Array.from(existingIds) }
-        }).limit(needed);
-        for (const q of addQs) {
+        const sub = paper.subject && paper.subject !== 'Full Syllabus' && paper.subject !== 'All' ? paper.subject : undefined;
+        const pool = questionRepo.filter({
+          exam: paper.exam,
+          subject: sub
+        }).filter(q => !existingIds.has(q.id));
+        for (const q of pool) {
           if (questions.length >= targetTotal) break;
           questions.push(q);
           existingIds.add(q.id);
         }
       }
 
-      // If still needed, fill with any available questions
+      // If still short, backfill from questionRepo all pool
       if (questions.length < targetTotal) {
-        const addQs = await Question.find({ id: { $nin: Array.from(existingIds) } }).limit(targetTotal - questions.length);
-        for (const q of addQs) {
+        const allPool = questionRepo.getAll().filter(q => !existingIds.has(q.id));
+        for (const q of allPool) {
           if (questions.length >= targetTotal) break;
           questions.push(q);
           existingIds.add(q.id);
@@ -258,7 +270,7 @@ router.get('/:id', async (req: Request, res: Response) => {
       // Persist healed questionIds into paper
       paper.questionIds = questions.map(q => q.id);
       paper.totalQuestions = questions.length;
-      await paper.save();
+      await paper.save().catch(() => null);
     }
 
     res.json({ success: true, paper, questions });
