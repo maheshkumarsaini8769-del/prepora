@@ -526,6 +526,7 @@ export interface PlannerTask {
   durationMinutes: number;
   completed: boolean;
   notes?: string;
+  actionUrl?: string;
 }
 
 export interface StudentGoal {

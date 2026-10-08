@@ -27,6 +27,7 @@ import { questionService } from './questionService';
 import { userService } from './userService';
 import { progressService } from './progressService';
 import { syncEngine } from './syncEngine';
+import { canonicalSyllabus } from '../data/canonicalSyllabusData';
 
 const DAILY_PLAN_KEY = 'prepora_daily_plan';
 const DOUBTS_KEY = 'prepora_doubts';
@@ -986,36 +987,334 @@ class MockEcosystemService {
     targetDate?: string;
   }): PlannerTask[] {
     const profile = userService.getProfile();
-    const isNeet = (options.exam || profile.targetExam) === 'NEET';
+    const exam = (options.exam || profile.targetExam || 'JEE').toUpperCase();
+    const classLevel = String(options.classLevel || profile.classLevel || '12');
+    const isNeet = exam.includes('NEET');
+
+    // Calculate days remaining to exam
+    const targetDateStr = options.targetDate || '2026-05-15';
+    const targetTime = new Date(targetDateStr).getTime();
+    const nowTime = Date.now();
+    const daysRemaining = Math.max(1, Math.ceil((targetTime - nowTime) / (1000 * 60 * 60 * 24)));
+
+    // Sync target date with goals
+    try {
+      this.updateGoalTargets(isNeet ? 650 : 220, targetDateStr);
+    } catch {
+      // ignore
+    }
+
     const weaknesses = userService.getWeaknesses();
 
-    const pWeak = weaknesses.find(w => w.subject === 'Physics')?.chapter || 'Kinematics';
-    const cWeak = weaknesses.find(w => w.subject === 'Chemistry')?.chapter || 'Chemical Bonding & Molecular Structure';
-    const mWeak = isNeet
-      ? weaknesses.find(w => w.subject === 'Biology')?.chapter || 'Cell: The Unit of Life'
-      : weaknesses.find(w => w.subject === 'Mathematics')?.chapter || 'Quadratic Equations & Complex Numbers';
+    // Map subjects
+    const thirdSub: SubjectName = isNeet ? 'Biology' : 'Mathematics';
 
-    const thirdSub = isNeet ? 'Biology' : 'Mathematics';
-    const slotDuration = Math.max(25, Math.min(60, Math.floor((options.dailyMinutes || 120) / 2)));
+    // Helper to get prioritized chapters for a subject from canonicalSyllabus
+    const getSubjectChapters = (subj: SubjectName): string[] => {
+      const filtered = canonicalSyllabus.filter((c) => {
+        if (c.subjectName !== subj) return false;
+        if (classLevel === '11') return c.classLevel === '11';
+        if (classLevel === '12') return c.classLevel === '12';
+        return true; // Dropper / All includes 11 and 12
+      });
 
+      const chapterSet = new Set<string>();
+
+      // 1. Weakness chapters first
+      weaknesses
+        .filter((w) => w.subject === subj)
+        .forEach((w) => chapterSet.add(w.chapter));
+
+      // 2. High weightage chapters next
+      filtered
+        .filter((c) => c.weightage === 'High')
+        .forEach((c) => chapterSet.add(c.name));
+
+      // 3. All remaining syllabus chapters
+      filtered.forEach((c) => chapterSet.add(c.name));
+
+      const list = Array.from(chapterSet);
+      if (list.length > 0) return list;
+
+      // Fallback defaults
+      if (subj === 'Physics') return classLevel === '11' ? ['Kinematics', 'Laws of Motion', 'Work, Energy & Power'] : ['Electrostatics', 'Current Electricity', 'Ray Optics'];
+      if (subj === 'Chemistry') return classLevel === '11' ? ['Some Basic Concepts of Chemistry', 'Chemical Bonding and Molecular Structure', 'Thermodynamics'] : ['Solutions', 'Electrochemistry', 'Chemical Kinetics'];
+      if (subj === 'Biology') return classLevel === '11' ? ['Cell: The Unit of Life', 'Plant Physiology', 'Human Physiology'] : ['Principles of Inheritance and Variation', 'Biotechnology: Principles and Processes', 'Ecosystem'];
+      return classLevel === '11' ? ['Quadratic Equations & Complex Numbers', 'Trigonometric Functions', 'Sequences and Series'] : ['Integral Calculus', 'Matrices & Determinants', 'Differential Equations'];
+    };
+
+    const pChapters = getSubjectChapters('Physics');
+    const cChapters = getSubjectChapters('Chemistry');
+    const mChapters = getSubjectChapters(thirdSub);
+
+    // Dynamic slot durations based on daily minutes
+    const totalDaily = Math.max(60, options.dailyMinutes || 150);
+    const conceptSlot = Math.round(totalDaily * 0.35); // 35% time on concept/reading
+    const practiceSlot = Math.round(totalDaily * 0.45); // 45% time on solving questions
+    const formulaSlot = Math.max(20, totalDaily - conceptSlot - practiceSlot); // 20% on formula/review
+
+    let phaseFocusNote = '';
+    if (daysRemaining > 90) {
+      phaseFocusNote = 'Foundation Phase: Concept & NCERT Theory';
+    } else if (daysRemaining >= 30) {
+      phaseFocusNote = 'Sprint Phase: High-yield concepts & speed numericals';
+    } else {
+      phaseFocusNote = 'Intensive Phase: Rapid revision & exam simulation';
+    }
+
+    const p1 = pChapters[0] || 'Kinematics';
+    const p2 = pChapters[1] || 'Laws of Motion';
+    const c1 = cChapters[0] || 'Chemical Bonding and Molecular Structure';
+    const c2 = cChapters[1] || 'Some Basic Concepts of Chemistry';
+    const m1 = mChapters[0] || (isNeet ? 'Cell: The Unit of Life' : 'Quadratic Equations & Complex Numbers');
+    const m2 = mChapters[1] || (isNeet ? 'Plant Physiology' : 'Integral Calculus');
+
+    const now = Date.now();
     const generated: PlannerTask[] = [
-      { id: `pt-${Date.now()}-1`, day: 'Monday', subject: 'Physics', chapter: pWeak, taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Target weak concept problems' },
-      { id: `pt-${Date.now()}-2`, day: 'Monday', subject: 'Chemistry', chapter: cWeak, taskType: 'Concept', durationMinutes: slotDuration, completed: false, notes: 'Formula derivation and notes' },
-      
-      { id: `pt-${Date.now()}-3`, day: 'Tuesday', subject: thirdSub as SubjectName, chapter: mWeak, taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'High-yield numerical drill' },
-      { id: `pt-${Date.now()}-4`, day: 'Tuesday', subject: 'Physics', chapter: 'Laws of Motion', taskType: 'Formula', durationMinutes: Math.min(30, slotDuration), completed: false, notes: 'Speed recall & flashcards' },
+      // MONDAY: Physics Concept & Practice + Chemistry Formula
+      {
+        id: `pt-${now}-1`,
+        day: 'Monday',
+        subject: 'Physics',
+        chapter: p1,
+        taskType: 'Concept',
+        durationMinutes: conceptSlot,
+        completed: false,
+        notes: `📖 Read core theory & notes for ${p1} (${phaseFocusNote})`,
+        actionUrl: `/study-hub?subject=Physics&chapter=${encodeURIComponent(p1)}`
+      },
+      {
+        id: `pt-${now}-2`,
+        day: 'Monday',
+        subject: 'Physics',
+        chapter: p1,
+        taskType: 'Practice',
+        durationMinutes: practiceSlot,
+        completed: false,
+        notes: `✍️ Solve 15-20 exam problems on ${p1}`,
+        actionUrl: `/practice?subject=Physics&chapter=${encodeURIComponent(p1)}`
+      },
+      {
+        id: `pt-${now}-3`,
+        day: 'Monday',
+        subject: 'Chemistry',
+        chapter: c1,
+        taskType: 'Formula',
+        durationMinutes: formulaSlot,
+        completed: false,
+        notes: `⚡ Review formula sheets & reactions for ${c1}`,
+        actionUrl: `/formula-sheet`
+      },
 
-      { id: `pt-${Date.now()}-5`, day: 'Wednesday', subject: 'Chemistry', chapter: 'Some Basic Concepts of Chemistry', taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Mole concept & stoichiometry' },
-      { id: `pt-${Date.now()}-6`, day: 'Wednesday', subject: thirdSub as SubjectName, chapter: isNeet ? 'Plant Physiology' : 'Trigonometric Functions', taskType: 'Revision', durationMinutes: slotDuration, completed: false, notes: 'Previous mistakes review' },
+      // TUESDAY: Math/Bio Concept & Practice + Physics Spaced Revision
+      {
+        id: `pt-${now}-4`,
+        day: 'Tuesday',
+        subject: thirdSub,
+        chapter: m1,
+        taskType: 'Concept',
+        durationMinutes: conceptSlot,
+        completed: false,
+        notes: `📖 Read textbook concepts & derivations for ${m1}`,
+        actionUrl: `/study-hub?subject=${thirdSub}&chapter=${encodeURIComponent(m1)}`
+      },
+      {
+        id: `pt-${now}-5`,
+        day: 'Tuesday',
+        subject: thirdSub,
+        chapter: m1,
+        taskType: 'Practice',
+        durationMinutes: practiceSlot,
+        completed: false,
+        notes: `✍️ Solve targeted question drill on ${m1}`,
+        actionUrl: `/practice?subject=${thirdSub}&chapter=${encodeURIComponent(m1)}`
+      },
+      {
+        id: `pt-${now}-6`,
+        day: 'Tuesday',
+        subject: 'Physics',
+        chapter: p1,
+        taskType: 'Revision',
+        durationMinutes: formulaSlot,
+        completed: false,
+        notes: `🔄 Spaced recall: flashcards & quick problem retry`,
+        actionUrl: `/revision`
+      },
 
-      { id: `pt-${Date.now()}-7`, day: 'Thursday', subject: 'Physics', chapter: pWeak, taskType: 'Revision', durationMinutes: slotDuration, completed: false, notes: 'Blind retry of incorrect questions' },
-      { id: `pt-${Date.now()}-8`, day: 'Thursday', subject: 'Chemistry', chapter: cWeak, taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Advanced numerical questions' },
+      // WEDNESDAY: Chemistry Concept & Practice + Math/Bio Formulas
+      {
+        id: `pt-${now}-7`,
+        day: 'Wednesday',
+        subject: 'Chemistry',
+        chapter: c1,
+        taskType: 'Concept',
+        durationMinutes: conceptSlot,
+        completed: false,
+        notes: `📖 Deep study: NCERT reaction mechanisms & bonding in ${c1}`,
+        actionUrl: `/study-hub?subject=Chemistry&chapter=${encodeURIComponent(c1)}`
+      },
+      {
+        id: `pt-${now}-8`,
+        day: 'Wednesday',
+        subject: 'Chemistry',
+        chapter: c1,
+        taskType: 'Practice',
+        durationMinutes: practiceSlot,
+        completed: false,
+        notes: `✍️ Solve 20 numericals & MCQs on ${c1}`,
+        actionUrl: `/practice?subject=Chemistry&chapter=${encodeURIComponent(c1)}`
+      },
+      {
+        id: `pt-${now}-9`,
+        day: 'Wednesday',
+        subject: thirdSub,
+        chapter: m1,
+        taskType: 'Formula',
+        durationMinutes: formulaSlot,
+        completed: false,
+        notes: `⚡ Active recall: formula sheet & key shortcut cards`,
+        actionUrl: `/formula-sheet`
+      },
 
-      { id: `pt-${Date.now()}-9`, day: 'Friday', subject: thirdSub as SubjectName, chapter: mWeak, taskType: 'Test', durationMinutes: slotDuration, completed: false, notes: 'Timed concept checkpoint' },
-      { id: `pt-${Date.now()}-10`, day: 'Friday', subject: 'Physics', chapter: 'Work, Energy & Power', taskType: 'Practice', durationMinutes: slotDuration, completed: false, notes: 'Conservation theorems' },
+      // THURSDAY: Physics Next Unit (p2) + Chemistry Revision
+      {
+        id: `pt-${now}-10`,
+        day: 'Thursday',
+        subject: 'Physics',
+        chapter: p2,
+        taskType: 'Concept',
+        durationMinutes: conceptSlot,
+        completed: false,
+        notes: `📖 Study new syllabus chapter: ${p2}`,
+        actionUrl: `/study-hub?subject=Physics&chapter=${encodeURIComponent(p2)}`
+      },
+      {
+        id: `pt-${now}-11`,
+        day: 'Thursday',
+        subject: 'Physics',
+        chapter: p2,
+        taskType: 'Practice',
+        durationMinutes: practiceSlot,
+        completed: false,
+        notes: `✍️ High-yield question practice on ${p2}`,
+        actionUrl: `/practice?subject=Physics&chapter=${encodeURIComponent(p2)}`
+      },
+      {
+        id: `pt-${now}-12`,
+        day: 'Thursday',
+        subject: 'Chemistry',
+        chapter: c1,
+        taskType: 'Revision',
+        durationMinutes: formulaSlot,
+        completed: false,
+        notes: `🔄 Mistake log review & retry doubts in ${c1}`,
+        actionUrl: `/mistakes`
+      },
 
-      { id: `pt-${Date.now()}-11`, day: 'Saturday', subject: 'Physics', chapter: 'Mixed Revision', taskType: 'Test', durationMinutes: 60, completed: false, notes: 'Full subject mini-mock test' },
-      { id: `pt-${Date.now()}-12`, day: 'Sunday', subject: 'Chemistry', chapter: 'Weekly Mistake Review', taskType: 'Revision', durationMinutes: 45, completed: false, notes: 'Consolidate error log in Mistake Book' }
+      // FRIDAY: Math/Bio Unit 2 (m2) + Physics Formulas
+      {
+        id: `pt-${now}-13`,
+        day: 'Friday',
+        subject: thirdSub,
+        chapter: m2,
+        taskType: 'Concept',
+        durationMinutes: conceptSlot,
+        completed: false,
+        notes: `📖 Read core principles & diagrams for ${m2}`,
+        actionUrl: `/study-hub?subject=${thirdSub}&chapter=${encodeURIComponent(m2)}`
+      },
+      {
+        id: `pt-${now}-14`,
+        day: 'Friday',
+        subject: thirdSub,
+        chapter: m2,
+        taskType: 'Practice',
+        durationMinutes: practiceSlot,
+        completed: false,
+        notes: `✍️ Solve 20 speed & accuracy questions on ${m2}`,
+        actionUrl: `/practice?subject=${thirdSub}&chapter=${encodeURIComponent(m2)}`
+      },
+      {
+        id: `pt-${now}-15`,
+        day: 'Friday',
+        subject: 'Physics',
+        chapter: p2,
+        taskType: 'Formula',
+        durationMinutes: formulaSlot,
+        completed: false,
+        notes: `⚡ Review formula card & dimensional relations`,
+        actionUrl: `/formula-sheet`
+      },
+
+      // SATURDAY: Timed Sectional Mock Test + Chemistry Practice
+      {
+        id: `pt-${now}-16`,
+        day: 'Saturday',
+        subject: 'Physics',
+        chapter: `${p1} & ${p2}`,
+        taskType: 'Test',
+        durationMinutes: Math.min(60, practiceSlot + 15),
+        completed: false,
+        notes: `🎯 Timed Checkpoint Test: benchmark accuracy under exam timer`,
+        actionUrl: `/tests`
+      },
+      {
+        id: `pt-${now}-17`,
+        day: 'Saturday',
+        subject: 'Chemistry',
+        chapter: c2,
+        taskType: 'Practice',
+        durationMinutes: practiceSlot,
+        completed: false,
+        notes: `✍️ Solve 15 numerical problems on ${c2}`,
+        actionUrl: `/practice?subject=Chemistry&chapter=${encodeURIComponent(c2)}`
+      },
+      {
+        id: `pt-${now}-18`,
+        day: 'Saturday',
+        subject: thirdSub,
+        chapter: m1,
+        taskType: 'Test',
+        durationMinutes: 30,
+        completed: false,
+        notes: `🎯 Speed Practice: 10 timed questions test`,
+        actionUrl: `/speed-practice`
+      },
+
+      // SUNDAY: Mistake Book Clearance & Formula Consolidation
+      {
+        id: `pt-${now}-19`,
+        day: 'Sunday',
+        subject: 'Chemistry',
+        chapter: 'Weekly Mistake Clearance',
+        taskType: 'Revision',
+        durationMinutes: 50,
+        completed: false,
+        notes: `🔍 Mistake Book: Blind retry of all incorrect questions from this week`,
+        actionUrl: `/mistakes`
+      },
+      {
+        id: `pt-${now}-20`,
+        day: 'Sunday',
+        subject: 'Physics',
+        chapter: 'Consolidated Formula Revision',
+        taskType: 'Formula',
+        durationMinutes: 40,
+        completed: false,
+        notes: `⚡ Weekly formula sheets & key constants consolidation`,
+        actionUrl: `/formula-sheet`
+      },
+      {
+        id: `pt-${now}-21`,
+        day: 'Sunday',
+        subject: thirdSub,
+        chapter: 'Weekly Leitner Flashcard Review',
+        taskType: 'Revision',
+        durationMinutes: 30,
+        completed: false,
+        notes: `🔄 Spaced repetition queue review to prevent memory decay`,
+        actionUrl: `/revision`
+      }
     ];
 
     setStorageItem(PLANNER_TASKS_KEY as any, generated);
