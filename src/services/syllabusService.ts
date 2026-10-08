@@ -86,6 +86,11 @@ class SyllabusService {
         }
       }
       return true;
+    }).sort((a, b) => {
+      const clsA = a.classLevel === '12' ? 2 : 1;
+      const clsB = b.classLevel === '12' ? 2 : 1;
+      if (clsA !== clsB) return clsA - clsB;
+      return (a.order || 0) - (b.order || 0);
     });
   }
 

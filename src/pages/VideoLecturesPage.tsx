@@ -24,6 +24,7 @@ import { userService } from '../services/userService';
 import { ecosystemService } from '../services/ecosystemService';
 import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
 import { continueLearningService } from '../services/continueLearningService';
+import { sortChapterNamesCanonical, sortChaptersCanonical } from '../utils/chapterOrder';
 
 export const VideoLecturesPage: React.FC = () => {
   const navigate = useNavigate();
@@ -156,7 +157,10 @@ export const VideoLecturesPage: React.FC = () => {
       if (selectedClass !== 'All' && v.classLevel && v.classLevel !== selectedClass && v.classLevel !== 'All') return false;
       return true;
     });
-    const chaps = Array.from(new Set(vids.map(v => v.chapter))).sort();
+    const chaps = sortChapterNamesCanonical(
+      Array.from(new Set(vids.map(v => v.chapter))),
+      selectedSubject !== 'All' ? selectedSubject : undefined
+    );
     if (selectedChapter !== 'All' && !chaps.includes(selectedChapter)) {
       chaps.unshift(selectedChapter);
     }
@@ -259,7 +263,8 @@ export const VideoLecturesPage: React.FC = () => {
       }
     }
 
-    return list;
+    // Line-wise canonical curriculum sort
+    return sortChaptersCanonical(list, v => v.chapter, v => v.subject);
   }, [allVideos, selectedExam, selectedClass, selectedSubject, lectureMode, selectedChapter, selectedTopic, searchQuery]);
 
   const handlePlayVideo = (video: VideoResource) => {

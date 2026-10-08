@@ -9,6 +9,7 @@ import { userService } from '../services/userService';
 import { SubjectName, ClassLevel } from '../types';
 import { getAllowedSubjectsForExam, sanitizeSubjectForExam } from '../utils/examUtils';
 import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
+import { sortChapterNamesCanonical } from '../utils/chapterOrder';
 
 export const MindMapPage: React.FC = () => {
   const navigate = useNavigate();
@@ -32,7 +33,7 @@ export const MindMapPage: React.FC = () => {
       }
     });
 
-    const canonicalList = Array.from(formulaChapters).sort();
+    const canonicalList = sortChapterNamesCanonical(Array.from(formulaChapters), selectedSubject);
     if (canonicalList.length > 0) return canonicalList;
 
     const list = questionService.getChapters(selectedSubject, selectedClass);
@@ -59,7 +60,7 @@ export const MindMapPage: React.FC = () => {
         }
       }
     });
-    const chList = Array.from(formulaChapters).sort();
+    const chList = sortChapterNamesCanonical(Array.from(formulaChapters), subj);
     const newCh = chList[0] || 'Units and Measurements';
     setSelectedChapter(newCh);
     setSearchParams({ subject: subj, chapter: newCh });

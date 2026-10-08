@@ -3,6 +3,7 @@ import { mockQuestions } from '../data/mockQuestions';
 import { canonicalSyllabus } from '../data/canonicalSyllabusData';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 import { apiRequest } from './apiClient';
+import { sortChapterNamesCanonical } from '../utils/chapterOrder';
 
 function cleanStr(s: any): string {
   return String(s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -478,7 +479,7 @@ class ApiQuestionService {
       if (q.chapter) chapters.add(q.chapter);
     });
 
-    return Array.from(chapters).sort();
+    return sortChapterNamesCanonical(Array.from(chapters), subject);
   }
 
   public getTopics(chapter: string): string[] {

@@ -17,6 +17,7 @@ import { testService } from '../services/testService';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
 import { ExamType, ClassLevel, SubjectName, DifficultyLevel, Question, TestAttempt } from '../types';
+import { sortChapterNamesCanonical } from '../utils/chapterOrder';
 
 export const BuildMyTest: React.FC = () => {
   const navigate = useNavigate();
@@ -55,7 +56,8 @@ export const BuildMyTest: React.FC = () => {
     selectedSubjects.forEach((sub) => {
       questionService.getChapters(sub, effectiveClass).forEach((ch) => chapters.add(ch));
     });
-    return Array.from(chapters).sort();
+    const firstSub = selectedSubjects.length === 1 ? selectedSubjects[0] : undefined;
+    return sortChapterNamesCanonical(Array.from(chapters), firstSub);
   }, [selectedSubjects, effectiveClass]);
 
   // Topics loaded from syllabus hierarchy

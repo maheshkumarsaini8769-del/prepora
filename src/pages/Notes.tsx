@@ -32,6 +32,7 @@ import {
   comprehensiveFormulaNotes,
   TopicRevisionItem
 } from '../data/comprehensiveFormulaNotes';
+import { sortChaptersCanonical } from '../utils/chapterOrder';
 
 export const Notes: React.FC = () => {
   const navigate = useNavigate();
@@ -96,7 +97,7 @@ export const Notes: React.FC = () => {
 
   // 1. FILTER CURATED HIGH-YIELD REVISION NOTES
   const filteredCuratedNotes = useMemo(() => {
-    return comprehensiveFormulaNotes.filter((item) => {
+    const filtered = comprehensiveFormulaNotes.filter((item) => {
       if (!isSubjectAllowedForExam(item.subject, user.targetExam)) return false;
       if (selectedSubject !== 'All' && item.subject !== selectedSubject) return false;
       if (!searchQuery.trim() && selectedClass !== 'All' && item.classLevel !== selectedClass) return false;
@@ -128,6 +129,8 @@ export const Notes: React.FC = () => {
 
       return true;
     });
+
+    return sortChaptersCanonical(filtered, (item) => item.chapter, (item) => item.subject);
   }, [selectedSubject, selectedClass, searchQuery, user.targetExam]);
 
   // 2. FILTER PERSONAL USER NOTES

@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { getChapterSortRank } from '../../src/utils/chapterOrder';
 
 export interface QuestionFilterOptions {
   exam?: string;
@@ -356,7 +357,12 @@ export class QuestionRepository {
       classLevel: data.classLevel,
       count: data.count,
       topics: Array.from(data.topics.entries()).map(([tName, tCount]) => ({ name: tName, count: tCount })).sort((a, b) => b.count - a.count)
-    })).sort((a, b) => a.name.localeCompare(b.name));
+    })).sort((a, b) => {
+      const rankA = getChapterSortRank(a.name, normSub || undefined);
+      const rankB = getChapterSortRank(b.name, normSub || undefined);
+      if (rankA !== rankB) return rankA - rankB;
+      return a.name.localeCompare(b.name);
+    });
 
     return { chapters };
   }

@@ -48,6 +48,7 @@ import {
   TopicRevisionItem,
   TopicFormula
 } from '../data/comprehensiveFormulaNotes';
+import { sortChaptersCanonical } from '../utils/chapterOrder';
 
 // Helper to merge dynamically fetched or admin-created formulas into master formula list
 function mergeServerFormulas(
@@ -1085,12 +1086,13 @@ export const FormulaNotesHub: React.FC = () => {
         map.get(item.chapter)!.count += item.formulas.length;
       }
     });
-    return Array.from(map.entries()).map(([chapter, info]) => ({
+    const mapped = Array.from(map.entries()).map(([chapter, info]) => ({
       chapter,
       classLevel: info.classLevel,
       formulaCount: info.count,
       subject: info.subject
     }));
+    return sortChaptersCanonical(mapped, (c) => c.chapter, (c) => c.subject);
   }, [allNotes, selectedSubject, user.targetExam]);
 
   // Count search matches per subject
@@ -1206,7 +1208,7 @@ export const FormulaNotesHub: React.FC = () => {
       if (!map.has(item.chapter)) map.set(item.chapter, []);
       map.get(item.chapter)!.push(item);
     });
-    return Array.from(map.entries()).map(([chapter, items]) => ({
+    const chapters = Array.from(map.entries()).map(([chapter, items]) => ({
       chapter,
       items,
       subject: items[0]?.subject || (selectedSubject === 'All' ? 'Physics' : selectedSubject),
@@ -1214,6 +1216,7 @@ export const FormulaNotesHub: React.FC = () => {
       weightage: items[0]?.weightage || 'Medium',
       formulaCount: items.reduce((sum, it) => sum + it.formulas.length, 0)
     }));
+    return sortChaptersCanonical(chapters, c => c.chapter, c => c.subject);
   }, [filteredItems, selectedSubject]);
 
   // Initialize expanded chapters & topics with deep URL query & chapter linking

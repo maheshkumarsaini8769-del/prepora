@@ -28,6 +28,7 @@ import { userService } from '../services/userService';
 import { PlannerTask, SubjectName } from '../types';
 import { getAllowedSubjectsForExam } from '../utils/examUtils';
 import { canonicalSyllabus } from '../data/canonicalSyllabusData';
+import { sortChapterNamesCanonical } from '../utils/chapterOrder';
 
 interface PlannerConfig {
   targetExam: string;
@@ -190,7 +191,7 @@ export const StudyPlanner: React.FC = () => {
     const chs = canonicalSyllabus
       .filter((c) => c.subjectName === newTaskSubject)
       .map((c) => c.name);
-    return Array.from(new Set(chs)).sort();
+    return sortChapterNamesCanonical(Array.from(new Set(chs)), newTaskSubject);
   }, [newTaskSubject]);
 
   // Handle Target Exam Date change with automatic plan rebalancing
