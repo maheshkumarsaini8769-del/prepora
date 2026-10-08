@@ -82,16 +82,18 @@ export const VideoLecturesPage: React.FC = () => {
     const curated = getAllCuratedVideos();
     if (serverVideos.length === 0) return curated;
 
-    const seenYt = new Set<string>();
+    const seenKeys = new Set<string>();
     const merged: VideoResource[] = [];
 
     for (const sv of serverVideos) {
-      seenYt.add(sv.youtubeId);
+      const key = sv.id || (sv.isTopicWise ? `top:${sv.subject}:${sv.chapter}:${sv.topic}` : `chap:${sv.subject}:${sv.chapter}`);
+      seenKeys.add(key);
       merged.push(sv);
     }
 
     for (const cv of curated) {
-      if (!seenYt.has(cv.youtubeId)) {
+      const key = cv.id || (cv.isTopicWise ? `top:${cv.subject}:${cv.chapter}:${cv.topic}` : `chap:${cv.subject}:${cv.chapter}`);
+      if (!seenKeys.has(key)) {
         merged.push(cv);
       }
     }
@@ -261,6 +263,9 @@ export const VideoLecturesPage: React.FC = () => {
       if (selectedTopic) {
         return [getVideoForTopic(selectedChapter, selectedTopic, activeSub)];
       }
+      if (lectureMode === 'TOPIC_WISE') {
+        return availableTopics.map(t => getVideoForTopic(selectedChapter, t, activeSub));
+      }
       const fallbackVid = getChapterVideo(selectedChapter, activeSub);
       if (fallbackVid) {
         return [fallbackVid];
@@ -269,14 +274,14 @@ export const VideoLecturesPage: React.FC = () => {
 
     // Line-wise canonical curriculum sort
     return sortChaptersCanonical(list, v => v.chapter, v => v.subject);
-  }, [allVideos, selectedExam, selectedClass, selectedSubject, lectureMode, selectedChapter, selectedTopic, searchQuery]);
+  }, [allVideos, selectedExam, selectedClass, selectedSubject, lectureMode, selectedChapter, selectedTopic, searchQuery, availableTopics]);
 
   const handlePlayVideo = (video: VideoResource) => {
     setActiveVideo(video);
     continueLearningService.recordActivity({
       type: 'lecture',
       title: video.chapter,
-      subtitle: `One-Shot Video • ${video.title}`,
+      subtitle: `${video.isTopicWise ? 'Topic Lecture' : 'One-Shot Video'} • ${video.title}`,
       subject: (video.subject as SubjectName) || 'Physics',
       chapter: video.chapter,
       url: `/lectures?subject=${encodeURIComponent(video.subject)}&chapter=${encodeURIComponent(video.chapter)}`

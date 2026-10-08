@@ -1,4 +1,5 @@
 import { comprehensiveFormulaNotes } from './comprehensiveFormulaNotes';
+import { COMPREHENSIVE_TOPIC_VIDEOS } from './topicVideosData';
 
 export interface VideoResource {
   id: string;
@@ -3119,285 +3120,7 @@ export function getTargetExamsForSubject(subject: string): ("JEE" | "NEET" | "CB
   return ["JEE", "NEET", "CBSE"];
 }
 
-export const TOPIC_VIDEOS: VideoResource[] = [
-  // Physics Topic Videos (Class 11 - JEE + NEET)
-  {
-    id: "top-phy-dim-analysis",
-    chapter: "Units and Measurements",
-    topic: "Dimensional Analysis & Error Propagation",
-    subject: "Physics",
-    title: "Dimensional Analysis & Errors — High-Yield Concept Drill",
-    youtubeId: "tx76BJIqOd4",
-    channelName: "Prashant Kirad 11th & 12th",
-    duration: "42m",
-    description: "Detailed derivations of dimensional consistency, conversion factors, and least count measurement errors.",
-    classLevel: "11",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-phy-projectile",
-    chapter: "Motion in a Plane",
-    topic: "Projectile Motion on Horizontal & Inclined Planes",
-    subject: "Physics",
-    title: "Projectile Motion — Trajectory & Max Range Formulations",
-    youtubeId: "VDtydsLisCE",
-    channelName: "Prashant Kirad 11th & 12th",
-    duration: "48m",
-    description: "Derivation of time of flight, horizontal range, equation of trajectory, and maximum range on inclined plane.",
-    classLevel: "11",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-phy-newton-laws",
-    chapter: "Laws of Motion",
-    topic: "Friction & Pulley Constraint Systems",
-    subject: "Physics",
-    title: "Newton Laws & Friction Constraints — Problem Solving Techniques",
-    youtubeId: "tx76BJIqOd4",
-    channelName: "Physics Wallah - Alakh Pandey",
-    duration: "55m",
-    description: "Free body diagrams, static vs kinetic friction, pseudo force, and multi-block connected pulley acceleration.",
-    classLevel: "11",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-phy-carnot",
-    chapter: "Thermodynamics",
-    topic: "Carnot Engine & Entropy Changes",
-    subject: "Physics",
-    title: "Carnot Engine & 2nd Law of Thermodynamics — In-Depth Analysis",
-    youtubeId: "VDtydsLisCE",
-    channelName: "Physics Wallah",
-    duration: "40m",
-    description: "P-V indicator diagrams, Carnot cycle efficiency, reversible vs irreversible heat engines, and Clausius statement.",
-    classLevel: "11",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-
-  // Physics Topic Videos (Class 12 - JEE + NEET)
-  {
-    id: "top-phy-gauss-law",
-    chapter: "Electric Charges and Fields",
-    topic: "Gauss Law & Field Flux Calculations",
-    subject: "Physics",
-    title: "Gauss Law & Electric Flux — Symmetric Shell & Cylinder Fields",
-    youtubeId: "tx76BJIqOd4",
-    channelName: "Physics Wallah - Alakh Pandey",
-    duration: "50m",
-    description: "Calculation of closed surface electric flux, field due to infinitely long wire, uniformly charged thin spherical shell.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-phy-kirchhoff",
-    chapter: "Current Electricity",
-    topic: "Kirchhoff Laws & Wheatstone Bridge",
-    subject: "Physics",
-    title: "Kirchhoff Current & Voltage Laws — Complex Circuit Solver",
-    youtubeId: "VDtydsLisCE",
-    channelName: "Physics Wallah",
-    duration: "45m",
-    description: "Node analysis, mesh analysis, balanced bridge condition, internal resistance of cells, and potentiometer balancing.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-phy-young-double-slit",
-    chapter: "Wave Optics",
-    topic: "Young Double Slit Interference (YDSE)",
-    subject: "Physics",
-    title: "YDSE Interference Pattern & Fringe Shift Formulations",
-    youtubeId: "tx76BJIqOd4",
-    channelName: "Physics Wallah - Alakh Pandey",
-    duration: "52m",
-    description: "Constructive vs destructive interference conditions, fringe width beta = lambda D / d, and thin transparent sheet shift.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-phy-photoelectric",
-    chapter: "Dual Nature of Radiation and Matter",
-    topic: "Einstein Photoelectric Equation & Stopping Potential",
-    subject: "Physics",
-    title: "Photoelectric Effect — Graphs & Stopping Potential Mastery",
-    youtubeId: "VDtydsLisCE",
-    channelName: "Physics Wallah",
-    duration: "38m",
-    description: "Work function phi, threshold frequency nu_0, de Broglie matter waves, and kinetic energy vs frequency graphs.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-
-  // Chemistry Topic Videos (Class 11 - JEE + NEET)
-  {
-    id: "top-chem-gas-laws",
-    chapter: "States of Matter: Gases and Liquids",
-    topic: "Gas Laws & Real Gas van der Waals Equation",
-    subject: "Chemistry",
-    title: "Gas Laws & van der Waals Equation — Complete Mathematical Drill",
-    youtubeId: "4FIU1tOCW_0",
-    channelName: "JEE Wallah",
-    duration: "50m",
-    description: "Boyle, Charles, Dalton laws, compressibility factor Z, critical temperature Pc/Vc/Tc, and inversion temperature.",
-    classLevel: "11",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-chem-goc-resonance",
-    chapter: "Organic Chemistry: Some Basic Principles and Techniques",
-    topic: "Resonance, Inductive Effect & Carbocation Stability",
-    subject: "Chemistry",
-    title: "GOC Electronic Effects — Resonance & Intermediate Stability",
-    youtubeId: "FFCT-lh86tA",
-    channelName: "JEE Wallah",
-    duration: "1h 10m",
-    description: "Mesomeric (+M/-M) resonance rules, hyperconjugation, aromaticity Huckel rule, and stability hierarchy of reaction intermediates.",
-    classLevel: "11",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-chem-hydrocarbons-alkenes",
-    chapter: "Hydrocarbons (Alkanes, Alkenes, Alkynes)",
-    topic: "Electrophilic Addition & Markovnikov Rule",
-    subject: "Chemistry",
-    title: "Alkenes Electrophilic Additions & Anti-Markovnikov Peroxide Effect",
-    youtubeId: "gUCTJ7oVhLg",
-    channelName: "JEE Wallah",
-    duration: "58m",
-    description: "Mechanism of halogen addition, Kharasch peroxide effect with HBr, ozonolysis, and oxymercuration-demercuration.",
-    classLevel: "11",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-
-  // Chemistry Topic Videos (Class 12 - JEE + NEET)
-  {
-    id: "top-chem-colligative",
-    chapter: "Solutions",
-    topic: "Colligative Properties & van t Hoff Factor",
-    subject: "Chemistry",
-    title: "Colligative Properties & Abnormal Molar Masses (i Factor)",
-    youtubeId: "V7IhNvWMO0A",
-    channelName: "JEE Wallah",
-    duration: "52m",
-    description: "Relative lowering of vapour pressure, elevation of boiling point, depression of freezing point, and degree of dissociation alpha.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-chem-solid-defects",
-    chapter: "Solid State",
-    topic: "Crystal Defects & Packing Efficiency",
-    subject: "Chemistry",
-    title: "Solid State Defects (Schottky/Frenkel) & Density Formulas",
-    youtubeId: "r3w9iwWRThM",
-    channelName: "JEE Wallah",
-    duration: "45m",
-    description: "Stoichiometric vs non-stoichiometric defects, F-centers, density calculation d = zM/(a^3 NA), and radius ratios.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-chem-adsorption",
-    chapter: "Surface Chemistry",
-    topic: "Adsorption Isotherms & Colloids",
-    subject: "Chemistry",
-    title: "Freundlich Adsorption Isotherm & Hardy-Schulze Rule",
-    youtubeId: "YEtOldjp4_I",
-    channelName: "JEE Wallah",
-    duration: "40m",
-    description: "Physisorption vs chemisorption, log(x/m) vs log P graphs, lyophilic vs lyophobic sols, and coagulation value.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-chem-salt-analysis",
-    chapter: "Principles Related to Practical Chemistry",
-    topic: "Cation & Anion Qualitative Salt Analysis",
-    subject: "Chemistry",
-    title: "Salt Analysis Systematic Group Analysis — Cations & Anions",
-    youtubeId: "8rRnn4ECwXI",
-    channelName: "JEE Wallah",
-    duration: "1h 05m",
-    description: "Group reagents (dil HCl, H2S, NH4OH, (NH4)2CO3), flame test colors, borax bead test, and confirmatory tests.",
-    classLevel: "12",
-    targetExams: ["JEE", "NEET", "CBSE"],
-    isTopicWise: true
-  },
-
-  // Biology Topic Videos (NEET)
-  {
-    id: "top-bio-mendel-genetics",
-    chapter: "Principles of Inheritance and Variation",
-    topic: "Mendelian Genetics & Chromosomal Theory",
-    subject: "Biology",
-    title: "Monohybrid & Dihybrid Crosses — Non-Mendelian Ratios & Linkage",
-    youtubeId: "3WbIqrPEKIc",
-    channelName: "Sankalp NEET Vedantu",
-    duration: "55m",
-    description: "Incomplete dominance, codominance, Morgan Drosophila linkage experiment, pedigree analysis, and aneuploidy disorders.",
-    classLevel: "12",
-    targetExams: ["NEET", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-bio-dna-replication",
-    chapter: "Molecular Basis of Inheritance",
-    topic: "DNA Replication & Transcription",
-    subject: "Biology",
-    title: "Meselson-Stahl Experiment, DNA Replication Fork & Transcription",
-    youtubeId: "3WbIqrPEKIc",
-    channelName: "Sankalp NEET Vedantu",
-    duration: "50m",
-    description: "Semi-conservative replication enzymes, Okazaki fragments, promoter/terminator, transcription unit, and genetic code degeneracy.",
-    classLevel: "12",
-    targetExams: ["NEET", "CBSE"],
-    isTopicWise: true
-  },
-
-  // Mathematics Topic Videos (JEE)
-  {
-    id: "top-math-matrices-operations",
-    chapter: "Matrices",
-    topic: "Matrix Multiplication, Inverse & Cayley-Hamilton",
-    subject: "Mathematics",
-    title: "Matrix Inverses, Orthogonal Matrices & System of Equations",
-    youtubeId: "nQMOsm2WIYA",
-    channelName: "JEE Nexus by Unacademy",
-    duration: "55m",
-    description: "Row reduction, adjoint formulas, symmetric/skew-symmetric properties, and Cramer rule for consistent systems.",
-    classLevel: "12",
-    targetExams: ["JEE", "CBSE"],
-    isTopicWise: true
-  },
-  {
-    id: "top-math-integration-by-parts",
-    chapter: "Integrals",
-    topic: "Definite Integrals Properties & King Rule",
-    subject: "Mathematics",
-    title: "Definite Integration — King Rule & Periodic Functions",
-    youtubeId: "nQMOsm2WIYA",
-    channelName: "JEE Nexus by Unacademy",
-    duration: "1h 10m",
-    description: "Application of integral f(a+b-x) property, Leibniz rule for differentiating integrals, and reduction formulas.",
-    classLevel: "12",
-    targetExams: ["JEE", "CBSE"],
-    isTopicWise: true
-  }
-];
+export const TOPIC_VIDEOS: VideoResource[] = COMPREHENSIVE_TOPIC_VIDEOS;
 
 /**
  * Retrieves or dynamically resolves a dedicated video resource for a specific topic within a chapter.
@@ -3409,8 +3132,9 @@ export function getVideoForTopic(
 ): VideoResource {
   const normChap = normalizeString(chapterName);
   const normTop = normalizeString(topicName);
+  const normSub = normalizeString(subjectName);
 
-  // 1. Look for a curated match in TOPIC_VIDEOS
+  // 1. Direct match: Exact or fuzzy match on both chapter and topic
   const directMatch = TOPIC_VIDEOS.find((tv) => {
     const tvChap = normalizeString(tv.chapter);
     const tvTop = normalizeString(tv.topic || '');
@@ -3419,24 +3143,64 @@ export function getVideoForTopic(
       (tvTop === normTop || tvTop.includes(normTop) || normTop.includes(tvTop))
     );
   });
-
   if (directMatch) return directMatch;
 
-  // 2. Fetch parent chapter lecture
-  const parentVid = getChapterVideo(chapterName, subjectName);
+  // 2. Chapter match: Any topic video in the same chapter if key topic words match
+  const topWords = normTop.split(/[^a-z0-9]+/).filter((w) => w.length >= 4);
+  const chapMatch = TOPIC_VIDEOS.find((tv) => {
+    const tvChap = normalizeString(tv.chapter);
+    const tvTop = normalizeString(tv.topic || '');
+    if (!(tvChap === normChap || tvChap.includes(normChap) || normChap.includes(tvChap))) return false;
+    return topWords.some((w) => tvTop.includes(w));
+  });
+  if (chapMatch) return chapMatch;
 
-  // 3. Return topic-adapted resource with verified parent YouTube embed
+  // 3. Subject-wide topic match: Find matching topic anywhere across the same subject
+  const subjectTopicMatch = TOPIC_VIDEOS.find((tv) => {
+    if (normalizeString(tv.subject) !== normSub) return false;
+    const tvTop = normalizeString(tv.topic || '');
+    return tvTop === normTop || tvTop.includes(normTop) || normTop.includes(tvTop);
+  });
+  if (subjectTopicMatch) return subjectTopicMatch;
+
+  // 4. Keyword match across the same subject
+  if (topWords.length > 0) {
+    const keywordMatch = TOPIC_VIDEOS.find((tv) => {
+      if (normalizeString(tv.subject) !== normSub) return false;
+      const tvTop = normalizeString(tv.topic || '');
+      return topWords.some((w) => tvTop.includes(w));
+    });
+    if (keywordMatch) return keywordMatch;
+  }
+
+  // 5. Match any topic video from the same chapter (distinct from whole chapter one-shot)
+  const sameChapterTopic = TOPIC_VIDEOS.find((tv) => {
+    const tvChap = normalizeString(tv.chapter);
+    return tvChap === normChap || tvChap.includes(normChap) || normChap.includes(tvChap);
+  });
+  if (sameChapterTopic) {
+    const cleanId = `top-${(subjectName || 'gen').toLowerCase()}-${normChap.slice(0, 15)}-${normTop.slice(0, 15)}`.replace(/\s+/g, '-');
+    return {
+      ...sameChapterTopic,
+      id: cleanId,
+      topic: topicName,
+      title: `${topicName} — Focused Concept Lecture (${sameChapterTopic.channelName})`
+    };
+  }
+
+  // 6. Ultimate fallback if completely unmatched: Return parent video with topic tag and 45m duration
+  const parentVid = getChapterVideo(chapterName, subjectName);
   const cleanId = `top-${(subjectName || 'gen').toLowerCase()}-${normChap.slice(0, 15)}-${normTop.slice(0, 15)}`.replace(/\s+/g, '-');
   return {
     id: cleanId,
     chapter: chapterName,
     topic: topicName,
     subject: subjectName,
-    title: `${topicName} — ${chapterName}`,
+    title: `${topicName} — Core Concept Mastery`,
     youtubeId: parentVid.youtubeId,
     channelName: parentVid.channelName,
-    duration: parentVid.duration,
-    description: `Targeted concept mastery and high-yield derivations for "${topicName}" within ${chapterName} by ${parentVid.channelName}.`,
+    duration: '45m',
+    description: `Targeted concept drill and high-yield derivations for "${topicName}" in ${chapterName} by ${parentVid.channelName}.`,
     classLevel: parentVid.classLevel || (CHAPTER_CLASS_MAP[chapterName.toLowerCase().trim()] || '11'),
     targetExams: parentVid.targetExams || getTargetExamsForSubject(subjectName),
     isTopicWise: true

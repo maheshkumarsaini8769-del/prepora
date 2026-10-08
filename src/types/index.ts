@@ -611,10 +611,24 @@ export interface TopStudyRecommendation {
   examWeightage: string;
   reasons: string[];
   estimatedMinutes: number;
-  questionCount: number;
+  questionCount?: number;
   actionUrl: string;
   actionLabel: string;
   secondaryActionText: string;
   secondaryActionUrl: string;
 }
 
+export interface VideoResource {
+  id: string;
+  chapter: string;
+  subject: SubjectName | string;
+  title: string;
+  youtubeId: string;
+  channelName: string;
+  duration: string;
+  description: string;
+  classLevel?: '11' | '12' | 'All';
+  targetExams?: ('JEE' | 'NEET' | 'CBSE' | 'All')[];
+  topic?: string;
+  isTopicWise?: boolean;
+}
