@@ -115,7 +115,7 @@ export const Practice: React.FC = () => {
           source: 'Practice Bank',
           contentType: 'AI_GENERATED',
           sourceType: 'AI-GENERATED',
-          sourceName: 'PREPORA Verified Generation Engine',
+          sourceName: 'Study Up Verified Generation Engine',
           sourceYear: new Date().getFullYear()
         });
       }
@@ -402,7 +402,7 @@ export const Practice: React.FC = () => {
               <span>{effectiveAvailableCount} verified questions available (requested {questionCount})</span>
             </div>
             <p className="text-[11px] text-amber-700">
-              PREPORA will never silently substitute random questions. You can practice the {effectiveAvailableCount} verified questions immediately, or generate {questionCount - effectiveAvailableCount} verified questions for this exact topic using the AI Engine.
+              Study Up will never silently substitute random questions. You can practice the {effectiveAvailableCount} verified questions immediately, or generate {questionCount - effectiveAvailableCount} verified questions for this exact topic using the AI Engine.
             </p>
             <div className="flex items-center gap-2.5 pt-1">
               <Button

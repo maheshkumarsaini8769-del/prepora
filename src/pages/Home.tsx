@@ -282,7 +282,7 @@ export const Home: React.FC = () => {
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="font-black text-sm sm:text-base text-slate-900 dark:text-white leading-tight">
-                  How to Study on PREPORA
+                  How to Study on STUDY UP
                 </h2>
                 <span className="text-[10px] uppercase font-black tracking-wider px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300">
                   Daily Routine
@@ -1246,7 +1246,7 @@ export const Home: React.FC = () => {
             </div>
 
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Select your exam and class level so Prepora can configure your syllabus, countdown & daily targets.
+              Select your exam and class level so Study Up can configure your syllabus, countdown & daily targets.
             </p>
 
             <div className="space-y-3 text-xs">

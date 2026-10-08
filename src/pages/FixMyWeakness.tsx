@@ -129,7 +129,7 @@ export const FixMyWeakness: React.FC = () => {
         <div>
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold mb-2">
             <Zap className="w-3.5 h-3.5 text-purple-600" />
-            <span>Prepora Signature 5-Stage Remediation Engine</span>
+            <span>Study Up Signature 5-Stage Remediation Engine</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Fix My Weakness</h1>
           <p className="text-sm text-slate-500 mt-1">
@@ -326,7 +326,7 @@ export const FixMyWeakness: React.FC = () => {
                 </div>
               )}
               <p className="text-xs text-slate-500">
-                Prepora analyzed your error timeline. Confirm or adjust the root cause of your mistakes:
+                Study Up analyzed your error timeline. Confirm or adjust the root cause of your mistakes:
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">

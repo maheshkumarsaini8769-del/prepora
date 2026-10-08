@@ -675,7 +675,7 @@ export const AdminPapers: React.FC = () => {
                           >
                             {p.answerKeySource === 'Official' && p.answerKeyVerified
                               ? 'Official Key'
-                              : 'PREPORA Key'}
+                              : 'Study Up Key'}
                           </span>
                         </div>
                       </div>
@@ -951,7 +951,7 @@ export const AdminPapers: React.FC = () => {
                       className="w-full px-3 py-2 rounded-xl bg-slate-800 border border-slate-700 text-white focus:outline-none focus:border-brand-500"
                     >
                       <option value="Official">Official Examination Authority</option>
-                      <option value="PREPORA">PREPORA Pedagogical Expert Faculty</option>
+                      <option value="PREPORA">Study Up Pedagogical Expert Faculty</option>
                       <option value="AI_Generated">AI-Generated Explanations</option>
                     </select>
                   </div>

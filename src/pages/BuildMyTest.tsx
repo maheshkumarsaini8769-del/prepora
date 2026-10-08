@@ -277,7 +277,7 @@ export const BuildMyTest: React.FC = () => {
           source: 'Practice Bank',
           contentType: 'AI_GENERATED',
           sourceType: 'AI-GENERATED',
-          sourceName: 'Prepora Quality-Verified AI Engine',
+          sourceName: 'Study Up Quality-Verified AI Engine',
           sourceYear: new Date().getFullYear()
         });
       }

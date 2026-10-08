@@ -306,7 +306,7 @@ export const Papers: React.FC = () => {
             <span>2025 Real Examination Papers Status — Verified Shifts Published</span>
           </div>
           <p className="text-emerald-800 leading-relaxed">
-            PREPORA publishes verified historical 2025 examination papers with official source provenance (NTA JEE Main 2025 Session 1 January shifts, CBSE Class 12 2025 Board papers, and RBSE Class 12 2025 Board papers). Upcoming 2025 exam sessions (JEE Main April Session 2, NEET-UG May 2025) are cataloged in our official missing papers tracking manifest.
+            Study Up publishes verified historical 2025 examination papers with official source provenance (NTA JEE Main 2025 Session 1 January shifts, CBSE Class 12 2025 Board papers, and RBSE Class 12 2025 Board papers). Upcoming 2025 exam sessions (JEE Main April Session 2, NEET-UG May 2025) are cataloged in our official missing papers tracking manifest.
           </p>
           <div className="pt-1 flex flex-wrap items-center gap-3">
             <button
@@ -425,7 +425,7 @@ export const Papers: React.FC = () => {
                       {paper.answerKeySource === 'Official' ? (
                         <span className="text-emerald-700 font-semibold">Official Answer Key</span>
                       ) : (
-                        <span className="text-slate-600 font-medium">PREPORA Solution</span>
+                        <span className="text-slate-600 font-medium">Study Up Solution</span>
                       )}
                     </div>
                   </div>

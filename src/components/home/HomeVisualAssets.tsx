@@ -39,7 +39,7 @@ export const HeroStudentIllustration: React.FC<HeroStudentIllustrationProps> = (
       {/* Real High-Resolution Mascot Artwork (Clean: No 'P' on shirt/laptop, exact exam text) */}
       <img
         src={imageSrc}
-        alt={`Prepora ${examLabel} Student Mascot`}
+        alt={`Study Up ${examLabel} Student Mascot`}
         className={`w-32 sm:w-40 md:w-48 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-all duration-300 ${
           isDark
             ? 'rounded-2xl'

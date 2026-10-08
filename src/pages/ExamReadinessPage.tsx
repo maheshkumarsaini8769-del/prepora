@@ -77,7 +77,7 @@ export const ExamReadinessPage: React.FC = () => {
         {/* Overall Score Gauge */}
         <div className="bg-slate-50 dark:bg-slate-800/60 p-5 rounded-xl border border-slate-200 dark:border-slate-800 text-center min-w-[200px] shrink-0 space-y-1">
           <span className="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">
-            PREPORA READINESS
+            STUDY UP READINESS
           </span>
           <div className="text-4xl font-black text-slate-900 dark:text-white">
             {readiness.score} <span className="text-sm text-slate-400 font-semibold">/ 100</span>
@@ -99,7 +99,7 @@ export const ExamReadinessPage: React.FC = () => {
             Diagnostic & Pedagogical Estimate (Not an Official Rank or Score):
           </strong>
           <p className="text-amber-800 dark:text-amber-300 leading-relaxed text-[11px]">
-            The PREPORA Readiness Score is an internal algorithmic benchmark calibrated to guide your study priorities. It does not constitute an official NTA/CBSE percentile guarantee.
+            The Study Up Readiness Score is an internal algorithmic benchmark calibrated to guide your study priorities. It does not constitute an official NTA/CBSE percentile guarantee.
           </p>
         </div>
       </div>

@@ -155,7 +155,7 @@ class ChunkErrorBoundary extends React.Component<{ children: React.ReactNode }, 
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
                 {isChunkError
-                  ? 'A new version of PREPORA was just deployed. Click below to load the latest version.'
+                  ? 'A new version of STUDY UP was just deployed. Click below to load the latest version.'
                   : 'An unexpected display error occurred. Please refresh the page.'}
               </p>
             </div>
@@ -181,7 +181,7 @@ const PageFallback: React.FC = () => (
   <div className="flex items-center justify-center min-h-[50vh] p-8">
     <div className="flex flex-col items-center gap-3">
       <div className="w-8 h-8 border-3 border-brand-600 border-t-transparent rounded-full animate-spin" />
-      <span className="text-xs font-semibold text-slate-500 tracking-wide">Loading PREPORA...</span>
+      <span className="text-xs font-semibold text-slate-500 tracking-wide">Loading STUDY UP...</span>
     </div>
   </div>
 );

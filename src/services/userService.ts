@@ -412,7 +412,7 @@ class MockUserService {
     const welcomeNotifs: NotificationItem[] = [
       {
         id: 'notif-welcome',
-        title: 'Welcome to PREPORA!',
+        title: 'Welcome to STUDY UP!',
         message: 'Practice verified questions, test yourself with full mocks, and resolve doubts with the AI Quality Engine.',
         timestamp: 'Just now',
         isRead: false,

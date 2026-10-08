@@ -54,7 +54,7 @@ export const StudentGuideModal: React.FC<StudentGuideModalProps> = ({ isOpen, on
                   <span>Student Orientation Guide</span>
                 </div>
                 <h2 className="text-lg sm:text-2xl font-black tracking-tight mt-1">
-                  How to Use PREPORA
+                  How to Use Study Up
                 </h2>
               </div>
             </div>

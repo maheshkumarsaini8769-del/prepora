@@ -215,10 +215,10 @@ export const Onboarding: React.FC = () => {
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-brand-500 to-brand-700 flex items-center justify-center font-black text-white text-base shadow-lg shadow-brand-500/20">
-              P
+              S
             </div>
             <div>
-              <span className="font-black tracking-tight text-lg leading-tight block">PREPORA</span>
+              <span className="font-black tracking-tight text-lg leading-tight block">STUDY UP</span>
               <span className="text-[10px] text-slate-400 font-medium tracking-wide block">Personalized Academic Preparation</span>
             </div>
           </div>
@@ -394,7 +394,7 @@ export const Onboarding: React.FC = () => {
                 Exam Stream & Subjects
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
-                Loaded dynamically from PREPORA's centralized syllabus registry.
+                Loaded dynamically from Study Up's centralized syllabus registry.
               </p>
             </div>
 
@@ -554,7 +554,7 @@ export const Onboarding: React.FC = () => {
       {/* Footer reassurance */}
       <div className="max-w-2xl mx-auto w-full text-center pb-4 text-slate-500 text-xs flex items-center justify-center gap-2">
         <ShieldCheck className="w-4 h-4 text-emerald-500" />
-        <span>Official NTA / NCERT / BSER Curricula Verified by PREPORA</span>
+        <span>Official NTA / NCERT / BSER Curricula Verified by Study Up</span>
       </div>
     </div>
   );

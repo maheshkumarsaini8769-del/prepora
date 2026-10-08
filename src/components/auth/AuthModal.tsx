@@ -344,7 +344,7 @@ export const AuthModal: React.FC = () => {
         {/* Brand Header */}
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-emerald-600 text-white font-black text-lg mb-2 shadow-md shadow-emerald-500/20">
-            P
+            S
           </div>
           <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
             {step === 'login' && 'Student Sign In'}
@@ -760,7 +760,7 @@ export const AuthModal: React.FC = () => {
                 Account Created Successfully
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Your PREPORA student account has been created.
+                Your STUDY UP student account has been created.
               </p>
             </div>
 
@@ -812,7 +812,7 @@ export const AuthModal: React.FC = () => {
               onClick={close}
               className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow-md shadow-emerald-600/20 flex items-center justify-center gap-2 cursor-pointer"
             >
-              <span>Continue to PREPORA</span>
+              <span>Continue to STUDY UP</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>

@@ -143,11 +143,11 @@ export const MainLayout: React.FC = () => {
         <div className="h-16 flex items-center justify-between px-5 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
-              P
+              S
             </div>
             <div>
               <span className="font-black text-lg tracking-tight text-slate-900 dark:text-white">
-                PREPORA
+                STUDY UP
               </span>
               <span className="block text-[9px] font-bold tracking-widest text-slate-400 uppercase -mt-0.5">
                 Academic Command
@@ -279,9 +279,9 @@ export const MainLayout: React.FC = () => {
             </button>
             <Link to="/" className="flex items-center gap-2">
               <div className="w-7 h-7 rounded-lg bg-emerald-600 flex items-center justify-center text-white font-black text-sm shadow-xs">
-                P
+                S
               </div>
-              <span className="font-black text-base tracking-tight text-slate-900 dark:text-white">PREPORA</span>
+              <span className="font-black text-base tracking-tight text-slate-900 dark:text-white">STUDY UP</span>
             </Link>
           </div>
 
@@ -326,7 +326,7 @@ export const MainLayout: React.FC = () => {
                 window.dispatchEvent(new CustomEvent('prepora:open_student_guide'));
               }}
               className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 border border-emerald-500/30 text-emerald-700 dark:text-emerald-300 text-xs font-bold transition-all shadow-xs cursor-pointer"
-              title="How to Use PREPORA Guide"
+              title="How to Use STUDY UP Guide"
             >
               <Compass className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
               <span className="hidden sm:inline">Guide</span>
@@ -504,9 +504,9 @@ export const MainLayout: React.FC = () => {
             <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-xl bg-emerald-600 text-white font-black flex items-center justify-center text-sm shadow-xs">
-                  P
+                  S
                 </div>
-                <span className="font-black text-lg text-slate-900 dark:text-white tracking-tight">PREPORA</span>
+                <span className="font-black text-lg text-slate-900 dark:text-white tracking-tight">STUDY UP</span>
               </div>
               <button
                 onClick={() => setMobileMenuOpen(false)}
@@ -542,7 +542,7 @@ export const MainLayout: React.FC = () => {
               >
                 <div className="flex items-center gap-2">
                   <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
-                  <span>How to Use PREPORA</span>
+                  <span>How to Use STUDY UP</span>
                 </div>
                 <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">4 Steps</span>
               </button>

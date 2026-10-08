@@ -159,7 +159,7 @@ const AdminSettingsSchema = new Schema(
         },
         {
           id: 'premium_pro',
-          name: 'PREPORA Pro All-Access',
+          name: 'STUDY UP Pro All-Access',
           price: 999,
           billingPeriod: 'Yearly',
           features: ['Unlimited Adaptive Tests', 'Full AI Doubt Solving', 'Detailed Video Solutions', 'Priority Doubt Support', 'Zero Ads'],

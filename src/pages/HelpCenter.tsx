@@ -34,7 +34,7 @@ export const HelpCenter: React.FC = () => {
   const faqs = [
     {
       q: 'How does the Exam Readiness Score calculate my percentage?',
-      a: 'The PREPORA readiness score uses a 5-pillar diagnostic formula evaluating: (1) Concept understanding across syllabus, (2) Historical accuracy rate, (3) Speed vs ideal benchmark, (4) Daily streak consistency, and (5) Hard difficulty question conquest.',
+      a: 'The Study Up readiness score uses a 5-pillar diagnostic formula evaluating: (1) Concept understanding across syllabus, (2) Historical accuracy rate, (3) Speed vs ideal benchmark, (4) Daily streak consistency, and (5) Hard difficulty question conquest.',
       cat: 'Account & Targets'
     },
     {
@@ -53,7 +53,7 @@ export const HelpCenter: React.FC = () => {
       cat: 'Test Center'
     },
     {
-      q: 'Can I chat directly with a Prepora Mentor?',
+      q: 'Can I chat directly with a Study Up Mentor?',
       a: 'Yes, through the Doubt Center and Messages inbox you can exchange direct question inquiries with assigned faculty mentors.',
       cat: 'Doubts & Mentorship'
     }

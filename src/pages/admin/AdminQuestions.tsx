@@ -408,9 +408,9 @@ export const AdminQuestions: React.FC = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, 'Questions');
 
     if (type === 'csv') {
-      XLSX.writeFile(workbook, `PREPORA_Questions_${Date.now()}.csv`, { bookType: 'csv' });
+      XLSX.writeFile(workbook, `StudyUp_Questions_${Date.now()}.csv`, { bookType: 'csv' });
     } else {
-      XLSX.writeFile(workbook, `PREPORA_Questions_${Date.now()}.xlsx`, { bookType: 'xlsx' });
+      XLSX.writeFile(workbook, `StudyUp_Questions_${Date.now()}.xlsx`, { bookType: 'xlsx' });
     }
   };
 

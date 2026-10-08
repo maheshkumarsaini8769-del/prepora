@@ -300,7 +300,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
     if (user.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh account ADMIN dwara BLOCK kar diya gaya hai. Aap is account se PREPORA me login nahi kar sakte.'
+        message: 'Yeh account ADMIN dwara BLOCK kar diya gaya hai. Aap is account se STUDY UP me login nahi kar sakte.'
       });
     }
 
@@ -480,7 +480,7 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
     if (blockedUser && blockedUser.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se PREPORA me login nahi kar sakte.'
+        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se STUDY UP me login nahi kar sakte.'
       });
     }
 
@@ -547,7 +547,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
     if (user && user.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se PREPORA me login nahi kar sakte.'
+        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se STUDY UP me login nahi kar sakte.'
       });
     }
 

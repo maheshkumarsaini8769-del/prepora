@@ -356,7 +356,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
               className="w-full h-28 p-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 resize-none font-medium"
             />
             <p className="text-[11px] text-slate-400">
-              Your doubt will be submitted to the Prepora Academic Doubt Center with your question context automatically attached.
+              Your doubt will be submitted to the Study Up Academic Doubt Center with your question context automatically attached.
             </p>
           </div>
         ) : (

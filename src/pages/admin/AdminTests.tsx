@@ -362,7 +362,7 @@ export const AdminTests: React.FC = () => {
             </div>
 
             <div className="text-[11px] text-slate-500 pt-3 border-t border-slate-800">
-              Rule: PREPORA never silently substitutes unrelated questions to fulfill a test.
+              Rule: Study Up never silently substitutes unrelated questions to fulfill a test.
             </div>
           </div>
         </div>

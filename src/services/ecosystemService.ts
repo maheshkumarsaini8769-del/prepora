@@ -476,7 +476,7 @@ class MockEcosystemService {
           {
             id: 'r-001',
             sender: 'mentor',
-            senderName: 'Prof. Verma (Prepora Physics)',
+            senderName: 'Prof. Verma (Study Up Physics)',
             message: 'Great query! Standard projectile relations give H = (u² sin²θ)/(2g) and R = (2u² sinθ cosθ)/g. When H = R/4, we get (u² sin²θ)/(2g) = (2u² sinθ cosθ)/(4g). Cancelling common terms (u²/g and factors of 2) leaves sin²θ = sinθ cosθ => sinθ = cosθ => tanθ = 1, hence θ = 45°.',
             timestamp: 'Yesterday at 4:40 PM'
           }
@@ -494,7 +494,7 @@ class MockEcosystemService {
           {
             id: 'r-002',
             sender: 'mentor',
-            senderName: 'Dr. Sharma (Prepora Chemistry)',
+            senderName: 'Dr. Sharma (Study Up Chemistry)',
             message: 'Recall ΔG = ΔH - TΔS. If ΔH > 0, spontaneity requires ΔG < 0, which is only possible if ΔS > 0 and the temperature is high enough such that TΔS > ΔH.',
             timestamp: '2 days ago'
           }
@@ -527,7 +527,7 @@ class MockEcosystemService {
         {
           id: `r-${Date.now()}`,
           sender: 'mentor',
-          senderName: 'Prepora Academic Mentor',
+          senderName: 'Study Up Academic Mentor',
           message: `Hello! I reviewed your doubt regarding ${chapter}. Let's break this down systematically:\n\n1. Identify the given physical constraints.\n2. Re-check the standard formula definition.\n3. Make sure units and coordinate directions are consistent.\n\nTip: You can retry this question in your Mistake Book anytime without the solution revealed!`,
           timestamp: 'Just now'
         }
@@ -549,7 +549,7 @@ class MockEcosystemService {
     const initialThreads: MessageThread[] = [
       {
         id: 'thread-mentor',
-        contactName: 'Prepora Academic Mentor',
+        contactName: 'Study Up Academic Mentor',
         role: 'Prepora Mentor',
         unreadCount: 1,
         lastMessageTimestamp: '10:30 AM',
@@ -565,7 +565,7 @@ class MockEcosystemService {
       },
       {
         id: 'thread-support',
-        contactName: 'Prepora Prep Support',
+        contactName: 'Study Up Prep Support',
         role: 'Prep Support',
         unreadCount: 0,
         lastMessageTimestamp: 'Yesterday',
@@ -573,7 +573,7 @@ class MockEcosystemService {
           {
             id: 'm-2',
             sender: 'support',
-            text: 'Welcome to Prepora! If you need help with test tools, custom test builders, or your mistake logs, feel free to drop a message here.',
+            text: 'Welcome to Study Up! If you need help with test tools, custom test builders, or your mistake logs, feel free to drop a message here.',
             timestamp: 'Yesterday',
             read: true
           }

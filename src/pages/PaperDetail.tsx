@@ -212,7 +212,7 @@ export const PaperDetail: React.FC = () => {
             </span>
           ) : (
             <span className="px-2.5 py-0.5 rounded-lg bg-indigo-500/20 text-indigo-300 border border-indigo-400/30 text-xs font-bold">
-              PREPORA Verified Pedagogical Solutions
+              Study Up Verified Pedagogical Solutions
             </span>
           )}
 
@@ -569,7 +569,7 @@ export const PaperDetail: React.FC = () => {
                               ? 'Official Authority Solution & Rationale'
                               : paper?.answerKeySource === 'AI_Generated'
                               ? 'AI-Generated Solution & Formula Walkthrough'
-                              : 'PREPORA Verified Pedagogical Explanation'}
+                              : 'Study Up Verified Pedagogical Explanation'}
                           </span>
                         </span>
                       </div>

@@ -62,7 +62,7 @@ export const VideoLecturesPage: React.FC = () => {
             subject: l.subject,
             title: l.title,
             youtubeId: l.youtubeVideoId,
-            channelName: l.channelTitle || 'PREPORA Curated',
+            channelName: l.channelTitle || 'Study Up Curated',
             duration: l.duration || '45m',
             description: l.description || '',
             classLevel: l.classLevel || '11',

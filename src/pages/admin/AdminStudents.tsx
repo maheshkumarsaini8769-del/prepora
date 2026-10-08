@@ -363,7 +363,7 @@ export const AdminStudents: React.FC = () => {
                 </span>
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Kise bhi number ko block karne par vo student PREPORA me open ya login nahi kar sakega, WhatsApp OTP band ho jayega, aur active device turant logout ho jayegi.
+                Kise bhi number ko block karne par vo student Study Up me open ya login nahi kar sakega, WhatsApp OTP band ho jayega, aur active device turant logout ho jayegi.
               </p>
             </div>
           </div>

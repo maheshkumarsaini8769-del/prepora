@@ -466,7 +466,7 @@ export const TestReview: React.FC = () => {
       >
         <div className="space-y-4 py-1">
           <p className="text-xs text-slate-500">
-            Categorizing your mistake helps Prepora analyze whether errors stem from conceptual gaps, formula memory, or calculation speed.
+            Categorizing your mistake helps Study Up analyze whether errors stem from conceptual gaps, formula memory, or calculation speed.
           </p>
 
           <div>
@@ -543,7 +543,7 @@ export const TestReview: React.FC = () => {
       >
         <div className="space-y-4 py-1">
           <p className="text-xs text-slate-500">
-            Tell us why you decided to skip this question. This helps Prepora diagnose whether your skips were strategic time savers or due to conceptual gaps.
+            Tell us why you decided to skip this question. This helps Study Up diagnose whether your skips were strategic time savers or due to conceptual gaps.
           </p>
 
           <div className="space-y-2">

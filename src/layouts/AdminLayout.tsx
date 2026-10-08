@@ -246,11 +246,11 @@ export const AdminLayout: React.FC = () => {
 
           <Link to="/admin" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-500 flex items-center justify-center font-black text-white text-base shadow-lg shadow-brand-600/30">
-              P
+              S
             </div>
             <div>
               <div className="flex items-center gap-1.5">
-                <span className="font-black tracking-tight text-slate-900 dark:text-white text-lg">PREPORA</span>
+                <span className="font-black tracking-tight text-slate-900 dark:text-white text-lg">STUDY UP</span>
                 <span className="px-1.5 py-0.5 text-[9px] font-black rounded uppercase bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/30 tracking-wider">
                   ADMIN
                 </span>
@@ -437,9 +437,9 @@ export const AdminLayout: React.FC = () => {
             <div className="relative w-72 max-w-full bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col h-full z-50">
               <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between shrink-0">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">P</div>
+                  <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center font-bold text-white text-xs">S</div>
                   <div>
-                    <span className="font-black text-slate-900 dark:text-white text-sm">PREPORA ADMIN</span>
+                    <span className="font-black text-slate-900 dark:text-white text-sm">STUDY UP ADMIN</span>
                     <p className="text-[10px] text-slate-500 dark:text-slate-400">Admin Navigation</p>
                   </div>
                 </div>

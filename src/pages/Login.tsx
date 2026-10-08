@@ -351,10 +351,10 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       <div className="sm:mx-auto sm:w-full sm:max-w-md text-center z-10 px-4">
         <div className="inline-flex items-center justify-center gap-2.5 mb-2">
           <div className="w-10 h-10 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-emerald-600/30">
-            P
+            S
           </div>
           <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-            PREPORA
+            STUDY UP
           </span>
         </div>
         <h2 className="text-xl font-black text-slate-900 dark:text-white tracking-tight">
@@ -516,7 +516,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
               </button>
 
               <div className="pt-2 text-center text-xs text-slate-500 dark:text-slate-400">
-                New to Prepora?{' '}
+                New to Study Up?{' '}
                 <button
                   type="button"
                   onClick={() => {
@@ -857,7 +857,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   Account Created Successfully
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Your PREPORA student account has been registered with WhatsApp verification.
+                  Your STUDY UP student account has been registered with WhatsApp verification.
                 </p>
               </div>
 

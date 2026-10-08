@@ -817,7 +817,7 @@ export const AdminReports: React.FC = () => {
                   'Dhanyawad! Aapki batayi hui mistake ko verify karke update kar diya gaya hai.',
                   'Aapka suggestion note kar liya gaya hai, agle update me ise platform me add kar diya jayega.',
                   'Humne issue check kiya aur fix live deploy ho gaya hai. Kripya app refresh karein.',
-                  'Dhanyawad feedback ke liye! PREPORA team lagatar platform behtar banane me lagi hai.'
+                  'Dhanyawad feedback ke liye! Study Up team lagatar platform behtar banane me lagi hai.'
                 ].map((txt, idx) => (
                   <button
                     key={idx}

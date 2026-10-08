@@ -97,11 +97,11 @@ export const InstallAppBanner: React.FC = () => {
           {/* Left: App Icon & Info */}
           <div className="flex items-center gap-2.5 min-w-0">
             <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white font-black text-sm shrink-0 shadow-md">
-              P
+              S
             </div>
             <div className="min-w-0">
               <div className="text-xs font-black tracking-tight flex items-center gap-1.5 truncate">
-                <span>Install PREPORA App</span>
+                <span>Install Study Up App</span>
                 <span className="text-[9px] px-1.5 py-0.2 bg-emerald-500/20 text-emerald-400 font-extrabold rounded-full border border-emerald-500/30">
                   Fast
                 </span>
