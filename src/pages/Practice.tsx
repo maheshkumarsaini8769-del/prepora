@@ -31,7 +31,7 @@ export const Practice: React.FC = () => {
   const [aiSuccessMessage, setAiSuccessMessage] = useState<string | null>(null);
 
   const chapters = ['All', ...questionService.getChapters(subject, classLevel === 'All' ? undefined : classLevel)];
-  const topics = chapter !== 'All' ? ['All', ...questionService.getTopics(chapter)] : ['All'];
+  const topics = chapter !== 'All' ? ['All', ...questionService.getTopics(chapter, exam, subject)] : ['All'];
 
   // Check available question pool
   const matchingPool = questionService.filterQuestions({

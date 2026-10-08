@@ -62,15 +62,16 @@ export const BuildMyTest: React.FC = () => {
 
   // Topics loaded from syllabus hierarchy
   const availableTopics = useMemo(() => {
+    const firstSub = selectedSubjects.length === 1 ? selectedSubjects[0] : undefined;
     if (selectedChapter === 'ALL') {
       const topics = new Set<string>();
       availableChapters.forEach((ch) => {
-        questionService.getTopics(ch).forEach((t) => topics.add(t));
+        questionService.getTopics(ch, exam, firstSub).forEach((t) => topics.add(t));
       });
-      return Array.from(topics).sort();
+      return Array.from(topics);
     }
-    return questionService.getTopics(selectedChapter);
-  }, [selectedChapter, availableChapters]);
+    return questionService.getTopics(selectedChapter, exam, firstSub);
+  }, [selectedChapter, availableChapters, exam, selectedSubjects]);
 
   // Real Live Database Inventory Pool
   const availablePool = useMemo(() => {

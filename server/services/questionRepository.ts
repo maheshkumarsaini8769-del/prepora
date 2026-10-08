@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
-import { getChapterSortRank } from '../../src/utils/chapterOrder';
+import { getChapterSortRank } from '../../src/utils/chapterOrder.js';
+import { canonicalSyllabus } from '../../src/data/canonicalSyllabusData.js';
 
 export interface QuestionFilterOptions {
   exam?: string;
@@ -344,6 +345,9 @@ export class QuestionRepository {
       const ch = String(q.chapter || 'General').trim();
       const top = String(q.topic || 'General Concepts').trim();
 
+      // Skip non-authentic or dummy topics
+      if (/High Yield Application|Core Concept Drill|Reaction & Synthesis|Mechanism & Analysis|Calculus & Geometry|Analytic Problem/i.test(top)) continue;
+
       if (!chapterMap.has(ch)) {
         chapterMap.set(ch, { classLevel: q.class, count: 0, topics: new Map() });
       }
@@ -367,13 +371,55 @@ export class QuestionRepository {
     return { chapters };
   }
 
-  public getTopics(chapter: string): string[] {
+  public getTopics(chapter: string, exam?: string, subject?: string): string[] {
+    if (!chapter || chapter === 'ALL' || chapter === 'All') return [];
     this.load();
+
+    const norm = (s: any) => String(s || '').toLowerCase().replace(/\bsome\b/g, '').replace(/[^a-z0-9]/g, '');
+    const chNorm = norm(chapter);
+    const subNorm = subject ? norm(subject) : '';
+    const exNorm = exam ? String(exam).toUpperCase() : '';
+
+    const isAuthentic = (t: string) => {
+      if (!t || typeof t !== 'string' || t.length < 3) return false;
+      if (/High Yield Application|Core Concept Drill|Reaction & Synthesis|Mechanism & Analysis|Calculus & Geometry|Analytic Problem|Practice Drill|Set \d+|Drill \d+|Application \d+/i.test(t)) return false;
+      return true;
+    };
+
+    // 0. Canonical syllabus topics (authoritative source)
+    let foundChapter = canonicalSyllabus.find(c => {
+      if (norm(c.name) !== chNorm && !matchesFuzzy(c.name, chapter)) return false;
+      if (subNorm && norm(c.subjectName) !== subNorm && !matchesFuzzy(c.subjectName, subject)) return false;
+      if (exNorm && c.examId && !c.examId.toUpperCase().includes(exNorm) && !exNorm.includes(c.examId.toUpperCase())) return false;
+      return true;
+    });
+
+    if (!foundChapter && subNorm) {
+      foundChapter = canonicalSyllabus.find(c => {
+        return (norm(c.name) === chNorm || matchesFuzzy(c.name, chapter)) &&
+               (norm(c.subjectName) === subNorm || matchesFuzzy(c.subjectName, subject));
+      });
+    }
+
+    if (!foundChapter) {
+      foundChapter = canonicalSyllabus.find(c => norm(c.name) === chNorm || matchesFuzzy(c.name, chapter));
+    }
+
+    if (foundChapter && Array.isArray(foundChapter.topics) && foundChapter.topics.length > 0) {
+      const canonicalTopicNames = foundChapter.topics
+        .map((t: any) => (typeof t === 'string' ? t : t?.name))
+        .filter((t: any): t is string => isAuthentic(t));
+      if (canonicalTopicNames.length > 0) {
+        return canonicalTopicNames;
+      }
+    }
+
+    // Fallback: clean question topics from repo
     const topics = new Set<string>();
     const chapLower = (chapter || '').trim().toLowerCase();
     for (const q of this.questions) {
       if (q.chapter && (q.chapter.trim().toLowerCase() === chapLower || q.chapter.toLowerCase().includes(chapLower) || chapLower.includes(q.chapter.toLowerCase()))) {
-        if (q.topic) topics.add(q.topic);
+        if (q.topic && isAuthentic(q.topic)) topics.add(q.topic);
       }
     }
     return Array.from(topics).sort();

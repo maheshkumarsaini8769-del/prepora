@@ -30,6 +30,30 @@ export function matchesFuzzy(val1: any, val2: any): boolean {
   return common.length >= required;
 }
 
+export function isAuthenticTopic(topic: string, chapter?: string): boolean {
+  if (!topic || typeof topic !== 'string') return false;
+  const t = topic.trim();
+  if (t.length < 3) return false;
+
+  // Reject dummy patterns and generic drills
+  const dummyRegex = /High Yield Application|Core Concept Drill|Reaction & Synthesis|Mechanism & Analysis|Calculus & Geometry|Analytic Problem|Practice Drill|Set \d+|Drill \d+|Application \d+|Problem \d+/i;
+  if (dummyRegex.test(t)) return false;
+
+  // Reject generic chapter placeholders like "Atoms - High Yield", "Atoms - Drill"
+  if (chapter) {
+    const chClean = chapter.trim().toLowerCase();
+    const tClean = t.toLowerCase();
+    if (tClean.startsWith(`${chClean} -`) && (tClean.includes('drill') || tClean.includes('set') || tClean.includes('part') || tClean.includes('application'))) {
+      return false;
+    }
+  }
+
+  // Reject generic placeholders
+  if (/^(General|Miscellaneous|Core Concept|Key Principle)s?$/i.test(t)) return false;
+
+  return true;
+}
+
 export interface QuestionFilters {
   exam?: ExamType | 'All';
   classLevel?: ClassLevel | 'All' | 'Dropper';
@@ -482,25 +506,54 @@ class ApiQuestionService {
     return sortChapterNamesCanonical(Array.from(chapters), subject);
   }
 
-  public getTopics(chapter: string): string[] {
-    const topics = new Set<string>();
+  public getTopics(chapter: string, exam?: string, subject?: string): string[] {
+    if (!chapter || chapter === 'ALL' || chapter === 'All') return [];
 
-    // 0. From canonical syllabus (highest priority for clean curriculum topics)
-    const foundChapter = canonicalSyllabus.find(c => matchesFuzzy(c.name, chapter));
-    if (foundChapter && Array.isArray(foundChapter.topics)) {
-      foundChapter.topics.forEach((t: any) => {
-        if (t?.name) topics.add(t.name);
+    const norm = (s: any) => String(s || '').toLowerCase().replace(/\bsome\b/g, '').replace(/[^a-z0-9]/g, '');
+    const chNorm = norm(chapter);
+    const subNorm = subject ? norm(subject) : '';
+    const exNorm = exam ? String(exam).toUpperCase() : '';
+
+    // 0. From canonical syllabus (highest priority for clean, authoritative curriculum topics)
+    let foundChapter = canonicalSyllabus.find(c => {
+      if (norm(c.name) !== chNorm && !matchesFuzzy(c.name, chapter)) return false;
+      if (subNorm && norm(c.subjectName) !== subNorm && !matchesFuzzy(c.subjectName, subject)) return false;
+      if (exNorm && c.examId && !c.examId.toUpperCase().includes(exNorm) && !exNorm.includes(c.examId.toUpperCase())) return false;
+      return true;
+    });
+
+    if (!foundChapter && subNorm) {
+      foundChapter = canonicalSyllabus.find(c => {
+        return (norm(c.name) === chNorm || matchesFuzzy(c.name, chapter)) &&
+               (norm(c.subjectName) === subNorm || matchesFuzzy(c.subjectName, subject));
       });
     }
 
-    // 1. Full syllabus hierarchy topics
+    if (!foundChapter) {
+      foundChapter = canonicalSyllabus.find(c => norm(c.name) === chNorm || matchesFuzzy(c.name, chapter));
+    }
+
+    if (foundChapter && Array.isArray(foundChapter.topics) && foundChapter.topics.length > 0) {
+      const canonicalTopicNames = foundChapter.topics
+        .map((t: any) => (typeof t === 'string' ? t : t?.name))
+        .filter((t: any): t is string => typeof t === 'string' && isAuthenticTopic(t, chapter));
+      if (canonicalTopicNames.length > 0) {
+        return canonicalTopicNames;
+      }
+    }
+
+    // 1. Full syllabus hierarchy topics fallback
+    const topics = new Set<string>();
     try {
       const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
       if (Array.isArray(savedSyllabus)) {
-        const sylChapter = savedSyllabus.find((c: any) => matchesFuzzy(c.name, chapter));
+        const sylChapter = savedSyllabus.find((c: any) => norm(c.name) === chNorm || matchesFuzzy(c.name, chapter));
         if (sylChapter && Array.isArray(sylChapter.subtopics)) {
           sylChapter.subtopics.forEach((st: any) => {
-            if (st?.name) topics.add(st.name);
+            const name = typeof st === 'string' ? st : st?.name;
+            if (typeof name === 'string' && isAuthenticTopic(name, chapter)) {
+              topics.add(name);
+            }
           });
         }
       }
@@ -508,14 +561,16 @@ class ApiQuestionService {
       // fallback
     }
 
-    // 2. Question bank topics
-    this.getAllQuestions().forEach(q => {
-      if (matchesFuzzy(q.chapter, chapter) && q.topic) {
-        topics.add(q.topic);
-      }
-    });
+    // 2. Question bank topics fallback
+    if (topics.size === 0) {
+      this.getAllQuestions().forEach(q => {
+        if ((norm(q.chapter) === chNorm || matchesFuzzy(q.chapter, chapter)) && q.topic && isAuthenticTopic(q.topic, chapter)) {
+          topics.add(q.topic);
+        }
+      });
+    }
 
-    return Array.from(topics).filter(Boolean).sort();
+    return Array.from(topics).filter(Boolean);
   }
 
   public async fetchTaxonomyAsync(subject?: string, classLevel?: string): Promise<{ name: string; count: number; topics: { name: string; count: number }[] }[]> {

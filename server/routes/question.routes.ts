@@ -356,12 +356,16 @@ router.get('/meta/chapters', async (req: Request, res: Response) => {
 // GET /api/questions/meta/topics - Unique topics list
 router.get('/meta/topics', async (req: Request, res: Response) => {
   try {
-    const { chapter } = req.query;
-    const filter: any = {};
-    if (chapter && chapter !== 'All') filter.chapter = chapter;
+    const { chapter, exam, subject } = req.query;
+    if (chapter && chapter !== 'All') {
+      const cleanTopics = questionRepo.getTopics(String(chapter), exam ? String(exam) : undefined, subject ? String(subject) : undefined);
+      return res.json({ success: true, topics: cleanTopics });
+    }
 
+    const filter: any = {};
     const topics = await Question.distinct('topic', filter);
-    res.json({ success: true, topics });
+    const cleanTopics = topics.filter(t => t && !/High Yield Application|Core Concept Drill|Reaction & Synthesis|Mechanism & Analysis|Calculus & Geometry|Analytic Problem/i.test(t));
+    res.json({ success: true, topics: cleanTopics });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }
