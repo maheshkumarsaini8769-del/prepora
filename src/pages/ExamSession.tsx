@@ -21,7 +21,8 @@ import {
   Minimize,
   ChevronDown,
   ChevronUp,
-  Sparkles
+  Sparkles,
+  Zap
 } from 'lucide-react';
 import { Button, Modal, Badge } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
@@ -55,6 +56,9 @@ export const ExamSession: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [answers, setAnswers] = useState<Record<string, TestAnswer>>({});
   const [timeLeftSeconds, setTimeLeftSeconds] = useState<number>(0);
+  const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const [questionSeconds, setQuestionSeconds] = useState<number>(0);
+  const questionStartTimeRef = useRef<number>(Date.now());
   const [showSubmitModal, setShowSubmitModal] = useState<boolean>(false);
   const [reportModalOpen, setReportModalOpen] = useState<boolean>(false);
   const [submitting, setSubmitting] = useState<boolean>(false);
@@ -78,6 +82,27 @@ export const ExamSession: React.FC = () => {
 
   // Active question ref for reliable time-tracking without re-binding timer interval
   const currentQIdRef = useRef<string>('');
+
+  // Flush elapsed time for active question into answers state
+  const flushCurrentQuestionTime = () => {
+    const activeQ = questions[currentIndex];
+    if (!activeQ) return;
+    const elapsed = Math.max(0, Math.round((Date.now() - questionStartTimeRef.current) / 1000));
+    if (elapsed > 0) {
+      setAnswers((prev) => {
+        const item = prev[activeQ.id];
+        if (!item) return prev;
+        return {
+          ...prev,
+          [activeQ.id]: {
+            ...item,
+            timeSpentSeconds: (item.timeSpentSeconds || 0) + elapsed
+          }
+        };
+      });
+    }
+    questionStartTimeRef.current = Date.now();
+  };
 
   // Initialize test and answers ONCE per test ID
   useEffect(() => {
@@ -112,9 +137,8 @@ export const ExamSession: React.FC = () => {
       if (isCancelled) return;
 
       setQuestions(qs);
-      const duration = test.durationMinutes * 60;
+      const duration = Math.max(60, (Number(test.durationMinutes) || 30) * 60);
       totalDurationSeconds.current = duration;
-      setTimeLeftSeconds(duration);
 
       if (qs.length > 0) {
         currentQIdRef.current = qs[0].id;
@@ -136,7 +160,7 @@ export const ExamSession: React.FC = () => {
 
       // Check if previous unfinished attempt exists in local storage
       const saved = syncEngine.getActiveTest(test.id);
-      if (saved && saved.answers && saved.timeLeftSeconds > 0) {
+      if (saved && saved.answers && saved.timeLeftSeconds > 5) {
         setAnswers(saved.answers);
         setTimeLeftSeconds(saved.timeLeftSeconds);
         if (saved.currentIndex !== undefined && saved.currentIndex < qs.length) {
@@ -149,7 +173,11 @@ export const ExamSession: React.FC = () => {
         setTimeout(() => setRestoredNotice(false), 4000);
       } else {
         setAnswers(initialAnswers);
+        setTimeLeftSeconds(duration);
       }
+
+      setIsTimerRunning(true);
+      questionStartTimeRef.current = Date.now();
     };
 
     loadExamQuestions();
@@ -172,16 +200,16 @@ export const ExamSession: React.FC = () => {
     });
   }, [answers, currentIndex, timeLeftSeconds, test, questions.length]);
 
-  // Keep active question ID updated for the interval
+  // Keep active question ID updated for tracking
   useEffect(() => {
     if (questions[currentIndex]) {
       currentQIdRef.current = questions[currentIndex].id;
     }
   }, [currentIndex, questions]);
 
-  // Robust Countdown Timer & Question Time Tracker
+  // Robust Main Countdown Timer: only starts when questions are loaded & duration is set
   useEffect(() => {
-    if (!test) return;
+    if (!isTimerRunning) return;
 
     const interval = setInterval(() => {
       setTimeLeftSeconds((prev) => {
@@ -191,33 +219,32 @@ export const ExamSession: React.FC = () => {
         }
         return prev - 1;
       });
-
-      // Increment active question timeSpentSeconds
-      const activeQId = currentQIdRef.current;
-      if (activeQId) {
-        setAnswers((prev) => {
-          const item = prev[activeQId];
-          if (!item) return prev;
-          return {
-            ...prev,
-            [activeQId]: {
-              ...item,
-              timeSpentSeconds: (item.timeSpentSeconds || 0) + 1
-            }
-          };
-        });
-      }
     }, 1000);
 
     return () => clearInterval(interval);
-  }, [id]);
+  }, [isTimerRunning]);
+
+  // Live Per-Question Stopwatch: tracks exact seconds on current question
+  useEffect(() => {
+    if (!isTimerRunning || questions.length === 0) return;
+    questionStartTimeRef.current = Date.now();
+    const activeQ = questions[currentIndex];
+    const initialTime = activeQ ? (answers[activeQ.id]?.timeSpentSeconds || 0) : 0;
+    setQuestionSeconds(initialTime);
+
+    const qInterval = setInterval(() => {
+      setQuestionSeconds((prev) => prev + 1);
+    }, 1000);
+
+    return () => clearInterval(qInterval);
+  }, [currentIndex, isTimerRunning, questions.length]);
 
   // Handle automatic submission when timer hits 0
   useEffect(() => {
-    if (timeLeftSeconds === 0 && questions.length > 0 && totalDurationSeconds.current > 0) {
+    if (timeLeftSeconds === 0 && isTimerRunning && questions.length > 0 && totalDurationSeconds.current > 0) {
       handleSubmitTest(true);
     }
-  }, [timeLeftSeconds]);
+  }, [timeLeftSeconds, isTimerRunning]);
 
   // Anti-Cheating: Tab Switch & Window Blur Proctoring
   useEffect(() => {
@@ -310,19 +337,24 @@ export const ExamSession: React.FC = () => {
     return 'not-answered';
   };
 
-  // Option selection with persistent state update
+  // Option selection with persistent state update and exact question speed tracking
   const handleSelectOption = (optIdx: number) => {
+    const elapsed = Math.max(1, Math.round((Date.now() - questionStartTimeRef.current) / 1000));
+    const previousSpent = answers[currentQ.id]?.timeSpentSeconds || 0;
+    const totalSpent = Math.max(1, previousSpent + elapsed);
+    questionStartTimeRef.current = Date.now();
+
     setAnswers((prev) => ({
       ...prev,
       [currentQ.id]: {
         ...(prev[currentQ.id] || {
           questionId: currentQ.id,
-          isMarkedForReview: false,
-          timeSpentSeconds: 0
+          isMarkedForReview: false
         }),
         selectedAnswer: optIdx,
         isAnswered: true,
-        isVisited: true
+        isVisited: true,
+        timeSpentSeconds: totalSpent
       }
     }));
   };
@@ -350,6 +382,7 @@ export const ExamSession: React.FC = () => {
 
   const navigateToQuestion = (targetIdx: number) => {
     if (targetIdx < 0 || targetIdx >= questions.length) return;
+    flushCurrentQuestionTime();
     const targetQ = questions[targetIdx];
     currentQIdRef.current = targetQ.id;
     setAnswers((prev) => ({
@@ -386,12 +419,31 @@ export const ExamSession: React.FC = () => {
 
     const timeTaken = Math.max(1, totalDurationSeconds.current - timeLeftSeconds);
 
+    // Flush active question time before submitting
+    const activeQ = questions[currentIndex];
+    const elapsed = Math.max(0, Math.round((Date.now() - questionStartTimeRef.current) / 1000));
+    const finalAnswers: Record<string, TestAnswer> = { ...answers };
+    if (activeQ) {
+      const curr = finalAnswers[activeQ.id] || {
+        questionId: activeQ.id,
+        selectedAnswer: null,
+        isAnswered: false,
+        isMarkedForReview: false,
+        isVisited: true,
+        timeSpentSeconds: 0
+      };
+      finalAnswers[activeQ.id] = {
+        ...curr,
+        timeSpentSeconds: (curr.timeSpentSeconds || 0) + elapsed
+      };
+    }
+
     // 1. Save final state locally so answers can NEVER be lost
     syncEngine.saveActiveTest(test.id, {
       testTitle: test.title,
       totalQuestions: questions.length,
       currentIndex,
-      answers,
+      answers: finalAnswers,
       timeLeftSeconds,
       updatedAt: new Date().toISOString()
     });
@@ -407,7 +459,7 @@ export const ExamSession: React.FC = () => {
         body: JSON.stringify({
           testId: test.id,
           userId: user.id || 'usr-default',
-          answers,
+          answers: finalAnswers,
           timeTakenSeconds: timeTaken,
           idempotencyKey
         })
@@ -434,10 +486,9 @@ export const ExamSession: React.FC = () => {
         throw new Error(data.message || 'Server evaluation error.');
       }
     } catch (err: any) {
-      // Fallback: If network is offline, evaluate locally so student can review results,
-      // but if server had an issue, let student retry or view results safely
+      // Fallback: If network is offline, evaluate locally so student can review results
       try {
-        const localAttempt = testService.calculateAndSaveAttempt(test, answers, timeTaken);
+        const localAttempt = testService.calculateAndSaveAttempt(test, finalAnswers, timeTaken);
         // Queue idempotent sync in background
         syncEngine.enqueue({
           idempotencyKey,
@@ -446,7 +497,7 @@ export const ExamSession: React.FC = () => {
           payload: {
             testId: test.id,
             userId: user.id || 'usr-default',
-            answers,
+            answers: finalAnswers,
             timeTakenSeconds: timeTaken
           }
         });
@@ -686,10 +737,32 @@ export const ExamSession: React.FC = () => {
                 )}
               </div>
 
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-slate-500 font-medium hidden sm:inline">
-                  Target: {currentQ.recommendedTimeSeconds || 90}s
-                </span>
+              <div className="flex flex-wrap items-center gap-2.5">
+                {/* Live Question Stopwatch */}
+                <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 font-mono text-xs font-bold text-slate-700 dark:text-slate-200" title="Time spent on this question">
+                  <Clock className="w-3.5 h-3.5 text-slate-500" />
+                  <span>{questionSeconds}s</span>
+                  <span className="text-slate-400 font-normal text-[11px]">/ {currentQ.recommendedTimeSeconds || 90}s</span>
+                </div>
+
+                {/* Live Fast Answer Speed Detector */}
+                {currentAnswer.isAnswered && (
+                  (currentAnswer.timeSpentSeconds || questionSeconds) <= Math.round((currentQ.recommendedTimeSeconds || 90) * 0.6) ? (
+                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 text-[11px] font-black animate-in fade-in" title="Fast Question Answer Speed Detected!">
+                      <Zap className="w-3 h-3 text-emerald-600 dark:text-emerald-400 fill-emerald-600" />
+                      <span>⚡ Fast Speed ({currentAnswer.timeSpentSeconds || questionSeconds}s)</span>
+                    </span>
+                  ) : (currentAnswer.timeSpentSeconds || questionSeconds) <= (currentQ.recommendedTimeSeconds || 90) ? (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 text-[11px] font-semibold">
+                      <span>✓ Good Pace ({currentAnswer.timeSpentSeconds || questionSeconds}s)</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-amber-50 dark:bg-amber-950/40 text-amber-700 dark:text-amber-300 text-[11px] font-semibold">
+                      <span>⏳ Over Time ({currentAnswer.timeSpentSeconds || questionSeconds}s)</span>
+                    </span>
+                  )
+                )}
+
                 <div className="text-xs font-semibold text-emerald-600">
                   Marks: +4, {test.negativeMarking ? '-1' : '0'}
                 </div>

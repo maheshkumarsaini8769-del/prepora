@@ -185,8 +185,17 @@ export const TestResult: React.FC = () => {
               <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
               <span className="font-semibold text-slate-700 dark:text-slate-200">Fastest Question:</span>
             </div>
-            <span className="font-mono font-bold text-slate-900 dark:text-white">
-              {attempt.fastestQuestion ? `${attempt.fastestQuestion.timeSpentSeconds}s` : 'N/A'}
+            <span className="font-mono font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
+              {attempt.fastestQuestion && attempt.fastestQuestion.timeSpentSeconds > 0 ? (
+                <>
+                  <span className="text-emerald-600 dark:text-emerald-400 font-black">{attempt.fastestQuestion.timeSpentSeconds}s</span>
+                  {attempt.fastestQuestion.isCorrect && (
+                    <span className="px-1.5 py-0.5 rounded text-[10px] bg-emerald-100 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 font-bold">
+                      ⚡ Lightning Fast
+                    </span>
+                  )}
+                </>
+              ) : 'N/A'}
             </span>
           </div>
 
@@ -196,7 +205,7 @@ export const TestResult: React.FC = () => {
               <span className="font-semibold text-slate-700 dark:text-slate-200">Slowest Question:</span>
             </div>
             <span className="font-mono font-bold text-slate-900 dark:text-white">
-              {attempt.slowestQuestion ? `${attempt.slowestQuestion.timeSpentSeconds}s (${Math.floor(attempt.slowestQuestion.timeSpentSeconds / 60)}m ${attempt.slowestQuestion.timeSpentSeconds % 60}s)` : 'N/A'}
+              {attempt.slowestQuestion && attempt.slowestQuestion.timeSpentSeconds > 0 ? `${attempt.slowestQuestion.timeSpentSeconds}s (${Math.floor(attempt.slowestQuestion.timeSpentSeconds / 60)}m ${attempt.slowestQuestion.timeSpentSeconds % 60}s)` : 'N/A'}
             </span>
           </div>
         </div>

@@ -350,7 +350,7 @@ class ApiTestService {
           subjectData[sub].score += marks;
           topicStats[q.topic].correct += 1;
 
-          if (timeSpent <= recTime) {
+          if (timeSpent > 0 && timeSpent <= recTime) {
             tag = 'Speed Master';
             speedMasterCount += 1;
           } else if (timeSpent >= recTime * 2.2) {
@@ -373,12 +373,14 @@ class ApiTestService {
           this.recordMistake(q, userAns);
         }
 
-        // Check fastest/slowest
-        if (!fastestQ || timeSpent < fastestQ.timeSpentSeconds) {
-          fastestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
-        }
-        if (!slowestQ || timeSpent > slowestQ.timeSpentSeconds) {
-          slowestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
+        // Check fastest/slowest (accurately track questions with valid time)
+        if (timeSpent > 0) {
+          if (!fastestQ || fastestQ.timeSpentSeconds === 0 || timeSpent < fastestQ.timeSpentSeconds) {
+            fastestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
+          }
+          if (!slowestQ || timeSpent > slowestQ.timeSpentSeconds) {
+            slowestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
+          }
         }
       }
 

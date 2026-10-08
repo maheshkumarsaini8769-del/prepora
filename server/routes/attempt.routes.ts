@@ -172,7 +172,7 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
       let timeTag = 'Normal';
       if (!isAnswered) {
         timeTag = 'Unattempted';
-      } else if (isCorrect && timeSpent < recTime * 0.6) {
+      } else if (isCorrect && timeSpent > 0 && timeSpent <= recTime) {
         timeTag = 'Speed Master';
         speedMasterCount++;
       } else if (!isCorrect && timeSpent > recTime * 1.3) {
@@ -209,12 +209,14 @@ router.post('/submit', optionalAuth, async (req: AuthRequest, res: Response) => 
           });
         }
 
-        // Track fastest/slowest
-        if (!fastestQ || timeSpent < fastestQ.timeSpentSeconds) {
-          fastestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
-        }
-        if (!slowestQ || timeSpent > slowestQ.timeSpentSeconds) {
-          slowestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
+        // Track fastest/slowest (only consider questions with valid positive timeSpent)
+        if (timeSpent > 0) {
+          if (!fastestQ || fastestQ.timeSpentSeconds === 0 || timeSpent < fastestQ.timeSpentSeconds) {
+            fastestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
+          }
+          if (!slowestQ || timeSpent > slowestQ.timeSpentSeconds) {
+            slowestQ = { questionId: q.id, timeSpentSeconds: timeSpent, isCorrect };
+          }
         }
       } else {
         unattemptedCount++;
