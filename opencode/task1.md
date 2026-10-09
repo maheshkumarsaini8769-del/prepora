@@ -1,1805 +1,1117 @@
-You are working on my existing PREPORA educational website.
+MASTER PROMPT: CLASS 12 IIT-JEE COMPLETE SYLLABUS
+CHAPTER-WISE + TOPIC-WISE + SUBTOPIC-WISE
 
-EXISTING WEBSITE:
-https://test-green-pi-22.vercel.app/planner
+ROLE:
+Act as an expert IIT-JEE Physics, Chemistry and Mathematics teacher,
+NCERT syllabus analyst, JEE Main and JEE Advanced curriculum researcher,
+and educational database architect.
+
+OBJECTIVE:
+Create a COMPLETE and VERIFIED Class 12 IIT-JEE syllabus database.
+
+The database must contain every applicable:
+- Subject
+- Unit
+- Chapter
+- Topic
+- Subtopic
+- Concept
+- Formula
+- Reaction
+- Theorem
+- Property
+- Special case
+- Important application
+
+Do not skip any topic from the applicable official syllabus.
 
 IMPORTANT:
-Do NOT rebuild the entire website from scratch.
+Do not simply generate a chapter-name list.
+I need every chapter with its complete topic and subtopic hierarchy.
+
+==================================================
+1. OFFICIAL SYLLABUS VERIFICATION
+==================================================
+
+Use the applicable official syllabus documents for:
+
+JEE Main:
+https://jeemain.nta.nic.in/
+
+JEE Advanced:
+https://jeeadv.ac.in/
+
+NCERT:
+https://ncert.nic.in/
+
+Verify the syllabus for the selected academic session.
+
+Maintain separate syllabus mappings for:
+1. NCERT Class 12
+2. JEE Main
+3. JEE Advanced
+
+Do not assume that all NCERT chapters are included in JEE Main
+or JEE Advanced.
+
+If a topic is in NCERT but excluded from an examination,
+keep it in the NCERT learning section and mark it accordingly.
+
+If a topic is prescribed by an examination but is missing from
+the initial chapter inventory, add it to the database.
+
+Never invent official syllabus inclusions.
+
+If an official document cannot be accessed, mark the relevant
+content as NEEDS VERIFICATION instead of claiming it is verified.
+
+==================================================
+2. CLASS 12 PHYSICS
+==================================================
+
+Create the complete chapter-wise inventory for Physics.
+
+CHAPTER 1: ELECTRIC CHARGES AND FIELDS
+
+Include:
+- Electric charge
+- Conservation and quantisation of charge
+- Conductors and insulators
+- Charging methods
+- Coulomb's law
+- Superposition principle
+- Force between multiple charges
+- Electric field
+- Electric field due to point charges
+- Electric field lines
+- Electric dipole
+- Dipole moment
+- Electric field on axial and equatorial lines
+- Torque on an electric dipole
+- Electric flux
+- Gauss's law
+- Applications of Gauss's law
+- Electric field due to an infinite line of charge
+- Electric field due to an infinite plane sheet
+- Electric field due to a spherical shell
+
+CHAPTER 2: ELECTROSTATIC POTENTIAL AND CAPACITANCE
+
+Include:
+- Electric potential
+- Potential difference
+- Potential due to point charges
+- Potential due to an electric dipole
+- Equipotential surfaces
+- Potential energy of charge systems
+- Potential energy of an electric dipole
+- Relationship between electric field and potential
+- Conductors in electrostatic equilibrium
+- Electrostatic shielding
+- Dielectrics and polarisation
+- Capacitance
+- Parallel-plate capacitors
+- Capacitors with dielectrics
+- Series and parallel combinations
+- Energy stored in a capacitor
+- Energy density
+- Battery-connected and isolated capacitor problems
+
+CHAPTER 3: CURRENT ELECTRICITY
+
+Include:
+- Electric current
+- Drift velocity
+- Mobility
+- Current density
+- Ohm's law
+- Resistance
+- Resistivity
+- Conductivity
+- Temperature dependence of resistance
+- Electrical power and energy
+- EMF
+- Internal resistance
+- Cells in series and parallel
+- Kirchhoff's laws
+- Wheatstone bridge
+- Metre bridge
+- Potentiometer
+- Comparison of EMFs
+- Measurement of internal resistance
+
+CHAPTER 4: MOVING CHARGES AND MAGNETISM
+
+Include:
+- Magnetic field
+- Lorentz force
+- Magnetic force on a moving charge
+- Motion of charged particles in magnetic fields
+- Motion in combined electric and magnetic fields
+- Velocity selector
+- Cyclotron
+- Biot-Savart law
+- Magnetic field due to a straight wire
+- Magnetic field due to a circular loop
+- Ampere's circuital law
+- Magnetic field inside a solenoid
+- Force between parallel current-carrying wires
+- Torque on a current loop
+- Magnetic dipole moment
+- Moving-coil galvanometer
+- Conversion of galvanometer into ammeter
+- Conversion of galvanometer into voltmeter
+
+CHAPTER 5: MAGNETISM AND MATTER
+
+Include:
+- Bar magnets
+- Magnetic field lines
+- Magnetic dipole
+- Equivalent solenoid model
+- Axial and equatorial magnetic fields
+- Torque on a magnetic dipole
+- Earth's magnetism
+- Magnetic declination
+- Magnetic inclination
+- Horizontal component of Earth's magnetic field
+- Diamagnetism
+- Paramagnetism
+- Ferromagnetism
+- Magnetisation
+- Magnetic susceptibility
+- Relative permeability
+
+CHAPTER 6: ELECTROMAGNETIC INDUCTION
+
+Include:
+- Magnetic flux
+- Faraday's laws
+- Lenz's law
+- Induced EMF
+- Motional EMF
+- Eddy currents
+- Self-induction
+- Self-inductance
+- Mutual induction
+- Mutual inductance
+- Energy stored in an inductor
+- Applications of electromagnetic induction
+
+CHAPTER 7: ALTERNATING CURRENT
+
+Include:
+- Alternating current and voltage
+- Instantaneous values
+- Peak values
+- RMS values
+- AC through resistors
+- AC through inductors
+- AC through capacitors
+- Inductive reactance
+- Capacitive reactance
+- Series LCR circuits
+- Impedance
+- Phase difference
+- Resonance
+- Power in AC circuits
+- Power factor
+- Wattless current
+- Transformers
+- Step-up and step-down transformers
+- Transformer losses
+
+CHAPTER 8: ELECTROMAGNETIC WAVES
+
+Include:
+- Displacement current
+- Maxwell's concept of electromagnetic waves
+- Properties of electromagnetic waves
+- Transverse nature
+- Electromagnetic spectrum
+- Radio waves
+- Microwaves
+- Infrared radiation
+- Visible light
+- Ultraviolet radiation
+- X-rays
+- Gamma rays
+- Applications of electromagnetic waves
+
+CHAPTER 9: RAY OPTICS AND OPTICAL INSTRUMENTS
+
+Include:
+- Reflection of light
+- Spherical mirrors
+- Mirror formula
+- Magnification
+- Refraction of light
+- Snell's law
+- Refractive index
+- Total internal reflection
+- Optical fibres
+- Refraction at spherical surfaces
+- Thin lenses
+- Lens formula
+- Lens maker's formula
+- Power of lenses
+- Combination of lenses
+- Prism
+- Deviation through a prism
+- Dispersion
+- Simple microscope
+- Compound microscope
+- Astronomical telescope
+- Magnifying power
+
+CHAPTER 10: WAVE OPTICS
+
+Include:
+- Wavefront
+- Huygens' principle
+- Reflection and refraction using wavefronts
+- Coherent sources
+- Interference
+- Young's double-slit experiment
+- Fringe width
+- Constructive interference
+- Destructive interference
+- Diffraction
+- Single-slit diffraction
+- Central maximum
+- Polarisation
+- Relevant laws and applications included in the official syllabus
+
+CHAPTER 11: DUAL NATURE OF RADIATION AND MATTER
+
+Include:
+- Wave-particle duality
+- Photoelectric effect
+- Experimental observations
+- Einstein's photoelectric equation
+- Work function
+- Threshold frequency
+- Stopping potential
+- Photoelectric current
+- Matter waves
+- de Broglie wavelength
+- Wave nature of particles
+- Relevant experimental evidence
+
+CHAPTER 12: ATOMS
+
+Include:
+- Alpha-particle scattering
+- Rutherford's atomic model
+- Limitations of Rutherford's model
+- Bohr's atomic model
+- Bohr's postulates
+- Radius of Bohr orbits
+- Energy levels
+- Hydrogen spectrum
+- Excitation energy
+- Ionisation energy
+- Electronic transitions
+- Spectral series
+
+CHAPTER 13: NUCLEI
+
+Include:
+- Nuclear composition
+- Atomic number and mass number
+- Isotopes, isobars and isotones
+- Nuclear size
+- Nuclear density
+- Mass defect
+- Binding energy
+- Binding energy per nucleon
+- Binding-energy curve
+- Nuclear forces
+- Radioactivity
+- Alpha decay
+- Beta decay
+- Gamma radiation
+- Radioactive decay law
+- Half-life
+- Mean lifetime
+- Nuclear fission
+- Nuclear fusion
+- Energy released in nuclear reactions
+
+CHAPTER 14: SEMICONDUCTOR ELECTRONICS
+
+Include:
+- Conductors, insulators and semiconductors
+- Energy bands
+- Intrinsic semiconductors
+- Extrinsic semiconductors
+- n-type semiconductors
+- p-type semiconductors
+- Doping
+- p-n junction
+- Depletion region
+- Semiconductor diode
+- Forward bias
+- Reverse bias
+- I-V characteristics
+- Diode as a rectifier
+- Half-wave rectifier
+- Full-wave rectifier
+
+PHYSICS COMPLETENESS RULE:
+
+Do not stop at the chapters listed above.
+
+Compare every chapter, topic and subtopic with the applicable
+official JEE Main and JEE Advanced syllabi.
+
+Add any missing official topics.
+Mark supplementary or excluded topics separately.
+
+==================================================
+3. CLASS 12 CHEMISTRY
+==================================================
+
+Organise Chemistry into:
+
+A. Physical Chemistry
+B. Inorganic Chemistry
+C. Organic Chemistry
+
+CHAPTER 1: SOLUTIONS
+
+Include:
+- Types of solutions
+- Solubility
+- Factors affecting solubility
+- Concentration terms
+- Mass percentage
+- Volume percentage
+- Parts per million
+- Mole fraction
+- Molarity
+- Molality
+- Vapour pressure
+- Raoult's law
+- Ideal solutions
+- Non-ideal solutions
+- Positive and negative deviations
+- Colligative properties
+- Relative lowering of vapour pressure
+- Elevation of boiling point
+- Depression of freezing point
+- Osmotic pressure
+- Molar mass determination
+- Abnormal molar mass
+- van't Hoff factor
+- Association and dissociation
+
+CHAPTER 2: ELECTROCHEMISTRY
+
+Include:
+- Electrochemical cells
+- Galvanic cells
+- Electrolytic cells
+- Electrode potential
+- Standard electrode potential
+- Electrochemical series
+- Cell EMF
+- Nernst equation
+- EMF and Gibbs energy
+- Equilibrium constant and cell potential
+- Conductance
+- Resistance
+- Conductivity
+- Molar conductivity
+- Variation of conductivity with concentration
+- Kohlrausch's law
+- Electrolysis
+- Faraday's laws
+- Batteries
+- Fuel cells
+- Corrosion
+- Prevention of corrosion
+
+CHAPTER 3: CHEMICAL KINETICS
+
+Include:
+- Rate of reaction
+- Average and instantaneous rate
+- Rate law
+- Rate constant
+- Order of reaction
+- Molecularity
+- Zero-order reactions
+- First-order reactions
+- Integrated rate equations
+- Half-life
+- Units of rate constants
+- Factors affecting reaction rates
+- Temperature dependence
+- Arrhenius equation
+- Activation energy
+- Collision theory where applicable
+- Reaction mechanisms where applicable
+
+CHAPTER 4: THE d- AND f-BLOCK ELEMENTS
+
+Include:
+- Position in the periodic table
+- Electronic configurations
+- General characteristics of transition elements
+- Atomic and ionic radii
+- Ionisation enthalpy
+- Oxidation states
+- Variable valency
+- Colour of ions
+- Magnetic properties
+- Catalytic properties
+- Complex formation
+- Alloy formation
+- Interstitial compounds
+- Trends across the d-block
+- Lanthanoids
+- Lanthanoid contraction
+- Consequences of lanthanoid contraction
+- Actinoids
+- Comparison of lanthanoids and actinoids
+- Important reactions and compounds included in the syllabus
+
+CHAPTER 5: COORDINATION COMPOUNDS
+
+Include:
+- Coordination entities
+- Central metal atoms and ions
+- Ligands
+- Types of ligands
+- Coordination number
+- Oxidation number
+- Denticity
+- Chelation
+- Nomenclature
+- Formula writing
+- Structural isomerism
+- Geometrical isomerism
+- Optical isomerism
+- Werner's theory
+- Valence bond theory
+- Hybridisation and geometry
+- Crystal field theory
+- Crystal-field splitting
+- Magnetic behaviour
+- Colour of complexes
+- Stability of complexes
+- Applications
+
+CHAPTER 6: HALOALKANES AND HALOARENES
+
+Include:
+- Classification
+- Nomenclature
+- Carbon-halogen bond
+- Preparation methods
+- Physical properties
+- Nucleophilic substitution
+- SN1 mechanism
+- SN2 mechanism
+- Factors affecting substitution
+- Elimination reactions
+- Substitution versus elimination
+- Reactivity of haloalkanes
+- Reactivity of haloarenes
+- Polyhalogen compounds
+- Important reactions
+- Relevant mechanisms and exceptions
+
+CHAPTER 7: ALCOHOLS, PHENOLS AND ETHERS
+
+Include:
+- Classification
+- Nomenclature
+- Preparation of alcohols
+- Physical properties
+- Acidity of alcohols
+- Reactions of alcohols
+- Oxidation
+- Dehydration
+- Preparation of phenols
+- Acidity of phenols
+- Electrophilic substitution
+- Important phenol reactions
+- Preparation of ethers
+- Properties of ethers
+- Cleavage of ethers
+- Named reactions included in the official syllabus
+
+CHAPTER 8: ALDEHYDES, KETONES AND CARBOXYLIC ACIDS
+
+Include:
+- Nomenclature
+- Carbonyl group structure
+- Preparation of aldehydes
+- Preparation of ketones
+- Preparation of carboxylic acids
+- Physical properties
+- Nucleophilic addition
+- Oxidation
+- Reduction
+- Aldol condensation
+- Cannizzaro reaction
+- Haloform reaction
+- Tests for aldehydes and ketones
+- Acidity of carboxylic acids
+- Substituent effects
+- Esterification
+- Decarboxylation
+- Important reagents
+- Organic conversions
+- Reaction mechanisms
+- Important exceptions
+
+CHAPTER 9: AMINES
+
+Include:
+- Classification
+- Nomenclature
+- Structure and bonding
+- Preparation
+- Physical properties
+- Basicity
+- Factors affecting basic strength
+- Alkylation
+- Acylation
+- Carbylamine reaction
+- Hinsberg test where applicable
+- Diazonium salts
+- Diazotisation
+- Coupling reactions
+- Aromatic amines
+- Distinction between primary, secondary and tertiary amines
+
+CHAPTER 10: BIOMOLECULES
+
+Include:
+- Carbohydrates
+- Classification of carbohydrates
+- Monosaccharides
+- Glucose
+- Fructose
+- Disaccharides
+- Sucrose
+- Maltose
+- Lactose
+- Polysaccharides
+- Starch
+- Cellulose
+- Glycogen
+- Amino acids
+- Peptide bonds
+- Proteins
+- Protein structures
+- Denaturation
+- Enzymes
+- Vitamins
+- Nucleic acids
+- DNA
+- RNA
+- Nucleotides
+- Nucleosides
+- Biological functions of biomolecules
+
+ADDITIONAL CHEMISTRY VERIFICATION:
+
+Check whether the selected NCERT learning inventory or JEE Advanced
+syllabus requires additional topics such as:
+
+- Solid State
+- Surface Chemistry
+- States of Matter
+- Metallurgical Processes
+- Additional p-Block Chemistry
+- Polymers
+- Chemistry in Everyday Life
+- Practical Chemistry
+- Qualitative Organic Analysis
+- Quantitative Organic Analysis
+- Additional Organic Reaction Mechanisms
+
+Do not automatically label these as included in the current JEE Main
+or JEE Advanced syllabus.
+
+Verify each topic using the applicable official document.
+
+Add every missing official topic.
+
+==================================================
+4. CLASS 12 MATHEMATICS
+==================================================
+
+CHAPTER 1: RELATIONS AND FUNCTIONS
+
+Include:
+- Cartesian products
+- Relations
+- Domain and range
+- Reflexive relations
+- Symmetric relations
+- Transitive relations
+- Equivalence relations
+- Types of functions
+- One-one functions
+- Many-one functions
+- Onto functions
+- Into functions
+- Bijective functions
+- Composite functions
+- Invertible functions
+- Inverse functions
+- Binary operations as supplementary content where applicable
+
+CHAPTER 2: INVERSE TRIGONOMETRIC FUNCTIONS
+
+Include:
+- Inverse trigonometric functions
+- Principal value branches
+- Domain and range
+- Inverse sine
+- Inverse cosine
+- Inverse tangent
+- Other inverse trigonometric functions where applicable
+- Properties and identities
+- Graphs
+- Simplification
+- Principal-value problems
+
+CHAPTER 3: MATRICES
+
+Include:
+- Definition and order
+- Row and column matrices
+- Rectangular matrices
+- Square matrices
+- Zero matrices
+- Diagonal matrices
+- Scalar matrices
+- Identity matrices
+- Equality of matrices
+- Addition and subtraction
+- Scalar multiplication
+- Matrix multiplication
+- Properties of multiplication
+- Transpose
+- Symmetric matrices
+- Skew-symmetric matrices
+- Invertible matrices
+- Inverse of a matrix
+- Elementary operations where applicable
+- Systems of linear equations
+
+CHAPTER 4: DETERMINANTS
+
+Include:
+- Determinants of orders 1, 2 and 3
+- Minors
+- Cofactors
+- Expansion along rows and columns
+- Properties of determinants
+- Area of a triangle
+- Singular and non-singular matrices
+- Adjoint
+- Inverse using determinants
+- Solving linear equations
+- Consistency of linear systems where applicable
+
+CHAPTER 5: CONTINUITY AND DIFFERENTIABILITY
+
+Include:
+- Limits
+- Continuity at a point
+- Continuity in an interval
+- Left-hand continuity
+- Right-hand continuity
+- Discontinuities
+- Differentiability
+- Derivatives from first principles
+- Relationship between continuity and differentiability
+- Product rule
+- Quotient rule
+- Chain rule
+- Implicit differentiation
+- Logarithmic differentiation
+- Parametric differentiation where applicable
+- Derivatives of polynomial functions
+- Derivatives of trigonometric functions
+- Derivatives of inverse trigonometric functions
+- Derivatives of exponential functions
+- Derivatives of logarithmic functions
+- Higher-order derivatives
+- Composite functions
+
+CHAPTER 6: APPLICATIONS OF DERIVATIVES
+
+Include:
+- Rate of change
+- Increasing functions
+- Decreasing functions
+- Monotonicity
+- Tangents
+- Normals
+- Slope of a curve
+- Approximation
+- Local maxima
+- Local minima
+- First derivative test
+- Second derivative test
+- Optimisation
+- Related rates where applicable
+- Graphical applications
+
+CHAPTER 7: INTEGRALS
+
+Include:
+- Indefinite integration
+- Standard integrals
+- Integration by substitution
+- Integration by parts
+- Partial fractions
+- Trigonometric integrals
+- Algebraic substitutions
+- Definite integrals
+- Fundamental theorem of calculus
+- Properties of definite integrals
+- Symmetry properties
+- Change of limits
+- Rational functions
+- Exponential functions
+- Logarithmic functions
+- Integrals involving radicals
+- Absolute-value integrals
+- Other applicable special forms
+
+CHAPTER 8: APPLICATIONS OF INTEGRALS
+
+Include:
+- Geometrical meaning of definite integrals
+- Area under a curve
+- Area above and below the x-axis
+- Area bounded by the y-axis
+- Area between two curves
+- Areas enclosed by straight lines and curves
+- Areas involving circles and other curves
+- Symmetry
+- Correct integration limits
+- Splitting regions into multiple integrals
+- Graph-based area problems
+
+CHAPTER 9: DIFFERENTIAL EQUATIONS
+
+Include:
+- Definition
+- Order
+- Degree
+- General solution
+- Particular solution
+- Formation of differential equations
+- Variable-separable equations
+- Homogeneous first-order equations
+- Linear differential equations
+- Initial conditions
+- Verification of solutions
+- Applications
+
+CHAPTER 10: VECTOR ALGEBRA
+
+Include:
+- Scalars and vectors
+- Vector notation
+- Magnitude
+- Unit vectors
+- Position vectors
+- Direction ratios
+- Direction cosines
+- Vector addition
+- Vector subtraction
+- Scalar multiplication
+- Components
+- Section formula
+- Dot product
+- Properties of dot product
+- Angle between vectors
+- Projection
+- Cross product
+- Properties of cross product
+- Area of a parallelogram
+- Area of a triangle
+- Scalar triple product where applicable
+- Geometrical applications
+
+CHAPTER 11: THREE-DIMENSIONAL GEOMETRY
+
+Include:
+- Three-dimensional coordinates
+- Distance formula
+- Section formula
+- Direction ratios
+- Direction cosines
+- Equation of a line
+- Vector equation
+- Cartesian equation
+- Line through two points
+- Angle between lines
+- Parallel lines
+- Skew lines
+- Shortest distance
+- Distance between parallel lines
+- Intersection of lines
+- Coplanarity where applicable
+
+CHAPTER 12: LINEAR PROGRAMMING
+
+Include:
+- Objective functions
+- Constraints
+- Linear inequalities
+- Feasible regions
+- Feasible solutions
+- Infeasible regions
+- Bounded regions
+- Unbounded regions
+- Corner-point method
+- Graphical solutions
+- Maximisation
+- Minimisation
+- Multiple optimal solutions where applicable
+
+CHAPTER 13: PROBABILITY
+
+Include:
+- Conditional probability
+- Multiplication theorem
+- Independent events
+- Dependent events
+- Total probability theorem
+- Bayes' theorem
+- Random variables
+- Probability distributions
+- Mean of a random variable
+- Variance of a random variable
+- Bernoulli trials
+- Binomial distribution
+- Probability mass functions
+- Expected value
+- Conditional probability problems
+
+MATHEMATICS COMPLETENESS RULE:
+
+The chapters above are an initial NCERT-based inventory.
+
+Compare them against the complete official JEE Main and JEE Advanced
+syllabi and add every missing applicable topic.
+
+Do not assume that every NCERT chapter is included in both exams.
+
+==================================================
+5. MANDATORY TOPIC COMPLETENESS AUDIT
+==================================================
+
+This step is compulsory.
+
+For each subject:
+
+STEP 1:
+Read the applicable official syllabus document.
+
+STEP 2:
+Extract all units, chapters, topics and explicitly listed subtopics.
+
+STEP 3:
+Compare them against the inventory above.
+
+STEP 4:
+Find missing topics, missing subtopics and incorrect chapter mappings.
+
+STEP 5:
+Add all missing official topics.
+
+STEP 6:
+Identify duplicated topics and merge duplicate database entries
+without deleting valid exam-specific mappings.
+
+STEP 7:
+Separate common topics from exam-specific topics.
+
+STEP 8:
+Generate a missing-topic report.
+
+STEP 9:
+Do not declare the syllabus complete if official topics remain
+unverified or missing.
+
+STEP 10:
+Store the official source document, syllabus year and verification
+date for every exam-specific mapping.
+
+Use these statuses:
+
+- VERIFIED
+- NCERT_ONLY
+- JEE_MAIN_ONLY
+- JEE_ADVANCED_ONLY
+- COMMON_TO_MULTIPLE_EXAMS
+- SUPPLEMENTARY
+- NEEDS_VERIFICATION
+
+==================================================
+6. DATABASE STRUCTURE
+==================================================
+
+Use the following hierarchy:
 
-First inspect the existing project completely and understand:
-
-- Existing React/Vite structure
-- Existing routes
-- Existing authentication
-- Existing planner
-- Existing backend
-- Existing MongoDB/Mongoose models
-- Existing API structure
-- Existing UI/design system
-- Existing responsive behavior
-- Existing video functionality if already implemented
-- Existing student/admin architecture
-
-Then integrate the new features into the existing system.
-
-DO NOT unnecessarily replace working code.
-
-DO NOT destroy existing functionality.
-
-DO NOT create duplicate authentication/planner systems.
-
-The final product must feel like one polished educational platform called PREPORA.
-
-============================================================
-1. FEATURES TO ADD
-============================================================
-
-Add TWO major educational systems:
-
-A. FORMULA SHEET
-B. SMART LECTURES
-
-The complete student flow should be:
-
-FORMULA SHEET:
-
-Subject
-↓
-Chapter
-↓
-Topic
-↓
-Formula / Short Notes / Important Concepts
-
-
-LECTURES:
-
-Subject
-↓
-Chapter
-↓
-Choose:
-
-[Full Chapter Lecture]
-
-OR
-
-[Topic-wise Lecture]
-
-↓
-Recommended best YouTube lecture
-
-Student gets TWO watching options:
-
-[▶ Watch Here]
-
-AND
-
-[↗ Open in YouTube]
-
-Both options must work.
-
-============================================================
-2. IMPORTANT EXISTING VIDEO BEHAVIOR
-============================================================
-
-DO NOT REMOVE THE EXISTING IN-WEBSITE VIDEO EXPERIENCE if it already exists.
-
-The student should still be able to watch the YouTube video inside PREPORA.
-
-Add another option:
-
-[↗ Open in YouTube]
-
-So the final system supports BOTH:
-
-1. Watch inside PREPORA
-2. Open the original video on YouTube
-
-Do not replace one with the other.
-
-============================================================
-3. LECTURE UI BRANDING
-============================================================
-
-PREPORA should have its own clean educational UI.
-
-Do NOT display coaching-platform names around lecture cards.
-
-Do NOT create sections such as:
-
-"PW Lectures"
-"Physics Wallah Lectures"
-"Unacademy Lectures"
-"Vedantu Lectures"
-
-etc.
-
-Instead use neutral PREPORA labels:
-
-"Recommended Lecture"
-
-"Best Match"
-
-"Full Chapter Lecture"
-
-"Topic-wise Lecture"
-
-"Recommended for this Topic"
-
-"Quick Revision"
-
-The actual YouTube player may naturally display YouTube/creator attribution.
-
-DO NOT attempt to remove, fake, or modify required YouTube attribution.
-
-When the student clicks:
-
-[↗ Open in YouTube]
-
-open the ORIGINAL YouTube video.
-
-Therefore, the student can naturally see exactly which creator/channel made the video.
-
-============================================================
-4. LECTURES PAGE
-============================================================
-
-Create a dedicated:
-
-/lectures
-
-page.
-
-Add it to the existing PREPORA sidebar.
-
-Suggested navigation:
-
-Dashboard
-My Planner
-Practice
-Notes
-Lectures
-Formula Sheet
-Tests
-Performance
-Doubt & Help
-
-Use the existing PREPORA visual language.
-
-Do not create an unrelated design.
-
-Use:
-
-- Premium dark UI if existing design is dark
-- Rounded cards
-- Clean typography
-- Smooth animations
-- Responsive layout
-- Proper loading skeletons
-- Empty states
-- Error states
-
-============================================================
-5. LECTURE MAIN FLOW
-============================================================
-
-Student opens:
-
-Lectures
-
-Show:
-
-"Learn smarter with chapter-wise and topic-wise lectures."
-
-Then:
-
-Choose Subject
-
-[Physics]
-[Chemistry]
-[Mathematics]
-[Biology]
-
-The available subjects should come from the database/curriculum.
-
-Do NOT hard-code the UI so that only these four subjects are possible.
-
-Architecture should support future subjects.
-
-============================================================
-6. CHAPTER SELECTION
-============================================================
-
-After selecting a subject:
-
-Example:
-
-Mathematics
-
-Show:
-
-Mathematics Chapters
-
-1. Relations & Functions
-2. Trigonometric Functions
-3. Complex Numbers
-4. Linear Inequalities
-5. Permutations & Combinations
-6. Binomial Theorem
-7. Sequences & Series
-8. Straight Lines
-9. Conic Sections
-10. Statistics
-11. Probability
-
-Use the actual configured curriculum.
-
-Support:
-
-Class 9
-Class 10
-Class 11
 Class 12
+  └── Exam
+      └── Subject
+          └── Unit
+              └── Chapter
+                  └── Topic
+                      └── Subtopic
+                          └── Detailed Concept
 
-and future classes.
-
-The class should be part of the content structure.
-
-============================================================
-7. CHAPTER PAGE
-============================================================
-
-After selecting:
-
-Mathematics
-→ Relations & Functions
-
-show:
-
-Relations & Functions
-
-Class 11
-Mathematics
-Chapter 1
-
-Then show TWO main options:
-
---------------------------------------------
-
-[▶ FULL CHAPTER LECTURE]
-
-Watch the complete chapter in one lecture.
-
---------------------------------------------
-
-[☰ TOPIC-WISE LECTURES]
-
-Choose exactly what you want to learn.
-
---------------------------------------------
-
-Below this show:
-
-Chapter Topics
-
-1. Introduction
-2. Relations
-3. Types of Relations
-4. Functions
-5. Domain
-6. Range
-7. Types of Functions
-8. One-One Function
-9. Many-One Function
-10. Onto Function
-11. Into Function
-12. Composite Function
-13. Invertible Function
-
-The topics must come from the database.
-
-============================================================
-8. FULL CHAPTER LECTURE
-============================================================
-
-When the student selects:
-
-Full Chapter Lecture
-
-show the best available complete chapter lecture.
+Each chapter, topic and subtopic must have a unique ID.
 
 Example:
 
---------------------------------------------
-Recommended Lecture
-
-Relations & Functions
-Full Chapter Lecture
-
-Class 11 • Mathematics
-Hindi
-
-[YouTube Thumbnail]
-
-Duration: 3h 28m
-
-[▶ Watch Here]
-
-[↗ Open in YouTube]
---------------------------------------------
-
-The selected video must actually correspond to the complete chapter.
-
-Do NOT select a random topic video.
-
-============================================================
-9. TOPIC-WISE LECTURES
-============================================================
-
-When the student chooses:
-
-Topic-wise Lectures
-
-show:
-
-Chapter Topics
-
-[Domain]
-[Range]
-[Types of Functions]
-[One-One Function]
-[Many-One Function]
-[Onto Function]
-[Composite Function]
-etc.
-
-When the student clicks:
-
-Domain
-
-show:
-
-Domain of a Function
-
-Recommended Lecture
-
-[Thumbnail]
-
-[▶ Watch Here]
-
-[↗ Open in YouTube]
-
-Then optionally show:
-
-More Recommended Lectures
-
-But keep recommendations limited and useful.
-
-Do NOT turn PREPORA into a YouTube clone.
-
-============================================================
-10. WATCH HERE
-============================================================
-
-The existing in-website video behavior must remain.
-
-When student clicks:
-
-[▶ Watch Here]
-
-play the selected YouTube video inside PREPORA using the official YouTube embed/player mechanism.
-
-Use a responsive 16:9 player.
-
-It must work correctly on:
-
-- Android
-- iPhone
-- Tablet
-- Desktop
-
-Do NOT download the video.
-
-Do NOT re-host the video.
-
-Do NOT proxy the audiovisual content through our server.
-
-Use the official YouTube player/embed.
-
-============================================================
-11. OPEN IN YOUTUBE
-============================================================
-
-Every lecture must also have:
-
-[↗ Open in YouTube]
-
-This must open the ORIGINAL YouTube video.
-
-Example:
-
-https://www.youtube.com/watch?v=VIDEO_ID
-
-On mobile, use normal platform behavior so the YouTube app can open when available.
-
-Otherwise open YouTube in the browser.
-
-The student should then see the normal YouTube interface including:
-
-- Video title
-- Creator/channel name
-- YouTube controls
-- Comments
-- Like/share
-- Normal YouTube experience
-
-Do NOT hide creator attribution.
-
-Do NOT replace the original YouTube page with a fake PREPORA page.
-
-============================================================
-12. NO COACHING BRAND NAMES OUTSIDE VIDEO
-============================================================
-
-PREPORA's own UI must NOT contain the name of the video creator/coaching platform as a promotional label.
-
-For example, do NOT show:
-
-"PW Recommended"
-"Unacademy Recommended"
-"Physics Wallah Section"
-
-Instead:
-
-"Recommended Lecture"
-"Best Match"
-"Full Chapter Lecture"
-
-The official YouTube page/player may naturally show the creator/channel name.
-
-That is expected.
-
-============================================================
-13. AUTOMATIC YOUTUBE DISCOVERY
-============================================================
-
-Do NOT manually add thousands of videos.
-
-Build a YouTube discovery system.
-
-Use the YouTube Data API to search for relevant educational videos.
-
-Search dynamically using:
-
-Class
-Subject
-Chapter
-Topic
-Language
-Lecture type
-
-Examples:
-
-"Class 11 Mathematics Relations Functions full chapter Hindi"
-
-"Class 11 Mathematics Domain Range Hindi"
-
-"Class 12 Physics Ray Optics full chapter Hindi"
-
-"Class 10 Science Electricity Hindi"
-
-The system should automatically find relevant videos.
-
-============================================================
-14. ONLY USE RELEVANT VIDEOS
-============================================================
-
-Do NOT simply select the first search result.
-
-Filter and rank results.
-
-Prefer videos that have:
-
-- Correct class
-- Correct subject
-- Correct chapter
-- Exact topic match
-- Hindi/Hinglish where appropriate
-- Clear educational explanation
-- Appropriate duration
-- Good relevance
-- Good engagement
-- Good educational quality
-- Public availability
-- Embeddable availability
-- Useful/recent content where relevant
-
-Avoid:
-
-- Shorts
-- Unrelated videos
-- Clickbait
-- Promotional-only videos
-- Wrong class
-- Wrong subject
-- Wrong chapter
-- Wrong topic
-- Random live streams
-- Entertainment videos
-- Poor-quality matches
-
-============================================================
-15. BEST VIDEO RANKING
-============================================================
-
-Create a ranking/scoring system.
-
-Example:
-
-Exact topic match
-+35
-
-Exact chapter match
-+30
-
-Correct subject
-+25
-
-Correct class
-+25
-
-Correct language
-+15
-
-Educational relevance
-+15
-
-Suitable duration
-+10
-
-Good engagement
-+10
-
-Recent/useful content
-+5
-
-Embeddable
-REQUIRED
-
-Do not select a video just because it has the highest views.
-
-Educational relevance must be more important than popularity.
-
-============================================================
-16. FULL CHAPTER DETECTION
-============================================================
-
-For FULL_CHAPTER searches, prioritize:
-
-"full chapter"
-"complete chapter"
-"one shot"
-"complete lecture"
-
-But do NOT trust the title alone.
-
-Verify that the result is actually related to the selected chapter.
-
-For example:
-
-If the chapter is:
-
-Relations & Functions
-
-do not select:
-
-Only Domain and Range
-
-as the full chapter lecture.
-
-That should only be used as a topic lecture.
-
-============================================================
-17. TOPIC DETECTION
-============================================================
-
-For topic:
-
-Domain and Range
-
-prefer:
-
-Domain and Range lectures
-
-Do not select:
-
-Full Mathematics course
-Unrelated Functions lecture
-Random Class 12 lecture
-
-unless it genuinely explains the selected topic.
-
-============================================================
-18. ADMIN OVERRIDE
-============================================================
-
-Automatic YouTube discovery is useful, but ADMIN must have complete control.
-
-Admin should be able to:
-
-- Add lecture
-- Edit lecture
-- Delete lecture
-- Replace lecture
-- Set recommended lecture
-- Set backup lecture
-- Disable lecture
-- Mark featured
-- Approve automatically discovered lecture
-- Reject automatically discovered lecture
-
-Admin should be able to override automatic selection.
-
-============================================================
-19. ADMIN ADD LECTURE
-============================================================
-
-Admin form:
-
-Class
-Subject
-Chapter
-Topic
-Lecture Type
-
-Options:
-
-FULL_CHAPTER
-TOPIC
-
-YouTube URL
-
-Title
-
-Language
-
-Description
-
-Priority
-
-Featured
-
-Active
-
-Recommended
-
-Admin only needs to paste the YouTube URL.
-
-The system extracts the video ID.
-
-Do NOT accept arbitrary iframe HTML.
-
-Store only the validated YouTube video ID.
-
-============================================================
-20. LECTURE DATABASE
-============================================================
-
-Create a model similar to:
-
-Lecture {
-    _id,
-
-    classLevel,
-
-    subjectId,
-
-    chapterId,
-
-    topicId,
-
-    type,
-
-    youtubeVideoId,
-
-    title,
-
-    description,
-
-    thumbnail,
-
-    duration,
-
-    language,
-
-    source,
-
-    priority,
-
-    isFeatured,
-
-    isRecommended,
-
-    isActive,
-
-    approvalStatus,
-
-    createdAt,
-
-    updatedAt
+{
+  "class": 12,
+  "subject": "Physics",
+  "chapterId": "PHY12_CH01",
+  "chapterName": "Electric Charges and Fields",
+  "examTags": [
+    "JEE_MAIN",
+    "JEE_ADVANCED",
+    "NCERT"
+  ],
+  "syllabusStatus": "NEEDS_VERIFICATION",
+  "sourceReferences": [],
+  "topics": [
+    {
+      "topicId": "PHY12_CH01_T01",
+      "topicName": "Electric Charge",
+      "subtopics": [
+        {
+          "subtopicId": "PHY12_CH01_T01_S01",
+          "subtopicName": "Quantisation of Charge",
+          "concepts": [],
+          "formulas": [],
+          "examples": [],
+          "questions": []
+        }
+      ]
+    }
+  ]
 }
 
-type:
-
-FULL_CHAPTER
-TOPIC
-
-source:
-
-YOUTUBE
-
-approvalStatus:
-
-AUTO_DISCOVERED
-PENDING_REVIEW
-APPROVED
-REJECTED
-
-============================================================
-21. AUTOMATIC DISCOVERY + ADMIN APPROVAL
-============================================================
-
-For production quality:
-
-New automatically discovered videos should preferably enter:
-
-PENDING_REVIEW
-
-or be automatically accepted only when the ranking confidence is very high.
-
-Admin can then:
-
-Approve
-Reject
-Replace
-
-Once approved, store the video ID and use it without searching YouTube again every time.
-
-============================================================
-22. YOUTUBE API CACHING
-============================================================
-
-IMPORTANT:
-
-Do NOT call the YouTube Search API every time a student opens a topic.
-
-Flow:
-
-Student opens topic
-
-↓
-
-Backend checks database
-
-↓
-
-Approved lecture exists?
-
-YES
-↓
-Return existing lecture
-
-NO
-↓
-Check cached discovery
-
-If no suitable cached result:
-
-YouTube API search
-
-↓
-
-Rank results
-
-↓
-
-Save suitable result
-
-↓
-
-Return result
-
-This reduces:
-
-- API quota usage
-- Server load
-- Response time
-
-============================================================
-23. YOUTUBE API KEY
-============================================================
-
-Keep YouTube API credentials server-side.
-
-Use:
-
-YOUTUBE_API_KEY=
-
-in backend environment variables.
-
-NEVER expose the secret unnecessarily in frontend code.
-
-NEVER commit it to GitHub.
-
-Update:
-
-.env.example
-
-with:
-
-YOUTUBE_API_KEY=
-
-but no real key.
-
-============================================================
-24. FORMULA SHEET
-============================================================
-
-Create a dedicated:
-
-/formula-sheet
-
-page.
-
-Add to sidebar:
-
-Formula Sheet
-
-Student flow:
-
-Subject
-↓
-Chapter
-↓
-Topic
-↓
-Formula
-
-============================================================
-25. FORMULA SHEET UI
-============================================================
-
-Example:
-
-Formula Sheet
-
-Choose Subject:
-
-[Physics]
-[Chemistry]
-[Mathematics]
-[Biology]
-
-Then:
-
-Choose Chapter
-
-Then:
-
-Choose Topic
-
-Then show formula cards.
-
-Example:
-
------------------------------------------
-
-Quadratic Formula
-
-x = (-b ± √(b² - 4ac)) / 2a
-
-Used for:
-Solving quadratic equations.
-
-Important:
-★★★★★
-
-[Copy Formula]
-
------------------------------------------
-
-Use KaTeX or MathJax for proper mathematical rendering.
-
-Do NOT display complex formulas as broken plain text.
-
-============================================================
-26. FORMULA DATABASE
-============================================================
-
-Create:
-
-Formula {
-    _id,
-
-    classLevel,
-
-    subjectId,
-
-    chapterId,
-
-    topicId,
-
-    title,
-
-    formula,
-
-    explanation,
-
-    example,
-
-    tags,
-
-    importance,
-
-    order,
-
-    isActive,
-
-    createdAt,
-
-    updatedAt
-}
-
-============================================================
-27. FORMULA SEARCH
-============================================================
-
-Add a search box:
-
-Search formulas, topics, chapters...
-
-Search should support:
-
-Formula name
-Topic
-Chapter
-Subject
-Tags
-
-Example:
-
-Search:
-
-"quadratic"
-
-Results:
-
-Mathematics
-→ Quadratic Equations
-
-Formula:
-
-x = (-b ± √(b² - 4ac)) / 2a
-
-============================================================
-28. QUICK REVISION
-============================================================
-
-Add:
-
-Quick Revision
-
-Example:
-
-Mathematics
-→ Relations & Functions
-→ Quick Revision
-
-Show the most important formulas/concepts on one page.
-
-Each chapter should have:
-
-Important formulas
-Important definitions
-Important identities
-Important shortcuts
-
-Allow:
-
-[Copy]
-
-and if practical:
-
-[Print]
-[Download PDF]
-
-============================================================
-29. FORMULA + LECTURE CONNECTION
-============================================================
-
-Connect Formula Sheet and Lectures.
-
-Every topic should ideally have:
-
-[View Formula]
-
-and:
-
-[Watch Lecture]
-
-Example:
-
-Domain & Range
-
-[View Formula/Concept]
-
-[Watch Topic Lecture]
-
-This makes PREPORA a connected learning system instead of separate pages.
-
-============================================================
-30. ADD TO PLANNER
-============================================================
-
-Integrate with the existing planner.
-
-On lecture/topic/formula pages add:
-
-[Add to Planner]
-
-Example:
-
-Student is viewing:
-
-Relations & Functions
-
-Click:
-
-[Add Revision to Planner]
-
-Create a planner task:
-
-"Revise Relations & Functions"
-
-with appropriate subject/chapter/topic information.
-
-Do NOT create a second planner system.
-
-Use the existing planner.
-
-============================================================
-31. STUDENT PROGRESS
-============================================================
-
-Track useful learning events.
-
-Possible events:
-
-LECTURE_OPENED
-LECTURE_PLAY_CLICKED
-YOUTUBE_OPENED
-TOPIC_VIEWED
-FORMULA_VIEWED
-FORMULA_COPIED
-CHAPTER_VIEWED
-REVISION_ADDED_TO_PLANNER
-
-Do NOT falsely claim exact YouTube watch percentage unless technically reliable.
-
-For example:
-
-"Student opened lecture"
-
-is valid.
-
-But:
-
-"Student watched 87%"
-
-should NOT be stored unless the implementation can reliably determine it.
-
-============================================================
-32. DAILY ACTIVITY
-============================================================
-
-Integrate educational activity with the existing student daily stream.
-
-Example:
-
-05 October
-
-09:10
-Viewed Mathematics → Relations & Functions
-
-09:15
-Opened Domain & Range lecture
-
-09:40
-Copied Quadratic Formula
-
-10:00
-Added Relations & Functions revision to planner
-
-This should appear in the student's own activity stream.
-
-Admin should be able to see appropriate student activity according to the existing admin permissions.
-
-============================================================
-33. SEARCH
-============================================================
-
-Create a global educational search.
-
-Search:
-
-Subjects
-Chapters
-Topics
-Formulas
-Lectures
-
-Example:
-
-Search:
-
-"Newton"
-
-Results:
-
-Physics
-→ Laws of Motion
-→ Newton's Laws
-→ Important formulas
-→ Recommended lectures
-
-Another:
-
-Search:
-
-"Integration"
-
-Results:
-
-Mathematics
-→ Integrals
-→ Formula Sheet
-→ Topic-wise lectures
-
-============================================================
-34. MOBILE EXPERIENCE
-============================================================
-
-Mobile-first design is mandatory.
-
-Lecture flow on mobile:
-
-Lectures
-
-↓
-
-Select Subject
-
-↓
-
-Select Chapter
-
-↓
-
-Full Chapter / Topic-wise
-
-↓
-
-Select Topic
-
-↓
-
-Lecture Card
-
-↓
-
-[▶ Watch Here]
-[↗ YouTube]
-
-The embedded video must remain responsive.
-
-No horizontal overflow.
-
-Formula cards must fit small screens.
-
-Buttons must be touch-friendly.
-
-============================================================
-35. DESKTOP EXPERIENCE
-============================================================
-
-Desktop should use the available screen properly.
-
-Suggested layout:
-
-Left:
-Chapter/Topic navigation
-
-Right:
-Lecture/content
-
-or:
-
-Subject → Chapter → Topic navigation
-
-Use the existing PREPORA design language.
-
-Do not make the page unnecessarily crowded.
-
-============================================================
-36. EMPTY STATES
-============================================================
-
-If no lecture exists:
-
-"No suitable lecture found yet."
-
-Then:
-
-[Search Again]
-
-or:
-
-"Admin can add a recommended lecture."
-
-Do NOT show random unrelated videos.
-
-If no formula exists:
-
-"No formula has been added for this topic yet."
-
-============================================================
-37. ERROR HANDLING
-============================================================
-
-If YouTube API fails:
-
-Do not break PREPORA.
-
-If cached approved lecture exists:
-
-show cached lecture.
-
-If no cached lecture exists:
-
-show a clean error/empty state.
-
-Example:
-
-"Lecture temporarily unavailable."
-
-Admin can manually add a YouTube lecture.
-
-============================================================
-38. SECURITY
-============================================================
-
-Apply the existing PREPORA security architecture.
-
-Students can only access permitted content.
-
-Admin content APIs require server-side admin authorization.
-
-Never trust:
-
-studentId
-role
-admin=true
-
-from the frontend.
-
-YouTube API credentials remain server-side.
-
-Admin actions must be authorized on the backend.
-
-============================================================
-39. DATABASE STRUCTURE
-============================================================
-
-Architecture should support:
-
-Course/Class
-    ↓
-Subject
-    ↓
-Chapter
-    ↓
-Topic
-    ↓
-Formula
-    ↓
-Lecture
-
-Example:
-
-Class 11
-→ Mathematics
-→ Relations & Functions
-→ Domain and Range
-→ Formula
-→ Recommended Lecture
-
-Do NOT duplicate subject/chapter/topic names unnecessarily in every collection if IDs can safely reference the canonical content structure.
-
-============================================================
-40. CONTENT SEEDING
-============================================================
-
-Create a proper content-seeding system.
-
-Seed:
-
-Classes
-Subjects
-Chapters
-Topics
-Formulas
-
-Then use the YouTube discovery service to find suitable lectures.
-
-Do NOT hard-code hundreds of YouTube URLs inside React components.
-
-Content belongs in the database.
-
-============================================================
-41. ADMIN CONTENT MANAGEMENT
-============================================================
-
-Admin panel should have:
-
-Content Management
-
-├── Classes
-├── Subjects
-├── Chapters
-├── Topics
-├── Formulas
-└── Lectures
-
-Admin can:
-
-Create
-Edit
-Delete
-Reorder
-Enable
-Disable
-
-content.
-
-For lectures:
-
-Auto-discovered
-Pending Review
-Approved
-Rejected
-Featured
-Recommended
-Backup
-
-============================================================
-42. YOUTUBE RULES
-============================================================
-
-Use official YouTube functionality.
-
-DO NOT:
-
-- Download YouTube videos
-- Re-host YouTube videos
-- Store video files
-- Strip creator attribution
-- Fake ownership
-- Circumvent YouTube restrictions
-- Proxy the video through PREPORA
-
-For "Watch Here":
-
-Use the official YouTube embed/player.
-
-For "Open in YouTube":
-
-Open the original YouTube watch URL.
-
-PREPORA only organizes and recommends the videos.
-
-============================================================
-43. LECTURE CARD DESIGN
-============================================================
-
-Use a polished card like:
-
---------------------------------------------
-
-[YouTube Thumbnail]
-
-Relations & Functions
-Complete Chapter Lecture
-
-Class 11 • Mathematics
-Hindi • 3h 28m
-
-Recommended for this chapter
-
-[▶ Watch Here]
-
-[↗ Open in YouTube]
-
---------------------------------------------
-
-For topic:
-
---------------------------------------------
-
-[Thumbnail]
-
-Domain and Range
-
-Topic-wise Lecture
-
-Class 11 • Mathematics
-Hindi • 18 min
-
-[▶ Watch Here]
-
-[↗ Open in YouTube]
-
---------------------------------------------
-
-Do NOT add unnecessary coaching brand labels.
-
-============================================================
-44. "BEST VIDEO" LOGIC
-============================================================
-
-The system must prioritize QUALITY and RELEVANCE.
-
-Do not simply use:
-
-Most viewed video.
-
-Instead:
-
-Exact curriculum match
-+
-Correct class
-+
-Correct chapter/topic
-+
-Correct language
-+
-Educational quality
-+
-Suitable duration
-+
-Good relevance
-
-Then select the best result.
-
-If admin has manually approved a video:
-
-ADMIN APPROVED VIDEO
-must take priority over automatic discovery.
-
-============================================================
-45. PERFORMANCE
-============================================================
-
-Use:
-
-- Lazy loading
-- Debounced search
-- API caching
-- Database indexes
-- Pagination where needed
-- Optimized thumbnails
-- Progressive loading
-
-Do not load every lecture for every chapter when the student opens the Lectures page.
-
-Load:
-
-Subject
-→ Chapter
-→ Topic
-→ Lecture
-
-progressively.
-
-============================================================
-46. ACCESSIBILITY
-============================================================
-
-Add:
-
-Keyboard navigation
-Accessible buttons
-Readable contrast
-Proper focus states
-Alt text for thumbnails
-Clear error messages
-Accessible dropdowns
-
-Do not rely only on colors to communicate status.
-
-============================================================
-47. FINAL USER EXPERIENCE
-============================================================
-
-The final student experience should feel like:
-
-PREPORA
-
-Dashboard
-My Planner
-Practice
-Notes
-Lectures
-Formula Sheet
-Tests
-Performance
-Doubt & Help
-
-LECTURES:
-
-Subject
-↓
-Chapter
-↓
-Full Chapter / Topic-wise
-↓
-Recommended best lecture
-↓
-[▶ Watch Here]
-[↗ Open in YouTube]
-
-FORMULA SHEET:
-
-Subject
-↓
-Chapter
-↓
-Topic
-↓
-Formula
-↓
-Explanation
-↓
-Example
-↓
-[Copy]
-[Watch Related Lecture]
-
-============================================================
-48. DO NOT BREAK EXISTING WEBSITE
-============================================================
-
-Before changing code:
-
-Inspect everything.
-
-Identify:
-
-- Existing files
-- Existing components
-- Existing routes
-- Existing APIs
-- Existing database
-- Existing video implementation
-- Existing planner
-
-Then integrate.
-
-Do NOT rewrite the whole website.
-
-Do NOT remove existing planner functionality.
-
-Do NOT remove existing authentication.
-
-Do NOT replace existing video functionality.
-
-Extend what already works.
-
-============================================================
-49. IMPLEMENTATION ORDER
-============================================================
-
-STEP 1
-Audit existing project.
-
-STEP 2
-Understand existing database.
-
-STEP 3
-Create/extend content models.
-
-STEP 4
-Create Subject → Chapter → Topic structure.
-
-STEP 5
-Create Formula model.
-
-STEP 6
-Create Formula Sheet UI.
-
-STEP 7
-Create Lecture model.
-
-STEP 8
-Create YouTube discovery service.
-
-STEP 9
-Create video-ranking logic.
-
-STEP 10
-Create YouTube caching.
-
-STEP 11
-Create Lecture UI.
-
-STEP 12
-Keep Watch Here functionality.
-
-STEP 13
-Add Open in YouTube functionality.
-
-STEP 14
-Create Admin lecture management.
-
-STEP 15
-Create Admin formula management.
-
-STEP 16
-Connect Formula ↔ Lecture.
-
-STEP 17
-Connect content ↔ Planner.
-
-STEP 18
-Add student activity tracking.
-
-STEP 19
-Add responsive mobile UI.
-
-STEP 20
-Test desktop.
-
-STEP 21
-Test mobile.
-
-STEP 22
-Test YouTube failure/caching.
-
-STEP 23
-Test security.
-
-STEP 24
-Run final regression test.
-
-============================================================
-50. FINAL TEST CHECKLIST
-============================================================
-
-Before declaring the feature complete:
-
-LECTURES:
-
-[ ] Lectures page works
-[ ] Subject selection works
-[ ] Chapter selection works
-[ ] Topic selection works
-[ ] Full Chapter option works
-[ ] Topic-wise option works
-[ ] Best relevant YouTube video is selected
-[ ] Irrelevant videos are filtered
-[ ] Watch Here works
-[ ] Open in YouTube works
-[ ] YouTube app/browser behavior works
-[ ] Existing video functionality is preserved
-[ ] Mobile video works
-[ ] Desktop video works
-
-FORMULA SHEET:
-
-[ ] Subject selection works
-[ ] Chapter selection works
-[ ] Topic selection works
-[ ] Formula cards work
-[ ] Math rendering works
-[ ] Search works
-[ ] Copy formula works
-[ ] Quick Revision works
-[ ] Mobile layout works
-
-ADMIN:
-
-[ ] Admin can add formulas
-[ ] Admin can edit formulas
-[ ] Admin can delete/disable formulas
-[ ] Admin can add YouTube lectures
-[ ] Admin can replace lectures
-[ ] Admin can approve/reject discovered videos
-[ ] Admin can feature lectures
-[ ] Admin can set recommended lectures
-
-PLANNER:
-
-[ ] Add to Planner works
-[ ] Existing planner remains functional
-
-SECURITY:
-
-[ ] YouTube API key is protected
-[ ] Admin endpoints are protected
-[ ] Students cannot modify content
-[ ] Student data isolation remains intact
-[ ] Authentication remains functional
-
-============================================================
-51. FINAL REPORT
-============================================================
-
-After implementation, report:
-
-1. Files created
-2. Files modified
-3. Existing files preserved
-4. Database models added
-5. Database models modified
-6. API endpoints added
-7. YouTube API configuration
-8. Environment variables
-9. Formula system
-10. Lecture system
-11. YouTube recommendation logic
-12. Admin controls
-13. Planner integration
-14. Student activity tracking
-15. Mobile improvements
-16. Security checks
-17. Tests performed
-18. Problems discovered
-19. Remaining limitations
-20. Production deployment requirements
-
-IMPORTANT:
-
-Do not say "everything is perfect" without testing.
-
-If something cannot be verified, explicitly say:
-
-"Not verified."
-
-The final implementation must be production-oriented, scalable, secure, responsive, and integrated with the existing PREPORA website.
-
-MOST IMPORTANT FINAL BEHAVIOR:
-
-STUDENT:
-
-Lectures
-→ Subject
-→ Chapter
-→ Full Chapter / Topic
-→ Best relevant YouTube video
-→ [Watch Here] OR [Open in YouTube]
-
-Formula Sheet
-→ Subject
-→ Chapter
-→ Topic
-→ Formula
-→ Explanation
-→ Related Lecture
-
-The student should NEVER have to manually search YouTube to find the appropriate lecture.
-
-PREPORA should automatically find and organize the best relevant videos, while the actual video remains on YouTube.
-
-Do not remove the existing in-website video option.
-Do not remove the Open in YouTube option.
-Both must exist.
+This is only a schema example.
+
+Populate the complete database with every verified topic.
+Do not stop after generating this example.
+
+==================================================
+7. MIND MAP CONTENT
+==================================================
+
+After completing the syllabus database, prepare a mind-map outline
+for every chapter.
+
+Each mind map must contain:
+
+1. Chapter name
+2. Main branches
+3. Topics
+4. Subtopics
+5. Important formulas
+6. Important reactions
+7. Definitions
+8. Relevant diagrams
+9. Solved examples
+10. Common mistakes
+11. Exam-specific concepts
+12. Prerequisite topics
+13. Related chapters
+
+Use simple Hindi/Hinglish explanations with standard English
+scientific terminology.
+
+Keep mind maps colourful, clear and readable.
+
+Do not remove topics merely to make a mind map visually attractive.
+
+If a chapter is too large, divide it into multiple connected mind maps.
+
+Generate the text-based mind-map outline before generating images.
+
+==================================================
+8. FINAL OUTPUT FORMAT
+==================================================
+
+Deliver the following:
+
+A. Class 12 Physics:
+- All chapters
+- Every topic
+- Every subtopic
+- Official exam inclusion status
+
+B. Class 12 Chemistry:
+- Physical Chemistry
+- Inorganic Chemistry
+- Organic Chemistry
+- All applicable topics and subtopics
+
+C. Class 12 Mathematics:
+- All chapters
+- Every topic
+- Every subtopic
+
+D. JEE Main mapping:
+- Included topics
+- Excluded topics
+- Topics requiring verification
+
+E. JEE Advanced mapping:
+- Included topics
+- Additional topics relative to JEE Main
+- Topics requiring verification
+
+F. NCERT mapping:
+- Complete selected textbook inventory
+- Supplementary learning topics
+- Topics excluded from entrance exam syllabi
+
+G. COMPLETENESS REPORT:
+- Total chapter count
+- Total unique topic count
+- Total unique subtopic count
+- Verified topics
+- Unverified topics
+- Missing official topics
+- Duplicate entries
+- Supplementary topics
+- Official source references
+- Syllabus year
+
+IMPORTANT FINAL RULE:
+
+Do not claim 100% syllabus completeness merely because the initial
+chapter list has been entered.
+
+The final database can be marked COMPLETE only after the official
+syllabus comparison is finished and all applicable topics are
+accounted for.
+
+FIRST COMPLETE THE SYLLABUS INVENTORY.
+THEN VERIFY IT.
+THEN GENERATE MIND MAPS.
+THEN GENERATE NOTES AND PRACTICE QUESTIONS.
+
+Accuracy and completeness are more important than generating
+the content quickly.

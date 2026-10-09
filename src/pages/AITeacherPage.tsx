@@ -71,7 +71,7 @@ export const AITeacherPage: React.FC = () => {
     {
       id: 'welcome-1',
       sender: 'tutor',
-      text: `Hello ${user.name ? user.name.split(' ')[0] : 'there'}! I am your AI Teacher for **${selectedSubject} — ${selectedChapter}**.\n\nAsk me any concept doubt, request a step-by-step example, or practice a question below.`,
+      text: `Hello ${user.name ? user.name.split(' ')[0] : 'there'}! I am your **NEET-UG AI Teacher** for **${selectedSubject} — ${selectedChapter}**.\n\nAap mujhse koi bhi concept, formula, numerical problem, assertion-reason ya doubt pooch sakte hain (Hindi/Hinglish ya English me). Har topic ko simple Hinglish me NCERT-aligned format ke saath samjhaunga!\n\n**Quick actions:**\n• Ask any concept doubt\n• Request a numerical with step-by-step calculation\n• Practice high-yield NEET MCQs`,
       groundedInPrepora: true,
       timestamp: 'Just now'
     }
@@ -205,32 +205,42 @@ export const AITeacherPage: React.FC = () => {
         replyText = `Here is the explanation for **${selectedChapter}**:`;
       }
 
-      // If coreConcept is a distinct specific concept title not in replyText, prefix it
-      if (
-        response.coreConcept &&
-        response.coreConcept !== 'Core Academic Principle' &&
-        !replyText.includes(response.coreConcept)
-      ) {
-        replyText = `### ${response.coreConcept}\n\n${replyText}`;
-      }
+      // If replyText is already structured with NEET-UG markdown sections, preserve its exact format
+      const isAlreadyStructured =
+        replyText.includes('### 📚 Concept') ||
+        replyText.includes('### Given') ||
+        replyText.includes('### Correct Answer') ||
+        replyText.includes('### 💡 Easy Explanation') ||
+        replyText.includes('### 🧮 Formula') ||
+        replyText.includes('Statement I');
 
-      if (response.keyFormula && !replyText.includes(response.keyFormula)) {
-        replyText += `\n\n**📌 Governing Formula:**\n$$${response.keyFormula}$$`;
-      }
-      if (response.variables && !replyText.includes(response.variables)) {
-        replyText += `\n\n**📝 Variables Explained:**\n${response.variables}`;
-      }
-      if (response.stepByStepSolution && response.stepByStepSolution.length > 0) {
-        const firstStep = response.stepByStepSolution[0];
-        if (!replyText.includes(firstStep)) {
-          replyText += `\n\n**🔢 Step-by-Step Breakdown:**\n` + response.stepByStepSolution.map((s, i) => `${i + 1}. ${s}`).join('\n');
+      if (!isAlreadyStructured) {
+        if (
+          response.coreConcept &&
+          response.coreConcept !== 'Core Academic Principle' &&
+          !replyText.includes(response.coreConcept)
+        ) {
+          replyText = `### ${response.coreConcept}\n\n${replyText}`;
         }
-      }
-      if (response.examTip && !replyText.includes(response.examTip)) {
-        replyText += `\n\n💡 **Exam Tip:** ${response.examTip}`;
-      }
-      if (response.examinerTrap && !replyText.includes(response.examinerTrap)) {
-        replyText += `\n\n⚠️ **Common Trap:** ${response.examinerTrap}`;
+
+        if (response.keyFormula && !replyText.includes(response.keyFormula)) {
+          replyText += `\n\n**📌 Governing Formula:**\n$$${response.keyFormula}$$`;
+        }
+        if (response.variables && !replyText.includes(response.variables)) {
+          replyText += `\n\n**📝 Variables Explained:**\n${response.variables}`;
+        }
+        if (response.stepByStepSolution && response.stepByStepSolution.length > 0) {
+          const firstStep = response.stepByStepSolution[0];
+          if (!replyText.includes(firstStep)) {
+            replyText += `\n\n**🔢 Step-by-Step Breakdown:**\n` + response.stepByStepSolution.map((s, i) => `${i + 1}. ${s}`).join('\n');
+          }
+        }
+        if (response.examTip && !replyText.includes(response.examTip)) {
+          replyText += `\n\n💡 **Exam Tip:** ${response.examTip}`;
+        }
+        if (response.examinerTrap && !replyText.includes(response.examinerTrap)) {
+          replyText += `\n\n⚠️ **Common Trap:** ${response.examinerTrap}`;
+        }
       }
 
       const tutorMsg: ChatMessage = {
@@ -299,9 +309,9 @@ export const AITeacherPage: React.FC = () => {
       {/* 1. Clean Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">AI Teacher</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">NEET-UG AI Teacher</h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Interactive tutor for concept explanation, worked examples, and instant practice.
+            Expert NEET-UG tutor for concept mastery, step-by-step numericals, and NCERT doubts in Hinglish & English.
           </p>
         </div>
 
@@ -444,34 +454,41 @@ export const AITeacherPage: React.FC = () => {
 
       {/* 3. Secondary Actions & Starters Bar */}
       <div className="flex flex-wrap items-center gap-1.5 text-xs">
-        <span className="text-slate-400 font-medium mr-1 text-[11px]">Actions:</span>
+        <span className="text-slate-400 font-medium mr-1 text-[11px]">Quick actions:</span>
         <button
           type="button"
-          onClick={() => handleSendMessage(`Give me a hint for ${selectedChapter}`, 'Hint')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
+          onClick={() => handleSendMessage(`Explain the core concept of ${selectedChapter} for NEET`, 'Learn')}
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer"
         >
-          Hint
+          📚 Concept
         </button>
         <button
           type="button"
-          onClick={() => handleSendMessage(`Give me a step-by-step example in ${selectedChapter}`, 'Example')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
+          onClick={() => handleSendMessage(`Give me a step-by-step solved numerical problem in ${selectedChapter}`, 'Example')}
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer"
         >
-          Example
+          📝 Solved Numerical
         </button>
         <button
           type="button"
-          onClick={() => handleSendMessage(`Give me a practice problem in ${selectedChapter}`, 'Practice')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
+          onClick={() => handleSendMessage(`Give me a high-yield NEET practice question in ${selectedChapter}`, 'Practice')}
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer"
         >
-          Practice
+          🎯 NEET MCQ Practice
         </button>
         <button
           type="button"
-          onClick={() => handleSendMessage(`Explain the core formulas and solution method for ${selectedChapter}`, 'Solution')}
-          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium"
+          onClick={() => handleSendMessage(`Explain the governing formulas and shortcuts for ${selectedChapter}`, 'Solution')}
+          className="px-2.5 py-1 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200 hover:bg-slate-50 font-medium cursor-pointer"
         >
-          Solution
+          🧮 Formulas & Tricks
+        </button>
+        <button
+          type="button"
+          onClick={() => handleSendMessage(`${selectedChapter} ke high-yield concepts aur examiner traps simple Hinglish me samjhao`, 'Learn')}
+          className="px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100/50 font-medium cursor-pointer"
+        >
+          🇮🇳 Hinglish me samjhao
         </button>
       </div>
 
@@ -487,7 +504,7 @@ export const AITeacherPage: React.FC = () => {
               handleSendMessage();
             }
           }}
-          placeholder={`Ask about ${selectedSubject} — ${selectedChapter}...`}
+          placeholder={`Ask any NEET concept, numerical, formula, or doubt in Hinglish / English...`}
           className="flex-1 px-3 py-2 text-xs sm:text-sm bg-transparent outline-none text-slate-800 dark:text-slate-100 placeholder:text-slate-400"
         />
         <Button

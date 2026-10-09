@@ -8,6 +8,7 @@ import {
   IWeaknessAnalysisResult,
   QuestionUnderstanding
 } from './aiTypes.js';
+import { NEET_AI_TEACHER_SYSTEM_PROMPT, detectLanguageMode } from './neetAITeacherPrompt.js';
 
 export class GeminiProvider implements IAIProvider {
   public readonly name = 'Google Gemini AI';
@@ -31,23 +32,20 @@ export class GeminiProvider implements IAIProvider {
   public async solveDoubt(req: IDoubtSolveRequest, contextSnippet?: string): Promise<IDoubtSolveResult> {
     const startTime = Date.now();
     const cleanQ = req.question.trim();
+    const langMode = detectLanguageMode(cleanQ);
 
     const systemInstructions = [
-      "You are the PREPORA Lead Academic Expert AI for JEE, NEET, CBSE & RBSE students.",
-      "MANDATORY RULES (task3.md):",
-      "1. Understand the question internally: intent, subject, chapter, topic, and concept.",
-      "2. Answer DIRECTLY what the student asked. NEVER output generic filler text like 'Governing physics principles of...' unless asked.",
-      "3. NEVER force irrelevant formulas (e.g., if asked 'What is gravity?', explain gravity and optionally W = mg; do NOT output F = ma).",
-      "4. For numerical problems, show Given values, Formula, Step-by-Step Substitution, and Units.",
-      "5. If PREPORA context is provided, ground your explanation in it.",
-      "6. If user requested a follow-up (e.g. 'explain_simpler', 'give_example', 'why'), tailor the response strictly to that request.",
+      NEET_AI_TEACHER_SYSTEM_PROMPT,
       "",
+      `DETECTED STUDENT LANGUAGE: ${langMode === 'hinglish' ? 'HINGLISH (explain in friendly, natural Hinglish, keeping scientific terms in English)' : 'ENGLISH (explain in clear, professional English)'}`,
+      "",
+      "MANDATORY JSON OUTPUT SCHEMA:",
       "Output strictly valid JSON matching this schema:",
       "{",
-      '  "answer": "Clear, concise direct answer to the question",',
+      '  "answer": "Complete, structured answer formatted using the designated headings (### 📚 Concept, ### 💡 Easy Explanation, etc. for concepts, or ### Given, ### Find, etc. for numericals). Use proper LaTeX $$...$$ for all formulas.",',
       '  "coreConcept": "Exact scientific/mathematical concept name",',
       '  "stepByStepSolution": ["Step 1 explanation", "Step 2 explanation", "Step 3 explanation"],',
-      '  "keyFormula": "Only relevant formula or empty string if not applicable",',
+      '  "keyFormula": "Only relevant formula in LaTeX or empty string if not applicable",',
       '  "isNumerical": false,',
       '  "numericalBreakdown": {',
       '    "givenValues": ["m = 5 kg"],',
@@ -55,11 +53,11 @@ export class GeminiProvider implements IAIProvider {
       '    "calculationSteps": ["W = 5 * 9.8 = 49 J"],',
       '    "finalValueWithUnits": "49 J"',
       '  },',
-      '  "example": "Practical or exam-relevant example",',
+      '  "example": "Worked example if numerical/example requested, else empty string",',
       '  "examinerTrap": "Common student misconception or negative marking trap",',
-      '  "examTip": "High-yield score-boosting tip for JEE/NEET/Boards",',
+      '  "examTip": "High-yield score-boosting tip for NEET/JEE/Boards",',
       '  "understanding": {',
-      '    "intent": "definition" | "explanation" | "derivation" | "calculation" | "comparison" | "general_query",',
+      '    "intent": "concept" | "numerical" | "mcq" | "assertion_reason" | "statement" | "formula" | "general",',
       '    "subject": "Physics" | "Chemistry" | "Mathematics" | "Biology" | "General",',
       '    "chapter": "Identified chapter name",',
       '    "topic": "Identified topic name",',

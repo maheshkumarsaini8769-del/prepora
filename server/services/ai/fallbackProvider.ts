@@ -10,6 +10,7 @@ import {
 } from './aiTypes.js';
 import { searchFormulaKnowledge } from '../../../src/utils/formulaKnowledgeBase.js';
 import Question from '../../models/Question.js';
+import { detectLanguageMode } from './neetAITeacherPrompt.js';
 
 export class FallbackProvider implements IAIProvider {
   public readonly name = 'Study Up Rule-Based Academic Engine';
@@ -22,6 +23,7 @@ export class FallbackProvider implements IAIProvider {
     const startTime = Date.now();
     const q = req.question.trim();
     const qLower = q.toLowerCase();
+    const isHinglish = detectLanguageMode(q) === 'hinglish';
 
     let subject = req.subject || 'General';
     let chapter = req.chapter || 'Foundations';
@@ -85,8 +87,35 @@ export class FallbackProvider implements IAIProvider {
       concept = `Worked Example in ${chapter}`;
       isNumerical = true;
       if (chapter.toLowerCase().includes('kinematics') || subject === 'Physics') {
-        answer = `Here is a standard step-by-step numerical worked example for **${chapter}**:`;
-        const exText = `### 📝 Problem: Maximum Height & Time of Flight\n\n**Question:** A particle is projected vertically upwards with an initial velocity $u = 29.4\\text{ m/s}$. Find the maximum height reached and the total time taken to return to the ground. (Take $g = 9.8\\text{ m/s}^2$).\n\n**Given:** $u = +29.4\\text{ m/s}$, at apex $v = 0\\text{ m/s}$, $a = -g = -9.8\\text{ m/s}^2$.\n\n**Calculation:**\n1. At apex, $v^2 = u^2 - 2gH \\implies 0 = (29.4)^2 - 2(9.8)H \\implies H = \\frac{864.36}{19.6} = 44.1\\text{ m}$.\n2. Time of ascent: $v = u - gt \\implies 0 = 29.4 - 9.8 t \\implies t = 3\\text{ s}$.\n3. Total round-trip time: $T = 2t = 2 \\times 3 = 6\\text{ s}$.\n\n**Final Answer:** Maximum Height $H = 44.1\\text{ m}$, Total Time $T = 6\\text{ s}$.`;
+        const exText = `### Given
+- Initial vertical velocity: $u = +29.4\\text{ m/s}$
+- Velocity at highest point: $v = 0\\text{ m/s}$
+- Acceleration due to gravity: $a = -g = -9.8\\text{ m/s}^2$
+
+### Find
+1. Maximum height reached ($H_{\\max}$)
+2. Total time of flight ($T$) to return to ground
+
+### Formula
+$$v^2 = u^2 - 2gH_{\\max}, \\quad v = u - gt, \\quad T = 2t$$
+
+### Substitution
+1. $0 = (29.4)^2 - 2(9.8) H_{\\max}$
+2. $0 = 29.4 - 9.8 t$
+3. $T = 2 \\times t$
+
+### Calculation
+1. $H_{\\max} = \\frac{(29.4)^2}{2 \\times 9.8} = \\frac{864.36}{19.6} = 44.1\\text{ m}$
+2. Time of ascent: $t = \\frac{29.4}{9.8} = 3\\text{ s}$
+3. Total round-trip time: $T = 2 \\times 3 = 6\\text{ s}$
+
+### ✅ Final Answer
+- **Maximum Height:** $H_{\\max} = 44.1\\text{ m}$
+- **Total Time of Flight:** $T = 6\\text{ s}$
+
+### ⚠️ Check
+At the highest point, velocity is zero ($v = 0$), but acceleration is STILL $9.8\\text{ m/s}^2$ downward! Never set acceleration to zero at the apex.`;
+        answer = exText;
         keyFormula = String.raw`H_{\max} = \frac{u^2}{2g}, \quad T = \frac{2u}{g}`;
         variables = "u = Initial velocity (m/s), g = Acceleration due to gravity (9.8 m/s²), H = Maximum height (m), T = Time of flight (s)";
         steps.push("Step 1: Set upward direction as positive (+), downward as negative (-).");
@@ -134,8 +163,39 @@ export class FallbackProvider implements IAIProvider {
       tip = "On an inclined plane, sliding begins when tan θ > μ_s. The angle of repose equals the angle of friction!";
 
       if (isEx) {
-        answer = "Here is an entrance-exam standard numerical worked problem on Friction:";
-        const exText = `### 📝 Problem: Static vs Kinetic Friction on Horizontal Surface\n\n**Question:** A block of mass $m = 5\\text{ kg}$ rests on a rough horizontal floor with $\\mu_s = 0.4$ and $\\mu_k = 0.3$. A horizontal force $F = 15\\text{ N}$ is applied to the block. Find the friction force acting on the block and the acceleration of the block. (Take $g = 10\\text{ m/s}^2$).\n\n**Given:** $m = 5\\text{ kg}$, $\\mu_s = 0.4$, $\\mu_k = 0.3$, $F = 15\\text{ N}$, $g = 10\\text{ m/s}^2$.\n\n**Step-by-Step Calculation:**\n1. Normal reaction: $N = mg = 5 \\times 10 = 50\\text{ N}$.\n2. Limiting static friction: $f_{lim} = \\mu_s N = 0.4 \\times 50 = 20\\text{ N}$.\n3. Since the applied force $F = 15\\text{ N} < f_{lim} = 20\\text{ N}$, the block does NOT move!\n4. The static friction self-adjusts to match the applied force: $f_s = F = 15\\text{ N}$.\n5. Acceleration $a = 0\\text{ m/s}^2$.\n\n**Final Answer:** Friction Force $= 15\\text{ N}$, Acceleration $= 0\\text{ m/s}^2$.`;
+        answer = `### Given
+- Mass of the block: $m = 5\\text{ kg}$
+- Coefficient of static friction: $\\mu_s = 0.4$
+- Coefficient of kinetic friction: $\\mu_k = 0.3$
+- Applied horizontal force: $F = 15\\text{ N}$
+- Acceleration due to gravity: $g = 10\\text{ m/s}^2$
+
+### Find
+1. Friction force acting on the block
+2. Acceleration of the block
+
+### Formula
+$$N = mg$$
+$$f_{lim} = \\mu_s N$$
+$$F_{net} = m a$$
+
+### Substitution
+1. Normal force: $N = 5 \\times 10 = 50\\text{ N}$
+2. Limiting friction: $f_{lim} = 0.4 \\times 50\\text{ N}$
+
+### Calculation
+1. $f_{lim} = 20\\text{ N}$
+2. Compare applied force with limiting threshold: $F = 15\\text{ N} < f_{lim} = 20\\text{ N}$
+3. Since external force is less than maximum static friction, the block remains completely stationary!
+4. Static friction self-adjusts: $f_s = F = 15\\text{ N}$.
+5. Resulting acceleration: $a = 0\\text{ m/s}^2$.
+
+### ✅ Final Answer
+- **Friction Force:** $f_s = 15\\text{ N}$ (opposing applied force)
+- **Acceleration:** $a = 0\\text{ m/s}^2$
+
+### ⚠️ Check
+Common NEET trap: Never assume static friction is automatically equal to $\\mu_s N = 20\\text{ N}$! Static friction self-adjusts from 0 up to $\\mu_s N$.`;
         keyFormula = String.raw`f_{lim} = \mu_s N, \quad f_k = \mu_k N`;
         steps.push("Step 1: Calculate normal reaction force N = mg = 50 N.");
         steps.push("Step 2: Calculate limiting friction threshold f_lim = μ_s N = 20 N.");
@@ -146,7 +206,7 @@ export class FallbackProvider implements IAIProvider {
           stepByStepSolution: steps,
           keyFormula,
           variables,
-          example: exText,
+          example: answer,
           examinerTrap: trap,
           examTip: tip,
           understanding: {
@@ -168,7 +228,32 @@ export class FallbackProvider implements IAIProvider {
           latencyMs: Date.now() - startTime
         };
       } else if (isForm) {
-        answer = `### 📐 Master Formula Sheet: Friction\n\n**1. Limiting Static Friction:**\n$$f_{lim} = \\mu_s N$$\n*(Note: Actual static friction satisfies $0 \\le f_s \\le \\mu_s N$ and self-adjusts to external force).*\n\n**2. Kinetic (Sliding) Friction:**\n$$f_k = \\mu_k N \\quad (\\text{where } \\mu_k < \\mu_s)$$\n\n**3. Angle of Friction ($\\lambda$) & Angle of Repose ($\\theta$):**\n$$\\tan\\lambda = \\mu_s, \\quad \\tan\\theta = \\mu_s \\implies \\theta = \\lambda$$\n\n**4. Acceleration on Rough Incline:**\n• Downward sliding: $a = g(\\sin\\theta - \\mu_k\\cos\\theta)$\n• Upward projection: $a = g(\\sin\\theta + \\mu_k\\cos\\theta)$`;
+        answer = `### 📚 Concept
+**Frictional Force** — Limiting static thresholds, kinetic sliding resistance, and incline laws for NEET-UG.
+
+### 🧮 Formula
+$$f_s \\le \\mu_s N, \\quad f_k = \\mu_k N, \\quad \\tan\\theta = \\mu_s$$
+
+### 🔤 Variables
+- $f_s$ = Static friction force (N)
+- $f_k$ = Kinetic friction force (N)
+- $\\mu_s$ = Coefficient of static friction (dimensionless)
+- $\\mu_k$ = Coefficient of kinetic friction (dimensionless, $\\mu_k < \\mu_s$)
+- $N$ = Normal reaction force (N)
+- $\\theta$ = Angle of repose / angle of friction (rad or deg)
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** Static friction is a self-adjusting contact force ($0 \\le f_s \\le \\mu_s N$).
+- ⚡ **High Priority:** Sliding down a rough incline occurs if and only if $\\tan\\alpha > \\mu_s$.
+
+### ⚠️ Common Mistake
+Friction does NOT always oppose motion; it opposes *relative sliding between surfaces*. Walking is possible because static friction acts forward!
+
+### 🎯 NEET Trick
+${isHinglish ? 'Angle of repose hamesha angle of friction ke barabar hota hai: $\\theta = \\lambda = \\tan^{-1}\\mu_s$.' : 'The angle of repose equals the angle of friction: $\\theta = \\lambda = \\tan^{-1}\\mu_s$.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Agar horizontal floor par rakhe block par koi horizontal force na lagayein, toh static friction kitna hoga? (Ans: 0 N).' : 'What is the static friction on a block resting on a horizontal floor with zero horizontal applied force? (Ans: 0 N).'}`;
         keyFormula = String.raw`f_s \le \mu_s N, \quad f_k = \mu_k N, \quad \tan\theta = \mu_s`;
         return {
           answer,
@@ -198,7 +283,35 @@ export class FallbackProvider implements IAIProvider {
           latencyMs: Date.now() - startTime
         };
       } else {
-        answer = `### 📘 What is Friction?\n\n**Core Physical Concept:**\nFriction is the contact resistance force that opposes the relative motion (or tendency of relative motion) between two surfaces in physical contact. It acts tangentially along the contact interface.\n\n**Microscopic Origin:**\nAt the microscopic level, even highly polished surfaces have irregularities (asperities). When two surfaces touch, contact occurs only at high points where immense local pressure causes microscopic 'cold-welding'. Overcoming this interlocking requires external force.\n\n**Types of Friction:**\n1. **Static Friction ($f_s$):** Operates when surfaces are stationary relative to each other. It is self-adjusting ($f_s = F_{ext}$) up to a maximum limiting value $f_{lim} = \\mu_s N$.\n2. **Kinetic Friction ($f_k$):** Operates once relative sliding begins. It is constant and slightly smaller than limiting static friction ($\\mu_k < \\mu_s$).\n3. **Rolling Friction ($f_r$):** Operates when a cylindrical or spherical body rolls on a surface; significantly smaller than sliding friction due to minimal contact point deformation.`;
+        answer = `### 📚 Concept
+Friction is the contact force that opposes relative tangential motion (or tendency of relative motion) between two surfaces in contact.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Jab do surfaces ek doosre ke contact me aati hain, toh microscopic level par unke ridges aur valleys interlock ho jaate hain (cold-welding). Is interlocking ko todne ke liye external force lagta hai.\n\nFriction ke 3 main types hote hain:\n1. **Static Friction ($f_s$):** Jab object rest par ho. Yeh self-adjusting hota hai ($0 \\le f_s \\le \\mu_s N$).\n2. **Kinetic Friction ($f_k$):** Jab relative sliding chal rahi ho. Yeh constant hota hai ($\\mu_k < \\mu_s$).\n3. **Rolling Friction ($f_r$):** Jab object roll kare (sabse kam value).`
+  : `In simple terms: Microscopic surface roughness creates cold-welded junctions at points of real contact. Friction is the force required to shear these junctions.\n\nThree fundamental types:\n1. **Static Friction ($f_s$):** Operates before relative motion starts; self-adjusting up to $f_{lim} = \\mu_s N$.\n2. **Kinetic Friction ($f_k$):** Operates during relative sliding; constant and slightly lower than static friction.\n3. **Rolling Friction ($f_r$):** Operates during rolling motion; minimal deformation creates lowest resistance.`}
+
+### 🧮 Formula
+$$f_{lim} = \\mu_s N, \\quad f_k = \\mu_k N$$
+
+### 🔤 Variables
+- $f_{lim}$ = Limiting static friction (N)
+- $f_k$ = Kinetic friction (N)
+- $\\mu_s, \\mu_k$ = Coefficients of friction
+- $N$ = Normal reaction force (N)
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** $\\mu_s > \\mu_k > \\mu_r$ for any given pair of surfaces.
+- ⚡ **NCERT Reference:** Friction is a non-conservative contact force; mechanical energy is dissipated as heat.
+
+### ⚠️ Common Mistake
+Static friction is NOT always $\\mu_s N$! It equals the applied parallel force up to the threshold $\\mu_s N$.
+
+### 🎯 NEET Trick
+${isHinglish ? 'Ratio trick: Incline par acceleration: sliding down $a = g(\\sin\\theta - \\mu_k\\cos\\theta)$, projecting up $a = g(\\sin\\theta + \\mu_k\\cos\\theta)$.' : 'Acceleration on incline: downward sliding $a = g(\\sin\\theta - \\mu_k\\cos\\theta)$, upward projection $a = g(\\sin\\theta + \\mu_k\\cos\\theta)$.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Kinetic friction velocity par depend karta hai ya independent hota hai? (Ans: Moderate speeds par independent).' : 'Does kinetic friction depend on velocity at moderate sliding speeds? (Ans: Independent of relative speed).'}`;
         keyFormula = String.raw`f_{lim} = \mu_s N, \quad f_k = \mu_k N`;
         return {
           answer,
@@ -238,8 +351,33 @@ export class FallbackProvider implements IAIProvider {
       tip = "Escape velocity from Earth (11.2 km/s) is independent of the mass of the projectile and the launch angle!";
 
       if (isEx) {
-        answer = "Here is an entrance examination worked numerical problem on Gravitation:";
-        const exText = `### 📝 Problem: Variation of Gravity with Altitude\n\n**Question:** At what height $h$ above the Earth's surface does the acceleration due to gravity become $\\frac{g}{4}$ (one-fourth of its surface value)? (Let $R$ be the radius of Earth).\n\n**Given:** $g' = \\frac{g}{4}$, surface gravity $g = \\frac{GM}{R^2}$, gravity at height $h$: $g' = \\frac{GM}{(R + h)^2}$.\n\n**Step-by-Step Calculation:**\n1. Write the ratio equation:\n$$\\frac{g'}{g} = \\left(\\frac{R}{R + h}\\right)^2$$\n2. Substitute $g' = \\frac{g}{4}$:\n$$\\frac{1}{4} = \\left(\\frac{R}{R + h}\\right)^2$$\n3. Take square root on both sides:\n$$\\frac{1}{2} = \\frac{R}{R + h} \\implies R + h = 2R \\implies h = R$$\n\n**Final Answer:** Height $h = R = 6400\\text{ km}$ above the surface of the Earth.`;
+        answer = `### Given
+- Gravity at altitude $h$: $g' = \\frac{g}{4}$
+- Surface gravitational acceleration: $g = \\frac{GM}{R^2}$
+- Radius of Earth: $R = 6400\\text{ km}$
+
+### Find
+Height $h$ above the Earth's surface where gravity drops to $\\frac{g}{4}$.
+
+### Formula
+$$g' = g\\left(\\frac{R}{R + h}\\right)^2$$
+
+### Substitution
+$$\\frac{g}{4} = g\\left(\\frac{R}{R + h}\\right)^2 \\implies \\frac{1}{4} = \\left(\\frac{R}{R + h}\\right)^2$$
+
+### Calculation
+1. Take square root on both sides:
+   $$\\frac{1}{2} = \\frac{R}{R + h}$$
+2. Cross-multiply:
+   $$R + h = 2R$$
+3. Solve for $h$:
+   $$h = 2R - R = R$$
+
+### ✅ Final Answer
+**Height above surface:** $h = R = 6400\\text{ km}$
+
+### ⚠️ Check
+Do NOT use the small-height approximation $g' \\approx g(1 - 2h/R)$ here! That approximation is valid ONLY when $h \\ll R$ (under a few hundred kilometers). Since $h = R$, the exact inverse-square relation is mandatory.`;
         keyFormula = String.raw`g' = g \left(\frac{R}{R+h}\right)^2`;
         steps.push("Step 1: Write the exact inverse-square formula for gravity at height h: g' = g [R / (R+h)]².");
         steps.push("Step 2: Substitute g' / g = 1/4 and take square root: 1/2 = R / (R+h).");
@@ -250,7 +388,7 @@ export class FallbackProvider implements IAIProvider {
           stepByStepSolution: steps,
           keyFormula,
           variables,
-          example: exText,
+          example: answer,
           examinerTrap: trap,
           examTip: tip,
           understanding: {
@@ -272,7 +410,31 @@ export class FallbackProvider implements IAIProvider {
           latencyMs: Date.now() - startTime
         };
       } else if (isForm) {
-        answer = `### 📐 Master Formula Sheet: Gravitation\n\n**1. Universal Law of Gravitation:**\n$$F = G \\frac{m_1 m_2}{r^2} \\quad (G = 6.674 \\times 10^{-11}\\text{ N}\\cdot\\text{m}^2/\\text{kg}^2)$$\n\n**2. Acceleration Due to Gravity on Surface:**\n$$g = \\frac{GM}{R^2} \\approx 9.8\\text{ m/s}^2$$\n\n**3. Variation of $g$:**\n• At height $h$: $g' = g\\left(\\frac{R}{R+h}\\right)^2 \\approx g\\left(1 - \\frac{2h}{R}\\right) \\quad (\\text{for } h \\ll R)$\n• At depth $d$: $g' = g\\left(1 - \\frac{d}{R}\\right) \\implies g = 0 \\text{ at Earth's center}$\n• With latitude $\\phi$: $g' = g - R\\omega^2\\cos^2\\phi$\n\n**4. Orbital & Escape Velocities:**\n$$v_o = \\sqrt{\\frac{GM}{R}} = \\sqrt{gR} \\approx 7.92\\text{ km/s}, \\quad v_e = \\sqrt{2gR} = \\sqrt{2} v_o \\approx 11.2\\text{ km/s}$$`;
+        answer = `### 📚 Concept
+**Gravitation** — Universal gravitational attraction, acceleration variation, and escape velocities for NEET-UG.
+
+### 🧮 Formula
+$$F = G \\frac{m_1 m_2}{r^2}, \\quad g = \\frac{GM}{R^2}, \\quad v_e = \\sqrt{2gR} = \\sqrt{\\frac{2GM}{R}}$$
+
+### 🔤 Variables
+- $G$ = Universal gravitational constant ($6.674 \\times 10^{-11}\\text{ N}\\cdot\\text{m}^2/\\text{kg}^2$)
+- $M$ = Mass of the central attracting body (kg)
+- $R$ = Radius of the body (m)
+- $g$ = Surface acceleration due to gravity ($9.8\\text{ m/s}^2$)
+- $v_e$ = Escape velocity from Earth ($11.2\\text{ km/s}$)
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** Mass ($m$) is an invariant scalar (kg). Weight ($W = mg$) is a position-dependent vector force (N).
+- ⚡ **High Priority:** Escape velocity ($v_e = \\sqrt{2gR}$) is completely independent of the projectile mass and projection angle!
+
+### ⚠️ Common Mistake
+Inside a hollow spherical shell, gravitational field is zero ($E = 0$), but gravitational potential is uniform and non-zero ($V = -GM/R$).
+
+### 🎯 NEET Trick
+${isHinglish ? 'Variation with depth: $g_d = g(1 - d/R)$ linear decay karta hai, jabki height ke saath inverse-square decay hota hai.' : 'Gravity with depth $g_d = g(1 - d/R)$ is strictly linear, whereas variation with altitude follows inverse-square decay.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Earth ke center par gravitational acceleration $g$ ki value kya hoti hai? (Ans: $g = 0\\text{ m/s}^2$).' : 'What is the acceleration due to gravity at the exact center of Earth? (Ans: $0\\text{ m/s}^2$).'}`;
         keyFormula = String.raw`F = \frac{G m_1 m_2}{r^2}, \quad g = \frac{GM}{R^2}, \quad v_e = \sqrt{2gR}`;
         return {
           answer,
@@ -302,7 +464,35 @@ export class FallbackProvider implements IAIProvider {
           latencyMs: Date.now() - startTime
         };
       } else {
-        answer = `### 📘 What is Gravity & Universal Gravitation?\n\n**Core Physical Concept:**\nGravity is the fundamental attractive force that acts between all objects with mass in the universe. It is one of the four fundamental forces of nature (the weakest, yet dominant on astronomical scales).\n\n**Newton's Universal Law:**\nEvery particle in the universe attracts every other particle with a force directly proportional to the product of their masses and inversely proportional to the square of the distance separating them:\n$$F = G \\frac{m_1 m_2}{r^2}$$\n\n**Key Characteristics:**\n• **Always Attractive:** Unlike electrostatic forces, gravitational force is never repulsive.\n• **Action at a Distance & Field Nature:** Every mass sets up a gravitational field $\\vec{g}$ around itself.\n• **Medium Independent:** The force between two masses does NOT depend on the intervening medium (water, vacuum, or rock).`;
+        answer = `### 📚 Concept
+Gravitation is the universal attractive force exerted between any two masses in the universe, directly proportional to the product of their masses and inversely proportional to the square of the distance separating them.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Universe ka har mass doosre mass ko attract karta hai. Newton ke inverse-square law ke according, jaise jaise distance double hoti hai, gravitational force 4 times kam ho jata hai.\n\nKey features:\n• Conservative force (closed path me work = 0)\n• Central force (line joining centers ke along act karta hai)\n• Medium independent (vacuum, water ya space me force same rehta hai).`
+  : `In simple terms: Every mass in the universe attracts every other mass. The force decreases with the square of the separation distance.\n\nKey characteristics:\n• Always attractive (no repulsive gravitation exists)\n• Conservative and central interaction\n• Independent of the intervening medium.`}
+
+### 🧮 Formula
+$$F = G\\frac{m_1 m_2}{r^2}, \\quad g = \\frac{GM}{R^2}$$
+
+### 🔤 Variables
+- $F$ = Gravitational attractive force (N)
+- $G$ = Gravitational constant ($6.674 \\times 10^{-11}\\text{ N}\\cdot\\text{m}^2/\\text{kg}^2$)
+- $m_1, m_2$ = Interacting masses (kg)
+- $r$ = Separation distance between mass centers (m)
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** $G$ has dimensions $[M^{-1} L^3 T^{-2}]$.
+- ⚡ **NCERT Reference:** Kepler’s Third Law: $T^2 \\propto r^3$.
+
+### ⚠️ Common Mistake
+Never confuse Universal Gravitational Constant $G$ (universal scalar constant) with acceleration due to gravity $g$ (local vector variable).
+
+### 🎯 NEET Trick
+${isHinglish ? 'Agar planet ka mass constant rakh kar radius aadha kar diya jaye, toh surface gravity 4 guna badh jayegi ($g \\propto 1/R^2$).' : 'If a planet shrinks to half radius at constant mass, surface gravity increases 4-fold ($g \\propto 1/R^2$).'}
+
+### 📝 Quick Check
+${isHinglish ? 'Agar do bodies ke beech ka distance half kar diya jaye, toh gravitational force kitne times ho jayega? (Ans: 4 times).' : 'If the separation between two masses is halved, by what factor does gravitational force increase? (Ans: 4 times).'}`;
         keyFormula = String.raw`F = G \frac{m_1 m_2}{r^2}, \quad g = \frac{GM}{R^2}`;
         return {
           answer,
@@ -345,8 +535,36 @@ export class FallbackProvider implements IAIProvider {
       tip = "For charged particles accelerated from rest by voltage V: λ_e = 12.27/√V Å (electron), λ_p = 0.286/√V Å (proton), λ_α = 0.101/√V Å (alpha particle).";
 
       if (isEx) {
-        answer = "Here is a standard examination worked numerical example on de Broglie wavelength:";
-        const workedEx = `### 📝 Problem: Electron Accelerated Through Potential Difference\n\n**Question:** An electron is accelerated from rest through a potential difference of $V = 100\\text{ Volts}$. Calculate:\n1. Its kinetic energy in Joules and electron-volts (eV).\n2. Its de Broglie wavelength in Angstroms (Å).\n\n**Given:** $V = 100\\text{ V}$, $m_e = 9.1 \\times 10^{-31}\\text{ kg}$, $e = 1.6 \\times 10^{-19}\\text{ C}$, $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$.\n\n**Step-by-Step Calculation:**\n1. Kinetic Energy acquired: $K = qV = (1.6 \\times 10^{-19})(100) = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$.\n2. Linear Momentum: $p = \\sqrt{2m_e K} = \\sqrt{2(9.1 \\times 10^{-31})(1.6 \\times 10^{-17})} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$.\n3. Wavelength from First Principles:\n$$\\lambda = \\frac{h}{p} = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å}$$\n4. **High-Yield Shortcut Method:**\n$$\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{100}} = \\frac{12.27}{10} = 1.227\\text{ Å}$$\n\n**Final Answer:** Kinetic Energy $= 100\\text{ eV}$, de Broglie Wavelength $\\lambda = 1.227\\text{ Å}$.`;
+        answer = `### Given
+- Accelerating potential difference: $V = 100\\text{ V}$
+- Mass of electron: $m_e = 9.1 \\times 10^{-31}\\text{ kg}$
+- Charge of electron: $e = 1.6 \\times 10^{-19}\\text{ C}$
+- Planck's constant: $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$
+
+### Find
+1. Kinetic energy $K$ of the electron (in Joules and eV)
+2. de Broglie wavelength $\\lambda$ (in Å and nm)
+
+### Formula
+$$K = qV$$
+$$\\lambda = \\frac{h}{p} = \\frac{h}{\\sqrt{2m_e K}} = \\frac{12.27}{\\sqrt{V}}\\text{ Å}$$
+
+### Substitution
+1. $K = (1.6 \\times 10^{-19}\\text{ C}) \\times (100\\text{ V})$
+2. $\\lambda = \\frac{12.27}{\\sqrt{100}}\\text{ Å}$
+
+### Calculation
+1. $K = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$
+2. Momentum: $p = \\sqrt{2mK} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$
+3. First Principles: $\\lambda = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å}$
+4. NEET Shortcut: $\\lambda_e = \\frac{12.27}{\\sqrt{100}} = \\frac{12.27}{10} = 1.227\\text{ Å} = 0.1227\\text{ nm}$
+
+### ✅ Final Answer
+- **Kinetic Energy:** $K = 100\\text{ eV} = 1.6 \\times 10^{-17}\\text{ J}$
+- **de Broglie Wavelength:** $\\lambda = 1.227\\text{ Å} = 0.1227\\text{ nm}$
+
+### ⚠️ Check
+For macroscopic objects (e.g. cricket ball of $0.15\\text{ kg}$ at $30\\text{ m/s}$), $\\lambda = 1.47 \\times 10^{-34}\\text{ m}$ is imperceptible, whereas for atomic electrons $\\lambda \\approx 1.23\\text{ Å}$ matches crystal atomic plane spacing, confirming de Broglie matter waves experimentally.`;
         keyFormula = String.raw`\lambda_e = \frac{12.27}{\sqrt{V}}\text{ Å}`;
         steps.push("Step 1: Identify given accelerating potential V = 100 V.");
         steps.push("Step 2: Calculate kinetic energy K = qV = 100 eV.");
@@ -357,7 +575,7 @@ export class FallbackProvider implements IAIProvider {
           stepByStepSolution: steps,
           keyFormula,
           variables,
-          example: workedEx,
+          example: answer,
           examinerTrap: trap,
           examTip: tip,
           understanding: {
@@ -379,7 +597,38 @@ export class FallbackProvider implements IAIProvider {
           latencyMs: Date.now() - startTime
         };
       } else if (isForm) {
-        answer = `### 📐 Master Formula Sheet: de Broglie Matter Waves\n\n**1. Primary Relation (Momentum Form):**\n$$\\lambda = \\frac{h}{p} = \\frac{h}{m v}$$\n\n**2. Kinetic Energy ($K$) Form:**\nSince $p = \\sqrt{2mK}$:\n$$\\lambda = \\frac{h}{\\sqrt{2mK}}$$\n\n**3. Potential Difference ($V$) Form (Charged Particles):**\nSince $K = qV$:\n$$\\lambda = \\frac{h}{\\sqrt{2mqV}}$$\n\n**4. High-Yield Exam Shortcut Formulas:**\n• **Electron:** $\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{1.227}{\\sqrt{V}}\\text{ nm}$\n• **Proton:** $\\lambda_p = \\frac{0.286}{\\sqrt{V}}\\text{ Å}$\n• **Deuteron:** $\\lambda_d = \\frac{0.202}{\\sqrt{V}}\\text{ Å}$\n• **$\\alpha$-Particle:** $\\lambda_\\alpha = \\frac{0.101}{\\sqrt{V}}\\text{ Å}$\n• **Thermal Gas Molecule at Temperature $T$:** $\\lambda = \\frac{h}{\\sqrt{3 m k_B T}}$`;
+        answer = `### 📚 Concept
+**de Broglie Matter Waves** — Universal wave-particle relations, momentum conjugate forms, and voltage shortcuts for NEET-UG.
+
+### 🧮 Formula
+$$\\lambda = \\frac{h}{p} = \\frac{h}{mv} = \\frac{h}{\\sqrt{2mK}} = \\frac{12.27}{\\sqrt{V}}\\text{ Å}$$
+
+### 🔤 Variables
+- $\\lambda$ = de Broglie wavelength (m or Å)
+- $h$ = Planck's constant ($6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$)
+- $p$ = Linear momentum ($kg\\cdot m/s$)
+- $m$ = Mass of particle (kg)
+- $v$ = Speed of particle (m/s)
+- $K$ = Kinetic energy (J)
+- $V$ = Accelerating potential difference (Volts)
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know Shortcuts (Accelerated from rest):**
+  • Electron: $\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å}$
+  • Proton: $\\lambda_p = \\frac{0.286}{\\sqrt{V}}\\text{ Å}$
+  • Deuteron: $\\lambda_d = \\frac{0.202}{\\sqrt{V}}\\text{ Å}$
+  • $\\alpha$-particle: $\\lambda_\\alpha = \\frac{0.101}{\\sqrt{V}}\\text{ Å}$
+  • Thermal gas molecule at $T$ (Kelvin): $\\lambda = \\frac{h}{\\sqrt{3 m k_B T}}$
+- ⚡ **High Priority:** For equal kinetic energy, $\\lambda \\propto 1/\\sqrt{m}$. Since $m_e < m_p < m_d < m_\\alpha$, the electron has the largest wavelength.
+
+### ⚠️ Common Mistake
+Matter waves are NOT electromagnetic waves! They are probability amplitude waves describing moving material particles.
+
+### 🎯 NEET Trick
+${isHinglish ? 'Equal kinetic energy par light particle ka wavelength sabse bada hoga ($\\lambda \\propto 1/\\sqrt{m}$).' : 'For equal kinetic energy, the lightest particle always has the longest de Broglie wavelength ($\\lambda \\propto 1/\\sqrt{m}$).'}
+
+### 📝 Quick Check
+${isHinglish ? 'Agar electron ka accelerating potential 100 V se 400 V kar diya jaye, toh wavelength kitne times ho jayegi? (Ans: Halved, $\\lambda \\propto 1/\\sqrt{V}$).' : 'If accelerating voltage increases from 100 V to 400 V, what happens to de Broglie wavelength? (Ans: Halved, as $\\lambda \\propto 1/\\sqrt{V}$).'}`;
         keyFormula = String.raw`\lambda = \frac{h}{p} = \frac{h}{mv} = \frac{h}{\sqrt{2mK}} = \frac{12.27}{\sqrt{V}}\text{ Å}`;
         return {
           answer,
@@ -409,7 +658,33 @@ export class FallbackProvider implements IAIProvider {
           latencyMs: Date.now() - startTime
         };
       } else if (isDeriv) {
-        answer = `### 🔬 Step-by-Step Derivation: de Broglie Wavelength\n\n1. From Planck's Quantum Theory, photon energy: $E = h\\nu = \\frac{hc}{\\lambda}$.\n2. From Einstein's Mass-Energy Equivalence: $E = mc^2$.\n3. Equating both expressions: $mc^2 = \\frac{hc}{\\lambda} \\implies \\lambda = \\frac{h}{mc} = \\frac{h}{p}$ (for photon with momentum $p = mc$).\n4. **de Broglie's Hypothesis (1924):** Generalizing symmetrically to any material particle of mass $m$ moving with speed $v$:\n$$\\lambda = \\frac{h}{mv} = \\frac{h}{p}$$\n5. In terms of Kinetic Energy $K = \\frac{p^2}{2m} \\implies p = \\sqrt{2mK}$, yielding: $\\lambda = \\frac{h}{\\sqrt{2mK}}$.\n6. For a charge $q$ accelerated by potential difference $V$ from rest: $K = qV \\implies \\lambda = \\frac{h}{\\sqrt{2mqV}}$.`;
+        answer = `### 📚 Concept
+**de Broglie Wavelength** — Step-by-step physical formulation and quantum derivation for NEET-UG.
+
+### 🧮 Formula
+$$\\lambda = \\frac{h}{p} = \\frac{h}{mv} = \\frac{h}{\\sqrt{2mK}}$$
+
+### 🔤 Variables
+- $\\lambda$ = de Broglie wavelength (m)
+- $h$ = Planck's constant ($6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$)
+- $p$ = Linear momentum ($kg\\cdot m/s$)
+- $m$ = Mass (kg), $v$ = Velocity (m/s)
+
+### 🔢 Step-by-Step Derivation
+1. From Planck's Quantum Theory, photon energy: $E = h\\nu = \\frac{hc}{\\lambda}$.
+2. From Einstein's Mass-Energy Equivalence: $E = mc^2$.
+3. Equating both expressions: $mc^2 = \\frac{hc}{\\lambda} \\implies \\lambda = \\frac{h}{mc} = \\frac{h}{p}$ (for photon with momentum $p = mc$).
+4. **de Broglie's Hypothesis (1924):** Generalizing symmetrically to any material particle of mass $m$ moving with speed $v$:
+$$\\lambda = \\frac{h}{mv} = \\frac{h}{p}$$
+5. In terms of Kinetic Energy $K = \\frac{p^2}{2m} \\implies p = \\sqrt{2mK}$, yielding: $\\lambda = \\frac{h}{\\sqrt{2mK}}$.
+6. For a charge $q$ accelerated by potential difference $V$ from rest: $K = qV \\implies \\lambda = \\frac{h}{\\sqrt{2mqV}}$.
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** $\\lambda \\propto 1/p$ applies universally to both relativistic photons and non-relativistic material particles.
+- ⚡ **NCERT Reference:** Derivation provides the quantum foundation for Bohr's quantisation postulate: $2\\pi r_n = n\\lambda$.
+
+### ⚠️ Common Mistake
+Never substitute speed of light $c$ for the particle velocity $v$ unless the particle is an actual photon or ultra-relativistic!`;
         keyFormula = String.raw`\lambda = \frac{h}{p} = \frac{h}{mv}`;
         steps.push("Step 1: Set Planck's photon energy equal to Einstein's mass-energy: hc/λ = mc².");
         steps.push("Step 2: Solve for photon wavelength: λ = h / (mc) = h / p.");
@@ -442,7 +717,36 @@ export class FallbackProvider implements IAIProvider {
           latencyMs: Date.now() - startTime
         };
       } else {
-        answer = `### 📘 What is the de Broglie Hypothesis & Matter Waves?\n\n**Fundamental Principle (Symmetry of Nature):**\nIn 1924, French physicist Louis de Broglie hypothesized that nature exhibits fundamental symmetry. If electromagnetic radiation (light) can exhibit dual behavior (acting both as continuous waves and as discrete particles/photons), then **moving material particles (electrons, protons, atoms) must also possess wave-like properties**.\n\n**What are Matter Waves?**\nThe waves associated with any moving material particle are called **matter waves** or **de Broglie waves**. Crucially:\n• They are NOT electromagnetic waves (they accompany uncharged particles like neutrons as well as charged particles).\n• They are NOT mechanical waves (they travel through vacuum without a physical medium).\n• They are probability amplitude waves describing the state of the moving particle.\n\n**Why don't everyday objects exhibit wave nature?**\nBecause Planck's constant $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$ is extraordinarily small. For an everyday object like a $0.15\\text{ kg}$ cricket ball moving at $30\\text{ m/s}$, the wavelength is:\n$$\\lambda = \\frac{h}{mv} \\approx 1.47 \\times 10^{-34}\\text{ m}$$\nThis is trillions of times smaller than an atomic nucleus ($10^{-15}\\text{ m}$), making wave diffraction completely undetectable. However, for a microscopic electron with $m_e \\approx 9.1 \\times 10^{-31}\\text{ kg}$, the wavelength is around $1\\text{ Å} = 10^{-10}\\text{ m}$, which perfectly matches the spacing between atoms in a crystal lattice!\n\n**Experimental Proof:**\nVerified experimentally in 1927 by the **Davisson and Germer Experiment** and **G.P. Thomson** using electron diffraction through nickel crystals, confirming de Broglie's prediction and earning them the Nobel Prize.`;
+        answer = `### 📚 Concept
+The de Broglie hypothesis states that all moving material particles (electrons, protons, atoms, etc.) possess wave-like characteristics alongside particle properties. The wavelength associated with any moving body of momentum $p$ is $\\lambda = h/p$.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Louis de Broglie (1924) ne kaha ki nature symmetric hai. Agar light (radiation) wave aur particle dono ki tarah behave kar sakti hai, toh matter particles (jaise electron, proton) bhi wave ki tarah behave karne chahiyein!\n\nEveryday objects me kyu nahi dikhta?\nKyunki Planck's constant $h$ bahut chhota hota hai ($10^{-34}$). Ek cricket ball ka wavelength lagbhag $10^{-34}\\text{ m}$ hota hai jo detect nahi ho sakta. Par electron ke liye yeh wavelength $\\sim 1\\text{ Å}$ hoti hai jo crystal lattice ke barabar hai!`
+  : `In simple terms: Louis de Broglie hypothesized nature's fundamental symmetry: if electromagnetic radiation behaves as both waves and particles, moving material particles must also exhibit wave characteristics.\n\nWhy don't everyday objects exhibit wave nature?\nBecause Planck's constant is minuscule ($6.626 \\times 10^{-34}$). For a cricket ball, $\\lambda \\sim 10^{-34}\\text{ m}$ (unobservable). For microscopic electrons, $\\lambda \\sim 1\\text{ Å}$, which perfectly matches crystal atomic spacing and causes observable diffraction.`}
+
+### 🧮 Formula
+$$\\lambda = \\frac{h}{p} = \\frac{h}{mv} = \\frac{h}{\\sqrt{2mK}}$$
+
+### 🔤 Variables
+- $\\lambda$ = de Broglie wavelength (m)
+- $h$ = Planck's constant ($6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$)
+- $p$ = Linear momentum ($kg\\cdot m/s$)
+- $m$ = Particle mass (kg)
+- $v$ = Particle velocity (m/s)
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** Experimentally confirmed by the Davisson-Germer electron diffraction experiment using a nickel crystal.
+- ⚡ **NCERT Reference:** Bohr's second postulate ($mvr = nh/2\\pi$) is explained by standing de Broglie waves: $2\\pi r_n = n\\lambda$.
+
+### ⚠️ Common Mistake
+Matter waves accompany neutral particles (like neutrons) as well as charged particles. They do NOT require charges or electromagnetic radiation.
+
+### 🎯 NEET Trick
+${isHinglish ? 'Ratio method: $\\lambda_1 / \\lambda_2 = p_2 / p_1 = \\sqrt{K_2 / K_1}$.' : 'Ratio trick: $\\lambda_1 / \\lambda_2 = p_2 / p_1 = \\sqrt{K_2 / K_1}$.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Bohr ke nth orbit me kitne de Broglie wavelengths fit hote hain? (Ans: Exactly n wavelengths, $2\\pi r_n = n\\lambda$).' : 'How many de Broglie wavelengths fit into the circumference of the nth Bohr orbit? (Ans: Exactly n wavelengths).'}`;
         keyFormula = String.raw`\lambda = \frac{h}{p}`;
         return {
           answer,
@@ -528,18 +832,73 @@ export class FallbackProvider implements IAIProvider {
 
         if (match && match.explanation) {
           concept = match.concept || `${match.chapter} — ${match.topic}`;
-          answer = `### 📘 ${concept} (${match.subject})\n\n${match.explanation}`;
+          answer = `### 📚 Concept
+${concept} (${match.subject})
+
+### 💡 Easy Explanation
+${match.explanation}
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** High-yield NCERT syllabus focus in ${match.chapter}.
+- ⚡ **Frequently Tested:** Master boundary definitions and standard graphical relationships.
+
+### ⚠️ Common Mistake
+${trap}
+
+### 🎯 NEET Trick
+${isHinglish ? 'NCERT line-by-line statements aur direct formula proportionalities pehle check karein!' : 'Always check direct proportional relationships and verify SI units before final evaluation.'}
+
+### 📝 Quick Check
+${isHinglish ? `Kya aap is topic ke governing conditions ko clearly define kar sakte hain?` : `Can you state the primary condition under which this principle holds?`}`;
           steps.push(`1. Concept Principle: Review fundamental definitions governing ${match.chapter}.`);
           steps.push(`2. Method: Apply standard entrance-examination problem-solving relations.`);
           steps.push(`3. Verification: Check numerical units and boundary consistency.`);
         } else {
-          answer = `### 📘 Concept Guide: ${chapter} (${subject})\n\n**${q}** is an essential syllabus concept in entrance examinations. In ${chapter}, understanding governing physical and mathematical relations is key to rapid problem solving.\n\nTo master this concept:\n1. State the fundamental definition and governing physical/chemical principle.\n2. Note given known variables and identify direct and inverse proportionality.\n3. Check standard textbook derivations and boundary conditions.\n4. Apply consistent SI units before final calculations.`;
+          answer = `### 📚 Concept
+**${q}** (${chapter} — ${subject})
+
+Fundamental syllabus concept in ${chapter}.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: **${chapter}** me **${q}** ko samajhne ke liye governing physical ya chemical principles ko follow karein. Pehle given parameters list karein aur direct ya inverse proportionality check karein.`
+  : `In simple terms: **${q}** is an essential syllabus concept in entrance examinations. In **${chapter}**, understanding governing physical and chemical relationships is key to rapid problem solving.`}
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** NCERT high-yield focus in ${chapter}.
+- ⚡ **Examination Strategy:** Always check coordinate reference frames, boundary values, and standard SI units.
+
+### ⚠️ Common Mistake
+${trap}
+
+### 🎯 NEET Trick
+${isHinglish ? 'Ratio aur proportionality method use karein taaki lambi calculations se bacha ja sake!' : 'Use proportionality ratios to eliminate unviable MCQ options before computing lengthy arithmetic.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Is concept me primary variables ke beech kya sambhandh (relation) hai?' : 'What is the governing proportional relationship between the variables?'}`;
           steps.push("1. State given quantities and unknown variable.");
           steps.push("2. Select the governing relation for this topic.");
           steps.push("3. Substitute values and verify dimensional balance.");
         }
       } catch {
-        answer = `### 📘 Concept Guide: ${chapter} (${subject})\n\nIn **${chapter}**, master the core definitions, governing equations, and boundary conditions to solve examination questions with high accuracy.`;
+        answer = `### 📚 Concept
+**${q}** (${chapter} — ${subject})
+
+### 💡 Easy Explanation
+In **${chapter}**, master the core definitions, governing equations, and boundary conditions to solve NEET-UG examination questions with high accuracy and speed.
+
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** Focus on NCERT textbook definitions and diagrams.
+- ⚡ **High Priority:** Check standard unit conversions and sign conventions.
+
+### ⚠️ Common Mistake
+${trap}
+
+### 🎯 NEET Trick
+${isHinglish ? 'Dimensional analysis se formula verify karein!' : 'Use dimensional analysis to cross-check formula consistency.'}
+
+### 📝 Quick Check
+Are all physical quantities expressed in consistent standard SI units?`;
         steps.push("1. Identify given values and requested unknown.");
         steps.push("2. Apply the primary relation for this chapter.");
         steps.push("3. Verify units and sign conventions.");

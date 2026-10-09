@@ -2,6 +2,7 @@ import { SubjectName } from '../types';
 import { userService } from './userService';
 import { progressService } from './progressService';
 import { searchFormulaKnowledge } from '../utils/formulaKnowledgeBase';
+import { detectLanguageMode } from '../utils/languageMode';
 
 export interface SolvedDoubtResponse {
   id: string;
@@ -325,12 +326,41 @@ export class AIDoubtSolverService {
       stepByStepSolution.push('4. Verify roots against domain constraints to avoid extraneous solutions.');
     }
 
+    const isHinglish = detectLanguageMode(q) === 'hinglish';
+    const structuredAnswer = [
+      `### 📚 Concept`,
+      coreConcept,
+      ``,
+      `### 💡 Easy Explanation`,
+      isHinglish
+        ? `Simple bhasha me: **${chapter}** me yeh concept NEET-UG ke liye high-yield hai.\n\nCore Steps:\n${stepByStepSolution.slice(0, 3).map(s => `• ${s}`).join('\n')}`
+        : `In simple terms: In **${chapter}**, this concept forms a key foundation for NEET-UG.\n\nCore Steps:\n${stepByStepSolution.slice(0, 3).map(s => `• ${s}`).join('\n')}`,
+      ``,
+      keyFormula ? `### 🧮 Formula\n$$${keyFormula}$$\n` : '',
+      `### 🔥 NEET Important Points`,
+      `- ⭐ **Must Know:** ${examTip}`,
+      `- ⚡ **High Priority:** Master the governing dependencies and units.`,
+      ``,
+      `### ⚠️ Common Mistake`,
+      examinerTrap,
+      ``,
+      `### 🎯 NEET Trick`,
+      isHinglish
+        ? `Direct proportionality aur SI units balance pehle check karein taaki negative marking se bacha ja sake!`
+        : `Check direct proportionalities and SI unit consistency before full calculation to eliminate options rapidly.`,
+      ``,
+      `### 📝 Quick Check`,
+      isHinglish
+        ? `Kya aap formula ke sabhi parameters ki standard SI units identify kar sakte hain?`
+        : `Identify the SI units and governing constraints for the primary variables above.`
+    ].filter(Boolean).join('\n');
+
     return {
       id: 'solved-' + Date.now(),
       question: q,
       subject,
       chapter,
-      answer: coreConcept + '\n\nKey formula and solution steps follow.',
+      answer: structuredAnswer,
       coreConcept,
       stepByStepSolution,
       keyFormula,

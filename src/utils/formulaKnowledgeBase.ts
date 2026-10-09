@@ -4,6 +4,7 @@ import {
   TopicFormula
 } from '../data/comprehensiveFormulaNotes';
 import { SubjectName } from '../types';
+import { detectLanguageMode } from './languageMode';
 
 /**
  * Normalizes strings by lowercasing, stripping special characters and extra spaces.
@@ -456,30 +457,36 @@ export const PRIMARY_FORMULAS_CATALOG: PrimaryFormulaEntry[] = [
     ],
     examTip: 'For equal kinetic energy, the particle with the smallest mass (electron) possesses the largest de Broglie wavelength (λ ∝ 1/√m).',
     trap: 'Macroscopic objects (e.g. cricket ball) have tiny wavelengths ~10⁻³⁴ m (unobservable diffraction). Subatomic electrons have λ ~ 1 Å, comparable to crystal atomic spacing (verified by Davisson-Germer).',
-    example: `**Problem 1 (Entrance Exam High-Yield Numerical):** An electron is accelerated from rest through a potential difference of $V = 100\\text{ Volts}$. Calculate:
-(a) Its kinetic energy in Joules and eV.
-(b) Its de Broglie wavelength in Ångströms and nanometers.
+    example: `### Given
+- Accelerating potential: $V = 100\\text{ V}$
+- Mass of electron: $m_e = 9.1 \\times 10^{-31}\\text{ kg}$
+- Charge of electron: $e = 1.6 \\times 10^{-19}\\text{ C}$
+- Planck's constant: $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$
 
-**Given Data:**
-• Accelerating potential $V = 100\\text{ V}$
-• Mass of electron $m_e = 9.1 \\times 10^{-31}\\text{ kg}$
-• Charge of electron $e = 1.6 \\times 10^{-19}\\text{ C}$
-• Planck's constant $h = 6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$
+### Find
+1. Kinetic energy $K$ of the electron (in Joules and eV)
+2. de Broglie wavelength $\\lambda$ (in Å and nm)
 
-**Step-by-Step Calculation:**
-1. Kinetic Energy acquired:
-   $$K = qV = (1.6 \\times 10^{-19}\\text{ C}) \\times (100\\text{ V}) = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$$
-2. Linear Momentum:
-   $$p = \\sqrt{2mK} = \\sqrt{2 \\times (9.1 \\times 10^{-31}) \\times (1.6 \\times 10^{-17})} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$$
-3. de Broglie Wavelength:
-   $$\\lambda = \\frac{h}{p} = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å} = 0.123\\text{ nm}$$
-4. **Fast Entrance Exam Shortcut:**
-   $$\\lambda_e = \\frac{12.27}{\\sqrt{V}}\\text{ Å} = \\frac{12.27}{\\sqrt{100}} = \\frac{12.27}{10} = 1.227\\text{ Å} = 0.1227\\text{ nm}$$
+### Formula
+$$K = qV$$
+$$\\lambda = \\frac{h}{p} = \\frac{h}{\\sqrt{2m_e K}} = \\frac{12.27}{\\sqrt{V}}\\text{ Å}$$
 
-**Problem 2 (Macroscopic Comparison - Cricket Ball):**
-A cricket ball of mass $0.15\\text{ kg}$ is thrown at $30\\text{ m/s}$. Find its wavelength.
-$$\\lambda = \\frac{h}{mv} = \\frac{6.626 \\times 10^{-34}}{0.15 \\times 30} = 1.47 \\times 10^{-34}\\text{ m}$$
-**Why Everyday Objects Do Not Wave:** Since $10^{-34}\\text{ m}$ is trillions of times smaller than any measuring instrument or atomic nucleus, wave phenomena are completely undetectable for macroscopic objects.`,
+### Substitution
+1. $K = (1.6 \\times 10^{-19}\\text{ C}) \\times (100\\text{ V})$
+2. $\\lambda = \\frac{12.27}{\\sqrt{100}}\\text{ Å}$
+
+### Calculation
+1. $K = 1.6 \\times 10^{-17}\\text{ J} = 100\\text{ eV}$
+2. Momentum: $p = \\sqrt{2mK} = 5.396 \\times 10^{-24}\\text{ kg}\\cdot\\text{m/s}$
+3. First Principles: $\\lambda = \\frac{6.626 \\times 10^{-34}}{5.396 \\times 10^{-24}} = 1.228 \\times 10^{-10}\\text{ m} = 1.228\\text{ Å}$
+4. NEET Shortcut: $\\lambda_e = \\frac{12.27}{10} = 1.227\\text{ Å} = 0.1227\\text{ nm}$
+
+### ✅ Final Answer
+- **Kinetic Energy:** $K = 100\\text{ eV} = 1.6 \\times 10^{-17}\\text{ J}$
+- **de Broglie Wavelength:** $\\lambda = 1.227\\text{ Å} = 0.1227\\text{ nm}$
+
+### ⚠️ Check
+For macroscopic objects (e.g. cricket ball of mass $0.15\\text{ kg}$ thrown at $30\\text{ m/s}$), $\\lambda = \\frac{6.626 \\times 10^{-34}}{0.15 \\times 30} = 1.47 \\times 10^{-34}\\text{ m}$ is imperceptible, whereas for subatomic electrons $\\lambda \\approx 1.23\\text{ Å}$ matches crystal atomic plane spacing, confirming de Broglie matter waves experimentally.`,
     derivation: [
       '1. Photon Energy (Planck Quantum Hypothesis): E = hν = (hc) / λ.',
       '2. Mass-Energy Equivalence (Einstein): E = m c².',
@@ -734,67 +741,117 @@ export function formatKnowledgeAnswer(
     example?: string;
     derivation?: string[];
   },
-  intent: 'example' | 'formula' | 'derivation' | 'concept'
+  intent: 'example' | 'formula' | 'derivation' | 'concept',
+  isHinglish: boolean = false
 ): string {
   if (intent === 'example') {
-    return `### 📝 Worked Numerical Example: ${entry.name}
+    if (entry.example && entry.example.includes('### Given')) {
+      return entry.example;
+    }
+    return `### Given
+Standard initial parameters for **${entry.name}**.
 
-${entry.example || `**Problem Statement:** Calculate the primary variable in **${entry.name}** under standard conditions.\n\n**Given:** Standard SI input values.\n\n**Governing Formula:**\n$$${entry.formula}$$\n\n**Solution Steps:**\n${entry.stepByStep.join('\n')}`}
+### Find
+Primary calculated output variable in **${entry.name}**.
 
-**📌 Governing Relation Used:**
+### Formula
 $$${entry.formula}$$
 
-**💡 Examiner Insight for Problems:**
-${entry.examTip}`;
+### Substitution
+Substitute given SI values into the governing relation:
+$$${entry.formula}$$
+
+### Calculation
+${entry.stepByStep.map((s, idx) => `${idx + 1}. ${s}`).join('\n')}
+
+${entry.example ? `\n**Worked Reference Case:**\n${entry.example}\n` : ''}
+
+### ✅ Final Answer
+Calculated variable evaluated in consistent SI units.
+
+### ⚠️ Check
+${entry.trap || 'Check unit conversions, sign conventions, and physical boundary conditions.'}`;
   }
 
   if (intent === 'formula') {
-    return `### 📐 Governing Formulas & Equation Sheet: ${entry.name}
+    return `### 📚 Concept
+**${entry.name}** — High-yield mathematical relationships and formula sheet for NEET-UG.
 
-**Primary Formula:**
+### 🧮 Formula
 $$${entry.formula}$$
 
-**📝 Variables & SI Units:**
+### 🔤 Variables
 ${entry.variables}
 
-**🔢 Step-by-Step Problem-Solving Method:**
-${entry.stepByStep.join('\n')}
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** ${entry.examTip}
+- ⚡ **High Priority:** High-yield in direct formula substitution and ratio-based numerical questions.
 
-**⚠️ High-Yield Examiner Trap:**
+### ⚠️ Common Mistake
 ${entry.trap}
 
-**💡 Exam Tip:**
-${entry.examTip}`;
+### 🎯 NEET Trick
+${isHinglish
+  ? `NEET Shortcut: Dimensional consistency aur units balance pehle check karo taaki galat options turant eliminate ho sakein!`
+  : `NEET Shortcut: Check dimensional consistency of options to quickly eliminate incorrect MCQ options before detailed calculation.`}
+
+### 📝 Quick Check
+${isHinglish
+  ? `Quick Check: Kya formula me sabhi physical quantities standard SI units me hain? Confirm karein.`
+  : `Quick Check: Are all parameters in the governing relation expressed in consistent SI units?`}`;
   }
 
   if (intent === 'derivation') {
-    return `### 🔬 Mathematical Derivation: ${entry.name}
+    return `### 📚 Concept
+**${entry.name}** — Step-by-step physical formulation and mathematical derivation.
 
-${(entry.derivation && entry.derivation.join('\n\n')) || entry.stepByStep.join('\n\n')}
-
-**Resulting Formula:**
+### 🧮 Formula
 $$${entry.formula}$$
 
-**📝 Variables Defined:**
-${entry.variables}`;
+### 🔤 Variables
+${entry.variables}
+
+### 🔢 Step-by-Step Derivation
+${(entry.derivation && entry.derivation.join('\n\n')) || entry.stepByStep.join('\n\n')}
+
+### 🔥 NEET Important Points
+${entry.examTip}
+
+### ⚠️ Common Mistake
+${entry.trap}`;
   }
 
   // Default 'concept'
-  return `### 📘 Concept Guide: ${entry.name}
-
+  return `### 📚 Concept
 ${entry.concept}
 
-**Physical Mechanism & Core Principles:**
-${entry.stepByStep.slice(0, 3).join('\n')}
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me samjhein: **${entry.name}** ka basic matlab hai ki ${entry.concept.toLowerCase().startsWith('louis') ? entry.concept : 'physical parameters standard NCERT principles ke according behave karte hain.'}\n\n**Core Mechanism:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`
+  : `In simple terms: ${entry.concept}\n\n**Core Physical Principles:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`}
 
-**📌 Key Governing Relation:**
+### 🧮 Formula
 $$${entry.formula}$$
 
-**📝 Variable Meaning:**
+### 🔤 Variables
 ${entry.variables}
 
-**💡 High-Yield Exam Takeaway:**
-${entry.examTip}`;
+### 🔥 NEET Important Points
+- ⭐ **Must Know:** ${entry.examTip}
+- ⚡ **NCERT High-Yield Focus:** Master boundary conditions and graphical dependencies.
+
+### ⚠️ Common Mistake
+${entry.trap}
+
+### 🎯 NEET Trick
+${isHinglish
+  ? `NEET Trick: Direct proportionality ($Y \\propto X$ ya $Y \\propto 1/\\sqrt{X}$) dhyan me rakhein — parameter change hone par pura calculate karne ke bajaye ratio method use karein!`
+  : `NEET Trick: Use ratio and proportionality method rather than computing absolute values whenever evaluating variations.`}
+
+### 📝 Quick Check
+${isHinglish
+  ? `Quick Check: Agar independent variable ko double kiya jaye, toh output par kya fark padega? (Upar diye formula se verify karein).`
+  : `Quick Check: By what factor does the output change if the primary independent variable is doubled?`}`;
 }
 
 /**
@@ -810,6 +867,7 @@ export function searchFormulaKnowledge(
   if (!userQuery || typeof userQuery !== 'string') return null;
 
   const userLower = userQuery.toLowerCase().trim();
+  const isHinglish = detectLanguageMode(userQuery) === 'hinglish';
 
   // 1. Detect Intent from raw query before stripping words
   let detectedIntent: 'example' | 'formula' | 'derivation' | 'concept' = 'concept';
@@ -863,7 +921,7 @@ export function searchFormulaKnowledge(
           example: entry.example,
           derivation: entry.derivation,
           detectedIntent,
-          formattedAnswer: formatKnowledgeAnswer(entry, detectedIntent)
+          formattedAnswer: formatKnowledgeAnswer(entry, detectedIntent, isHinglish)
         };
       }
     }
@@ -949,7 +1007,7 @@ export function searchFormulaKnowledge(
           examTip: entryObj.examTip,
           trap: entryObj.trap,
           detectedIntent,
-          formattedAnswer: formatKnowledgeAnswer(entryObj, detectedIntent)
+          formattedAnswer: formatKnowledgeAnswer(entryObj, detectedIntent, isHinglish)
         };
       }
     }
