@@ -1,4 +1,4 @@
-import { canonicalSyllabus } from '../data/canonicalSyllabusData';
+import { canonicalSyllabus } from '../data/canonicalSyllabusData.js';
 
 function normalizeChapterKey(s: string): string {
   return (s || '')

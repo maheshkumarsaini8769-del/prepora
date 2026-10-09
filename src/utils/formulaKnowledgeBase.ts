@@ -2,9 +2,9 @@ import {
   comprehensiveFormulaNotes,
   TopicRevisionItem,
   TopicFormula
-} from '../data/comprehensiveFormulaNotes';
-import { SubjectName } from '../types';
-import { detectLanguageMode } from './languageMode';
+} from '../data/comprehensiveFormulaNotes.js';
+import type { SubjectName } from '../types';
+import { detectLanguageMode } from './languageMode.js';
 
 /**
  * Normalizes strings by lowercasing, stripping special characters and extra spaces.
