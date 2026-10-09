@@ -38,7 +38,7 @@ export const connectDB = async (): Promise<void> => {
     isConnected = false;
     console.error(`[MongoDB] Connection error: ${error?.message || error}`);
     // If primary failed, try local fallback so platform never goes down
-    if (mongoose.connection.readyState !== 1) {
+    if ((mongoose.connection.readyState as number) !== 1) {
       try {
         console.log('[MongoDB] Primary failed, attempting connection to local database fallback...');
         const localConn = await mongoose.connect(LOCAL_FALLBACK_URI, {
