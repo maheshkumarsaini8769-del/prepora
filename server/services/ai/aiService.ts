@@ -1,4 +1,5 @@
 import { IAIProvider } from './aiProvider.interface.js';
+import { OpenAIProvider } from './openAIProvider.js';
 import { GeminiProvider } from './geminiProvider.js';
 import { GroqProvider } from './groqProvider.js';
 import { FallbackProvider } from './fallbackProvider.js';
@@ -16,7 +17,8 @@ import { searchDatabaseFirst } from './quality/databaseFirstSearch.js';
 import { runCentralQualityPipeline, ValidationReport } from './quality/centralQualityPipeline.js';
 
 class AIService {
-  private primaryProvider: GeminiProvider;
+  private openAIProvider: OpenAIProvider;
+  private geminiProvider: GeminiProvider;
   private groqProvider: GroqProvider;
   private fallbackProvider: FallbackProvider;
   private isAIEnabled: boolean = true;
@@ -25,9 +27,13 @@ class AIService {
   private lastResetDate: string = new Date().toISOString().slice(0, 10);
 
   constructor() {
-    const envKey = process.env.GEMINI_API_KEY || '';
+    const openaiKey = process.env.OPENAI_API_KEY || '';
+    const openaiModel = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    const geminiKey = process.env.GEMINI_API_KEY || '';
     const groqKey = process.env.GROQ_API_KEY || '';
-    this.primaryProvider = new GeminiProvider(envKey, 'gemini-1.5-flash');
+
+    this.openAIProvider = new OpenAIProvider(openaiKey, openaiModel);
+    this.geminiProvider = new GeminiProvider(geminiKey, 'gemini-1.5-flash');
     this.groqProvider = new GroqProvider(groqKey);
     this.fallbackProvider = new FallbackProvider();
   }
@@ -36,9 +42,21 @@ class AIService {
     try {
       const config = await AIProviderConfig.findOne({ key: 'ai_provider_config' });
       if (config) {
-        const key = config.apiKey || process.env.GEMINI_API_KEY || '';
-        this.primaryProvider.updateConfig(key, config.modelName || 'gemini-1.5-flash');
+        if (config.provider === 'openai_compatible' || (config.provider as string) === 'openai') {
+          const key = config.apiKey || process.env.OPENAI_API_KEY || '';
+          this.openAIProvider.updateConfig(key, config.modelName || process.env.OPENAI_MODEL || 'gpt-4o-mini');
+        } else if (process.env.OPENAI_API_KEY) {
+          this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
+        }
+
+        if (config.provider === 'gemini') {
+          const key = config.apiKey || process.env.GEMINI_API_KEY || '';
+          this.geminiProvider.updateConfig(key, config.modelName || 'gemini-1.5-flash');
+        }
+
         this.dailyRequestLimit = config.dailyGenerationLimit || 500;
+      } else if (process.env.OPENAI_API_KEY) {
+        this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
       }
     } catch (e) {
       console.warn('[AIService] DB init skipped, using environment config');
@@ -55,14 +73,13 @@ class AIService {
 
   public getStatus() {
     this.checkAndResetQuota();
-    const activeProvider = this.primaryProvider.isConfigured()
-      ? this.primaryProvider.name
-      : this.groqProvider.isConfigured()
-        ? this.groqProvider.name
-        : this.fallbackProvider.name;
+    const active = this.getActiveAIProvider();
+    const activeProvider = active ? active.name : this.fallbackProvider.name;
     return {
       isAIEnabled: this.isAIEnabled,
-      hasGeminiKey: this.primaryProvider.isConfigured(),
+      hasOpenAIKey: this.openAIProvider.isConfigured(),
+      openAIModel: this.openAIProvider.getModelName(),
+      hasGeminiKey: this.geminiProvider.isConfigured(),
       hasGroqKey: this.groqProvider.isConfigured(),
       activeProvider,
       requestsToday: this.requestsToday,
@@ -71,8 +88,28 @@ class AIService {
     };
   }
 
-  private getActiveAIProvider(): IAIProvider | null {
-    if (this.primaryProvider.isConfigured()) return this.primaryProvider;
+  private isInitialized: boolean = false;
+  private initPromise: Promise<void> | null = null;
+
+  public async ensureInitialized(): Promise<void> {
+    if (this.isInitialized) return;
+    if (!this.initPromise) {
+      this.initPromise = this.initializeFromDB().then(() => {
+        this.isInitialized = true;
+      });
+    }
+    await this.initPromise;
+  }
+
+  public getActiveAIProvider(): IAIProvider | null {
+    if (!this.openAIProvider.isConfigured() && process.env.OPENAI_API_KEY) {
+      this.openAIProvider.updateConfig(
+        process.env.OPENAI_API_KEY,
+        process.env.OPENAI_MODEL || 'gpt-4o-mini'
+      );
+    }
+    if (this.openAIProvider.isConfigured()) return this.openAIProvider;
+    if (this.geminiProvider.isConfigured()) return this.geminiProvider;
     if (this.groqProvider.isConfigured()) return this.groqProvider;
     return null;
   }
@@ -81,6 +118,7 @@ class AIService {
     req: IDoubtSolveRequest,
     contextSnippet?: string
   ): Promise<{ result: IDoubtSolveResult; report: ValidationReport }> {
+    await this.ensureInitialized();
     this.checkAndResetQuota();
     this.requestsToday++;
 
@@ -93,21 +131,32 @@ class AIService {
 
     let rawResult: IDoubtSolveResult;
 
-    // Step 3: Provider Execution (Gemini -> Groq -> Fallback)
+    // Step 3: Provider Execution (OpenAI -> Gemini -> Groq -> Fallback)
     const aiProvider = this.getActiveAIProvider();
     if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
       try {
         rawResult = await aiProvider.solveDoubt(req, effectiveContext);
       } catch (err: any) {
-        console.warn(`[AIService] ${aiProvider.name} call failed, trying fallback:`, err?.message);
+        console.warn(`[AIService] ${aiProvider.name} call failed:`, err?.message);
         rawResult = await this.fallbackProvider.solveDoubt(req, effectiveContext);
+        rawResult.provider = `${this.fallbackProvider.name}`;
+        rawResult.providerError = `${aiProvider.name} error: ${err?.message || 'failed'}`;
+        rawResult.isFallback = true;
       }
     } else {
       rawResult = await this.fallbackProvider.solveDoubt(req, effectiveContext);
+      rawResult.provider = this.fallbackProvider.name;
+      rawResult.isFallback = true;
+      if (!this.getActiveAIProvider()) {
+        rawResult.providerError = 'OpenAI API key not configured on backend. Used offline curriculum knowledge.';
+      }
     }
 
     // Step 4: Central Quality Pipeline & Verification (Sections 5, 8, 28, 29)
     const validated = await runCentralQualityPipeline(req, rawResult, understanding, dbMatch);
+    if (rawResult.providerError) validated.result.providerError = rawResult.providerError;
+    if (rawResult.isFallback !== undefined) validated.result.isFallback = rawResult.isFallback;
+
     return validated;
   }
 
@@ -118,8 +167,8 @@ class AIService {
     if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
       try {
         return await aiProvider.generateProgressiveHints(req);
-      } catch (err) {
-        console.warn(`[AIService] ${aiProvider.name} hints failed, using fallback`);
+      } catch (err: any) {
+        console.warn(`[AIService] ${aiProvider.name} hints failed:`, err?.message);
       }
     }
     return await this.fallbackProvider.generateProgressiveHints(req);
@@ -132,8 +181,8 @@ class AIService {
     if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
       try {
         return await aiProvider.analyzeWeakness(req);
-      } catch (err) {
-        console.warn(`[AIService] ${aiProvider.name} weakness analysis failed, using fallback`);
+      } catch (err: any) {
+        console.warn(`[AIService] ${aiProvider.name} weakness analysis failed:`, err?.message);
       }
     }
     return await this.fallbackProvider.analyzeWeakness(req);

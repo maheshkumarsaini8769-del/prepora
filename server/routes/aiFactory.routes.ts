@@ -942,11 +942,29 @@ router.put('/settings', async (req: Request, res: Response) => {
 
 router.post('/settings/test-connection', async (req: Request, res: Response) => {
   try {
-    const config = await AIProviderConfig.findOne({ key: 'ai_provider_config' });
-    // Verify connection
+    await aiService.ensureInitialized();
+    const active = aiService.getActiveAIProvider();
+    if (!active) {
+      return res.status(400).json({
+        success: false,
+        message: 'No AI provider is configured. Please provide an API key in settings or environment variables.'
+      });
+    }
+
+    if (typeof (active as any).testConnection === 'function') {
+      const testRes = await (active as any).testConnection();
+      if (!testRes.success) {
+        return res.status(400).json({ success: false, message: testRes.message });
+      }
+      return res.json({
+        success: true,
+        message: `${testRes.message} Latency: ${testRes.latencyMs}ms.`
+      });
+    }
+
     res.json({
       success: true,
-      message: `Successfully connected to ${config?.provider || 'Gemini'} (${config?.modelName || 'gemini-1.5-flash'}). Latency: 114ms. Free-tier quota available.`
+      message: `Active provider: ${active.name}. Ready for queries.`
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: 'Connection test failed', error: error.message });

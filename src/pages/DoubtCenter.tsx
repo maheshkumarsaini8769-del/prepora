@@ -445,6 +445,11 @@ export const DoubtCenter: React.FC = () => {
                     <span className="text-xs font-semibold text-slate-400">
                       {currentSolution.subject} • {currentSolution.chapter}
                     </span>
+                    {currentSolution.provider && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono font-medium">
+                        {currentSolution.provider}
+                      </span>
+                    )}
                     {currentSolution.understanding?.intent && (
                       <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
                         currentSolution.understanding.intent === 'example'
@@ -488,6 +493,14 @@ export const DoubtCenter: React.FC = () => {
                   </Button>
                 </div>
               </div>
+
+              {/* Provider error / diagnostic notice */}
+              {currentSolution.providerError && (
+                <div className="p-3 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs flex items-center gap-2">
+                  <span className="text-base">⚠️</span>
+                  <span><strong>AI Provider Notice:</strong> {currentSolution.providerError}</span>
+                </div>
+              )}
 
               {/* Core Concept / Direct Answer */}
               {currentSolution.answer && (

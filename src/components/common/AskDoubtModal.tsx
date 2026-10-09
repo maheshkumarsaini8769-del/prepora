@@ -136,7 +136,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
       footer={
         <div className="flex items-center justify-between w-full">
           <div className="text-[11px] text-slate-400">
-            {activeTab === 'ai-instant' ? 'Powered by Google Gemini AI' : 'Faculty Response < 2 hrs'}
+            {activeTab === 'ai-instant' ? 'Powered by OpenAI & Academic Engine' : 'Faculty Response < 2 hrs'}
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={handleResetAndClose}>
@@ -272,10 +272,15 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
               <div className="space-y-4 max-h-[60vh] overflow-y-auto pr-1">
                 {/* Solved Header */}
                 <div className="flex items-center justify-between border-b border-emerald-100 dark:border-emerald-900/40 pb-2">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <span className="text-xs font-bold text-emerald-900 dark:text-emerald-300 flex items-center gap-1">
                       <Sparkles className="w-3.5 h-3.5 text-emerald-600" /> Verified Academic Solution
                     </span>
+                    {aiSolution.provider && (
+                      <span className="text-[10px] px-2 py-0.5 rounded-full font-mono bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200">
+                        {aiSolution.provider}
+                      </span>
+                    )}
                     <span className="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-200">
                       Quality Verified
                     </span>
@@ -299,6 +304,14 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                     </button>
                   </div>
                 </div>
+
+                {/* Provider Error / Diagnostic notice */}
+                {aiSolution.providerError && (
+                  <div className="p-2.5 bg-amber-50 dark:bg-amber-950/40 rounded-xl border border-amber-200 dark:border-amber-800 text-xs text-amber-900 dark:text-amber-200 flex items-center gap-2">
+                    <span className="text-sm">⚠️</span>
+                    <span><strong>Notice:</strong> {aiSolution.providerError}</span>
+                  </div>
+                )}
 
                 {/* Direct Answer with MathRenderer */}
                 {aiSolution.answer && (

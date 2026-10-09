@@ -41,6 +41,8 @@ export interface SolvedDoubtResponse {
     actionUrl: string;
   };
   provider?: string;
+  providerError?: string;
+  isFallback?: boolean;
   confidence?: number;
 }
 
@@ -128,16 +130,57 @@ export class AIDoubtSolverService {
             suggestedFollowUps: d.suggestedFollowUps || ['Explain simpler', 'Give example', 'Test me on this'],
             suggestedPractice: d.suggestedPractice,
             provider: d.provider,
+            providerError: d.providerError,
+            isFallback: d.isFallback,
             confidence: d.confidence,
             timestamp: new Date().toISOString()
           };
         }
       }
-    } catch (err) {
-      console.warn('[AIDoubtSolver] Online API call failed, using local academic fallback:', err);
-    }
 
-    return this.solveDoubt(questionText, subject, chapter);
+      // Backend returned an error response (e.g. 400, 401, 429, 500)
+      let errorMsg = `HTTP Error ${res.status}`;
+      try {
+        const errJson = await res.json();
+        errorMsg = errJson.details || errJson.error || errJson.message || errorMsg;
+      } catch {}
+      console.warn('[AIDoubtSolver] Backend returned error:', errorMsg);
+
+      return {
+        id: 'api-err-' + Date.now(),
+        question: questionText,
+        subject,
+        chapter,
+        answer: `⚠️ **AI Service Notice:** ${errorMsg}\n\nPlease verify your OpenAI API key or billing in settings.`,
+        coreConcept: 'Service Advisory',
+        stepByStepSolution: [],
+        examinerTrap: 'Ensure API configuration and internet connection are valid.',
+        examTip: 'You can retry once connection is verified.',
+        provider: 'System Error',
+        providerError: errorMsg,
+        isFallback: true,
+        confidence: 0,
+        timestamp: new Date().toISOString()
+      };
+    } catch (err: any) {
+      console.warn('[AIDoubtSolver] Network call failed:', err);
+      return {
+        id: 'net-err-' + Date.now(),
+        question: questionText,
+        subject,
+        chapter,
+        answer: `⚠️ **Network Failure:** Could not connect to the Prepora AI backend. Please check your internet connection and retry.`,
+        coreConcept: 'Network Connection',
+        stepByStepSolution: [],
+        examinerTrap: 'Ensure network connection is stable.',
+        examTip: 'Check your internet connection and retry.',
+        provider: 'Network Error',
+        providerError: err?.message || 'Network connection failed',
+        isFallback: true,
+        confidence: 0,
+        timestamp: new Date().toISOString()
+      };
+    }
   }
 
   public async getProgressiveHintsOnline(

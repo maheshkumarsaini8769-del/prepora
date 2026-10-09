@@ -31,13 +31,22 @@ export async function searchDatabaseFirst(searchQuery: string): Promise<Database
   }
 
   try {
+    const STOP_WORDS = new Set([
+      'what', 'which', 'where', 'when', 'who', 'whom', 'whose', 'why', 'how',
+      'the', 'is', 'are', 'was', 'were', 'be', 'been', 'being',
+      'have', 'has', 'had', 'do', 'does', 'did',
+      'a', 'an', 'and', 'or', 'but', 'if', 'then', 'else', 'for', 'of', 'at', 'by', 'from', 'in', 'out', 'on', 'off', 'over', 'under',
+      'with', 'about', 'against', 'between', 'into', 'through', 'during', 'before', 'after', 'above', 'below', 'to', 'up', 'down',
+      'explain', 'describe', 'tell', 'define', 'solve', 'calculate', 'find', 'show', 'give', 'write', 'please'
+    ]);
+
     // 1. Exact or prefix regex search
     const cleanNormalized = cleanQ.toLowerCase().replace(/[^\w\s]/g, '').trim();
-    const words = cleanNormalized.split(/\s+/).filter(w => w.length > 3);
+    const words = cleanNormalized.split(/\s+/).filter(w => w.length > 3 && !STOP_WORDS.has(w));
     
     let match: any = null;
 
-    // Direct text search if long enough
+    // Direct text search if long enough with specific keywords
     if (words.length >= 3) {
       const regexPattern = words.slice(0, 4).join('\\s+.*');
       match = await Question.findOne({

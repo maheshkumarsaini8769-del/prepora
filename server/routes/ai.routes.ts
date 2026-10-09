@@ -49,24 +49,10 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, error: 'Question text or an image is required' });
     }
 
-    // Grounding lookup in PREPORA Question Bank if applicable (task3.md Section 12)
-    let contextSnippet: string | undefined = undefined;
-    try {
-      const searchRegex = new RegExp(resolvedQuestion.slice(0, 30).trim().split(' ')[0] || '', 'i');
-      const foundQ = await Question.findOne({
-        $or: [
-          { topic: { $regex: searchRegex } },
-          { chapter: { $regex: searchRegex } },
-          { question: { $regex: searchRegex } }
-        ]
-      }).select('question options correctAnswer explanation concept topic chapter subject');
-
-      if (foundQ) {
-        contextSnippet = `Related PREPORA Question: "${foundQ.question}" (Chapter: ${foundQ.chapter}, Topic: ${foundQ.topic})\nConcept: ${foundQ.concept || 'N/A'}\nVerified Solution: ${foundQ.explanation}`;
-      }
-    } catch (dbErr) {
-      // Non-blocking: continue with general model knowledge
-    }
+    // Use client-provided context snippet if present (task3.md Section 12)
+    const contextSnippet = (req.body.contextSnippet && typeof req.body.contextSnippet === 'string')
+      ? req.body.contextSnippet.trim()
+      : undefined;
 
     const effectiveFollowUp = requestFollowUp || followUpMode;
 

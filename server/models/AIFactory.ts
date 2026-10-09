@@ -268,7 +268,7 @@ export const AIFactoryJob = mongoose.model<IAIFactoryJob>('AIFactoryJob', AIFact
 // 4. AI Provider Configuration & Cost Controls
 export interface IAIProviderConfig extends Document {
   key: string;
-  provider: 'gemini' | 'openai_compatible' | 'offline_engine';
+  provider: 'openai' | 'gemini' | 'openai_compatible' | 'offline_engine';
   apiKey?: string;
   modelName: string;
   temperature: number;
@@ -284,9 +284,9 @@ export interface IAIProviderConfig extends Document {
 const AIProviderConfigSchema = new Schema(
   {
     key: { type: String, required: true, unique: true, default: 'ai_provider_config' },
-    provider: { type: String, enum: ['gemini', 'openai_compatible', 'offline_engine'], default: 'gemini' },
+    provider: { type: String, enum: ['openai', 'gemini', 'openai_compatible', 'offline_engine'], default: 'openai' },
     apiKey: { type: String, default: '' },
-    modelName: { type: String, default: 'gemini-1.5-flash' },
+    modelName: { type: String, default: 'gpt-4o-mini' },
     temperature: { type: Number, default: 0.7 },
     maxTokens: { type: Number, default: 4096 },
     dailyGenerationLimit: { type: Number, default: 500 },

@@ -47,6 +47,9 @@ interface ChatMessage {
   correctOption?: number;
   selectedOption?: number;
   explanation?: string;
+  provider?: string;
+  providerError?: string;
+  isFallback?: boolean;
   timestamp: string;
 }
 
@@ -77,8 +80,20 @@ const AcademicMessageRenderer: React.FC<{ text: string }> = ({ text }) => {
 
         if (clean.startsWith('### ')) {
           const firstLineBreak = clean.indexOf('\n');
-          const title = firstLineBreak !== -1 ? clean.slice(4, firstLineBreak).trim() : clean.slice(4).trim();
-          const body = firstLineBreak !== -1 ? clean.slice(firstLineBreak + 1).trim() : '';
+          let title = '';
+          let body = '';
+          if (firstLineBreak !== -1) {
+            title = clean.slice(4, firstLineBreak).trim();
+            body = clean.slice(firstLineBreak + 1).trim();
+          } else {
+            const colonIdx = clean.indexOf(':');
+            if (colonIdx !== -1 && colonIdx < 40) {
+              title = clean.slice(4, colonIdx).trim();
+              body = clean.slice(colonIdx + 1).trim();
+            } else {
+              title = clean.slice(4).trim();
+            }
+          }
 
           const tLower = title.toLowerCase();
           let borderStyle = 'border-l-4 border-slate-300 dark:border-slate-700 bg-slate-50/80 dark:bg-slate-900/40 text-slate-800 dark:text-slate-200';
@@ -256,7 +271,11 @@ export const AITeacherPage: React.FC = () => {
     setInputText('');
     setIsLoading(true);
 
-    if (currentMode === 'Practice') {
+    const isPracticeBankRequest =
+      (!customPrompt && !inputText.trim() && currentMode === 'Practice') ||
+      Boolean(customPrompt && customPrompt.includes('practice MCQ'));
+
+    if (isPracticeBankRequest) {
       const targetChapter = (classification.hasChapterMatch && classification.detectedChapter)
         ? classification.detectedChapter
         : activeChapter;
@@ -282,6 +301,7 @@ export const AITeacherPage: React.FC = () => {
             options: q.options,
             correctOption: q.correctAnswer,
             explanation: q.explanation,
+            provider: 'Prepora Question Bank',
             groundedInPrepora: true,
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
           };
@@ -292,6 +312,11 @@ export const AITeacherPage: React.FC = () => {
     }
 
     try {
+      const recentHistory = messages.slice(-6).map((m) => ({
+        role: (m.sender === 'student' ? 'user' : 'model') as 'user' | 'model',
+        parts: [{ text: m.text }]
+      }));
+
       const response = await aiDoubtSolver.solveDoubtOnline(
         textToSend,
         activeSubj,
@@ -300,7 +325,8 @@ export const AITeacherPage: React.FC = () => {
           followUpMode: currentMode.toLowerCase(),
           requestFollowUp: currentMode.toLowerCase(),
           targetExam: user.targetExam,
-          classLevel: user.classLevel
+          classLevel: user.classLevel,
+          conversationHistory: recentHistory
         }
       );
 
@@ -355,11 +381,14 @@ export const AITeacherPage: React.FC = () => {
         sender: 'tutor',
         text: replyText,
         mode: currentMode,
-        groundedInPrepora: true,
+        provider: response.provider,
+        providerError: response.providerError,
+        isFallback: response.isFallback,
+        groundedInPrepora: response.groundedInPrepora ?? true,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
       setMessages((prev) => [...prev, tutorMsg]);
-    } catch {
+    } catch (err: any) {
       const fallbackFormula = searchFormulaKnowledge(textToSend, activeSubj, activeChapter, user.targetExam);
       let fallbackText = '';
       if (fallbackFormula && fallbackFormula.found) {
@@ -376,6 +405,9 @@ export const AITeacherPage: React.FC = () => {
         sender: 'tutor',
         text: fallbackText,
         mode: currentMode,
+        provider: 'Offline Engine',
+        providerError: err?.message || 'Error communicating with AI service.',
+        isFallback: true,
         groundedInPrepora: true,
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
       };
@@ -543,7 +575,7 @@ export const AITeacherPage: React.FC = () => {
                 }`}
               >
                 <div className="flex items-center justify-between text-[11px] opacity-75 pb-1 border-b border-black/5 dark:border-white/5">
-                  <span className="font-semibold flex items-center gap-1.5">
+                  <span className="font-semibold flex items-center gap-1.5 flex-wrap">
                     {isTutor ? (
                       <>
                         <Sparkles className="w-3 h-3 text-emerald-500" />
@@ -553,6 +585,11 @@ export const AITeacherPage: React.FC = () => {
                             {msg.mode}
                           </span>
                         )}
+                        {msg.provider && (
+                          <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-200/80 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-mono font-normal">
+                            {msg.provider}
+                          </span>
+                        )}
                       </>
                     ) : (
                       <span>You</span>
@@ -560,6 +597,14 @@ export const AITeacherPage: React.FC = () => {
                   </span>
                   <span>{msg.timestamp}</span>
                 </div>
+
+                {/* Provider Error / Offline Notice */}
+                {msg.providerError && (
+                  <div className="p-2 rounded-lg bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800 text-amber-900 dark:text-amber-200 text-xs flex items-center gap-1.5">
+                    <AlertTriangle className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                    <span>{msg.providerError}</span>
+                  </div>
+                )}
 
                 {/* Structured academic rendering */}
                 <AcademicMessageRenderer text={msg.text} />

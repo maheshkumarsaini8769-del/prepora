@@ -1,6 +1,6 @@
+import 'dotenv/config';
 import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 
@@ -25,8 +25,6 @@ import feedbackRoutes from './routes/feedback.routes.js';
 
 import { securityHeaders } from './middleware/securityHeaders.js';
 import { mongoSanitizer } from './middleware/mongoSanitizer.js';
-
-dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;

@@ -64,6 +64,8 @@ export interface IDoubtSolveResult {
   };
   confidence: number;
   provider: string;
+  providerError?: string;
+  isFallback?: boolean;
   latencyMs: number;
 }
 

@@ -2049,11 +2049,12 @@ export const AdminAIFactory: React.FC = () => {
             <div>
               <label className="block text-slate-400 font-semibold mb-1">Active AI Provider</label>
               <select
-                value={providerConfig?.provider || 'gemini'}
+                value={providerConfig?.provider || 'openai'}
                 onChange={(e) => setProviderConfig({ ...providerConfig, provider: e.target.value })}
                 className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
               >
-                <option value="gemini">Google Gemini (Recommended / Free-Tier Supported)</option>
+                <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
+                <option value="gemini">Google Gemini (Free-Tier Supported)</option>
                 <option value="openai_compatible">OpenAI Compatible REST Endpoint</option>
                 <option value="offline_engine">Local High-Yield Offline Generator</option>
               </select>
