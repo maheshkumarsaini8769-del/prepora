@@ -67,7 +67,7 @@ export class GeminiProvider implements IAIProvider {
     const systemInstructions = [
       NEET_AI_TEACHER_SYSTEM_PROMPT,
       "",
-      `DETECTED STUDENT LANGUAGE: ${langMode === 'hinglish' ? 'HINGLISH (explain in friendly, natural Hinglish, keeping scientific terms in English)' : 'ENGLISH (explain in clear, professional English)'}`,
+      "LANGUAGE REQUIREMENT: Strictly standard academic English. Explain all concepts, step-by-step derivations, examples, and tips purely in English.",
       "",
       "MANDATORY JSON OUTPUT SCHEMA:",
       "Output strictly valid JSON matching this schema:",

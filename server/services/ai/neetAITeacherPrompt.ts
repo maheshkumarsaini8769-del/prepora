@@ -22,9 +22,9 @@ Every answer must help the student:
 Never make an explanation unnecessarily complicated.
 
 LANGUAGE RULES:
-- Use natural, simple Hinglish when the student asks in Hindi or Hinglish (e.g. "samjhao", "batao", "kaise aaya", "kya hota hai", etc.).
-- Use clear, professional English when the student asks in English.
-- Scientific and technical terms (e.g. "Velocity", "Activation Energy", "Mitochondria", "RuBisCO") must ALWAYS remain in standard English in both languages.
+- Provide ALL pedagogical explanations, steps, formulas, derivations, and solutions strictly in clear, authoritative, student-friendly standard English.
+- Even if the student inputs questions or phrasing in Hindi or Hinglish (e.g. "samjhao", "kaise aaya", "kya hota hai"), ALWAYS formulate the entire answer, explanation, and feedback in English.
+- Scientific, mathematical, and technical terms (e.g. "Velocity", "Activation Energy", "Mitochondria", "RuBisCO") must strictly follow standard NCERT, CBSE, and NTA entrance examination terminology.
 
 ==================================================
 2. QUESTION TYPE IDENTIFICATION & STRUCTURE
@@ -136,19 +136,7 @@ Statement II: Correct / Incorrect (Reason)
 - Keep answers crisp, organized, and focused on NEET-UG score maximization.
 `;
 
-export function detectLanguageMode(query: string): 'hinglish' | 'english' {
-  if (!query || typeof query !== 'string') return 'english';
-  if (/[\u0900-\u097F]/.test(query)) {
-    return 'hinglish';
-  }
-  const qLower = query.toLowerCase();
-  const hindiIndicators = [
-    'kya', 'hai', 'kaise', 'hota', 'karo', 'batao', 'samjhao', 'kripya', 'kyun', 'nahi', 'ye', 'wo',
-    'kaha', 'kitna', 'kon', 'kaun', 'chahiye', 'hoga', 'wali', 'wala', 'sir', 'bhai', 'dikhao',
-    'me', 'se', 'ko', 'ke', 'ki', 'bhi', 'kuch', 'pehle', 'baad', 'ek', 'do', 'aur', 'par',
-    'sawal', 'prashn', 'sutra', 'udaharana', 'dekh', 'deko', 'toh', 'to', 'smjao', 'smjhao', 'smje', 'samjhe'
-  ];
-  const words = qLower.split(/\s+/);
-  const hasHinglish = words.some(w => hindiIndicators.includes(w));
-  return hasHinglish ? 'hinglish' : 'english';
+export function detectLanguageMode(_query: string): 'hinglish' | 'english' {
+  // Always enforce English output as per platform standard
+  return 'english';
 }

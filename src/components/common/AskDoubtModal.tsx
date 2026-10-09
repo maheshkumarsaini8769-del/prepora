@@ -8,10 +8,7 @@ import {
   Zap, 
   Lightbulb, 
   BookmarkPlus, 
-  AlertTriangle,
-  Camera,
-  Image as ImageIcon,
-  X
+  AlertTriangle
 } from 'lucide-react';
 import { Modal, Button } from './UIComponents';
 import { ecosystemService } from '../../services/ecosystemService';
@@ -40,10 +37,8 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
   initialSubject
 }) => {
   const navigate = useNavigate();
-  const fileInputRef = React.useRef<HTMLInputElement>(null);
   const [activeTab, setActiveTab] = useState<'ai-instant' | 'faculty'>('ai-instant');
   const [doubtText, setDoubtText] = useState<string>('');
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState<boolean>(false);
   const [isAiSolving, setIsAiSolving] = useState<boolean>(false);
   const [aiSolution, setAiSolution] = useState<SolvedDoubtResponse | null>(null);
@@ -51,26 +46,11 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
 
   if (!isOpen) return null;
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file (PNG, JPEG, WebP).');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      setUploadedImage(base64);
-    };
-    reader.readAsDataURL(file);
-  };
-
   const handleAiSolve = async () => {
     const sub: SubjectName = questionContext?.subject || initialSubject || 'Physics';
     const ch = questionContext?.chapter || 'General Academic';
     const qText = doubtText.trim() || questionContext?.question || '';
-    if (!qText && !uploadedImage) return;
+    if (!qText) return;
 
     setIsAiSolving(true);
     try {
@@ -79,8 +59,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
         sub,
         ch,
         { 
-          contextSnippet: questionContext?.question,
-          imageBase64: uploadedImage || undefined
+          contextSnippet: questionContext?.question
         }
       );
       setAiSolution(solution);
@@ -93,7 +72,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
 
   const handleFacultySubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!doubtText.trim() && !uploadedImage) return;
+    if (!doubtText.trim()) return;
 
     const sub: SubjectName = questionContext?.subject || initialSubject || 'Physics';
     const ch = questionContext?.chapter || 'General Doubt';
@@ -121,7 +100,6 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
 
   const handleResetAndClose = () => {
     setDoubtText('');
-    setUploadedImage(null);
     setSubmitted(false);
     setAiSolution(null);
     onClose();
@@ -147,7 +125,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                 variant="primary"
                 size="sm"
                 onClick={handleAiSolve}
-                disabled={isAiSolving || (!doubtText.trim() && !questionContext?.question && !uploadedImage)}
+                disabled={isAiSolving || (!doubtText.trim() && !questionContext?.question)}
                 className="font-bold flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl"
               >
                 <Sparkles className="w-3.5 h-3.5" />
@@ -159,7 +137,7 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                 variant="primary"
                 size="sm"
                 onClick={handleFacultySubmit}
-                disabled={!doubtText.trim() && !uploadedImage}
+                disabled={!doubtText.trim()}
                 className="font-bold flex items-center gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl"
               >
                 <Send className="w-3.5 h-3.5" /> Submit to Faculty
@@ -223,44 +201,15 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                   className="w-full h-24 p-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 resize-none font-medium"
                 />
 
-                {/* Uploaded Image Preview */}
-                {uploadedImage && (
-                  <div className="relative inline-block border-2 border-emerald-500 rounded-xl p-1 bg-white dark:bg-[#0c131a] shadow-xs">
-                    <img src={uploadedImage} alt="Uploaded Doubt" className="h-20 max-w-xs object-cover rounded-lg" />
-                    <button
-                      type="button"
-                      onClick={() => setUploadedImage(null)}
-                      aria-label="Remove image"
-                      className="absolute -top-2 -right-2 w-5 h-5 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs shadow-md"
-                    >
-                      <X className="w-3 h-3" />
-                    </button>
+                <div className="flex items-center justify-between gap-2 pt-1">
+                  <div className="text-[11px] text-slate-400">
+                    Type your academic query for instant step-by-step guidance.
                   </div>
-                )}
-
-                {/* Photo Upload / Camera Option */}
-                <div className="flex items-center justify-between gap-2">
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageUpload}
-                    accept="image/*"
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="text-xs font-semibold text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700 py-1.5 px-3 rounded-xl flex items-center gap-1.5 hover:bg-slate-50 dark:hover:bg-slate-800"
-                  >
-                    <Camera className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>{uploadedImage ? 'Change Image' : 'Attach Photo / Question'}</span>
-                  </Button>
 
                   <Button
                     variant="primary"
                     onClick={handleAiSolve}
-                    disabled={isAiSolving || (!doubtText.trim() && !questionContext?.question && !uploadedImage)}
+                    disabled={isAiSolving || (!doubtText.trim() && !questionContext?.question)}
                     className="bg-emerald-600 hover:bg-emerald-700 font-bold text-xs flex items-center justify-center gap-1.5 py-2 px-4 rounded-xl text-white"
                   >
                     <Sparkles className="w-4 h-4" />

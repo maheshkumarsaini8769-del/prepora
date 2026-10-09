@@ -7,8 +7,6 @@ import {
   Clock,
   Plus,
   Lightbulb,
-  Image as ImageIcon,
-  Camera,
   X,
   Target,
   BookmarkPlus,
@@ -29,7 +27,6 @@ import { classifyAcademicQuery } from '../utils/aiAcademicClassifier';
 
 export const DoubtCenter: React.FC = () => {
   const navigate = useNavigate();
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const user = userService.getProfile();
   const allowedSubjects = getAllowedSubjectsForExam(user.targetExam);
   const subjects: (SubjectName | 'All')[] = ['All', ...allowedSubjects];
@@ -49,7 +46,6 @@ export const DoubtCenter: React.FC = () => {
   const [currentSolution, setCurrentSolution] = useState<SolvedDoubtResponse | null>(null);
   const [savedToNotesMsg, setSavedToNotesMsg] = useState(false);
   const [addedToRevisionMsg, setAddedToRevisionMsg] = useState(false);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [showWorkedExample, setShowWorkedExample] = useState(false);
 
   // Progressive Hints Mode State
@@ -127,25 +123,10 @@ export const DoubtCenter: React.FC = () => {
     return true;
   });
 
-  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    if (!file.type.startsWith('image/')) {
-      alert('Please select an image file (PNG, JPEG, WebP).');
-      return;
-    }
-    const reader = new FileReader();
-    reader.onload = (event) => {
-      const base64 = event.target?.result as string;
-      setUploadedImage(base64);
-    };
-    reader.readAsDataURL(file);
-  };
-
   const handleSolveWithAI = async (e?: React.FormEvent, customQuery?: string, followUpPrompt?: string) => {
     if (e) e.preventDefault();
     const query = customQuery || aiQuestion;
-    if (!query.trim() && !uploadedImage) return;
+    if (!query.trim()) return;
 
     setPolicyBlockedError(null);
     setAutoSwitchedNotice(null);
@@ -182,7 +163,6 @@ export const DoubtCenter: React.FC = () => {
       }
 
       const solution = await aiDoubtSolver.solveDoubtOnline(query, effectiveSubject, effectiveChapter, {
-        imageBase64: uploadedImage || undefined,
         followUpMode: followUpPrompt
       });
       setCurrentSolution(solution);
@@ -395,9 +375,9 @@ export const DoubtCenter: React.FC = () => {
 
               {/* Helpful Student Prompt */}
               <div className="p-2.5 rounded-xl bg-cyan-50/80 dark:bg-cyan-950/40 border border-cyan-200 dark:border-cyan-800/60 text-cyan-900 dark:text-cyan-200 text-xs flex items-center gap-2 font-medium">
-                <span className="text-sm">📸</span>
+                <Lightbulb className="w-4 h-4 text-cyan-600 shrink-0" />
                 <span className="leading-tight">
-                  <strong>Photo ya Question likhein:</strong> AI turant formula, step-by-step breakdown aur correct answer batayega.
+                  <strong>Ask Any Academic Doubt:</strong> Type your question or formula below for step-by-step derivations, key formulas, and verified solutions in English.
                 </span>
               </div>
 
@@ -413,20 +393,6 @@ export const DoubtCenter: React.FC = () => {
                   className="w-full text-xs p-3 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-xl focus:bg-white focus:outline-none focus:ring-1 focus:ring-slate-900 leading-relaxed resize-none font-medium"
                 />
               </div>
-
-              {uploadedImage && (
-                <div className="relative inline-block border-2 border-brand-500 rounded-xl p-1 bg-white dark:bg-[#0c131a] shadow-xs">
-                  <img src={uploadedImage} alt="Uploaded Doubt" className="h-24 max-w-xs object-cover rounded-lg" />
-                  <button
-                    type="button"
-                    onClick={() => setUploadedImage(null)}
-                    aria-label="Remove image"
-                    className="absolute -top-2 -right-2 w-6 h-6 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs shadow-md"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                </div>
-              )}
 
               {/* Sample Questions (Horizontal scroll on mobile) */}
               <div className="flex items-center gap-1.5 text-[11px] pt-1 overflow-x-auto pb-1 no-scrollbar">
@@ -449,29 +415,14 @@ export const DoubtCenter: React.FC = () => {
 
               {/* Action Buttons: Full-width on mobile */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 pt-2 border-t border-slate-100 dark:border-slate-800">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="file"
-                    ref={fileInputRef}
-                    onChange={handleImageUpload}
-                    accept="image/*"
-                    className="hidden"
-                  />
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => fileInputRef.current?.click()}
-                    className="w-full sm:w-auto text-xs font-bold text-slate-700 dark:text-slate-200 border-slate-300 dark:border-slate-700 py-2.5 px-3.5 rounded-xl flex items-center justify-center gap-1.5 hover:bg-slate-50 dark:hover:bg-slate-800"
-                  >
-                    <Camera className="w-4 h-4 text-brand-600" />
-                    <span>{uploadedImage ? 'Change Photo' : 'Photo Kheecho / Upload'}</span>
-                  </Button>
+                <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                  Instant text doubt resolution aligned with NCERT syllabus.
                 </div>
 
                 <Button
                   type="submit"
                   variant="primary"
-                  disabled={isSolving || (!aiQuestion.trim() && !uploadedImage)}
+                  disabled={isSolving || !aiQuestion.trim()}
                   className="w-full sm:w-auto bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs py-2.5 px-6 rounded-xl flex items-center justify-center gap-1.5 shadow-md shadow-brand-600/20 cursor-pointer"
                 >
                   <Send className="w-3.5 h-3.5" />
