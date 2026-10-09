@@ -9,6 +9,9 @@ export type QuestionIntent =
   | 'calculation'
   | 'comparison'
   | 'hint_request'
+  | 'hint'
+  | 'numerical'
+  | 'solution'
   | 'general_query';
 
 export interface QuestionUnderstanding {

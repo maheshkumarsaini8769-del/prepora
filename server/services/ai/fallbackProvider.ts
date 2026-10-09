@@ -9,8 +9,92 @@ import {
   QuestionUnderstanding
 } from './aiTypes.js';
 import { searchFormulaKnowledge } from '../../../src/utils/formulaKnowledgeBase.js';
+import { comprehensiveFormulaNotes } from '../../../src/data/comprehensiveFormulaNotes.js';
 import Question from '../../models/Question.js';
 import { detectLanguageMode } from './neetAITeacherPrompt.js';
+
+function findCurriculumTopicMatch(query: string, preferredSubject?: string) {
+  const qClean = query.toLowerCase().replace(/[^\w\s]/g, ' ');
+  const stopWords = new Set(['what', 'is', 'the', 'and', 'for', 'explain', 'define', 'kya', 'hota', 'hai', 'of', 'in', 'to', 'a', 'an', 'are', 'how', 'does', 'do', 'can', 'ka', 'ki', 'ke', 'me', 'ko', 'tell', 'about']);
+  const tokens = qClean.split(/\s+/).filter(t => t.length > 2 && !stopWords.has(t));
+  if (tokens.length === 0) return null;
+
+  let bestItem: any = null;
+  let bestScore = 0;
+  let matchedFormula: any = null;
+
+  for (const item of comprehensiveFormulaNotes) {
+    if (preferredSubject && preferredSubject !== 'General' && item.subject.toLowerCase() !== preferredSubject.toLowerCase()) {
+      continue;
+    }
+    const topicNorm = item.topic.toLowerCase();
+    const chapterNorm = item.chapter.toLowerCase();
+    const conceptNorm = item.concept.toLowerCase();
+
+    let score = 0;
+    for (const tok of tokens) {
+      if (topicNorm.includes(tok)) score += 20;
+      if (conceptNorm.includes(tok)) score += 12;
+      if (chapterNorm.includes(tok)) score += 5;
+    }
+
+    for (const f of item.formulas) {
+      const fNorm = f.name.toLowerCase();
+      let fScore = 0;
+      for (const tok of tokens) {
+        if (fNorm.includes(tok)) fScore += 30;
+      }
+      if (fScore > 0 && (score + fScore) > bestScore) {
+        bestScore = score + fScore;
+        bestItem = item;
+        matchedFormula = f;
+      }
+    }
+
+    if (score > bestScore) {
+      bestScore = score;
+      bestItem = item;
+      matchedFormula = item.formulas[0] || null;
+    }
+  }
+
+  // Cross-subject lookup if preferredSubject yielded no good score (< 20)
+  if (bestScore < 20 && preferredSubject && preferredSubject !== 'General') {
+    for (const item of comprehensiveFormulaNotes) {
+      const topicNorm = item.topic.toLowerCase();
+      const chapterNorm = item.chapter.toLowerCase();
+      const conceptNorm = item.concept.toLowerCase();
+
+      let score = 0;
+      for (const tok of tokens) {
+        if (topicNorm.includes(tok)) score += 20;
+        if (conceptNorm.includes(tok)) score += 12;
+        if (chapterNorm.includes(tok)) score += 5;
+      }
+
+      for (const f of item.formulas) {
+        const fNorm = f.name.toLowerCase();
+        let fScore = 0;
+        for (const tok of tokens) {
+          if (fNorm.includes(tok)) fScore += 30;
+        }
+        if (fScore > 0 && (score + fScore) > bestScore) {
+          bestScore = score + fScore;
+          bestItem = item;
+          matchedFormula = f;
+        }
+      }
+
+      if (score > bestScore) {
+        bestScore = score;
+        bestItem = item;
+        matchedFormula = item.formulas[0] || null;
+      }
+    }
+  }
+
+  return bestScore >= 20 ? { item: bestItem, formula: matchedFormula, score: bestScore } : null;
+}
 
 export class FallbackProvider implements IAIProvider {
   public readonly name = 'Study Up Rule-Based Academic Engine';
@@ -947,7 +1031,7 @@ ${isHinglish ? 'Cell Theory kisne di thi aur kisne "Omnis cellula e cellula" add
         provider: this.name,
         latencyMs: Date.now() - startTime
       };
-    } else if (/\b(force|forces|bal|newton's second law|newton's laws|inertia)\b/i.test(qLower) && !qLower.includes('friction') && !qLower.includes('gravity')) {
+    } else if (/\b(force|forces|bal|newtons?('?s)?(?:\s+(?:second|first|third|1st|2nd|3rd|law|laws|of|motion|\w+)){0,4}|laws of motion|inertia|linear momentum)\b/i.test(qLower) && !qLower.includes('friction') && !qLower.includes('gravity')) {
       // ==========================================
       // FORCE & NEWTON'S LAWS OF MOTION
       // ==========================================
@@ -1206,91 +1290,87 @@ LHS = RHS, which confirms the solution is mathematically correct!`;
         };
       }
 
-      // 4. Fallback: Search MongoDB Question Bank for related verified explanation
-      try {
-        const queryTerms = q.replace(/[^\w\s]/g, ' ').split(/\s+/).filter(w => w.length > 3);
-        const searchRegex = new RegExp(queryTerms.slice(0, 3).join('.*'), 'i');
-        const match = await Question.findOne({
-          $or: [
-            { question: { $regex: searchRegex } },
-            { concept: { $regex: searchRegex } },
-            { chapter: { $regex: searchRegex } }
-          ],
-          status: 'Approved'
-        }).select('question concept explanation chapter topic subject difficulty');
+      // 4. Curriculum Knowledge Search: Match against comprehensive curriculum topic database
+      const curriculumMatch = findCurriculumTopicMatch(q, subject);
+      if (curriculumMatch && curriculumMatch.score >= 20) {
+        const item = curriculumMatch.item;
+        subject = item.subject;
+        chapter = item.chapter;
+        topic = item.topic;
+        concept = item.concept;
+        const formulaObj = curriculumMatch.formula;
 
-        if (match && match.explanation) {
-          concept = match.concept || `${match.chapter} — ${match.topic}`;
-          answer = `### 📚 Concept
-${concept} (${match.subject})
-
-### 💡 Easy Explanation
-${match.explanation}
-
-${highYieldHeading}
-- ⭐ **Must Know:** High-yield syllabus focus in ${match.chapter}.
-- ⚡ **Frequently Tested:** Master boundary definitions and standard graphical relationships.
-
-### ⚠️ Common Mistake
-${trap}
-
-${examTrickHeading}
-${isHinglish ? 'Syllabus line-by-line statements aur direct formula proportionalities pehle check karein!' : 'Always check direct proportional relationships and verify SI units before final evaluation.'}
-
-### 📝 Quick Check
-${isHinglish ? `Kya aap is topic ke governing conditions ko clearly define kar sakte hain?` : `Can you state the primary condition under which this principle holds?`}`;
-          steps.push(`1. Concept Principle: Review fundamental definitions governing ${match.chapter}.`);
-          steps.push(`2. Method: Apply standard entrance-examination problem-solving relations.`);
-          steps.push(`3. Verification: Check numerical units and boundary consistency.`);
-        } else {
-          answer = `### 📚 Concept
-**${q}** (${chapter} — ${subject})
-
-Fundamental syllabus concept in ${chapter}.
-
-### 💡 Easy Explanation
-${isHinglish
-  ? `Simple shabdon me: **${chapter}** me **${q}** ko samajhne ke liye governing principles ko follow karein. Pehle given parameters list karein aur direct ya inverse proportionality check karein.`
-  : `In simple terms: **${q}** is an essential syllabus concept in entrance examinations. In **${chapter}**, understanding governing relationships is key to rapid problem solving.`}
-
-${highYieldHeading}
-- ⭐ **Must Know:** Core high-yield focus in ${chapter}.
-- ⚡ **Examination Strategy:** Always check coordinate reference frames, boundary values, and standard SI units.
-
-### ⚠️ Common Mistake
-${trap}
-
-${examTrickHeading}
-${isHinglish ? 'Ratio aur proportionality method use karein taaki lambi calculations se bacha ja sake!' : 'Use proportionality ratios to eliminate unviable MCQ options before computing lengthy arithmetic.'}
-
-### 📝 Quick Check
-${isHinglish ? 'Is concept me primary variables ke beech kya sambhandh (relation) hai?' : 'What is the governing proportional relationship between the variables?'}`;
-          steps.push("1. State given quantities and unknown variable.");
-          steps.push("2. Select the governing relation for this topic.");
-          steps.push("3. Substitute values and verify dimensional balance.");
+        if (formulaObj) {
+          keyFormula = formulaObj.formula;
+          variables = formulaObj.variables;
+          if (formulaObj.trap) trap = formulaObj.trap;
+          if (formulaObj.examTip) tip = formulaObj.examTip;
         }
-      } catch {
-        answer = `### 📚 Concept
-**${q}** (${chapter} — ${subject})
 
-### 💡 Easy Explanation
-In **${chapter}**, master the core definitions, governing equations, and boundary conditions to solve ${examName} examination questions with high accuracy and speed.
+        const notesText = item.shortNotes && item.shortNotes.length > 0 
+          ? item.shortNotes.map((n: string) => `• ${n}`).join('\n')
+          : `Governing curriculum concept for ${topic} in ${chapter}.`;
 
-${highYieldHeading}
-- ⭐ **Must Know:** Focus on authoritative textbook definitions and diagrams.
-- ⚡ **High Priority:** Check standard unit conversions and sign conventions.
+        const keyPointsText = item.keyPoints && item.keyPoints.length > 0
+          ? item.keyPoints.map((kp: string) => `- ⭐ **Key Point:** ${kp}`).join('\n')
+          : `- ⭐ **Must Know:** High-yield NEET/JEE core topic in ${chapter}.\n- ⚡ **Examination Strategy:** Understand underlying principles and standard boundary conditions.`;
 
-### ⚠️ Common Mistake
-${trap}
+        let bodyAnswer = `### 📚 Concept\n**${topic}** (${chapter} — ${subject})\n\n${item.concept}\n\n### 💡 Easy Explanation\n${isHinglish ? `Simple shabdon me: **${topic}** ${subject} ka ek important concept hai.\n\n${notesText}` : `In simple terms: **${topic}** is a core fundamental topic in **${chapter}**.\n\n${notesText}`}`;
 
-${examTrickHeading}
-${isHinglish ? 'Dimensional analysis se formula verify karein!' : 'Use dimensional analysis to cross-check formula consistency.'}
+        if (keyFormula) {
+          bodyAnswer += `\n\n### 🧮 Formula\n$$${keyFormula}$$`;
+        }
+        if (variables) {
+          bodyAnswer += `\n\n### 🔤 Variables\n${variables}`;
+        }
+        bodyAnswer += `\n\n${highYieldHeading}\n${keyPointsText}`;
+        bodyAnswer += `\n\n### ⚠️ Common Mistake\n${trap}`;
+        bodyAnswer += `\n\n${examTrickHeading}\n${tip}`;
 
-### 📝 Quick Check
-Are all physical quantities expressed in consistent standard SI units?`;
-        steps.push("1. Identify given values and requested unknown.");
-        steps.push("2. Apply the primary relation for this chapter.");
-        steps.push("3. Verify units and sign conventions.");
+        if (isEx && formulaObj?.example) {
+          bodyAnswer += `\n\n### 📝 Worked Example\n**Problem:** ${formulaObj.example.problem}\n\n**Solution:**\n${formulaObj.example.solution}`;
+        }
+
+        answer = bodyAnswer;
+        steps.push(`1. Concept Principle: Understand fundamental definitions governing ${topic}.`);
+        if (keyFormula) {
+          steps.push(`2. Governing Equation: Apply $$${keyFormula}$$.`);
+        }
+        steps.push(`3. Verification: Verify SI units and physical constraints.`);
+      } else {
+        // 5. Fallback: Search MongoDB Question Bank for related verified explanation
+        try {
+          const stopWords = new Set(['what', 'is', 'the', 'and', 'for', 'explain', 'define', 'which', 'where', 'when', 'how', 'kya', 'hota', 'hai']);
+          const queryTerms = q.replace(/[^\w\s]/g, ' ').split(/\s+/).filter(w => w.length > 3 && !stopWords.has(w.toLowerCase()));
+          const match = queryTerms.length > 0 ? await Question.findOne({
+            $or: [
+              { question: { $regex: new RegExp(queryTerms.slice(0, 3).join('.*'), 'i') } },
+              { concept: { $regex: new RegExp(queryTerms.slice(0, 3).join('.*'), 'i') } }
+            ],
+            status: 'Approved'
+          }).select('question concept explanation chapter topic subject difficulty') : null;
+
+          if (match && match.explanation) {
+            concept = match.concept || `${match.chapter} — ${match.topic}`;
+            subject = match.subject || subject;
+            chapter = match.chapter || chapter;
+            topic = match.topic || topic;
+            answer = `### 📚 Concept\n${concept} (${match.subject})\n\n### 💡 Easy Explanation\n${match.explanation}\n\n${highYieldHeading}\n- ⭐ **Must Know:** High-yield syllabus focus in ${match.chapter}.\n- ⚡ **Frequently Tested:** Master boundary definitions and standard graphical relationships.\n\n### ⚠️ Common Mistake\n${trap}\n\n${examTrickHeading}\n${isHinglish ? 'Syllabus line-by-line statements aur direct formula proportionalities pehle check karein!' : 'Always check direct proportional relationships and verify SI units before final evaluation.'}\n\n### 📝 Quick Check\n${isHinglish ? `Kya aap is topic ke governing conditions ko clearly define kar sakte hain?` : `Can you state the primary condition under which this principle holds?`}`;
+            steps.push(`1. Concept Principle: Review fundamental definitions governing ${match.chapter}.`);
+            steps.push(`2. Method: Apply standard entrance-examination problem-solving relations.`);
+            steps.push(`3. Verification: Check numerical units and boundary consistency.`);
+          } else {
+            answer = `### 📚 Concept\n**${q}** (${chapter} — ${subject})\n\nFundamental syllabus concept in ${chapter}.\n\n### 💡 Easy Explanation\n${isHinglish ? `Simple shabdon me: **${chapter}** me **${q}** ko samajhne ke liye governing principles ko follow karein. Pehle given parameters list karein aur direct ya inverse proportionality check karein.` : `In simple terms: **${q}** is an essential syllabus concept in entrance examinations. In **${chapter}**, understanding governing relationships is key to rapid problem solving.`}\n\n${highYieldHeading}\n- ⭐ **Must Know:** Core high-yield focus in ${chapter}.\n- ⚡ **Examination Strategy:** Always check coordinate reference frames, boundary values, and standard SI units.\n\n### ⚠️ Common Mistake\n${trap}\n\n${examTrickHeading}\n${isHinglish ? 'Ratio aur proportionality method use karein taaki lambi calculations se bacha ja sake!' : 'Use proportionality ratios to eliminate unviable MCQ options before computing lengthy arithmetic.'}\n\n### 📝 Quick Check\n${isHinglish ? 'Is concept me primary variables ke beech kya sambhandh (relation) hai?' : 'What is the governing proportional relationship between the variables?'}`;
+            steps.push("1. State given quantities and unknown variable.");
+            steps.push("2. Select the governing relation for this topic.");
+            steps.push("3. Substitute values and verify dimensional balance.");
+          }
+        } catch {
+          answer = `### 📚 Concept\n**${q}** (${chapter} — ${subject})\n\n### 💡 Easy Explanation\nIn **${chapter}**, master the core definitions, governing equations, and boundary conditions to solve ${examName} examination questions with high accuracy and speed.\n\n${highYieldHeading}\n- ⭐ **Must Know:** Focus on authoritative textbook definitions and diagrams.\n- ⚡ **High Priority:** Check standard unit conversions and sign conventions.\n\n### ⚠️ Common Mistake\n${trap}\n\n${examTrickHeading}\n${isHinglish ? 'Boundary values aur SI units verify karein!' : 'Always verify boundary conditions and dimensional consistency.'}\n\n### 📝 Quick Check\nAre all physical quantities expressed in consistent standard SI units?`;
+          steps.push("1. Identify given values and requested unknown.");
+          steps.push("2. Apply the primary relation for this chapter.");
+          steps.push("3. Verify units and sign conventions.");
+        }
       }
     }
 

@@ -99,6 +99,17 @@ class AIService {
     if (cleanKey.startsWith('sk-')) detectedProvider = 'openai';
     else if (cleanKey.startsWith('AIza')) detectedProvider = 'gemini';
 
+    // 1. Live test key against provider API
+    if (detectedProvider === 'openai' && cleanKey.length > 5) {
+      this.openAIProvider.updateConfig(cleanKey, modelName || 'gpt-4o-mini');
+      const testRes = await this.openAIProvider.testConnection();
+      if (!testRes.success && (testRes.message.includes('Authentication') || testRes.message.includes('Rate Limit') || testRes.message.includes('Quota'))) {
+        throw new Error(testRes.message);
+      }
+    } else if (detectedProvider === 'gemini' && cleanKey.length > 5) {
+      this.geminiProvider.updateConfig(cleanKey, modelName || 'gemini-1.5-flash');
+    }
+
     const updateObj: any = {
       provider: detectedProvider,
       isConnected: true
@@ -118,7 +129,7 @@ class AIService {
     return {
       success: true,
       activeProvider: active ? active.name : this.fallbackProvider.name,
-      message: `AI Provider updated successfully. Active: ${active ? active.name : 'Offline Engine'}`
+      message: `AI Provider updated and activated successfully. Active: ${active ? active.name : 'Offline Engine'}`
     };
   }
 
