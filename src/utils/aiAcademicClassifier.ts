@@ -2,7 +2,8 @@ import { SubjectName, ExamType } from '../types';
 
 export interface AcademicClassificationResult {
   detectedSubject: SubjectName;
-  detectedChapter: string;
+  detectedChapter?: string;
+  hasChapterMatch?: boolean;
   isBlockedByExamPolicy?: boolean;
   blockedPolicyMessage?: string;
   autoSubjectConverted?: boolean;
@@ -168,24 +169,20 @@ export function classifyAcademicQuery(
     return text.includes(term);
   };
 
-  // 1. Strict Exam Syllabus Boundary Check
+  // 1. Soft Exam Syllabus Advisory (do not block queries, provide friendly context)
   const isJeeExam = examNorm.includes('JEE');
   const isNeetExam = examNorm.includes('NEET');
 
-  // Check if JEE student attempts to ask a pure Biology question
+  let syllabusAdvisory: string | undefined = undefined;
+
+  // Informative syllabus advisory for cross-exam queries
   if (isJeeExam) {
     const matchedBioTerm = BIOLOGY_KEYWORDS.find(term => matchesTerm(q, term));
     if (matchedBioTerm) {
-      return {
-        detectedSubject: 'Biology',
-        detectedChapter: 'Biology (Not in JEE)',
-        isBlockedByExamPolicy: true,
-        blockedPolicyMessage: `Your target exam is JEE. According to official syllabus boundaries, Biology is not part of JEE! Please focus on Physics, Chemistry, or Mathematics.`
-      };
+      syllabusAdvisory = `Note: As your target exam is JEE, Biology is generally outside the primary JEE syllabus, but here is the accurate scientific explanation!`;
     }
   }
 
-  // Check if NEET student attempts to ask a pure Math question (only if not in Physics/Chemistry context)
   if (isNeetExam && userSelectedSubject !== 'Physics' && userSelectedSubject !== 'Chemistry') {
     const pureMathKeywords = [
       'matrix', 'matrices', 'determinant', 'calculus', 'quadratic equation', 'complex number',
@@ -194,12 +191,7 @@ export function classifyAcademicQuery(
     ];
     const matchedMathTerm = pureMathKeywords.find(term => matchesTerm(q, term));
     if (matchedMathTerm) {
-      return {
-        detectedSubject: 'Mathematics',
-        detectedChapter: 'Mathematics (Not in NEET)',
-        isBlockedByExamPolicy: true,
-        blockedPolicyMessage: `Your target exam is NEET. Mathematics is not included in the NEET examination syllabus! Please focus on Biology, Chemistry, or Physics.`
-      };
+      syllabusAdvisory = `Note: As your target exam is NEET, pure Mathematics is outside the NEET syllabus, but here is the concept explanation!`;
     }
   }
 
@@ -230,9 +222,9 @@ export function classifyAcademicQuery(
   // Bias slightly toward user's currently selected subject
   subjectScores[userSelectedSubject] += 1;
 
-  // Filter out disallowed subjects for this exam
-  if (isJeeExam) subjectScores.Biology = -100;
-  if (isNeetExam) subjectScores.Mathematics = -100;
+  // Filter out disallowed subjects for this exam only if explicit query doesn't strongly target it
+  if (isJeeExam && subjectScores.Biology < 4) subjectScores.Biology = -100;
+  if (isNeetExam && subjectScores.Mathematics < 4) subjectScores.Mathematics = -100;
 
   (Object.keys(subjectScores) as SubjectName[]).forEach(subj => {
     if (subjectScores[subj] > highestSubjectScore) {
@@ -241,10 +233,10 @@ export function classifyAcademicQuery(
     }
   });
 
-  const autoConverted = bestSubject !== userSelectedSubject && highestSubjectScore >= 2;
+  const autoConverted = bestSubject !== userSelectedSubject && highestSubjectScore >= 3;
 
   // 3. Chapter Auto-Detection
-  let detectedChapter = bestSubject === 'Physics' ? 'Kinematics' : bestSubject === 'Chemistry' ? 'Chemical Bonding' : bestSubject === 'Mathematics' ? 'Calculus' : 'Cell: The Unit of Life';
+  let detectedChapter: string | undefined = undefined;
   let highestChapterScore = 0;
 
   const chaptersForSubj = CHAPTER_TAXONOMY[bestSubject] || [];
@@ -261,7 +253,10 @@ export function classifyAcademicQuery(
 
   return {
     detectedSubject: bestSubject,
-    detectedChapter,
+    detectedChapter: highestChapterScore > 0 ? detectedChapter : undefined,
+    hasChapterMatch: highestChapterScore > 0,
+    isBlockedByExamPolicy: false,
+    blockedPolicyMessage: syllabusAdvisory,
     autoSubjectConverted: autoConverted,
     originalSubject: userSelectedSubject
   };

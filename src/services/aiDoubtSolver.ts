@@ -74,10 +74,17 @@ export class AIDoubtSolverService {
     options?: {
       imageBase64?: string;
       followUpMode?: string;
+      requestFollowUp?: string;
+      targetExam?: string;
+      classLevel?: string | number;
       conversationHistory?: { role: 'user' | 'model'; parts: { text: string }[] }[];
       contextSnippet?: string;
     }
   ): Promise<SolvedDoubtResponse> {
+    const studentProfile = userService.getProfile();
+    const effectiveExam = options?.targetExam || studentProfile.targetExam || 'JEE';
+    const effectiveClass = options?.classLevel || studentProfile.classLevel || '11';
+
     try {
       const res = await fetch('/api/ai/solve-doubt', {
         method: 'POST',
@@ -88,6 +95,9 @@ export class AIDoubtSolverService {
           chapter,
           imageBase64: options?.imageBase64,
           followUpMode: options?.followUpMode,
+          requestFollowUp: options?.requestFollowUp || options?.followUpMode,
+          targetExam: effectiveExam,
+          classLevel: effectiveClass,
           conversationHistory: options?.conversationHistory,
           contextSnippet: options?.contextSnippet
         })

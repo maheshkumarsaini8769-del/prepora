@@ -38,14 +38,20 @@ export class FallbackProvider implements IAIProvider {
     let isNumerical = false;
 
     // 1. Action Button Handlers (Hint, Example, Solution)
-    const isHintReq = qLower.startsWith('give me a hint') || qLower.includes('hint for') || req.requestFollowUp === 'hint';
-    const isExampleReq = qLower.startsWith('give me a step-by-step example') || qLower.includes('example in') || qLower.includes('worked example') || req.requestFollowUp === 'example';
-    const isSolutionReq = qLower.startsWith('explain the core formulas') || qLower.includes('solution method for') || req.requestFollowUp === 'solution';
+    const effectiveFollowUp = (req.requestFollowUp || (req as any).followUpMode || '').toLowerCase();
+    const isHintReq = qLower.startsWith('give me a hint') || qLower.includes('hint for') || effectiveFollowUp === 'hint';
+    const isExampleReq = qLower.startsWith('give me a step-by-step example') || qLower.includes('example in') || qLower.includes('worked example') || effectiveFollowUp === 'example';
+    const isSolutionReq = qLower.startsWith('explain the core formulas') || qLower.includes('solution method for') || effectiveFollowUp === 'solution';
 
     const isEx = isExampleReq || /\b(example|examples|with example|worked example|numerical|problem|problems|sawal|udaharana|ek example|solve an example)\b/i.test(qLower);
     const isForm = !isEx && (isSolutionReq || /\b(formula|formulas|equation|equations|sutra|expression|relation|law statement)\b/i.test(qLower));
     const isDeriv = !isEx && !isForm && /\b(derive|derivation|kaise aaya|proof|prove)\b/i.test(qLower);
     const isDef = !isEx && !isForm && !isDeriv;
+
+    const isJee = Boolean(req.targetExam && req.targetExam.toUpperCase().includes('JEE')) || subject === 'Mathematics';
+    const highYieldHeading = isJee ? '### 🔥 JEE High-Yield Points' : '### 🔥 NEET Important Points';
+    const examTrickHeading = isJee ? '### 🎯 JEE Speed Hack' : '### 🎯 NEET Trick';
+    const examName = isJee ? 'JEE Main / Advanced' : 'NEET-UG';
 
     if (isHintReq) {
       concept = `Strategic Problem-Solving Hint for ${chapter}`;
@@ -778,7 +784,7 @@ ${isHinglish ? 'Bohr ke nth orbit me kitne de Broglie wavelengths fit hote hain?
       }
     } else {
       // 3. Check Formula Knowledge Search
-      const formulaMatch = searchFormulaKnowledge(q, subject, chapter);
+      const formulaMatch = searchFormulaKnowledge(q, subject, chapter, req.targetExam);
       if (formulaMatch && formulaMatch.found) {
         return {
           answer: formulaMatch.formattedAnswer || `### ${formulaMatch.name}\n\n${formulaMatch.concept}\n\n**📌 Governing Formula:**\n$$${formulaMatch.formula}$$\n\n**📝 Variables Explained:**\n${formulaMatch.variables}`,
@@ -838,15 +844,15 @@ ${concept} (${match.subject})
 ### 💡 Easy Explanation
 ${match.explanation}
 
-### 🔥 NEET Important Points
-- ⭐ **Must Know:** High-yield NCERT syllabus focus in ${match.chapter}.
+${highYieldHeading}
+- ⭐ **Must Know:** High-yield syllabus focus in ${match.chapter}.
 - ⚡ **Frequently Tested:** Master boundary definitions and standard graphical relationships.
 
 ### ⚠️ Common Mistake
 ${trap}
 
-### 🎯 NEET Trick
-${isHinglish ? 'NCERT line-by-line statements aur direct formula proportionalities pehle check karein!' : 'Always check direct proportional relationships and verify SI units before final evaluation.'}
+${examTrickHeading}
+${isHinglish ? 'Syllabus line-by-line statements aur direct formula proportionalities pehle check karein!' : 'Always check direct proportional relationships and verify SI units before final evaluation.'}
 
 ### 📝 Quick Check
 ${isHinglish ? `Kya aap is topic ke governing conditions ko clearly define kar sakte hain?` : `Can you state the primary condition under which this principle holds?`}`;
@@ -861,17 +867,17 @@ Fundamental syllabus concept in ${chapter}.
 
 ### 💡 Easy Explanation
 ${isHinglish
-  ? `Simple shabdon me: **${chapter}** me **${q}** ko samajhne ke liye governing physical ya chemical principles ko follow karein. Pehle given parameters list karein aur direct ya inverse proportionality check karein.`
-  : `In simple terms: **${q}** is an essential syllabus concept in entrance examinations. In **${chapter}**, understanding governing physical and chemical relationships is key to rapid problem solving.`}
+  ? `Simple shabdon me: **${chapter}** me **${q}** ko samajhne ke liye governing principles ko follow karein. Pehle given parameters list karein aur direct ya inverse proportionality check karein.`
+  : `In simple terms: **${q}** is an essential syllabus concept in entrance examinations. In **${chapter}**, understanding governing relationships is key to rapid problem solving.`}
 
-### 🔥 NEET Important Points
-- ⭐ **Must Know:** NCERT high-yield focus in ${chapter}.
+${highYieldHeading}
+- ⭐ **Must Know:** Core high-yield focus in ${chapter}.
 - ⚡ **Examination Strategy:** Always check coordinate reference frames, boundary values, and standard SI units.
 
 ### ⚠️ Common Mistake
 ${trap}
 
-### 🎯 NEET Trick
+${examTrickHeading}
 ${isHinglish ? 'Ratio aur proportionality method use karein taaki lambi calculations se bacha ja sake!' : 'Use proportionality ratios to eliminate unviable MCQ options before computing lengthy arithmetic.'}
 
 ### 📝 Quick Check
@@ -885,16 +891,16 @@ ${isHinglish ? 'Is concept me primary variables ke beech kya sambhandh (relation
 **${q}** (${chapter} — ${subject})
 
 ### 💡 Easy Explanation
-In **${chapter}**, master the core definitions, governing equations, and boundary conditions to solve NEET-UG examination questions with high accuracy and speed.
+In **${chapter}**, master the core definitions, governing equations, and boundary conditions to solve ${examName} examination questions with high accuracy and speed.
 
-### 🔥 NEET Important Points
-- ⭐ **Must Know:** Focus on NCERT textbook definitions and diagrams.
+${highYieldHeading}
+- ⭐ **Must Know:** Focus on authoritative textbook definitions and diagrams.
 - ⚡ **High Priority:** Check standard unit conversions and sign conventions.
 
 ### ⚠️ Common Mistake
 ${trap}
 
-### 🎯 NEET Trick
+${examTrickHeading}
 ${isHinglish ? 'Dimensional analysis se formula verify karein!' : 'Use dimensional analysis to cross-check formula consistency.'}
 
 ### 📝 Quick Check

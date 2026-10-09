@@ -95,6 +95,10 @@ export const CHAPTER_ALIASES_MAP: Record<string, string[]> = {
   'solid state': ['Solid State'],
 
   // Mathematics
+  'calculus': ['Continuity and Differentiability', 'Limits and Derivatives', 'Application of Derivatives', 'Integrals', 'Applications of Integrals', 'Differential Equations'],
+  'differential calculus': ['Continuity and Differentiability', 'Limits and Derivatives', 'Application of Derivatives'],
+  'differentiation': ['Continuity and Differentiability', 'Limits and Derivatives'],
+  'derivatives': ['Continuity and Differentiability', 'Limits and Derivatives'],
   'applications of derivatives': ['Application of Derivatives'],
   'application of derivatives': ['Application of Derivatives'],
   'applications of integrals': ['Applications of Integrals'],
@@ -670,6 +674,66 @@ For macroscopic objects (e.g. cricket ball of mass $0.15\\text{ kg}$ thrown at $
     examTip: 'For integrating solitary functions like ∫ ln(x) dx or ∫ tan⁻¹(x) dx, take 1 as the algebraic second function v: ∫ ln(x) · 1 dx.',
     trap: 'Do not forget the negative sign before the second integral in the formula!'
   },
+  {
+    keywords: ['derivative of sin', 'derivative of sinx', 'derivative of sin x', 'd/dx sin', 'diff of sin', 'differentiation of sin'],
+    name: 'Derivative of Sine Function & Trigonometric Derivatives',
+    formula: String.raw`\frac{d}{dx}(\sin x) = \cos x, \quad \frac{d}{dx}(\cos x) = -\sin x, \quad \frac{d}{dx}(\tan x) = \sec^2 x`,
+    subject: 'Mathematics',
+    chapter: 'Continuity and Differentiability',
+    topic: 'Differentiation of Trigonometric Functions',
+    variables: 'x = Independent variable in radians, \\sin x = Sine function, \\cos x = Cosine function, \\sec^2 x = Secant squared',
+    concept: 'By first principles (definition of derivative): f\'(x) = lim_{h->0} [sin(x+h) - sin(x)] / h = cos(x). The derivative measures the instantaneous rate of change and slope of the tangent to the curve.',
+    stepByStep: [
+      '1. State the function: y = sin(x).',
+      '2. Apply first principles or standard differentiation table: d/dx [sin(x)] = cos(x).',
+      '3. If compound argument y = sin(kx): by chain rule, d/dx [sin(kx)] = k · cos(kx).',
+      '4. If powers are involved: d/dx [sin^n(x)] = n · sin^(n-1)(x) · cos(x).'
+    ],
+    examTip: 'Trigonometric angles in calculus formulas MUST always be evaluated in RADIANS, never in degrees (d/dx [sin(x°)] = (π/180) cos(x°)).',
+    trap: 'Beware of the negative sign for co-functions: d/dx(cos x) = -sin x, d/dx(cot x) = -csc² x, d/dx(csc x) = -csc x cot x!',
+    example: `**Problem:** Find the derivative of $y = \\sin(3x^2 + 5)$.
+**Solution:**
+1. Let $u = 3x^2 + 5$, then $y = \\sin(u)$.
+2. By the Chain Rule: $\\frac{dy}{dx} = \\frac{dy}{du} \\cdot \\frac{du}{dx}$.
+3. $\\frac{dy}{du} = \\cos(u) = \\cos(3x^2 + 5)$.
+4. $\\frac{du}{dx} = 6x$.
+5. Final Answer: $\\frac{dy}{dx} = 6x \\cos(3x^2 + 5)$.`
+  },
+  {
+    keywords: ['chain rule', 'product rule', 'quotient rule', 'derivative rules', 'differentiation rules'],
+    name: 'Fundamental Rules of Differentiation (Chain, Product & Quotient)',
+    formula: String.raw`\frac{d}{dx}[u \cdot v] = u \frac{dv}{dx} + v \frac{du}{dx}, \quad \frac{d}{dx}\left[\frac{u}{v}\right] = \frac{v \frac{du}{dx} - u \frac{dv}{dx}}{v^2}, \quad \frac{d}{dx}[f(g(x))] = f'(g(x)) \cdot g'(x)`,
+    subject: 'Mathematics',
+    chapter: 'Continuity and Differentiability',
+    topic: 'Rules of Differentiation',
+    variables: 'u, v = Differentiable functions of x, f, g = Composite functions',
+    concept: 'Core rules governing analytical differentiation for product of functions (Leibniz product rule), quotient of functions, and composite functions (chain rule).',
+    stepByStep: [
+      '1. Product Rule: Keep first, differentiate second + keep second, differentiate first.',
+      '2. Quotient Rule: (Denominator · d/dx[Numerator] - Numerator · d/dx[Denominator]) / (Denominator)²',
+      '3. Chain Rule: Differentiate the outer function, evaluate at inner function, then multiply by derivative of inner function.'
+    ],
+    examTip: 'In JEE Main, logarithmic differentiation is fastest when functions are in exponent form y = [f(x)]^[g(x)]: take ln on both sides first!',
+    trap: 'In quotient rule, the order of terms in numerator matters: v · u\' - u · v\', NOT u · v\' - v · u\'!'
+  },
+  {
+    keywords: ['dot product', 'scalar product', 'vector dot product', 'adotb'],
+    name: 'Vector Dot Product (Scalar Product) & Projection',
+    formula: String.raw`\vec{a} \cdot \vec{b} = |\vec{a}| |\vec{b}| \cos\theta = a_x b_x + a_y b_y + a_z b_z, \quad \cos\theta = \frac{\vec{a} \cdot \vec{b}}{|\vec{a}| |\vec{b}|}`,
+    subject: 'Mathematics',
+    chapter: 'Vector Algebra',
+    topic: 'Scalar Product of Vectors',
+    variables: 'a, b = Vectors, θ = Angle between them (0 ≤ θ ≤ π), a_x, a_y, a_z = Components along cartesian axes',
+    concept: 'Measures the magnitude of projection of one vector along another. If two non-zero vectors are perpendicular (orthogonal), their dot product is identically ZERO.',
+    stepByStep: [
+      '1. Express vectors in Cartesian form: a = a_x i + a_y j + a_z k and b = b_x i + b_y j + b_z k.',
+      '2. Compute component-wise product: a · b = a_x b_x + a_y b_y + a_z b_z.',
+      '3. To test orthogonality: Check if a · b = 0.',
+      '4. Projection of a on b: Projection = (a · b) / |b|.'
+    ],
+    examTip: 'High-yield condition: Two vectors are perpendicular if and only if their scalar product is zero: a · b = 0.',
+    trap: 'Dot product produces a SCALAR quantity, never a vector! Do not attach i, j, k unit vectors to the dot product result.'
+  },
 
   // --- BIOLOGY ---
   {
@@ -740,10 +804,17 @@ export function formatKnowledgeAnswer(
     trap: string;
     example?: string;
     derivation?: string[];
+    subject?: string;
   },
   intent: 'example' | 'formula' | 'derivation' | 'concept',
-  isHinglish: boolean = false
+  isHinglish: boolean = false,
+  targetExam?: string
 ): string {
+  const isJee = (targetExam && targetExam.toUpperCase().includes('JEE')) || entry.subject === 'Mathematics';
+  const examName = isJee ? 'JEE Main / Advanced' : 'NEET-UG';
+  const highYieldHeading = isJee ? '### 🔥 JEE High-Yield Points' : '### 🔥 NEET Important Points';
+  const trickHeading = isJee ? '### 🎯 JEE Speed Hack' : '### 🎯 NEET Trick';
+
   if (intent === 'example') {
     if (entry.example && entry.example.includes('### Given')) {
       return entry.example;
@@ -775,7 +846,7 @@ ${entry.trap || 'Check unit conversions, sign conventions, and physical boundary
 
   if (intent === 'formula') {
     return `### 📚 Concept
-**${entry.name}** — High-yield mathematical relationships and formula sheet for NEET-UG.
+**${entry.name}** — High-yield mathematical relationships and formula sheet for ${examName}.
 
 ### 🧮 Formula
 $$${entry.formula}$$
@@ -783,17 +854,17 @@ $$${entry.formula}$$
 ### 🔤 Variables
 ${entry.variables}
 
-### 🔥 NEET Important Points
+${highYieldHeading}
 - ⭐ **Must Know:** ${entry.examTip}
 - ⚡ **High Priority:** High-yield in direct formula substitution and ratio-based numerical questions.
 
 ### ⚠️ Common Mistake
 ${entry.trap}
 
-### 🎯 NEET Trick
+${trickHeading}
 ${isHinglish
-  ? `NEET Shortcut: Dimensional consistency aur units balance pehle check karo taaki galat options turant eliminate ho sakein!`
-  : `NEET Shortcut: Check dimensional consistency of options to quickly eliminate incorrect MCQ options before detailed calculation.`}
+  ? `Exam Shortcut: Dimensional consistency aur units balance pehle check karo taaki galat options turant eliminate ho sakein!`
+  : `Exam Shortcut: Check dimensional consistency of options to quickly eliminate incorrect MCQ options before detailed calculation.`}
 
 ### 📝 Quick Check
 ${isHinglish
@@ -803,7 +874,7 @@ ${isHinglish
 
   if (intent === 'derivation') {
     return `### 📚 Concept
-**${entry.name}** — Step-by-step physical formulation and mathematical derivation.
+**${entry.name}** — Step-by-step physical formulation and mathematical derivation for ${examName}.
 
 ### 🧮 Formula
 $$${entry.formula}$$
@@ -814,7 +885,7 @@ ${entry.variables}
 ### 🔢 Step-by-Step Derivation
 ${(entry.derivation && entry.derivation.join('\n\n')) || entry.stepByStep.join('\n\n')}
 
-### 🔥 NEET Important Points
+${highYieldHeading}
 ${entry.examTip}
 
 ### ⚠️ Common Mistake
@@ -827,8 +898,8 @@ ${entry.concept}
 
 ### 💡 Easy Explanation
 ${isHinglish
-  ? `Simple shabdon me samjhein: **${entry.name}** ka basic matlab hai ki ${entry.concept.toLowerCase().startsWith('louis') ? entry.concept : 'physical parameters standard NCERT principles ke according behave karte hain.'}\n\n**Core Mechanism:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`
-  : `In simple terms: ${entry.concept}\n\n**Core Physical Principles:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`}
+  ? `Simple shabdon me samjhein: **${entry.name}** ka basic matlab hai ki ${entry.concept.toLowerCase().startsWith('louis') ? entry.concept : 'parameters standard syllabus principles ke according behave karte hain.'}\n\n**Core Mechanism:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`
+  : `In simple terms: ${entry.concept}\n\n**Core Physical / Mathematical Principles:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`}
 
 ### 🧮 Formula
 $$${entry.formula}$$
@@ -836,17 +907,17 @@ $$${entry.formula}$$
 ### 🔤 Variables
 ${entry.variables}
 
-### 🔥 NEET Important Points
+${highYieldHeading}
 - ⭐ **Must Know:** ${entry.examTip}
-- ⚡ **NCERT High-Yield Focus:** Master boundary conditions and graphical dependencies.
+- ⚡ **Exam High-Yield Focus:** Master boundary conditions and graphical dependencies.
 
 ### ⚠️ Common Mistake
 ${entry.trap}
 
-### 🎯 NEET Trick
+${trickHeading}
 ${isHinglish
-  ? `NEET Trick: Direct proportionality ($Y \\propto X$ ya $Y \\propto 1/\\sqrt{X}$) dhyan me rakhein — parameter change hone par pura calculate karne ke bajaye ratio method use karein!`
-  : `NEET Trick: Use ratio and proportionality method rather than computing absolute values whenever evaluating variations.`}
+  ? `Exam Trick: Direct proportionality ($Y \\propto X$ ya $Y \\propto 1/\\sqrt{X}$) dhyan me rakhein — parameter change hone par pura calculate karne ke bajaye ratio method use karein!`
+  : `Exam Trick: Use ratio and proportionality method rather than computing absolute values whenever evaluating variations.`}
 
 ### 📝 Quick Check
 ${isHinglish
@@ -862,7 +933,8 @@ ${isHinglish
 export function searchFormulaKnowledge(
   userQuery: string,
   preferredSubject?: string,
-  preferredChapter?: string
+  preferredChapter?: string,
+  targetExam?: string
 ): FormulaKnowledgeMatch | null {
   if (!userQuery || typeof userQuery !== 'string') return null;
 
@@ -888,20 +960,18 @@ export function searchFormulaKnowledge(
 
   const cleanQ = normalizeText(
     correctedQuery
-      .replace(/\b(what|is|the|formula|of|for|give|me|tell|equation|expression|state|define|write|calculate|find|value|ka|kya|hai|batao|hota|h|a|an|in|to|by|step|steps|example|examples|problem|problems|question|questions|chapter|topic|concept|method|solution|sir|please|karo|do|samjhao|explain|show|detail|details|about|process|processes|law|laws|rule|rules|type|types|diagram|notes|important)\b/gi, ' ')
+      .replace(/\b(what|is|the|formula|of|for|give|me|tell|equation|expression|state|define|write|calculate|find|how|value|ka|kya|hai|batao|hota|h|a|an|in|to|by|step|steps|example|examples|problem|problems|question|questions|chapter|topic|concept|method|solution|sir|please|karo|do|samjhao|explain|show|detail|details|about|process|processes|law|laws|rule|rules|type|types|diagram|notes|important)\b/gi, ' ')
   );
 
   const queryTokens = cleanQ.split(' ').filter((t) => t.length > 2);
 
   // 3. Check Primary Formulas Catalog First (Highest precision)
-  for (const entry of PRIMARY_FORMULAS_CATALOG) {
-    if (preferredSubject && entry.subject.toLowerCase() !== preferredSubject.toLowerCase()) {
-      continue;
-    }
+  // First try with preferred subject if provided, then fallback to any subject
+  const checkCatalogMatch = (entry: PrimaryFormulaEntry) => {
     for (const kw of entry.keywords) {
       const normKw = normalizeText(kw);
       const isMatch =
-        (cleanQ && (cleanQ === normKw || cleanQ.includes(normKw) || (normKw.length >= 4 && normKw.includes(cleanQ) && queryTokens.length === normKw.split(' ').length))) ||
+        (cleanQ && (cleanQ === normKw || cleanQ.includes(normKw) || normKw.includes(cleanQ))) ||
         (queryTokens.length > 0 && queryTokens.every((t) => normKw.includes(t))) ||
         (correctedQuery.includes(normKw));
 
@@ -921,9 +991,27 @@ export function searchFormulaKnowledge(
           example: entry.example,
           derivation: entry.derivation,
           detectedIntent,
-          formattedAnswer: formatKnowledgeAnswer(entry, detectedIntent, isHinglish)
+          formattedAnswer: formatKnowledgeAnswer(entry, detectedIntent, isHinglish, targetExam)
         };
       }
+    }
+    return null;
+  };
+
+  if (preferredSubject) {
+    for (const entry of PRIMARY_FORMULAS_CATALOG) {
+      if (entry.subject.toLowerCase() === preferredSubject.toLowerCase()) {
+        const m = checkCatalogMatch(entry);
+        if (m) return m;
+      }
+    }
+  }
+
+  // Fallback search across all subjects in catalog
+  for (const entry of PRIMARY_FORMULAS_CATALOG) {
+    if (!preferredSubject || entry.subject.toLowerCase() !== preferredSubject.toLowerCase()) {
+      const m = checkCatalogMatch(entry);
+      if (m) return m;
     }
   }
 

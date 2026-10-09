@@ -37,7 +37,8 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
       imageBase64, 
       imageMimeType,
       conversationHistory,
-      requestFollowUp
+      requestFollowUp,
+      followUpMode
     } = req.body;
 
     const resolvedQuestion = (question && typeof question === 'string' && question.trim())
@@ -67,6 +68,8 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
       // Non-blocking: continue with general model knowledge
     }
 
+    const effectiveFollowUp = requestFollowUp || followUpMode;
+
     const solveReq: IDoubtSolveRequest = {
       question: resolvedQuestion,
       subject,
@@ -77,7 +80,7 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
       imageBase64,
       imageMimeType,
       conversationHistory,
-      requestFollowUp
+      requestFollowUp: effectiveFollowUp
     };
 
     const { result, report } = await aiService.solveDoubt(solveReq, contextSnippet);
