@@ -330,42 +330,64 @@ export const AuthModal: React.FC = () => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
-      <div className="relative w-full max-w-md bg-white dark:bg-[#0e1620] rounded-3xl p-6 shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200 space-y-4">
-        {/* Close Button - Hidden during mandatory password creation (no skip allowed) */}
-        {step !== 'create-password' && (
-          <button
-            onClick={close}
-            className="absolute top-4 right-4 p-2 text-slate-400 hover:text-slate-700 dark:hover:text-white rounded-full transition cursor-pointer"
-            aria-label="Close"
-          >
-            <X className="w-5 h-5" />
-          </button>
-        )}
-
-        {/* Brand Header */}
-        <div className="text-center">
-          <div className="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-emerald-600 text-white font-black text-lg mb-2 shadow-md shadow-emerald-500/20">
-            P
+      <div className="relative w-full max-w-md bg-white dark:bg-[#0e1620] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200 overflow-hidden">
+        {/* Top 3D Artwork Hero Banner */}
+        <div className="relative h-28 w-full overflow-hidden bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+          <img
+            src="/assets/auth/auth_study_hero.jpg"
+            alt="Prepora Study Hero"
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-black/50 to-transparent flex items-end p-4">
+            <div className="flex items-center gap-3">
+              <img
+                src="/assets/auth/auth_student_badge.jpg"
+                alt="Student Avatar"
+                className="w-11 h-11 rounded-2xl object-cover border-2 border-emerald-400 shadow-lg shadow-emerald-500/30 shrink-0"
+              />
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-base font-black text-white tracking-tight">PREPORA</span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 border border-emerald-400/30">
+                    JEE • NEET
+                  </span>
+                </div>
+                <p className="text-xs font-semibold text-slate-200">
+                  {step === 'login' && 'Student Sign In'}
+                  {step === 'register' && 'New Student Registration'}
+                  {step === 'enter-otp' && 'WhatsApp OTP Verification'}
+                  {step === 'create-password' && 'Create Your Password'}
+                  {step === 'account-created' && 'Account Created Successfully'}
+                  {step === 'forgot-password' && 'Recover Account Password'}
+                  {step === 'reset-password' && 'Set New Password'}
+                </p>
+              </div>
+            </div>
           </div>
-          <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
-            {step === 'login' && 'Student Sign In'}
-            {step === 'register' && 'New Student Registration'}
-            {step === 'enter-otp' && 'WhatsApp OTP Verification'}
-            {step === 'create-password' && 'Create Your Password'}
-            {step === 'account-created' && 'Account Created Successfully'}
-            {step === 'forgot-password' && 'Recover Account Password'}
-            {step === 'reset-password' && 'Set New Password'}
-          </h2>
-          <p className="text-xs text-slate-500 dark:text-slate-400">
+
+          {/* Close Button - Hidden during mandatory password creation (no skip allowed) */}
+          {step !== 'create-password' && (
+            <button
+              onClick={close}
+              className="absolute top-3 right-3 p-1.5 text-white/80 hover:text-white bg-black/40 hover:bg-black/70 backdrop-blur-sm rounded-full transition cursor-pointer"
+              aria-label="Close"
+            >
+              <X className="w-4 h-4" />
+            </button>
+          )}
+        </div>
+
+        {/* Modal Content Body */}
+        <div className="p-6 pt-4 space-y-4">
+          <p className="text-xs text-slate-500 dark:text-slate-400 text-center">
             {step === 'login' && 'Log in using your mobile number and password (no OTP required)'}
-            {step === 'register' && 'First-time registration via WhatsApp OTP verification'}
+            {step === 'register' && 'Fast setup with real CBT practice & WhatsApp verification'}
             {step === 'enter-otp' && `Enter the 4-digit code sent to +91 ${cleanMobileDigits(phone)}`}
             {step === 'create-password' && `Account verified! Create your personal password (+91 ${cleanMobileDigits(phone)}) for future instant logins.`}
             {step === 'account-created' && 'Save your unique generated password safely for future logins'}
             {step === 'forgot-password' && 'Enter your registered mobile number for WhatsApp OTP'}
             {step === 'reset-password' && 'Verify WhatsApp OTP and create a new password'}
           </p>
-        </div>
 
         {/* Mode Toggle Tabs (Password Login vs WhatsApp Register) */}
         {(step === 'login' || step === 'register') && (
@@ -914,6 +936,7 @@ export const AuthModal: React.FC = () => {
             </button>
           </form>
         )}
+        </div>
       </div>
     </div>
   );

@@ -441,7 +441,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
     if (targetExam === 'NEET') return '/assets/home/hero_student_neet.jpg';
     if (classLevel === '11') return '/assets/home/hero_student_11.jpg';
     if (classLevel === '12') return '/assets/home/hero_student_12.jpg';
-    return isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_light.png';
+    return '/assets/auth/auth_student_badge.jpg';
   };
 
   return (
@@ -450,26 +450,94 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       <div className="absolute -top-32 -left-32 w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-teal-500/10 dark:bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
 
-      {/* Main Container */}
-      <div className="sm:mx-auto sm:w-full sm:max-w-md z-10">
-        {/* Brand Logo & Name */}
-        <div className="text-center mb-4 sm:mb-6">
-          <div className="inline-flex items-center justify-center gap-2.5 mb-1.5">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-emerald-600/30">
-              P
+      {/* Main Container - Split Screen on Desktop, Centered Card on Mobile */}
+      <div className="w-full max-w-5xl mx-auto z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-4">
+        {/* Left Side: Rich Hero Presentation Showcase (Visible on lg screens) */}
+        <div className="hidden lg:flex lg:col-span-6 flex-col space-y-6 pr-2">
+          {/* Logo & Tagline */}
+          <div className="space-y-2">
+            <div className="inline-flex items-center gap-2.5">
+              <div className="w-11 h-11 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-emerald-600/30">
+                P
+              </div>
+              <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+                PREPORA
+              </span>
             </div>
-            <span className="text-2xl font-black text-slate-900 dark:text-white tracking-tight">
-              PREPORA
-            </span>
+            <h2 className="text-2xl xl:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
+              India's Smarter JEE & NEET Self-Study Platform
+            </h2>
+            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+              1 Lakh+ verified questions, real CBT mock tests, interactive 3D formula mindmaps, and instant AI doubt diagnosis designed for top percentile ranks.
+            </p>
           </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-            AI-Powered Self Study & Exam Preparation Platform
-          </p>
+
+          {/* Inspiring 3D Artwork Showcase */}
+          <div className="relative rounded-3xl overflow-hidden border-2 border-emerald-500/20 shadow-2xl group bg-slate-900">
+            <img
+              src="/assets/auth/auth_study_hero.jpg"
+              alt="Prepora Student Study Desk"
+              className="w-full h-72 object-cover object-center group-hover:scale-105 transition-transform duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent flex flex-col justify-end p-5">
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-black w-fit mb-1 backdrop-blur-xs">
+                <Sparkles className="w-3.5 h-3.5" />
+                <span>Conceptual Precision Engine</span>
+              </div>
+              <p className="text-xs font-bold text-white/95 leading-relaxed">
+                "Daily practice, error diagnosis & formula retention crafted for serious aspirants."
+              </p>
+            </div>
+          </div>
+
+          {/* 3 Key Pillars */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="p-3 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1">
+              <div className="text-emerald-600 dark:text-emerald-400 font-black text-sm">1,00,000+</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Verified Questions</div>
+            </div>
+            <div className="p-3 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1">
+              <div className="text-blue-600 dark:text-blue-400 font-black text-sm">Real CBT</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">NTA Pattern Tests</div>
+            </div>
+            <div className="p-3 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1">
+              <div className="text-purple-600 dark:text-purple-400 font-black text-sm">3D Mindmaps</div>
+              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Visual Formulas</div>
+            </div>
+          </div>
         </div>
 
-        {/* Card Body */}
-        <div className="bg-white dark:bg-[#0c131a] py-6 px-4 sm:px-8 shadow-xl shadow-slate-900/5 dark:shadow-black/40 rounded-3xl border border-slate-200/90 dark:border-slate-800 space-y-5">
-          {/* Progress Bar for 4-Step Registration */}
+        {/* Right Side: Authentication Form Card */}
+        <div className="lg:col-span-6 w-full max-w-md mx-auto">
+          {/* Mobile Header with 3D Study Hero Banner (Hidden on lg screens) */}
+          <div className="text-center mb-4 lg:hidden">
+            <div className="relative rounded-2xl overflow-hidden mb-3 border border-slate-200/90 dark:border-slate-800 shadow-lg">
+              <img
+                src="/assets/auth/auth_study_hero.jpg"
+                alt="Prepora JEE & NEET Study Platform"
+                className="w-full h-36 object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent flex items-end p-3.5">
+                <div className="flex items-center gap-2.5">
+                  <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-emerald-500/40">
+                    P
+                  </div>
+                  <div className="text-left">
+                    <span className="text-base font-black text-white tracking-tight leading-none block">
+                      PREPORA
+                    </span>
+                    <span className="text-[10px] text-emerald-300 font-bold block mt-1">
+                      AI Self Study • JEE & NEET Preparation
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Card Body */}
+          <div className="bg-white dark:bg-[#0c131a] py-6 px-4 sm:px-8 shadow-xl shadow-slate-900/5 dark:shadow-black/40 rounded-3xl border border-slate-200/90 dark:border-slate-800 space-y-5">
+            {/* Progress Bar for 4-Step Registration */}
           {authMode === 'register' &&
             (step === 'step1-phone' ||
               step === 'step2-otp' ||
@@ -556,26 +624,31 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                 </div>
               )}
               {/* Illustration Banner */}
-              <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-blue-500/10 border border-emerald-500/20 flex items-center justify-between gap-3">
+              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-blue-500/10 border border-emerald-500/20 flex items-center justify-between gap-3">
                 <div className="space-y-0.5">
                   <div className="text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    <span>Get Started</span>
+                    <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>JEE & NEET 2025/2026</span>
                   </div>
                   <h3 className="text-sm font-black text-slate-900 dark:text-white leading-tight">
                     {authMode === 'register' ? 'Create Student Account' : 'Welcome Back Student'}
                   </h3>
                   <p className="text-[11px] text-slate-500 dark:text-slate-400">
                     {authMode === 'register'
-                      ? '4-step fast setup for JEE & NEET preparation'
+                      ? 'Fast setup: Real CBT practice & instant mindmaps'
                       : 'Log in with mobile and password directly'}
                   </p>
                 </div>
-                <img
-                  src={isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_light.png'}
-                  alt="Student Mascot"
-                  className="w-16 h-16 object-contain shrink-0"
-                />
+                <div className="relative shrink-0">
+                  <img
+                    src="/assets/auth/auth_student_badge.jpg"
+                    alt="Prepora Student Mascot"
+                    className="w-14 h-14 rounded-2xl object-cover border-2 border-emerald-500/40 shadow-md shadow-emerald-500/20"
+                  />
+                  <span className="absolute -bottom-1 -right-1 px-1.5 py-0.2 rounded-full bg-emerald-600 text-[9px] font-black text-white shadow-xs">
+                    AI
+                  </span>
+                </div>
               </div>
 
               {/* Mode Switcher Tabs: Register vs Login */}
@@ -1217,6 +1290,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
         </div>
       </div>
     </div>
+  </div>
   );
 };
 
