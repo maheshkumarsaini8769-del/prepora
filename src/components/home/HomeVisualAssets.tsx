@@ -24,7 +24,7 @@ export const HeroStudentIllustration: React.FC<HeroStudentIllustrationProps> = (
   const normExam = (examLabel || '').toUpperCase();
   const normClass = (classLevel || '').toString();
 
-  let imageSrc = isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_jee.jpg';
+  let imageSrc = isDark ? '/assets/home/hero_student_dark.png' : '/assets/home/hero_student_light.png';
 
   if (normExam.includes('NEET')) {
     imageSrc = isDark ? '/assets/home/hero_student_neet_dark.jpg' : '/assets/home/hero_student_neet.jpg';
@@ -40,11 +40,7 @@ export const HeroStudentIllustration: React.FC<HeroStudentIllustrationProps> = (
       <img
         src={imageSrc}
         alt={`Study Up ${examLabel} Student Mascot`}
-        className={`w-32 sm:w-40 md:w-48 h-auto object-contain drop-shadow-md select-none pointer-events-none transition-all duration-300 ${
-          isDark
-            ? 'rounded-2xl'
-            : 'mix-blend-multiply rounded-2xl'
-        }`}
+        className="w-32 sm:w-40 md:w-48 h-auto object-contain select-none pointer-events-none transition-all duration-300"
         loading="eager"
       />
     </div>
