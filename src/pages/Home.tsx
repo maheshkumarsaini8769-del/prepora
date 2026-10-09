@@ -84,29 +84,42 @@ export const Home: React.FC = () => {
   // Real question attempt metrics
   const realAttempts = testService.getAllAttempts();
   const realMistakes = userService.getMistakes();
+  const realSolvedCounts = userService.getSubjectSolvedCounts();
 
-  const getSubjectMetric = (subName: string, fallbackTarget = 520, fallbackCount = 320) => {
-    const fromMistakes = realMistakes.filter((m) => m.subject === subName).length;
+  const getSubjectMetric = (subName: string) => {
+    // 1. Direct counts from practice sessions and completed tests
+    const directFromService = realSolvedCounts[subName] || 0;
+
+    // 2. Counts from mistakes book
+    const fromMistakes = realMistakes.filter((m) => m.subject?.toLowerCase() === subName.toLowerCase()).length;
+
+    // 3. Counts from test attempts
     const fromAttempts = realAttempts.reduce((acc, a) => {
-      const match = a.subjectBreakdown?.find((sb) => sb.subject === subName);
-      return acc + (match ? match.correct + match.wrong : 0);
+      const match = a.subjectBreakdown?.find((sb) => sb.subject?.toLowerCase() === subName.toLowerCase());
+      return acc + (match ? (match.correct || 0) + (match.wrong || 0) : 0);
     }, 0);
-    const count = (fromMistakes + fromAttempts > 0) ? (fromMistakes + fromAttempts) : fallbackCount;
-    const target = fallbackTarget;
-    const pct = Math.min(100, Math.round((count / target) * 100));
+
+    // 100% Real Questions Solved: strictly zero fake counts
+    const count = Math.max(directFromService, fromMistakes + fromAttempts);
+
+    // Milestone target: 100 questions initial benchmark, scaling smoothly if user surpasses it
+    const target = count > 100 ? Math.ceil((count + 1) / 100) * 100 : 100;
+
+    // Strict percentage: if user hasn't practiced, strictly 0%
+    const pct = target > 0 ? Math.min(100, Math.round((count / target) * 100)) : 0;
     return { count, target, pct };
   };
 
-  const physicsMetric = getSubjectMetric('Physics', 520, 320);
-  const chemistryMetric = getSubjectMetric('Chemistry', 520, 250);
+  const physicsMetric = getSubjectMetric('Physics');
+  const chemistryMetric = getSubjectMetric('Chemistry');
   const thirdSubjectName = prepType === 'NEET' ? 'Biology' : 'Mathematics';
-  const thirdMetric = getSubjectMetric(thirdSubjectName, 520, 290);
+  const thirdMetric = getSubjectMetric(thirdSubjectName);
 
-  // Today's Progress calculation (5 segments)
+  // Today's Progress calculation (5 segments) - 100% real, strictly 0 if no questions studied today
   const completedSegments = Math.min(
     5,
     Math.max(
-      2,
+      0,
       Math.round(((user.todayQuestionsCount || 0) / (user.dailyGoalQuestions || 25)) * 5)
     )
   );

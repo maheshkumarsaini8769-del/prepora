@@ -311,6 +311,15 @@ class MockUserService {
       }
     } catch {}
 
+    // Persist real subject-wise solved counts
+    try {
+      const countsKey = 'prepora_subject_question_counts';
+      const counts = JSON.parse(localStorage.getItem(countsKey) || '{}');
+      const sub = payload.subject || 'Physics';
+      counts[sub] = (counts[sub] || 0) + 1;
+      localStorage.setItem(countsKey, JSON.stringify(counts));
+    } catch {}
+
     this.updateProfile(profile);
   }
 
@@ -330,6 +339,21 @@ class MockUserService {
       }
       const merged = Array.from(new Set([...stored, ...qIds]));
       localStorage.setItem('prepora_attempted_question_ids', JSON.stringify(merged));
+    } catch {}
+
+    // Persist real subject-wise test counts
+    try {
+      const countsKey = 'prepora_subject_question_counts';
+      const counts = JSON.parse(localStorage.getItem(countsKey) || '{}');
+      if (attempt.subjectBreakdown && Array.isArray(attempt.subjectBreakdown)) {
+        attempt.subjectBreakdown.forEach((sb) => {
+          if (sb.subject) {
+            const num = (sb.correct || 0) + (sb.wrong || 0);
+            counts[sb.subject] = (counts[sb.subject] || 0) + num;
+          }
+        });
+        localStorage.setItem(countsKey, JSON.stringify(counts));
+      }
     } catch {}
 
     profile.lastActiveDate = today;
@@ -506,6 +530,61 @@ class MockUserService {
   public markAllNotificationsAsRead(): void {
     const list = this.getNotifications().map(n => ({ ...n, isRead: true }));
     setStorageItem(StorageKeys.NOTIFICATIONS, list);
+  }
+
+  public getSubjectSolvedCounts(): Record<string, number> {
+    const res: Record<string, number> = {
+      Physics: 0,
+      Chemistry: 0,
+      Mathematics: 0,
+      Biology: 0
+    };
+
+    try {
+      const raw = typeof localStorage !== 'undefined' ? localStorage.getItem('prepora_subject_question_counts') : null;
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        Object.keys(parsed).forEach(k => {
+          const normKey = k.charAt(0).toUpperCase() + k.slice(1).toLowerCase();
+          res[normKey] = (res[normKey] || 0) + (Number(parsed[k]) || 0);
+        });
+      }
+    } catch {}
+
+    // Also count from mistakes
+    try {
+      const mistakes = this.getMistakes();
+      const mistakeCounts: Record<string, number> = {};
+      mistakes.forEach(m => {
+        if (m.subject) {
+          const normKey = m.subject.charAt(0).toUpperCase() + m.subject.slice(1).toLowerCase();
+          mistakeCounts[normKey] = (mistakeCounts[normKey] || 0) + 1;
+        }
+      });
+      Object.keys(mistakeCounts).forEach(k => {
+        res[k] = Math.max(res[k] || 0, mistakeCounts[k]);
+      });
+    } catch {}
+
+    // Also count from test attempts
+    try {
+      const attempts = getStorageItem<TestAttempt[]>(StorageKeys.TEST_ATTEMPTS, []);
+      const testCounts: Record<string, number> = {};
+      attempts.forEach(a => {
+        a.subjectBreakdown?.forEach(sb => {
+          if (sb.subject) {
+            const normKey = sb.subject.charAt(0).toUpperCase() + sb.subject.slice(1).toLowerCase();
+            const sum = (sb.correct || 0) + (sb.wrong || 0);
+            testCounts[normKey] = (testCounts[normKey] || 0) + sum;
+          }
+        });
+      });
+      Object.keys(testCounts).forEach(k => {
+        res[k] = Math.max(res[k] || 0, (res[k] || 0) + testCounts[k]);
+      });
+    } catch {}
+
+    return res;
   }
 }
 
