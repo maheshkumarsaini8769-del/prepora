@@ -11,15 +11,28 @@ import {
   Tv,
   BookOpen,
   Calendar,
-  Layers
+  Layers,
+  Cpu,
+  Sparkles,
+  Key
 } from 'lucide-react';
 import { adminFetch } from '../../utils/adminApi';
 
 export const AdminSettingsPage: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<'general' | 'exams' | 'flags' | 'ads' | 'subs' | 'help'>('general');
+  const [activeTab, setActiveTab] = useState<'general' | 'exams' | 'flags' | 'ads' | 'subs' | 'ai' | 'help'>('general');
   const [settings, setSettings] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [successMsg, setSuccessMsg] = useState('');
+
+  // AI Configuration State (Task 2 & 10)
+  const [aiConfig, setAiConfig] = useState<any>(null);
+  const [aiProviderInput, setAiProviderInput] = useState('gemini');
+  const [geminiKeyInput, setGeminiKeyInput] = useState('');
+  const [groqKeyInput, setGroqKeyInput] = useState('');
+  const [openaiKeyInput, setOpenaiKeyInput] = useState('');
+  const [aiModelInput, setAiModelInput] = useState('gemini-1.5-flash');
+  const [aiTestMsg, setAiTestMsg] = useState('');
+  const [aiSaving, setAiSaving] = useState(false);
 
   const fetchSettings = async () => {
     try {
@@ -64,6 +77,65 @@ export const AdminSettingsPage: React.FC = () => {
       [flagKey]: !settings.featureFlags[flagKey]
     };
     handleSave({ featureFlags: newFlags });
+  };
+
+  const fetchAiSettings = async () => {
+    try {
+      const res = await adminFetch('/api/ai-factory/settings');
+      const data = await res.json();
+      if (data.success && data.data) {
+        setAiConfig(data.data);
+        setAiProviderInput(data.data.provider || 'gemini');
+        setAiModelInput(data.data.model || 'gemini-1.5-flash');
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleSaveAiConfig = async () => {
+    setAiSaving(true);
+    setAiTestMsg('');
+    try {
+      const res = await adminFetch('/api/ai-factory/settings', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider: aiProviderInput,
+          model: aiModelInput,
+          geminiApiKey: geminiKeyInput,
+          groqApiKey: groqKeyInput,
+          apiKey: openaiKeyInput
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setAiTestMsg('AI settings saved & live engine reloaded successfully!');
+        setGeminiKeyInput('');
+        setGroqKeyInput('');
+        setOpenaiKeyInput('');
+        fetchAiSettings();
+        setTimeout(() => setAiTestMsg(''), 4000);
+      } else {
+        setAiTestMsg(data.message || 'Failed to save AI settings');
+      }
+    } catch (e: any) {
+      setAiTestMsg(e.message || 'Error saving AI settings');
+    } finally {
+      setAiSaving(false);
+    }
+  };
+
+  const handleTestAiConnection = async () => {
+    setAiTestMsg('Testing connection...');
+    try {
+      const res = await adminFetch('/api/ai-factory/settings/test-connection', { method: 'POST' });
+      const data = await res.json();
+      setAiTestMsg(data.message || (data.success ? 'Connection verified successfully!' : 'Connection test failed'));
+      setTimeout(() => setAiTestMsg(''), 5000);
+    } catch (e: any) {
+      setAiTestMsg(e.message || 'Failed to connect');
+    }
   };
 
   if (loading || !settings) {
@@ -146,6 +218,16 @@ export const AdminSettingsPage: React.FC = () => {
         >
           <DollarSign className="w-4 h-4" />
           <span>Subscriptions</span>
+        </button>
+
+        <button
+          onClick={() => { setActiveTab('ai'); fetchAiSettings(); }}
+          className={`flex items-center gap-2 px-3.5 py-2 rounded-xl font-bold transition ${
+            activeTab === 'ai' ? 'bg-brand-500/20 text-brand-600 dark:text-brand-400 border border-brand-500/40' : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+          }`}
+        >
+          <Cpu className="w-4 h-4" />
+          <span>AI Engine & API Keys</span>
         </button>
 
         <button
@@ -317,6 +399,145 @@ export const AdminSettingsPage: React.FC = () => {
               </div>
             </div>
           ))}
+        </div>
+      )}
+
+      {/* Tab: AI Engine & API Keys Configuration (Admin Controlled) */}
+      {activeTab === 'ai' && (
+        <div className="p-6 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-6 text-xs animate-in fade-in">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800 gap-3">
+            <div>
+              <h3 className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-2">
+                <Cpu className="w-5 h-5 text-brand-600 dark:text-brand-400" />
+                <span>AI Engine & API Key Management</span>
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1">
+                Centralized server-side credentials for AI Doubt Solver & AI Teacher. Student-facing interfaces never see or prompt for API keys.
+              </p>
+            </div>
+            <div className="flex items-center gap-2">
+              <span className={`px-2.5 py-1 rounded-full text-[11px] font-bold flex items-center gap-1.5 ${
+                aiConfig?.hasGeminiKey || aiConfig?.hasGroqKey || aiConfig?.hasApiKey
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                  : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30'
+              }`}>
+                <span className="w-2 h-2 rounded-full bg-current"></span>
+                <span>{aiConfig?.hasGeminiKey || aiConfig?.hasGroqKey || aiConfig?.hasApiKey ? 'AI System Online' : 'No Keys Active'}</span>
+              </span>
+            </div>
+          </div>
+
+          {aiTestMsg && (
+            <div className="p-3 rounded-xl bg-brand-500/10 border border-brand-500/30 text-brand-600 dark:text-brand-400 font-bold flex items-center gap-2">
+              <Sparkles className="w-4 h-4 shrink-0" />
+              <span>{aiTestMsg}</span>
+            </div>
+          )}
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                Active Provider Engine
+              </label>
+              <select
+                value={aiProviderInput}
+                onChange={(e) => setAiProviderInput(e.target.value)}
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-medium"
+              >
+                <option value="gemini">Google Gemini (Primary — 1500 req/day quota)</option>
+                <option value="groq">Groq Cloud (Llama 3.3 70B — Ultra-Fast Fallback)</option>
+                <option value="openai">OpenAI (Official GPT-4o / GPT-4o-mini)</option>
+                <option value="offline_engine">Local High-Yield Offline Generator</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
+                Model Name
+              </label>
+              <input
+                type="text"
+                value={aiModelInput}
+                onChange={(e) => setAiModelInput(e.target.value)}
+                placeholder="gemini-1.5-flash / llama-3.3-70b-versatile"
+                className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-mono text-xs"
+              />
+            </div>
+          </div>
+
+          {/* Primary: Google Gemini Key */}
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-750 space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-slate-800 dark:text-slate-200 font-bold flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-blue-500 inline-block"></span>
+                <span>Google Gemini API Key (Primary Engine)</span>
+              </label>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                aiConfig?.hasGeminiKey
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                  : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30'
+              }`}>
+                {aiConfig?.hasGeminiKey ? '● Configured on Server' : '○ Not Set'}
+              </span>
+            </div>
+            <input
+              type="password"
+              placeholder={aiConfig?.hasGeminiKey ? '•••••••••••••••• (Saved securely on Server)' : 'Enter Gemini API Key (AIza... or AQ....)'}
+              value={geminiKeyInput}
+              onChange={(e) => setGeminiKeyInput(e.target.value)}
+              className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-mono text-xs placeholder:text-slate-400"
+            />
+            <p className="text-[11px] text-slate-500">
+              Powers instant doubt solving and lessons for Class 11, Class 12, NEET, and JEE. Stored encrypted server-side.
+            </p>
+          </div>
+
+          {/* Fallback: Groq Cloud Backup Key */}
+          <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-750 space-y-2">
+            <div className="flex items-center justify-between">
+              <label className="text-slate-800 dark:text-slate-200 font-bold flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-orange-500 inline-block"></span>
+                <span>Groq Cloud API Key (Automatic Zero-Downtime Backup)</span>
+              </label>
+              <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                aiConfig?.hasGroqKey
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
+                  : 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30'
+              }`}>
+                {aiConfig?.hasGroqKey ? '● Configured on Server' : '○ Not Set'}
+              </span>
+            </div>
+            <input
+              type="password"
+              placeholder={aiConfig?.hasGroqKey ? '•••••••••••••••• (Saved securely on Server)' : 'Enter Groq API Key (gsk_...)'}
+              value={groqKeyInput}
+              onChange={(e) => setGroqKeyInput(e.target.value)}
+              className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-mono text-xs placeholder:text-slate-400"
+            />
+            <p className="text-[11px] text-slate-500">
+              Seamless fallback: activates automatically if Gemini quota is consumed or temporary rate limits occur.
+            </p>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
+            <button
+              type="button"
+              onClick={handleTestAiConnection}
+              className="px-4 py-2 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-200 font-bold transition cursor-pointer"
+            >
+              Test Provider Latency
+            </button>
+
+            <button
+              type="button"
+              onClick={handleSaveAiConfig}
+              disabled={aiSaving}
+              className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold shadow-lg shadow-brand-600/30 transition cursor-pointer disabled:opacity-50"
+            >
+              {aiSaving ? 'Saving & Testing...' : 'Save & Reload AI Engine'}
+            </button>
+          </div>
         </div>
       )}
 

@@ -15,11 +15,7 @@ import {
   FileQuestion,
   HelpCircle,
   Layers,
-  ArrowRight,
-  Key,
-  Settings,
-  X,
-  Check
+  ArrowRight
 } from 'lucide-react';
 import { Badge, Button } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
@@ -182,75 +178,7 @@ export const AITeacherPage: React.FC = () => {
   const isJee = Boolean(user.targetExam && user.targetExam.toUpperCase().includes('JEE'));
   const examLabel = user.targetExam || (isJee ? 'JEE Main & Advanced' : 'NEET-UG');
 
-  const [aiStatus, setAiStatus] = useState<{
-    hasOpenAIKey: boolean;
-    openAIModel: string;
-    hasGeminiKey: boolean;
-    activeProvider: string;
-  } | null>(null);
-  const [showConfigModal, setShowConfigModal] = useState(false);
-  const [configKeyInput, setConfigKeyInput] = useState('');
-  const [configProviderInput, setConfigProviderInput] = useState<'openai' | 'gemini' | 'groq'>('gemini');
-  const [configModelInput, setConfigModelInput] = useState('gemini-1.5-flash');
-  const [configSaving, setConfigSaving] = useState(false);
-  const [configMsg, setConfigMsg] = useState<{ text: string; error?: boolean } | null>(null);
 
-  const fetchAiStatus = async () => {
-    try {
-      const res = await fetch('/api/ai/status');
-      const json = await res.json();
-      if (json.success && json.data) {
-        setAiStatus(json.data);
-      }
-    } catch (e) {
-      console.warn('Failed to fetch AI status:', e);
-    }
-  };
-
-  useEffect(() => {
-    fetchAiStatus();
-  }, []);
-
-  const handleSaveAIConfig = async () => {
-    const rawKey = configKeyInput.trim();
-    if (!rawKey) {
-      setConfigMsg({ text: 'Please enter a valid API key.', error: true });
-      return;
-    }
-    setConfigSaving(true);
-    setConfigMsg(null);
-    try {
-      const autoProvider = rawKey.startsWith('sk-') ? 'openai' : rawKey.startsWith('AIza') ? 'gemini' : configProviderInput;
-      const res = await fetch('/api/ai/configure-provider', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          provider: autoProvider,
-          apiKey: rawKey,
-          model: configModelInput
-        })
-      });
-      const data = await res.json();
-      if (data.success) {
-        if (data.warning) {
-          setConfigMsg({ text: `Key saved to server! Note: ${data.warning}`, error: true });
-        } else {
-          setConfigMsg({ text: data.message || `Activated successfully! Active: ${data.data?.activeProvider || 'AI Provider'}` });
-        }
-        if (data.data) setAiStatus(data.data);
-        if (!data.warning) {
-          setConfigKeyInput('');
-          setTimeout(() => setShowConfigModal(false), 2000);
-        }
-      } else {
-        setConfigMsg({ text: data.error || 'Failed to configure provider.', error: true });
-      }
-    } catch (e: any) {
-      setConfigMsg({ text: e.message || 'Network error.', error: true });
-    } finally {
-      setConfigSaving(false);
-    }
-  };
 
   // Initial welcome message
   const [messages, setMessages] = useState<ChatMessage[]>(() => [
@@ -554,30 +482,10 @@ export const AITeacherPage: React.FC = () => {
             </Badge>
           </div>
           <div className="flex items-center gap-2 flex-wrap mt-1">
-            {aiStatus?.hasOpenAIKey ? (
-              <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/30 flex items-center gap-1 shadow-2xs">
-                <Sparkles className="w-2.5 h-2.5" />
-                <span>OpenAI ({aiStatus.openAIModel}) Active</span>
-              </span>
-            ) : aiStatus?.hasGeminiKey ? (
-              <span className="text-[10px] px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/30 flex items-center gap-1 shadow-2xs">
-                <Sparkles className="w-2.5 h-2.5" />
-                <span>Google Gemini Active</span>
-              </span>
-            ) : (
-              <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 font-semibold border border-amber-500/30 flex items-center gap-1 shadow-2xs">
-                <span>🟠 Academic Engine (Offline Mode)</span>
-              </span>
-            )}
-            <button
-              type="button"
-              onClick={() => setShowConfigModal(true)}
-              className="text-[10px] px-2 py-0.5 rounded-md border border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 font-medium flex items-center gap-1 cursor-pointer transition"
-              title="Configure OpenAI or Gemini API Key"
-            >
-              <Key className="w-2.5 h-2.5 text-emerald-500" />
-              <span>Configure AI Key</span>
-            </button>
+            <span className="text-[10px] px-2.5 py-0.5 rounded-md bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-semibold border border-emerald-500/30 flex items-center gap-1 shadow-2xs">
+              <Sparkles className="w-2.5 h-2.5 text-emerald-500" />
+              <span>AI Teacher Active & Ready</span>
+            </span>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             Personalized AI Tutor for concept mastery, step-by-step numericals, and NCERT doubts in Hinglish & English.
@@ -864,153 +772,7 @@ export const AITeacherPage: React.FC = () => {
         </Button>
       </div>
 
-      {/* 7. AI Provider Configuration Modal */}
-      {showConfigModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-xs animate-in fade-in">
-          <div className="bg-white dark:bg-[#0f1722] border border-slate-200 dark:border-slate-800 rounded-2xl p-5 max-w-md w-full shadow-2xl space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200 dark:border-slate-800">
-              <div className="flex items-center gap-2">
-                <div className="p-2 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
-                  <Key className="w-5 h-5" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-sm text-slate-900 dark:text-white">Configure AI API Key</h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">Connect OpenAI (GPT-4o) or Google Gemini</p>
-                </div>
-              </div>
-              <button
-                type="button"
-                onClick={() => { setShowConfigModal(false); setConfigMsg(null); }}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800"
-              >
-                <X className="w-4 h-4" />
-              </button>
-            </div>
-
-            <div className="space-y-3 text-xs">
-              <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
-                  AI Provider
-                </label>
-                <select
-                  value={configProviderInput}
-                  onChange={(e) => {
-                    const p = e.target.value as 'openai' | 'gemini' | 'groq';
-                    setConfigProviderInput(p);
-                    if (p === 'openai') setConfigModelInput('gpt-4o-mini');
-                    else if (p === 'gemini') setConfigModelInput('gemini-1.5-flash');
-                    else setConfigModelInput('llama-3.3-70b-versatile');
-                  }}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-[#141e2b] border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-medium"
-                >
-                  <option value="gemini">Google Gemini (Gemini 1.5 Flash — 100% Free)</option>
-                  <option value="groq">Groq Cloud (Llama 3.3 70B — 100% Free & Fast)</option>
-                  <option value="openai">OpenAI (Official GPT-4o / GPT-4o-mini)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
-                  Model
-                </label>
-                <select
-                  value={configModelInput}
-                  onChange={(e) => setConfigModelInput(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-[#141e2b] border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-medium"
-                >
-                  {configProviderInput === 'openai' ? (
-                    <>
-                      <option value="gpt-4o-mini">gpt-4o-mini (Fast & Recommended)</option>
-                      <option value="gpt-4o">gpt-4o (High Intelligence)</option>
-                      <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
-                    </>
-                  ) : configProviderInput === 'gemini' ? (
-                    <>
-                      <option value="gemini-1.5-flash">gemini-1.5-flash (Fast & 100% Free Tier)</option>
-                      <option value="gemini-1.5-pro">gemini-1.5-pro</option>
-                    </>
-                  ) : (
-                    <>
-                      <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Smart & Free)</option>
-                      <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (Fastest & Free)</option>
-                    </>
-                  )}
-                </select>
-              </div>
-
-              <div>
-                <div className="flex items-center justify-between mb-1">
-                  <label className="block text-slate-700 dark:text-slate-300 font-semibold">
-                    Secret API Key
-                  </label>
-                  {configProviderInput === 'gemini' && (
-                    <a
-                      href="https://aistudio.google.com/app/apikey"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
-                    >
-                      Get Free Gemini Key ↗
-                    </a>
-                  )}
-                  {configProviderInput === 'groq' && (
-                    <a
-                      href="https://console.groq.com/keys"
-                      target="_blank"
-                      rel="noreferrer"
-                      className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
-                    >
-                      Get Free Groq Key ↗
-                    </a>
-                  )}
-                </div>
-                <input
-                  type="password"
-                  placeholder={configProviderInput === 'openai' ? 'sk-...' : configProviderInput === 'gemini' ? 'AIza...' : 'gsk_...'}
-                  value={configKeyInput}
-                  onChange={(e) => setConfigKeyInput(e.target.value)}
-                  className="w-full px-3 py-2 bg-slate-50 dark:bg-[#141e2b] border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-mono text-xs placeholder:text-slate-400"
-                />
-                <span className="text-[10px] text-slate-500 mt-1 block">
-                  Stored securely on the backend in database. Never exposed to browser.
-                </span>
-              </div>
-
-              {configMsg && (
-                <div
-                  className={`p-2.5 rounded-xl text-xs flex items-center gap-2 ${
-                    configMsg.error
-                      ? 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-800'
-                      : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800'
-                  }`}
-                >
-                  {configMsg.error ? <AlertTriangle className="w-4 h-4 shrink-0" /> : <Check className="w-4 h-4 shrink-0" />}
-                  <span>{configMsg.text}</span>
-                </div>
-              )}
-            </div>
-
-            <div className="pt-2 flex justify-end gap-2 border-t border-slate-200 dark:border-slate-800">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => { setShowConfigModal(false); setConfigMsg(null); }}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="primary"
-                size="sm"
-                onClick={handleSaveAIConfig}
-                disabled={configSaving || !configKeyInput.trim()}
-                className="bg-emerald-600 hover:bg-emerald-700 text-white font-semibold"
-              >
-                {configSaving ? 'Saving & Testing...' : 'Save & Activate'}
-              </Button>
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };
+

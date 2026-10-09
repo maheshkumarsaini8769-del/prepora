@@ -76,6 +76,8 @@ export const AdminAIFactory: React.FC = () => {
   // Provider Settings State
   const [providerConfig, setProviderConfig] = useState<any>(null);
   const [providerApiKey, setProviderApiKey] = useState('');
+  const [geminiApiKeyInput, setGeminiApiKeyInput] = useState('');
+  const [groqApiKeyInput, setGroqApiKeyInput] = useState('');
   const [testConnMsg, setTestConnMsg] = useState('');
 
   // Topic Weights & Normalization State (Rule 963 & Section 12)
@@ -2047,14 +2049,15 @@ export const AdminAIFactory: React.FC = () => {
 
           <div className="space-y-4">
             <div>
-              <label className="block text-slate-400 font-semibold mb-1">Active AI Provider</label>
+              <label className="block text-slate-400 font-semibold mb-1">Active AI Provider Engine</label>
               <select
-                value={providerConfig?.provider || 'openai'}
+                value={providerConfig?.provider || 'gemini'}
                 onChange={(e) => setProviderConfig({ ...providerConfig, provider: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-medium"
               >
-                <option value="openai">OpenAI (GPT-4o / GPT-4o-mini)</option>
-                <option value="gemini">Google Gemini (Free-Tier Supported)</option>
+                <option value="gemini">Google Gemini (Primary — 1500 Req/Day Quota)</option>
+                <option value="groq">Groq Cloud (Llama 3.3 70B — Ultra-Fast Fallback)</option>
+                <option value="openai">OpenAI (Official GPT-4o / GPT-4o-mini)</option>
                 <option value="openai_compatible">OpenAI Compatible REST Endpoint</option>
                 <option value="offline_engine">Local High-Yield Offline Generator</option>
               </select>
@@ -2064,37 +2067,90 @@ export const AdminAIFactory: React.FC = () => {
               <label className="block text-slate-400 font-semibold mb-1">Model Name</label>
               <input
                 type="text"
-                value={providerConfig?.model || 'gemini-1.5-flash'}
+                placeholder="gemini-1.5-flash / llama-3.3-70b-versatile"
+                value={providerConfig?.model || ''}
                 onChange={(e) => setProviderConfig({ ...providerConfig, model: e.target.value })}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-mono text-xs"
               />
             </div>
 
-            <div>
-              <label className="block text-slate-400 font-semibold mb-1">Provider API Key</label>
+            {/* Google Gemini API Key */}
+            <div className="p-3 rounded-xl bg-slate-850 border border-slate-750 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-slate-300 font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-blue-500 inline-block"></span>
+                  <span>Google Gemini API Key (Primary)</span>
+                </label>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                  providerConfig?.hasGeminiKey
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                }`}>
+                  {providerConfig?.hasGeminiKey ? '● Configured & Active' : '○ Not Configured'}
+                </span>
+              </div>
               <input
                 type="password"
-                placeholder={providerConfig?.hasApiKey ? '••••••••••••••••' : 'Enter API Key...'}
+                placeholder={providerConfig?.hasGeminiKey ? '•••••••••••••••• (Saved on Server)' : 'Enter Gemini API Key (AIza... or AQ....)'}
+                value={geminiApiKeyInput}
+                onChange={(e) => setGeminiApiKeyInput(e.target.value)}
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-mono text-xs placeholder:text-slate-500"
+              />
+              <span className="text-[10px] text-slate-500 block">
+                Primary engine for AI Doubt Solver & AI Teacher (Class 11/12, NEET & JEE).
+              </span>
+            </div>
+
+            {/* Groq Cloud Backup Key */}
+            <div className="p-3 rounded-xl bg-slate-850 border border-slate-750 space-y-2">
+              <div className="flex items-center justify-between">
+                <label className="text-slate-300 font-bold flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-orange-500 inline-block"></span>
+                  <span>Groq Cloud API Key (Automatic Fallback / Backup)</span>
+                </label>
+                <span className={`text-[10px] font-bold px-2 py-0.5 rounded ${
+                  providerConfig?.hasGroqKey
+                    ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/30'
+                    : 'bg-amber-500/10 text-amber-400 border border-amber-500/30'
+                }`}>
+                  {providerConfig?.hasGroqKey ? '● Configured & Active' : '○ Not Configured'}
+                </span>
+              </div>
+              <input
+                type="password"
+                placeholder={providerConfig?.hasGroqKey ? '•••••••••••••••• (Saved on Server)' : 'Enter Groq API Key (gsk_...)'}
+                value={groqApiKeyInput}
+                onChange={(e) => setGroqApiKeyInput(e.target.value)}
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-mono text-xs placeholder:text-slate-500"
+              />
+              <span className="text-[10px] text-slate-500 block">
+                Zero-downtime backup: automatically takes over if Gemini quota is exceeded or rate-limited.
+              </span>
+            </div>
+
+            {/* Generic / OpenAI Fallback Key */}
+            <div>
+              <label className="block text-slate-400 font-semibold mb-1">General / OpenAI API Key (Optional)</label>
+              <input
+                type="password"
+                placeholder={providerConfig?.hasApiKey ? '•••••••••••••••• (Saved on Server)' : 'Enter sk-... (Optional)'}
                 value={providerApiKey}
                 onChange={(e) => setProviderApiKey(e.target.value)}
-                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white"
+                className="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-lg text-white font-mono text-xs placeholder:text-slate-500"
               />
-              <span className="text-[10px] text-slate-500 mt-1 block">
-                Saved securely in environment / server store.
-              </span>
             </div>
 
             <div>
               <div className="flex justify-between font-semibold text-slate-400 mb-1">
-                <span>Daily Question Generation Cap (Cost Protection)</span>
-                <span className="text-white font-bold">{providerConfig?.dailyGenerationLimit || 500} Qs/day</span>
+                <span>Daily Question Generation Cap (Cost & Quota Protection)</span>
+                <span className="text-white font-bold">{providerConfig?.dailyGenerationLimit || 1500} Qs/day</span>
               </div>
               <input
                 type="range"
                 min={100}
-                max={2000}
+                max={3000}
                 step={50}
-                value={providerConfig?.dailyGenerationLimit || 500}
+                value={providerConfig?.dailyGenerationLimit || 1500}
                 onChange={(e) => setProviderConfig({ ...providerConfig, dailyGenerationLimit: Number(e.target.value) })}
                 className="w-full accent-brand-500"
               />
@@ -2104,7 +2160,7 @@ export const AdminAIFactory: React.FC = () => {
           <div className="pt-3 border-t border-slate-800 flex justify-between items-center">
             <button
               onClick={handleTestConnection}
-              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-bold transition"
+              className="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-750 text-slate-300 font-bold transition cursor-pointer"
             >
               Test Provider Latency
             </button>
@@ -2118,13 +2174,22 @@ export const AdminAIFactory: React.FC = () => {
                     provider: providerConfig.provider,
                     model: providerConfig.model,
                     apiKey: providerApiKey,
+                    geminiApiKey: geminiApiKeyInput,
+                    groqApiKey: groqApiKeyInput,
                     dailyGenerationLimit: providerConfig.dailyGenerationLimit
                   })
                 });
-                setTestConnMsg('Configuration saved successfully.');
+                setTestConnMsg('AI Engine configuration saved and updated successfully.');
                 setTimeout(() => setTestConnMsg(''), 4000);
+                const confRes = await adminFetch('/api/ai-factory/settings').then(r => r.json());
+                if (confRes.success) {
+                  setProviderConfig(confRes.data);
+                  setGeminiApiKeyInput('');
+                  setGroqApiKeyInput('');
+                  setProviderApiKey('');
+                }
               }}
-              className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold shadow-lg shadow-brand-600/30 transition"
+              className="px-5 py-2 rounded-xl bg-brand-600 hover:bg-brand-500 text-white font-bold shadow-lg shadow-brand-600/30 transition cursor-pointer"
             >
               Save Settings
             </button>

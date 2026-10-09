@@ -898,7 +898,10 @@ router.get('/settings', async (req: Request, res: Response) => {
         questionsGeneratedToday: config.questionsGeneratedToday,
         promptVersion: config.promptVersion,
         isConnected: config.isConnected,
-        hasApiKey: Boolean(config.apiKey && config.apiKey.length > 5)
+        hasApiKey: Boolean((config.apiKey && config.apiKey.length > 5) || (config.geminiApiKey && config.geminiApiKey.length > 5)),
+        hasGeminiKey: Boolean((config.geminiApiKey && config.geminiApiKey.length > 5) || (config.apiKey && (config.apiKey.startsWith('AQ.') || config.apiKey.startsWith('AIza')))),
+        hasGroqKey: Boolean((config.groqApiKey && config.groqApiKey.length > 5) || (config.apiKey && config.apiKey.startsWith('gsk_'))),
+        hasOpenaiKey: Boolean((config.openaiApiKey && config.openaiApiKey.length > 5) || (config.apiKey && config.apiKey.startsWith('sk-')))
       }
     });
   } catch (error: any) {
@@ -908,10 +911,23 @@ router.get('/settings', async (req: Request, res: Response) => {
 
 router.put('/settings', async (req: Request, res: Response) => {
   try {
-    const { provider, apiKey, model, temperature, dailyGenerationLimit } = req.body;
+    const { provider, apiKey, geminiApiKey, groqApiKey, openaiApiKey, model, temperature, dailyGenerationLimit } = req.body;
     const updateObj: any = {};
     if (provider) updateObj.provider = provider;
-    if (apiKey !== undefined && apiKey !== '') updateObj.apiKey = apiKey;
+    if (apiKey !== undefined && apiKey !== '') {
+      const cleanKey = apiKey.trim();
+      updateObj.apiKey = cleanKey;
+      if (cleanKey.startsWith('AQ.') || cleanKey.startsWith('AIza') || provider === 'gemini') {
+        updateObj.geminiApiKey = cleanKey;
+      } else if (cleanKey.startsWith('gsk_') || provider === 'groq') {
+        updateObj.groqApiKey = cleanKey;
+      } else if (cleanKey.startsWith('sk-') || provider === 'openai') {
+        updateObj.openaiApiKey = cleanKey;
+      }
+    }
+    if (geminiApiKey !== undefined && geminiApiKey !== '') updateObj.geminiApiKey = geminiApiKey.trim();
+    if (groqApiKey !== undefined && groqApiKey !== '') updateObj.groqApiKey = groqApiKey.trim();
+    if (openaiApiKey !== undefined && openaiApiKey !== '') updateObj.openaiApiKey = openaiApiKey.trim();
     if (model) updateObj.modelName = model;
     if (temperature !== undefined) updateObj.temperature = Number(temperature);
     if (dailyGenerationLimit !== undefined) updateObj.dailyGenerationLimit = Number(dailyGenerationLimit);
@@ -932,7 +948,9 @@ router.put('/settings', async (req: Request, res: Response) => {
         provider: updated.provider,
         model: updated.modelName,
         dailyGenerationLimit: updated.dailyGenerationLimit,
-        hasApiKey: Boolean(updated.apiKey)
+        hasApiKey: Boolean(updated.apiKey || updated.geminiApiKey),
+        hasGeminiKey: Boolean(updated.geminiApiKey),
+        hasGroqKey: Boolean(updated.groqApiKey)
       }
     });
   } catch (error: any) {
