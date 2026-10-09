@@ -29,7 +29,8 @@ import {
   X,
   ExternalLink,
   Table,
-  HelpCircle
+  HelpCircle,
+  Download
 } from 'lucide-react';
 import { MathRenderer } from './MathRenderer';
 import { Button } from './UIComponents';
@@ -65,6 +66,8 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
   const [chapterSearch, setChapterSearch] = useState('');
   const [isChapterDropdownOpen, setIsChapterDropdownOpen] = useState(false);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
+  const [viewFormat, setViewFormat] = useState<'tree' | 'poster'>('tree');
+  const [isPosterZoomModalOpen, setIsPosterZoomModalOpen] = useState(false);
   const [collapsedBranches, setCollapsedBranches] = useState<Record<string, boolean>>({});
   const [inspectModalNode, setInspectModalNode] = useState<{
     title: string;
@@ -476,24 +479,182 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
         </div>
       </div>
 
-      {/* Mobile Swipe Guidance Hint */}
-      <div className="flex items-center justify-between text-xs text-slate-400 bg-slate-900/60 px-3 py-1.5 rounded-xl border border-slate-800/80 sm:hidden">
-        <div className="flex items-center gap-1.5 text-amber-300 font-bold">
-          <span>👉 Swipe horizontally</span>
+      {/* View Format Switcher: Interactive Tree vs HD 3D Poster */}
+      <div className="flex items-center justify-between flex-wrap gap-2 p-2 rounded-2xl bg-slate-900/90 border border-slate-800">
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-slate-800/90 border border-slate-700/60">
+          <button
+            type="button"
+            onClick={() => setViewFormat('tree')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition cursor-pointer ${
+              viewFormat === 'tree'
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <span>🌿 Interactive Tree (Swipeable)</span>
+          </button>
+          <button
+            type="button"
+            onClick={() => setViewFormat('poster')}
+            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-black transition cursor-pointer ${
+              viewFormat === 'poster'
+                ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-md'
+                : 'text-slate-400 hover:text-white'
+            }`}
+          >
+            <Maximize2 className="w-3.5 h-3.5 text-sky-300" />
+            <span>🖼️ 3D Infographic Poster (Mobile Fit)</span>
+            <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-400/20 text-amber-300 font-bold">
+              HD Image
+            </span>
+          </button>
         </div>
-        <span>Root on left • Concepts extend right</span>
+
+        {mapData.rootIllustrationSrc && (
+          <button
+            type="button"
+            onClick={() => setIsPosterZoomModalOpen(true)}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-xs font-bold text-amber-300 border border-slate-700 cursor-pointer transition shadow-xs"
+          >
+            <ZoomIn className="w-3.5 h-3.5 text-amber-400" />
+            <span>Inspect Fullscreen HD</span>
+          </button>
+        )}
       </div>
 
-      {/* ========================================================================= */}
-      {/* 2. DEDICATED HORIZONTAL SCROLL VIEWPORT & CANVAS                         */}
-      {/* ========================================================================= */}
-      <div
-        className="mindmap-viewport w-full overflow-x-auto overflow-y-visible rounded-3xl border border-slate-800/90 shadow-2xl relative select-none pb-4"
-        style={{
-          WebkitOverflowScrolling: 'touch',
-          touchAction: 'pan-x pan-y'
-        }}
-      >
+      {viewFormat === 'poster' ? (
+        /* ========================================================================= */
+        /* HD 3D INFOGRAPHIC POSTER VIEW (PERFECT FOR MOBILE AND DESKTOP)           */
+        /* ========================================================================= */
+        <div className="space-y-4 animate-in fade-in duration-200">
+          <div className="bg-[#060b16] rounded-3xl p-4 sm:p-6 border border-slate-800 shadow-2xl relative overflow-hidden group">
+            {/* Ambient glows */}
+            <div className="absolute top-0 left-0 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute bottom-0 right-0 w-80 h-80 bg-blue-600/10 rounded-full blur-3xl pointer-events-none" />
+
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 pb-3 border-b border-slate-800/80 relative z-10">
+              <div>
+                <div className="flex items-center gap-2 mb-1">
+                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                    {mapData.subject} • Class {mapData.classLevel}
+                  </span>
+                  <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    {mapData.exam}
+                  </span>
+                </div>
+                <h2 className="text-xl sm:text-2xl font-black text-white tracking-tight">
+                  {mapData.chapterTitle} — High-Definition 3D Mind Map
+                </h2>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => setIsPosterZoomModalOpen(true)}
+                  className="px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-bold flex items-center gap-1.5 transition shadow-md cursor-pointer"
+                >
+                  <ZoomIn className="w-3.5 h-3.5" />
+                  <span>Tap to Zoom Fullscreen</span>
+                </button>
+                {mapData.rootIllustrationSrc && (
+                  <a
+                    href={mapData.rootIllustrationSrc}
+                    download={`${mapData.chapterTitle.replace(/\s+/g, '_')}_mindmap.jpg`}
+                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition border border-slate-700"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span>Download</span>
+                  </a>
+                )}
+              </div>
+            </div>
+
+            {/* Poster Image Container - perfectly responsive on mobile screens! */}
+            <div
+              onClick={() => setIsPosterZoomModalOpen(true)}
+              className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 cursor-zoom-in group/img shadow-2xl"
+            >
+              <img
+                src={mapData.rootIllustrationSrc || '/assets/mindmaps/physics_units_measurements_reference.jpg'}
+                alt={mapData.chapterTitle}
+                className="w-full h-auto max-h-[78vh] object-contain mx-auto transform group-hover/img:scale-[1.01] transition-transform duration-300 select-none"
+              />
+              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-between text-xs text-white">
+                <div className="flex items-center gap-2">
+                  <ZoomIn className="w-4 h-4 text-amber-400" />
+                  <span className="font-bold text-white drop-shadow-sm">
+                    Tap to inspect full-screen high definition details (Zoom & Pan)
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-purple-200 bg-black/60 px-2 py-0.5 rounded-md border border-white/10">
+                  HD 3D Infographic
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Chapter Summary & Practice Questions */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="p-4 rounded-3xl bg-slate-900 border border-slate-800 space-y-2">
+              <h4 className="text-xs font-black text-amber-400 uppercase tracking-wider">
+                Chapter Core Overview
+              </h4>
+              <p className="text-xs text-slate-300 leading-relaxed">{mapData.summary}</p>
+            </div>
+            <div className="p-4 rounded-3xl bg-gradient-to-r from-purple-900/40 to-indigo-900/40 border border-purple-800/40 flex items-center justify-between gap-4">
+              <div className="text-xs text-purple-200">
+                <span className="font-black text-white text-sm">Ready to practice?</span>
+                <p className="text-[11px] text-slate-300">
+                  Solve real NEET & JEE questions from {mapData.chapterTitle}.
+                </p>
+              </div>
+              <Button
+                variant="primary"
+                size="sm"
+                onClick={() =>
+                  navigate(
+                    `/practice?subject=${encodeURIComponent(
+                      selectedSubject
+                    )}&chapter=${encodeURIComponent(activeChapter)}`
+                  )
+                }
+                className="text-xs font-bold px-3 py-2 bg-purple-600 hover:bg-purple-500 text-white flex items-center gap-1.5 shrink-0"
+              >
+                <span>Practice Questions</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      ) : (
+        /* ========================================================================= */
+        /* INTERACTIVE HORIZONTAL SCROLL CANVAS                                     */
+        /* ========================================================================= */
+        <div className="space-y-4">
+          {/* Mobile Swipe Guidance Hint */}
+          <div className="flex items-center justify-between text-xs text-slate-400 bg-slate-900/60 px-3 py-1.5 rounded-xl border border-slate-800/80 sm:hidden">
+            <div className="flex items-center gap-1.5 text-amber-300 font-bold">
+              <span>👉 Swipe horizontally</span>
+            </div>
+            {mapData.rootIllustrationSrc && (
+              <button
+                type="button"
+                onClick={() => setViewFormat('poster')}
+                className="text-[11px] font-bold text-sky-300 underline cursor-pointer"
+              >
+                🖼️ View 3D Poster Image
+              </button>
+            )}
+          </div>
+
+          <div
+            className="mindmap-viewport w-full overflow-x-auto overflow-y-visible rounded-3xl border border-slate-800/90 shadow-2xl relative select-none pb-4"
+            style={{
+              WebkitOverflowScrolling: 'touch',
+              touchAction: 'pan-x pan-y'
+            }}
+          >
         <div
           ref={canvasRef}
           style={{
@@ -553,52 +714,76 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
                 boxShadow: '0 20px 40px -15px rgba(30, 58, 138, 0.5), inset 0 1px 2px rgba(255, 255, 255, 0.15)'
               }}
             >
-              {/* Scientific 3D Visual Illustration Header */}
-              <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-slate-900/90 to-indigo-950/90 p-4 border border-indigo-400/30 mb-4 shadow-inner text-center">
-                <div className="relative z-10 flex items-center justify-center py-2">
-                  {mapData.subject === 'Physics' ? (
-                    <div className="relative flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-indigo-900/50">
-                        <Ruler className="w-9 h-9 text-amber-200" />
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-amber-400/50">
-                        <Box className="w-4 h-4 text-sky-300" />
-                      </div>
-                    </div>
-                  ) : mapData.subject === 'Chemistry' ? (
-                    <div className="relative flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-600 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-emerald-900/50">
-                        <FlaskConical className="w-9 h-9 text-emerald-100" />
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-teal-400/50">
-                        <Atom className="w-4 h-4 text-emerald-300" />
-                      </div>
-                    </div>
-                  ) : mapData.subject === 'Biology' ? (
-                    <div className="relative flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-500 via-pink-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-rose-900/50">
-                        <Dna className="w-9 h-9 text-rose-100" />
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-rose-400/50">
-                        <Microscope className="w-4 h-4 text-rose-300" />
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="relative flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-600 to-purple-400 flex items-center justify-center text-white shadow-lg shadow-amber-900/50">
-                        <Calculator className="w-9 h-9 text-amber-100" />
-                      </div>
-                      <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-amber-400/50">
-                        <Compass className="w-4 h-4 text-amber-300" />
-                      </div>
-                    </div>
-                  )}
+              {/* Scientific 3D Visual Illustration Header in Root Node */}
+              {mapData.rootIllustrationSrc ? (
+                <div
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsPosterZoomModalOpen(true);
+                  }}
+                  className="relative rounded-2xl overflow-hidden border border-indigo-400/40 bg-slate-950 cursor-pointer group/img shadow-md mb-4"
+                >
+                  <img
+                    src={mapData.rootIllustrationSrc}
+                    alt={mapData.chapterTitle}
+                    className="w-full h-32 sm:h-36 object-cover object-top group-hover/img:scale-105 transition-transform duration-300 select-none"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent flex items-end justify-between p-2 text-[10px] text-white">
+                    <span className="font-bold flex items-center gap-1 text-amber-300">
+                      <ZoomIn className="w-3.5 h-3.5" /> Tap for HD Poster
+                    </span>
+                    <span className="bg-black/70 px-1.5 py-0.5 rounded text-[9px] font-mono border border-white/20">
+                      HD 3D
+                    </span>
+                  </div>
                 </div>
+              ) : (
+                <div className="relative rounded-2xl overflow-hidden bg-gradient-to-b from-slate-900/90 to-indigo-950/90 p-4 border border-indigo-400/30 mb-4 shadow-inner text-center">
+                  <div className="relative z-10 flex items-center justify-center py-2">
+                    {mapData.subject === 'Physics' ? (
+                      <div className="relative flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 via-indigo-600 to-sky-400 flex items-center justify-center text-white shadow-lg shadow-indigo-900/50">
+                          <Ruler className="w-9 h-9 text-amber-200" />
+                        </div>
+                        <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-amber-400/50">
+                          <Box className="w-4 h-4 text-sky-300" />
+                        </div>
+                      </div>
+                    ) : mapData.subject === 'Chemistry' ? (
+                      <div className="relative flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-500 via-teal-600 to-cyan-400 flex items-center justify-center text-white shadow-lg shadow-emerald-900/50">
+                          <FlaskConical className="w-9 h-9 text-emerald-100" />
+                        </div>
+                        <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-teal-400/50">
+                          <Atom className="w-4 h-4 text-emerald-300" />
+                        </div>
+                      </div>
+                    ) : mapData.subject === 'Biology' ? (
+                      <div className="relative flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-rose-500 via-pink-600 to-emerald-400 flex items-center justify-center text-white shadow-lg shadow-rose-900/50">
+                          <Dna className="w-9 h-9 text-rose-100" />
+                        </div>
+                        <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-rose-400/50">
+                          <Microscope className="w-4 h-4 text-rose-300" />
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="relative flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-2xl bg-gradient-to-tr from-amber-500 via-orange-600 to-purple-400 flex items-center justify-center text-white shadow-lg shadow-amber-900/50">
+                          <Calculator className="w-9 h-9 text-amber-100" />
+                        </div>
+                        <div className="absolute -bottom-2 -right-2 p-1.5 rounded-xl bg-slate-900/90 border border-amber-400/50">
+                          <Compass className="w-4 h-4 text-amber-300" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
-                <div className="text-[10px] font-black uppercase tracking-wider text-indigo-300/90 mt-1">
-                  Interactive Concept Root
+                  <div className="text-[10px] font-black uppercase tracking-wider text-indigo-300/90 mt-1">
+                    Interactive Concept Root
+                  </div>
                 </div>
-              </div>
+              )}
 
               {/* Chapter Name & Subject Hierarchy */}
               <div className="text-center space-y-2">
@@ -917,6 +1102,8 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
           </div>
         </div>
       </div>
+    </div>
+  )}
 
       {/* ========================================================================= */}
       {/* 3. INTERACTIVE DEEP DIVE INSPECTION MODAL                                 */}
@@ -1020,6 +1207,54 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
                 <span>Practice Real Questions</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Fullscreen HD Poster Lightbox Modal */}
+      {isPosterZoomModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-2 sm:p-4 backdrop-blur-md animate-in fade-in duration-200">
+          <div className="relative max-w-6xl w-full max-h-[94vh] flex flex-col bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl overflow-hidden">
+            <div className="flex items-center justify-between p-3 sm:p-4 border-b border-slate-800 bg-slate-950">
+              <div className="flex items-center gap-2">
+                <Sparkles className="w-4 h-4 text-amber-400" />
+                <div>
+                  <h3 className="text-xs sm:text-sm font-black text-white">
+                    {mapData.chapterTitle} — High-Definition 3D Mind Map
+                  </h3>
+                  <p className="text-[10px] sm:text-[11px] text-slate-400">
+                    {mapData.subject} • Class {mapData.classLevel} • {mapData.exam}
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-2">
+                {mapData.rootIllustrationSrc && (
+                  <a
+                    href={mapData.rootIllustrationSrc}
+                    download={`${mapData.chapterTitle.replace(/\s+/g, '_')}_mindmap.jpg`}
+                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 flex items-center gap-1.5 transition"
+                  >
+                    <Download className="w-3.5 h-3.5" />
+                    <span className="hidden sm:inline">Download</span>
+                  </a>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsPosterZoomModalOpen(false)}
+                  className="p-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-white transition cursor-pointer"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+            </div>
+
+            <div className="flex-1 overflow-auto p-2 sm:p-4 flex items-center justify-center bg-slate-950">
+              <img
+                src={mapData.rootIllustrationSrc || '/assets/mindmaps/physics_units_measurements_reference.jpg'}
+                alt={mapData.chapterTitle}
+                className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-slate-800 select-none"
+              />
             </div>
           </div>
         </div>

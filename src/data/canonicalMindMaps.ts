@@ -389,6 +389,7 @@ export const LAWS_OF_MOTION_MINDMAP: HorizontalMindMapData = {
   classLevel: '11',
   exam: 'NEET & JEE',
   rootIllustrationType: 'newton_pulley',
+  rootIllustrationSrc: '/assets/mindmaps/physics_units_measurements_reference.jpg',
   summary: 'Complete Left-to-Right 3D visual concept map for Laws of Motion covering Inertia, Newton Laws 1-3, Momentum & Impulse, Free Body Diagrams, Friction Dynamics, and Circular Motion Banking.',
   branches: [
     {
@@ -701,6 +702,7 @@ export const CHEMICAL_BONDING_MINDMAP: HorizontalMindMapData = {
   classLevel: '11',
   exam: 'NEET & JEE',
   rootIllustrationType: 'chemical_orbitals',
+  rootIllustrationSrc: '/assets/mindmaps/chemistry_bonding_3d.jpg',
   summary: 'Left-to-Right 3D visual concept map for Chemical Bonding covering Lewis Octet Rule, Ionic Bonding & Lattice Energy, VSEPR Molecular Geometry, Hybridization, Molecular Orbital Theory (MOT), and Hydrogen Bonding.',
   branches: [
     {
@@ -983,6 +985,7 @@ export const CELL_BIOLOGY_MINDMAP: HorizontalMindMapData = {
   classLevel: '11',
   exam: 'NEET-UG',
   rootIllustrationType: 'cell_ultrastructure',
+  rootIllustrationSrc: '/assets/mindmaps/biology_inheritance_3d.jpg',
   summary: 'Left-to-Right 3D visual concept map for Cell: The Unit of Life covering Cell Theory, Prokaryotes, Fluid Mosaic Plasma Membrane, Endomembrane Organelles, Semi-Autonomous Mitochondria/Plastids, and Nucleus Chromatin.',
   branches: [
     {
@@ -1418,12 +1421,24 @@ export function getCanonicalMindMap(
     };
   });
 
+  const illustrationSrc =
+    subject === 'Physics'
+      ? norm.includes('unit') || norm.includes('measurement')
+        ? '/assets/mindmaps/physics_units_measurements_reference.jpg'
+        : '/assets/mindmaps/physics_dual_nature_3d.jpg'
+      : subject === 'Chemistry'
+      ? '/assets/mindmaps/chemistry_bonding_3d.jpg'
+      : subject === 'Biology'
+      ? '/assets/mindmaps/biology_inheritance_3d.jpg'
+      : '/assets/mindmaps/mathematics_integrals_3d.jpg';
+
   return {
     chapterTitle: chapterName,
     subject,
     classLevel,
     exam: subject === 'Biology' ? 'NEET-UG' : subject === 'Mathematics' ? 'JEE Main & Advanced' : 'NEET & JEE',
     rootIllustrationType: 'scientific_overview',
+    rootIllustrationSrc: illustrationSrc,
     summary: `Structured Left-to-Right 3D visual concept map for ${chapterName} (${subject}). Aligned with NCERT syllabus and NEET/JEE examination standards.`,
     branches
   };
