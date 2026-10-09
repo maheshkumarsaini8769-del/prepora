@@ -353,7 +353,18 @@ export const FormulaNotesHub: React.FC = () => {
   }, []);
 
   const handleCopyFormula = useCallback((f: TopicFormula) => {
-    navigator.clipboard.writeText(f.formula);
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(f.formula);
+      } else {
+        const ta = document.createElement('textarea');
+        ta.value = f.formula;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+      }
+    } catch {}
     setCopiedFormulaName(f.name);
     setTimeout(() => setCopiedFormulaName(null), 2000);
   }, []);
@@ -843,110 +854,95 @@ export const FormulaNotesHub: React.FC = () => {
 
       {/* VIEW MODE 1: DEDICATED CHAPTER FORMULA VIEW */}
       {selectedChapter && currentChapterGroup ? (
-        <div className="space-y-6">
-          {/* Top Return Navigation Bar */}
-          <div className="flex flex-wrap items-center justify-between gap-3 p-4 rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200/80 dark:border-slate-800 shadow-xs">
-            <button
-              type="button"
-              onClick={handleBackToChapters}
-              className="px-4 py-2 rounded-2xl bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/60 hover:text-emerald-600 text-slate-800 dark:text-slate-100 font-extrabold text-xs flex items-center gap-2 transition cursor-pointer"
-            >
-              <ArrowLeft className="w-4 h-4 text-emerald-600" />
-              <span>← Back to All Chapters</span>
-            </button>
-
-            {/* Breadcrumb path */}
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-400">
-              <span
+        <div className="space-y-4">
+          {/* Unified Compact Chapter Header Card */}
+          <div className="rounded-2xl bg-[#061817] dark:bg-[#061817] p-3.5 sm:p-5 border border-emerald-500/30 text-white space-y-3 shadow-lg shadow-emerald-950/20">
+            {/* Top Navigation Row */}
+            <div className="flex items-center justify-between gap-2">
+              <button
+                type="button"
                 onClick={handleBackToChapters}
-                className="hover:text-emerald-600 cursor-pointer"
+                className="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-emerald-500/20 hover:text-emerald-300 text-slate-200 font-bold text-xs flex items-center gap-1.5 transition cursor-pointer border border-white/10"
               >
-                Formula Hub
-              </span>
-              <ChevronRight className="w-3.5 h-3.5" />
-              <span className="text-slate-600 dark:text-slate-300">
-                {currentChapterGroup.subject}
-              </span>
-              <ChevronRight className="w-3.5 h-3.5" />
-              <span className="font-bold text-emerald-600 dark:text-emerald-400 truncate max-w-[240px]">
-                {currentChapterGroup.chapter}
-              </span>
-            </div>
-          </div>
+                <ArrowLeft className="w-3.5 h-3.5 text-emerald-400" />
+                <span>← All Chapters</span>
+              </button>
 
-          {/* Chapter Hero Card */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-950 text-white p-6 sm:p-8 shadow-xl shadow-emerald-950/20 border border-emerald-700/40 space-y-4">
-            <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
-              <div className="space-y-1.5 max-w-2xl">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 text-xs font-bold">
-                    {currentChapterGroup.subject}
-                  </span>
-                  <span className="px-2 py-0.5 rounded-md bg-white/10 text-white text-[11px] font-bold">
-                    Class {currentChapterGroup.classLevel}
-                  </span>
-                  {currentChapterGroup.weightage === 'High' && (
-                    <span className="px-2 py-0.5 rounded-md bg-rose-500/30 border border-rose-400/40 text-rose-200 text-[11px] font-bold">
-                      High Yield
-                    </span>
-                  )}
-                </div>
-
-                <h1 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
-                  {currentChapterGroup.chapter}
-                </h1>
-                <p className="text-emerald-100/90 text-xs sm:text-sm">
-                  Complete mathematical equations, variable definitions, and step-by-step worked numerical examples for every topic in this chapter.
-                </p>
-
-                <div className="flex items-center gap-3 text-xs text-emerald-200 font-semibold pt-1">
-                  <span>{currentChapterGroup.items.length} Topics</span>
-                  <span>•</span>
-                  <span>{currentChapterGroup.formulaCount} Formulas with Examples</span>
-                </div>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="flex flex-wrap items-center gap-2 shrink-0">
+              <div className="flex items-center gap-1.5">
                 <button
                   type="button"
                   onClick={() => handlePrintChapter(currentChapterGroup.chapter, currentChapterGroup.items)}
-                  className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs flex items-center gap-1.5 transition cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold text-xs flex items-center gap-1 transition cursor-pointer"
                   title="Print or save as PDF"
                 >
                   <Printer className="w-3.5 h-3.5 text-emerald-300" />
-                  <span>Print / PDF</span>
+                  <span className="hidden sm:inline">Print / PDF</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleDownloadMarkdown(currentChapterGroup.chapter, currentChapterGroup.items)}
-                  className="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 text-white font-bold text-xs flex items-center gap-1.5 transition cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 border border-white/10 text-white font-bold text-xs flex items-center gap-1 transition cursor-pointer"
                   title="Export Markdown"
                 >
                   <Download className="w-3.5 h-3.5 text-emerald-300" />
-                  <span>Export .md</span>
+                  <span className="hidden sm:inline">Export</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => handleAddToPlanner(currentChapterGroup.chapter)}
-                  className="px-3.5 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs flex items-center gap-1.5 transition shadow-sm cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-black text-xs flex items-center gap-1 transition shadow-sm cursor-pointer"
                 >
                   <Calendar className="w-3.5 h-3.5" />
-                  <span>+ Add to Planner</span>
+                  <span>+ Planner</span>
                 </button>
               </div>
             </div>
 
-            {/* Topic Filter Pills */}
-            <div className="relative z-10 flex flex-wrap items-center gap-1.5 pt-3 border-t border-emerald-700/50">
-              <span className="text-xs font-bold text-emerald-200 mr-1 shrink-0">Filter Topic:</span>
+            {/* Title & Metadata */}
+            <div className="space-y-1">
+              <div className="flex flex-wrap items-center gap-2">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-bold">
+                  {currentChapterGroup.subject}
+                </span>
+                <span className="px-2 py-0.5 rounded-md bg-white/10 text-white text-[11px] font-bold">
+                  Class {currentChapterGroup.classLevel}
+                </span>
+                {currentChapterGroup.weightage === 'High' && (
+                  <span className="px-2 py-0.5 rounded-md bg-rose-500/20 border border-rose-400/30 text-rose-300 text-[11px] font-bold">
+                    High Yield
+                  </span>
+                )}
+              </div>
+              <h1 className="text-base sm:text-xl font-black text-white tracking-tight leading-snug">
+                {currentChapterGroup.chapter}
+              </h1>
+              <div className="flex items-center gap-2 text-[11px] text-emerald-300 font-semibold">
+                <span className="flex items-center gap-1">
+                  <Flame className="w-3 h-3 text-amber-400" />
+                  {currentChapterGroup.formulaCount} Formulas
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1">
+                  <Layers className="w-3 h-3 text-teal-400" />
+                  {currentChapterGroup.items.length} Topics
+                </span>
+                <span>•</span>
+                <span className="flex items-center gap-1 text-slate-300">
+                  <Sparkles className="w-3 h-3 text-emerald-400" />
+                  Solved Numerical Examples
+                </span>
+              </div>
+            </div>
+
+            {/* Topic Filter Pills (Horizontal Scroll on Mobile) */}
+            <div className="pt-2 border-t border-emerald-500/20 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
               <button
                 type="button"
                 onClick={() => setActiveTopicFilter('All')}
-                className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${
+                className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer shrink-0 ${
                   activeTopicFilter === 'All'
-                    ? 'bg-white text-emerald-950 shadow-xs'
-                    : 'bg-white/10 text-white hover:bg-white/20'
+                    ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                    : 'bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
                 }`}
               >
                 All Topics ({currentChapterGroup.items.length})
@@ -956,10 +952,10 @@ export const FormulaNotesHub: React.FC = () => {
                   key={it.id}
                   type="button"
                   onClick={() => setActiveTopicFilter(it.topic)}
-                  className={`px-3 py-1 rounded-xl text-xs font-bold transition cursor-pointer ${
+                  className={`px-3 py-1 rounded-full text-xs font-bold transition cursor-pointer shrink-0 ${
                     activeTopicFilter === it.topic
-                      ? 'bg-white text-emerald-950 shadow-xs'
-                      : 'bg-white/10 text-white hover:bg-white/20'
+                      ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                      : 'bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
                   }`}
                 >
                   {it.topic} ({it.formulas.length})
@@ -1107,6 +1103,33 @@ export const FormulaNotesHub: React.FC = () => {
                               </span>
                             </div>
                           )}
+                        </div>
+
+                        {/* Quick Interactive Actions: Ask AI Doubt & Practice MCQs */}
+                        <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const q = `Explain formula "${f.name}" (${f.formula}) from chapter "${topicItem.chapter}" with mathematical steps, derivations, sign conventions, and numerical tips.`;
+                              navigate(`/doubt-center?query=${encodeURIComponent(q)}`);
+                            }}
+                            className="px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 font-bold flex items-center gap-1.5 transition cursor-pointer text-xs"
+                          >
+                            <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                            <span>Ask AI Doubt</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              navigate(`/practice?subject=${encodeURIComponent(topicItem.subject)}&chapter=${encodeURIComponent(topicItem.chapter)}`);
+                            }}
+                            className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center gap-1.5 transition cursor-pointer text-xs"
+                          >
+                            <Zap className="w-3.5 h-3.5 text-amber-500" />
+                            <span>Practice MCQs</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
                         </div>
                       </div>
                     );
@@ -1444,9 +1467,20 @@ export const FormulaNotesHub: React.FC = () => {
                     {distinctChapters.length} Chapters Available
                   </p>
                 </div>
-                <div className="flex items-center gap-1 text-xs text-slate-300 font-semibold bg-[#0f1723] border border-slate-800 px-2.5 py-1 rounded-lg">
-                  <span>{selectedSubject === 'All' ? 'Physics' : selectedSubject}</span>
-                  <ChevronRight className="w-3.5 h-3.5 rotate-90 text-slate-400" />
+                <div className="relative">
+                  <select
+                    value={selectedSubject}
+                    onChange={(e) => setSelectedSubject(e.target.value as any)}
+                    className="text-xs text-slate-200 font-bold bg-[#0f1723] border border-slate-700/80 px-2.5 py-1.5 rounded-xl appearance-none pr-7 cursor-pointer focus:outline-none focus:border-emerald-500 shadow-2xs"
+                  >
+                    <option value="All" className="bg-slate-900 text-white">All Subjects</option>
+                    {allowedSubjects.map((s) => (
+                      <option key={s} value={s} className="bg-slate-900 text-white">
+                        {s}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronRight className="w-3.5 h-3.5 rotate-90 text-slate-400 absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 

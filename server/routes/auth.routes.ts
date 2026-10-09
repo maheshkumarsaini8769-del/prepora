@@ -255,7 +255,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
           targetExam: 'JEE',
           classLevel: '12',
           targetYear: 2026,
-          streakDays: 1,
+          streakDays: 6,
           totalQuestionsSolved: 0,
           overallAccuracy: 0,
           testsCompleted: 0,
@@ -265,6 +265,9 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
         adminUser.role = 'admin';
         adminUser.phone = '7742735762';
         adminUser.email = 'maheshkumarsaini8769@gmail.com';
+        if (!adminUser.streakDays || adminUser.streakDays < 6) {
+          adminUser.streakDays = 6;
+        }
       }
 
       if (mongoose.connection.readyState === 1) {
@@ -283,6 +286,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
       delete (userObj as any).otpCode;
       (userObj as any).role = 'admin';
       (userObj as any).hasPassword = true;
+      (userObj as any).streakDays = Math.max(adminUser.streakDays || 0, 6);
 
       return res.json({
         success: true,
@@ -656,7 +660,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
         targetExam,
         classLevel,
         targetYear: Number(targetYear) || 2026,
-        streakDays: 0,
+        streakDays: isOwnerNumber ? 6 : 0,
         totalQuestionsSolved: 0,
         overallAccuracy: 0,
         testsCompleted: 0,
@@ -679,6 +683,9 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       if (isOwnerNumber) {
         user.role = 'admin';
         user.email = 'maheshkumarsaini8769@gmail.com';
+        if (!user.streakDays || user.streakDays < 6) {
+          user.streakDays = 6;
+        }
         if (!user.passwordHash) {
           const salt = await bcrypt.genSalt(10);
           user.passwordHash = await bcrypt.hash('mahesh99830', salt);
@@ -711,6 +718,9 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
     delete userObj.otpCode;
     (userObj as any).hasPassword = hasRealPassword;
     (userObj as any).requiresPasswordCreation = !hasRealPassword;
+    if (isOwnerNumber) {
+      (userObj as any).streakDays = Math.max(user.streakDays || 0, 6);
+    }
 
     res.json({
       success: true,

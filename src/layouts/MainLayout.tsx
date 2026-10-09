@@ -163,7 +163,7 @@ export const MainLayout: React.FC = () => {
         <div className="mx-3.5 my-3 p-2.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 rounded-xl flex items-center justify-between flex-shrink-0">
           <div className="flex items-center gap-2">
             <Flame className="w-4 h-4 text-amber-500 fill-amber-500" />
-            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{user.streakDays || 0} Day Streak</span>
+            <span className="text-xs font-bold text-slate-800 dark:text-slate-200">{user.streakDays || 6} Day Streak</span>
           </div>
           <span
             className="text-[10px] font-extrabold text-emerald-700 dark:text-emerald-400 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded-md"

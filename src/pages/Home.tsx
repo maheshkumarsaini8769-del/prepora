@@ -556,10 +556,10 @@ export const Home: React.FC = () => {
           <div>
             <div className="text-xs font-bold text-slate-500 dark:text-slate-400">Study Streak</div>
             <div className="text-base sm:text-lg font-black text-amber-500 leading-tight">
-              {user.streakDays || 12} days
+              {user.streakDays || 6} {user.streakDays === 1 ? 'day' : 'days'}
             </div>
             <div className="text-[10px] sm:text-[11px] text-amber-600/90 dark:text-amber-400/90 font-semibold">
-              Keep it going!
+              Keep it going! 🔥
             </div>
           </div>
         </div>
@@ -567,7 +567,8 @@ export const Home: React.FC = () => {
         {/* 7 Days of Week (M T W T F S S) with Green Checkmark Circles */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => {
-            const isChecked = i <= 5;
+            const streakVal = user.streakDays || 6;
+            const isChecked = i < Math.min(streakVal, 7);
             return (
               <div key={i} className="flex flex-col items-center gap-1">
                 <span className="text-[9px] sm:text-[10px] font-bold text-slate-400">{day}</span>
