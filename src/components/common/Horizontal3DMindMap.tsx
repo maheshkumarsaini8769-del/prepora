@@ -648,6 +648,43 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
             )}
           </div>
 
+          {/* Prominent Mobile 3D Infographic Card (Guarantees image is prominently visible on phone screens!) */}
+          {mapData.rootIllustrationSrc && (
+            <div className="sm:hidden bg-[#060b16] rounded-2xl p-3 border border-indigo-500/40 shadow-xl space-y-2">
+              <div className="flex items-center justify-between">
+                <span className="text-[11px] font-black uppercase tracking-wider text-purple-300 flex items-center gap-1">
+                  <span>🖼️</span> 3D Mind Map Infographic
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setIsPosterZoomModalOpen(true)}
+                  className="text-[10px] font-bold text-amber-300 hover:text-amber-200 flex items-center gap-1 bg-amber-500/10 px-2 py-0.5 rounded-md border border-amber-500/30"
+                >
+                  <ZoomIn className="w-3 h-3" /> Fullscreen HD
+                </button>
+              </div>
+
+              <div
+                onClick={() => setIsPosterZoomModalOpen(true)}
+                className="relative rounded-xl overflow-hidden border border-slate-800 bg-slate-950 cursor-zoom-in group shadow-inner"
+              >
+                <img
+                  src={mapData.rootIllustrationSrc}
+                  alt={mapData.chapterTitle}
+                  className="w-full h-44 object-cover object-top"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-2 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-center justify-between text-[11px] text-white">
+                  <span className="font-semibold text-amber-300 flex items-center gap-1">
+                    <ZoomIn className="w-3 h-3" /> Tap to zoom & pan HD image
+                  </span>
+                  <span className="text-[9px] font-mono text-purple-200 bg-black/70 px-1.5 py-0.5 rounded border border-white/10">
+                    HD 3D Map
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+
           <div
             className="mindmap-viewport w-full overflow-x-auto overflow-y-visible rounded-3xl border border-slate-800/90 shadow-2xl relative select-none pb-4"
             style={{
