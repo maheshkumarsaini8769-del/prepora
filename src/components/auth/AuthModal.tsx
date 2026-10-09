@@ -241,11 +241,12 @@ export const AuthModal: React.FC = () => {
       setIsLoading(false);
 
       if (res.success) {
-        setSuccessMsg('Password created successfully! Taking you to Study Planner...');
+        localStorage.setItem('prepora_onboarding_completed', 'true');
+        setSuccessMsg('🎉 Registration complete! Opening Home page...');
         setTimeout(() => {
           setAuthModalOpen(false);
-          navigate('/planner');
-        }, 500);
+          navigate('/', { replace: true });
+        }, 400);
       } else {
         setError(res.message || 'Could not save password. Please try again.');
       }

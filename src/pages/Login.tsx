@@ -57,10 +57,18 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
   });
 
   // Current active step
-  const [step, setStep] = useState<FlowStep>('step1-phone');
+  const [step, setStep] = useState<FlowStep>(() => {
+    const paramStep = queryParams.get('step');
+    if (paramStep === 'create-password' || paramStep === 'step3-password') {
+      return 'step3-password';
+    }
+    return 'step1-phone';
+  });
 
   // Form Inputs
-  const [phone, setPhone] = useState<string>('');
+  const [phone, setPhone] = useState<string>(() => {
+    return queryParams.get('phone') || '';
+  });
   const [password, setPasswordInput] = useState<string>('');
   const [name, setName] = useState<string>('');
   const [newPassword, setNewPassword] = useState<string>('');
@@ -94,10 +102,17 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       }
       const onboardingDone = localStorage.getItem('prepora_onboarding_completed') === 'true';
       if (onboardingDone) {
-        navigate(redirectTo, { replace: true });
+        // If registering or on /signup, ALWAYS navigate to Home ('/') first
+        if (authMode === 'register' || location.pathname === '/signup') {
+          navigate('/', { replace: true });
+        } else if (redirectTo.startsWith('/admin')) {
+          navigate('/admin', { replace: true });
+        } else {
+          navigate(redirectTo, { replace: true });
+        }
       }
     }
-  }, [isAuthenticated, navigate, redirectTo, step]);
+  }, [isAuthenticated, navigate, redirectTo, step, authMode, location.pathname]);
 
   // Cooldown countdown
   useEffect(() => {

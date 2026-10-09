@@ -37,21 +37,29 @@ export const ProtectedRoute: React.FC<{ children: React.ReactNode }> = ({ childr
     return <Navigate to={`/login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />;
   }
 
-  // 3. Check whether user has completed preparation selection onboarding
+  // 3. Ensure Home page ('/') is always accessible first for registered students
   const hasCompletedOnboarding =
     user?.preparationProfile?.onboardingCompleted === true ||
     (typeof window !== 'undefined' && localStorage.getItem('prepora_onboarding_completed') === 'true');
 
-  if (!hasCompletedOnboarding && location.pathname !== '/onboarding') {
-    return <Navigate to="/onboarding" replace />;
+  if (location.pathname === '/') {
+    if (typeof window !== 'undefined' && !hasCompletedOnboarding) {
+      localStorage.setItem('prepora_onboarding_completed', 'true');
+    }
+  } else if (!hasCompletedOnboarding && location.pathname !== '/onboarding') {
+    // If student has not set onboarding, open Home page ('/') first as requested
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('prepora_onboarding_completed', 'true');
+    }
+    return <Navigate to="/" replace />;
   }
 
-  // 4. Force password creation if student hasn't set a password yet (register krne ke baad website tab tak open na ho jab tak password create na karein)
+  // 4. Force password creation if student hasn't set a password yet (directing to Home page upon completion)
   if (user && user.role !== 'admin' && !user.hasPassword && location.pathname !== '/login') {
     const studentPhone = user.phone || user.mobile || '';
     return (
       <Navigate
-        to={`/login?step=create-password&phone=${encodeURIComponent(studentPhone)}&redirect=${encodeURIComponent(location.pathname + location.search)}`}
+        to={`/login?step=create-password&phone=${encodeURIComponent(studentPhone)}&redirect=/`}
         replace
       />
     );
