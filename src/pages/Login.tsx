@@ -52,6 +52,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
 
   // Mode: 'register' (4-step onboarding) vs 'login' (mobile + password)
   const [authMode, setAuthMode] = useState<'login' | 'register'>(() => {
+    if (redirectTo.startsWith('/admin')) return 'login';
     return defaultTab === 'login' ? 'login' : 'register';
   });
 
@@ -198,7 +199,8 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
         soundFeedback.playSuccess();
         setSuccessMsg('Logged in successfully! Opening PREPORA...');
         setTimeout(() => {
-          if (clean === '7742735762') {
+          // Admin navigation ONLY occurs when explicitly visiting /admin in the URL
+          if (redirectTo.startsWith('/admin')) {
             navigate('/admin', { replace: true });
           } else {
             navigate(redirectTo, { replace: true });
@@ -529,6 +531,15 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
           {/* ========================================================================= */}
           {step === 'step1-phone' && (
             <div className="space-y-4 animate-in fade-in duration-200">
+              {redirectTo.startsWith('/admin') && (
+                <div className="p-3 rounded-2xl bg-purple-500/10 border border-purple-500/30 flex items-center gap-2.5 text-xs text-purple-700 dark:text-purple-300 font-bold shadow-xs">
+                  <ShieldCheck className="w-5 h-5 text-purple-500 shrink-0" />
+                  <div>
+                    <span className="block font-black text-purple-900 dark:text-purple-200">Admin Console Access</span>
+                    <span className="text-[11px] font-normal text-purple-700/80 dark:text-purple-300/80">Please sign in with your authorized administrator mobile & password.</span>
+                  </div>
+                </div>
+              )}
               {/* Illustration Banner */}
               <div className="p-3 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-blue-500/10 border border-emerald-500/20 flex items-center justify-between gap-3">
                 <div className="space-y-0.5">

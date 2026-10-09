@@ -141,8 +141,8 @@ export const AuthModal: React.FC = () => {
         setSuccessMsg('Logged in successfully!');
         setTimeout(() => {
           setAuthModalOpen(false);
-          const clean = identifier.replace(/[^0-9]/g, '').slice(-10);
-          if (identifier.trim().toLowerCase() === 'maheshkumarsaini8769@gmail.com' || clean === '7742735762') {
+          // Only redirect to /admin if currently on /admin URL
+          if (window.location.pathname.startsWith('/admin')) {
             navigate('/admin');
           }
         }, 300);

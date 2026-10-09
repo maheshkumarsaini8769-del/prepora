@@ -1,5 +1,4 @@
 import { UserProfile, Bookmark, StudyNote, NotificationItem, MistakeItem, TopicWeakness, ExamType, SubjectName, TestAttempt } from '../types';
-import { initialUserProfile, initialNotes, initialNotifications } from '../data/mockData';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 
 export const createFreshStudentProfile = (): UserProfile => {

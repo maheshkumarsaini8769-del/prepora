@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import { AlertTriangle } from 'lucide-react';
 import { UserProfile } from '../types';
 import { userService, createFreshStudentProfile } from '../services/userService';
-import { initialUserProfile } from '../data/mockData';
 
 export interface ActiveSession {
   id: string;
@@ -920,7 +919,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setToken(null);
       setActiveSessions([]);
       const emptyUser: UserProfile = {
-        ...initialUserProfile,
+        ...createFreshStudentProfile(),
         id: '',
         name: 'Student',
         email: '',

@@ -2,12 +2,10 @@ import React, { Suspense, lazy } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { MainLayout } from './layouts/MainLayout';
 import { ExamLayout } from './layouts/ExamLayout';
-import { AdminLayout } from './layouts/AdminLayout';
 
 // Auth Pages & Route Guard (Eagerly loaded for instant auth feedback)
 import { Login } from './pages/Login';
 import { AuthCallback } from './pages/AuthCallback';
-import { Onboarding } from './pages/Onboarding';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AdminRouteGuard } from './components/auth/AdminRouteGuard';
 import { OAuthCallbackWatcher } from './components/auth/OAuthCallbackWatcher';
@@ -43,6 +41,7 @@ function lazyPage<T extends React.ComponentType<any>>(
 }
 
 // Route-Based Code Splitting via React.lazy for Lightning-Fast Initial Load
+const Onboarding = lazyPage(() => import('./pages/Onboarding'), 'Onboarding');
 const Home = lazyPage(() => import('./pages/Home'), 'Home');
 const Practice = lazyPage(() => import('./pages/Practice'), 'Practice');
 const PracticeSession = lazyPage(() => import('./pages/PracticeSession'), 'PracticeSession');
@@ -87,7 +86,8 @@ const MissedChaptersPage = lazyPage(() => import('./pages/MissedChaptersPage'), 
 const MindMapPage = lazyPage(() => import('./pages/MindMapPage'), 'MindMapPage');
 const VideoLecturesPage = lazyPage(() => import('./pages/VideoLecturesPage'), 'VideoLecturesPage');
 
-// Admin Pages (Loaded ONLY on demand when admin routes are visited)
+// Admin Pages & Layout (Loaded ONLY on demand when admin routes are visited)
+const AdminLayout = lazyPage(() => import('./layouts/AdminLayout'), 'AdminLayout');
 const AdminDashboard = lazyPage(() => import('./pages/admin/AdminDashboard'), 'AdminDashboard');
 const AdminStudents = lazyPage(() => import('./pages/admin/AdminStudents'), 'AdminStudents');
 const AdminUsers = lazyPage(() => import('./pages/admin/AdminUsers'), 'AdminUsers');

@@ -43,17 +43,26 @@ import {
 } from 'lucide-react';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
-import { GlobalQuickActionModal } from '../components/common/GlobalQuickActionModal';
-import { StudySessionModal } from '../components/common/StudySessionModal';
-import { ReportTechnicalProblemModal } from '../components/common/ReportTechnicalProblemModal';
-import { StudentFeedbackModal } from '../components/common/StudentFeedbackModal';
-import { StudentGuideModal } from '../components/common/StudentGuideModal';
 import { NotificationDropdown } from '../components/common/NotificationDropdown';
 import { InstallAppBanner } from '../components/common/InstallAppBanner';
 import { ThemeSelector } from '../components/common/ThemeSelector';
 import { soundFeedback } from '../utils/audioFeedback';
 import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
 import { getAllowedSubjectsForExam } from '../utils/examUtils';
+
+// Code-split heavy modals so questions, formulas & syllabus are NOT loaded on initial page load
+const GlobalQuickActionModal = React.lazy(() =>
+  import('../components/common/GlobalQuickActionModal').then((m) => ({ default: m.GlobalQuickActionModal }))
+);
+const StudySessionModal = React.lazy(() =>
+  import('../components/common/StudySessionModal').then((m) => ({ default: m.StudySessionModal }))
+);
+const StudentFeedbackModal = React.lazy(() =>
+  import('../components/common/StudentFeedbackModal').then((m) => ({ default: m.StudentFeedbackModal }))
+);
+const StudentGuideModal = React.lazy(() =>
+  import('../components/common/StudentGuideModal').then((m) => ({ default: m.StudentGuideModal }))
+);
 
 export const MainLayout: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -754,15 +763,23 @@ export const MainLayout: React.FC = () => {
         </div>
       )}
 
-      {/* Global Modals */}
-      <GlobalQuickActionModal
-        isOpen={quickActionOpen}
-        onClose={() => setQuickActionOpen(false)}
-      />
-      <StudySessionModal
-        isOpen={studySessionOpen}
-        onClose={() => setStudySessionOpen(false)}
-      />
+      {/* Global Modals (Loaded on-demand only when triggered) */}
+      {quickActionOpen && (
+        <React.Suspense fallback={null}>
+          <GlobalQuickActionModal
+            isOpen={quickActionOpen}
+            onClose={() => setQuickActionOpen(false)}
+          />
+        </React.Suspense>
+      )}
+      {studySessionOpen && (
+        <React.Suspense fallback={null}>
+          <StudySessionModal
+            isOpen={studySessionOpen}
+            onClose={() => setStudySessionOpen(false)}
+          />
+        </React.Suspense>
+      )}
       {/* Daily Goal Completed Celebration Modal */}
       {dailyGoalCelebration?.open && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-sm animate-in fade-in duration-200">
@@ -790,13 +807,19 @@ export const MainLayout: React.FC = () => {
       )}
 
       {/* Student Feedback & Mistake Reporting System */}
-      <StudentFeedbackModal />
+      <React.Suspense fallback={null}>
+        <StudentFeedbackModal />
+      </React.Suspense>
 
       {/* Global Student Orientation Guide Modal */}
-      <StudentGuideModal
-        isOpen={guideModalOpen}
-        onClose={() => setGuideModalOpen(false)}
-      />
+      {guideModalOpen && (
+        <React.Suspense fallback={null}>
+          <StudentGuideModal
+            isOpen={guideModalOpen}
+            onClose={() => setGuideModalOpen(false)}
+          />
+        </React.Suspense>
+      )}
 
       {/* PWA Mobile Install Prompt */}
       <InstallAppBanner />
