@@ -139,12 +139,24 @@ function mergeServerFormulas(
   return result;
 }
 
-// --- Intelligent Search Utilities ---
+// --- Intelligent Search Utilities with Stemming & LaTeX Formula Tolerance ---
+export function cleanStemWord(w: string): string {
+  let s = w.toLowerCase().replace(/[''’`]/g, '');
+  if (s.endsWith('ies')) return s.slice(0, -3) + 'y';
+  if (s.endsWith('es')) return s.slice(0, -2);
+  if (s.endsWith('s') && !s.endsWith('ss')) return s.slice(0, -1);
+  if (s.endsWith('ing')) return s.slice(0, -3);
+  if (s.endsWith('tion')) return s.slice(0, -4);
+  if (s.endsWith('ic')) return s.slice(0, -2);
+  return s;
+}
+
 export function normalizeSearchText(text: string): string {
-  return text
+  return String(text || '')
     .toLowerCase()
     .replace(/[''’`]/g, '')
-    .replace(/[^\w\s]/g, ' ')
+    .replace(/\\/g, ' ')
+    .replace(/[^\w\s\+\-\*\/\=\^]/g, ' ')
     .replace(/\s+/g, ' ')
     .trim();
 }
@@ -159,34 +171,55 @@ export function matchSearchQuery(
   const tokens = normQ.split(' ').filter(Boolean);
   if (tokens.length === 0) return { matches: true, matchingFormulaIndices: new Set() };
 
-  const matchingFormulaIndices = new Set<number>();
+  // Compact alphanum string for matching formula codes (e.g. "pv=nrt", "v=ir", "f=ma", "e=mc2")
+  const qAlphanum = normQ.replace(/[^a-z0-9]/g, '');
 
-  item.formulas.forEach((f, idx) => {
-    const fText = normalizeSearchText(
-      `${f.name} ${f.variables || ''} ${f.examTip || ''} ${f.trap || ''} ${f.example?.problem || ''} ${f.example?.solution || ''}`
-    );
-    const fFormulaRaw = (f.formula || '').toLowerCase();
-
-    const fMatches = tokens.every((tok) => {
-      if (fText.includes(tok) || fFormulaRaw.includes(tok)) return true;
-      if (tok.endsWith('s') && fText.includes(tok.slice(0, -1))) return true;
-      if (!tok.endsWith('s') && fText.includes(tok + 's')) return true;
-      return false;
-    });
-
-    if (fMatches) matchingFormulaIndices.add(idx);
-  });
-
-  const fullTopicText = normalizeSearchText(
+  const topicContext = normalizeSearchText(
     `${item.subject} ${item.chapter} ${item.topic} ${item.concept} ${(item.shortNotes || []).join(' ')} ${(item.keyPoints || []).join(' ')}`
   );
 
+  const matchingFormulaIndices = new Set<number>();
+
+  item.formulas.forEach((f, idx) => {
+    const fFormulaAlphanum = (f.formula || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+    const formulaSelfText = normalizeSearchText(
+      `${f.name} ${f.formula} ${f.variables || ''} ${f.examTip || ''} ${f.trap || ''} ${f.example?.problem || ''} ${f.example?.solution || ''}`
+    );
+    const combinedContext = `${topicContext} ${formulaSelfText}`;
+
+    // 1. Direct alphanum formula code match
+    if (qAlphanum.length >= 2 && fFormulaAlphanum.includes(qAlphanum)) {
+      matchingFormulaIndices.add(idx);
+      return;
+    }
+
+    // 2. All tokens present in formula combined context (including chapter/topic context)
+    const allTokensMatch = tokens.every((tok) => {
+      const tokClean = normalizeSearchText(tok);
+      if (combinedContext.includes(tokClean)) return true;
+      const st = cleanStemWord(tokClean);
+      if (st.length >= 3 && combinedContext.includes(st)) return true;
+      return false;
+    });
+
+    if (allTokensMatch) {
+      matchingFormulaIndices.add(idx);
+    }
+  });
+
+  // Topic-level match check (if user searched for the chapter or topic generally, e.g. "projectile motion")
   const topicMatches = tokens.every((tok) => {
-    if (fullTopicText.includes(tok)) return true;
-    if (tok.endsWith('s') && fullTopicText.includes(tok.slice(0, -1))) return true;
-    if (!tok.endsWith('s') && fullTopicText.includes(tok + 's')) return true;
+    const tokClean = normalizeSearchText(tok);
+    if (topicContext.includes(tokClean)) return true;
+    const st = cleanStemWord(tokClean);
+    if (st.length >= 3 && topicContext.includes(st)) return true;
     return false;
   });
+
+  // If entire topic matched, tag all formula indices so all formulas are shown
+  if (topicMatches && matchingFormulaIndices.size === 0) {
+    item.formulas.forEach((_, idx) => matchingFormulaIndices.add(idx));
+  }
 
   const matches = topicMatches || matchingFormulaIndices.size > 0;
   return { matches, matchingFormulaIndices };
@@ -216,6 +249,7 @@ export const FormulaNotesHub: React.FC = () => {
 
   // Filter topics within the dedicated chapter view
   const [activeTopicFilter, setActiveTopicFilter] = useState<string>('All');
+  const [chapterSearchQuery, setChapterSearchQuery] = useState<string>('');
 
   // Bookmarks in localStorage
   const [bookmarkedFormulaIds, setBookmarkedFormulaIds] = useState<Set<string>>(() => {
@@ -289,6 +323,7 @@ export const FormulaNotesHub: React.FC = () => {
   const handleSelectChapter = (chapterName: string, subject: SubjectName) => {
     setSelectedChapter(chapterName);
     setActiveTopicFilter('All');
+    setChapterSearchQuery('');
     const newParams = new URLSearchParams(searchParams);
     newParams.set('subject', subject);
     newParams.set('chapter', chapterName);
@@ -308,6 +343,7 @@ export const FormulaNotesHub: React.FC = () => {
   const handleBackToChapters = () => {
     setSelectedChapter('');
     setActiveTopicFilter('All');
+    setChapterSearchQuery('');
     const newParams = new URLSearchParams(searchParams);
     newParams.delete('chapter');
     setSearchParams(newParams);
@@ -643,43 +679,123 @@ export const FormulaNotesHub: React.FC = () => {
     URL.revokeObjectURL(url);
   }, []);
 
-  // Filter items matching subject and exam guard
-  const subjectItems = useMemo(() => {
-    return allNotes.filter((item) => {
-      if (selectedSubject !== 'All' && item.subject !== selectedSubject) return false;
-      if (!isSubjectAllowedForExam(item.subject, user.targetExam)) return false;
-      if (!searchQuery.trim() && selectedClass !== 'All' && item.classLevel !== selectedClass) return false;
-      return true;
+  // Exam-allowed master notes
+  const examAllowedNotes = useMemo(() => {
+    return allNotes.filter((item) => isSubjectAllowedForExam(item.subject, user.targetExam));
+  }, [allNotes, user.targetExam]);
+
+  // Subject match counts and matches for search query across all subjects
+  const { allSearchMatchedItems, searchMatchMap, subjectMatchCounts, totalSearchMatches } = useMemo(() => {
+    const counts: Record<string, number> = {};
+    allowedSubjects.forEach((sub) => {
+      counts[sub] = 0;
     });
-  }, [allNotes, selectedSubject, selectedClass, searchQuery, user.targetExam]);
-
-  // Filtered by Search Query & Bookmarked Filter
-  const { filteredItems, itemMatchMap } = useMemo(() => {
-    let list = subjectItems;
-
-    if (onlyBookmarked) {
-      list = list.filter((item) =>
-        item.formulas.some((_, idx) => bookmarkedFormulaIds.has(`${item.id}-f-${idx}`))
-      );
-    }
 
     if (!searchQuery.trim()) {
-      return { filteredItems: list, itemMatchMap: new Map<string, Set<number>>() };
+      return {
+        allSearchMatchedItems: [] as TopicRevisionItem[],
+        searchMatchMap: new Map<string, Set<number>>(),
+        subjectMatchCounts: counts,
+        totalSearchMatches: 0
+      };
     }
 
     const matchMap = new Map<string, Set<number>>();
     const matchedList: TopicRevisionItem[] = [];
+    let totalHits = 0;
 
-    list.forEach((item) => {
+    examAllowedNotes.forEach((item) => {
+      if (onlyBookmarked) {
+        const hasBookmark = item.formulas.some((_, idx) => bookmarkedFormulaIds.has(`${item.id}-f-${idx}`));
+        if (!hasBookmark) return;
+      }
+      if (selectedClass !== 'All' && item.classLevel !== selectedClass) return;
+
       const { matches, matchingFormulaIndices } = matchSearchQuery(item, searchQuery);
       if (matches) {
         matchedList.push(item);
         matchMap.set(item.id, matchingFormulaIndices);
+        const hits = matchingFormulaIndices.size > 0 ? matchingFormulaIndices.size : item.formulas.length;
+        counts[item.subject] = (counts[item.subject] || 0) + hits;
+        totalHits += hits;
       }
     });
 
-    return { filteredItems: matchedList, itemMatchMap: matchMap };
-  }, [subjectItems, searchQuery, onlyBookmarked, bookmarkedFormulaIds]);
+    return {
+      allSearchMatchedItems: matchedList,
+      searchMatchMap: matchMap,
+      subjectMatchCounts: counts,
+      totalSearchMatches: totalHits
+    };
+  }, [examAllowedNotes, searchQuery, onlyBookmarked, bookmarkedFormulaIds, selectedClass, allowedSubjects]);
+
+  // Determine what filtered items to show based on search vs normal browse mode
+  const { filteredItems, itemMatchMap, searchFallbackAll } = useMemo(() => {
+    if (!searchQuery.trim()) {
+      let list = examAllowedNotes.filter((item) => {
+        if (selectedSubject !== 'All' && item.subject !== selectedSubject) return false;
+        if (selectedClass !== 'All' && item.classLevel !== selectedClass) return false;
+        return true;
+      });
+
+      if (onlyBookmarked) {
+        list = list.filter((item) =>
+          item.formulas.some((_, idx) => bookmarkedFormulaIds.has(`${item.id}-f-${idx}`))
+        );
+      }
+
+      return {
+        filteredItems: list,
+        itemMatchMap: new Map<string, Set<number>>(),
+        searchFallbackAll: false
+      };
+    }
+
+    // Search query is active:
+    if (selectedSubject === 'All') {
+      return {
+        filteredItems: allSearchMatchedItems,
+        itemMatchMap: searchMatchMap,
+        searchFallbackAll: false
+      };
+    }
+
+    // Filter by selectedSubject if it has matches
+    const subjectMatches = allSearchMatchedItems.filter((item) => item.subject === selectedSubject);
+    if (subjectMatches.length > 0) {
+      return {
+        filteredItems: subjectMatches,
+        itemMatchMap: searchMatchMap,
+        searchFallbackAll: false
+      };
+    }
+
+    // If selectedSubject has 0 matches, but other subjects have matches:
+    // Automatically fallback to show all matches so the user doesn't see a blank page!
+    if (totalSearchMatches > 0) {
+      return {
+        filteredItems: allSearchMatchedItems,
+        itemMatchMap: searchMatchMap,
+        searchFallbackAll: true
+      };
+    }
+
+    return {
+      filteredItems: [],
+      itemMatchMap: searchMatchMap,
+      searchFallbackAll: false
+    };
+  }, [
+    searchQuery,
+    examAllowedNotes,
+    selectedSubject,
+    selectedClass,
+    onlyBookmarked,
+    bookmarkedFormulaIds,
+    allSearchMatchedItems,
+    searchMatchMap,
+    totalSearchMatches
+  ]);
 
   // Group into Chapters
   const distinctChapters = useMemo(() => {
@@ -703,13 +819,10 @@ export const FormulaNotesHub: React.FC = () => {
   const currentChapterGroup = useMemo(() => {
     if (!selectedChapter) return null;
     const cleanSel = selectedChapter.toLowerCase().trim();
-    // Search in distinctChapters first, or fallback to allNotes
-    const foundInFiltered = distinctChapters.find(
-      (c) => c.chapter.toLowerCase() === cleanSel || c.chapter.toLowerCase().includes(cleanSel)
+    // Always find all items for this chapter from examAllowedNotes to ensure complete chapter content
+    const itemsForCh = examAllowedNotes.filter(
+      (it) => it.chapter.toLowerCase() === cleanSel || it.chapter.toLowerCase().includes(cleanSel)
     );
-    if (foundInFiltered) return foundInFiltered;
-
-    const itemsForCh = allNotes.filter((it) => it.chapter.toLowerCase() === cleanSel || it.chapter.toLowerCase().includes(cleanSel));
     if (itemsForCh.length === 0) return null;
 
     return {
@@ -720,33 +833,50 @@ export const FormulaNotesHub: React.FC = () => {
       weightage: itemsForCh[0].weightage || 'Medium',
       formulaCount: itemsForCh.reduce((sum, it) => sum + it.formulas.length, 0)
     };
-  }, [selectedChapter, distinctChapters, allNotes]);
+  }, [selectedChapter, examAllowedNotes]);
 
-  // Topics to display inside the dedicated chapter view
-  const chapterTopicsToDisplay = useMemo(() => {
-    if (!currentChapterGroup) return [];
-    if (activeTopicFilter === 'All') return currentChapterGroup.items;
-    return currentChapterGroup.items.filter((it) => it.topic === activeTopicFilter);
-  }, [currentChapterGroup, activeTopicFilter]);
+  // Topics to display inside the dedicated chapter view (with in-chapter search filter)
+  const { chapterTopicsToDisplay, chapterMatchMap, chapterMatchedFormulaCount } = useMemo(() => {
+    if (!currentChapterGroup) {
+      return {
+        chapterTopicsToDisplay: [] as TopicRevisionItem[],
+        chapterMatchMap: new Map<string, Set<number>>(),
+        chapterMatchedFormulaCount: 0
+      };
+    }
 
-  // Count search matches per subject
-  const subjectMatchCounts = useMemo(() => {
-    if (!searchQuery.trim()) return {} as Record<string, number>;
-    const counts: Record<string, number> = {};
-    allowedSubjects.forEach((sub) => {
-      counts[sub] = 0;
-    });
+    let items = currentChapterGroup.items;
+    if (activeTopicFilter !== 'All') {
+      items = items.filter((it) => it.topic === activeTopicFilter);
+    }
 
-    allNotes.forEach((item) => {
-      if (!isSubjectAllowedForExam(item.subject, user.targetExam)) return;
-      const res = matchSearchQuery(item, searchQuery);
-      if (res.matches) {
-        const hits = res.matchingFormulaIndices.size > 0 ? res.matchingFormulaIndices.size : item.formulas.length;
-        counts[item.subject] = (counts[item.subject] || 0) + hits;
+    if (!chapterSearchQuery.trim()) {
+      return {
+        chapterTopicsToDisplay: items,
+        chapterMatchMap: new Map<string, Set<number>>(),
+        chapterMatchedFormulaCount: 0
+      };
+    }
+
+    const matchMap = new Map<string, Set<number>>();
+    const matchedList: TopicRevisionItem[] = [];
+    let count = 0;
+
+    items.forEach((item) => {
+      const { matches, matchingFormulaIndices } = matchSearchQuery(item, chapterSearchQuery);
+      if (matches) {
+        matchedList.push(item);
+        matchMap.set(item.id, matchingFormulaIndices);
+        count += matchingFormulaIndices.size > 0 ? matchingFormulaIndices.size : item.formulas.length;
       }
     });
-    return counts;
-  }, [allNotes, searchQuery, allowedSubjects, user.targetExam]);
+
+    return {
+      chapterTopicsToDisplay: matchedList,
+      chapterMatchMap: matchMap,
+      chapterMatchedFormulaCount: count
+    };
+  }, [currentChapterGroup, activeTopicFilter, chapterSearchQuery]);
 
   const crossSubjectMatches = useMemo(() => {
     if (!searchQuery.trim() || selectedSubject === 'All') return [];
@@ -761,10 +891,6 @@ export const FormulaNotesHub: React.FC = () => {
     });
     return matches;
   }, [searchQuery, allowedSubjects, selectedSubject, subjectMatchCounts]);
-
-  const totalSearchMatches = useMemo(() => {
-    return Object.values(subjectMatchCounts).reduce((sum, c) => sum + c, 0);
-  }, [subjectMatchCounts]);
 
   // Popular search suggestions chips
   const popularChips = useMemo(() => {
@@ -934,6 +1060,30 @@ export const FormulaNotesHub: React.FC = () => {
               </div>
             </div>
 
+            {/* In-Chapter Formula Search */}
+            <div className="pt-1">
+              <div className="relative w-full">
+                <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  value={chapterSearchQuery}
+                  onChange={(e) => setChapterSearchQuery(e.target.value)}
+                  placeholder={`Search formulas or terms within ${currentChapterGroup.chapter}...`}
+                  className="w-full pl-8.5 pr-8 py-2 rounded-xl border border-emerald-500/30 bg-[#07131d] text-white text-xs font-medium placeholder:text-slate-400 focus:outline-none focus:border-emerald-400 shadow-2xs"
+                />
+                {chapterSearchQuery && (
+                  <button
+                    type="button"
+                    onClick={() => setChapterSearchQuery('')}
+                    className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-0.5 cursor-pointer"
+                    title="Clear search"
+                  >
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
+            </div>
+
             {/* Topic Filter Pills (Horizontal Scroll on Mobile) */}
             <div className="pt-2 border-t border-emerald-500/20 flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
               <button
@@ -962,16 +1112,70 @@ export const FormulaNotesHub: React.FC = () => {
                 </button>
               ))}
             </div>
+
+            {chapterSearchQuery.trim() && (
+              <div className="flex items-center justify-between text-[11px] text-emerald-300 font-semibold pt-1">
+                <span>
+                  Found <strong className="text-white font-bold">{chapterMatchedFormulaCount}</strong> formulas matching &ldquo;{chapterSearchQuery}&rdquo; in this chapter
+                </span>
+                <button
+                  type="button"
+                  onClick={() => setChapterSearchQuery('')}
+                  className="text-emerald-400 hover:text-emerald-200 underline cursor-pointer"
+                >
+                  Clear Filter
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* Sequential Topic-by-Topic Formula Blocks */}
-          <div className="space-y-6">
-            {chapterTopicsToDisplay.map((topicItem) => (
-              <div
-                key={topicItem.id}
-                id={`topic-block-${encodeURIComponent(topicItem.topic)}`}
-                className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4"
-              >
+          {/* Sequential Topic-by-Topic Formula Blocks or In-Chapter Empty State */}
+          {chapterTopicsToDisplay.length === 0 ? (
+            <div className="bg-white dark:bg-[#0e1620] p-8 text-center rounded-3xl border border-slate-200 dark:border-slate-800 space-y-3">
+              <p className="text-sm font-bold text-slate-700 dark:text-slate-300">
+                No formulas in &ldquo;{currentChapterGroup.chapter}&rdquo; matched &ldquo;{chapterSearchQuery}&rdquo;.
+              </p>
+              <p className="text-xs text-slate-400">
+                Want to search for this formula across the entire syllabus?
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-2 pt-1">
+                <button
+                  type="button"
+                  onClick={() => setChapterSearchQuery('')}
+                  className="px-3 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-xs cursor-pointer"
+                >
+                  Clear In-Chapter Search
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    const q = chapterSearchQuery;
+                    setSelectedChapter('');
+                    setSearchQuery(q);
+                    setChapterSearchQuery('');
+                  }}
+                  className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center gap-1.5 cursor-pointer shadow-xs"
+                >
+                  <Search className="w-3.5 h-3.5" />
+                  <span>Search Across All Chapters</span>
+                </button>
+              </div>
+            </div>
+          ) : (
+            <div className="space-y-6">
+              {chapterTopicsToDisplay.map((topicItem) => {
+                const matchingFormulaIndices = chapterMatchMap.get(topicItem.id);
+                const hasInChapterSearch = Boolean(chapterSearchQuery.trim());
+                const formulasToDisplay = hasInChapterSearch && matchingFormulaIndices && matchingFormulaIndices.size > 0
+                  ? topicItem.formulas.filter((_, idx) => matchingFormulaIndices.has(idx))
+                  : topicItem.formulas;
+
+                return (
+                  <div
+                    key={topicItem.id}
+                    id={`topic-block-${encodeURIComponent(topicItem.topic)}`}
+                    className="p-5 sm:p-6 rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4"
+                  >
                 {/* Topic Header Bar */}
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
                   <div className="flex items-center gap-2.5">
@@ -996,25 +1200,37 @@ export const FormulaNotesHub: React.FC = () => {
 
                 {/* Pure Formula Cards for this Topic */}
                 <div className="space-y-4">
-                  {topicItem.formulas.map((f, fIdx) => {
-                    const formulaUniqueId = `${topicItem.id}-f-${fIdx}`;
+                  {formulasToDisplay.map((f, fIdx) => {
+                    const originalIdx = topicItem.formulas.indexOf(f);
+                    const effectiveIdx = originalIdx >= 0 ? originalIdx : fIdx;
+                    const formulaUniqueId = `${topicItem.id}-f-${effectiveIdx}`;
                     const isBookmarked = bookmarkedFormulaIds.has(formulaUniqueId);
                     const isCopied = copiedFormulaName === f.name;
+                    const isSearchMatch = hasInChapterSearch && matchingFormulaIndices?.has(effectiveIdx);
 
                     return (
                       <div
-                        key={fIdx}
-                        className="p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-3.5 transition-all hover:border-emerald-300 dark:hover:border-emerald-800 shadow-xs"
+                        key={effectiveIdx}
+                        className={`p-4 sm:p-5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border ${
+                          isSearchMatch
+                            ? 'border-emerald-500/60 ring-1 ring-emerald-500/30'
+                            : 'border-slate-200/80 dark:border-slate-800'
+                        } space-y-3.5 transition-all hover:border-emerald-300 dark:hover:border-emerald-800 shadow-xs`}
                       >
                         {/* Formula Title & Actions */}
                         <div className="flex items-center justify-between gap-3 border-b border-slate-200/60 dark:border-slate-800 pb-2.5">
                           <div className="flex items-center gap-2 min-w-0">
                             <span className="w-5 h-5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center text-[10px] font-black shrink-0">
-                              {fIdx + 1}
+                              {effectiveIdx + 1}
                             </span>
                             <h4 className="font-extrabold text-sm text-slate-900 dark:text-white truncate">
                               {f.name}
                             </h4>
+                            {isSearchMatch && (
+                              <span className="px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold border border-emerald-500/30 shrink-0">
+                                Match
+                              </span>
+                            )}
                           </div>
 
                           <div className="flex items-center gap-1.5 shrink-0">
@@ -1135,10 +1351,28 @@ export const FormulaNotesHub: React.FC = () => {
                     );
                   })}
                 </div>
+
+                {/* Footer if filtered by in-chapter search */}
+                {hasInChapterSearch && formulasToDisplay.length < topicItem.formulas.length && (
+                  <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-400">
+                    <span>
+                      Showing {formulasToDisplay.length} of {topicItem.formulas.length} formulas in this topic
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setChapterSearchQuery('')}
+                      className="text-emerald-500 hover:underline font-bold cursor-pointer"
+                    >
+                      Show all formulas
+                    </button>
+                  </div>
+                )}
               </div>
-            ))}
-          </div>
+            );
+          })}
         </div>
+      )}
+    </div>
       ) : (
         /* VIEW MODE 2: CHAPTER DIRECTORY / SELECTOR HUB */
         <div className="space-y-6">
@@ -1189,21 +1423,38 @@ export const FormulaNotesHub: React.FC = () => {
                 }`}
               >
                 <span>All Subjects</span>
+                {searchQuery.trim() && (
+                  <span className={`ml-1.5 px-1.5 py-0.2 rounded-full text-[10px] font-black ${
+                    selectedSubject === 'All' ? 'bg-slate-900/30 text-slate-950' : 'bg-slate-800 text-emerald-400'
+                  }`}>
+                    {totalSearchMatches}
+                  </span>
+                )}
               </button>
-              {allowedSubjects.map((sub) => (
-                <button
-                  key={sub}
-                  type="button"
-                  onClick={() => setSelectedSubject(sub)}
-                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
-                    selectedSubject === sub
-                      ? 'bg-emerald-500 text-slate-950 shadow-xs'
-                      : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
-                  }`}
-                >
-                  <span>{sub}</span>
-                </button>
-              ))}
+              {allowedSubjects.map((sub) => {
+                const subHits = subjectMatchCounts[sub] || 0;
+                return (
+                  <button
+                    key={sub}
+                    type="button"
+                    onClick={() => setSelectedSubject(sub)}
+                    className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                      selectedSubject === sub
+                        ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                        : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
+                    }`}
+                  >
+                    <span>{sub}</span>
+                    {searchQuery.trim() && (
+                      <span className={`ml-1.5 px-1.5 py-0.2 rounded-full text-[10px] font-black ${
+                        selectedSubject === sub ? 'bg-slate-900/30 text-slate-950' : 'bg-slate-800 text-emerald-400'
+                      }`}>
+                        {subHits}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
             </div>
 
             {/* Row 2: Class Level Pills + Add Formula */}
@@ -1300,8 +1551,27 @@ export const FormulaNotesHub: React.FC = () => {
               ))}
             </div>
 
+            {/* Search Fallback Banner if selected subject has 0 matches */}
+            {searchFallbackAll && (
+              <div className="flex flex-wrap items-center justify-between gap-2 p-3.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-xs text-amber-200">
+                <div className="flex items-center gap-2">
+                  <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
+                  <span>
+                    No formulas matched &ldquo;{searchQuery}&rdquo; in <strong>{selectedSubject}</strong>. Showing <strong>{totalSearchMatches}</strong> matching formulas found across other subjects below:
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => setSelectedSubject('All')}
+                  className="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold transition shadow-xs cursor-pointer text-xs"
+                >
+                  Switch to All Subjects
+                </button>
+              </div>
+            )}
+
             {/* Cross-Subject Search Match Alert Banner */}
-            {crossSubjectMatches.length > 0 && selectedSubject !== 'All' && (
+            {!searchFallbackAll && crossSubjectMatches.length > 0 && selectedSubject !== 'All' && (
               <div className="flex flex-wrap items-center justify-between gap-2 p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/50 text-xs">
                 <div className="flex items-center gap-2">
                   <Sparkles className="w-4 h-4 text-amber-600 dark:text-amber-400 shrink-0" />
@@ -1379,78 +1649,169 @@ export const FormulaNotesHub: React.FC = () => {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  {filteredItems.map((item) => (
-                    <div
-                      key={item.id}
-                      className="p-5 rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4"
-                    >
-                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
-                        <div>
-                          <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
-                            <span>{item.subject}</span>
-                            <span>•</span>
-                            <span>Class {item.classLevel}</span>
+                  {filteredItems.map((item) => {
+                    const matchingIndices = itemMatchMap.get(item.id);
+                    const hasSpecificMatches = matchingIndices && matchingIndices.size > 0;
+                    const formulasToDisplay = hasSpecificMatches
+                      ? item.formulas.filter((_, idx) => matchingIndices.has(idx))
+                      : item.formulas;
+
+                    return (
+                      <div
+                        key={item.id}
+                        className="p-5 rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4"
+                      >
+                        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100 dark:border-slate-800 pb-3">
+                          <div>
+                            <div className="text-xs font-bold text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
+                              <span className="px-2 py-0.5 rounded-md bg-emerald-500/10 border border-emerald-500/20 text-emerald-500 font-bold text-[11px]">
+                                {item.subject}
+                              </span>
+                              <span>•</span>
+                              <span>Class {item.classLevel}</span>
+                            </div>
+                            <h3 className="text-base font-black text-slate-900 dark:text-white mt-1">
+                              {item.chapter} — {item.topic}
+                            </h3>
                           </div>
-                          <h3 className="text-base font-black text-slate-900 dark:text-white mt-0.5">
-                            {item.chapter} — {item.topic}
-                          </h3>
+
+                          <button
+                            type="button"
+                            onClick={() => handleSelectChapter(item.chapter, item.subject)}
+                            className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-xs"
+                          >
+                            <span>Open Chapter Sheet</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
+                          </button>
                         </div>
 
-                        <button
-                          type="button"
-                          onClick={() => handleSelectChapter(item.chapter, item.subject)}
-                          className="px-3.5 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto shadow-xs"
-                        >
-                          <span>Open Chapter Sheet</span>
-                          <ArrowRight className="w-3.5 h-3.5" />
-                        </button>
-                      </div>
+                        <div className="space-y-3">
+                          {formulasToDisplay.map((f, fIdx) => {
+                            const originalIdx = item.formulas.indexOf(f);
+                            const effectiveIdx = originalIdx >= 0 ? originalIdx : fIdx;
+                            const formulaUniqueId = `${item.id}-f-${effectiveIdx}`;
+                            const isBookmarked = bookmarkedFormulaIds.has(formulaUniqueId);
+                            const isCopied = copiedFormulaName === f.name;
 
-                      <div className="space-y-3">
-                        {item.formulas.map((f, fIdx) => (
-                          <div
-                            key={fIdx}
-                            className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/80 dark:border-slate-800 space-y-2.5"
-                          >
-                            <div className="flex items-center justify-between gap-2">
-                              <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
-                                {f.name}
-                              </h4>
-                              <button
-                                type="button"
-                                onClick={() => handleCopyFormula(f)}
-                                className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center gap-1 cursor-pointer"
+                            return (
+                              <div
+                                key={effectiveIdx}
+                                className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-emerald-500/30 dark:border-emerald-900/40 space-y-2.5 shadow-xs"
                               >
-                                <Copy className="w-3.5 h-3.5" />
-                                <span>Copy LaTeX</span>
-                              </button>
-                            </div>
+                                <div className="flex items-center justify-between gap-2 border-b border-slate-200/60 dark:border-slate-800 pb-2">
+                                  <div className="flex items-center gap-2 min-w-0">
+                                    <h4 className="font-extrabold text-sm text-slate-900 dark:text-white">
+                                      {f.name}
+                                    </h4>
+                                    <span className="px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-500 dark:text-emerald-400 text-[10px] font-black border border-emerald-500/30 shrink-0">
+                                      Formula Match
+                                    </span>
+                                  </div>
 
-                            <div className="p-3.5 rounded-xl bg-white dark:bg-[#0a1017] border border-emerald-200/50 dark:border-emerald-900/40 text-center overflow-x-auto">
-                              <MathRenderer math={`\\[${f.formula}\\]`} />
-                            </div>
+                                  <div className="flex items-center gap-1.5 shrink-0">
+                                    <button
+                                      type="button"
+                                      onClick={() => handleCopyFormula(f)}
+                                      className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 flex items-center gap-1 cursor-pointer"
+                                    >
+                                      {isCopied ? (
+                                        <>
+                                          <Check className="w-3.5 h-3.5 text-emerald-600" />
+                                          <span className="text-emerald-600 font-bold">Copied!</span>
+                                        </>
+                                      ) : (
+                                        <>
+                                          <Copy className="w-3.5 h-3.5" />
+                                          <span className="hidden sm:inline">Copy LaTeX</span>
+                                        </>
+                                      )}
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => toggleBookmarkFormula(formulaUniqueId)}
+                                      title="Bookmark formula"
+                                      className="p-1.5 rounded-lg text-slate-400 hover:text-amber-500 hover:bg-slate-200/60 dark:hover:bg-slate-800 transition cursor-pointer"
+                                    >
+                                      {isBookmarked ? (
+                                        <BookmarkCheck className="w-4 h-4 text-amber-500 fill-amber-500" />
+                                      ) : (
+                                        <Bookmark className="w-4 h-4" />
+                                      )}
+                                    </button>
+                                  </div>
+                                </div>
 
-                            {f.variables && (
-                              <div className="text-xs text-slate-600 dark:text-slate-400">
-                                <strong className="text-slate-800 dark:text-slate-200">Variables: </strong>
-                                <span>{f.variables}</span>
-                              </div>
-                            )}
+                                <div className="p-3.5 rounded-xl bg-white dark:bg-[#0a1017] border border-emerald-200/50 dark:border-emerald-900/40 text-center overflow-x-auto shadow-inner">
+                                  <MathRenderer math={`\\[${f.formula}\\]`} />
+                                </div>
 
-                            {f.example && (
-                              <div className="p-3 rounded-xl bg-amber-50/70 dark:bg-amber-950/25 border border-amber-200/80 dark:border-amber-900/50 space-y-1 text-xs">
-                                <strong className="text-amber-800 dark:text-amber-300">💡 Example: </strong>
-                                <span className="text-slate-800 dark:text-slate-200">{f.example.problem}</span>
-                                <div className="mt-1 font-mono text-[11px] text-slate-700 dark:text-slate-300 whitespace-pre-line">
-                                  {f.example.solution}
+                                {f.variables && (
+                                  <div className="text-xs text-slate-600 dark:text-slate-400">
+                                    <strong className="text-slate-800 dark:text-slate-200">Variables: </strong>
+                                    <span>{f.variables}</span>
+                                  </div>
+                                )}
+
+                                {f.example && (
+                                  <div className="p-3 rounded-xl bg-amber-50/70 dark:bg-amber-950/25 border border-amber-200/80 dark:border-amber-900/50 space-y-1 text-xs">
+                                    <strong className="text-amber-800 dark:text-amber-300">💡 Example: </strong>
+                                    <span className="text-slate-800 dark:text-slate-200">{f.example.problem}</span>
+                                    <div className="mt-1 font-mono text-[11px] text-slate-700 dark:text-slate-300 whitespace-pre-line">
+                                      {f.example.solution}
+                                    </div>
+                                  </div>
+                                )}
+
+                                {/* Interactive Actions */}
+                                <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800/80 flex flex-wrap items-center justify-between gap-2 text-xs">
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      const q = `Explain formula "${f.name}" (${f.formula}) from chapter "${item.chapter}" with mathematical steps, derivations, sign conventions, and numerical tips.`;
+                                      navigate(`/doubt-center?query=${encodeURIComponent(q)}`);
+                                    }}
+                                    className="px-3 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-600 dark:text-emerald-400 border border-emerald-500/25 font-bold flex items-center gap-1.5 transition cursor-pointer text-xs"
+                                  >
+                                    <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
+                                    <span>Ask AI Doubt</span>
+                                  </button>
+
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      navigate(`/practice?subject=${encodeURIComponent(item.subject)}&chapter=${encodeURIComponent(item.chapter)}`);
+                                    }}
+                                    className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center gap-1.5 transition cursor-pointer text-xs"
+                                  >
+                                    <Zap className="w-3.5 h-3.5 text-amber-500" />
+                                    <span>Practice MCQs</span>
+                                    <ArrowRight className="w-3.5 h-3.5" />
+                                  </button>
                                 </div>
                               </div>
-                            )}
+                            );
+                          })}
+                        </div>
+
+                        {/* Footer if there are other formulas in this topic */}
+                        {hasSpecificMatches && formulasToDisplay.length < item.formulas.length && (
+                          <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs">
+                            <span className="text-slate-400 font-medium">
+                              Showing {formulasToDisplay.length} matching of {item.formulas.length} total formulas in this topic
+                            </span>
+                            <button
+                              type="button"
+                              onClick={() => handleSelectChapter(item.chapter, item.subject)}
+                              className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline cursor-pointer flex items-center gap-1"
+                            >
+                              <span>View complete chapter sheet</span>
+                              <ArrowRight className="w-3 h-3" />
+                            </button>
                           </div>
-                        ))}
+                        )}
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
