@@ -41,7 +41,8 @@ import {
   MindMapSubtopicItem,
   MindMapDetailItem,
   MindMapFloatingCard,
-  getCanonicalMindMap
+  getCanonicalMindMap,
+  resolveChapterIllustration
 } from '../../data/canonicalMindMaps';
 import { comprehensiveFormulaNotes } from '../../data/comprehensiveFormulaNotes';
 import { sortChapterNamesCanonical } from '../../utils/chapterOrder';
@@ -557,16 +558,14 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
                   <ZoomIn className="w-3.5 h-3.5" />
                   <span>Tap to Zoom Fullscreen</span>
                 </button>
-                {mapData.rootIllustrationSrc && (
-                  <a
-                    href={mapData.rootIllustrationSrc}
-                    download={`${mapData.chapterTitle.replace(/\s+/g, '_')}_mindmap.jpg`}
-                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition border border-slate-700"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span>Download</span>
-                  </a>
-                )}
+                <a
+                  href={mapData.rootIllustrationSrc || resolveChapterIllustration(mapData.chapterTitle, mapData.subject)}
+                  download={`${mapData.chapterTitle.replace(/\s+/g, '_')}_mindmap.jpg`}
+                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1.5 transition border border-slate-700"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download</span>
+                </a>
               </div>
             </div>
 
@@ -576,7 +575,7 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
               className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 cursor-zoom-in group/img shadow-2xl"
             >
               <img
-                src={mapData.rootIllustrationSrc || '/assets/mindmaps/physics_units_measurements_reference.jpg'}
+                src={mapData.rootIllustrationSrc || resolveChapterIllustration(mapData.chapterTitle, mapData.subject)}
                 alt={mapData.chapterTitle}
                 className="w-full h-auto max-h-[78vh] object-contain mx-auto transform group-hover/img:scale-[1.01] transition-transform duration-300 select-none"
               />
@@ -1266,16 +1265,14 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
               </div>
 
               <div className="flex items-center gap-2">
-                {mapData.rootIllustrationSrc && (
-                  <a
-                    href={mapData.rootIllustrationSrc}
-                    download={`${mapData.chapterTitle.replace(/\s+/g, '_')}_mindmap.jpg`}
-                    className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 flex items-center gap-1.5 transition"
-                  >
-                    <Download className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Download</span>
-                  </a>
-                )}
+                <a
+                  href={mapData.rootIllustrationSrc || resolveChapterIllustration(mapData.chapterTitle, mapData.subject)}
+                  download={`${mapData.chapterTitle.replace(/\s+/g, '_')}_mindmap.jpg`}
+                  className="px-3 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 flex items-center gap-1.5 transition"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span className="hidden sm:inline">Download</span>
+                </a>
                 <button
                   type="button"
                   onClick={() => setIsPosterZoomModalOpen(false)}
@@ -1288,7 +1285,7 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
 
             <div className="flex-1 overflow-auto p-2 sm:p-4 flex items-center justify-center bg-slate-950">
               <img
-                src={mapData.rootIllustrationSrc || '/assets/mindmaps/physics_units_measurements_reference.jpg'}
+                src={mapData.rootIllustrationSrc || resolveChapterIllustration(mapData.chapterTitle, mapData.subject)}
                 alt={mapData.chapterTitle}
                 className="max-w-full max-h-[80vh] object-contain rounded-xl shadow-2xl border border-slate-800 select-none"
               />

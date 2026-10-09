@@ -389,7 +389,7 @@ export const LAWS_OF_MOTION_MINDMAP: HorizontalMindMapData = {
   classLevel: '11',
   exam: 'NEET & JEE',
   rootIllustrationType: 'newton_pulley',
-  rootIllustrationSrc: '/assets/mindmaps/physics_units_measurements_reference.jpg',
+  rootIllustrationSrc: '/assets/mindmaps/physics_laws_of_motion_3d.jpg',
   summary: 'Complete Left-to-Right 3D visual concept map for Laws of Motion covering Inertia, Newton Laws 1-3, Momentum & Impulse, Free Body Diagrams, Friction Dynamics, and Circular Motion Banking.',
   branches: [
     {
@@ -985,7 +985,7 @@ export const CELL_BIOLOGY_MINDMAP: HorizontalMindMapData = {
   classLevel: '11',
   exam: 'NEET-UG',
   rootIllustrationType: 'cell_ultrastructure',
-  rootIllustrationSrc: '/assets/mindmaps/biology_inheritance_3d.jpg',
+  rootIllustrationSrc: '/assets/mindmaps/biology_cell_unit_of_life_3d.jpg',
   summary: 'Left-to-Right 3D visual concept map for Cell: The Unit of Life covering Cell Theory, Prokaryotes, Fluid Mosaic Plasma Membrane, Endomembrane Organelles, Semi-Autonomous Mitochondria/Plastids, and Nucleus Chromatin.',
   branches: [
     {
@@ -1421,16 +1421,7 @@ export function getCanonicalMindMap(
     };
   });
 
-  const illustrationSrc =
-    subject === 'Physics'
-      ? norm.includes('unit') || norm.includes('measurement')
-        ? '/assets/mindmaps/physics_units_measurements_reference.jpg'
-        : '/assets/mindmaps/physics_dual_nature_3d.jpg'
-      : subject === 'Chemistry'
-      ? '/assets/mindmaps/chemistry_bonding_3d.jpg'
-      : subject === 'Biology'
-      ? '/assets/mindmaps/biology_inheritance_3d.jpg'
-      : '/assets/mindmaps/mathematics_integrals_3d.jpg';
+  const illustrationSrc = resolveChapterIllustration(chapterName, subject);
 
   return {
     chapterTitle: chapterName,
@@ -1442,4 +1433,144 @@ export function getCanonicalMindMap(
     summary: `Structured Left-to-Right 3D visual concept map for ${chapterName} (${subject}). Aligned with NCERT syllabus and NEET/JEE examination standards.`,
     branches
   };
+}
+
+/**
+ * Resolves the dedicated high-definition 3D concept poster for any given chapter
+ * across Physics, Chemistry, Biology, and Mathematics.
+ */
+export function resolveChapterIllustration(chapterName: string, subject: SubjectName): string {
+  const norm = normalizeName(chapterName);
+
+  if (subject === 'Physics') {
+    if (norm.includes('unit') || norm.includes('measurement') || norm.includes('mathematical tool') || norm.includes('vector')) {
+      return '/assets/mindmaps/physics_units_measurements_reference.jpg';
+    }
+    if (norm.includes('atom') || norm.includes('nuclei') || norm.includes('nuclear')) {
+      return '/assets/mindmaps/physics_atoms_3d.jpg';
+    }
+    if (norm.includes('optic') || norm.includes('ray') || norm.includes('wave optic') || norm.includes('electromagnetic wave') || norm.includes('light')) {
+      return '/assets/mindmaps/physics_ray_optics_3d.jpg';
+    }
+    if (
+      norm.includes('current') ||
+      norm.includes('electric') ||
+      norm.includes('charge') ||
+      norm.includes('capacit') ||
+      norm.includes('potenti') ||
+      norm.includes('magnet') ||
+      norm.includes('induct') ||
+      norm.includes('alternating') ||
+      norm.includes('circuit')
+    ) {
+      return '/assets/mindmaps/physics_current_electricity_3d.jpg';
+    }
+    if (norm.includes('gravitat') || norm.includes('planet') || norm.includes('rotat') || norm.includes('particle') || norm.includes('fluid')) {
+      return '/assets/mindmaps/physics_gravitation_3d.jpg';
+    }
+    if (norm.includes('thermo') || norm.includes('heat') || norm.includes('kinetic') || norm.includes('thermal')) {
+      return '/assets/mindmaps/thermodynamics_3d.jpg';
+    }
+    if (norm.includes('dual') || norm.includes('radiation') || norm.includes('photoelectric') || norm.includes('semiconductor')) {
+      return '/assets/mindmaps/physics_dual_nature_3d.jpg';
+    }
+    // Mechanics: Laws of Motion, Work Energy Power, Motion in Straight Line / Plane, Oscillations, Waves, Solids
+    return '/assets/mindmaps/physics_laws_of_motion_3d.jpg';
+  }
+
+  if (subject === 'Chemistry') {
+    if (norm.includes('atom') || norm.includes('structure of atom')) {
+      return '/assets/mindmaps/physics_atoms_3d.jpg';
+    }
+    if (norm.includes('thermo') || norm.includes('kinetic')) {
+      return '/assets/mindmaps/chemistry_thermodynamics_3d.jpg';
+    }
+    if (
+      norm.includes('equilib') ||
+      norm.includes('ionic') ||
+      norm.includes('solution') ||
+      norm.includes('redox') ||
+      norm.includes('electrochem')
+    ) {
+      return '/assets/mindmaps/chemistry_equilibrium_3d.jpg';
+    }
+    if (
+      norm.includes('organic') ||
+      norm.includes('hydrocarbon') ||
+      norm.includes('halo') ||
+      norm.includes('alcohol') ||
+      norm.includes('phenol') ||
+      norm.includes('ether') ||
+      norm.includes('aldehyde') ||
+      norm.includes('ketone') ||
+      norm.includes('carboxylic') ||
+      norm.includes('amine') ||
+      norm.includes('biomolecule')
+    ) {
+      return '/assets/mindmaps/chemistry_organic_hydrocarbons_3d.jpg';
+    }
+    // Inorganic / Bonding / Periodic / Coordination / Some Basic Concepts
+    return '/assets/mindmaps/chemistry_bonding_3d.jpg';
+  }
+
+  if (subject === 'Biology') {
+    if (
+      norm.includes('cell') ||
+      norm.includes('biomolecule') ||
+      norm.includes('organis') ||
+      norm.includes('anatomy') ||
+      norm.includes('tissue') ||
+      norm.includes('fluid') ||
+      norm.includes('breath') ||
+      norm.includes('excret') ||
+      norm.includes('locomot') ||
+      norm.includes('neural') ||
+      norm.includes('digest') ||
+      norm.includes('chemical coord') ||
+      norm.includes('health')
+    ) {
+      return '/assets/mindmaps/biology_cell_unit_of_life_3d.jpg';
+    }
+    if (
+      norm.includes('photo') ||
+      norm.includes('plant') ||
+      norm.includes('respirat') ||
+      norm.includes('growth') ||
+      norm.includes('morphology') ||
+      norm.includes('ecosystem')
+    ) {
+      return '/assets/mindmaps/biology_photosynthesis_3d.jpg';
+    }
+    if (norm.includes('reproduct')) {
+      return '/assets/mindmaps/biology_human_reproduction_3d.jpg';
+    }
+    // Genetics / Inheritance / Molecular Basis / Evolution / Biotechnology / Ecology
+    return '/assets/mindmaps/biology_inheritance_3d.jpg';
+  }
+
+  if (subject === 'Mathematics') {
+    if (
+      norm.includes('conic') ||
+      norm.includes('line') ||
+      norm.includes('geometr') ||
+      norm.includes('vector') ||
+      norm.includes('circle') ||
+      norm.includes('trig')
+    ) {
+      return '/assets/mindmaps/mathematics_conic_sections_3d.jpg';
+    }
+    if (
+      norm.includes('integral') ||
+      norm.includes('deriv') ||
+      norm.includes('limit') ||
+      norm.includes('continu') ||
+      norm.includes('different')
+    ) {
+      return '/assets/mindmaps/mathematics_integrals_3d.jpg';
+    }
+    // Algebra / Matrices / Determinants / Sets / Relations / Probability / Statistics
+    return '/assets/mindmaps/mathematics_matrices_determinants_3d.jpg';
+  }
+
+  return '/assets/mindmaps/physics_laws_of_motion_3d.jpg';
 }
