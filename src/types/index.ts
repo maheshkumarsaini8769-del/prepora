@@ -283,6 +283,10 @@ export interface MistakeItem {
   mistakeReason?: MistakeReason;
   mistakeNote?: string;
   questionSnippet?: string;
+  questionText?: string;
+  options?: string[];
+  explanation?: string;
+  concept?: string;
 }
 
 export interface FormulaCard {

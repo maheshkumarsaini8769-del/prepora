@@ -190,6 +190,10 @@ class MockUserService {
     correctAnswer?: number;
     exam?: ExamType;
     reason?: string;
+    questionText?: string;
+    options?: string[];
+    explanation?: string;
+    concept?: string;
   }): void {
     const profile = this.getProfile();
     const today = new Date().toISOString().split('T')[0];
@@ -246,6 +250,10 @@ class MockUserService {
         mistakes[existingIndex].userWrongAnswer = payload.selectedAnswer ?? 0;
         mistakes[existingIndex].resolved = false;
         if (payload.reason) mistakes[existingIndex].mistakeReason = payload.reason as any;
+        if (payload.questionText) mistakes[existingIndex].questionText = payload.questionText;
+        if (payload.options) mistakes[existingIndex].options = payload.options;
+        if (payload.explanation) mistakes[existingIndex].explanation = payload.explanation;
+        if (payload.concept) mistakes[existingIndex].concept = payload.concept;
       } else {
         mistakes.unshift({
           id: `m-${Date.now()}-${payload.questionId}`,
@@ -259,7 +267,12 @@ class MockUserService {
           correctAnswer: payload.correctAnswer ?? 0,
           mistakeCount: 1,
           mistakeReason: (payload.reason as any) || 'Calculation Error',
-          resolved: false
+          resolved: false,
+          questionSnippet: payload.questionText?.slice(0, 100),
+          questionText: payload.questionText,
+          options: payload.options,
+          explanation: payload.explanation,
+          concept: payload.concept
         });
       }
       setStorageItem(StorageKeys.MISTAKES, mistakes);

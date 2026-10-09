@@ -260,7 +260,11 @@ export const PracticeSession: React.FC = () => {
       selectedAnswer: selectedOption,
       correctAnswer: currentQ.correctAnswer,
       exam: currentQ.exam,
-      reason: predictedTag
+      reason: predictedTag,
+      questionText: currentQ.question,
+      options: currentQ.options,
+      explanation: currentQ.explanation,
+      concept: currentQ.concept
     });
   };
 

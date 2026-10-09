@@ -656,11 +656,17 @@ class ApiTestService {
   private recordMistake(question: Question, userAns: number): void {
     const mistakes = getStorageItem<any[]>(StorageKeys.MISTAKES, []);
     const existingIndex = mistakes.findIndex(m => m.questionId === question.id);
+    const today = new Date().toISOString().split('T')[0];
     if (existingIndex !== -1) {
       mistakes[existingIndex].mistakeCount += 1;
-      mistakes[existingIndex].lastAttemptedDate = new Date().toISOString().split('T')[0];
+      mistakes[existingIndex].lastAttemptedDate = today;
       mistakes[existingIndex].userWrongAnswer = userAns;
       mistakes[existingIndex].resolved = false;
+      mistakes[existingIndex].questionText = question.question;
+      mistakes[existingIndex].options = question.options;
+      mistakes[existingIndex].explanation = question.explanation;
+      mistakes[existingIndex].concept = question.concept;
+      mistakes[existingIndex].questionSnippet = question.question.slice(0, 100);
     } else {
       mistakes.unshift({
         id: `mistake-${Date.now()}-${question.id}`,
@@ -669,11 +675,17 @@ class ApiTestService {
         subject: question.subject,
         chapter: question.chapter,
         topic: question.topic,
-        lastAttemptedDate: new Date().toISOString().split('T')[0],
+        lastAttemptedDate: today,
         userWrongAnswer: userAns,
         correctAnswer: question.correctAnswer,
         mistakeCount: 1,
-        resolved: false
+        resolved: false,
+        mistakeReason: 'Calculation Error',
+        questionText: question.question,
+        options: question.options,
+        explanation: question.explanation,
+        concept: question.concept,
+        questionSnippet: question.question.slice(0, 100)
       });
     }
     setStorageItem(StorageKeys.MISTAKES, mistakes);
