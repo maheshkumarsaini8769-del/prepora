@@ -29,6 +29,37 @@ export class GroqProvider implements IAIProvider {
     if (modelName) this.modelName = modelName;
   }
 
+  public async testConnection(): Promise<{ success: boolean; latencyMs: number; message: string }> {
+    if (!this.isConfigured()) {
+      return { success: false, latencyMs: 0, message: 'Groq client is not configured (missing Groq API key starting with gsk_).' };
+    }
+    const start = Date.now();
+    try {
+      const response = await fetch('https://api.groq.com/openai/v1/models', {
+        headers: { 'Authorization': `Bearer ${this.apiKey}` }
+      });
+      if (!response.ok) {
+        const text = await response.text();
+        return {
+          success: false,
+          latencyMs: Date.now() - start,
+          message: `Groq API returned error (${response.status}): ${text.slice(0, 150)}`
+        };
+      }
+      return {
+        success: true,
+        latencyMs: Date.now() - start,
+        message: `Successfully connected to Groq API using model ${this.modelName}.`
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        latencyMs: Date.now() - start,
+        message: `Groq Network Failure: ${err?.message || 'Could not connect to api.groq.com'}`
+      };
+    }
+  }
+
   private async chatComplete(systemPrompt: string, userPrompt: string, maxTokens: number): Promise<string> {
     const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',

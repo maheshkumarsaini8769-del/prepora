@@ -151,6 +151,15 @@ class AIService {
           { $set: { isConnected: false } }
         );
       }
+    } else if (detectedProvider === 'groq' && cleanKey.length > 5) {
+      const testRes = await this.groqProvider.testConnection();
+      if (!testRes.success) {
+        warningMsg = testRes.message;
+        await AIProviderConfig.findOneAndUpdate(
+          { key: 'ai_provider_config' },
+          { $set: { isConnected: false } }
+        );
+      }
     }
 
     const active = this.getActiveAIProvider();

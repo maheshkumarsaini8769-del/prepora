@@ -190,8 +190,8 @@ export const AITeacherPage: React.FC = () => {
   } | null>(null);
   const [showConfigModal, setShowConfigModal] = useState(false);
   const [configKeyInput, setConfigKeyInput] = useState('');
-  const [configProviderInput, setConfigProviderInput] = useState<'openai' | 'gemini'>('openai');
-  const [configModelInput, setConfigModelInput] = useState('gpt-4o-mini');
+  const [configProviderInput, setConfigProviderInput] = useState<'openai' | 'gemini' | 'groq'>('gemini');
+  const [configModelInput, setConfigModelInput] = useState('gemini-1.5-flash');
   const [configSaving, setConfigSaving] = useState(false);
   const [configMsg, setConfigMsg] = useState<{ text: string; error?: boolean } | null>(null);
 
@@ -884,14 +884,17 @@ export const AITeacherPage: React.FC = () => {
                 <select
                   value={configProviderInput}
                   onChange={(e) => {
-                    const p = e.target.value as 'openai' | 'gemini';
+                    const p = e.target.value as 'openai' | 'gemini' | 'groq';
                     setConfigProviderInput(p);
-                    setConfigModelInput(p === 'openai' ? 'gpt-4o-mini' : 'gemini-1.5-flash');
+                    if (p === 'openai') setConfigModelInput('gpt-4o-mini');
+                    else if (p === 'gemini') setConfigModelInput('gemini-1.5-flash');
+                    else setConfigModelInput('llama-3.3-70b-versatile');
                   }}
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-[#141e2b] border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-medium"
                 >
+                  <option value="gemini">Google Gemini (Gemini 1.5 Flash — 100% Free)</option>
+                  <option value="groq">Groq Cloud (Llama 3.3 70B — 100% Free & Fast)</option>
                   <option value="openai">OpenAI (Official GPT-4o / GPT-4o-mini)</option>
-                  <option value="gemini">Google Gemini (Gemini 1.5 Flash)</option>
                 </select>
               </div>
 
@@ -910,22 +913,49 @@ export const AITeacherPage: React.FC = () => {
                       <option value="gpt-4o">gpt-4o (High Intelligence)</option>
                       <option value="gpt-3.5-turbo">gpt-3.5-turbo</option>
                     </>
+                  ) : configProviderInput === 'gemini' ? (
+                    <>
+                      <option value="gemini-1.5-flash">gemini-1.5-flash (Fast & 100% Free Tier)</option>
+                      <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+                    </>
                   ) : (
                     <>
-                      <option value="gemini-1.5-flash">gemini-1.5-flash (Fast & Free Tier)</option>
-                      <option value="gemini-1.5-pro">gemini-1.5-pro</option>
+                      <option value="llama-3.3-70b-versatile">llama-3.3-70b-versatile (Smart & Free)</option>
+                      <option value="llama-3.1-8b-instant">llama-3.1-8b-instant (Fastest & Free)</option>
                     </>
                   )}
                 </select>
               </div>
 
               <div>
-                <label className="block text-slate-700 dark:text-slate-300 font-semibold mb-1">
-                  Secret API Key
-                </label>
+                <div className="flex items-center justify-between mb-1">
+                  <label className="block text-slate-700 dark:text-slate-300 font-semibold">
+                    Secret API Key
+                  </label>
+                  {configProviderInput === 'gemini' && (
+                    <a
+                      href="https://aistudio.google.com/app/apikey"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
+                    >
+                      Get Free Gemini Key ↗
+                    </a>
+                  )}
+                  {configProviderInput === 'groq' && (
+                    <a
+                      href="https://console.groq.com/keys"
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold hover:underline"
+                    >
+                      Get Free Groq Key ↗
+                    </a>
+                  )}
+                </div>
                 <input
                   type="password"
-                  placeholder={configProviderInput === 'openai' ? 'sk-...' : 'AIza...'}
+                  placeholder={configProviderInput === 'openai' ? 'sk-...' : configProviderInput === 'gemini' ? 'AIza...' : 'gsk_...'}
                   value={configKeyInput}
                   onChange={(e) => setConfigKeyInput(e.target.value)}
                   className="w-full px-3 py-2 bg-slate-50 dark:bg-[#141e2b] border border-slate-300 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 font-mono text-xs placeholder:text-slate-400"
