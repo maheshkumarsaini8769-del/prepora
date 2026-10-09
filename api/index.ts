@@ -5,49 +5,32 @@ if (typeof (globalThis as any).Path2D === 'undefined') {
   (globalThis as any).Path2D = class Path2D {};
 }
 
-let appInstance: any = null;
+import mongoose from 'mongoose';
+import app from '../server/index.js';
+import { connectDB } from '../server/config/db.js';
+
 let connectPromise: Promise<void> | null = null;
 
 export default async function handler(req: any, res: any) {
   try {
-    // 1. Ensure MongoDB connection is initialized and awaited for serverless execution
-    if (!connectPromise) {
-      let dbModule: any;
-      try {
-        dbModule = await import('../server/config/db.js');
-      } catch {
-        const dbPath = '../server/config/db';
-        dbModule = await import(dbPath);
-      }
-      const connectDB = dbModule.default || dbModule.connectDB;
-      if (typeof connectDB === 'function') {
-        connectPromise = connectDB().catch((err: any) => {
-          console.error('[API] Serverless connectDB error:', err);
-          connectPromise = null;
-        });
-      }
+    if (!connectPromise && mongoose.connection.readyState !== 1) {
+      connectPromise = connectDB().catch((err: any) => {
+        console.error('[API] Serverless connectDB error:', err);
+        connectPromise = null;
+      });
     }
-    if (connectPromise) {
+    if (connectPromise && mongoose.connection.readyState !== 1) {
       await connectPromise;
     }
 
-    if (!appInstance) {
-      let serverModule: any;
-      try {
-        serverModule = await import('../server/index.js');
-      } catch {
-        const serverPath = '../server/index';
-        serverModule = await import(serverPath);
-      }
-      appInstance = serverModule.default || serverModule;
-    }
-    return appInstance(req, res);
+    return app(req, res);
   } catch (err: any) {
     console.error('[API Exception]:', err);
     return res.status(500).json({
       error: 'Backend Invocation Error',
-      message: process.env.NODE_ENV === 'production' ? 'Internal server error' : (err?.message || String(err))
+      message: err?.message || String(err)
     });
   }
 }
+
 
