@@ -15,7 +15,7 @@ export class GroqProvider implements IAIProvider {
   private apiKey: string;
   private modelName: string;
 
-  constructor(apiKey: string, modelName: string = 'llama-3.3-70b-versatile') {
+  constructor(apiKey: string, modelName: string = 'openai/gpt-oss-120b') {
     this.apiKey = apiKey;
     this.modelName = modelName;
   }
@@ -27,6 +27,10 @@ export class GroqProvider implements IAIProvider {
   public updateConfig(apiKey: string, modelName?: string) {
     this.apiKey = apiKey;
     if (modelName) this.modelName = modelName;
+  }
+
+  public getModelName(): string {
+    return this.modelName;
   }
 
   public async testConnection(): Promise<{ success: boolean; latencyMs: number; message: string }> {
@@ -61,33 +65,55 @@ export class GroqProvider implements IAIProvider {
   }
 
   private async chatComplete(systemPrompt: string, userPrompt: string, maxTokens: number): Promise<string> {
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${this.apiKey}`
-      },
-      body: JSON.stringify({
-        model: this.modelName,
-        messages: [
-          { role: 'system', content: systemPrompt },
-          { role: 'user', content: userPrompt }
-        ],
-        temperature: 0.2,
-        max_tokens: maxTokens,
-        response_format: { type: 'json_object' }
-      })
-    });
+    const candidateModels = [
+      this.modelName,
+      'openai/gpt-oss-120b',
+      'openai/gpt-oss-20b',
+      'qwen/qwen3.8-27b'
+    ];
+    const uniqueModels = Array.from(new Set(candidateModels));
 
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Groq API Error (${response.status}): ${errText}`);
+    let lastError: Error | null = null;
+    for (const model of uniqueModels) {
+      try {
+        const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${this.apiKey}`
+          },
+          body: JSON.stringify({
+            model,
+            messages: [
+              { role: 'system', content: systemPrompt },
+              { role: 'user', content: userPrompt }
+            ],
+            temperature: 0.2,
+            max_tokens: maxTokens,
+            response_format: { type: 'json_object' }
+          })
+        });
+
+        if (response.ok) {
+          const data: any = await response.json();
+          const content = data?.choices?.[0]?.message?.content;
+          if (content) {
+            this.modelName = model;
+            return content;
+          }
+        }
+
+        const errText = await response.text();
+        lastError = new Error(`Groq (${model}) status ${response.status}: ${errText.slice(0, 180)}`);
+        if (response.status === 404 || errText.includes('model_not_found') || response.status === 429) {
+          continue;
+        }
+        throw lastError;
+      } catch (err: any) {
+        lastError = err;
+      }
     }
-
-    const data: any = await response.json();
-    const content = data?.choices?.[0]?.message?.content;
-    if (!content) throw new Error('Groq returned empty content');
-    return content;
+    throw lastError || new Error('All Groq candidate models failed');
   }
 
   public async solveDoubt(req: IDoubtSolveRequest, contextSnippet?: string): Promise<IDoubtSolveResult> {

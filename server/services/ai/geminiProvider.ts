@@ -15,7 +15,7 @@ export class GeminiProvider implements IAIProvider {
   private apiKey: string;
   private modelName: string;
 
-  constructor(apiKey: string, modelName: string = 'gemini-1.5-flash') {
+  constructor(apiKey: string, modelName: string = 'gemini-3.5-flash') {
     this.apiKey = apiKey;
     this.modelName = modelName;
   }
@@ -27,6 +27,51 @@ export class GeminiProvider implements IAIProvider {
   public updateConfig(apiKey: string, modelName?: string) {
     this.apiKey = apiKey;
     if (modelName) this.modelName = modelName;
+  }
+
+  public getModelName(): string {
+    return this.modelName;
+  }
+
+  public async executeWithModelFallback(requestBody: any): Promise<any> {
+    const candidateModels = [
+      this.modelName,
+      'gemini-3.5-flash',
+      'gemini-3.5-flash-lite',
+      'gemini-3.8-flash'
+    ];
+    // Deduplicate models preserving order
+    const uniqueModels = Array.from(new Set(candidateModels));
+
+    let lastError: Error | null = null;
+    for (const model of uniqueModels) {
+      try {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${this.apiKey}`;
+        const res = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (res.ok) {
+          const data = await res.json();
+          this.modelName = model; // Lock into currently responding model
+          return data;
+        }
+
+        const errText = await res.text();
+        lastError = new Error(`Gemini (${model}) status ${res.status}: ${errText.slice(0, 200)}`);
+        // If 404 or 503, continue to next candidate model
+        if (res.status === 404 || res.status === 503 || res.status === 429) {
+          continue;
+        }
+        // Non-recoverable error (e.g. 400 Bad Request)
+        throw lastError;
+      } catch (err: any) {
+        lastError = err;
+      }
+    }
+    throw lastError || new Error('All Gemini candidate models failed.');
   }
 
   public async testConnection(): Promise<{ success: boolean; latencyMs: number; message: string }> {
@@ -119,34 +164,27 @@ export class GeminiProvider implements IAIProvider {
       });
     }
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${this.modelName}:generateContent?key=${this.apiKey}`;
-
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemInstructions }] },
-        contents: [{ role: 'user', parts }],
-        generationConfig: {
-          temperature: 0.2,
-          maxOutputTokens: 2048,
-          responseMimeType: 'application/json'
-        }
-      })
+    const data: any = await this.executeWithModelFallback({
+      system_instruction: { parts: [{ text: systemInstructions }] },
+      contents: [{ role: 'user', parts }],
+      generationConfig: {
+        temperature: 0.2,
+        maxOutputTokens: 8192,
+        responseMimeType: 'application/json'
+      }
     });
-
-    if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`Gemini API Error (${response.status}): ${errText}`);
-    }
-
-    const data: any = await response.json();
     const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!rawText) {
       throw new Error('Gemini returned empty candidate content');
     }
 
-    const parsed = JSON.parse(rawText);
+    let cleanJson = rawText.trim();
+    if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
+    else if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
+    if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
+    cleanJson = cleanJson.trim();
+
+    const parsed = JSON.parse(cleanJson);
 
     const understanding: QuestionUnderstanding = {
       intent: parsed.understanding?.intent || 'explanation',
@@ -207,22 +245,12 @@ export class GeminiProvider implements IAIProvider {
 
     const prompt = `Question: "${req.question}"\nOptions: ${req.options?.join(', ') || 'N/A'}\nSubject: ${req.subject || ''}\nChapter: ${req.chapter || ''}\nExplanation: ${req.explanation || ''}`;
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${this.modelName}:generateContent?key=${this.apiKey}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        system_instruction: { parts: [{ text: systemPrompt }] },
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.2, responseMimeType: 'application/json' }
-      })
+    const data: any = await this.executeWithModelFallback({
+      system_instruction: { parts: [{ text: systemPrompt }] },
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.2, responseMimeType: 'application/json' }
     });
 
-    if (!response.ok) {
-      throw new Error(`Gemini API Error (${response.status})`);
-    }
-
-    const data: any = await response.json();
     const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!rawText) throw new Error('Gemini returned empty content for progressive hints');
     const parsed = JSON.parse(rawText);
@@ -249,21 +277,11 @@ export class GeminiProvider implements IAIProvider {
       "Return ONLY JSON: { diagnosedWeaknessType, confidence, rootCauseAnalysis, keyRuleToRemember, prescribedPlan: { conceptQuestions, easyQuestions, mediumQuestions, timedQuestions, expectedAccuracyGain } }"
     ].join('\n');
 
-    const url = `https://generativelanguage.googleapis.com/v1beta/models/${this.modelName}:generateContent?key=${this.apiKey}`;
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ role: 'user', parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.2, responseMimeType: 'application/json' }
-      })
+    const data: any = await this.executeWithModelFallback({
+      contents: [{ role: 'user', parts: [{ text: prompt }] }],
+      generationConfig: { temperature: 0.2, responseMimeType: 'application/json' }
     });
 
-    if (!response.ok) {
-      throw new Error(`Gemini API Error (${response.status})`);
-    }
-
-    const data: any = await response.json();
     const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
     if (!rawText) throw new Error('Gemini returned empty content for weakness analysis');
     const parsed = JSON.parse(rawText);

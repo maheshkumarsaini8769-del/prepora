@@ -268,9 +268,14 @@ export const AIFactoryJob = mongoose.model<IAIFactoryJob>('AIFactoryJob', AIFact
 // 4. AI Provider Configuration & Cost Controls
 export interface IAIProviderConfig extends Document {
   key: string;
-  provider: 'openai' | 'gemini' | 'openai_compatible' | 'offline_engine';
+  provider: 'openai' | 'gemini' | 'groq' | 'openai_compatible' | 'offline_engine';
   apiKey?: string;
+  geminiApiKey?: string;
+  groqApiKey?: string;
+  openaiApiKey?: string;
   modelName: string;
+  geminiModelName?: string;
+  groqModelName?: string;
   temperature: number;
   maxTokens: number;
   dailyGenerationLimit: number;
@@ -284,9 +289,14 @@ export interface IAIProviderConfig extends Document {
 const AIProviderConfigSchema = new Schema(
   {
     key: { type: String, required: true, unique: true, default: 'ai_provider_config' },
-    provider: { type: String, enum: ['openai', 'gemini', 'openai_compatible', 'offline_engine'], default: 'openai' },
+    provider: { type: String, enum: ['openai', 'gemini', 'groq', 'openai_compatible', 'offline_engine'], default: 'gemini' },
     apiKey: { type: String, default: '' },
-    modelName: { type: String, default: 'gpt-4o-mini' },
+    geminiApiKey: { type: String, default: '' },
+    groqApiKey: { type: String, default: '' },
+    openaiApiKey: { type: String, default: '' },
+    modelName: { type: String, default: 'gemini-3.5-flash' },
+    geminiModelName: { type: String, default: 'gemini-3.5-flash' },
+    groqModelName: { type: String, default: 'openai/gpt-oss-120b' },
     temperature: { type: Number, default: 0.7 },
     maxTokens: { type: Number, default: 4096 },
     dailyGenerationLimit: { type: Number, default: 500 },

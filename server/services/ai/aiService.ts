@@ -38,56 +38,65 @@ class AIService {
     this.fallbackProvider = new FallbackProvider();
   }
 
-  private configuredProviderPreference: string = 'openai';
+  private configuredProviderPreference: string = 'gemini';
 
   public async initializeFromDB(): Promise<void> {
     try {
       const config = await AIProviderConfig.findOne({ key: 'ai_provider_config' });
       if (config) {
-        const key = (config.apiKey || '').trim();
+        const rawKey = (config.apiKey || '').trim();
+        const geminiKey = (config.geminiApiKey || '').trim() || (rawKey.startsWith('AQ.') || rawKey.startsWith('AIza') ? rawKey : '') || (process.env.GEMINI_API_KEY || '').trim();
+        const groqKey = (config.groqApiKey || '').trim() || (rawKey.startsWith('gsk_') ? rawKey : '') || (process.env.GROQ_API_KEY || '').trim();
+        const openaiKey = (config.openaiApiKey || '').trim() || (rawKey.startsWith('sk-') ? rawKey : '') || (process.env.OPENAI_API_KEY || '').trim();
+
         const savedProvider = (config.provider || '').toLowerCase();
-        const model = config.modelName || 'gpt-4o-mini';
+        this.configuredProviderPreference = savedProvider || 'gemini';
 
-        this.configuredProviderPreference = savedProvider || 'openai';
+        // 1. Initialize Gemini
+        if (geminiKey) {
+          const geminiModel = config.geminiModelName || (config.modelName?.includes('gemini') ? config.modelName : '') || process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+          this.geminiProvider.updateConfig(geminiKey, geminiModel);
+        } else if (process.env.GEMINI_API_KEY) {
+          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
+        }
 
-        // Auto-detect or route key based on key prefix or configured provider
-        if (key.startsWith('sk-') || savedProvider === 'openai' || savedProvider === 'openai_compatible') {
-          this.openAIProvider.updateConfig(key || process.env.OPENAI_API_KEY || '', model || process.env.OPENAI_MODEL || 'gpt-4o-mini');
+        // 2. Initialize Groq
+        if (groqKey) {
+          const groqModel = config.groqModelName || process.env.GROQ_MODEL || 'openai/gpt-oss-120b';
+          this.groqProvider.updateConfig(groqKey, groqModel);
+        } else if (process.env.GROQ_API_KEY) {
+          this.groqProvider.updateConfig(process.env.GROQ_API_KEY, process.env.GROQ_MODEL || 'openai/gpt-oss-120b');
+        }
+
+        // 3. Initialize OpenAI
+        if (openaiKey) {
+          this.openAIProvider.updateConfig(openaiKey, config.modelName?.startsWith('gpt') ? config.modelName : process.env.OPENAI_MODEL || 'gpt-4o-mini');
         } else if (process.env.OPENAI_API_KEY) {
           this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
         }
 
-        if (key.startsWith('AIza') || savedProvider === 'gemini') {
-          this.geminiProvider.updateConfig(key || process.env.GEMINI_API_KEY || '', model.includes('gemini') ? model : 'gemini-1.5-flash');
-        } else if (process.env.GEMINI_API_KEY) {
-          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, 'gemini-1.5-flash');
-        }
-
-        if (key.startsWith('gsk_') || savedProvider === 'groq') {
-          this.groqProvider.updateConfig(key);
-        } else if (process.env.GROQ_API_KEY) {
-          this.groqProvider.updateConfig(process.env.GROQ_API_KEY);
-        }
-
         this.dailyRequestLimit = config.dailyGenerationLimit || 500;
       } else {
-        if (process.env.OPENAI_API_KEY) {
-          this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
-        }
         if (process.env.GEMINI_API_KEY) {
-          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, 'gemini-1.5-flash');
+          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
         }
         if (process.env.GROQ_API_KEY) {
-          this.groqProvider.updateConfig(process.env.GROQ_API_KEY);
+          this.groqProvider.updateConfig(process.env.GROQ_API_KEY, process.env.GROQ_MODEL || 'openai/gpt-oss-120b');
+        }
+        if (process.env.OPENAI_API_KEY) {
+          this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
         }
       }
     } catch (e) {
       console.warn('[AIService] DB init skipped, using environment config');
+      if (process.env.GEMINI_API_KEY) {
+        this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
+      }
+      if (process.env.GROQ_API_KEY) {
+        this.groqProvider.updateConfig(process.env.GROQ_API_KEY, process.env.GROQ_MODEL || 'openai/gpt-oss-120b');
+      }
       if (process.env.OPENAI_API_KEY) {
         this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
-      }
-      if (process.env.GEMINI_API_KEY) {
-        this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, 'gemini-1.5-flash');
       }
     }
   }
@@ -99,9 +108,9 @@ class AIService {
     dailyGenerationLimit?: number
   ): Promise<{ success: boolean; activeProvider: string; message: string; warning?: string }> {
     const cleanKey = (apiKey || '').trim();
-    let detectedProvider = (provider || 'openai').toLowerCase();
+    let detectedProvider = (provider || 'gemini').toLowerCase();
     if (cleanKey.startsWith('sk-')) detectedProvider = 'openai';
-    else if (cleanKey.startsWith('AIza')) detectedProvider = 'gemini';
+    else if (cleanKey.startsWith('AIza') || cleanKey.startsWith('AQ.')) detectedProvider = 'gemini';
     else if (cleanKey.startsWith('gsk_')) detectedProvider = 'groq';
 
     // 1. Persist config to MongoDB FIRST so key is NEVER lost or discarded
@@ -109,7 +118,18 @@ class AIService {
       provider: detectedProvider,
       isConnected: true
     };
-    if (cleanKey) updateObj.apiKey = cleanKey;
+    if (cleanKey) {
+      updateObj.apiKey = cleanKey;
+      if (detectedProvider === 'gemini') {
+        updateObj.geminiApiKey = cleanKey;
+        if (modelName) updateObj.geminiModelName = modelName;
+      } else if (detectedProvider === 'groq') {
+        updateObj.groqApiKey = cleanKey;
+        if (modelName) updateObj.groqModelName = modelName;
+      } else if (detectedProvider === 'openai') {
+        updateObj.openaiApiKey = cleanKey;
+      }
+    }
     if (modelName) updateObj.modelName = modelName;
     if (dailyGenerationLimit) updateObj.dailyGenerationLimit = dailyGenerationLimit;
 
@@ -121,44 +141,32 @@ class AIService {
 
     // 2. Update in-memory configuration
     this.configuredProviderPreference = detectedProvider;
-    if (detectedProvider === 'openai' && cleanKey.length > 5) {
-      this.openAIProvider.updateConfig(cleanKey, modelName || 'gpt-4o-mini');
-    } else if (detectedProvider === 'gemini' && cleanKey.length > 5) {
-      this.geminiProvider.updateConfig(cleanKey, modelName || 'gemini-1.5-flash');
+    if (detectedProvider === 'gemini' && cleanKey.length > 5) {
+      this.geminiProvider.updateConfig(cleanKey, modelName || 'gemini-3.5-flash');
     } else if (detectedProvider === 'groq' && cleanKey.length > 5) {
-      this.groqProvider.updateConfig(cleanKey);
+      this.groqProvider.updateConfig(cleanKey, modelName || 'openai/gpt-oss-120b');
+    } else if (detectedProvider === 'openai' && cleanKey.length > 5) {
+      this.openAIProvider.updateConfig(cleanKey, modelName || 'gpt-4o-mini');
     }
 
     await this.initializeFromDB();
 
     // 3. Test connection live for actionable user feedback
     let warningMsg: string | undefined;
-    if (detectedProvider === 'openai' && cleanKey.length > 5) {
-      const testRes = await this.openAIProvider.testConnection();
-      if (!testRes.success) {
-        warningMsg = testRes.message;
-        await AIProviderConfig.findOneAndUpdate(
-          { key: 'ai_provider_config' },
-          { $set: { isConnected: false } }
-        );
-      }
-    } else if (detectedProvider === 'gemini' && cleanKey.length > 5) {
+    if (detectedProvider === 'gemini' && cleanKey.length > 5) {
       const testRes = await this.geminiProvider.testConnection();
       if (!testRes.success) {
         warningMsg = testRes.message;
-        await AIProviderConfig.findOneAndUpdate(
-          { key: 'ai_provider_config' },
-          { $set: { isConnected: false } }
-        );
       }
     } else if (detectedProvider === 'groq' && cleanKey.length > 5) {
       const testRes = await this.groqProvider.testConnection();
       if (!testRes.success) {
         warningMsg = testRes.message;
-        await AIProviderConfig.findOneAndUpdate(
-          { key: 'ai_provider_config' },
-          { $set: { isConnected: false } }
-        );
+      }
+    } else if (detectedProvider === 'openai' && cleanKey.length > 5) {
+      const testRes = await this.openAIProvider.testConnection();
+      if (!testRes.success) {
+        warningMsg = testRes.message;
       }
     }
 
@@ -177,7 +185,7 @@ class AIService {
     return {
       success: true,
       activeProvider: activeName,
-      message: `AI Provider updated and activated successfully! Active: ${activeName}`
+      message: `AI Provider updated & activated! Primary: ${activeName}`
     };
   }
 
@@ -224,29 +232,9 @@ class AIService {
   }
 
   public getActiveAIProvider(): IAIProvider | null {
-    if (!this.openAIProvider.isConfigured() && process.env.OPENAI_API_KEY) {
-      this.openAIProvider.updateConfig(
-        process.env.OPENAI_API_KEY,
-        process.env.OPENAI_MODEL || 'gpt-4o-mini'
-      );
-    }
-    if (!this.geminiProvider.isConfigured() && process.env.GEMINI_API_KEY) {
-      this.geminiProvider.updateConfig(
-        process.env.GEMINI_API_KEY,
-        'gemini-1.5-flash'
-      );
-    }
-
-    // Prioritize configured provider preference
-    if (this.configuredProviderPreference === 'gemini' && this.geminiProvider.isConfigured()) {
-      return this.geminiProvider;
-    }
-    if (this.configuredProviderPreference === 'groq' && this.groqProvider.isConfigured()) {
-      return this.groqProvider;
-    }
-    if (this.openAIProvider.isConfigured()) return this.openAIProvider;
     if (this.geminiProvider.isConfigured()) return this.geminiProvider;
     if (this.groqProvider.isConfigured()) return this.groqProvider;
+    if (this.openAIProvider.isConfigured()) return this.openAIProvider;
     return null;
   }
 
@@ -261,30 +249,42 @@ class AIService {
     // Step 1: Deep Educational Understanding & Context Mismatch Check
     const understanding = analyzeQuestionUnderstanding(req.question, req.subject, req.chapter);
 
-    // Step 2: Database-First Search (Section 19: Prioritize verified DB question)
+    // Step 2: Database-First Search (Prioritize verified DB question)
     const dbMatch = await searchDatabaseFirst(req.question);
     const effectiveContext = dbMatch.contextForAI || contextSnippet;
 
-    let rawResult: IDoubtSolveResult;
+    let rawResult: IDoubtSolveResult | null = null;
+    const failoverTrace: string[] = [];
 
-    // Step 3: Provider Execution (OpenAI -> Gemini -> Groq -> Fallback)
-    const aiProvider = this.getActiveAIProvider();
-    if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
-      try {
-        rawResult = await aiProvider.solveDoubt(req, effectiveContext);
-      } catch (err: any) {
-        console.warn(`[AIService] ${aiProvider.name} call failed:`, err?.message);
-        rawResult = await this.fallbackProvider.solveDoubt(req, effectiveContext);
-        rawResult.provider = `${this.fallbackProvider.name}`;
-        rawResult.providerError = `${aiProvider.name} error: ${err?.message || 'failed'}`;
-        rawResult.isFallback = true;
+    // Step 3: Multi-tier Failover Execution (1. Gemini -> 2. Groq -> 3. OpenAI -> 4. Fallback)
+    if (this.isAIEnabled && this.requestsToday < this.dailyRequestLimit) {
+      const candidateProviders: IAIProvider[] = [];
+      if (this.geminiProvider.isConfigured()) candidateProviders.push(this.geminiProvider);
+      if (this.groqProvider.isConfigured()) candidateProviders.push(this.groqProvider);
+      if (this.openAIProvider.isConfigured()) candidateProviders.push(this.openAIProvider);
+
+      for (const provider of candidateProviders) {
+        try {
+          rawResult = await provider.solveDoubt(req, effectiveContext);
+          if (failoverTrace.length > 0) {
+            rawResult.provider = `${provider.name} (Failover from ${failoverTrace.join(', ')})`;
+          }
+          break; // Successfully solved!
+        } catch (err: any) {
+          failoverTrace.push(provider.name);
+          console.warn(`[AIService] ${provider.name} call failed (${err?.message}). Failing over to next provider...`);
+        }
       }
-    } else {
+    }
+
+    if (!rawResult) {
       rawResult = await this.fallbackProvider.solveDoubt(req, effectiveContext);
       rawResult.provider = this.fallbackProvider.name;
       rawResult.isFallback = true;
-      if (!this.getActiveAIProvider()) {
-        rawResult.providerError = 'OpenAI API key not configured on backend. Used offline curriculum knowledge.';
+      if (failoverTrace.length > 0) {
+        rawResult.providerError = `Online providers exhausted (${failoverTrace.join(' -> ')}). Switched to offline verified curriculum.`;
+      } else if (!this.getActiveAIProvider()) {
+        rawResult.providerError = 'No AI API key configured. Used offline curriculum knowledge.';
       }
     }
 
@@ -299,12 +299,19 @@ class AIService {
   public async generateProgressiveHints(req: IProgressiveHintsRequest): Promise<IProgressiveHintsResult> {
     this.checkAndResetQuota();
     this.requestsToday++;
-    const aiProvider = this.getActiveAIProvider();
-    if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
-      try {
-        return await aiProvider.generateProgressiveHints(req);
-      } catch (err: any) {
-        console.warn(`[AIService] ${aiProvider.name} hints failed:`, err?.message);
+
+    if (this.isAIEnabled && this.requestsToday < this.dailyRequestLimit) {
+      const candidateProviders: IAIProvider[] = [];
+      if (this.geminiProvider.isConfigured()) candidateProviders.push(this.geminiProvider);
+      if (this.groqProvider.isConfigured()) candidateProviders.push(this.groqProvider);
+      if (this.openAIProvider.isConfigured()) candidateProviders.push(this.openAIProvider);
+
+      for (const provider of candidateProviders) {
+        try {
+          return await provider.generateProgressiveHints(req);
+        } catch (err: any) {
+          console.warn(`[AIService] ${provider.name} hints failed (${err?.message}). Trying next...`);
+        }
       }
     }
     return await this.fallbackProvider.generateProgressiveHints(req);
@@ -313,12 +320,19 @@ class AIService {
   public async analyzeWeakness(req: IWeaknessAnalysisRequest): Promise<IWeaknessAnalysisResult> {
     this.checkAndResetQuota();
     this.requestsToday++;
-    const aiProvider = this.getActiveAIProvider();
-    if (this.isAIEnabled && aiProvider && this.requestsToday < this.dailyRequestLimit) {
-      try {
-        return await aiProvider.analyzeWeakness(req);
-      } catch (err: any) {
-        console.warn(`[AIService] ${aiProvider.name} weakness analysis failed:`, err?.message);
+
+    if (this.isAIEnabled && this.requestsToday < this.dailyRequestLimit) {
+      const candidateProviders: IAIProvider[] = [];
+      if (this.geminiProvider.isConfigured()) candidateProviders.push(this.geminiProvider);
+      if (this.groqProvider.isConfigured()) candidateProviders.push(this.groqProvider);
+      if (this.openAIProvider.isConfigured()) candidateProviders.push(this.openAIProvider);
+
+      for (const provider of candidateProviders) {
+        try {
+          return await provider.analyzeWeakness(req);
+        } catch (err: any) {
+          console.warn(`[AIService] ${provider.name} weakness analysis failed (${err?.message}). Trying next...`);
+        }
       }
     }
     return await this.fallbackProvider.analyzeWeakness(req);
