@@ -65,7 +65,10 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
   const [selectedSubject, setSelectedSubject] = useState<SubjectName>(initialSubject);
   const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>(propClass);
   const [chapterSearch, setChapterSearch] = useState('');
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isChapterDropdownOpen, setIsChapterDropdownOpen] = useState(false);
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+  const chapterDropdownRef = useRef<HTMLDivElement>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [viewFormat, setViewFormat] = useState<'tree' | 'poster'>('tree');
   const [isPosterZoomModalOpen, setIsPosterZoomModalOpen] = useState(false);
@@ -82,6 +85,24 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
     items?: string[];
     table?: { col1: string; col2: string }[];
   } | null>(null);
+
+  // Outside click listener to cleanly close search dropdown and chapter menu
+  useEffect(() => {
+    const handlePointerDownOutside = (e: MouseEvent | TouchEvent) => {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(e.target as Node)) {
+        setIsSearchOpen(false);
+      }
+      if (chapterDropdownRef.current && !chapterDropdownRef.current.contains(e.target as Node)) {
+        setIsChapterDropdownOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handlePointerDownOutside);
+    document.addEventListener('touchstart', handlePointerDownOutside);
+    return () => {
+      document.removeEventListener('mousedown', handlePointerDownOutside);
+      document.removeEventListener('touchstart', handlePointerDownOutside);
+    };
+  }, []);
 
   // Sync incoming props
   useEffect(() => {
@@ -134,6 +155,117 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
     return getCanonicalMindMap(activeChapter, selectedSubject, classToUse as ClassLevel);
   }, [activeChapter, selectedSubject, selectedClass]);
 
+  // Comprehensive multi-field search results (Chapter names, subtopics, formulas, cross-class & cross-subject)
+  interface SearchResultItem {
+    chapter: string;
+    subject: SubjectName;
+    classLevel: ClassLevel;
+    matchedSnippet?: string;
+    isCurrentSubject: boolean;
+  }
+
+  const searchResults: SearchResultItem[] = useMemo(() => {
+    const q = chapterSearch.toLowerCase().trim();
+    if (!q) {
+      return availableChapters.slice(0, 10).map((ch) => ({
+        chapter: ch,
+        subject: selectedSubject,
+        classLevel: (selectedClass === 'All' ? '11' : selectedClass) as ClassLevel,
+        isCurrentSubject: true
+      }));
+    }
+
+    const matches: SearchResultItem[] = [];
+    const seen = new Set<string>();
+
+    // 1. Current subject chapters and subtopics
+    comprehensiveFormulaNotes.forEach((item) => {
+      if (item.subject.toLowerCase() === selectedSubject.toLowerCase()) {
+        const key = `${item.subject}-${item.chapter}`;
+        if (seen.has(key)) return;
+
+        const chMatch = item.chapter.toLowerCase().includes(q);
+        const topMatch = item.topic.toLowerCase().includes(q);
+        const formMatch = item.formulas.some(
+          (f) => f.name.toLowerCase().includes(q) || f.formula.toLowerCase().includes(q)
+        );
+
+        if (chMatch || topMatch || formMatch) {
+          seen.add(key);
+          let snippet: string | undefined;
+          if (topMatch) snippet = `Topic: ${item.topic}`;
+          else if (formMatch) {
+            const fName = item.formulas.find(
+              (f) => f.name.toLowerCase().includes(q) || f.formula.toLowerCase().includes(q)
+            )?.name;
+            snippet = `Formula: ${fName || item.topic}`;
+          }
+
+          matches.push({
+            chapter: item.chapter,
+            subject: item.subject,
+            classLevel: item.classLevel,
+            matchedSnippet: snippet,
+            isCurrentSubject: true
+          });
+        }
+      }
+    });
+
+    // 2. Direct name matches from availableChapters
+    availableChapters.forEach((ch) => {
+      const key = `${selectedSubject}-${ch}`;
+      if (!seen.has(key) && ch.toLowerCase().includes(q)) {
+        seen.add(key);
+        matches.push({
+          chapter: ch,
+          subject: selectedSubject,
+          classLevel: (selectedClass === 'All' ? '11' : selectedClass) as ClassLevel,
+          isCurrentSubject: true
+        });
+      }
+    });
+
+    // 3. Cross-subject discoveries (e.g. searching "Cell" or "Optics")
+    comprehensiveFormulaNotes.forEach((item) => {
+      const key = `${item.subject}-${item.chapter}`;
+      if (seen.has(key)) return;
+
+      const chMatch = item.chapter.toLowerCase().includes(q);
+      const topMatch = item.topic.toLowerCase().includes(q);
+      const formMatch = item.formulas.some(
+        (f) => f.name.toLowerCase().includes(q) || f.formula.toLowerCase().includes(q)
+      );
+
+      if (chMatch || topMatch || formMatch) {
+        seen.add(key);
+        let snippet: string | undefined;
+        if (topMatch) snippet = `Topic: ${item.topic}`;
+        else if (formMatch) snippet = `Formula: ${item.topic}`;
+
+        matches.push({
+          chapter: item.chapter,
+          subject: item.subject,
+          classLevel: item.classLevel,
+          matchedSnippet: snippet,
+          isCurrentSubject: false
+        });
+      }
+    });
+
+    matches.sort((a, b) => {
+      if (a.isCurrentSubject && !b.isCurrentSubject) return -1;
+      if (!a.isCurrentSubject && b.isCurrentSubject) return 1;
+      const aStarts = a.chapter.toLowerCase().startsWith(q);
+      const bStarts = b.chapter.toLowerCase().startsWith(q);
+      if (aStarts && !bStarts) return -1;
+      if (!aStarts && bStarts) return 1;
+      return a.chapter.localeCompare(b.chapter);
+    });
+
+    return matches.slice(0, 15);
+  }, [chapterSearch, availableChapters, selectedSubject, selectedClass]);
+
   const filteredChapterList = useMemo(() => {
     if (!chapterSearch.trim()) return availableChapters;
     const q = chapterSearch.toLowerCase().trim();
@@ -143,6 +275,7 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
   const handleSubjectSelect = (sub: SubjectName) => {
     setSelectedSubject(sub);
     setChapterSearch('');
+    setIsSearchOpen(false);
     const subFormulaChapters = new Set<string>();
     comprehensiveFormulaNotes.forEach((item) => {
       if (item.subject.toLowerCase() === sub.toLowerCase()) {
@@ -159,11 +292,20 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
     }
   };
 
-  const handleChapterSelect = (ch: string) => {
+  const handleChapterSelect = (ch: string, sub?: SubjectName, cls?: ClassLevel) => {
+    const targetSub = sub || selectedSubject;
+    if (targetSub !== selectedSubject) {
+      setSelectedSubject(targetSub);
+    }
+    if (cls && selectedClass !== 'All' && selectedClass !== cls) {
+      setSelectedClass(cls);
+    }
     setActiveChapter(ch);
     setIsChapterDropdownOpen(false);
+    setIsSearchOpen(false);
+    setChapterSearch('');
     if (onSelectChapter) {
-      onSelectChapter(ch, selectedSubject);
+      onSelectChapter(ch, targetSub);
     }
   };
 
@@ -330,8 +472,8 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
 
   return (
     <div className="space-y-5 animate-in fade-in duration-300">
-      {/* 1. Master Mind Map Toolbar (Subject, Class, Chapter Search, Zoom, Expand/Collapse) */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-900/95 dark:bg-[#070d14] rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md">
+      {/* 1. Master Mind Map Toolbar (Subject, Class, Front Search System, Chapter Dropdown, Zoom, Expand/Collapse) */}
+      <div className="relative z-50 flex flex-wrap items-center justify-between gap-3 p-3.5 bg-slate-900/95 dark:bg-[#070d14] rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md">
         {/* Subject Selectors */}
         <div className="flex flex-wrap items-center gap-1.5">
           {(['Physics', 'Chemistry', 'Biology', 'Mathematics'] as SubjectName[]).map((sub) => {
@@ -351,6 +493,98 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
               </button>
             );
           })}
+        </div>
+
+        {/* FRONT SEARCH SYSTEM (Brought directly to front, always visible, highest z-index) */}
+        <div ref={searchContainerRef} className="relative flex-1 min-w-[220px] max-w-sm order-last sm:order-none w-full sm:w-auto">
+          <div className="relative flex items-center">
+            <Search className="w-4 h-4 text-purple-400 absolute left-3 pointer-events-none" />
+            <input
+              type="text"
+              value={chapterSearch}
+              onChange={(e) => {
+                setChapterSearch(e.target.value);
+                setIsSearchOpen(true);
+              }}
+              onFocus={() => setIsSearchOpen(true)}
+              placeholder="Search chapter, topic or formula..."
+              className="w-full text-xs font-semibold bg-slate-950/90 border border-slate-700/80 hover:border-purple-500/60 focus:border-purple-500 rounded-xl pl-9 pr-8 py-2 text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500/30 transition shadow-inner"
+            />
+            {chapterSearch && (
+              <button
+                type="button"
+                onClick={() => {
+                  setChapterSearch('');
+                  setIsSearchOpen(false);
+                }}
+                className="absolute right-2.5 p-0.5 rounded-md text-slate-400 hover:text-white hover:bg-slate-800 transition cursor-pointer"
+                title="Clear search"
+              >
+                <X className="w-3.5 h-3.5" />
+              </button>
+            )}
+          </div>
+
+          {/* Floating Search Results Dropdown - Z-INDEX 100 TO GUARANTEE IT STAYS IN FRONT OF THE GRAPH */}
+          {isSearchOpen && (
+            <div className="absolute left-0 right-0 top-full mt-2 bg-slate-900/98 border border-purple-500/50 rounded-2xl shadow-2xl shadow-purple-950/90 backdrop-blur-xl p-2 z-[100] max-h-80 overflow-y-auto space-y-1.5 animate-in fade-in zoom-in-95">
+              <div className="flex items-center justify-between px-2.5 py-1 text-[11px] font-bold text-slate-400 border-b border-slate-800">
+                <span>{chapterSearch ? `Results for "${chapterSearch}"` : `Select Chapter (${selectedSubject})`}</span>
+                <span className="text-[10px] text-purple-400 font-mono">{searchResults.length} matches</span>
+              </div>
+
+              {searchResults.length === 0 ? (
+                <div className="p-4 text-center text-xs text-slate-400">
+                  <p>No chapter or topic matches found for &quot;{chapterSearch}&quot;</p>
+                  <p className="text-[10px] text-slate-500 mt-1">Try keywords like &quot;Motion&quot;, &quot;Newton&quot;, &quot;Optics&quot;, or &quot;Cell&quot;</p>
+                </div>
+              ) : (
+                <div className="space-y-1">
+                  {searchResults.map((item, idx) => {
+                    const isCur = item.chapter.toLowerCase() === activeChapter.toLowerCase();
+                    return (
+                      <button
+                        key={`${item.subject}-${item.chapter}-${idx}`}
+                        type="button"
+                        onClick={() => handleChapterSelect(item.chapter, item.subject, item.classLevel)}
+                        className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition flex items-center justify-between group cursor-pointer ${
+                          isCur
+                            ? 'bg-purple-600 text-white shadow-md'
+                            : 'text-slate-300 hover:text-white hover:bg-slate-800/90'
+                        }`}
+                      >
+                        <div className="truncate pr-2">
+                          <div className="flex items-center gap-1.5">
+                            <BookOpen className={`w-3.5 h-3.5 shrink-0 ${isCur ? 'text-white' : 'text-purple-400'}`} />
+                            <span className="truncate">{item.chapter}</span>
+                          </div>
+                          {item.matchedSnippet && (
+                            <p className="text-[10px] text-amber-300/90 truncate pl-5 mt-0.5 font-normal">
+                              🔍 {item.matchedSnippet}
+                            </p>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-1 shrink-0">
+                          <span
+                            className={`text-[10px] px-1.5 py-0.5 rounded font-mono ${
+                              isCur ? 'bg-white/20 text-white' : 'bg-slate-800 text-slate-400 group-hover:text-purple-300'
+                            }`}
+                          >
+                            C{item.classLevel}
+                          </span>
+                          {!item.isCurrentSubject && (
+                            <span className="text-[9px] px-1 py-0.5 rounded bg-blue-500/20 text-blue-300">
+                              {item.subject}
+                            </span>
+                          )}
+                        </div>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Class Filter & Chapter Selector & View Controls */}
@@ -374,11 +608,11 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
           </div>
 
           {/* Chapter Selector Dropdown */}
-          <div className="relative">
+          <div ref={chapterDropdownRef} className="relative">
             <button
               type="button"
               onClick={() => setIsChapterDropdownOpen(!isChapterDropdownOpen)}
-              className="flex items-center justify-between gap-2 px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-white shadow-sm transition max-w-[220px] sm:max-w-[260px] cursor-pointer"
+              className="flex items-center justify-between gap-2 px-3 py-1.5 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-white shadow-sm transition max-w-[200px] sm:max-w-[240px] cursor-pointer"
             >
               <div className="flex items-center gap-1.5 truncate">
                 <BookOpen className="w-3.5 h-3.5 text-purple-400 shrink-0" />
@@ -391,19 +625,12 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
               />
             </button>
 
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu - Z-INDEX 100 TO STAY IN FRONT */}
             {isChapterDropdownOpen && (
-              <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 max-h-80 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 flex flex-col space-y-2 animate-in fade-in zoom-in-95">
-                <div className="relative">
-                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
-                  <input
-                    type="text"
-                    value={chapterSearch}
-                    onChange={(e) => setChapterSearch(e.target.value)}
-                    placeholder="Search chapter..."
-                    className="w-full text-xs bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-3 py-1.5 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
-                    autoFocus
-                  />
+              <div className="absolute right-0 top-full mt-2 w-72 sm:w-80 max-h-80 bg-slate-900/98 border border-slate-700 rounded-2xl shadow-2xl p-2 z-[100] flex flex-col space-y-1.5 animate-in fade-in zoom-in-95">
+                <div className="px-2 py-1 text-[11px] font-bold text-slate-400 border-b border-slate-800 flex items-center justify-between">
+                  <span>{selectedSubject} Chapters</span>
+                  <span className="text-[10px] text-purple-400 font-mono">{filteredChapterList.length}</span>
                 </div>
 
                 <div className="overflow-y-auto space-y-1 flex-1 max-h-60 pr-1">
@@ -414,13 +641,14 @@ export const Horizontal3DMindMap: React.FC<Horizontal3DMindMapProps> = ({
                         key={ch}
                         type="button"
                         onClick={() => handleChapterSelect(ch)}
-                        className={`w-full text-left px-2.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center justify-between ${
+                        className={`w-full text-left px-2.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center justify-between cursor-pointer ${
                           isCur
                             ? 'bg-purple-600 text-white'
                             : 'text-slate-300 hover:text-white hover:bg-slate-800'
                         }`}
                       >
                         <span className="truncate">{ch}</span>
+                        {isCur && <CheckCircle2 className="w-3.5 h-3.5 text-white shrink-0 ml-1.5" />}
                       </button>
                     );
                   })}
