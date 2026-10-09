@@ -29,6 +29,36 @@ export class GeminiProvider implements IAIProvider {
     if (modelName) this.modelName = modelName;
   }
 
+  public async testConnection(): Promise<{ success: boolean; latencyMs: number; message: string }> {
+    if (!this.isConfigured()) {
+      return { success: false, latencyMs: 0, message: 'Google Gemini client is not configured (missing GEMINI_API_KEY).' };
+    }
+    const start = Date.now();
+    try {
+      const url = `https://generativelanguage.googleapis.com/v1beta/models?key=${this.apiKey}`;
+      const res = await fetch(url);
+      if (!res.ok) {
+        const text = await res.text();
+        return {
+          success: false,
+          latencyMs: Date.now() - start,
+          message: `Gemini API returned error (${res.status}): ${text.slice(0, 150)}`
+        };
+      }
+      return {
+        success: true,
+        latencyMs: Date.now() - start,
+        message: `Successfully connected to Google Gemini API using model ${this.modelName}.`
+      };
+    } catch (err: any) {
+      return {
+        success: false,
+        latencyMs: Date.now() - start,
+        message: `Gemini Network Failure: ${err?.message || 'Could not connect to Google Generative Language API.'}`
+      };
+    }
+  }
+
   public async solveDoubt(req: IDoubtSolveRequest, contextSnippet?: string): Promise<IDoubtSolveResult> {
     const startTime = Date.now();
     const cleanQ = req.question.trim();

@@ -58,24 +58,44 @@ export class OpenAIProvider implements IAIProvider {
     return this.modelName;
   }
 
-  public async testConnection(): Promise<{ success: boolean; latencyMs: number; message: string }> {
+  public async testConnection(): Promise<{ success: boolean; latencyMs: number; message: string; quotaExceeded?: boolean }> {
     if (!this.isConfigured() || !this.client) {
       return { success: false, latencyMs: 0, message: 'OpenAI client is not configured (missing OPENAI_API_KEY).' };
     }
     const start = Date.now();
     try {
-      await this.client.models.list();
-      return {
-        success: true,
-        latencyMs: Date.now() - start,
-        message: `Successfully connected to OpenAI API using model ${this.modelName}.`
-      };
+      try {
+        // First try standard models.list
+        await this.client.models.list();
+        return {
+          success: true,
+          latencyMs: Date.now() - start,
+          message: `Successfully connected to OpenAI API using model ${this.modelName}.`
+        };
+      } catch (listErr: any) {
+        // Project keys (sk-proj-...) may lack permission for models.list; test with a 1-token ping completion
+        if (listErr?.status === 401 || listErr?.status === 403 || listErr?.status === 404 || listErr?.message?.includes('project')) {
+          await this.client.chat.completions.create({
+            model: this.modelName || 'gpt-4o-mini',
+            messages: [{ role: 'user', content: 'ping' }],
+            max_tokens: 1
+          });
+          return {
+            success: true,
+            latencyMs: Date.now() - start,
+            message: `Successfully connected to OpenAI API using model ${this.modelName}.`
+          };
+        }
+        throw listErr;
+      }
     } catch (err: any) {
+      const isQuota = err instanceof OpenAI.RateLimitError || err?.status === 429 || (err?.message && (err.message.includes('quota') || err.message.includes('billing')));
       const formatted = this.formatError(err);
       return {
         success: false,
         latencyMs: Date.now() - start,
-        message: formatted.message
+        message: formatted.message,
+        quotaExceeded: isQuota
       };
     }
   }

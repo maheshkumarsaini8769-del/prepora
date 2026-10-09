@@ -34,7 +34,12 @@ router.post('/configure-provider', async (req: Request, res: Response) => {
 
     const result = await aiService.saveProviderConfig(provider, apiKey, model, dailyGenerationLimit);
     const status = await aiService.getStatus();
-    res.json({ success: true, data: status, message: result.message });
+    res.json({
+      success: true,
+      data: status,
+      message: result.message,
+      warning: result.warning
+    });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }

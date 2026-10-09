@@ -76,16 +76,18 @@ export const DoubtCenter: React.FC = () => {
   const [configMsg, setConfigMsg] = useState<{ text: string; error?: boolean } | null>(null);
 
   const handleSaveAIConfig = async () => {
-    if (!configKeyInput.trim()) return;
+    const rawKey = configKeyInput.trim();
+    if (!rawKey) return;
     setConfigSaving(true);
     setConfigMsg(null);
     try {
+      const autoProvider = rawKey.startsWith('sk-') ? 'openai' : rawKey.startsWith('AIza') ? 'gemini' : configProviderInput;
       const res = await fetch('/api/ai/configure-provider', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          provider: configProviderInput,
-          apiKey: configKeyInput.trim(),
+          provider: autoProvider,
+          apiKey: rawKey,
           model: configModelInput
         })
       });
@@ -93,13 +95,19 @@ export const DoubtCenter: React.FC = () => {
       if (!res.ok || !data.success) {
         throw new Error(data.error || 'Failed to configure AI provider');
       }
-      setConfigMsg({ text: data.message || 'API key updated & activated!' });
+      if (data.warning) {
+        setConfigMsg({ text: `Key saved to server! Note: ${data.warning}`, error: true });
+      } else {
+        setConfigMsg({ text: data.message || 'API key updated & activated!' });
+      }
       if (data.data) setAiStatus(data.data);
-      setTimeout(() => {
-        setShowConfigModal(false);
-        setConfigKeyInput('');
-        setConfigMsg(null);
-      }, 1500);
+      if (!data.warning) {
+        setTimeout(() => {
+          setShowConfigModal(false);
+          setConfigKeyInput('');
+          setConfigMsg(null);
+        }, 1800);
+      }
     } catch (err: any) {
       setConfigMsg({ text: err?.message || 'Error configuring provider', error: true });
     } finally {
