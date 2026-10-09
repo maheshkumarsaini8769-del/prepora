@@ -4,7 +4,7 @@ import Question from '../models/Question.js';
 import QuestionVersion from '../models/QuestionVersion.js';
 import AuditLog from '../models/AuditLog.js';
 import { compareQuestions } from '../utils/similarity.js';
-import { questionRepo } from '../services/questionRepository.js';
+import { questionRepo, normalizeCanonicalChapter } from '../services/questionRepository.js';
 import { authenticateUser, requireAdmin } from '../middleware/auth.js';
 
 const router = express.Router();
@@ -192,11 +192,27 @@ function buildQuestionFilter(query: any): any {
     filter.class = classLevel;
   }
   if (subject && subject !== 'All') filter.subject = subject;
-  if (chapter && chapter !== 'All') {
-    filter.chapter = new RegExp(`^${escapeRegex(String(chapter).trim())}$`, 'i');
+  if (chapter && chapter !== 'All' && chapter !== 'ALL') {
+    const rawCh = String(chapter).trim();
+    const normCh = normalizeCanonicalChapter(rawCh, subject ? String(subject) : undefined);
+    const escCh = escapeRegex(rawCh);
+    const escNorm = escapeRegex(normCh);
+    if (!normCh || rawCh.toLowerCase() === normCh.toLowerCase()) {
+      filter.chapter = new RegExp(`^${escCh}$`, 'i');
+    } else {
+      filter.chapter = new RegExp(`(^${escCh}$)|(^${escNorm}$)`, 'i');
+    }
   }
-  if (topic && topic !== 'All') {
-    filter.topic = new RegExp(`^${escapeRegex(String(topic).trim())}$`, 'i');
+  if (topic && topic !== 'All' && topic !== 'ALL') {
+    const cleanTopicStr = String(topic).trim();
+    const escaped = escapeRegex(cleanTopicStr);
+    const words = cleanTopicStr.split(/[^a-zA-Z0-9]+/).filter(w => w.length > 3);
+    if (words.length >= 2) {
+      const wordPattern = words.slice(0, 3).map(escapeRegex).join('.*');
+      filter.topic = new RegExp(`(^${escaped}$)|(${wordPattern})`, 'i');
+    } else {
+      filter.topic = new RegExp(`^${escaped}$`, 'i');
+    }
   }
   if (difficulty && difficulty !== 'All' && difficulty !== 'Mixed') {
     filter.difficulty = new RegExp(`^${escapeRegex(String(difficulty).trim())}$`, 'i');
@@ -428,13 +444,13 @@ router.get('/:id', async (req: Request, res: Response) => {
       }
     }
 
-    const question = questionRepo.getById(req.params.id);
+    const question = questionRepo.getById(String(req.params.id));
     if (!question) {
       return res.status(404).json({ success: false, message: 'Question not found' });
     }
     res.json({ success: true, question });
   } catch (error: any) {
-    const question = questionRepo.getById(req.params.id);
+    const question = questionRepo.getById(String(req.params.id));
     if (question) {
       return res.json({ success: true, question });
     }

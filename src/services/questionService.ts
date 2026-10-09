@@ -1,12 +1,22 @@
 import { Question, ExamType, ClassLevel, SubjectName, DifficultyLevel, ContentType } from '../types';
 import { mockQuestions } from '../data/mockQuestions';
 import { canonicalSyllabus } from '../data/canonicalSyllabusData';
+import { comprehensiveFormulaNotes } from '../data/comprehensiveFormulaNotes';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 import { apiRequest } from './apiClient';
 import { sortChapterNamesCanonical } from '../utils/chapterOrder';
 
 function cleanStr(s: any): string {
   return String(s ?? '').toLowerCase().replace(/[^a-z0-9]/g, '');
+}
+
+export function stemWord(w: string): string {
+  return w
+    .replace(/ies$/g, 'y')
+    .replace(/es$/g, '')
+    .replace(/s$/g, '')
+    .replace(/centre/g, 'center')
+    .replace(/calliper/g, 'caliper');
 }
 
 export function matchesFuzzy(val1: any, val2: any): boolean {
@@ -18,25 +28,51 @@ export function matchesFuzzy(val1: any, val2: any): boolean {
   const minLen = Math.min(c1.length, c2.length);
   const maxLen = Math.max(c1.length, c2.length);
   if (c1.includes(c2) || c2.includes(c1)) {
-    if (minLen / maxLen >= 0.75 || minLen >= 12) return true;
+    if (minLen / maxLen >= 0.65 || minLen >= 8) return true;
   }
 
-  const w1 = String(val1).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
-  const w2 = String(val2).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2);
+  const w1 = String(val1).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2).map(stemWord);
+  const w2 = String(val2).toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 2).map(stemWord);
   if (w1.length === 0 || w2.length === 0) return false;
   const common = w1.filter(w => w2.includes(w));
   const minWords = Math.min(w1.length, w2.length);
-  const required = minWords === 1 ? 1 : Math.max(2, Math.ceil(minWords * 0.7));
+  const required = minWords === 1 ? 1 : Math.max(1, Math.round(minWords * 0.5));
   return common.length >= required;
 }
 
-export function normalizeCanonicalChapter(ch: string): string {
+export function normalizeCanonicalChapter(ch: string, subject?: string): string {
   const c = cleanStr(ch);
   if (!c) return '';
+  const sub = cleanStr(subject);
+
+  // === SUBJECT-DIRECTED CHECKS FIRST (Avoid cross-subject ambiguity) ===
+  if (sub.includes('bio')) {
+    if (c.includes('cell') && (c.includes('unit') || c.includes('life') || c.includes('theunitoflife'))) return 'Cell: The Unit of Life';
+  }
+  if (sub.includes('math')) {
+    if (c.includes('straightline')) return 'Straight Lines';
+  }
+  if (sub.includes('chem')) {
+    if (c.includes('thermodynamic')) return 'Chemical Thermodynamics';
+    if (c.includes('atom')) return 'Structure of Atom';
+  }
+  if (sub.includes('physic')) {
+    if (c.includes('straightline')) return 'Motion in a Straight Line';
+    if (c.includes('thermodynamic')) return 'Thermodynamics';
+    if (c === 'atoms' || c === 'atom') return 'Atoms';
+  }
+
+  // === BIOLOGY CHAPTERS WITH KEYWORD OVERLAPS (Check before generic physics tokens!) ===
+  if (c.includes('celltheunitoflife') || c.includes('cellunitoflife') || (c.includes('cell') && (c.includes('unit') || c.includes('life')))) {
+    return 'Cell: The Unit of Life';
+  }
 
   // === PHYSICS ===
-  if (c.includes('unit') || c.includes('measurement')) return 'Units and Measurements';
-  if (c.includes('straightline') || c.includes('motionin1d')) return 'Motion in a Straight Line';
+  if (!c.includes('cell') && (c.includes('unitsandmeasurement') || c.includes('unitandmeasurement') || c.includes('measurement') || (c.includes('unit') && (c.includes('dimension') || c.includes('error') || c === 'units' || c === 'unitsandmeasurements')))) {
+    return 'Units and Measurements';
+  }
+  if (c.includes('motionin1d') || (c.includes('motion') && c.includes('straightline'))) return 'Motion in a Straight Line';
+  if (c === 'straightline' || c === 'straightlines') return 'Straight Lines';
   if (c.includes('motioninaplane') || c.includes('projectile') || c.includes('motionin2d')) return 'Motion in a Plane';
   if (c === 'kinematics') return 'Motion in a Straight Line';
   if (c.includes('lawofmotion') || c.includes('lawsofmotion') || c.includes('newtonslaw')) return 'Laws of Motion';
@@ -134,7 +170,6 @@ export function normalizeCanonicalChapter(ch: string): string {
   if (c.includes('morphologyoffloweringplants')) return 'Morphology of Flowering Plants';
   if (c.includes('anatomyoffloweringplants')) return 'Anatomy of Flowering Plants';
   if (c.includes('structuralorganisation') || c.includes('structuralorganization')) return 'Structural Organisation in Animals';
-  if (c.includes('celltheunitoflife') || c.includes('cellunitoflife')) return 'Cell: The Unit of Life';
   if (c.includes('cellcycle') || c.includes('celldivision')) return 'Cell Cycle and Cell Division';
   if (c.includes('photosynthesis')) return 'Photosynthesis in Higher Plants';
   if (c.includes('respirationinplants')) return 'Respiration in Plants';
@@ -162,14 +197,21 @@ export function normalizeCanonicalChapter(ch: string): string {
   return ch;
 }
 
-export function matchesChapterCanonical(qChapter: string, filterChapter: string): boolean {
+const canonicalChapterSet = new Set(comprehensiveFormulaNotes.map(f => f.chapter));
+
+export function matchesChapterCanonical(qChapter: string, filterChapter: string, subject?: string): boolean {
   if (!qChapter || !filterChapter) return false;
   if (filterChapter === 'All' || filterChapter === 'ALL') return true;
   if (cleanStr(qChapter) === cleanStr(filterChapter)) return true;
 
-  const normQ = normalizeCanonicalChapter(qChapter);
-  const normF = normalizeCanonicalChapter(filterChapter);
-  if (normQ && normF && normQ === normF) return true;
+  const normQ = normalizeCanonicalChapter(qChapter, subject);
+  const normF = normalizeCanonicalChapter(filterChapter, subject);
+  if (normQ && normF) {
+    if (normQ === normF) return true;
+    if (canonicalChapterSet.has(normQ) && canonicalChapterSet.has(normF)) {
+      return false;
+    }
+  }
 
   if (cleanStr(filterChapter).includes('kinematics')) {
     if (normQ === 'Motion in a Straight Line' || normQ === 'Motion in a Plane') return true;
@@ -202,15 +244,15 @@ export function isAuthenticTopic(topic: string, chapter?: string): boolean {
   const t = topic.trim();
   if (t.length < 3) return false;
 
-  // Reject dummy patterns and generic drills
-  const dummyRegex = /High Yield Application|Core Concept Drill|Reaction & Synthesis|Mechanism & Analysis|Calculus & Geometry|Analytic Problem|Practice Drill|Set \d+|Drill \d+|Application \d+|Problem \d+/i;
+  // Reject dummy patterns, generic drills, and artificial subtopic concatenations
+  const dummyRegex = /High Yield Application|Core Concept Drill|Reaction & Synthesis|Mechanism & Analysis|Calculus & Geometry|Analytic Problem|Practice Drill|Set \d+|Drill \d+|Application \d+|Problem \d+|Standard Formula Drill|Previous Exam Applications|Core Theory & Derivations/i;
   if (dummyRegex.test(t)) return false;
 
   // Reject generic chapter placeholders like "Atoms - High Yield", "Atoms - Drill"
   if (chapter) {
     const chClean = chapter.trim().toLowerCase();
     const tClean = t.toLowerCase();
-    if (tClean.startsWith(`${chClean} -`) && (tClean.includes('drill') || tClean.includes('set') || tClean.includes('part') || tClean.includes('application'))) {
+    if (tClean.startsWith(`${chClean} -`) && (tClean.includes('drill') || tClean.includes('set') || tClean.includes('part') || tClean.includes('application') || tClean.includes('core'))) {
       return false;
     }
   }
@@ -715,47 +757,52 @@ class ApiQuestionService {
     const norm = (s: any) => String(s || '').toLowerCase().replace(/\bsome\b/g, '').replace(/[^a-z0-9]/g, '');
     const chNorm = norm(chapter);
     const subNorm = subject ? norm(subject) : '';
-    const exNorm = exam ? String(exam).toUpperCase() : '';
+    const resultTopics = new Set<string>();
 
-    // 0. From canonical syllabus (highest priority for clean, authoritative curriculum topics)
-    let foundChapter = canonicalSyllabus.find(c => {
-      if (!matchesChapterCanonical(c.name, chapter)) return false;
-      if (subNorm && norm(c.subjectName) !== subNorm && !matchesFuzzy(c.subjectName, subject)) return false;
-      if (exNorm && c.examId && !c.examId.toUpperCase().includes(exNorm) && !exNorm.includes(c.examId.toUpperCase())) return false;
-      return true;
+    // 0. From comprehensiveFormulaNotes (authoritative pure NCERT topics aligned 100% with curriculum & bank)
+    const formulaItems = comprehensiveFormulaNotes.filter(f => {
+      if (subNorm && norm(f.subject) !== subNorm && !matchesFuzzy(f.subject, subject)) return false;
+      return matchesChapterCanonical(f.chapter, chapter, subject);
     });
 
-    if (!foundChapter && subNorm) {
-      foundChapter = canonicalSyllabus.find(c => {
-        return matchesChapterCanonical(c.name, chapter) &&
-               (norm(c.subjectName) === subNorm || matchesFuzzy(c.subjectName, subject));
-      });
-    }
-
-    if (!foundChapter) {
-      foundChapter = canonicalSyllabus.find(c => matchesChapterCanonical(c.name, chapter));
-    }
-
-    if (foundChapter && Array.isArray(foundChapter.topics) && foundChapter.topics.length > 0) {
-      const canonicalTopicNames = foundChapter.topics
-        .map((t: any) => (typeof t === 'string' ? t : t?.name))
-        .filter((t: any): t is string => typeof t === 'string' && isAuthenticTopic(t, chapter));
-      if (canonicalTopicNames.length > 0) {
-        return canonicalTopicNames;
+    formulaItems.forEach(item => {
+      if (item.topic && isAuthenticTopic(item.topic, chapter)) {
+        resultTopics.add(item.topic.trim());
       }
+    });
+
+    // 1. Augment with authentic topics directly from question bank
+    this.getAllQuestions().forEach(q => {
+      if (subNorm && norm(q.subject) !== subNorm && !matchesFuzzy(q.subject, subject)) return;
+      if (matchesChapterCanonical(q.chapter, chapter, subject) && q.topic && isAuthenticTopic(q.topic, chapter)) {
+        const t = q.topic.trim();
+        let alreadyCovered = false;
+        for (const existing of resultTopics) {
+          if (matchesTopicCanonical(t, existing)) {
+            alreadyCovered = true;
+            break;
+          }
+        }
+        if (!alreadyCovered && resultTopics.size < 12) {
+          resultTopics.add(t);
+        }
+      }
+    });
+
+    if (resultTopics.size > 0) {
+      return Array.from(resultTopics);
     }
 
-    // 1. Full syllabus hierarchy topics fallback
-    const topics = new Set<string>();
+    // 2. Fallback to canonical syllabus or stored syllabus
     try {
       const savedSyllabus = getStorageItem<any[]>('prepora_syllabus', []);
       if (Array.isArray(savedSyllabus)) {
-        const sylChapter = savedSyllabus.find((c: any) => matchesChapterCanonical(c.name, chapter));
+        const sylChapter = savedSyllabus.find((c: any) => matchesChapterCanonical(c.name, chapter, subject));
         if (sylChapter && Array.isArray(sylChapter.subtopics)) {
           sylChapter.subtopics.forEach((st: any) => {
             const name = typeof st === 'string' ? st : st?.name;
             if (typeof name === 'string' && isAuthenticTopic(name, chapter)) {
-              topics.add(name);
+              resultTopics.add(name.trim());
             }
           });
         }
@@ -764,16 +811,37 @@ class ApiQuestionService {
       // fallback
     }
 
-    // 2. Question bank topics fallback
-    if (topics.size === 0) {
-      this.getAllQuestions().forEach(q => {
-        if (matchesChapterCanonical(q.chapter, chapter) && q.topic && isAuthenticTopic(q.topic, chapter)) {
-          topics.add(q.topic);
-        }
+    if (resultTopics.size === 0) {
+      const exNorm = exam ? String(exam).toUpperCase() : '';
+      let foundChapter = canonicalSyllabus.find(c => {
+        if (!matchesChapterCanonical(c.name, chapter, subject)) return false;
+        if (subNorm && norm(c.subjectName) !== subNorm && !matchesFuzzy(c.subjectName, subject)) return false;
+        if (exNorm && c.examId && !c.examId.toUpperCase().includes(exNorm) && !exNorm.includes(c.examId.toUpperCase())) return false;
+        return true;
       });
+
+      if (!foundChapter && subNorm) {
+        foundChapter = canonicalSyllabus.find(c => {
+          return matchesChapterCanonical(c.name, chapter, subject) &&
+                 (norm(c.subjectName) === subNorm || matchesFuzzy(c.subjectName, subject));
+        });
+      }
+
+      if (!foundChapter) {
+        foundChapter = canonicalSyllabus.find(c => matchesChapterCanonical(c.name, chapter, subject));
+      }
+
+      if (foundChapter && Array.isArray(foundChapter.topics)) {
+        foundChapter.topics.forEach((t: any) => {
+          const name = typeof t === 'string' ? t : t?.name;
+          if (typeof name === 'string' && isAuthenticTopic(name, chapter)) {
+            resultTopics.add(name.trim());
+          }
+        });
+      }
     }
 
-    return Array.from(topics).filter(Boolean);
+    return Array.from(resultTopics).filter(Boolean);
   }
 
   public async fetchTaxonomyAsync(subject?: string, classLevel?: string): Promise<{ name: string; count: number; topics: { name: string; count: number }[] }[]> {

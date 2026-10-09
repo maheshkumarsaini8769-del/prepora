@@ -3,8 +3,12 @@ import mongoose from 'mongoose';
 import Test from '../models/Test.js';
 import Question from '../models/Question.js';
 import TestAttempt from '../models/TestAttempt.js';
-import { questionRepo } from '../services/questionRepository.js';
+import { questionRepo, normalizeCanonicalChapter } from '../services/questionRepository.js';
 import { optionalAuth, AuthRequest, authenticateUser, requireAdmin } from '../middleware/auth.js';
+
+function escapeRegex(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
 
 const router = express.Router();
 
@@ -137,12 +141,31 @@ router.post('/build-custom', optionalAuth, async (req: AuthRequest, res: Respons
       filter.class = classLevel;
     }
     if (difficulty && difficulty !== 'Mixed' && difficulty !== 'All') filter.difficulty = difficulty;
-    if (chapters && chapters.length > 0) filter.chapter = { $in: chapters };
+    if (chapters && chapters.length > 0) {
+      const chRegexes = chapters.map((c: string) => {
+        const raw = String(c).trim();
+        const norm = normalizeCanonicalChapter(raw, subjects?.[0]);
+        if (!norm || norm.toLowerCase() === raw.toLowerCase()) {
+          return new RegExp(`^${escapeRegex(raw)}$`, 'i');
+        }
+        return new RegExp(`(^${escapeRegex(raw)}$)|(^${escapeRegex(norm)}$)`, 'i');
+      });
+      filter.chapter = { $in: chRegexes };
+    }
 
-    // Exact topic filtering (Task.md section 5, 6, 7)
+    // Exact topic filtering (with resilient keyword tolerance)
     const activeTopics = topics && topics.length > 0 ? topics : (topic && topic !== 'All' ? [topic] : null);
     if (activeTopics && activeTopics.length > 0) {
-      filter.topic = { $in: activeTopics };
+      const topRegexes = activeTopics.map((t: string) => {
+        const cleanT = String(t).trim();
+        const words = cleanT.split(/[^a-zA-Z0-9]+/).filter(w => w.length > 3);
+        if (words.length >= 2) {
+          const wp = words.slice(0, 3).map(escapeRegex).join('.*');
+          return new RegExp(`(^${escapeRegex(cleanT)}$)|(${wp})`, 'i');
+        }
+        return new RegExp(`^${escapeRegex(cleanT)}$`, 'i');
+      });
+      filter.topic = { $in: topRegexes };
     }
 
     // Strict content type isolation: Never include MODEL_PAPER in normal tests! (Task.md section 1, 2, 4)

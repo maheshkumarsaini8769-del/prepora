@@ -1,6 +1,6 @@
 import { Test, TestAttempt, TestAnswer, SubjectScoreBreakdown, Question, ExamType, SubjectName, DifficultyLevel, ClassLevel } from '../types';
 import { mockTests } from '../data/mockData';
-import { questionService } from './questionService';
+import { questionService, matchesChapterCanonical, matchesTopicCanonical } from './questionService';
 import { userService } from './userService';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
 
@@ -156,18 +156,23 @@ class ApiTestService {
       }
     } catch {}
 
+    const singleChapter = options.chapters && options.chapters.length === 1 && options.chapters[0] !== 'ALL'
+      ? options.chapters[0]
+      : undefined;
+
     let pool = questionService.filterQuestions({
       exam: options.exam,
       classLevel: (!options.classLevel || options.classLevel === 'ALL' || options.classLevel === 'All') ? undefined : options.classLevel,
       difficulty: options.difficulty === 'Mixed' ? 'All' : options.difficulty,
       includePYQs: options.includePYQs !== false,
       includeModelPapers: false, // Model Papers must NEVER accidentally enter normal tests! (Task.md section 1, 2)
+      chapter: singleChapter,
       topic: options.topic && options.topic !== 'All' ? options.topic : undefined
     }).filter(q => {
       if (excludeSet.has(q.id)) return false;
       if (!options.subjects.includes(q.subject)) return false;
-      if (options.chapters && options.chapters.length > 0 && !options.chapters.includes('ALL') && !options.chapters.some(c => c.toLowerCase() === (q.chapter || '').toLowerCase())) return false;
-      if (options.topics && options.topics.length > 0 && !options.topics.includes('ALL') && !options.topics.some(t => t.toLowerCase() === (q.topic || '').toLowerCase())) return false;
+      if (options.chapters && options.chapters.length > 0 && !options.chapters.includes('ALL') && !options.chapters.some(c => matchesChapterCanonical(q.chapter, c, options.subjects?.[0]))) return false;
+      if (options.topics && options.topics.length > 0 && !options.topics.includes('ALL') && !options.topics.some(t => matchesTopicCanonical(q.topic, t))) return false;
       return true;
     });
 
