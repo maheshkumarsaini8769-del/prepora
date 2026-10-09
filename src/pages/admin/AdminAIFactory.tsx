@@ -89,11 +89,11 @@ export const AdminAIFactory: React.FC = () => {
   const fetchStatsAndJobs = async () => {
     try {
       const [statsRes, jobsRes, docsRes, mapsRes, configRes] = await Promise.all([
-        fetch('/api/ai-factory/stats').then((r) => r.json()),
-        fetch('/api/ai-factory/jobs').then((r) => r.json()),
-        fetch('/api/ai-factory/documents').then((r) => r.json()),
-        fetch('/api/ai-factory/knowledge-maps').then((r) => r.json()),
-        fetch('/api/ai-factory/settings').then((r) => r.json())
+        adminFetch('/api/ai-factory/stats').then((r) => r.json()),
+        adminFetch('/api/ai-factory/jobs').then((r) => r.json()),
+        adminFetch('/api/ai-factory/documents').then((r) => r.json()),
+        adminFetch('/api/ai-factory/knowledge-maps').then((r) => r.json()),
+        adminFetch('/api/ai-factory/settings').then((r) => r.json())
       ]);
 
       if (statsRes.success) setStats(statsRes.data);
@@ -124,7 +124,7 @@ export const AdminAIFactory: React.FC = () => {
       const mergedWeights = weightsOverride || topicWeights;
       const combinedTopics = extraTopics || customTopicsList;
 
-      const res = await fetch('/api/ai-factory/topic-allocation', {
+      const res = await adminFetch('/api/ai-factory/topic-allocation', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -284,8 +284,8 @@ export const AdminAIFactory: React.FC = () => {
     const interval = setInterval(async () => {
       try {
         const [jobsRes, statsRes] = await Promise.all([
-          fetch('/api/ai-factory/jobs').then((r) => r.json()),
-          fetch('/api/ai-factory/stats').then((r) => r.json())
+          adminFetch('/api/ai-factory/jobs').then((r) => r.json()),
+          adminFetch('/api/ai-factory/stats').then((r) => r.json())
         ]);
         if (jobsRes.success && jobsRes.data) {
           setJobs(jobsRes.data);
@@ -341,7 +341,7 @@ export const AdminAIFactory: React.FC = () => {
 
     try {
       // Step 1: Upload and map chapter
-      const uploadRes = await fetch('/api/ai-factory/upload-pdf', {
+      const uploadRes = await adminFetch('/api/ai-factory/upload-pdf', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -366,7 +366,7 @@ export const AdminAIFactory: React.FC = () => {
       await new Promise((r) => setTimeout(r, 600));
 
       setProcessingStage(`Launching Batched Question Engine (${effectiveTarget} Questions Target)...`);
-      const genRes = await fetch('/api/ai-factory/generate', {
+      const genRes = await adminFetch('/api/ai-factory/generate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -405,7 +405,7 @@ export const AdminAIFactory: React.FC = () => {
 
   const handlePauseJob = async (jobId: string) => {
     try {
-      const res = await fetch(`/api/ai-factory/jobs/${jobId}/pause`, { method: 'POST' });
+      const res = await adminFetch(`/api/ai-factory/jobs/${jobId}/pause`, { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         setActionFeedback('Job paused.');
@@ -419,7 +419,7 @@ export const AdminAIFactory: React.FC = () => {
 
   const handleResumeJob = async (jobId: string) => {
     try {
-      const res = await fetch(`/api/ai-factory/jobs/${jobId}/resume`, { method: 'POST' });
+      const res = await adminFetch(`/api/ai-factory/jobs/${jobId}/resume`, { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         setActionFeedback('Job resumed.');
@@ -434,7 +434,7 @@ export const AdminAIFactory: React.FC = () => {
 
   const handleRetryBatch = async (jobId: string) => {
     try {
-      const res = await fetch(`/api/ai-factory/jobs/${jobId}/retry-batch`, { method: 'POST' });
+      const res = await adminFetch(`/api/ai-factory/jobs/${jobId}/retry-batch`, { method: 'POST' });
       const data = await res.json();
       if (data.success) {
         setActionFeedback('Retrying batch...');
@@ -449,7 +449,7 @@ export const AdminAIFactory: React.FC = () => {
 
   const handleGenerateMore = async (jobId: string, count = 50) => {
     try {
-      const res = await fetch(`/api/ai-factory/jobs/${jobId}/generate-more`, {
+      const res = await adminFetch(`/api/ai-factory/jobs/${jobId}/generate-more`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ count })
@@ -469,7 +469,7 @@ export const AdminAIFactory: React.FC = () => {
 
   const handleApproveQuestion = async (jobId: string, questionId: string) => {
     try {
-      const res = await fetch(`/api/ai-factory/questions/${questionId}/approve`, {
+      const res = await adminFetch(`/api/ai-factory/questions/${questionId}/approve`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobId })
@@ -500,7 +500,7 @@ export const AdminAIFactory: React.FC = () => {
   const handleApproveAll = async (jobId: string) => {
     if (!window.confirm('Are you sure you want to approve and publish ALL valid questions from this job to the Master Question Bank?')) return;
     try {
-      const res = await fetch(`/api/ai-factory/jobs/${jobId}/approve-all`, {
+      const res = await adminFetch(`/api/ai-factory/jobs/${jobId}/approve-all`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' }
       });
@@ -536,7 +536,7 @@ export const AdminAIFactory: React.FC = () => {
 
   const handleRegenerateQuestion = async (jobId: string, questionId: string) => {
     try {
-      const res = await fetch(`/api/ai-factory/questions/${questionId}/regenerate`, {
+      const res = await adminFetch(`/api/ai-factory/questions/${questionId}/regenerate`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ jobId })
@@ -566,7 +566,7 @@ export const AdminAIFactory: React.FC = () => {
   const handleDeleteJob = async (jobId: string) => {
     if (!window.confirm('Are you sure you want to delete this generation job?')) return;
     try {
-      const res = await fetch(`/api/ai-factory/jobs/${jobId}`, { method: 'DELETE' });
+      const res = await adminFetch(`/api/ai-factory/jobs/${jobId}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         setActionFeedback('Job deleted successfully.');
@@ -584,7 +584,7 @@ export const AdminAIFactory: React.FC = () => {
   const handleDeleteAllJobs = async () => {
     if (!window.confirm('Are you sure you want to delete ALL generation jobs? This will clear all draft jobs.')) return;
     try {
-      const res = await fetch('/api/ai-factory/jobs-all', { method: 'DELETE' });
+      const res = await adminFetch('/api/ai-factory/jobs-all', { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         setActionFeedback('All generation jobs cleared.');
@@ -602,7 +602,7 @@ export const AdminAIFactory: React.FC = () => {
   const handleDeleteQuestion = async (jobId: string, questionId: string) => {
     if (!window.confirm('Delete this draft question?')) return;
     try {
-      const res = await fetch(`/api/ai-factory/jobs/${jobId}/questions/${questionId}`, {
+      const res = await adminFetch(`/api/ai-factory/jobs/${jobId}/questions/${questionId}`, {
         method: 'DELETE'
       });
       const data = await res.json();
@@ -629,7 +629,7 @@ export const AdminAIFactory: React.FC = () => {
   const handleDeleteDocument = async (docId: string) => {
     if (!window.confirm('Are you sure you want to delete this source PDF document and its knowledge maps?')) return;
     try {
-      const res = await fetch(`/api/ai-factory/documents/${docId}`, { method: 'DELETE' });
+      const res = await adminFetch(`/api/ai-factory/documents/${docId}`, { method: 'DELETE' });
       const data = await res.json();
       if (data.success) {
         setActionFeedback('Source document deleted.');
@@ -644,7 +644,7 @@ export const AdminAIFactory: React.FC = () => {
 
   const handleTestConnection = async () => {
     try {
-      const res = await fetch('/api/ai-factory/settings/test-connection', { method: 'POST' });
+      const res = await adminFetch('/api/ai-factory/settings/test-connection', { method: 'POST' });
       const data = await res.json();
       setTestConnMsg(data.message || 'Connection verified.');
       setTimeout(() => setTestConnMsg(''), 5000);
@@ -2111,7 +2111,7 @@ export const AdminAIFactory: React.FC = () => {
 
             <button
               onClick={async () => {
-                await fetch('/api/ai-factory/settings', {
+                await adminFetch('/api/ai-factory/settings', {
                   method: 'PUT',
                   headers: { 'Content-Type': 'application/json' },
                   body: JSON.stringify({

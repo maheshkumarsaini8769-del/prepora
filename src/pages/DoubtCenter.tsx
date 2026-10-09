@@ -1,4 +1,4 @@
-import React, { useState, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   HelpCircle,
@@ -12,7 +12,8 @@ import {
   X,
   Target,
   BookmarkPlus,
-  Send
+  Send,
+  Sparkles
 } from 'lucide-react';
 import { Card, Button, Modal } from '../components/common/UIComponents';
 import { ecosystemService } from '../services/ecosystemService';
@@ -52,6 +53,16 @@ export const DoubtCenter: React.FC = () => {
   const [solverMode, setSolverMode] = useState<'direct' | 'hints'>('direct');
   const [hintsData, setHintsData] = useState<ProgressiveHintsData | null>(null);
   const [currentHintLevel, setCurrentHintLevel] = useState<number>(1);
+  const [aiStatus, setAiStatus] = useState<any>(null);
+
+  useEffect(() => {
+    fetch('/api/ai/status')
+      .then((r) => r.json())
+      .then((d) => {
+        if (d.success && d.data) setAiStatus(d.data);
+      })
+      .catch(() => {});
+  }, []);
 
   // Ask doubt modal state
   const [showAskModal, setShowAskModal] = useState<boolean>(false);
@@ -254,6 +265,21 @@ export const DoubtCenter: React.FC = () => {
                     Progressive Hints
                   </button>
                 </div>
+                {aiStatus?.hasOpenAIKey ? (
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 font-semibold border border-emerald-500/30 flex items-center gap-1 shadow-2xs">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    <span>OpenAI ({aiStatus.openAIModel})</span>
+                  </span>
+                ) : aiStatus?.hasGeminiKey ? (
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-blue-500/10 text-blue-600 dark:text-blue-400 font-semibold border border-blue-500/30 flex items-center gap-1 shadow-2xs">
+                    <Sparkles className="w-2.5 h-2.5" />
+                    <span>Gemini AI</span>
+                  </span>
+                ) : (
+                  <span className="text-[10px] px-2 py-0.5 rounded-md bg-amber-500/10 text-amber-700 dark:text-amber-300 font-semibold border border-amber-500/30 flex items-center gap-1 shadow-2xs">
+                    <span>🟠 Study Up Academic Engine</span>
+                  </span>
+                )}
               </div>
 
               {/* Policy Blocked Error Alert (e.g. JEE student asking Bio) */}

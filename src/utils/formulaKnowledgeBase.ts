@@ -1035,39 +1035,43 @@ export function searchFormulaKnowledge(
     for (const f of item.formulas) {
       const normFName = normalizeText(f.name);
       let score = 0;
+      let matchedFormulaTokens = 0;
+      let matchedTokens = 0;
 
-      if (cleanQ && normFName.includes(cleanQ)) {
+      if (cleanQ && (normFName === cleanQ || normFName.includes(cleanQ))) {
         score += 80;
+        matchedFormulaTokens++;
+        matchedTokens++;
       }
 
-      let matchedTokens = 0;
       for (const tok of queryTokens) {
         if (normFName.includes(tok)) {
-          score += 35;
+          score += 45;
+          matchedFormulaTokens++;
           matchedTokens++;
         } else if (normTopic.includes(tok)) {
-          score += 15;
+          score += 10;
           matchedTokens++;
         } else if (normChapter.includes(tok)) {
-          score += 10;
+          score += 5;
           matchedTokens++;
         }
       }
 
-      if (queryTokens.length > 0 && matchedTokens === queryTokens.length) {
-        score += 40;
+      // If NONE of the user tokens matched the actual formula name, do not treat as formula match!
+      if (matchedFormulaTokens === 0 && !cleanQ.includes(normFName) && !normFName.includes(cleanQ)) {
+        continue;
       }
 
-      if (queryTokens.length === 0 && chapterBoost > 1.0) {
+      if (queryTokens.length > 0 && matchedTokens === queryTokens.length) {
         score += 30;
       }
 
       score *= chapterBoost;
 
-      const minTokensRequired = queryTokens.length >= 2 ? 2 : 1;
-      const minScoreRequired = queryTokens.length >= 2 ? 45 : 30;
+      const minScoreRequired = queryTokens.length >= 2 ? 55 : 45;
 
-      if (score > highestScore && score >= minScoreRequired && (matchedTokens >= minTokensRequired || (cleanQ && normFName.includes(cleanQ)))) {
+      if (score > highestScore && score >= minScoreRequired && matchedFormulaTokens > 0) {
         highestScore = score;
         const entryObj = {
           name: f.name,

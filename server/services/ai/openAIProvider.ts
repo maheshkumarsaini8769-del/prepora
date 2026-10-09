@@ -186,7 +186,12 @@ export class OpenAIProvider implements IAIProvider {
       if (Array.isArray(req.conversationHistory) && req.conversationHistory.length > 0) {
         for (const item of req.conversationHistory.slice(-6)) {
           const role = item.role === 'model' ? 'assistant' : 'user';
-          const content = typeof item.text === 'string' ? item.text.trim() : '';
+          let content = '';
+          if (typeof (item as any).text === 'string') {
+            content = (item as any).text.trim();
+          } else if (Array.isArray((item as any).parts)) {
+            content = (item as any).parts.map((p: any) => p.text || '').join('\n').trim();
+          }
           if (content) {
             openAiMessages.push({ role, content });
           }

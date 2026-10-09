@@ -42,25 +42,84 @@ class AIService {
     try {
       const config = await AIProviderConfig.findOne({ key: 'ai_provider_config' });
       if (config) {
-        if (config.provider === 'openai_compatible' || (config.provider as string) === 'openai') {
-          const key = config.apiKey || process.env.OPENAI_API_KEY || '';
-          this.openAIProvider.updateConfig(key, config.modelName || process.env.OPENAI_MODEL || 'gpt-4o-mini');
+        const key = (config.apiKey || '').trim();
+        const savedProvider = (config.provider || '').toLowerCase();
+        const model = config.modelName || 'gpt-4o-mini';
+
+        // Auto-detect or route key based on key prefix or configured provider
+        if (key.startsWith('sk-') || savedProvider === 'openai' || savedProvider === 'openai_compatible') {
+          this.openAIProvider.updateConfig(key || process.env.OPENAI_API_KEY || '', model || process.env.OPENAI_MODEL || 'gpt-4o-mini');
         } else if (process.env.OPENAI_API_KEY) {
           this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
         }
 
-        if (config.provider === 'gemini') {
-          const key = config.apiKey || process.env.GEMINI_API_KEY || '';
-          this.geminiProvider.updateConfig(key, config.modelName || 'gemini-1.5-flash');
+        if (key.startsWith('AIza') || savedProvider === 'gemini') {
+          this.geminiProvider.updateConfig(key || process.env.GEMINI_API_KEY || '', model.includes('gemini') ? model : 'gemini-1.5-flash');
+        } else if (process.env.GEMINI_API_KEY) {
+          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, 'gemini-1.5-flash');
+        }
+
+        if (key.startsWith('gsk_')) {
+          this.groqProvider.updateConfig(key);
+        } else if (process.env.GROQ_API_KEY) {
+          this.groqProvider.updateConfig(process.env.GROQ_API_KEY);
         }
 
         this.dailyRequestLimit = config.dailyGenerationLimit || 500;
-      } else if (process.env.OPENAI_API_KEY) {
-        this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
+      } else {
+        if (process.env.OPENAI_API_KEY) {
+          this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
+        }
+        if (process.env.GEMINI_API_KEY) {
+          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, 'gemini-1.5-flash');
+        }
+        if (process.env.GROQ_API_KEY) {
+          this.groqProvider.updateConfig(process.env.GROQ_API_KEY);
+        }
       }
     } catch (e) {
       console.warn('[AIService] DB init skipped, using environment config');
+      if (process.env.OPENAI_API_KEY) {
+        this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
+      }
+      if (process.env.GEMINI_API_KEY) {
+        this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, 'gemini-1.5-flash');
+      }
     }
+  }
+
+  public async saveProviderConfig(
+    provider: string,
+    apiKey: string,
+    modelName?: string,
+    dailyGenerationLimit?: number
+  ): Promise<{ success: boolean; activeProvider: string; message: string }> {
+    const cleanKey = (apiKey || '').trim();
+    let detectedProvider = provider || 'openai';
+    if (cleanKey.startsWith('sk-')) detectedProvider = 'openai';
+    else if (cleanKey.startsWith('AIza')) detectedProvider = 'gemini';
+
+    const updateObj: any = {
+      provider: detectedProvider,
+      isConnected: true
+    };
+    if (cleanKey) updateObj.apiKey = cleanKey;
+    if (modelName) updateObj.modelName = modelName;
+    if (dailyGenerationLimit) updateObj.dailyGenerationLimit = dailyGenerationLimit;
+
+    await AIProviderConfig.findOneAndUpdate(
+      { key: 'ai_provider_config' },
+      { $set: updateObj },
+      { new: true, upsert: true }
+    );
+
+    await this.initializeFromDB();
+    const active = this.getActiveAIProvider();
+    return {
+      success: true,
+      activeProvider: active ? active.name : this.fallbackProvider.name,
+      message: `AI Provider updated successfully. Active: ${active ? active.name : 'Offline Engine'}`
+    };
   }
 
   private checkAndResetQuota(): void {
@@ -71,7 +130,8 @@ class AIService {
     }
   }
 
-  public getStatus() {
+  public async getStatus() {
+    await this.ensureInitialized();
     this.checkAndResetQuota();
     const active = this.getActiveAIProvider();
     const activeProvider = active ? active.name : this.fallbackProvider.name;
@@ -106,6 +166,12 @@ class AIService {
       this.openAIProvider.updateConfig(
         process.env.OPENAI_API_KEY,
         process.env.OPENAI_MODEL || 'gpt-4o-mini'
+      );
+    }
+    if (!this.geminiProvider.isConfigured() && process.env.GEMINI_API_KEY) {
+      this.geminiProvider.updateConfig(
+        process.env.GEMINI_API_KEY,
+        'gemini-1.5-flash'
       );
     }
     if (this.openAIProvider.isConfigured()) return this.openAIProvider;

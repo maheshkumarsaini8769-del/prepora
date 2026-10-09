@@ -14,8 +14,27 @@ aiService.initializeFromDB().catch(err => console.warn('[AI Routes Init]', err))
  */
 router.get('/status', async (req: Request, res: Response) => {
   try {
-    const status = aiService.getStatus();
+    const status = await aiService.getStatus();
     res.json({ success: true, data: status });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * POST /api/ai/configure-provider
+ * Allows configuring the OpenAI or Gemini API key and model dynamically.
+ */
+router.post('/configure-provider', async (req: Request, res: Response) => {
+  try {
+    const { provider, apiKey, model, dailyGenerationLimit } = req.body;
+    if (!apiKey || typeof apiKey !== 'string' || apiKey.trim().length < 5) {
+      return res.status(400).json({ success: false, error: 'A valid API key is required.' });
+    }
+
+    const result = await aiService.saveProviderConfig(provider, apiKey, model, dailyGenerationLimit);
+    const status = await aiService.getStatus();
+    res.json({ success: true, data: status, message: result.message });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
   }

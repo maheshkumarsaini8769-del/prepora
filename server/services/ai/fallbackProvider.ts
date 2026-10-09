@@ -782,9 +782,392 @@ ${isHinglish ? 'Bohr ke nth orbit me kitne de Broglie wavelengths fit hote hain?
           latencyMs: Date.now() - startTime
         };
       }
+    } else if (/\b(atom|atoms|parmanu|paramanu|atomic structure|structure of atom|atomic number|subatomic|protons?|neutrons?|electrons?|bohr model|rutherford)\b/i.test(qLower)) {
+      // ==========================================
+      // ATOM & ATOMIC STRUCTURE
+      // ==========================================
+      const isAtomicNumber = /\b(atomic number|parmanu kramank|parmanu sankhya|z number|atomic no)\b/i.test(qLower);
+      subject = 'Chemistry';
+      chapter = 'Structure of Atom';
+      topic = isAtomicNumber ? 'Atomic Number and Mass Number' : 'Constituents of Atom & Atomic Models';
+      concept = isAtomicNumber ? 'Atomic Number (Z) and Mass Number (A)' : 'Structure of Atom & Subatomic Particles';
+
+      if (isAtomicNumber) {
+        answer = `### 📚 Concept
+**Atomic Number ($Z$)** is defined as the total number of protons present inside the nucleus of an atom.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Har chemical element ki pehchan uske nucleus me present protons ki sankhya se hoti hai. Is sankhya ko **Atomic Number ($Z$)** kehte hain!\n\n• **Neutral atom me:** Number of protons = Number of electrons = $Z$.\n• **Mass Number ($A$):** Nucleus me kul nucleons ki sankhya ($A = Z + N$, jahan $N$ = neutrons).\n• **Isotopes:** Jin elements ka atomic number $Z$ same ho par mass number $A$ alag ho (jaise $^1_1\\text{H}, ^2_1\\text{H}, ^3_1\\text{H}$).`
+  : `In simple terms: The atomic number ($Z$) uniquely defines the chemical identity of an element. It corresponds to the number of protons in its nucleus.\n\n• **In a neutral atom:** Number of protons = Number of electrons = $Z$.\n• **Mass Number ($A$):** Total nucleons in the nucleus: $A = Z + N$ (where $N$ = neutrons).\n• **Isotopes:** Atoms of the same element with identical $Z$ but differing mass numbers $A$ (e.g. $^1_1\\text{H}, ^2_1\\text{H}, ^3_1\\text{H}$).`}
+
+### 🧮 Formula
+$$Z = p = e \\quad \\text{(in neutral atom)}, \\quad A = Z + N \\implies N = A - Z$$
+
+### 🔤 Variables
+- $Z$ = Atomic Number (number of protons)
+- $A$ = Mass Number (total nucleons: protons + neutrons)
+- $N$ = Number of neutrons
+- $e$ = Number of electrons
+
+${highYieldHeading}
+- ⭐ **Must Know:** Modern Periodic Table is arranged strictly in order of increasing **Atomic Number ($Z$)**, NOT atomic mass (Moseley's Law: $\\sqrt{\\nu} = a(Z - b)$).
+- ⚡ **NCERT Reference:** Isobars have the same mass number $A$ but different atomic numbers $Z$ (e.g. $^{40}_{18}\\text{Ar}$ and $^{40}_{20}\\text{Ca}$).
+
+### ⚠️ Common Mistake
+In ions (cations or anions), the electron count changes, but the atomic number ($Z$, number of protons) NEVER changes!
+
+${examTrickHeading}
+${isHinglish ? 'Neutrons nikalne ke liye direct formula: $N = A - Z$.' : 'To find neutrons quickly: $N = A - Z$.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Sodium ($^{23}_{11}\\text{Na}$) me kitne protons, neutrons aur electrons hote hain? (Ans: 11 p, 12 n, 11 e).' : 'How many protons, neutrons, and electrons are present in $^{23}_{11}\\text{Na}$? (Ans: 11 protons, 12 neutrons, 11 electrons).'}`;
+        keyFormula = String.raw`Z = p, \quad A = Z + N`;
+      } else {
+        answer = `### 📚 Concept
+An **atom** is the fundamental, indivisible chemical unit of ordinary matter that defines a chemical element. It consists of a dense central **nucleus** surrounded by an electron cloud.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Atom matter ka basic building block hai. Ek atom ke andar 3 fundamental subatomic particles hote hain:\n1. **Protons ($p^+$):** Nucleus me positive charge ($+1.6 \\times 10^{-19}\\text{ C}$), mass $\\approx 1.673 \\times 10^{-27}\\text{ kg}$.\n2. **Neutrons ($n^0$):** Nucleus me neutral particle, mass $\\approx 1.675 \\times 10^{-27}\\text{ kg}$.\n3. **Electrons ($e^-$):** Nucleus ke bahar discrete energy orbits me ghoomte hain, negative charge ($-1.6 \\times 10^{-19}\\text{ C}$), mass $\\approx 9.1 \\times 10^{-31}\\text{ kg}$.\n\nRutherford ne nucleus discover kiya aur Bohr ne bataya ki electrons stationary non-radiating orbits me ghoomte hain ($mvr = nh/2\\pi$).`
+  : `In simple terms: An atom is the basic structural building block of all elements. It consists of three fundamental subatomic particles:\n1. **Protons ($p^+$):** Located in the central nucleus with positive charge ($+1.602 \\times 10^{-19}\\text{ C}$) and mass $\\approx 1.673 \\times 10^{-27}\\text{ kg}$.\n2. **Neutrons ($n^0$):** Neutral subatomic particles residing in the nucleus alongside protons, mass $\\approx 1.675 \\times 10^{-27}\\text{ kg}$.\n3. **Electrons ($e^-$):** Negatively charged particles revolving in quantized orbits around the nucleus, mass $\\approx 9.109 \\times 10^{-31}\\text{ kg}$.\n\nErnest Rutherford discovered the atomic nucleus, and Niels Bohr formulated the quantized orbital model ($mvr = nh/2\\pi$).`}
+
+### 🧮 Formula
+$$r_n = 0.529 \\frac{n^2}{Z}\\text{ Å}, \\quad E_n = -13.6 \\frac{Z^2}{n^2}\\text{ eV}, \\quad mvr = \\frac{nh}{2\\pi}$$
+
+### 🔤 Variables
+- $n$ = Principal quantum number (orbit number 1, 2, 3...)
+- $Z$ = Atomic number
+- $r_n$ = Radius of the $n$-th Bohr orbit
+- $E_n$ = Total electronic energy in the $n$-th orbit
+- $h$ = Planck's constant ($6.626 \\times 10^{-34}\\text{ J}\\cdot\\text{s}$)
+
+${highYieldHeading}
+- ⭐ **Must Know:** Nuclear radius ($R \\sim 10^{-15}\\text{ m} = 1\\text{ fm}$) is $10^5$ times smaller than atomic radius ($R \\sim 10^{-10}\\text{ m} = 1\\text{ Å}$).
+- ⚡ **NCERT Reference:** An atom is electrically neutral because the number of protons equals the number of electrons.
+
+### ⚠️ Common Mistake
+Never think the mass of an atom is distributed uniformly! Over 99.9% of the atom's mass is concentrated in the microscopic nucleus.
+
+${examTrickHeading}
+${isHinglish ? 'Bohr radius proportionality: $r_n \\propto n^2 / Z$ aur energy $E_n \\propto -Z^2 / n^2$.' : 'Remember Bohr proportionalities: $r_n \\propto n^2 / Z$ and $E_n \\propto -Z^2 / n^2$.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Hydrogen atom ke first orbit ($n=1$) ki energy kitni hoti hai? (Ans: -13.6 eV).' : 'What is the ground state energy of an electron in a hydrogen atom ($n=1$)? (Ans: -13.6 eV).'}`;
+        keyFormula = String.raw`mvr = \frac{nh}{2\pi}, \quad E_n = -\frac{13.6 Z^2}{n^2}\text{ eV}`;
+      }
+
+      steps.push("1. Atom consists of positively charged nucleus containing protons and neutrons.");
+      steps.push("2. Electrons revolve around the nucleus in discrete quantized energy orbits.");
+      steps.push("3. The atomic number Z equals the number of protons; mass number A equals protons + neutrons.");
+
+      return {
+        answer,
+        coreConcept: concept,
+        stepByStepSolution: steps,
+        keyFormula,
+        variables,
+        examinerTrap: "Do not confuse atomic number Z with mass number A in nuclear notation.",
+        examTip: "Bohr's model applies strictly to single-electron species like H, He⁺, Li²⁺.",
+        understanding: {
+          intent: 'definition',
+          subject: subject as any,
+          chapter,
+          topic,
+          concept,
+          difficulty: 'Easy',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['Explain Bohr atomic model', 'What is atomic mass', 'Test me on this'],
+        suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+        confidence: 0.99,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    } else if (/\b(cell|cells|koshika|cell biology|cytology|prokaryot|eukaryot|mitochondria|ribosome|organelles?|cell theory|lysosome|chloroplast|endoplasmic)\b/i.test(qLower) && !/\b(galvanic|dry cell|voltaic|electrolytic cell|potentiometer)\b/i.test(qLower)) {
+      // ==========================================
+      // CELL: THE UNIT OF LIFE (BIOLOGY)
+      // ==========================================
+      subject = 'Biology';
+      chapter = 'Cell: The Unit of Life';
+      topic = 'Cell Structure, Types & Organelles';
+      concept = 'Cell: Fundamental Structural & Functional Unit of Life';
+
+      answer = `### 📚 Concept
+A **cell** is the fundamental structural, functional, and biological unit of all living organisms. Anything less than a complete structure of a cell does not ensure independent living.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Jaise building bricks se banti hai, waise hi har living organism cells se banta hai!\n\n• **Discovery:** Robert Hooke ne pehli baar dead cell (cork) dekha. Antonie van Leeuwenhoek ne first living cell observe kiya.\n• **Cell Theory:** Schleiden (1838) aur Schwann (1839) ne di, jise Rudolf Virchow (1855) ne modify kiya: *Omnis cellula e cellula* (naye cells pehle se maujood cells ke division se bante hain).\n\n**Cell ke 2 Main Types:**\n1. **Prokaryotic Cell (e.g. Bacteria):** No membrane-bound nucleus, 70S ribosomes, circular naked DNA, mesosomes for respiration.\n2. **Eukaryotic Cell (e.g. Plants, Animals):** True membrane-bound nucleus, 80S ribosomes in cytoplasm, complex organelles.\n\n**Key Organelles:**\n• **Mitochondria:** "Powerhouse of the cell" (ATP synthesis via aerobic respiration, double membrane, circular DNA, 70S ribosomes).\n• **Ribosomes:** Non-membrane bound, protein factory.\n• **Chloroplast:** Photosynthesis site in green plants.\n• **Lysosomes:** Hydrolytic enzymes for intracellular digestion ("suicide bags").`
+  : `In simple terms: A cell is the basic structural and functional unit of all living organisms.\n\n• **Discovery:** Robert Hooke first discovered cells in cork (1665). Anton van Leeuwenhoek first observed living free cells (1674).\n• **Cell Theory:** Proposed by Matthias Schleiden and Theodor Schwann, later finalized by Rudolf Virchow (*Omnis cellula e cellula* — all cells arise from pre-existing cells).\n\n**Two Primary Classifications:**\n1. **Prokaryotes (Bacteria, Blue-green algae, Mycoplasma):** Lack a membrane-bound nucleus and organelles; have 70S ribosomes and naked circular genomic DNA.\n2. **Eukaryotes (Protists, Fungi, Plants, Animals):** Possess a true membrane-bound nucleus, compartmentalized cytoplasm, and 80S ribosomes.\n\n**Crucial Organelles:**\n• **Mitochondria:** Double-membraned powerhouse generating ATP through oxidative phosphorylation.\n• **Ribosomes:** Universal protein synthesis machinery (70S in prokaryotes, 80S in eukaryotes).\n• **Chloroplasts:** Site of photosynthesis in autotrophic plant cells.\n• **Lysosomes:** Membrane-bound vesicles containing acidic hydrolytic enzymes.`}
+
+${highYieldHeading}
+- ⭐ **Must Know:** Mycoplasma is the smallest living cell ($0.3\\;\\mu\\text{m}$ in length) and lacks a cell wall.
+- ⚡ **NCERT Reference:** Mitochondria and chloroplasts are semi-autonomous organelles containing their own 70S ribosomes and circular dsDNA.
+
+### ⚠️ Common Mistake
+Viruses are an exception to Cell Theory! They lack cellular machinery and reproduce only inside host cells.
+
+${examTrickHeading}
+${isHinglish ? 'Ribosome size trick: Prokaryote = 70S (50S + 30S). Eukaryote = 80S (60S + 40S). Note that S stands for Svedberg unit (sedimentation coefficient).' : 'Ribosome rule: Prokaryotes have 70S (50S + 30S subunits); eukaryotes have 80S (60S + 40S). S is the Svedberg sedimentation coefficient.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Cell Theory kisne di thi aur kisne "Omnis cellula e cellula" add kiya? (Ans: Schleiden & Schwann; modified by Rudolf Virchow).' : 'Who proposed the Cell Theory and who contributed "Omnis cellula e cellula"? (Ans: Schleiden & Schwann; expanded by Rudolf Virchow).'}`;
+
+      steps.push("1. Cell is the structural and functional unit of life.");
+      steps.push("2. Cell Theory states all living beings are composed of cells arising from pre-existing cells.");
+      steps.push("3. Prokaryotes lack membrane-bound organelles; eukaryotes contain compartmentalized organelles.");
+
+      return {
+        answer,
+        coreConcept: concept,
+        stepByStepSolution: steps,
+        keyFormula: undefined,
+        variables: undefined,
+        examinerTrap: "Viruses do not obey cell theory as they are acellular entities.",
+        examTip: "Ribosomes are non-membrane bound and found in both prokaryotes and eukaryotes.",
+        understanding: {
+          intent: 'definition',
+          subject: 'Biology',
+          chapter,
+          topic,
+          concept,
+          difficulty: 'Easy',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['Explain prokaryote vs eukaryote', 'Functions of mitochondria', 'Test me on cell biology'],
+        suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+        confidence: 0.99,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    } else if (/\b(force|forces|bal|newton's second law|newton's laws|inertia)\b/i.test(qLower) && !qLower.includes('friction') && !qLower.includes('gravity')) {
+      // ==========================================
+      // FORCE & NEWTON'S LAWS OF MOTION
+      // ==========================================
+      subject = 'Physics';
+      chapter = 'Laws of Motion';
+      topic = "Newton's Laws of Motion & Momentum";
+      concept = 'Concept of Force and Newton’s Second Law';
+
+      answer = `### 📚 Concept
+A **force** is an external interaction (push or pull) that changes or tends to change the state of rest, uniform motion, direction, or shape of a body.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Force ek physical push ya pull hai jo object ke acceleration ko produce karta hai. Newton ke 3 laws iske core hain:\n1. **First Law (Law of Inertia):** Koi bhi body apni rest ya uniform motion ki state tab tak maintain rakhti hai jab tak external unbalanced force na lage.\n2. **Second Law (Core Equation):** Net external force rate of change of linear momentum ke directly proportional hota hai: $\\vec{F} = \\frac{d\\vec{p}}{dt} = m\\vec{a}$ (jab mass constant ho).\n3. **Third Law (Action-Reaction):** Every action has an equal and opposite reaction (forces always occur in pairs: $\\vec{F}_{AB} = -\\vec{F}_{BA}$).`
+  : `In simple terms: Force is an external agency capable of altering a body's state of rest or uniform motion.\n\n**Newton's Three Laws of Motion:**\n1. **First Law (Inertia):** A body remains at rest or moves with constant velocity unless compelled by a net external force.\n2. **Second Law (Measurement of Force):** The rate of change of linear momentum is directly proportional to the applied force: $\\vec{F}_{net} = \\frac{d\\vec{p}}{dt} = m\\vec{a}$.\n3. **Third Law (Action-Reaction):** For every action force, there is an equal and opposite reaction force acting on different interacting bodies ($\\\\vec{F}_{AB} = -\\\\vec{F}_{BA}$).`}
+
+### 🧮 Formula
+$$\\vec{F} = m\\vec{a}, \\quad \\vec{F} = \\frac{d\\vec{p}}{dt}, \\quad \\vec{p} = m\\vec{v}$$
+
+### 🔤 Variables
+- $\\vec{F}$ = Net force (Newtons, N, where $1\\text{ N} = 1\\text{ kg}\\cdot\\text{m/s}^2$)
+- $m$ = Mass of the object (kg)
+- $\\vec{a}$ = Resultant acceleration (m/s²)
+- $\\vec{p}$ = Linear momentum ($kg\\cdot m/s$)
+
+${highYieldHeading}
+- ⭐ **Must Know:** 1 Newton ($1\\text{ N}$) = $10^5\\text{ dynes}$. Dimensions of force: $[M^1 L^1 T^{-2}]$.
+- ⚡ **NCERT Reference:** Newton’s Second Law is the real fundamental law of motion because both the 1st and 3rd laws can be derived from it.
+
+### ⚠️ Common Mistake
+Action and reaction forces NEVER cancel each other out because they act on TWO DIFFERENT bodies!
+
+${examTrickHeading}
+${isHinglish ? 'Agar mass variable ho (jaise rocket propulsion), toh formula $\\vec{F} = m\\frac{d\\vec{v}}{dt} + \\vec{v}\\frac{dm}{dt}$ use karein.' : 'For variable mass systems (like rocket thrust), use $F_{thrust} = v_{rel} \\frac{dm}{dt}$.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Ek 5 kg body par 20 N ka force lagayein toh acceleration kitna hoga? (Ans: a = F/m = 4 m/s²).' : 'What acceleration is produced when a 20 N force acts on a 5 kg mass? (Ans: a = F/m = 4 m/s²).'}`;
+      keyFormula = String.raw`\vec{F} = m\vec{a}`;
+
+      steps.push("1. Force is defined as the product of mass and acceleration: F = ma.");
+      steps.push("2. The SI unit of force is the Newton (N = kg m/s²).");
+      steps.push("3. Net unbalanced force causes acceleration in the direction of the force.");
+
+      return {
+        answer,
+        coreConcept: concept,
+        stepByStepSolution: steps,
+        keyFormula,
+        variables,
+        examinerTrap: "Action and reaction act on different objects, so they never cancel each other out.",
+        examTip: "Newton's second law F = ma applies when mass is invariant.",
+        understanding: {
+          intent: 'definition',
+          subject: 'Physics',
+          chapter,
+          topic,
+          concept,
+          difficulty: 'Easy',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['Show Newton laws examples', 'Calculate numerical with F=ma', 'Test me on this'],
+        suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+        confidence: 0.99,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    } else if (/\b(photosynthesis|prakash sanshleshan|calvin cycle|light reaction|dark reaction|rubisco|chlorophyll)\b/i.test(qLower)) {
+      // ==========================================
+      // PHOTOSYNTHESIS IN HIGHER PLANTS
+      // ==========================================
+      subject = 'Biology';
+      chapter = 'Photosynthesis in Higher Plants';
+      topic = 'Mechanism of Light and Dark Reactions';
+      concept = 'Mechanism of Photosynthesis in Higher Plants';
+
+      answer = `### 📚 Concept
+**Photosynthesis** is the anabolic, endergonic physico-chemical process by which green plants, algae, and cyanobacteria synthesize organic food (glucose) from carbon dioxide and water in the presence of sunlight and chlorophyll, releasing oxygen as a byproduct.
+
+### 💡 Easy Explanation
+${isHinglish
+  ? `Simple shabdon me: Green plants sunlight ki energy ko chemical energy (glucose) me convert karte hain. Photosynthesis ke 2 main phases hote hain:\n\n1. **Light Reaction (Photochemical phase - Thylakoids/Grana me):**\n   • Light absorption by Photosystems (PS II and PS I).\n   • Water splitting (Photolysis: $2\\text{H}_2\\text{O} \\to 4\\text{H}^+ + 4e^- + \\text{O}_2$) at PS II.\n   • Synthesis of assimilatory power: ATP and NADPH via chemiosmosis.\n\n2. **Dark Reaction / Calvin Cycle (Biosynthetic phase - Stroma me):**\n   • Light ki direct zaroorat nahi hoti, par yeh light reaction ke products (ATP & NADPH) par depend karta hai.\n   • **RuBisCO** enzyme $\\text{CO}_2$ ko fix karta hai.\n   • 3 steps: Carboxylation, Reduction, and Regeneration.\n   • 1 glucose molecule banane ke liye 6 turns of Calvin cycle, 18 ATP, aur 12 NADPH lagte hain.`
+  : `In simple terms: Photosynthesis converts light energy into stable chemical energy stored in carbohydrates.\n\n**Two Distinct Stages:**\n1. **Light Reaction (Thylakoid membranes):**\n   • Absorption of solar radiation by pigments (chlorophyll a, b, carotenoids).\n   • Photolysis of water at Oxygen Evolving Complex of PS II: $2\\text{H}_2\\text{O} \\to 4\\text{H}^+ + 4e^- + \\text{O}_2$.\n   • Non-cyclic photophosphorylation (Z-scheme) generates ATP and NADPH.\n\n2. **Dark Reaction / Calvin Cycle (Chloroplast Stroma):**\n   • Enzyme RuBisCO (Ribulose-1,5-bisphosphate carboxylase-oxygenase) catalyzes $\\text{CO}_2$ fixation.\n   • Three phases: Carboxylation, Reduction, and RuBP Regeneration.\n   • Net requirement for 1 Glucose: $6\\text{CO}_2 + 18\\text{ATP} + 12\\text{NADPH}$.`}
+
+### 🧮 Formula
+$$6\\text{CO}_2 + 12\\text{H}_2\\text{O} \\xrightarrow{\\text{Light, Chlorophyll}} \\text{C}_6\\text{H}_{12}\\text{O}_6 + 6\\text{H}_2\\text{O} + 6\\text{O}_2\\uparrow$$
+
+${highYieldHeading}
+- ⭐ **Must Know:** RuBisCO is the most abundant enzyme/protein in the entire biosphere.
+- ⚡ **NCERT Reference:** Oxygen released during photosynthesis comes entirely from water ($\text{H}_2\text{O}$), NOT from carbon dioxide ($\text{CO}_2$) (proved by Ruben and Kamen using $^{18}\text{O}$).
+
+### ⚠️ Common Mistake
+The "Dark Reaction" does NOT mean it happens in the dark! It occurs in daytime simultaneously with the light reaction, but does not directly absorb photons.
+
+${examTrickHeading}
+${isHinglish ? 'Calvin cycle tally: 1 Glucose = 6 CO₂ + 18 ATP + 12 NADPH. Per CO₂ fixed: 3 ATP and 2 NADPH required.' : 'Per CO₂ molecule fixed in C3 cycle: 3 ATP and 2 NADPH are consumed.'}
+
+### 📝 Quick Check
+${isHinglish ? 'Photosynthesis me nikalne wali Oxygen kahan se aati hai? (Ans: Water ki photolysis se, CO₂ se nahi).' : 'Where does the oxygen released during photosynthesis originate? (Ans: From the photolysis of water, not CO₂).'}`;
+
+      keyFormula = String.raw`6\text{CO}_2 + 12\text{H}_2\text{O} \to \text{C}_6\text{H}_{12}\text{O}_6 + 6\text{H}_2\text{O} + 6\text{O}_2`;
+      steps.push("1. Light reaction absorbs photons in thylakoid membranes to generate ATP and NADPH.");
+      steps.push("2. Water is split (photolysis) releasing oxygen gas.");
+      steps.push("3. Dark reaction (Calvin cycle) fixes CO2 in stroma using RuBisCO to produce glucose.");
+
+      return {
+        answer,
+        coreConcept: concept,
+        stepByStepSolution: steps,
+        keyFormula,
+        variables,
+        examinerTrap: "Oxygen released during photosynthesis originates from water, not carbon dioxide.",
+        examTip: "RuBisCO has affinity for both CO2 and O2; photorespiration occurs when O2 binds to RuBisCO.",
+        understanding: {
+          intent: 'explanation',
+          subject: 'Biology',
+          chapter,
+          topic,
+          concept,
+          difficulty: 'Medium',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['Explain Calvin cycle steps', 'What is C4 pathway', 'Test me on this'],
+        suggestedPractice: { subject, chapter, topic, count: 5, actionUrl: `/practice?subject=${encodeURIComponent(subject)}&chapter=${encodeURIComponent(chapter)}` },
+        confidence: 0.99,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    } else if (/(\b(solve|calculate|evaluate)\b.*)?(\d+)\s*x\s*([+\-])\s*(\d+)\s*=\s*(\d+)/i.test(qLower)) {
+      // ==========================================
+      // LINEAR EQUATION SOLVER (MATHEMATICS)
+      // e.g. "Solve 2x + 5 = 15"
+      // ==========================================
+      const match = qLower.match(/(\d+)\s*x\s*([+\-])\s*(\d+)\s*=\s*(\d+)/i);
+      const a = match ? parseInt(match[1], 10) : 2;
+      const sign = match ? match[2] : '+';
+      const b = match ? parseInt(match[3], 10) : 5;
+      const c = match ? parseInt(match[4], 10) : 15;
+
+      const effectiveB = sign === '+' ? b : -b;
+      const rhsAfterShift = c - effectiveB;
+      const xVal = rhsAfterShift / a;
+
+      subject = 'Mathematics';
+      chapter = 'Linear Equations & Algebra';
+      topic = 'Solving Linear Equations in One Variable';
+      concept = `Solution of Linear Equation $${a}x ${sign} ${b} = ${c}$`;
+
+      answer = `### Given
+Linear equation in one variable:
+$$${a}x ${sign} ${b} = ${c}$$
+
+### Find
+The value of the unknown variable $x$.
+
+### Formula
+For standard linear equation $ax + b = c$:
+$$x = \\frac{c - b}{a}$$
+
+### Step-by-Step Solution
+1. **Transpose constant term to the Right Hand Side (RHS):**
+   $$${a}x = ${c} ${sign === '+' ? '-' : '+'} ${b}$$
+   $$${a}x = ${rhsAfterShift}$$
+
+2. **Divide both sides by the coefficient of $x$ (which is $${a}$):**
+   $$x = \\frac{${rhsAfterShift}}{${a}}$$
+   $$x = ${xVal}$$
+
+### ✅ Final Answer
+The solution to the equation is:
+**$$x = ${xVal}$$**
+
+### ⚠️ Verification Check
+Substitute $x = ${xVal}$ back into the original equation:
+$$\\text{LHS} = ${a}(${xVal}) ${sign} ${b} = ${a * xVal} ${sign} ${b} = ${c} = \\text{RHS}$$
+LHS = RHS, which confirms the solution is mathematically correct!`;
+
+      keyFormula = String.raw`x = \frac{c - b}{a}`;
+      steps.push(`Step 1: Shift constant term to RHS: ${a}x = ${c} ${sign === '+' ? '-' : '+'} ${b} = ${rhsAfterShift}.`);
+      steps.push(`Step 2: Divide by coefficient of x: x = ${rhsAfterShift} / ${a} = ${xVal}.`);
+      steps.push(`Step 3: Verification: Substituting x = ${xVal} gives LHS = RHS = ${c}.`);
+
+      return {
+        answer,
+        coreConcept: concept,
+        stepByStepSolution: steps,
+        keyFormula,
+        variables: `x = Unknown algebraic variable, a = ${a}, b = ${b}, c = ${c}`,
+        example: answer,
+        examinerTrap: "Remember to reverse the sign when transposing a term across the equals sign (+ becomes -, and - becomes +).",
+        examTip: "Always plug your calculated answer back into the original equation to verify correctness.",
+        understanding: {
+          intent: 'numerical',
+          subject: 'Mathematics',
+          chapter,
+          topic,
+          concept,
+          difficulty: 'Easy',
+          isNumerical: true,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['Solve quadratic equation', 'Show another algebra example', 'Test me on equations'],
+        suggestedPractice: { subject: 'Mathematics', chapter: 'Algebra', topic: 'Linear Equations', count: 5, actionUrl: `/practice?subject=Mathematics` },
+        confidence: 0.99,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
     } else {
-      // 3. Check Formula Knowledge Search
-      const formulaMatch = searchFormulaKnowledge(q, subject, chapter, req.targetExam);
+      // 3. Check Formula Knowledge Search (Only for formula/example/derivation intents or explicit formula names)
+      const formulaMatch = (isForm || isEx || isDeriv) 
+        ? searchFormulaKnowledge(q, subject, chapter, req.targetExam)
+        : null;
+
       if (formulaMatch && formulaMatch.found) {
         return {
           answer: formulaMatch.formattedAnswer || `### ${formulaMatch.name}\n\n${formulaMatch.concept}\n\n**📌 Governing Formula:**\n$$${formulaMatch.formula}$$\n\n**📝 Variables Explained:**\n${formulaMatch.variables}`,
