@@ -53,7 +53,28 @@ class AdminAuthorityService {
     this.syncFromCloud();
   }
 
-  private async syncFromCloud() {
+  public async syncFromCloud() {
+    if (typeof window !== 'undefined') {
+      const token = localStorage.getItem('prepora_auth_token');
+      // If no token, do not attempt calling admin API
+      if (!token) return;
+
+      try {
+        const parts = token.split('.');
+        if (parts.length >= 2) {
+          const payload = JSON.parse(atob(parts[1]));
+          const email = (payload.email || '').toLowerCase().trim();
+          const isPrimary = PRIMARY_ADMIN_EMAILS.some((e) => e.toLowerCase().trim() === email);
+          // Normal student account: do not query admin endpoints to prevent 403 Forbidden warnings
+          if (payload.role !== 'admin' && !isPrimary) {
+            return;
+          }
+        }
+      } catch {
+        return;
+      }
+    }
+
     try {
       const res = await adminFetch('/api/admin/authorities');
       if (res.ok) {
@@ -63,7 +84,7 @@ class AdminAuthorityService {
           // Cloud authorities
           data.authorities.forEach((a: AuthorizedAdmin) => map.set(a.email.toLowerCase().trim(), a));
           // Permanent primary admins
-          PRIMARY_ADMIN_EMAILS.forEach(email => {
+          PRIMARY_ADMIN_EMAILS.forEach((email) => {
             const norm = email.toLowerCase().trim();
             if (!map.has(norm)) {
               map.set(norm, {

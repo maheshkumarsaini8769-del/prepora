@@ -25,13 +25,14 @@ export const AdminAuthorityPage: React.FC = () => {
   const [actionLoading, setActionLoading] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
-  const loadAdmins = () => {
+  const loadAdmins = async () => {
     setLoading(true);
     try {
+      await adminAuthorityService.syncFromCloud();
       const list = adminAuthorityService.getAuthorizedAdmins();
       setAdmins(list);
     } catch {
-      setAdmins([]);
+      setAdmins(adminAuthorityService.getAuthorizedAdmins());
     } finally {
       setLoading(false);
     }
