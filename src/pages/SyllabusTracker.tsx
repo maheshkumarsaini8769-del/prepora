@@ -150,7 +150,7 @@ export const SyllabusTracker: React.FC = () => {
     <div className="max-w-7xl mx-auto space-y-7 pb-20 animate-slide-up px-2 sm:px-4">
       
       {/* Top Banner & Header */}
-      <div className="bg-gradient-to-r from-slate-900 via-brand-950 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden">
+      <div className="bg-gradient-to-r from-slate-900 via-brand-950 to-indigo-950 rounded-2xl p-4 sm:p-6 text-white shadow-xl relative overflow-hidden">
         <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
           <div className="space-y-2 max-w-xl">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-brand-300 text-xs font-semibold backdrop-blur-md">

@@ -380,184 +380,162 @@ export const VideoLecturesPage: React.FC = () => {
         </div>
       )}
 
-      {/* Header Banner */}
-      <div className="bg-gradient-to-r from-slate-950 via-emerald-950 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border border-emerald-900/30">
-        <div className="absolute right-0 top-0 translate-x-12 -translate-y-8 w-64 h-64 bg-emerald-600/15 rounded-full blur-3xl pointer-events-none" />
-
-        <div className="relative z-10 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-semibold backdrop-blur-md border border-emerald-500/30">
-            <Tv className="w-3.5 h-3.5 text-emerald-400" />
-            <span>Zero-Distraction Educational Theater</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            <span>100% Working Verified Lectures</span>
+      {/* Header Banner - Sleek Compact Card Matching Mobile Standard */}
+      <div className="rounded-2xl bg-[#061817] dark:bg-[#061817] p-4 sm:p-5 border border-emerald-500/30 text-white space-y-3 shadow-lg shadow-emerald-950/20">
+        <div className="flex items-start gap-3">
+          <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+            <Tv className="w-5 h-5 text-emerald-400" />
           </div>
-
-          <h1 className="text-2xl sm:text-4xl font-black tracking-tight">
-            Curated Educational Video Lectures
-          </h1>
-
-          <p className="text-xs sm:text-sm text-slate-300 max-w-2xl leading-relaxed">
-            Authentic one-shot lectures and topic-wise deep dive videos curated for NEET, JEE, and Board exams. 100% verified high-definition educational lectures with direct practice links.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3 pt-2 text-xs font-semibold text-slate-300">
-            <span className="flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Multi-Exam Filter (NEET • JEE • Board)
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Class 11 & Class 12 Separation
-            </span>
-            <span>•</span>
-            <span className="flex items-center gap-1">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Topic-Wise Deep Dives
-            </span>
+          <div className="space-y-0.5 min-w-0 flex-1">
+            <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
+              Curated Educational Video Lectures
+            </h1>
+            <p className="text-[11px] sm:text-xs text-slate-300 leading-snug">
+              Authentic one-shots & topic deep-dives for NEET, JEE & Boards with verified HD playback.
+            </p>
           </div>
+        </div>
+
+        {/* Quick Badges Row */}
+        <div className="flex flex-wrap gap-2 pt-0.5">
+          <span className="px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 shadow-2xs">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Verified HD Lectures</span>
+          </span>
+          <span className="px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 shadow-2xs">
+            <GraduationCap className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Class 11 & 12</span>
+          </span>
+          <span className="px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 shadow-2xs">
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>Zero-Distraction Theater</span>
+          </span>
         </div>
       </div>
 
-      {/* Master Filter and Mode Control Bar */}
-      <div className="bg-white dark:bg-[#0e1620] rounded-3xl p-4 sm:p-6 border border-slate-200/90 dark:border-slate-800 shadow-sm space-y-5">
-        {/* Row 1: Exam Filter & Class Filter */}
-        <div className="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
-          {/* Exam Filter */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-              <GraduationCap className="w-3.5 h-3.5 text-emerald-500" />
-              <span>Exam:</span>
-            </span>
-            <div className="flex gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
-              {(['All', 'NEET', 'JEE', 'CBSE'] as const).map((ex) => {
-                const isSelected = selectedExam === ex;
-                return (
-                  <button
-                    key={ex}
-                    type="button"
-                    onClick={() => {
-                      setSelectedExam(ex);
-                      setSelectedChapter('All');
-                      setSelectedTopic('');
-                    }}
-                    className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-emerald-600 text-white shadow-xs'
-                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                  >
-                    {ex === 'All' ? 'All Exams' : ex === 'CBSE' ? 'CBSE / Board' : ex}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+      {/* Master Filter and Mode Control Bar - Sleek Pills Layout */}
+      <div className="space-y-2.5">
+        {/* Row 1: Exam & Class Filter Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+          {(['All', 'NEET', 'JEE', 'CBSE'] as const).map((ex) => {
+            const isSelected = selectedExam === ex;
+            return (
+              <button
+                key={ex}
+                type="button"
+                onClick={() => {
+                  setSelectedExam(ex);
+                  setSelectedChapter('All');
+                  setSelectedTopic('');
+                }}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                  isSelected
+                    ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                    : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                {ex === 'All' ? 'All Exams' : ex === 'CBSE' ? 'CBSE / Board' : ex}
+              </button>
+            );
+          })}
 
-          {/* Class Filter */}
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider flex items-center gap-1">
-              <Filter className="w-3.5 h-3.5 text-emerald-500" />
-              <span>Class:</span>
-            </span>
-            <div className="flex gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
-              {(['All', '11', '12'] as const).map((cls) => {
-                const isSelected = selectedClass === cls;
-                return (
-                  <button
-                    key={cls}
-                    type="button"
-                    onClick={() => {
-                      setSelectedClass(cls);
-                      setSelectedChapter('All');
-                      setSelectedTopic('');
-                    }}
-                    className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                      isSelected
-                        ? 'bg-emerald-600 text-white shadow-xs'
-                        : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                    }`}
-                  >
-                    {cls === 'All' ? 'All Classes' : `Class ${cls}`}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+          <div className="w-[1px] h-4 bg-slate-700 mx-1 shrink-0" />
+
+          {(['All', '11', '12'] as const).map((cls) => {
+            const isSelected = selectedClass === cls;
+            return (
+              <button
+                key={cls}
+                type="button"
+                onClick={() => {
+                  setSelectedClass(cls);
+                  setSelectedChapter('All');
+                  setSelectedTopic('');
+                }}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                  isSelected
+                    ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                    : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                {cls === 'All' ? 'All Classes' : `Class ${cls}`}
+              </button>
+            );
+          })}
         </div>
 
         {/* Row 2: Subject Filter Pills */}
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider hidden sm:inline">
-              Subject:
-            </span>
-            {subjects.map((sub) => {
-              const isSelected = selectedSubject === sub;
-              const count = allVideos.filter((v) => {
-                const matchSub = sub === 'All' || v.subject === sub;
-                const matchExam = selectedExam === 'All' || !v.targetExams || v.targetExams.includes(selectedExam as any) || v.targetExams.includes('All');
-                const matchClass = selectedClass === 'All' || !v.classLevel || v.classLevel === selectedClass || v.classLevel === 'All';
-                return matchSub && matchExam && matchClass;
-              }).length;
+        <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+          {subjects.map((sub) => {
+            const isSelected = selectedSubject === sub;
+            const count = allVideos.filter((v) => {
+              const matchSub = sub === 'All' || v.subject === sub;
+              const matchExam = selectedExam === 'All' || !v.targetExams || v.targetExams.includes(selectedExam as any) || v.targetExams.includes('All');
+              const matchClass = selectedClass === 'All' || !v.classLevel || v.classLevel === selectedClass || v.classLevel === 'All';
+              return matchSub && matchExam && matchClass;
+            }).length;
 
-              return (
-                <button
-                  key={sub}
-                  onClick={() => {
-                    setSelectedSubject(sub);
-                    setSelectedChapter('All');
-                    setSelectedTopic('');
-                  }}
-                  className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
-                    isSelected
-                      ? 'bg-emerald-600 text-white shadow-xs'
-                      : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+            return (
+              <button
+                key={sub}
+                type="button"
+                onClick={() => {
+                  setSelectedSubject(sub);
+                  setSelectedChapter('All');
+                  setSelectedTopic('');
+                }}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 shrink-0 ${
+                  isSelected
+                    ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                    : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <span>{sub === 'All' ? 'All Subjects' : sub}</span>
+                <span
+                  className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
+                    isSelected ? 'bg-slate-950/20 text-slate-950' : 'bg-slate-800 text-slate-400'
                   }`}
                 >
-                  <span>{sub}</span>
-                  <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
-                      isSelected ? 'bg-white/20 text-white' : 'bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300'
-                    }`}
-                  >
-                    {count}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Mode Switcher: Full Chapter vs Topic-wise */}
-          <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800/80 p-1 rounded-2xl">
-            <button
-              onClick={() => {
-                setLectureMode('FULL_CHAPTER');
-                setSelectedTopic('');
-              }}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                lectureMode === 'FULL_CHAPTER'
-                  ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
-              }`}
-            >
-              ▶ Full Chapter One-Shots
-            </button>
-            <button
-              onClick={() => setLectureMode('TOPIC_WISE')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                lectureMode === 'TOPIC_WISE'
-                  ? 'bg-emerald-600 text-white shadow-xs'
-                  : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
-              }`}
-            >
-              ☰ Topic-Wise Deep Dives
-            </button>
-          </div>
+                  {count}
+                </span>
+              </button>
+            );
+          })}
         </div>
 
-        {/* Row 3: Chapter Selector & Search Bar */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-3 border-t border-slate-100 dark:border-slate-800">
+        {/* Row 3: Mode Switcher */}
+        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          <button
+            type="button"
+            onClick={() => {
+              setLectureMode('FULL_CHAPTER');
+              setSelectedTopic('');
+            }}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+              lectureMode === 'FULL_CHAPTER'
+                ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
+            }`}
+          >
+            ▶ Full Chapter One-Shots
+          </button>
+          <button
+            type="button"
+            onClick={() => setLectureMode('TOPIC_WISE')}
+            className={`px-3.5 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+              lectureMode === 'TOPIC_WISE'
+                ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
+            }`}
+          >
+            ☰ Topic-Wise Deep Dives
+          </button>
+        </div>
+
+        {/* Row 4: Chapter Selector & Search Bar */}
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 pt-1">
           {/* Chapter Selector Dropdown */}
-          <div className="flex items-center gap-2 flex-1 max-w-md">
-            <span className="text-xs font-bold text-slate-500 whitespace-nowrap">Chapter:</span>
+          <div className="flex items-center gap-2 flex-1 sm:max-w-xs">
             <select
               aria-label="Filter lectures by chapter"
               value={selectedChapter}
@@ -565,11 +543,11 @@ export const VideoLecturesPage: React.FC = () => {
                 setSelectedChapter(e.target.value);
                 setSelectedTopic('');
               }}
-              className="w-full px-3 py-2 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-xl text-xs font-bold text-slate-800 dark:text-slate-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 cursor-pointer"
+              className="w-full px-3.5 py-2 bg-[#0d1520] border border-slate-800 rounded-full text-xs font-bold text-white focus:outline-none focus:border-emerald-500 cursor-pointer shadow-2xs"
             >
               <option value="All">All Chapters ({distinctChapters.length})</option>
               {distinctChapters.map((ch) => (
-                <option key={ch} value={ch}>
+                <option key={ch} value={ch} className="bg-[#0c121d] text-white">
                   {formatChapterDropdownLabel(
                     ch,
                     selectedSubject !== 'All' ? selectedSubject : undefined,
@@ -591,13 +569,14 @@ export const VideoLecturesPage: React.FC = () => {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search lectures by topic, chapter or educator (e.g. Kinematics, GOC, Optics)..."
-              className="w-full pl-9 pr-8 py-2 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-700/80 rounded-xl text-xs text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+              placeholder="Search lectures by topic, chapter or educator..."
+              className="w-full pl-9 pr-8 py-2 bg-[#0d1520] border border-slate-800 rounded-full text-xs text-white placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 shadow-2xs"
             />
             {searchQuery && (
               <button
+                type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white"
               >
                 <X className="w-3.5 h-3.5" />
               </button>

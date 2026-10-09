@@ -78,7 +78,7 @@ export const HelpCenter: React.FC = () => {
   return (
     <div className="max-w-4xl mx-auto space-y-7 pb-20 animate-slide-up">
       {/* Header Banner */}
-      <div className="bg-gradient-to-r from-purple-950 via-brand-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-purple-950 via-brand-900 to-indigo-950 rounded-2xl p-4 sm:p-6 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-purple-200 text-xs font-semibold backdrop-blur-md">
             <HelpCircle className="w-3.5 h-3.5 text-amber-300" />

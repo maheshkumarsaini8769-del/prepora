@@ -20,7 +20,13 @@ import {
   Download,
   Printer,
   PlusCircle,
-  FileText
+  FileText,
+  Ruler,
+  Zap,
+  Atom,
+  Orbit,
+  Dna,
+  FlaskConical
 } from 'lucide-react';
 import { Button } from '../components/common/UIComponents';
 import { MathRenderer } from '../components/common/MathRenderer';
@@ -35,6 +41,33 @@ import {
   TopicFormula
 } from '../data/comprehensiveFormulaNotes';
 import { sortChaptersCanonical } from '../utils/chapterOrder';
+
+// Helper to return thematic icons for chapters
+function getChapterIcon(chapter: string, subject: string) {
+  const c = chapter.toLowerCase();
+  if (c.includes('unit') || c.includes('measure') || c.includes('dimension') || c.includes('error')) {
+    return <Ruler className="w-5 h-5 text-emerald-400" />;
+  }
+  if (c.includes('straight line') || c.includes('motion') || c.includes('kinematic') || c.includes('laws of motion')) {
+    return <Zap className="w-5 h-5 text-emerald-400" />;
+  }
+  if (c.includes('plane') || c.includes('vector') || c.includes('projectile') || c.includes('circular') || c.includes('rotat')) {
+    return <Orbit className="w-5 h-5 text-emerald-400" />;
+  }
+  if (c.includes('gravitat') || c.includes('planet') || c.includes('orbit')) {
+    return <Orbit className="w-5 h-5 text-emerald-400" />;
+  }
+  if (c.includes('atom') || c.includes('nuclei') || c.includes('dual') || c.includes('ray') || c.includes('wave')) {
+    return <Atom className="w-5 h-5 text-emerald-400" />;
+  }
+  if (subject === 'Biology' || c.includes('cell') || c.includes('reproduction') || c.includes('genet') || c.includes('plant') || c.includes('human')) {
+    return <Dna className="w-5 h-5 text-emerald-400" />;
+  }
+  if (subject === 'Chemistry' || c.includes('thermo') || c.includes('equil') || c.includes('mole') || c.includes('bond') || c.includes('electro')) {
+    return <FlaskConical className="w-5 h-5 text-emerald-400" />;
+  }
+  return <BookOpen className="w-5 h-5 text-emerald-400" />;
+}
 
 // Helper to merge dynamically fetched or admin-created formulas into master formula list
 function mergeServerFormulas(
@@ -1086,182 +1119,146 @@ export const FormulaNotesHub: React.FC = () => {
       ) : (
         /* VIEW MODE 2: CHAPTER DIRECTORY / SELECTOR HUB */
         <div className="space-y-6">
-          {/* Top Hero Banner */}
-          <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-950 text-white p-6 sm:p-8 shadow-xl shadow-emerald-950/20 border border-emerald-700/40">
-            <div className="absolute -right-16 -top-16 w-64 h-64 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute right-1/3 -bottom-16 w-56 h-56 bg-teal-400/20 rounded-full blur-3xl pointer-events-none" />
-
-            <div className="relative z-10 space-y-3 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-200 text-xs font-bold backdrop-blur-xs">
-                <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-                <span>Chapter-by-Chapter Formulas & Solved Examples</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-                <span>Target: {user.targetExam} 2026</span>
+          {/* Top Hero Banner - Exact Mobile Match */}
+          <div className="rounded-2xl bg-[#061817] dark:bg-[#061817] p-4 sm:p-5 border border-emerald-500/30 text-white space-y-3 shadow-lg shadow-emerald-950/20">
+            <div className="flex items-start gap-3">
+              <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
+                <FileText className="w-5 h-5 text-emerald-400" />
               </div>
+              <div className="space-y-0.5 min-w-0 flex-1">
+                <h1 className="text-base sm:text-lg font-bold text-white tracking-tight">
+                  Formula Sheet & Worked Examples
+                </h1>
+                <p className="text-[11px] sm:text-xs text-slate-300 leading-snug">
+                  Chapter-wise formulas, definitions and step-by-step solved examples for NEET, JEE & Board exams.
+                </p>
+              </div>
+            </div>
 
-              <h1 className="text-2xl sm:text-4xl font-black tracking-tight text-white">
-                Formula Sheet & Worked Examples
-              </h1>
-              <p className="text-emerald-100/90 text-xs sm:text-sm leading-relaxed">
-                Select any chapter below to open its dedicated formula sheet. Every topic features mathematical equations, variable definitions, and step-by-step solved numerical examples.
-              </p>
-
-              {/* Quick Stats */}
-              <div className="flex flex-wrap gap-2.5 pt-2">
-                <div className="px-3 py-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold flex items-center gap-1.5">
-                  <BookOpen className="w-3.5 h-3.5 text-emerald-300" />
-                  <span>{distinctChapters.length} Chapters</span>
-                </div>
-                <div className="px-3 py-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold flex items-center gap-1.5">
-                  <Layers className="w-3.5 h-3.5 text-teal-300" />
-                  <span>{filteredItems.length} Topics</span>
-                </div>
-                <div className="px-3 py-1 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 text-xs font-semibold flex items-center gap-1.5">
-                  <Flame className="w-3.5 h-3.5 text-amber-300" />
-                  <span>{distinctChapters.reduce((sum, ch) => sum + ch.formulaCount, 0)} Formulas with Examples</span>
-                </div>
+            {/* Quick Stats Pill Badges */}
+            <div className="flex flex-wrap gap-2 pt-0.5">
+              <div className="px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 shadow-2xs">
+                <BookOpen className="w-3.5 h-3.5 text-emerald-400" />
+                <span>{distinctChapters.length} Chapters</span>
+              </div>
+              <div className="px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 shadow-2xs">
+                <Layers className="w-3.5 h-3.5 text-teal-400" />
+                <span>{filteredItems.length} Topics</span>
+              </div>
+              <div className="px-3 py-1 rounded-full bg-emerald-950/70 border border-emerald-500/30 text-emerald-300 text-xs font-semibold flex items-center gap-1.5 shadow-2xs">
+                <Flame className="w-3.5 h-3.5 text-amber-400" />
+                <span>{distinctChapters.reduce((sum, ch) => sum + ch.formulaCount, 0)} Formulas</span>
               </div>
             </div>
           </div>
 
-          {/* Control Bar: Subject Tabs, Class Filter, Search */}
-          <div className="bg-white dark:bg-[#0e1620] p-4 sm:p-5 rounded-3xl border border-slate-200/80 dark:border-slate-800 shadow-sm space-y-4">
-            {/* Row 1: Subject Tabs & Class Level */}
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              {/* Subject Tabs */}
-              <div className="flex flex-wrap gap-1.5 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
+          {/* Controls Bar - Sleek Pills Layout Matching Image */}
+          <div className="space-y-2.5">
+            {/* Row 1: Subject Pill Chips */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+              <button
+                type="button"
+                onClick={() => setSelectedSubject('All')}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                  selectedSubject === 'All'
+                    ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                    : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <span>All Subjects</span>
+              </button>
+              {allowedSubjects.map((sub) => (
                 <button
+                  key={sub}
                   type="button"
-                  onClick={() => setSelectedSubject('All')}
-                  className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                    selectedSubject === 'All'
-                      ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
-                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
+                  onClick={() => setSelectedSubject(sub)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                    selectedSubject === sub
+                      ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                      : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
                   }`}
                 >
-                  <span>All Subjects</span>
-                  {searchQuery && totalSearchMatches > 0 && (
-                    <span
-                      className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
-                        selectedSubject === 'All'
-                          ? 'bg-emerald-800 text-white'
-                          : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
-                      }`}
-                    >
-                      {totalSearchMatches}
-                    </span>
-                  )}
+                  <span>{sub}</span>
                 </button>
-                {allowedSubjects.map((sub) => {
-                  const subMatchCount = subjectMatchCounts[sub] || 0;
-                  return (
-                    <button
-                      key={sub}
-                      type="button"
-                      onClick={() => setSelectedSubject(sub)}
-                      className={`px-3.5 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                        selectedSubject === sub
-                          ? 'bg-emerald-600 text-white shadow-xs font-extrabold'
-                          : 'text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white'
-                      }`}
-                    >
-                      <span>{sub}</span>
-                      {searchQuery && subMatchCount > 0 && (
-                        <span
-                          className={`text-[10px] px-1.5 py-0.2 rounded-full font-black ${
-                            selectedSubject === sub
-                              ? 'bg-emerald-800 text-white'
-                              : 'bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300'
-                          }`}
-                        >
-                          {subMatchCount}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Class Filter & Admin Button */}
-              <div className="flex flex-wrap items-center gap-2">
-                <div className="flex gap-1 p-1 rounded-2xl bg-slate-100 dark:bg-slate-800/80">
-                  {(['All', '11', '12'] as const).map((cls) => (
-                    <button
-                      key={cls}
-                      type="button"
-                      onClick={() => setSelectedClass(cls)}
-                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
-                        selectedClass === cls
-                          ? 'bg-emerald-600 text-white shadow-xs'
-                          : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
-                      }`}
-                    >
-                      {cls === 'All' ? 'All Classes' : `Class ${cls}`}
-                    </button>
-                  ))}
-                </div>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    setNewFormulaForm((prev) => ({
-                      ...prev,
-                      subject: selectedSubject === 'All' ? 'Physics' : selectedSubject,
-                      classLevel: selectedClass === 'All' ? '11' : selectedClass
-                    }));
-                    setAddFormulaModalOpen(true);
-                  }}
-                  className="px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white shadow-xs"
-                >
-                  <PlusCircle className="w-3.5 h-3.5" />
-                  <span>+ Add Formula</span>
-                </button>
-              </div>
+              ))}
             </div>
 
-            {/* Row 2: Search Bar & Bookmark Filter */}
-            <div className="flex flex-col md:flex-row items-stretch md:items-center gap-3">
-              <div className="relative flex-1">
-                <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
-                <input
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder={`Search ${selectedSubject === 'All' ? 'all' : selectedSubject} formulas, concepts, or topics (e.g. Raoult's Law, Nernst, Bernoulli, Bayes, Projectile)...`}
-                  className="w-full pl-10 pr-10 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-xs font-medium focus:outline-none focus:ring-2 focus:ring-emerald-500 shadow-2xs"
-                />
-                {searchQuery && (
-                  <button
-                    type="button"
-                    onClick={() => setSearchQuery('')}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 p-1 cursor-pointer"
-                    title="Clear search"
-                  >
-                    <X className="w-3.5 h-3.5" />
-                  </button>
-                )}
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
+            {/* Row 2: Class Level Pills + Add Formula */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5">
+              {(['All', '11', '12'] as const).map((cls) => (
                 <button
+                  key={cls}
                   type="button"
-                  onClick={() => setOnlyBookmarked((prev) => !prev)}
-                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 border ${
-                    onlyBookmarked
-                      ? 'bg-amber-500 text-white border-amber-600 shadow-xs'
-                      : 'bg-slate-50 dark:bg-slate-900 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700 hover:bg-slate-100'
+                  onClick={() => setSelectedClass(cls)}
+                  className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all cursor-pointer shrink-0 ${
+                    selectedClass === cls
+                      ? 'bg-emerald-500 text-slate-950 shadow-xs'
+                      : 'bg-[#0f1723] dark:bg-[#0f1723] text-slate-300 border border-slate-800 hover:border-slate-700'
                   }`}
                 >
-                  <Bookmark className={`w-3.5 h-3.5 ${onlyBookmarked ? 'fill-white' : ''}`} />
-                  <span>Bookmarks ({bookmarkedFormulaIds.size})</span>
+                  {cls === 'All' ? 'All Classes' : `Class ${cls}`}
                 </button>
-              </div>
+              ))}
+
+              <button
+                type="button"
+                onClick={() => {
+                  setNewFormulaForm((prev) => ({
+                    ...prev,
+                    subject: selectedSubject === 'All' ? 'Physics' : selectedSubject,
+                    classLevel: selectedClass === 'All' ? '11' : selectedClass
+                  }));
+                  setAddFormulaModalOpen(true);
+                }}
+                className="px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 border border-emerald-500/40 text-emerald-400 bg-emerald-500/5 hover:bg-emerald-500/10 shrink-0"
+              >
+                <PlusCircle className="w-3.5 h-3.5" />
+                <span>+ Add Formula</span>
+              </button>
             </div>
 
-            {/* Popular Search Suggestions Chips */}
+            {/* Row 3: Search Bar */}
+            <div className="relative w-full">
+              <Search className="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search formulas, concepts or topics..."
+                className="w-full pl-9 pr-9 py-2.5 rounded-full border border-slate-800 bg-[#0d1520] text-white text-xs font-medium placeholder:text-slate-500 focus:outline-none focus:border-emerald-500 shadow-2xs"
+              />
+              {searchQuery && (
+                <button
+                  type="button"
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white p-1 cursor-pointer"
+                  title="Clear search"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            {/* Row 4: Bookmarks Button */}
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => setOnlyBookmarked((prev) => !prev)}
+                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all cursor-pointer flex items-center gap-1.5 border ${
+                  onlyBookmarked
+                    ? 'bg-amber-500 text-white border-amber-500 shadow-xs'
+                    : 'bg-[#0f1723] text-slate-300 border-slate-800 hover:border-slate-700'
+                }`}
+              >
+                <Bookmark className={`w-3.5 h-3.5 ${onlyBookmarked ? 'fill-white' : ''}`} />
+                <span>Bookmarks ({bookmarkedFormulaIds.size})</span>
+              </button>
+            </div>
+
+            {/* Row 5: Popular Search Suggestions Chips */}
             <div className="flex flex-wrap items-center gap-1.5 pt-0.5">
-              <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1 shrink-0">
-                <Sparkles className="w-3 h-3 text-amber-500" />
+              <span className="text-[11px] font-bold text-amber-400 flex items-center gap-1 shrink-0">
+                <Sparkles className="w-3 h-3 text-amber-400" />
                 <span>Popular:</span>
               </span>
               {popularChips.map((chip) => (
@@ -1269,10 +1266,10 @@ export const FormulaNotesHub: React.FC = () => {
                   key={chip}
                   type="button"
                   onClick={() => setSearchQuery(chip)}
-                  className={`px-2.5 py-1 rounded-lg text-[11px] font-semibold transition border cursor-pointer ${
+                  className={`px-3 py-1 rounded-full text-[11px] font-semibold transition border cursor-pointer ${
                     normalizeSearchText(searchQuery) === normalizeSearchText(chip)
-                      ? 'bg-emerald-600 text-white border-emerald-600 shadow-2xs font-bold'
-                      : 'bg-slate-50 dark:bg-slate-900/80 hover:bg-slate-100 dark:hover:bg-slate-800 border-slate-200/80 dark:border-slate-800 text-slate-700 dark:text-slate-300'
+                      ? 'bg-emerald-600 text-white border-emerald-500 font-bold'
+                      : 'bg-[#0f1723] hover:bg-slate-800 border-slate-800 text-slate-300'
                   }`}
                 >
                   {chip}
@@ -1438,83 +1435,88 @@ export const FormulaNotesHub: React.FC = () => {
             /* Standard Chapter Directory Grid */
             <div className="space-y-4">
               <div className="flex items-center justify-between px-1">
-                <h2 className="text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
-                  <BookOpen className="w-4 h-4 text-emerald-600" />
-                  <span>Choose a Chapter to View Formulas ({distinctChapters.length} Chapters Available)</span>
-                </h2>
-                <span className="text-xs text-slate-400 font-medium">
-                  {selectedSubject === 'All' ? 'All Subjects' : selectedSubject}
-                </span>
+                <div>
+                  <h2 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                    <BookOpen className="w-4 h-4 text-emerald-400" />
+                    <span>Choose a Chapter to View Formulas</span>
+                  </h2>
+                  <p className="text-[11px] text-slate-400 mt-0.5">
+                    {distinctChapters.length} Chapters Available
+                  </p>
+                </div>
+                <div className="flex items-center gap-1 text-xs text-slate-300 font-semibold bg-[#0f1723] border border-slate-800 px-2.5 py-1 rounded-lg">
+                  <span>{selectedSubject === 'All' ? 'Physics' : selectedSubject}</span>
+                  <ChevronRight className="w-3.5 h-3.5 rotate-90 text-slate-400" />
+                </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
                 {distinctChapters.map((chGroup) => {
-                  const subjectBadge =
-                    chGroup.subject === 'Physics'
-                      ? 'bg-blue-50 dark:bg-blue-950/50 text-blue-700 dark:text-blue-300 border-blue-200 dark:border-blue-900'
-                      : chGroup.subject === 'Chemistry'
-                      ? 'bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 border-emerald-200 dark:border-emerald-900'
-                      : chGroup.subject === 'Mathematics'
-                      ? 'bg-purple-50 dark:bg-purple-950/50 text-purple-700 dark:text-purple-300 border-purple-200 dark:border-purple-900'
-                      : 'bg-rose-50 dark:bg-rose-950/50 text-rose-700 dark:text-rose-300 border-rose-200 dark:border-rose-900';
-
                   return (
                     <div
                       key={chGroup.chapter}
                       onClick={() => handleSelectChapter(chGroup.chapter, chGroup.subject as SubjectName)}
-                      className="group p-5 rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200/80 dark:border-slate-800 hover:border-emerald-500 dark:hover:border-emerald-500 hover:shadow-lg transition-all duration-200 cursor-pointer flex flex-col justify-between gap-4"
+                      className="group p-4 rounded-2xl bg-[#0c121d] border border-slate-800/80 hover:border-emerald-500/50 hover:bg-[#0e1623] transition-all duration-200 cursor-pointer space-y-2.5 shadow-sm"
                     >
-                      <div className="space-y-2.5">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className={`text-[10px] font-black px-2.5 py-0.5 rounded-full border ${subjectBadge}`}>
-                            {chGroup.subject}
-                          </span>
-                          <div className="flex items-center gap-1">
-                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-                              Class {chGroup.classLevel}
-                            </span>
-                            {chGroup.weightage === 'High' && (
-                              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
-                                High Yield
+                      <div className="flex items-start gap-3">
+                        {/* Leading Thematic Square Icon Box */}
+                        <div className="w-11 h-11 rounded-xl bg-emerald-500/10 border border-emerald-500/25 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5 shadow-2xs">
+                          {getChapterIcon(chGroup.chapter, chGroup.subject)}
+                        </div>
+
+                        {/* Title & Metadata */}
+                        <div className="min-w-0 flex-1 space-y-1">
+                          <div className="flex items-start justify-between gap-1.5">
+                            <h3 className="text-sm sm:text-base font-bold text-white group-hover:text-emerald-400 transition-colors line-clamp-1">
+                              {chGroup.chapter}
+                            </h3>
+                            <div className="flex items-center gap-1 shrink-0">
+                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded bg-[#151f2e] text-slate-300 border border-slate-750">
+                                Class {chGroup.classLevel}
                               </span>
-                            )}
+                              {chGroup.weightage === 'High' && (
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-rose-500/15 text-rose-400 border border-rose-500/30">
+                                  High Yield
+                                </span>
+                              )}
+                            </div>
                           </div>
-                        </div>
 
-                        <h3 className="text-base font-black text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors line-clamp-2">
-                          {chGroup.chapter}
-                        </h3>
-
-                        <div className="flex items-center gap-2 text-xs text-slate-500 dark:text-slate-400 font-semibold">
-                          <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
-                            <Flame className="w-3.5 h-3.5" />
-                            {chGroup.formulaCount} Formulas
-                          </span>
-                          <span>•</span>
-                          <span>{chGroup.items.length} Topics</span>
-                        </div>
-
-                        {/* Topic tags preview */}
-                        <div className="flex flex-wrap gap-1 pt-1">
-                          {chGroup.items.slice(0, 3).map((it) => (
-                            <span
-                              key={it.id}
-                              className="text-[10px] px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800/80 text-slate-600 dark:text-slate-300 truncate max-w-[130px]"
-                            >
-                              {it.topic}
+                          <div className="flex items-center gap-2 text-[11px] text-slate-400 font-semibold">
+                            <span className="text-emerald-400 font-bold flex items-center gap-1">
+                              <Flame className="w-3 h-3 text-emerald-400" />
+                              {chGroup.formulaCount} Formulas
                             </span>
-                          ))}
-                          {chGroup.items.length > 3 && (
-                            <span className="text-[10px] px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-400">
-                              +{chGroup.items.length - 3} more
+                            <span>•</span>
+                            <span className="flex items-center gap-1">
+                              <Layers className="w-3 h-3 text-teal-400" />
+                              {chGroup.items.length} Topics
                             </span>
-                          )}
+                          </div>
                         </div>
                       </div>
 
-                      <div className="pt-3 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs font-bold text-emerald-600 dark:text-emerald-400 group-hover:translate-x-1 transition-transform">
+                      {/* Topic Tags Preview */}
+                      <div className="flex flex-wrap gap-1.5 pt-0.5">
+                        {chGroup.items.slice(0, 2).map((it) => (
+                          <span
+                            key={it.id}
+                            className="text-[10px] px-2.5 py-0.5 rounded-full bg-[#141d2a] text-slate-300 border border-slate-800/70 truncate max-w-[140px]"
+                          >
+                            {it.topic}
+                          </span>
+                        ))}
+                        {chGroup.items.length > 2 && (
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#141d2a] text-slate-400 border border-slate-800/70 font-medium">
+                            +{chGroup.items.length - 2} more
+                          </span>
+                        )}
+                      </div>
+
+                      {/* Bottom Action Link */}
+                      <div className="pt-2 border-t border-slate-800/60 flex items-center justify-between text-xs font-semibold text-emerald-400 group-hover:text-emerald-300">
                         <span>Open Chapter Formulas</span>
-                        <ArrowRight className="w-4 h-4" />
+                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
                       </div>
                     </div>
                   );

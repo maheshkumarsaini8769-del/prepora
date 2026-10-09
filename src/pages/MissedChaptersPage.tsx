@@ -156,7 +156,7 @@ export const MissedChaptersPage: React.FC = () => {
   return (
     <div className="max-w-6xl mx-auto space-y-6 pb-20 animate-in fade-in duration-200">
       {/* 1. Header & Backlog Diagnostic Banner */}
-      <div className="bg-gradient-to-r from-amber-950 via-slate-900 to-rose-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-amber-500/20 flex flex-col md:flex-row md:items-center justify-between gap-6">
+      <div className="bg-gradient-to-r from-amber-950 via-slate-900 to-rose-950 rounded-2xl p-4 sm:p-6 text-white shadow-xl border border-amber-500/20 flex flex-col md:flex-row md:items-center justify-between gap-6">
         <div className="space-y-2 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-semibold backdrop-blur-md border border-amber-500/30">
             <AlertTriangle className="w-3.5 h-3.5 text-amber-400" />
