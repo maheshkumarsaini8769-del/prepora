@@ -50,62 +50,128 @@ class MockEcosystemService {
       return saved;
     }
 
-    // Generate fresh plan based on user profile and weaknesses
+    // Generate fresh plan based on 30 Ch x 10 Topics curriculum architecture (PCM/PCB)
     const profile = userService.getProfile();
+    const isNeet = (profile.targetExam || '').toUpperCase() === 'NEET';
     const weaknesses = userService.getWeaknesses();
-    const topWeak = weaknesses[0] || { chapter: 'Kinematics', subject: 'Physics' };
-    const secondWeak = weaknesses[1] || { chapter: 'Thermodynamics', subject: 'Chemistry' };
+    const physWeak = weaknesses.find((w) => w.subject === 'Physics') || { chapter: 'Kinematics', subject: 'Physics' };
+    const chemWeak = weaknesses.find((w) => w.subject === 'Chemistry') || { chapter: 'Chemical Bonding and Molecular Structure', subject: 'Chemistry' };
+    const thirdSub: SubjectName = isNeet ? 'Biology' : 'Mathematics';
+    const thirdWeak = weaknesses.find((w) => w.subject === thirdSub) || { chapter: isNeet ? 'Cell: The Unit of Life' : 'Quadratic Equations & Complex Numbers', subject: thirdSub };
+
+    const todayDate = new Date();
+    const dayOfMonth = todayDate.getDate();
+    const isMidMonthTest = dayOfMonth === 15;
+    const isEndMonthTest = dayOfMonth === 30 || dayOfMonth === 31 || (todayDate.getMonth() === 1 && dayOfMonth >= 28);
+
+    const items: DailyPlanItem[] = [
+      // 1. PHYSICS: Topic Lecture + Immediate DPP Practice
+      {
+        id: 'dp-p-lec',
+        title: `Physics Lecture — ${physWeak.chapter}`,
+        subject: 'Physics',
+        chapter: physWeak.chapter,
+        questionCount: 0,
+        durationMinutes: 45,
+        status: 'pending',
+        type: 'lecture',
+        actionUrl: `/lectures?subject=Physics&chapter=${encodeURIComponent(physWeak.chapter)}`
+      },
+      {
+        id: 'dp-p-dpp',
+        title: `Physics DPP (15 Qs) — ${physWeak.chapter}`,
+        subject: 'Physics',
+        chapter: physWeak.chapter,
+        questionCount: 15,
+        durationMinutes: 30,
+        status: 'pending',
+        type: 'practice',
+        actionUrl: `/practice?subject=Physics&chapter=${encodeURIComponent(physWeak.chapter)}`
+      },
+
+      // 2. CHEMISTRY: Topic Lecture + Immediate DPP Practice
+      {
+        id: 'dp-c-lec',
+        title: `Chemistry Lecture — ${chemWeak.chapter}`,
+        subject: 'Chemistry',
+        chapter: chemWeak.chapter,
+        questionCount: 0,
+        durationMinutes: 45,
+        status: 'pending',
+        type: 'lecture',
+        actionUrl: `/lectures?subject=Chemistry&chapter=${encodeURIComponent(chemWeak.chapter)}`
+      },
+      {
+        id: 'dp-c-dpp',
+        title: `Chemistry DPP (15 Qs) — ${chemWeak.chapter}`,
+        subject: 'Chemistry',
+        chapter: chemWeak.chapter,
+        questionCount: 15,
+        durationMinutes: 30,
+        status: 'pending',
+        type: 'practice',
+        actionUrl: `/practice?subject=Chemistry&chapter=${encodeURIComponent(chemWeak.chapter)}`
+      },
+
+      // 3. MATHS / BIOLOGY: Topic Lecture + Immediate DPP Practice
+      {
+        id: 'dp-m-lec',
+        title: `${thirdSub} Lecture — ${thirdWeak.chapter}`,
+        subject: thirdSub,
+        chapter: thirdWeak.chapter,
+        questionCount: 0,
+        durationMinutes: 45,
+        status: 'pending',
+        type: 'lecture',
+        actionUrl: `/lectures?subject=${encodeURIComponent(thirdSub)}&chapter=${encodeURIComponent(thirdWeak.chapter)}`
+      },
+      {
+        id: 'dp-m-dpp',
+        title: `${thirdSub} DPP (15 Qs) — ${thirdWeak.chapter}`,
+        subject: thirdSub,
+        chapter: thirdWeak.chapter,
+        questionCount: 15,
+        durationMinutes: 30,
+        status: 'pending',
+        type: 'practice',
+        actionUrl: `/practice?subject=${encodeURIComponent(thirdSub)}&chapter=${encodeURIComponent(thirdWeak.chapter)}`
+      }
+    ];
+
+    // 4. MONTHLY EXAM MILESTONE (2 Exams per Month: Day 15 & Day 30)
+    if (isMidMonthTest) {
+      items.push({
+        id: 'dp-exam-mid',
+        title: '🎯 Mid-Month Review Mock Test (Days 1–15 Coverage)',
+        subject: 'Physics',
+        chapter: 'All Month Topics',
+        questionCount: 75,
+        durationMinutes: 180,
+        status: 'pending',
+        type: 'test',
+        actionUrl: '/tests'
+      });
+    } else if (isEndMonthTest) {
+      items.push({
+        id: 'dp-exam-end',
+        title: '🏆 End-Month Cumulative Grand Mock Test',
+        subject: 'Physics',
+        chapter: 'Cumulative Monthly Curriculum',
+        questionCount: 75,
+        durationMinutes: 180,
+        status: 'pending',
+        type: 'test',
+        actionUrl: '/tests'
+      });
+    }
+
+    const totalDuration = items.reduce((sum, it) => sum + it.durationMinutes, 0);
 
     const initialPlan: DailyPlan = {
       date: todayStr,
-      totalDurationMinutes: 75,
+      totalDurationMinutes: totalDuration,
       completedMinutes: 0,
-      items: [
-        {
-          id: 'dp-1',
-          title: `${topWeak.subject} — ${topWeak.chapter}`,
-          subject: topWeak.subject,
-          chapter: topWeak.chapter,
-          questionCount: 20,
-          durationMinutes: 20,
-          status: 'pending',
-          type: 'practice',
-          actionUrl: `/practice?chapter=${encodeURIComponent(topWeak.chapter)}`
-        },
-        {
-          id: 'dp-2',
-          title: `${secondWeak.subject} — ${secondWeak.chapter}`,
-          subject: secondWeak.subject,
-          chapter: secondWeak.chapter,
-          questionCount: 15,
-          durationMinutes: 15,
-          status: 'pending',
-          type: 'practice',
-          actionUrl: `/practice?chapter=${encodeURIComponent(secondWeak.chapter)}`
-        },
-        {
-          id: 'dp-3',
-          title: profile.targetExam === 'NEET' ? 'Biology — Cell Structure & Function' : 'Mathematics — Definite Integrals',
-          subject: profile.targetExam === 'NEET' ? 'Biology' : 'Mathematics',
-          chapter: profile.targetExam === 'NEET' ? 'Cell: The Unit of Life' : 'Integral Calculus',
-          questionCount: 20,
-          durationMinutes: 20,
-          status: 'pending',
-          type: 'revision',
-          actionUrl: `/chapters/${encodeURIComponent(profile.targetExam === 'NEET' ? 'Cell: The Unit of Life' : 'Integral Calculus')}`
-        },
-        {
-          id: 'dp-4',
-          title: 'Daily Speed Mini Mock',
-          subject: topWeak.subject,
-          chapter: 'Mixed Section',
-          questionCount: 10,
-          durationMinutes: 20,
-          status: 'pending',
-          type: 'test',
-          actionUrl: '/tests'
-        }
-      ]
+      items
     };
 
     setStorageItem(DAILY_PLAN_KEY as any, initialPlan);

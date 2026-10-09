@@ -361,7 +361,7 @@ export interface DailyPlanItem {
   questionCount: number;
   durationMinutes: number;
   status: 'pending' | 'in-progress' | 'completed' | 'skipped';
-  type: 'practice' | 'test' | 'revision' | 'formula';
+  type: 'practice' | 'test' | 'revision' | 'formula' | 'lecture';
   actionUrl: string;
 }
 

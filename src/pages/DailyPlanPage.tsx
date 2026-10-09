@@ -327,6 +327,8 @@ export const DailyPlanPage: React.FC = () => {
           let typeColor = 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800';
           if (item.type === 'revision') typeColor = 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800';
           if (item.type === 'test') typeColor = 'bg-indigo-50 text-indigo-700 border-indigo-200 dark:bg-indigo-950/40 dark:text-indigo-300 dark:border-indigo-800';
+          if (item.type === 'lecture') typeColor = 'bg-rose-50 text-rose-700 border-rose-200 dark:bg-rose-950/40 dark:text-rose-300 dark:border-rose-800';
+          if (item.type === 'formula') typeColor = 'bg-amber-50 text-amber-700 border-amber-200 dark:bg-amber-950/40 dark:text-amber-300 dark:border-amber-800';
 
           return (
             <div
@@ -547,8 +549,10 @@ export const DailyPlanPage: React.FC = () => {
                 onChange={(e) => setNewType(e.target.value as any)}
                 className="w-full px-3 py-2 border border-slate-200 dark:border-slate-800 rounded-xl text-xs focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 outline-none bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100"
               >
-                <option value="practice">Practice Drill</option>
+                <option value="practice">Practice Drill (DPP)</option>
+                <option value="lecture">Video Lecture</option>
                 <option value="revision">Revision</option>
+                <option value="formula">Formula Sheet Drill</option>
                 <option value="test">Mock Test</option>
               </select>
             </div>
