@@ -8,7 +8,14 @@ import {
   IWeaknessAnalysisResult,
   QuestionUnderstanding
 } from './aiTypes.js';
-import { NEET_AI_TEACHER_SYSTEM_PROMPT, detectLanguageMode } from './neetAITeacherPrompt.js';
+import { 
+  buildSystemInstructions, 
+  detectLanguage, 
+  isGreetingMessage, 
+  isGratitudeMessage,
+  buildGreetingResponse,
+  buildGratitudeResponse
+} from './masterPedagogicalEngine.js';
 
 export class GroqProvider implements IAIProvider {
   public readonly name = 'Groq (Llama)';
@@ -65,6 +72,13 @@ export class GroqProvider implements IAIProvider {
   }
 
   private async chatComplete(systemPrompt: string, userPrompt: string, maxTokens: number): Promise<string> {
+    return this.chatCompleteWithMessages([
+      { role: 'system', content: systemPrompt },
+      { role: 'user', content: userPrompt }
+    ], maxTokens);
+  }
+
+  private async chatCompleteWithMessages(messages: Array<{ role: string; content: string }>, maxTokens: number): Promise<string> {
     const candidateModels = [
       this.modelName,
       'openai/gpt-oss-120b',
@@ -84,10 +98,7 @@ export class GroqProvider implements IAIProvider {
           },
           body: JSON.stringify({
             model,
-            messages: [
-              { role: 'system', content: systemPrompt },
-              { role: 'user', content: userPrompt }
-            ],
+            messages,
             temperature: 0.2,
             max_tokens: maxTokens,
             response_format: { type: 'json_object' }
@@ -119,30 +130,23 @@ export class GroqProvider implements IAIProvider {
   public async solveDoubt(req: IDoubtSolveRequest, contextSnippet?: string): Promise<IDoubtSolveResult> {
     const startTime = Date.now();
     const cleanQ = req.question.trim();
-    const langMode = detectLanguageMode(cleanQ);
+    const lang = detectLanguage(cleanQ, req.conversationHistory);
 
-    const systemInstructions = [
-      NEET_AI_TEACHER_SYSTEM_PROMPT,
-      "",
-      "LANGUAGE REQUIREMENT: Strictly standard academic English. Explain all concepts, step-by-step derivations, examples, and tips purely in English.",
-      "",
-      "MANDATORY JSON OUTPUT SCHEMA:",
-      "Output strictly valid JSON matching this schema:",
-      "{",
-      '  "answer": "Complete, structured answer formatted using the designated headings (### 📚 Concept, ### 💡 Easy Explanation, etc. for concepts, or ### Given, ### Find, etc. for numericals). Use proper LaTeX $$...$$ for all formulas.",',
-      '  "coreConcept": "Exact scientific/mathematical concept name",',
-      '  "stepByStepSolution": ["Step 1 explanation", "Step 2 explanation", "Step 3 explanation"],',
-      '  "keyFormula": "Only relevant formula in LaTeX or empty string if not applicable",',
-      '  "isNumerical": false,',
-      '  "numericalBreakdown": { "givenValues": ["m = 5 kg"], "formulaUsed": "W = mg", "calculationSteps": ["W = 5 * 9.8 = 49 J"], "finalValueWithUnits": "49 J" },',
-      '  "example": "Worked example if numerical/example requested, else empty string",',
-      '  "examinerTrap": "Common student misconception or negative marking trap",',
-      '  "examTip": "High-yield score-boosting tip for NEET/JEE/Boards",',
-      '  "understanding": { "intent": "concept", "subject": "Physics", "chapter": "Chapter name", "topic": "Topic name", "concept": "Core concept", "difficulty": "Medium" }',
-      "}"
-    ].join('\n');
+    if (isGreetingMessage(cleanQ)) {
+      const res = buildGreetingResponse(cleanQ, lang);
+      res.provider = `Groq (${this.modelName})`;
+      return res;
+    }
+    if (isGratitudeMessage(cleanQ)) {
+      const res = buildGratitudeResponse(cleanQ, lang);
+      res.provider = `Groq (${this.modelName})`;
+      return res;
+    }
+
+    const systemInstructions = buildSystemInstructions(req, lang, contextSnippet);
 
     let userPrompt = `Question: "${cleanQ}"\n`;
+    if (req.aiMode) userPrompt += `Pedagogical Mode: ${req.aiMode === 'teacher' ? 'AI Teacher' : 'AI Doubt Solver'}\n`;
     if (req.subject) userPrompt += `User Subject Hint: ${req.subject}\n`;
     if (req.chapter) userPrompt += `User Chapter Hint: ${req.chapter}\n`;
     if (req.classLevel) userPrompt += `Student Level: Class ${req.classLevel}\n`;
@@ -150,8 +154,39 @@ export class GroqProvider implements IAIProvider {
     if (req.requestFollowUp) userPrompt += `Specific Follow-up Request: ${req.requestFollowUp}\n`;
     if (contextSnippet) userPrompt += `\nTrusted PREPORA Reference Content:\n"""\n${contextSnippet.slice(0, 3000)}\n"""\n`;
 
-    const rawText = await this.chatComplete(systemInstructions, userPrompt, 2048);
-    const parsed = JSON.parse(rawText);
+    const messages: Array<{ role: string; content: string }> = [
+      { role: 'system', content: systemInstructions }
+    ];
+
+    if (Array.isArray(req.conversationHistory) && req.conversationHistory.length > 0) {
+      for (const item of req.conversationHistory.slice(-6)) {
+        const role = (item.role === 'assistant' || item.role === 'model') ? 'assistant' : 'user';
+        let content = '';
+        if (typeof (item as any).text === 'string') {
+          content = (item as any).text.trim();
+        } else if (typeof (item as any).content === 'string') {
+          content = (item as any).content.trim();
+        } else if (Array.isArray((item as any).parts)) {
+          content = (item as any).parts.map((p: any) => p.text || '').join('\n').trim();
+        }
+        if (content) {
+          messages.push({ role, content });
+        }
+      }
+    }
+
+    messages.push({ role: 'user', content: userPrompt });
+
+    const rawText = await this.chatCompleteWithMessages(messages, 2048);
+    let parsed: any;
+    try {
+      parsed = JSON.parse(rawText);
+    } catch {
+      parsed = {
+        answer: rawText,
+        coreConcept: cleanQ
+      };
+    }
 
     const understanding: QuestionUnderstanding = {
       intent: parsed.understanding?.intent || 'explanation',

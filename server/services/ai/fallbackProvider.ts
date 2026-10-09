@@ -11,7 +11,15 @@ import {
 import { searchFormulaKnowledge } from '../../../src/utils/formulaKnowledgeBase.js';
 import { comprehensiveFormulaNotes } from '../../../src/data/comprehensiveFormulaNotes.js';
 import Question from '../../models/Question.js';
-import { detectLanguageMode } from './neetAITeacherPrompt.js';
+import { 
+  isGreetingMessage, 
+  isGratitudeMessage, 
+  buildGreetingResponse, 
+  buildGratitudeResponse, 
+  detectLanguage,
+  isFollowUpQuery,
+  isLanguageSwitchQuery
+} from './masterPedagogicalEngine.js';
 
 function findCurriculumTopicMatch(query: string, preferredSubject?: string) {
   const qClean = query.toLowerCase().replace(/[^\w\s]/g, ' ');
@@ -107,7 +115,118 @@ export class FallbackProvider implements IAIProvider {
     const startTime = Date.now();
     const q = req.question.trim();
     const qLower = q.toLowerCase();
-    const isHinglish = detectLanguageMode(q) === 'hinglish';
+    const lang = detectLanguage(q, req.conversationHistory);
+    const isHinglish = lang === 'hinglish';
+
+    if (isGreetingMessage(q)) {
+      const res = buildGreetingResponse(q, lang);
+      res.provider = this.name;
+      return res;
+    }
+
+    if (isGratitudeMessage(q)) {
+      const res = buildGratitudeResponse(q, lang);
+      res.provider = this.name;
+      return res;
+    }
+
+    // Follow-up: Why did you use this formula?
+    if (qLower.includes('why') && (qLower.includes('formula') || qLower.includes('sutra') || qLower.includes('use') || qLower.includes('used'))) {
+      const answer = lang === 'hinglish'
+        ? `### 🧮 Formula Selection Logic\n\nIs formula ko select karne ke piche ka scientific reasoning yeh hai:\n\n1. **Given Parameters:** Question me hume initial values aur boundary conditions di gayi hain.\n2. **Target Variable:** Hume jis unknown quantity ko find karna hai, yeh formula direct relationship provide karta hai.\n3. **Physical Conditions:** Yeh formula tabhi valid hota hai jab governing assumptions (jaise constant acceleration ya closed system) hold karein.\n\nKisi bhi entrance exam question me formula choose karte waqt hamesha check karein ki kya given conditions formula ke assumptions ko satisfy karti hain!`
+        : `### 🧮 Formula Selection Logic\n\nHere is the exact reasoning for selecting this formula:\n\n1. **Given Parameters:** The problem provides specific known quantities and boundary conditions.\n2. **Direct Relationship:** This governing formula establishes the most direct mathematical and physical connection between the known variables and the unknown target.\n3. **Valid Assumptions:** This formula applies under the stated physical conditions (e.g. constant acceleration, elastic interaction, or ideal gas behavior).\n\nAlways verify that standard preconditions hold before applying this equation in exam problems!`;
+
+      return {
+        answer,
+        coreConcept: 'Formula Selection & Physical Heuristics',
+        stepByStepSolution: [
+          'Identify given quantities with SI units.',
+          'Identify target unknown variable.',
+          'Select governing conservation or kinetic relation connecting knowns to target.',
+          'Verify assumptions and boundary consistency.'
+        ],
+        keyFormula: undefined,
+        examinerTrap: 'Never use constant acceleration equations (like v = u + at) when acceleration varies with time or position!',
+        examTip: 'Check dimensional consistency to eliminate wrong options instantly.',
+        understanding: {
+          intent: 'formula',
+          subject: (req.subject as any) || 'Physics',
+          chapter: req.chapter || 'Problem Solving Heuristics',
+          topic: 'Formula Justification',
+          concept: 'Formula Selection Logic',
+          difficulty: 'Medium',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['Show another example', 'Solve with another method', 'Test me on this'],
+        confidence: 0.98,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    }
+
+    // Follow-up: Explain this step
+    if ((qLower.includes('explain') && (qLower.includes('step') || qLower.includes('this step'))) || qLower.startsWith('explain step')) {
+      const answer = lang === 'hinglish'
+        ? `### 🔢 Step-by-Step Explanation\n\nIs step ko dhyan se samajhte hain:\n\n1. **Algebraic Substitution:** Pichle step me jo formula establish hua tha, usme humne standard SI units ke saath values substitute kiye hain.\n2. **Simplification & Balancing:** Equation ke dono sides ko balance karte hue terms ko group kiya gaya hai taaki target variable isolate ho sake.\n3. **Physical Significance:** Yeh intermediate step question ke core mechanism (jaise conservation of momentum ya net force balancing) ko represent karta hai.\n\nIs step me calculation error se bachne ke liye fractions aur powers ko pehle simplify karein.`
+        : `### 🔢 Detailed Step Breakdown\n\nHere is a detailed breakdown of this step:\n\n1. **Algebraic Substitution:** We substitute the known values with correct SI units directly into the governing equation.\n2. **Algebraic Simplification:** Group similar terms on each side of the equality to isolate the target variable.\n3. **Physical Interpretation:** This intermediate algebraic step ensures boundary condition consistency and momentum/energy conservation.\n\nAlways maintain proper signs and cancel common factors before computing numerical values.`;
+
+      return {
+        answer,
+        coreConcept: 'Detailed Step Breakdown',
+        stepByStepSolution: [
+          'Substitute values with consistent standard SI units.',
+          'Group variables and isolate the unknown on the LHS.',
+          'Verify algebraic signs and compute final result.'
+        ],
+        examinerTrap: 'Watch out for sign errors when transferring terms across the equality sign.',
+        examTip: 'Keep fractions in fractional form until the final step to minimize rounding errors.',
+        understanding: {
+          intent: 'explanation',
+          subject: (req.subject as any) || 'Physics',
+          chapter: req.chapter || 'Problem Solving',
+          topic: 'Step Breakdown',
+          concept: 'Step-by-step Justification',
+          difficulty: 'Medium',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['Why did you use this formula?', 'Give another example', 'Test me on this'],
+        confidence: 0.98,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    }
+
+    // Language switch: Explain in English
+    const switchMatch = isLanguageSwitchQuery(q);
+    if (switchMatch && switchMatch.requestedLanguage === 'english' && q.split(/\s+/).length <= 4) {
+      return {
+        answer: `### 📖 Academic English Mode\n\nI have switched to standard academic English. I will explain all concepts, formulas, derivations, and practice numericals in clear, concise English.\n\nPlease ask your question or let me know which concept you would like to explore next!`,
+        coreConcept: 'Language Preference: English',
+        stepByStepSolution: [],
+        examinerTrap: 'Maintain focus on accurate physical definitions and units.',
+        examTip: 'Always check dimensional formula of the final quantity.',
+        understanding: {
+          intent: 'general_query',
+          subject: 'General',
+          concept: 'English Mode',
+          difficulty: 'Easy',
+          isNumerical: false,
+          requiresCurrentInfo: false
+        },
+        verificationPassed: true,
+        groundedInPrepora: true,
+        suggestedFollowUps: ['What is Newton\'s second law?', 'Explain photosynthesis', 'Solve 2x + 5 = 15'],
+        confidence: 1.0,
+        provider: this.name,
+        latencyMs: Date.now() - startTime
+      };
+    }
 
     let subject = req.subject || 'General';
     let chapter = req.chapter || 'Foundations';

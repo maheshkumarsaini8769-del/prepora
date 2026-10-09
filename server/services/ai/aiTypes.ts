@@ -32,10 +32,13 @@ export interface IDoubtSolveRequest {
   topic?: string;
   classLevel?: string;
   targetExam?: string;
+  aiMode?: 'teacher' | 'doubt_solver';
+  tutorMode?: string;
+  requestedLanguage?: 'english' | 'hinglish';
   imageBase64?: string;
   imageMimeType?: string;
-  conversationHistory?: Array<{ role: 'user' | 'model'; text: string }>;
-  requestFollowUp?: 'explain_simpler' | 'give_example' | 'step_by_step' | 'why' | 'show_formula' | 'test_me' | 'give_hint';
+  conversationHistory?: Array<{ role: 'user' | 'model' | 'assistant'; text?: string; parts?: Array<{ text: string }> }>;
+  requestFollowUp?: string;
 }
 
 export interface IDoubtSolveResult {

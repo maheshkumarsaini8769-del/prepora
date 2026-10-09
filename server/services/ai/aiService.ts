@@ -22,7 +22,7 @@ class AIService {
   private groqProvider: GroqProvider;
   private fallbackProvider: FallbackProvider;
   private isAIEnabled: boolean = true;
-  private dailyRequestLimit: number = 500;
+  private dailyRequestLimit: number = 1500;
   private requestsToday: number = 0;
   private lastResetDate: string = new Date().toISOString().slice(0, 10);
 
@@ -33,8 +33,8 @@ class AIService {
     const groqKey = process.env.GROQ_API_KEY || '';
 
     this.openAIProvider = new OpenAIProvider(openaiKey, openaiModel);
-    this.geminiProvider = new GeminiProvider(geminiKey, 'gemini-1.5-flash');
-    this.groqProvider = new GroqProvider(groqKey);
+    this.geminiProvider = new GeminiProvider(geminiKey, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
+    this.groqProvider = new GroqProvider(groqKey, process.env.GROQ_MODEL || 'openai/gpt-oss-120b');
     this.fallbackProvider = new FallbackProvider();
   }
 
@@ -75,7 +75,7 @@ class AIService {
           this.openAIProvider.updateConfig(process.env.OPENAI_API_KEY, process.env.OPENAI_MODEL || 'gpt-4o-mini');
         }
 
-        this.dailyRequestLimit = config.dailyGenerationLimit || 500;
+        this.dailyRequestLimit = config.dailyGenerationLimit || 1500;
       } else {
         if (process.env.GEMINI_API_KEY) {
           this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.5-flash');

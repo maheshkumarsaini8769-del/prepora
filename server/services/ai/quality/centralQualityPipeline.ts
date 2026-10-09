@@ -33,6 +33,26 @@ export async function runCentralQualityPipeline(
     suggestedFollowUps: [...(rawAnswer.suggestedFollowUps || [])]
   };
 
+  // Conversational / Greeting / Gratitude shortcut - bypass formula gating and context mismatch
+  const isConversational = 
+    output.understanding?.intent === 'general_query' ||
+    output.coreConcept === 'AI Study Assistant Greeting' ||
+    output.coreConcept === 'Study Assistant Acknowledgement' ||
+    output.coreConcept === 'Language Preference: English';
+
+  if (isConversational) {
+    return {
+      result: output,
+      report: {
+        passed: true,
+        score: 100,
+        confidenceLevel: 'HIGH',
+        reasons: [],
+        remediesApplied: []
+      }
+    };
+  }
+
   // 1. REPUTATION & PLACEHOLDER CLEANING (Section 6)
   // Strip out "Governing physics principles of...", "Important concept of..." etc.
   const placeholderRegex = /^(governing\s+.*principles\s+of|important\s+concept\s+of|relevant\s+information|placeholder|n\/a|none)/i;

@@ -81,6 +81,9 @@ export class AIDoubtSolverService {
       classLevel?: string | number;
       conversationHistory?: { role: 'user' | 'model'; parts: { text: string }[] }[];
       contextSnippet?: string;
+      aiMode?: 'teacher' | 'doubt_solver';
+      tutorMode?: string;
+      requestedLanguage?: 'english' | 'hinglish';
     }
   ): Promise<SolvedDoubtResponse> {
     const studentProfile = userService.getProfile();
@@ -101,7 +104,10 @@ export class AIDoubtSolverService {
           targetExam: effectiveExam,
           classLevel: effectiveClass,
           conversationHistory: options?.conversationHistory,
-          contextSnippet: options?.contextSnippet
+          contextSnippet: options?.contextSnippet,
+          aiMode: options?.aiMode,
+          tutorMode: options?.tutorMode,
+          requestedLanguage: options?.requestedLanguage
         })
       });
 

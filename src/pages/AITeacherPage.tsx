@@ -400,7 +400,9 @@ export const AITeacherPage: React.FC = () => {
           requestFollowUp: currentMode.toLowerCase(),
           targetExam: user.targetExam,
           classLevel: user.classLevel,
-          conversationHistory: recentHistory
+          conversationHistory: recentHistory,
+          aiMode: 'teacher',
+          tutorMode: currentMode
         }
       );
 
@@ -421,7 +423,16 @@ export const AITeacherPage: React.FC = () => {
         replyText.includes('### 🧮 Formula') ||
         replyText.includes('Statement I');
 
-      if (!isAlreadyStructured) {
+      const isGreetingOrCasual =
+        response.understanding?.intent === 'general_query' ||
+        response.coreConcept === 'AI Study Assistant Greeting' ||
+        response.coreConcept === 'Study Assistant Acknowledgement' ||
+        response.coreConcept === 'Language Preference: English' ||
+        replyText.startsWith('Hey! 👋') ||
+        replyText.startsWith('Hello! 👋') ||
+        replyText.startsWith("You're welcome!");
+
+      if (!isAlreadyStructured && !isGreetingOrCasual) {
         if (
           response.coreConcept &&
           response.coreConcept !== 'Core Academic Principle' &&

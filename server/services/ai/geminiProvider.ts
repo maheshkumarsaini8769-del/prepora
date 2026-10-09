@@ -8,7 +8,14 @@ import {
   IWeaknessAnalysisResult,
   QuestionUnderstanding
 } from './aiTypes.js';
-import { NEET_AI_TEACHER_SYSTEM_PROMPT, detectLanguageMode } from './neetAITeacherPrompt.js';
+import { 
+  buildSystemInstructions, 
+  detectLanguage, 
+  isGreetingMessage, 
+  isGratitudeMessage,
+  buildGreetingResponse,
+  buildGratitudeResponse
+} from './masterPedagogicalEngine.js';
 
 export class GeminiProvider implements IAIProvider {
   public readonly name = 'Google Gemini AI';
@@ -107,42 +114,23 @@ export class GeminiProvider implements IAIProvider {
   public async solveDoubt(req: IDoubtSolveRequest, contextSnippet?: string): Promise<IDoubtSolveResult> {
     const startTime = Date.now();
     const cleanQ = req.question.trim();
-    const langMode = detectLanguageMode(cleanQ);
+    const lang = detectLanguage(cleanQ, req.conversationHistory);
 
-    const systemInstructions = [
-      NEET_AI_TEACHER_SYSTEM_PROMPT,
-      "",
-      "LANGUAGE REQUIREMENT: Strictly standard academic English. Explain all concepts, step-by-step derivations, examples, and tips purely in English.",
-      "",
-      "MANDATORY JSON OUTPUT SCHEMA:",
-      "Output strictly valid JSON matching this schema:",
-      "{",
-      '  "answer": "Complete, structured answer formatted using the designated headings (### 📚 Concept, ### 💡 Easy Explanation, etc. for concepts, or ### Given, ### Find, etc. for numericals). Use proper LaTeX $$...$$ for all formulas.",',
-      '  "coreConcept": "Exact scientific/mathematical concept name",',
-      '  "stepByStepSolution": ["Step 1 explanation", "Step 2 explanation", "Step 3 explanation"],',
-      '  "keyFormula": "Only relevant formula in LaTeX or empty string if not applicable",',
-      '  "isNumerical": false,',
-      '  "numericalBreakdown": {',
-      '    "givenValues": ["m = 5 kg"],',
-      '    "formulaUsed": "W = mg",',
-      '    "calculationSteps": ["W = 5 * 9.8 = 49 J"],',
-      '    "finalValueWithUnits": "49 J"',
-      '  },',
-      '  "example": "Worked example if numerical/example requested, else empty string",',
-      '  "examinerTrap": "Common student misconception or negative marking trap",',
-      '  "examTip": "High-yield score-boosting tip for NEET/JEE/Boards",',
-      '  "understanding": {',
-      '    "intent": "concept" | "numerical" | "mcq" | "assertion_reason" | "statement" | "formula" | "general",',
-      '    "subject": "Physics" | "Chemistry" | "Mathematics" | "Biology" | "General",',
-      '    "chapter": "Identified chapter name",',
-      '    "topic": "Identified topic name",',
-      '    "concept": "Identified core concept",',
-      '    "difficulty": "Easy" | "Medium" | "Hard"',
-      '  }',
-      "}"
-    ].join('\n');
+    if (isGreetingMessage(cleanQ)) {
+      const res = buildGreetingResponse(cleanQ, lang);
+      res.provider = `Gemini (${this.modelName})`;
+      return res;
+    }
+    if (isGratitudeMessage(cleanQ)) {
+      const res = buildGratitudeResponse(cleanQ, lang);
+      res.provider = `Gemini (${this.modelName})`;
+      return res;
+    }
+
+    const systemInstructions = buildSystemInstructions(req, lang, contextSnippet);
 
     let userPrompt = `Question: "${cleanQ}"\n`;
+    if (req.aiMode) userPrompt += `Pedagogical Mode: ${req.aiMode === 'teacher' ? 'AI Teacher' : 'AI Doubt Solver'}\n`;
     if (req.subject) userPrompt += `User Subject Hint: ${req.subject}\n`;
     if (req.chapter) userPrompt += `User Chapter Hint: ${req.chapter}\n`;
     if (req.classLevel) userPrompt += `Student Level: Class ${req.classLevel}\n`;
@@ -150,13 +138,13 @@ export class GeminiProvider implements IAIProvider {
     if (req.requestFollowUp) userPrompt += `Specific Follow-up Request: ${req.requestFollowUp}\n`;
     if (contextSnippet) userPrompt += `\nTrusted PREPORA Reference Content:\n"""\n${contextSnippet.slice(0, 3000)}\n"""\n`;
 
-    const parts: any[] = [{ text: userPrompt }];
+    const userParts: any[] = [{ text: userPrompt }];
 
-    // Image support (task3.md Section 10)
+    // Image support
     if (req.imageBase64) {
       const mime = req.imageMimeType || 'image/jpeg';
       const cleanBase64 = req.imageBase64.includes('base64,') ? req.imageBase64.split('base64,')[1] : req.imageBase64;
-      parts.push({
+      userParts.push({
         inlineData: {
           mimeType: mime,
           data: cleanBase64
@@ -164,9 +152,50 @@ export class GeminiProvider implements IAIProvider {
       });
     }
 
+    const contents: any[] = [];
+
+    // Add prior conversation history if provided (up to last 6 turns)
+    if (Array.isArray(req.conversationHistory) && req.conversationHistory.length > 0) {
+      let lastRole: string | null = null;
+      for (const item of req.conversationHistory.slice(-6)) {
+        const role = (item.role === 'assistant' || item.role === 'model') ? 'model' : 'user';
+        let textContent = '';
+        if (typeof (item as any).text === 'string') {
+          textContent = (item as any).text.trim();
+        } else if (typeof (item as any).content === 'string') {
+          textContent = (item as any).content.trim();
+        } else if (Array.isArray((item as any).parts)) {
+          textContent = (item as any).parts.map((p: any) => p.text || '').join('\n').trim();
+        }
+        if (!textContent) continue;
+
+        if (lastRole === role && contents.length > 0) {
+          contents[contents.length - 1].parts[0].text += `\n\n${textContent}`;
+        } else {
+          contents.push({ role, parts: [{ text: textContent }] });
+          lastRole = role;
+        }
+      }
+    }
+
+    // Gemini API requires starting with user role
+    if (contents.length > 0 && contents[0].role === 'model') {
+      contents.unshift({ role: 'user', parts: [{ text: 'Hello, please help me with my academic studies.' }] });
+    }
+
+    // If trailing role is user, append user prompt to it; otherwise push user role
+    if (contents.length > 0 && contents[contents.length - 1].role === 'user') {
+      contents[contents.length - 1].parts[0].text += `\n\n${userPrompt}`;
+      if (userParts.length > 1) {
+        contents[contents.length - 1].parts.push(...userParts.slice(1));
+      }
+    } else {
+      contents.push({ role: 'user', parts: userParts });
+    }
+
     const data: any = await this.executeWithModelFallback({
       system_instruction: { parts: [{ text: systemInstructions }] },
-      contents: [{ role: 'user', parts }],
+      contents,
       generationConfig: {
         temperature: 0.2,
         maxOutputTokens: 8192,
@@ -184,7 +213,15 @@ export class GeminiProvider implements IAIProvider {
     if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
     cleanJson = cleanJson.trim();
 
-    const parsed = JSON.parse(cleanJson);
+    let parsed: any;
+    try {
+      parsed = JSON.parse(cleanJson);
+    } catch {
+      parsed = {
+        answer: rawText,
+        coreConcept: cleanQ
+      };
+    }
 
     const understanding: QuestionUnderstanding = {
       intent: parsed.understanding?.intent || 'explanation',

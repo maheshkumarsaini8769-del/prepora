@@ -62,7 +62,10 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
       imageMimeType,
       conversationHistory,
       requestFollowUp,
-      followUpMode
+      followUpMode,
+      aiMode,
+      tutorMode,
+      requestedLanguage
     } = req.body;
 
     const resolvedQuestion = (question && typeof question === 'string' && question.trim())
@@ -90,7 +93,10 @@ router.post('/solve-doubt', async (req: Request, res: Response) => {
       imageBase64,
       imageMimeType,
       conversationHistory,
-      requestFollowUp: effectiveFollowUp
+      requestFollowUp: effectiveFollowUp,
+      aiMode,
+      tutorMode,
+      requestedLanguage
     };
 
     const { result, report } = await aiService.solveDoubt(solveReq, contextSnippet);

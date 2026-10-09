@@ -9,7 +9,14 @@ import {
   IWeaknessAnalysisResult,
   QuestionUnderstanding
 } from './aiTypes.js';
-import { NEET_AI_TEACHER_SYSTEM_PROMPT, detectLanguageMode } from './neetAITeacherPrompt.js';
+import { 
+  buildSystemInstructions, 
+  detectLanguage, 
+  isGreetingMessage, 
+  isGratitudeMessage,
+  buildGreetingResponse,
+  buildGratitudeResponse
+} from './masterPedagogicalEngine.js';
 
 export class OpenAIProvider implements IAIProvider {
   public readonly name = 'OpenAI';
@@ -132,47 +139,23 @@ export class OpenAIProvider implements IAIProvider {
 
     const startTime = Date.now();
     const cleanQ = req.question.trim();
-    const langMode = detectLanguageMode(cleanQ);
+    const lang = detectLanguage(cleanQ, req.conversationHistory);
 
-    const isJee = Boolean(req.targetExam && req.targetExam.toUpperCase().includes('JEE')) || req.subject === 'Mathematics';
-    const examName = isJee ? 'JEE Main & Advanced' : 'NEET-UG';
+    if (isGreetingMessage(cleanQ)) {
+      const res = buildGreetingResponse(cleanQ, lang);
+      res.provider = `OpenAI (${this.modelName})`;
+      return res;
+    }
+    if (isGratitudeMessage(cleanQ)) {
+      const res = buildGratitudeResponse(cleanQ, lang);
+      res.provider = `OpenAI (${this.modelName})`;
+      return res;
+    }
 
-    const systemInstructions = [
-      NEET_AI_TEACHER_SYSTEM_PROMPT,
-      "",
-      `TARGET EXAM CONTEXT: ${examName}. Tailor all explanations, tricks, and priority markers for ${examName}.`,
-      "LANGUAGE REQUIREMENT: Strictly standard academic English. Explain all concepts, step-by-step derivations, examples, and tips purely in English.",
-      "",
-      "MANDATORY JSON OUTPUT SCHEMA:",
-      "Output strictly valid JSON matching this schema:",
-      "{",
-      '  "answer": "Complete, structured answer formatted using designated markdown headings (### 📚 Concept, ### 💡 Easy Explanation, ### 🧮 Formula, etc. for concepts, or ### Given, ### Find, etc. for numericals). Use proper LaTeX $$...$$ for formulas.",',
-      '  "coreConcept": "Exact scientific/mathematical concept name",',
-      '  "stepByStepSolution": ["Step 1 explanation", "Step 2 explanation", "Step 3 explanation"],',
-      '  "keyFormula": "Only relevant formula in LaTeX or empty string if not applicable",',
-      '  "variables": "Variables and SI units definition string",',
-      '  "isNumerical": false,',
-      '  "numericalBreakdown": {',
-      '    "givenValues": ["m = 5 kg"],',
-      '    "formulaUsed": "W = mg",',
-      '    "calculationSteps": ["W = 5 * 9.8 = 49 J"],',
-      '    "finalValueWithUnits": "49 J"',
-      '  },',
-      '  "example": "Worked example if numerical/example requested, else empty string",',
-      '  "examinerTrap": "Common student misconception or negative marking trap",',
-      '  "examTip": "High-yield score-boosting tip for NEET/JEE/Boards",',
-      '  "understanding": {',
-      '    "intent": "concept" | "numerical" | "mcq" | "assertion_reason" | "statement" | "formula" | "general",',
-      '    "subject": "Physics" | "Chemistry" | "Mathematics" | "Biology" | "General",',
-      '    "chapter": "Identified chapter name",',
-      '    "topic": "Identified topic name",',
-      '    "concept": "Identified core concept",',
-      '    "difficulty": "Easy" | "Medium" | "Hard"',
-      '  }',
-      "}"
-    ].join('\n');
+    const systemInstructions = buildSystemInstructions(req, lang, contextSnippet);
 
     let userPrompt = `Question: "${cleanQ}"\n`;
+    if (req.aiMode) userPrompt += `Pedagogical Mode: ${req.aiMode === 'teacher' ? 'AI Teacher' : 'AI Doubt Solver'}\n`;
     if (req.subject) userPrompt += `User Subject Hint: ${req.subject}\n`;
     if (req.chapter) userPrompt += `User Chapter Hint: ${req.chapter}\n`;
     if (req.classLevel) userPrompt += `Student Level: Class ${req.classLevel}\n`;

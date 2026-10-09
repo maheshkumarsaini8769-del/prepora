@@ -162,8 +162,15 @@ export const DoubtCenter: React.FC = () => {
         setCurrentHintLevel(1);
       }
 
+      const historyToSend = currentSolution ? [
+        { role: 'user' as const, parts: [{ text: currentSolution.question }] },
+        { role: 'model' as const, parts: [{ text: currentSolution.answer || currentSolution.coreConcept }] }
+      ] : undefined;
+
       const solution = await aiDoubtSolver.solveDoubtOnline(query, effectiveSubject, effectiveChapter, {
-        followUpMode: followUpPrompt
+        followUpMode: followUpPrompt,
+        aiMode: 'doubt_solver',
+        conversationHistory: historyToSend
       });
       setCurrentSolution(solution);
     } catch (err) {
