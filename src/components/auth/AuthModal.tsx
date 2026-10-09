@@ -344,7 +344,7 @@ export const AuthModal: React.FC = () => {
         {/* Brand Header */}
         <div className="text-center">
           <div className="inline-flex items-center justify-center w-10 h-10 rounded-2xl bg-emerald-600 text-white font-black text-lg mb-2 shadow-md shadow-emerald-500/20">
-            S
+            P
           </div>
           <h2 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
             {step === 'login' && 'Student Sign In'}
