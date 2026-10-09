@@ -149,6 +149,8 @@ export const MindMapPage: React.FC = () => {
         <div className="bg-white dark:bg-[#0c141e] rounded-3xl p-4 sm:p-6 border border-slate-200/80 dark:border-slate-800 shadow-xs">
           <Visual3DMindMap
             initialSubject={selectedSubject}
+            selectedChapter={selectedChapter}
+            selectedClass={selectedClass}
             onSelectChapter={(ch, subj) => {
               setSelectedSubject(subj);
               setSelectedChapter(ch);

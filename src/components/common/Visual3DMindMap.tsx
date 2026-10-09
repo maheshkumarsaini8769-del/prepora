@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Sparkles,
@@ -16,11 +16,19 @@ import {
   Calculator,
   Compass,
   Download,
-  Info
+  Info,
+  Search,
+  ChevronDown,
+  Layers,
+  Sparkle
 } from 'lucide-react';
 import { MathRenderer } from './MathRenderer';
 import { Button } from './UIComponents';
-import { SubjectName } from '../../types';
+import { SubjectName, ClassLevel } from '../../types';
+import { getFormulaItemsForChapter } from '../../utils/formulaKnowledgeBase.js';
+import { questionService } from '../../services/questionService';
+import { comprehensiveFormulaNotes } from '../../data/comprehensiveFormulaNotes.js';
+import { sortChapterNamesCanonical } from '../../utils/chapterOrder.js';
 
 export interface Visual3DMindMapItem {
   id: string;
@@ -28,7 +36,7 @@ export interface Visual3DMindMapItem {
   exam: 'NEET & JEE' | 'NEET-UG' | 'JEE Main & Advanced';
   chapterTitle: string;
   subtitle: string;
-  imageSrc: string;
+  imageSrc?: string;
   accentColor: string; // Tailwind color name like 'purple', 'emerald', 'sky', 'amber'
   summary: string;
   branches: {
@@ -257,39 +265,235 @@ export const VISUAL_3D_MINDMAPS: Visual3DMindMapItem[] = [
   }
 ];
 
+export function getMindMapForChapter(
+  chapterName: string,
+  subject: SubjectName
+): Visual3DMindMapItem {
+  const normTitle = (chapterName || '').toLowerCase().trim();
+  // 1. Check if it matches a featured 3D hero map
+  const heroMatch = VISUAL_3D_MINDMAPS.find(
+    (m) =>
+      m.subject.toLowerCase() === subject.toLowerCase() &&
+      (m.chapterTitle.toLowerCase().trim() === normTitle ||
+        normTitle.includes(m.chapterTitle.toLowerCase().trim()) ||
+        m.chapterTitle.toLowerCase().trim().includes(normTitle))
+  );
+  if (heroMatch) return heroMatch;
+
+  // 2. Dynamically extract from comprehensiveFormulaNotes
+  const formulaItems = getFormulaItemsForChapter(chapterName, subject);
+  const exam =
+    subject === 'Biology'
+      ? 'NEET-UG'
+      : subject === 'Mathematics'
+      ? 'JEE Main & Advanced'
+      : 'NEET & JEE';
+
+  const accentColor =
+    subject === 'Physics'
+      ? 'indigo'
+      : subject === 'Chemistry'
+      ? 'emerald'
+      : subject === 'Biology'
+      ? 'rose'
+      : 'amber';
+
+  const branches: Visual3DMindMapItem['branches'] = [];
+
+  if (formulaItems.length > 0) {
+    formulaItems.forEach((fItem, idx) => {
+      // Core Topic Concept
+      branches.push({
+        id: `branch-core-${idx}`,
+        title: fItem.topic,
+        tag: 'Core Concept',
+        description:
+          fItem.concept || `${fItem.topic} fundamental principles and NCERT textbook core theory.`,
+        mustKnow:
+          fItem.shortNotes && fItem.shortNotes.length > 0 ? fItem.shortNotes[0] : undefined
+      });
+
+      // Formulas in this topic
+      fItem.formulas.forEach((f, fIdx) => {
+        branches.push({
+          id: `branch-f-${idx}-${fIdx}`,
+          title: f.name,
+          tag: 'Formula',
+          description: f.examTip || `Governing mathematical equation for ${f.name} in NEET & JEE.`,
+          formula: f.formula,
+          variables: f.variables,
+          trap: f.trap,
+          mustKnow: f.examTip
+        });
+      });
+    });
+  } else {
+    // Fallback: derived from questionService topics
+    const fallbackTopics = questionService.getTopics(chapterName);
+    const topics =
+      fallbackTopics.length > 0
+        ? fallbackTopics
+        : [
+            'Fundamental Principles & Definitions',
+            'Mathematical Equations & Calculations',
+            'Examiner Traps & Common Exceptions',
+            'NEET & JEE Previous Year Numerical Applications'
+          ];
+
+    topics.forEach((tName, tIdx) => {
+      branches.push({
+        id: `branch-top-${tIdx}`,
+        title: tName,
+        tag:
+          tIdx === 0
+            ? 'Core Concept'
+            : tIdx === 1
+            ? 'Formula'
+            : tIdx === 2
+            ? 'Trap'
+            : 'Must Know',
+        description: `Authoritative NCERT study points for ${tName}. Tested frequently in NEET-UG and JEE Main.`,
+        formula: tIdx === 1 ? `\\text{Key Equation: } ${tName}` : undefined,
+        trap:
+          tIdx === 2
+            ? `Common sign convention error or standard unit mismatch in ${tName}.`
+            : undefined,
+        mustKnow: `High-yield syllabus topic with frequent appearances in official NTA papers.`
+      });
+    });
+  }
+
+  const topicCount = formulaItems.length > 0 ? formulaItems.length : branches.length;
+  const formulaCount = branches.filter((b) => b.formula).length;
+
+  return {
+    id: `map-${(chapterName || 'chapter').toLowerCase().replace(/[^a-z0-9]/g, '-')}`,
+    subject,
+    exam,
+    chapterTitle: chapterName,
+    subtitle: `${topicCount} Key Topics • ${formulaCount > 0 ? `${formulaCount} Essential Formulas • ` : ''}100% NCERT Syllabus Aligned`,
+    imageSrc: '', // Dynamic 3D interactive stage
+    accentColor,
+    summary: `Complete 3D visual concept map for ${chapterName} (${subject}). Designed for NEET & JEE revision with step-by-step topic hierarchy, textbook equations, and examiner traps.`,
+    branches
+  };
+}
+
 interface Visual3DMindMapProps {
   initialSubject?: SubjectName;
+  selectedChapter?: string;
+  selectedClass?: ClassLevel | 'All';
   onSelectChapter?: (chapter: string, subject: SubjectName) => void;
 }
 
 export const Visual3DMindMap: React.FC<Visual3DMindMapProps> = ({
   initialSubject = 'Physics',
+  selectedChapter: propChapter,
+  selectedClass: propClass = 'All',
   onSelectChapter
 }) => {
   const navigate = useNavigate();
+  const [selectedSubject, setSelectedSubject] = useState<SubjectName>(initialSubject);
+  const [selectedClass, setSelectedClass] = useState<ClassLevel | 'All'>(propClass);
+  const [chapterSearch, setChapterSearch] = useState('');
+  const [isChapterDropdownOpen, setIsChapterDropdownOpen] = useState(false);
 
-  // Pick initial map matching the initial subject if possible
-  const matchingIndex = VISUAL_3D_MINDMAPS.findIndex(
-    (m) => m.subject.toLowerCase() === initialSubject.toLowerCase()
-  );
-  const [selectedMapId, setSelectedMapId] = useState<string>(
-    matchingIndex !== -1 ? VISUAL_3D_MINDMAPS[matchingIndex].id : VISUAL_3D_MINDMAPS[0].id
-  );
+  // Synchronize with incoming props
+  useEffect(() => {
+    if (initialSubject) setSelectedSubject(initialSubject);
+  }, [initialSubject]);
+
+  useEffect(() => {
+    if (propClass) setSelectedClass(propClass);
+  }, [propClass]);
+
+  // Compute all available chapters for the selected subject & class
+  const availableChapters = useMemo(() => {
+    const formulaChapters = new Set<string>();
+    comprehensiveFormulaNotes.forEach((item) => {
+      if (item.subject.toLowerCase() === selectedSubject.toLowerCase()) {
+        if (selectedClass === 'All' || String(item.classLevel) === String(selectedClass)) {
+          formulaChapters.add(item.chapter);
+        }
+      }
+    });
+
+    const canonicalList = sortChapterNamesCanonical(Array.from(formulaChapters), selectedSubject);
+    if (canonicalList.length > 0) return canonicalList;
+
+    const list = questionService.getChapters(selectedSubject, selectedClass);
+    return list.length > 0 ? list : ['Units and Measurements', 'Motion in a Straight Line', 'Laws of Motion'];
+  }, [selectedSubject, selectedClass]);
+
+  const [activeChapter, setActiveChapter] = useState<string>(() => {
+    return propChapter || availableChapters[0] || 'Dual Nature of Radiation & Matter';
+  });
+
+  useEffect(() => {
+    if (propChapter && propChapter !== activeChapter) {
+      setActiveChapter(propChapter);
+    }
+  }, [propChapter]);
+
+  // If active chapter is not in available chapters when switching subject
+  useEffect(() => {
+    if (availableChapters.length > 0 && !availableChapters.includes(activeChapter)) {
+      const nextCh = availableChapters[0];
+      setActiveChapter(nextCh);
+      if (onSelectChapter) onSelectChapter(nextCh, selectedSubject);
+    }
+  }, [availableChapters, selectedSubject]);
+
+  const currentMap = useMemo(() => {
+    return getMindMapForChapter(activeChapter, selectedSubject);
+  }, [activeChapter, selectedSubject]);
 
   const [activeFilter, setActiveFilter] = useState<'all' | 'mustKnow' | 'trap' | 'formula'>('all');
   const [isZoomedModalOpen, setIsZoomedModalOpen] = useState(false);
   const [selectedBranch, setSelectedBranch] = useState<Visual3DMindMapItem['branches'][0] | null>(null);
 
-  const currentMap =
-    VISUAL_3D_MINDMAPS.find((m) => m.id === selectedMapId) || VISUAL_3D_MINDMAPS[0];
+  const filteredBranches = useMemo(() => {
+    return currentMap.branches.filter((b) => {
+      if (activeFilter === 'all') return true;
+      if (activeFilter === 'mustKnow') return b.mustKnow !== undefined;
+      if (activeFilter === 'trap') return b.trap !== undefined || b.tag === 'Trap';
+      if (activeFilter === 'formula') return b.formula !== undefined || b.tag === 'Formula';
+      return true;
+    });
+  }, [currentMap, activeFilter]);
 
-  const filteredBranches = currentMap.branches.filter((b) => {
-    if (activeFilter === 'all') return true;
-    if (activeFilter === 'mustKnow') return b.mustKnow !== undefined;
-    if (activeFilter === 'trap') return b.trap !== undefined || b.tag === 'Trap';
-    if (activeFilter === 'formula') return b.formula !== undefined || b.tag === 'Formula';
-    return true;
-  });
+  const filteredChapterList = useMemo(() => {
+    if (!chapterSearch.trim()) return availableChapters;
+    const q = chapterSearch.toLowerCase().trim();
+    return availableChapters.filter((ch) => ch.toLowerCase().includes(q));
+  }, [availableChapters, chapterSearch]);
+
+  const handleSubjectSelect = (sub: SubjectName) => {
+    setSelectedSubject(sub);
+    setChapterSearch('');
+    const subFormulaChapters = new Set<string>();
+    comprehensiveFormulaNotes.forEach((item) => {
+      if (item.subject.toLowerCase() === sub.toLowerCase()) {
+        if (selectedClass === 'All' || String(item.classLevel) === String(selectedClass)) {
+          subFormulaChapters.add(item.chapter);
+        }
+      }
+    });
+    const chList = sortChapterNamesCanonical(Array.from(subFormulaChapters), sub);
+    const nextCh = chList[0] || 'Units and Measurements';
+    setActiveChapter(nextCh);
+    if (onSelectChapter) {
+      onSelectChapter(nextCh, sub);
+    }
+  };
+
+  const handleChapterSelect = (ch: string) => {
+    setActiveChapter(ch);
+    setIsChapterDropdownOpen(false);
+    if (onSelectChapter) {
+      onSelectChapter(ch, selectedSubject);
+    }
+  };
 
   const getSubjectIcon = (sub: SubjectName) => {
     switch (sub) {
@@ -349,50 +553,120 @@ export const Visual3DMindMap: React.FC<Visual3DMindMapProps> = ({
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
-      {/* 1. Subject Switcher Bar */}
+      {/* 1. Subject Switcher & Full Chapter Selector Bar */}
       <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-slate-900/90 dark:bg-[#070d14] rounded-2xl border border-slate-800 shadow-xl backdrop-blur-md">
-        <div className="flex flex-wrap items-center gap-2">
-          {VISUAL_3D_MINDMAPS.map((map) => {
-            const isSelected = map.id === selectedMapId;
+        {/* Subject Pills */}
+        <div className="flex flex-wrap items-center gap-1.5">
+          {(['Physics', 'Chemistry', 'Biology', 'Mathematics'] as SubjectName[]).map((sub) => {
+            const isSelected = sub.toLowerCase() === selectedSubject.toLowerCase();
             return (
               <button
-                key={map.id}
+                key={sub}
                 type="button"
-                onClick={() => {
-                  setSelectedMapId(map.id);
-                  if (onSelectChapter) {
-                    onSelectChapter(map.chapterTitle, map.subject);
-                  }
-                }}
+                onClick={() => handleSubjectSelect(sub)}
                 className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                   isSelected
                     ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-900/40 border border-purple-400/50 scale-[1.02]'
                     : 'text-slate-400 hover:text-white hover:bg-slate-800/80 border border-transparent'
                 }`}
               >
-                {getSubjectIcon(map.subject)}
-                <span>{map.subject}</span>
-                <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-black/40 text-slate-300">
-                  {map.exam}
-                </span>
+                {getSubjectIcon(sub)}
+                <span>{sub}</span>
               </button>
             );
           })}
         </div>
 
-        <div className="flex items-center gap-2">
-          <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-amber-500/10 text-amber-300 border border-amber-500/20">
-            <Sparkles className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
-            <span>Premium 3D Visual Notes</span>
-          </span>
+        {/* Chapter Selection Dropdown & Search */}
+        <div className="flex items-center gap-2 relative w-full sm:w-auto">
+          {/* Class Filter Pills */}
+          <div className="flex items-center gap-1 p-1 rounded-xl bg-slate-800/80 border border-slate-700/60 text-xs">
+            {(['All', '11', '12'] as const).map((cls) => (
+              <button
+                key={cls}
+                type="button"
+                onClick={() => setSelectedClass(cls)}
+                className={`px-2 py-1 rounded-lg font-bold transition cursor-pointer ${
+                  selectedClass === cls
+                    ? 'bg-purple-600 text-white shadow-xs'
+                    : 'text-slate-400 hover:text-slate-200'
+                }`}
+              >
+                {cls === 'All' ? 'All' : `C${cls}`}
+              </button>
+            ))}
+          </div>
+
+          {/* Chapter Selector Dropdown */}
+          <div className="relative flex-1 sm:w-72">
+            <button
+              type="button"
+              onClick={() => setIsChapterDropdownOpen(!isChapterDropdownOpen)}
+              className="w-full flex items-center justify-between gap-2 px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-800 border border-slate-700 text-xs font-bold text-white shadow-sm transition"
+            >
+              <div className="flex items-center gap-2 truncate">
+                <BookOpen className="w-3.5 h-3.5 text-purple-400 shrink-0" />
+                <span className="truncate">{activeChapter}</span>
+              </div>
+              <ChevronDown className={`w-3.5 h-3.5 text-slate-400 shrink-0 transition-transform ${isChapterDropdownOpen ? 'rotate-180' : ''}`} />
+            </button>
+
+            {/* Dropdown Menu */}
+            {isChapterDropdownOpen && (
+              <div className="absolute right-0 top-full mt-2 w-full sm:w-80 max-h-80 bg-slate-900 border border-slate-700 rounded-2xl shadow-2xl p-2 z-50 flex flex-col space-y-2 animate-in fade-in zoom-in-95">
+                <div className="relative">
+                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-2.5 top-2.5" />
+                  <input
+                    type="text"
+                    value={chapterSearch}
+                    onChange={(e) => setChapterSearch(e.target.value)}
+                    placeholder="Search chapter..."
+                    className="w-full text-xs bg-slate-950 border border-slate-800 rounded-xl pl-8 pr-3 py-1.5 text-white placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-purple-500"
+                    autoFocus
+                  />
+                </div>
+
+                <div className="overflow-y-auto space-y-1 flex-1 max-h-60 pr-1">
+                  {filteredChapterList.map((ch) => {
+                    const isCur = ch === activeChapter;
+                    const isHero = VISUAL_3D_MINDMAPS.some((m) => m.chapterTitle.toLowerCase() === ch.toLowerCase());
+                    return (
+                      <button
+                        key={ch}
+                        type="button"
+                        onClick={() => handleChapterSelect(ch)}
+                        className={`w-full text-left px-2.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center justify-between ${
+                          isCur
+                            ? 'bg-purple-600 text-white'
+                            : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                        }`}
+                      >
+                        <span className="truncate">{ch}</span>
+                        {isHero && (
+                          <span className="text-[9px] font-black px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-300 shrink-0 ml-1">
+                            3D HERO
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                  {filteredChapterList.length === 0 && (
+                    <div className="p-3 text-center text-xs text-slate-500">
+                      No matching chapters found.
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* 2. Main 3D Educational Infographic Hero Stage */}
+      {/* 2. Main 3D Educational Infographic Stage */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
-        {/* Left Column: High-Res 3D Rendered Mind Map Canvas (7 cols) */}
+        {/* Left Column: 3D Visual Mind Map Canvas (7 cols) */}
         <div className="lg:col-span-7 bg-slate-950/80 rounded-3xl p-4 sm:p-5 border border-slate-800 shadow-2xl space-y-4 relative overflow-hidden group">
-          {/* Subtle Ambient Glow */}
+          {/* Ambient Glows */}
           <div className="absolute -top-24 -left-24 w-72 h-72 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute -bottom-24 -right-24 w-72 h-72 bg-blue-600/15 rounded-full blur-3xl pointer-events-none" />
 
@@ -413,41 +687,103 @@ export const Visual3DMindMap: React.FC<Visual3DMindMapProps> = ({
               <p className="text-xs text-slate-300/90 mt-0.5">{currentMap.subtitle}</p>
             </div>
 
-            <div className="flex items-center gap-1.5 shrink-0">
-              <button
-                type="button"
-                onClick={() => setIsZoomedModalOpen(true)}
-                className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white transition shadow-sm border border-slate-700/60 cursor-pointer"
-                title="View Full Resolution 3D Map"
-              >
-                <Maximize2 className="w-4 h-4" />
-              </button>
-            </div>
+            {currentMap.imageSrc && (
+              <div className="flex items-center gap-1.5 shrink-0">
+                <button
+                  type="button"
+                  onClick={() => setIsZoomedModalOpen(true)}
+                  className="p-2 rounded-xl bg-slate-800/80 hover:bg-slate-700 text-slate-200 hover:text-white transition shadow-sm border border-slate-700/60 cursor-pointer"
+                  title="View Full Resolution 3D Map"
+                >
+                  <Maximize2 className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
 
-          {/* High-Res 3D Visual Rendering Display */}
-          <div
-            onClick={() => setIsZoomedModalOpen(true)}
-            className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 cursor-zoom-in group/img shadow-inner"
-          >
-            <img
-              src={currentMap.imageSrc}
-              alt={currentMap.chapterTitle}
-              className="w-full h-auto object-cover transform group-hover/img:scale-[1.015] transition-transform duration-300 select-none"
-            />
-            {/* Interactive Overlay Callout */}
-            <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-between text-xs text-white">
-              <div className="flex items-center gap-2">
-                <ZoomIn className="w-4 h-4 text-amber-400" />
-                <span className="font-bold text-white drop-shadow-sm">
-                  Click to inspect high-definition 3D details
+          {/* 3D Visual Rendering Display OR Interactive 3D Canvas */}
+          {currentMap.imageSrc ? (
+            <div
+              onClick={() => setIsZoomedModalOpen(true)}
+              className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 cursor-zoom-in group/img shadow-inner"
+            >
+              <img
+                src={currentMap.imageSrc}
+                alt={currentMap.chapterTitle}
+                className="w-full h-auto object-cover transform group-hover/img:scale-[1.015] transition-transform duration-300 select-none"
+              />
+              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent flex items-center justify-between text-xs text-white">
+                <div className="flex items-center gap-2">
+                  <ZoomIn className="w-4 h-4 text-amber-400" />
+                  <span className="font-bold text-white drop-shadow-sm">
+                    Click to inspect high-definition 3D details
+                  </span>
+                </div>
+                <span className="text-[11px] font-mono text-purple-200 bg-black/60 px-2 py-0.5 rounded-md border border-white/10">
+                  HD 3D Model
                 </span>
               </div>
-              <span className="text-[11px] font-mono text-purple-200 bg-black/60 px-2 py-0.5 rounded-md border border-white/10">
-                HD 3D Model
-              </span>
             </div>
-          </div>
+          ) : (
+            <div className="relative rounded-2xl overflow-hidden border border-slate-800/80 bg-gradient-to-br from-slate-950 via-[#0a111a] to-slate-900 p-4 sm:p-6 shadow-inner space-y-4 min-h-[380px] flex flex-col justify-between">
+              {/* Central 3D Chapter Core Node */}
+              <div className="relative p-5 rounded-3xl bg-gradient-to-br from-slate-900/90 via-purple-950/40 to-slate-900/90 border border-purple-500/40 shadow-2xl backdrop-blur-xl text-center space-y-2">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-600 text-white shadow-lg shadow-purple-900/50 mx-auto">
+                  {getSubjectIcon(currentMap.subject)}
+                </div>
+                <div>
+                  <h3 className="text-lg sm:text-xl font-black text-white tracking-tight">
+                    {currentMap.chapterTitle}
+                  </h3>
+                  <div className="flex items-center justify-center gap-2 mt-1">
+                    <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md bg-purple-500/20 text-purple-300 border border-purple-500/30">
+                      {currentMap.subject} • {currentMap.exam}
+                    </span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                      ✓ NCERT Syllabus Aligned
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* 3D Visual Branch Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                {currentMap.branches.slice(0, 4).map((b, i) => (
+                  <div
+                    key={b.id || i}
+                    onClick={() => setSelectedBranch(b)}
+                    className="p-3 rounded-2xl bg-slate-900/80 hover:bg-slate-800/90 border border-slate-800 hover:border-purple-500/50 shadow-md transition-all cursor-pointer space-y-1 group/node"
+                  >
+                    <div className="flex items-center justify-between gap-1">
+                      <span className="text-[11px] font-black text-slate-200 group-hover/node:text-purple-300 truncate">
+                        {b.title}
+                      </span>
+                      {getTagBadge(b.tag)}
+                    </div>
+                    {b.formula && (
+                      <div className="text-[10px] font-mono text-amber-300/90 bg-black/40 px-2 py-1 rounded-lg truncate">
+                        {b.formula}
+                      </div>
+                    )}
+                    <p className="text-[11px] text-slate-400 line-clamp-2 leading-relaxed">
+                      {b.description}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom Canvas Footer */}
+              <div className="flex items-center justify-between text-[11px] text-slate-400 pt-2 border-t border-slate-800/80">
+                <span className="flex items-center gap-1 text-purple-300">
+                  <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+                  <span>3D Node Architecture • {currentMap.branches.length} Conceptual Branches</span>
+                </span>
+                <span className="text-[10px] font-mono bg-black/40 px-2 py-0.5 rounded border border-white/5">
+                  Dynamic 3D Map
+                </span>
+              </div>
+            </div>
+          )}
 
           {/* Quick Syllabus Summary */}
           <p className="text-xs text-slate-300/80 leading-relaxed bg-slate-900/60 p-3.5 rounded-2xl border border-slate-800/80">
@@ -469,7 +805,7 @@ export const Visual3DMindMap: React.FC<Visual3DMindMapProps> = ({
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
-                All Branches ({currentMap.branches.length})
+                All ({currentMap.branches.length})
               </button>
               <button
                 type="button"
@@ -604,7 +940,7 @@ export const Visual3DMindMap: React.FC<Visual3DMindMapProps> = ({
       </div>
 
       {/* 3. Fullscreen / High-Resolution Zoom Modal */}
-      {isZoomedModalOpen && (
+      {isZoomedModalOpen && currentMap.imageSrc && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4 backdrop-blur-md animate-in fade-in duration-200">
           <div className="relative max-w-5xl w-full max-h-[92vh] flex flex-col bg-slate-900 rounded-3xl border border-slate-700 shadow-2xl overflow-hidden">
             {/* Modal Header */}
