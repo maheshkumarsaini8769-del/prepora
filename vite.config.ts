@@ -25,9 +25,13 @@ export default defineConfig({
             if (id.includes('react') || id.includes('react-dom') || id.includes('react-router-dom')) return 'vendor-react';
             return 'vendor-libs';
           }
-          // Isolate question banks into dedicated on-demand chunk
+          // Isolate question banks by subject for parallel download and caching
+          if (id.includes('biologyBank')) return 'data-questions-biology';
+          if (id.includes('chemistryBank')) return 'data-questions-chemistry';
+          if (id.includes('physicsBank')) return 'data-questions-physics';
+          if (id.includes('mathBank')) return 'data-questions-math';
           if (id.includes('/questions/') || id.includes('mockQuestions')) {
-            return 'data-questions';
+            return 'data-questions-core';
           }
           // Isolate syllabus databases
           if (

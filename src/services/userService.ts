@@ -388,6 +388,10 @@ class MockUserService {
     this.updateProfile(profile);
   }
 
+  public getTestAttempts(): TestAttempt[] {
+    return getStorageItem<TestAttempt[]>(StorageKeys.TEST_ATTEMPTS, []);
+  }
+
   /**
    * Streak Safety Check & Proactive Notification Trigger:
    * Triggers a high-priority warning when student hasn't completed their daily goal by their usual study time.

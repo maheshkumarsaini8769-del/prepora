@@ -281,6 +281,7 @@ class ApiQuestionService {
   private localQuestionsCache: Question[] = [];
   private isInitialized = false;
   private taxonomyCache: Map<string, any[]> = new Map();
+  private questionsByIdMap: Map<string, Question> = new Map();
 
   constructor() {
     this.init();
@@ -288,7 +289,7 @@ class ApiQuestionService {
 
   private async init() {
     try {
-      const { data, error } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=500');
+      const { data } = await apiRequest<{ success: boolean; questions: Question[] }>('/questions?limit=500');
       if (data && data.success && data.questions && data.questions.length > 0) {
         const map = new Map<string, Question>();
         mockQuestions.forEach(q => map.set(q.id, q));
@@ -297,6 +298,8 @@ class ApiQuestionService {
           ...q,
           recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
         }));
+        this.questionsByIdMap.clear();
+        this.localQuestionsCache.forEach(q => this.questionsByIdMap.set(q.id, q));
         this.isInitialized = true;
       }
     } catch {
@@ -309,18 +312,20 @@ class ApiQuestionService {
   }
 
   public getAllQuestions(): Question[] {
-    if (this.isInitialized && this.localQuestionsCache.length > 0) {
+    if (this.localQuestionsCache.length > 0) {
       return this.localQuestionsCache;
     }
     const custom = this.getCustomQuestions();
     const map = new Map<string, Question>();
     mockQuestions.forEach(q => map.set(q.id, q));
     custom.forEach(q => map.set(q.id, q));
-    this.localQuestionsCache.forEach(q => map.set(q.id, q));
-    return Array.from(map.values()).map(q => ({
+    this.localQuestionsCache = Array.from(map.values()).map(q => ({
       ...q,
       recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
     }));
+    this.questionsByIdMap.clear();
+    this.localQuestionsCache.forEach(q => this.questionsByIdMap.set(q.id, q));
+    return this.localQuestionsCache;
   }
 
   public async fetchAllQuestionsAsync(): Promise<Question[]> {
@@ -333,13 +338,18 @@ class ApiQuestionService {
         ...q,
         recommendedTimeSeconds: q.recommendedTimeSeconds || (q.difficulty === 'Easy' ? 60 : q.difficulty === 'Medium' ? 90 : 150)
       }));
+      this.questionsByIdMap.clear();
+      this.localQuestionsCache.forEach(q => this.questionsByIdMap.set(q.id, q));
       return this.localQuestionsCache;
     }
     return this.getAllQuestions();
   }
 
   public getQuestionById(id: string): Question | undefined {
-    return this.getAllQuestions().find(q => q.id === id);
+    if (this.questionsByIdMap.size === 0) {
+      this.getAllQuestions();
+    }
+    return this.questionsByIdMap.get(id);
   }
 
   public async getQuestionByIdAsync(id: string): Promise<Question | undefined> {
@@ -717,6 +727,11 @@ class ApiQuestionService {
   }
 
   public getChapters(subject?: SubjectName, classLevel?: ClassLevel | 'All' | 'Dropper' | string): string[] {
+    const cacheKey = `CH_${subject || 'ALL'}_${classLevel || 'ALL'}`;
+    if (this.taxonomyCache.has(cacheKey)) {
+      return this.taxonomyCache.get(cacheKey)!;
+    }
+
     const chapters = new Set<string>();
     const isAllClasses = !classLevel || classLevel === 'All' || classLevel === 'Dropper';
 
@@ -748,11 +763,18 @@ class ApiQuestionService {
       if (q.chapter) chapters.add(q.chapter);
     });
 
-    return sortChapterNamesCanonical(Array.from(chapters), subject);
+    const sorted = sortChapterNamesCanonical(Array.from(chapters), subject);
+    this.taxonomyCache.set(cacheKey, sorted);
+    return sorted;
   }
 
   public getTopics(chapter: string, exam?: string, subject?: string): string[] {
     if (!chapter || chapter === 'ALL' || chapter === 'All') return [];
+
+    const cacheKey = `TOP_${chapter}_${exam || 'ALL'}_${subject || 'ALL'}`;
+    if (this.taxonomyCache.has(cacheKey)) {
+      return this.taxonomyCache.get(cacheKey)!;
+    }
 
     const norm = (s: any) => String(s || '').toLowerCase().replace(/\bsome\b/g, '').replace(/[^a-z0-9]/g, '');
     const chNorm = norm(chapter);
@@ -790,7 +812,9 @@ class ApiQuestionService {
     });
 
     if (resultTopics.size > 0) {
-      return Array.from(resultTopics);
+      const res = Array.from(resultTopics);
+      this.taxonomyCache.set(cacheKey, res);
+      return res;
     }
 
     // 2. Fallback to canonical syllabus or stored syllabus
@@ -841,7 +865,9 @@ class ApiQuestionService {
       }
     }
 
-    return Array.from(resultTopics).filter(Boolean);
+    const finalRes = Array.from(resultTopics).filter(Boolean);
+    this.taxonomyCache.set(cacheKey, finalRes);
+    return finalRes;
   }
 
   public async fetchTaxonomyAsync(subject?: string, classLevel?: string): Promise<{ name: string; count: number; topics: { name: string; count: number }[] }[]> {

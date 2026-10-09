@@ -16,10 +16,8 @@ import {
 } from 'lucide-react';
 import { soundFeedback } from '../utils/audioFeedback';
 import { userService } from '../services/userService';
-import { testService } from '../services/testService';
 import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
-import { StudentGuideModal } from '../components/common/StudentGuideModal';
 import { PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
 
 export const Home: React.FC = () => {
@@ -82,7 +80,7 @@ export const Home: React.FC = () => {
   const examDaysRemaining = prepType === 'NEET' ? 127 : prepType === 'JEE' ? 94 : 61;
 
   // Real question attempt metrics
-  const realAttempts = testService.getAllAttempts();
+  const realAttempts = userService.getTestAttempts();
   const realMistakes = userService.getMistakes();
   const realSolvedCounts = userService.getSubjectSolvedCounts();
 
@@ -126,13 +124,6 @@ export const Home: React.FC = () => {
 
   // Modals state
   const [showPrepProfileModal, setShowPrepProfileModal] = useState<boolean>(false);
-  const [studentGuideOpen, setStudentGuideOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    const handleOpenGuide = () => setStudentGuideOpen(true);
-    window.addEventListener('prepora:open_student_guide', handleOpenGuide);
-    return () => window.removeEventListener('prepora:open_student_guide', handleOpenGuide);
-  }, []);
 
   return (
     <div className="max-w-md sm:max-w-2xl lg:max-w-4xl mx-auto space-y-4 sm:space-y-6 pb-24 px-1 sm:px-4 animate-in fade-in duration-200">
@@ -695,12 +686,6 @@ export const Home: React.FC = () => {
           </div>
         </div>
       )}
-
-      {/* Student Guide Modal */}
-      <StudentGuideModal
-        isOpen={studentGuideOpen}
-        onClose={() => setStudentGuideOpen(false)}
-      />
     </div>
   );
 };

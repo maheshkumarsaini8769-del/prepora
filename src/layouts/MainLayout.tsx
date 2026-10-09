@@ -430,7 +430,18 @@ export const MainLayout: React.FC = () => {
 
         {/* Dynamic Page Content with Responsive Padding & Bottom Spacing for Mobile Nav */}
         <main className="flex-1 p-3 sm:p-6 lg:p-8 pb-24 md:pb-8 max-w-7xl mx-auto w-full">
-          <Outlet />
+          <React.Suspense
+            fallback={
+              <div className="flex items-center justify-center min-h-[45vh] py-12 animate-in fade-in duration-100">
+                <div className="flex flex-col items-center gap-2.5">
+                  <div className="w-7 h-7 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+                  <span className="text-[11px] font-bold text-slate-400">Loading...</span>
+                </div>
+              </div>
+            }
+          >
+            <Outlet />
+          </React.Suspense>
         </main>
       </div>
 
