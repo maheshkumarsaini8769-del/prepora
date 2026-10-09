@@ -1,5 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Horizontal3DMindMap } from './Horizontal3DMindMap';
 import {
   Sparkles,
   Maximize2,
@@ -379,14 +380,18 @@ export function getMindMapForChapter(
   };
 }
 
-interface Visual3DMindMapProps {
+export interface Visual3DMindMapProps {
   initialSubject?: SubjectName;
   selectedChapter?: string;
   selectedClass?: ClassLevel | 'All';
   onSelectChapter?: (chapter: string, subject: SubjectName) => void;
 }
 
-export const Visual3DMindMap: React.FC<Visual3DMindMapProps> = ({
+export const Visual3DMindMap: React.FC<Visual3DMindMapProps> = (props) => {
+  return <Horizontal3DMindMap {...props} />;
+};
+
+const _LegacyVisual3DMindMap: React.FC<Visual3DMindMapProps> = ({
   initialSubject = 'Physics',
   selectedChapter: propChapter,
   selectedClass: propClass = 'All',

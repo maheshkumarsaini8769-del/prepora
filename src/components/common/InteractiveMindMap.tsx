@@ -392,7 +392,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
       </div>
 
       {viewStyle === '3d' ? (
-        <Visual3DMindMap initialSubject={subject} />
+        <Visual3DMindMap initialSubject={subject} selectedChapter={chapterName} />
       ) : (
         <>
           {/* Legend */}
