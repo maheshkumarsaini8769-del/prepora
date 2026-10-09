@@ -420,18 +420,18 @@ export const PracticeSession: React.FC = () => {
             const isSelected = selectedOption === idx;
             const isAnswerOption = currentQ.correctAnswer === idx;
 
-            let optionStyle = 'border-slate-200 bg-white text-slate-800 hover:border-brand-300';
+            let optionStyle = 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100 hover:border-emerald-500/40';
 
             if (isChecked) {
               if (isAnswerOption) {
-                optionStyle = 'border-emerald-500 bg-emerald-50/70 text-emerald-950 font-semibold ring-1 ring-emerald-500';
+                optionStyle = 'border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-300 font-semibold ring-1 ring-emerald-500';
               } else if (isSelected && !isCorrect) {
-                optionStyle = 'border-rose-500 bg-rose-50/70 text-rose-950 ring-1 ring-rose-500';
+                optionStyle = 'border-rose-500 bg-rose-50/80 dark:bg-rose-950/40 text-rose-950 dark:text-rose-300 ring-1 ring-rose-500';
               } else {
-                optionStyle = 'border-slate-200 bg-slate-50/50 text-slate-400 opacity-60';
+                optionStyle = 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 text-slate-400 dark:text-slate-500 opacity-60';
               }
             } else if (isSelected) {
-              optionStyle = 'border-brand-500 bg-brand-50/80 text-brand-950 font-semibold ring-2 ring-brand-500/20';
+              optionStyle = 'border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/50 text-emerald-950 dark:text-emerald-200 font-semibold ring-2 ring-emerald-500/20';
             }
 
             return (

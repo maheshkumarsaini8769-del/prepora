@@ -346,7 +346,7 @@ export const AdminSettingsPage: React.FC = () => {
         <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-4">
           <h3 className="font-bold text-sm text-slate-900 dark:text-white">Free-User Advertisement Policy</h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-            Study Up maintains educational integrity. In accordance with Section 37, advertisements are never rendered over test sessions or question answer buttons.
+            Prepora maintains educational integrity. In accordance with Section 37, advertisements are never rendered over test sessions or question answer buttons.
           </p>
 
           <div className="space-y-3 text-xs max-w-lg">
@@ -554,7 +554,7 @@ export const AdminSettingsPage: React.FC = () => {
           <div className="p-5 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
             <h3 className="font-bold text-base text-slate-900 dark:text-white">Duplicate Detection Algorithm</h3>
             <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
-              Study Up runs a hybrid Levenshtein distance and token-level Jaccard similarity index across the entire MongoDB question bank. Any question sharing &gt;80% structural overlap is flagged before publishing to prevent duplicate practice entries.
+              Prepora runs a hybrid Levenshtein distance and token-level Jaccard similarity index across the entire MongoDB question bank. Any question sharing &gt;80% structural overlap is flagged before publishing to prevent duplicate practice entries.
             </p>
           </div>
 

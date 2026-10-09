@@ -127,12 +127,12 @@ export const FixMyWeakness: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold mb-2">
-            <Zap className="w-3.5 h-3.5 text-purple-600" />
-            <span>Study Up Signature 5-Stage Remediation Engine</span>
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-xs font-semibold mb-2">
+            <Zap className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+            <span>Prepora 5-Stage Remediation Engine</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">Fix My Weakness</h1>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
             Color-coded competency breakdown across all syllabus subtopics. Launch 5-stage precision remediation drills.
           </p>
         </div>
@@ -144,48 +144,48 @@ export const FixMyWeakness: React.FC = () => {
           onClick={() => setSelectedStatus(selectedStatus === 'red' ? 'all' : 'red')}
           className={`p-4 rounded-2xl border text-left transition-all ${
             selectedStatus === 'red'
-              ? 'bg-rose-100/70 border-rose-400 ring-2 ring-rose-400/20'
-              : 'bg-rose-50/50 border-rose-200/60 hover:bg-rose-50'
+              ? 'bg-rose-100/70 dark:bg-rose-950/40 border-rose-400 ring-2 ring-rose-400/20'
+              : 'bg-rose-50/50 dark:bg-rose-950/20 border-rose-200/60 dark:border-rose-900/40 hover:bg-rose-50 dark:hover:bg-rose-950/30'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-rose-800 uppercase tracking-wider">Critical Weakness</span>
-            <span className="w-3 h-3 rounded-full bg-rose-500 ring-4 ring-rose-200"></span>
+            <span className="text-xs font-bold text-rose-800 dark:text-rose-300 uppercase tracking-wider">Critical Weakness</span>
+            <span className="w-3 h-3 rounded-full bg-rose-500 ring-4 ring-rose-200 dark:ring-rose-900/50"></span>
           </div>
-          <div className="text-2xl font-black text-rose-950 mt-2">{redCount} Topics</div>
-          <div className="text-[11px] text-rose-700 mt-0.5">Accuracy below 60%</div>
+          <div className="text-2xl font-black text-rose-950 dark:text-rose-100 mt-2">{redCount} Topics</div>
+          <div className="text-[11px] text-rose-700 dark:text-rose-400 mt-0.5">Accuracy below 60%</div>
         </button>
 
         <button
           onClick={() => setSelectedStatus(selectedStatus === 'yellow' ? 'all' : 'yellow')}
           className={`p-4 rounded-2xl border text-left transition-all ${
             selectedStatus === 'yellow'
-              ? 'bg-amber-100/70 border-amber-400 ring-2 ring-amber-400/20'
-              : 'bg-amber-50/50 border-amber-200/60 hover:bg-amber-50'
+              ? 'bg-amber-100/70 dark:bg-amber-950/40 border-amber-400 ring-2 ring-amber-400/20'
+              : 'bg-amber-50/50 dark:bg-amber-950/20 border-amber-200/60 dark:border-amber-900/40 hover:bg-amber-50 dark:hover:bg-amber-950/30'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-amber-800 uppercase tracking-wider">Needs Improvement</span>
-            <span className="w-3 h-3 rounded-full bg-amber-500 ring-4 ring-amber-200"></span>
+            <span className="text-xs font-bold text-amber-800 dark:text-amber-300 uppercase tracking-wider">Needs Improvement</span>
+            <span className="w-3 h-3 rounded-full bg-amber-500 ring-4 ring-amber-200 dark:ring-amber-900/50"></span>
           </div>
-          <div className="text-2xl font-black text-amber-950 mt-2">{yellowCount} Topics</div>
-          <div className="text-[11px] text-amber-700 mt-0.5">Accuracy 60% - 79%</div>
+          <div className="text-2xl font-black text-amber-950 dark:text-amber-100 mt-2">{yellowCount} Topics</div>
+          <div className="text-[11px] text-amber-700 dark:text-amber-400 mt-0.5">Accuracy 60% - 79%</div>
         </button>
 
         <button
           onClick={() => setSelectedStatus(selectedStatus === 'green' ? 'all' : 'green')}
           className={`p-4 rounded-2xl border text-left transition-all ${
             selectedStatus === 'green'
-              ? 'bg-emerald-100/70 border-emerald-400 ring-2 ring-emerald-400/20'
-              : 'bg-emerald-50/50 border-emerald-200/60 hover:bg-emerald-50'
+              ? 'bg-emerald-100/70 dark:bg-emerald-950/40 border-emerald-400 ring-2 ring-emerald-400/20'
+              : 'bg-emerald-50/50 dark:bg-emerald-950/20 border-emerald-200/60 dark:border-emerald-900/40 hover:bg-emerald-50 dark:hover:bg-emerald-950/30'
           }`}
         >
           <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-emerald-800 uppercase tracking-wider">Mastered Topics</span>
-            <span className="w-3 h-3 rounded-full bg-emerald-500 ring-4 ring-emerald-200"></span>
+            <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider">Mastered Topics</span>
+            <span className="w-3 h-3 rounded-full bg-emerald-500 ring-4 ring-emerald-200 dark:ring-emerald-900/50"></span>
           </div>
-          <div className="text-2xl font-black text-emerald-950 mt-2">{greenCount} Topics</div>
-          <div className="text-[11px] text-emerald-700 mt-0.5">Accuracy 80% or above</div>
+          <div className="text-2xl font-black text-emerald-950 dark:text-emerald-100 mt-2">{greenCount} Topics</div>
+          <div className="text-[11px] text-emerald-700 dark:text-emerald-400 mt-0.5">Accuracy 80% or above</div>
         </button>
       </div>
 
@@ -197,8 +197,8 @@ export const FixMyWeakness: React.FC = () => {
             onClick={() => setSelectedSubject(sub)}
             className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all ${
               selectedSubject === sub
-                ? 'bg-slate-900 text-white'
-                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-slate-900 text-white dark:bg-white dark:text-slate-900'
+                : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
             }`}
           >
             {sub}
@@ -290,12 +290,12 @@ export const FixMyWeakness: React.FC = () => {
         >
           <div className="space-y-5 py-2 max-h-[75vh] overflow-y-auto pr-1">
             {/* Topic Meta Header */}
-            <div className="p-3 bg-purple-50/70 border border-purple-200/80 rounded-2xl flex items-center justify-between">
+            <div className="p-3 bg-purple-50/70 dark:bg-purple-950/40 border border-purple-200/80 dark:border-purple-800/60 rounded-2xl flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Badge variant="brand" size="sm">{remediationTarget.subject}</Badge>
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-100">{remediationTarget.chapter}</span>
               </div>
-              <span className="text-xs font-black text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
+              <span className="text-xs font-black text-rose-600 dark:text-rose-400 bg-rose-50 dark:bg-rose-950/40 px-2.5 py-0.5 rounded-full border border-rose-200 dark:border-rose-800">
                 {remediationTarget.accuracy}% Accuracy ({remediationTarget.wrongCount} Errors)
               </span>
             </div>
@@ -307,7 +307,7 @@ export const FixMyWeakness: React.FC = () => {
                   <span className="w-5 h-5 rounded-full bg-purple-600 text-white text-[10px] font-bold flex items-center justify-center">1</span>
                   <span>Stage 1: Root Cause Diagnosis</span>
                 </h4>
-                <span className="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                <span className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
                   AI Confidence: {aiDiagnosis ? Math.round(aiDiagnosis.confidence * 100) + '%' : '86%'}
                 </span>
               </div>
@@ -325,8 +325,8 @@ export const FixMyWeakness: React.FC = () => {
                   </div>
                 </div>
               )}
-              <p className="text-xs text-slate-500">
-                Study Up analyzed your error timeline. Confirm or adjust the root cause of your mistakes:
+              <p className="text-xs text-slate-500 dark:text-slate-400">
+                Prepora analyzed your error timeline. Confirm or adjust the root cause of your mistakes:
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
@@ -339,15 +339,15 @@ export const FixMyWeakness: React.FC = () => {
                       onClick={() => setSelectedCause(cause)}
                       className={`p-3 rounded-xl border text-left transition-all ${
                         isSelected
-                          ? 'border-purple-600 bg-purple-50/90 text-purple-950 ring-2 ring-purple-600/20 shadow-xs'
-                          : 'border-slate-200 bg-white text-slate-700 hover:border-slate-300'
+                          ? 'border-purple-600 bg-purple-50/90 dark:bg-purple-950/50 text-purple-950 dark:text-purple-200 ring-2 ring-purple-600/20 shadow-xs'
+                          : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-300 hover:border-slate-300 dark:hover:border-slate-700'
                       }`}
                     >
                       <div className="flex items-center justify-between">
                         <span className="text-xs font-bold">{cause}</span>
-                        {isSelected && <Check className="w-4 h-4 text-purple-700" />}
+                        {isSelected && <Check className="w-4 h-4 text-purple-700 dark:text-purple-300" />}
                       </div>
-                      <p className="text-[11px] text-slate-500 mt-1 leading-tight">
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-1 leading-tight">
                         {ROOT_CAUSE_DETAILS[cause].description}
                       </p>
                     </button>
@@ -365,7 +365,7 @@ export const FixMyWeakness: React.FC = () => {
 
               <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 rounded-2xl border border-slate-200 dark:border-slate-800 space-y-2 text-xs">
                 <div className="flex items-center justify-between">
-                  <span className="font-bold text-purple-800 uppercase text-[10px] tracking-wider">Governing Equation</span>
+                  <span className="font-bold text-purple-800 dark:text-purple-300 uppercase text-[10px] tracking-wider">Governing Equation</span>
                   <Badge variant="brand" size="sm">High-Yield Formula</Badge>
                 </div>
                 <div className="p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200 dark:border-slate-800 font-mono font-bold text-slate-800 dark:text-slate-100 text-center">
@@ -376,12 +376,12 @@ export const FixMyWeakness: React.FC = () => {
                     : 'Governing Law: F_net = dp/dt = m · a'}
                 </div>
 
-                <div className="p-2.5 bg-amber-50 rounded-xl border border-amber-200 text-amber-900 space-y-1">
+                <div className="p-2.5 bg-amber-50 dark:bg-amber-950/30 rounded-xl border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 space-y-1">
                   <div className="font-bold flex items-center gap-1">
-                    <Lightbulb className="w-3.5 h-3.5 text-amber-600" />
+                    <Lightbulb className="w-3.5 h-3.5 text-amber-600 dark:text-amber-400" />
                     <span>Remember This (The 1-Liner That Prevents the Error)</span>
                   </div>
-                  <p className="text-[11px] leading-relaxed text-amber-800">
+                  <p className="text-[11px] leading-relaxed text-amber-800 dark:text-amber-300">
                     Always resolve vectors into orthogonal axes before applying scalar equations. Never mix components across perpendicular dimensions.
                   </p>
                 </div>
@@ -403,14 +403,14 @@ export const FixMyWeakness: React.FC = () => {
                   { step: 'Q4', title: 'Distractor Trap Vigilance', level: 'Hard', desc: 'Option engineered to catch common sign or calculation errors' },
                   { step: 'Q5', title: 'Timed Exam Challenge', level: 'Exam-Level', desc: 'Full countdown pressure to verify speed and mastery' }
                 ].map((blueprint, idx) => (
-                  <div key={idx} className="p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200/90 flex items-center justify-between text-xs">
+                  <div key={idx} className="p-2.5 bg-white dark:bg-[#0c131a] rounded-xl border border-slate-200/90 dark:border-slate-800 flex items-center justify-between text-xs">
                     <div className="flex items-center gap-2.5">
                       <span className="w-6 h-6 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold text-xs flex items-center justify-center shrink-0">
                         {blueprint.step}
                       </span>
                       <div>
                         <span className="font-bold text-slate-900 dark:text-white">{blueprint.title}</span>
-                        <p className="text-[11px] text-slate-500">{blueprint.desc}</p>
+                        <p className="text-[11px] text-slate-500 dark:text-slate-400">{blueprint.desc}</p>
                       </div>
                     </div>
                     <Badge variant={idx < 2 ? 'success' : idx < 4 ? 'warning' : 'danger'} size="sm">
@@ -423,24 +423,24 @@ export const FixMyWeakness: React.FC = () => {
 
             {/* STAGE 4 & 5: VERIFICATION PREVIEW & SCHEDULED RETEST */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-              <div className="p-3 rounded-2xl bg-emerald-50/70 border border-emerald-200/80 space-y-1">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-900">
-                  <TrendingUp className="w-4 h-4 text-emerald-600" />
+              <div className="p-3 rounded-2xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200/80 dark:border-emerald-800/60 space-y-1">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-emerald-900 dark:text-emerald-300">
+                  <TrendingUp className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   <span>Stage 4: Before vs After Delta</span>
                 </div>
-                <div className="text-xs text-emerald-800 mt-1">
+                <div className="text-xs text-emerald-800 dark:text-emerald-300/90 mt-1">
                   <span>Current: <strong>{remediationTarget.accuracy}%</strong></span>
                   <span className="mx-1.5">→</span>
-                  <span>Target: <strong className="text-emerald-950 font-black">80%+</strong> (+{Math.max(15, 80 - remediationTarget.accuracy)}% gain)</span>
+                  <span>Target: <strong className="text-emerald-950 dark:text-emerald-100 font-black">80%+</strong> (+{Math.max(15, 80 - remediationTarget.accuracy)}% gain)</span>
                 </div>
               </div>
 
-              <div className="p-3 rounded-2xl bg-purple-50/70 border border-purple-200/80 space-y-1">
-                <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900">
-                  <Calendar className="w-4 h-4 text-purple-600" />
+              <div className="p-3 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200/80 dark:border-purple-800/60 space-y-1">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-purple-900 dark:text-purple-300">
+                  <Calendar className="w-4 h-4 text-purple-600 dark:text-purple-400" />
                   <span>Stage 5: Scheduled Retest</span>
                 </div>
-                <p className="text-[11px] text-purple-800 leading-tight">
+                <p className="text-[11px] text-purple-800 dark:text-purple-300/90 leading-tight">
                   Auto-schedules a 3-question retention retest in 3 days. Passing marks this weakness as <strong>RESOLVED</strong>.
                 </p>
               </div>

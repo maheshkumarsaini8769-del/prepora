@@ -680,7 +680,7 @@ export const AdminAIFactory: React.FC = () => {
             Automated Chapter-to-Question Bank System
           </h1>
           <p className="text-sm text-slate-600 dark:text-slate-300 mt-1 max-w-2xl">
-            Upload chapter PDFs once. Study Up automatically extracts knowledge maps, synthesizes high-yield questions, classifies exam suitability for NEET / CBSE / RBSE, and presents verified drafts for human approval.
+            Upload chapter PDFs once. Prepora automatically extracts knowledge maps, synthesizes high-yield questions, classifies exam suitability for NEET / CBSE / RBSE, and presents verified drafts for human approval.
           </p>
         </div>
 
@@ -829,7 +829,7 @@ export const AdminAIFactory: React.FC = () => {
                 <span>Multi-Exam Pool Distribution (Section 11)</span>
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Study Up uses a unified master question bank. Every generated question is evaluated against multiple curriculums with cognitive confidence scoring.
+                Prepora uses a unified master question bank. Every generated question is evaluated against multiple curriculums with cognitive confidence scoring.
               </p>
 
               <div className="space-y-3 text-xs">

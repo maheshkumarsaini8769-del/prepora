@@ -394,7 +394,7 @@ export const Onboarding: React.FC = () => {
                 Exam Stream & Subjects
               </h2>
               <p className="text-xs sm:text-sm text-slate-400">
-                Loaded dynamically from Study Up's centralized syllabus registry.
+                Loaded dynamically from Prepora's centralized syllabus registry.
               </p>
             </div>
 
@@ -554,7 +554,7 @@ export const Onboarding: React.FC = () => {
       {/* Footer reassurance */}
       <div className="max-w-2xl mx-auto w-full text-center pb-4 text-slate-500 text-xs flex items-center justify-center gap-2">
         <ShieldCheck className="w-4 h-4 text-emerald-500" />
-        <span>Official NTA / NCERT / BSER Curricula Verified by Study Up</span>
+        <span>Official NTA / NCERT / BSER Curricula Verified by Prepora</span>
       </div>
     </div>
   );

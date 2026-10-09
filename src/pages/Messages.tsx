@@ -62,7 +62,7 @@ export const Messages: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-semibold mb-1">
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-950/40 text-purple-700 dark:text-purple-300 text-xs font-semibold mb-1">
             <MessageSquare className="w-3.5 h-3.5" />
             <span>Academic Communication</span>
           </div>
@@ -70,7 +70,7 @@ export const Messages: React.FC = () => {
         </div>
 
         {reportSuccess && (
-          <div className="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+          <div className="text-xs font-bold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-xl border border-emerald-200 dark:border-emerald-800">
             {reportSuccess}
           </div>
         )}
@@ -153,7 +153,7 @@ export const Messages: React.FC = () => {
               </div>
 
               {/* Messages Container */}
-              <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/20">
+              <div className="flex-1 p-5 overflow-y-auto space-y-4 bg-slate-50/20 dark:bg-[#080d11]">
                 {activeThread.messages.map(m => {
                   const isMe = m.sender === 'student';
 
@@ -164,8 +164,8 @@ export const Messages: React.FC = () => {
                     >
                       {/* Attached Question Preview */}
                       {m.attachedQuestion && (
-                        <div className="max-w-md p-3 rounded-2xl bg-purple-50 border border-purple-200 text-xs mb-1">
-                          <span className="font-bold text-purple-900 block mb-0.5">
+                        <div className="max-w-md p-3 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 text-xs mb-1">
+                          <span className="font-bold text-purple-900 dark:text-purple-300 block mb-0.5">
                             Attached Question #{m.attachedQuestion.id} ({m.attachedQuestion.subject})
                           </span>
                           <p className="text-slate-700 dark:text-slate-200 italic line-clamp-2">
@@ -190,7 +190,7 @@ export const Messages: React.FC = () => {
                           className={`p-3.5 rounded-2xl text-xs sm:text-sm max-w-md shadow-xs leading-relaxed ${
                             isMe
                               ? 'bg-purple-600 text-white rounded-br-xs font-medium'
-                              : 'bg-white border border-slate-200 text-slate-800 rounded-bl-xs'
+                              : 'bg-white dark:bg-[#15202b] border border-slate-200 dark:border-slate-800 text-slate-800 dark:text-slate-100 rounded-bl-xs'
                           }`}
                         >
                           {m.text}
@@ -207,8 +207,8 @@ export const Messages: React.FC = () => {
 
               {/* Question Attachment Banner if selected */}
               {attachQuestionSnippet && (
-                <div className="p-2.5 mx-4 mb-2 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-between text-xs">
-                  <span className="truncate text-purple-900 font-medium">
+                <div className="p-2.5 mx-4 mb-2 rounded-xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 flex items-center justify-between text-xs">
+                  <span className="truncate text-purple-900 dark:text-purple-300 font-medium">
                     Attached: <em>"{attachQuestionSnippet}"</em>
                   </span>
                   <button
@@ -221,11 +221,11 @@ export const Messages: React.FC = () => {
               )}
 
               {/* Message Input Box */}
-              <form onSubmit={handleSendMessage} className="p-3 border-t border-slate-100 bg-white dark:bg-[#0c131a] flex items-center gap-2">
+              <form onSubmit={handleSendMessage} className="p-3 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-[#0c131a] flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => setAttachQuestionSnippet('Kinematics Projectile Question #phy-11-003: A projectile launched at angle θ...')}
-                  className="p-2 rounded-xl hover:bg-slate-100 text-slate-500 transition-colors"
+                  className="p-2 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 dark:text-slate-400 transition-colors"
                   title="Attach Question Reference"
                 >
                   <Paperclip className="w-4 h-4" />
@@ -236,7 +236,7 @@ export const Messages: React.FC = () => {
                   value={inputText}
                   onChange={e => setInputText(e.target.value)}
                   placeholder="Type your academic query or message..."
-                  className="flex-1 p-2.5 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600"
+                  className="flex-1 p-2.5 text-xs sm:text-sm rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600"
                 />
 
                 <Button

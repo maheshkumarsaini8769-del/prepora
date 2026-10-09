@@ -97,7 +97,7 @@ export const Leaderboard: React.FC = () => {
 
       <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-xs text-slate-500 flex items-center gap-2">
         <Shield className="w-4 h-4 text-slate-400 flex-shrink-0" />
-        <span>Study Up follows strict privacy guidelines: personal identification numbers and emails are never published.</span>
+        <span>Prepora follows strict privacy guidelines: personal identification numbers and emails are never published.</span>
       </div>
     </div>
   );

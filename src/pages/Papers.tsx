@@ -177,7 +177,7 @@ export const Papers: React.FC = () => {
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
             activeContentType === 'REAL_PYQ'
               ? 'bg-brand-600 text-white shadow-sm'
-              : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+              : 'bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
           }`}
         >
           <ShieldCheck className="w-4 h-4" />
@@ -190,7 +190,7 @@ export const Papers: React.FC = () => {
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
             activeContentType === 'MODEL_PAPER'
               ? 'bg-brand-600 text-white shadow-sm'
-              : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+              : 'bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
           }`}
         >
           <FileText className="w-4 h-4" />
@@ -203,7 +203,7 @@ export const Papers: React.FC = () => {
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
             activeContentType === 'MOCK_TEST'
               ? 'bg-brand-600 text-white shadow-sm'
-              : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+              : 'bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
           }`}
         >
           <Play className="w-4 h-4" />
@@ -216,7 +216,7 @@ export const Papers: React.FC = () => {
           className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
             activeContentType === 'SAMPLE_PAPER'
               ? 'bg-brand-600 text-white shadow-sm'
-              : 'bg-white border border-slate-200 text-slate-700 hover:bg-slate-50'
+              : 'bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
           }`}
         >
           <FileText className="w-4 h-4" />
@@ -226,8 +226,8 @@ export const Papers: React.FC = () => {
 
       {/* 3. Strict Verification Guarantee Banner */}
       {activeContentType === 'REAL_PYQ' && (
-        <div className="p-3.5 rounded-xl bg-emerald-50/80 border border-emerald-200/80 flex items-start gap-3 text-xs text-emerald-900">
-          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+        <div className="p-3.5 rounded-xl bg-emerald-50/80 dark:bg-emerald-950/40 border border-emerald-200/80 dark:border-emerald-800/60 flex items-start gap-3 text-xs text-emerald-900 dark:text-emerald-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
           <div>
             <span className="font-bold">Strict Canonical Verification:</span> All {filteredPapers.length} papers in this view are 100% verified historical examination question papers conducted by official authorities. Simulated mocks, sample papers, and model tests are strictly partitioned out.
           </div>
@@ -300,26 +300,26 @@ export const Papers: React.FC = () => {
 
       {/* 5. Verified Status Notice for 2025 */}
       {selectedYear === 2025 && activeContentType === 'REAL_PYQ' && (
-        <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-xs text-emerald-900 space-y-1.5">
-          <div className="flex items-center gap-2 font-bold text-emerald-800">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+        <div className="p-4 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 text-xs text-emerald-900 dark:text-emerald-200 space-y-1.5">
+          <div className="flex items-center gap-2 font-bold text-emerald-800 dark:text-emerald-300">
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
             <span>2025 Real Examination Papers Status — Verified Shifts Published</span>
           </div>
-          <p className="text-emerald-800 leading-relaxed">
-            Study Up publishes verified historical 2025 examination papers with official source provenance (NTA JEE Main 2025 Session 1 January shifts, CBSE Class 12 2025 Board papers, and RBSE Class 12 2025 Board papers). Upcoming 2025 exam sessions (JEE Main April Session 2, NEET-UG May 2025) are cataloged in our official missing papers tracking manifest.
+          <p className="text-emerald-800 dark:text-emerald-300/90 leading-relaxed">
+            Prepora publishes verified historical 2025 examination papers with official source provenance (NTA JEE Main 2025 Session 1 January shifts, CBSE Class 12 2025 Board papers, and RBSE Class 12 2025 Board papers). Upcoming 2025 exam sessions (JEE Main April Session 2, NEET-UG May 2025) are cataloged in our official missing papers tracking manifest.
           </p>
           <div className="pt-1 flex flex-wrap items-center gap-3">
             <button
               type="button"
               onClick={() => handleTabChange('MODEL_PAPER')}
-              className="font-bold underline text-emerald-900 hover:text-emerald-950 cursor-pointer"
+              className="font-bold underline text-emerald-900 dark:text-emerald-200 hover:text-emerald-950 dark:hover:text-emerald-100 cursor-pointer"
             >
               View 2025 Official Model Papers →
             </button>
             <button
               type="button"
               onClick={() => handleTabChange('MOCK_TEST')}
-              className="font-bold underline text-emerald-900 hover:text-emerald-950 cursor-pointer"
+              className="font-bold underline text-emerald-900 dark:text-emerald-200 hover:text-emerald-950 dark:hover:text-emerald-100 cursor-pointer"
             >
               View 2025 Full Mock Tests →
             </button>
@@ -367,13 +367,13 @@ export const Papers: React.FC = () => {
                         {paper.subject && paper.subject !== 'Full Syllabus' && (
                           <>
                             <span className="text-slate-300">•</span>
-                            <span className="text-slate-600 font-medium text-[11px]">{paper.subject}</span>
+                            <span className="text-slate-600 dark:text-slate-300 font-medium text-[11px]">{paper.subject}</span>
                           </>
                         )}
                         {paper.sourceAuthority && (
                           <>
                             <span className="text-slate-300">•</span>
-                            <span className="text-indigo-700 bg-indigo-50 border border-indigo-200/60 font-semibold px-1.5 py-0.2 rounded text-[10px]">
+                            <span className="text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200/60 dark:border-indigo-800 font-semibold px-1.5 py-0.2 rounded text-[10px]">
                               {paper.sourceAuthority}
                             </span>
                           </>
@@ -384,12 +384,12 @@ export const Papers: React.FC = () => {
                       <span
                         className={`text-[10px] font-extrabold px-2 py-0.5 rounded-full border ${
                           paper.contentType === 'REAL_PYQ'
-                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 flex items-center gap-1'
+                            ? 'bg-emerald-50 text-emerald-700 border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300 dark:border-emerald-800 flex items-center gap-1'
                             : paper.contentType === 'MODEL_PAPER'
-                            ? 'bg-blue-50 text-blue-700 border-blue-200'
+                            ? 'bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-950/40 dark:text-blue-300 dark:border-blue-800'
                             : paper.contentType === 'MOCK_TEST'
-                            ? 'bg-purple-50 text-purple-700 border-purple-200'
-                            : 'bg-slate-100 text-slate-700 border-slate-200'
+                            ? 'bg-purple-50 text-purple-700 border-purple-200 dark:bg-purple-950/40 dark:text-purple-300 dark:border-purple-800'
+                            : 'bg-slate-100 text-slate-700 border-slate-200 dark:bg-slate-800 dark:text-slate-300 dark:border-slate-700'
                         }`}
                       >
                         {paper.contentType === 'REAL_PYQ' && <ShieldCheck className="w-3 h-3 text-emerald-600 inline" />}
@@ -409,13 +409,13 @@ export const Papers: React.FC = () => {
 
                     {/* Shift & Session if available */}
                     {(paper.shift || paper.session || paper.date) && (
-                      <div className="text-[11px] font-semibold text-brand-700 bg-brand-50/70 px-2 py-0.5 rounded-md inline-block">
+                      <div className="text-[11px] font-semibold text-brand-700 dark:text-brand-300 bg-brand-50/70 dark:bg-brand-950/40 px-2 py-0.5 rounded-md inline-block">
                         {[paper.session, paper.date, paper.shift].filter(Boolean).join(' • ')}
                       </div>
                     )}
 
                     {paper.stableKey && (
-                      <div className="text-[10px] font-mono text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-100 truncate" title={paper.stableKey}>
+                      <div className="text-[10px] font-mono text-slate-400 bg-slate-50 dark:bg-slate-800/60 px-1.5 py-0.5 rounded border border-slate-100 dark:border-slate-800 truncate" title={paper.stableKey}>
                         ID: {paper.stableKey}
                       </div>
                     )}
@@ -423,19 +423,19 @@ export const Papers: React.FC = () => {
                     <div className="text-[11px] text-slate-500">
                       {paper.totalQuestions} Questions • {paper.durationMinutes} Mins •{' '}
                       {paper.answerKeySource === 'Official' ? (
-                        <span className="text-emerald-700 font-semibold">Official Answer Key</span>
+                        <span className="text-emerald-700 dark:text-emerald-400 font-semibold">Official Answer Key</span>
                       ) : (
-                        <span className="text-slate-600 font-medium">Study Up Solution</span>
+                        <span className="text-slate-600 dark:text-slate-400 font-medium">Prepora Solution</span>
                       )}
                     </div>
                   </div>
 
                   {/* Clean Action Buttons */}
-                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100">
+                  <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800">
                     <button
                       type="button"
                       onClick={() => navigate(`/papers/${paper.id}?mode=study`)}
-                      className="py-2 px-3 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 hover:bg-slate-50 text-slate-800 dark:text-slate-100 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
+                      className="py-2 px-3 rounded-lg bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-800 dark:text-slate-100 font-semibold text-xs flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <Eye className="w-3.5 h-3.5 text-slate-500" />
                       <span>View Paper</span>

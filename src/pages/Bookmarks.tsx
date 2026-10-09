@@ -63,8 +63,8 @@ export const Bookmarks: React.FC = () => {
             onClick={() => setActiveTab(tab.key as any)}
             className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
               activeTab === tab.key
-                ? 'bg-brand-600 text-white shadow-sm'
-                : 'bg-white border border-slate-200 text-slate-600 hover:bg-slate-50'
+                ? 'bg-emerald-600 text-white shadow-xs'
+                : 'bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
             }`}
           >
             {tab.label}

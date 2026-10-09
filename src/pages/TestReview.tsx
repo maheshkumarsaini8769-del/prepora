@@ -303,11 +303,11 @@ export const TestReview: React.FC = () => {
                   const isUserSelection = activeAns?.selectedAnswer === idx;
                   const isCorrectAnswer = activeQ.correctAnswer === idx;
 
-                  let style = 'border-slate-200 bg-white text-slate-700';
+                  let style = 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-700 dark:text-slate-200';
                   if (isCorrectAnswer) {
-                    style = 'border-emerald-500 bg-emerald-50/80 text-emerald-950 font-semibold ring-1 ring-emerald-500';
+                    style = 'border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-300 font-semibold ring-1 ring-emerald-500';
                   } else if (isUserSelection && !isCorrectAnswer) {
-                    style = 'border-rose-500 bg-rose-50/80 text-rose-950 ring-1 ring-rose-500';
+                    style = 'border-rose-500 bg-rose-50/80 dark:bg-rose-950/40 text-rose-950 dark:text-rose-300 ring-1 ring-rose-500';
                   }
 
                   return (
@@ -321,7 +321,7 @@ export const TestReview: React.FC = () => {
                             ? 'bg-emerald-600 text-white'
                             : isUserSelection
                             ? 'bg-rose-600 text-white'
-                            : 'bg-slate-100 text-slate-600'
+                            : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300'
                         }`}
                       >
                         {letter}
@@ -465,8 +465,8 @@ export const TestReview: React.FC = () => {
         }
       >
         <div className="space-y-4 py-1">
-          <p className="text-xs text-slate-500">
-            Categorizing your mistake helps Study Up analyze whether errors stem from conceptual gaps, formula memory, or calculation speed.
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Categorizing your mistake helps Prepora analyze whether errors stem from conceptual gaps, formula memory, or calculation speed.
           </p>
 
           <div>
@@ -489,8 +489,8 @@ export const TestReview: React.FC = () => {
                   onClick={() => setTagModalReason(reason)}
                   className={`p-2.5 rounded-xl border text-left text-xs font-medium transition-all ${
                     tagModalReason === reason
-                      ? 'border-purple-600 bg-purple-50 text-purple-900 font-bold shadow-xs'
-                      : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                      ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/40 text-purple-900 dark:text-purple-300 font-bold shadow-xs'
+                      : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
                   }`}
                 >
                   {reason}
@@ -507,7 +507,7 @@ export const TestReview: React.FC = () => {
               value={tagModalNote}
               onChange={e => setTagModalNote(e.target.value)}
               placeholder="e.g., Used 9.8 instead of 10, or forgot the factor of 1/2 in kinetic energy..."
-              className="w-full h-20 p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none"
+              className="w-full h-20 p-2.5 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-purple-500/20 focus:border-purple-600 resize-none"
             />
           </div>
         </div>
@@ -542,8 +542,8 @@ export const TestReview: React.FC = () => {
         }
       >
         <div className="space-y-4 py-1">
-          <p className="text-xs text-slate-500">
-            Tell us why you decided to skip this question. This helps Study Up diagnose whether your skips were strategic time savers or due to conceptual gaps.
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Tell us why you decided to skip this question. This helps Prepora diagnose whether your skips were strategic time savers or due to conceptual gaps.
           </p>
 
           <div className="space-y-2">
@@ -561,8 +561,8 @@ export const TestReview: React.FC = () => {
                 onClick={() => setSelectedUnattemptedReason(r)}
                 className={`w-full p-3 rounded-xl border text-left text-xs sm:text-sm font-medium transition-all flex items-center justify-between ${
                   selectedUnattemptedReason === r
-                    ? 'border-purple-600 bg-purple-50 text-purple-900 font-bold shadow-xs'
-                    : 'border-slate-200 hover:bg-slate-50 text-slate-700'
+                    ? 'border-purple-600 bg-purple-50 dark:bg-purple-950/40 text-purple-900 dark:text-purple-300 font-bold shadow-xs'
+                    : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300'
                 }`}
               >
                 <span>{r}</span>

@@ -310,14 +310,14 @@ export const SpeedPracticePage: React.FC = () => {
                 const isSelected = selectedAnswer === idx;
                 const isRight = currentQ.correctAnswer === idx;
 
-                let btnClass = 'border-slate-200 bg-white text-slate-800 hover:border-purple-300';
+                let btnClass = 'border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c131a] text-slate-800 dark:text-slate-100 hover:border-emerald-500/40';
                 if (isChecked) {
                   if (isRight) {
-                    btnClass = 'border-emerald-500 bg-emerald-50 text-emerald-950 font-bold';
+                    btnClass = 'border-emerald-500 bg-emerald-50/80 dark:bg-emerald-950/40 text-emerald-950 dark:text-emerald-300 font-bold';
                   } else if (isSelected && !isRight) {
-                    btnClass = 'border-rose-500 bg-rose-50 text-rose-950';
+                    btnClass = 'border-rose-500 bg-rose-50/80 dark:bg-rose-950/40 text-rose-950 dark:text-rose-300';
                   } else {
-                    btnClass = 'border-slate-200 bg-slate-50 text-slate-400 opacity-60';
+                    btnClass = 'border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-900/40 text-slate-400 dark:text-slate-500 opacity-60';
                   }
                 }
 

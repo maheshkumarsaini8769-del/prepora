@@ -698,7 +698,7 @@ export const Settings: React.FC = () => {
                   <span>Local Cache & Storage Management</span>
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Study Up saves offline practice questions and chapter notes locally for instant navigation.
+                  Prepora saves offline practice questions and chapter notes locally for instant navigation.
                 </p>
               </div>
               <Badge variant="slate" size="sm">
@@ -756,7 +756,7 @@ export const Settings: React.FC = () => {
                 className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white text-xs font-bold flex items-center justify-center gap-2 transition-all shadow-sm shadow-rose-600/20 cursor-pointer"
               >
                 <LogOut className="w-4 h-4" />
-                <span>Log Out of Study Up</span>
+                <span>Log Out of Prepora</span>
               </button>
             ) : (
               <button
@@ -779,7 +779,7 @@ export const Settings: React.FC = () => {
       <div className="pt-2 text-center text-xs text-slate-400 dark:text-slate-600 space-y-1">
         <div className="flex items-center justify-center gap-2 text-[11px]">
           <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
-          <span className="font-semibold text-slate-600 dark:text-slate-400">Study Up v2.4.0 Live • Atlas Connected</span>
+          <span className="font-semibold text-slate-600 dark:text-slate-400">Prepora v2.4.0 Live • Atlas Connected</span>
         </div>
         <p className="text-[10px]">Built for high-yield JEE & NEET aspirants</p>
       </div>
@@ -805,7 +805,7 @@ export const Settings: React.FC = () => {
 
             <div className="space-y-1.5">
               <h3 className="text-lg font-black text-slate-900 dark:text-white tracking-tight">
-                Log out of Study Up?
+                Log out of Prepora?
               </h3>
               <p className="text-xs text-slate-500 leading-relaxed">
                 You will need to enter your registered mobile number or email and password to sign back in.
