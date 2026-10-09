@@ -80,12 +80,13 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
 
     if (session.isRevoked || session.status === 'REVOKED') {
       const isAnotherDevice = session?.revocationReason === 'NEW_LOGIN_ON_OTHER_DEVICE' || session?.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE';
+      const isUserLogout = session?.revocationReason === 'USER_LOGOUT';
       return res.status(401).json({
         success: false,
-        code: isAnotherDevice ? 'SESSION_REVOKED_ANOTHER_DEVICE' : 'SESSION_REVOKED',
+        code: isAnotherDevice ? 'SESSION_REVOKED_ANOTHER_DEVICE' : isUserLogout ? 'USER_LOGGED_OUT' : 'SESSION_REVOKED',
         message: isAnotherDevice
           ? 'Your account was signed in on another device.'
-          : 'Session has been revoked or logged out.'
+          : 'Session has ended.'
       });
     }
 

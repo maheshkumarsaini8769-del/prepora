@@ -345,9 +345,27 @@ router.post('/set-password', authenticateUser, async (req: AuthRequest, res: Res
     const salt = await bcrypt.genSalt(10);
     const passwordHash = await bcrypt.hash(rawPassword, salt);
 
+    const phone = req.body.phone;
+    const cleanPhone = phone ? String(phone).replace(/[^0-9]/g, '').slice(-10) : undefined;
+
+    const searchCriteria: any[] = [];
+    if (req.user?._id) searchCriteria.push({ _id: req.user._id });
+    if (req.user?.id) searchCriteria.push({ id: req.user.id });
+    if (req.user?.studentId) searchCriteria.push({ studentId: req.user.studentId });
+    if (req.user?.phone) searchCriteria.push({ phone: req.user.phone }, { mobile: req.user.phone });
+    if (cleanPhone) {
+      searchCriteria.push(
+        { phone: cleanPhone },
+        { mobile: cleanPhone },
+        { phone: new RegExp(cleanPhone + '$') },
+        { mobile: new RegExp(cleanPhone + '$') },
+        { email: `phone_${cleanPhone}@prepora.student` }
+      );
+    }
+
     const updatedUser = await User.findOneAndUpdate(
-      { $or: [{ _id: req.user!._id }, { id: req.user!.id }, ...(req.user!.studentId ? [{ studentId: req.user!.studentId }] : [])] },
-      { $set: { passwordHash } },
+      searchCriteria.length > 0 ? { $or: searchCriteria } : { id: req.user?.id },
+      { $set: { passwordHash, ...(cleanPhone ? { phone: cleanPhone, mobile: cleanPhone } : {}) } },
       { new: true }
     );
 
@@ -448,10 +466,56 @@ router.post('/zenuxs', async (req: Request, res: Response) => {
   }
 });
 
+// POST /api/auth/check-phone - Check if mobile number is already registered
+router.post('/check-phone', async (req: Request, res: Response) => {
+  try {
+    const { phone, mobile, identifier } = req.body;
+    const raw = String(phone || mobile || identifier || '').trim();
+    const cleanMobile = raw.replace(/[^0-9]/g, '').slice(-10);
+
+    if (!cleanMobile || cleanMobile.length !== 10) {
+      return res.status(400).json({ success: false, message: 'Valid 10-digit mobile number is required.' });
+    }
+
+    const isOwnerNumber = cleanMobile === '7742735762';
+    const phoneRegex = new RegExp(cleanMobile + '$');
+    const existing = await User.findOne({
+      $or: [
+        { mobile: cleanMobile },
+        { phone: cleanMobile },
+        { mobile: phoneRegex },
+        { phone: phoneRegex },
+        { email: `phone_${cleanMobile}@prepora.student` },
+        ...(isOwnerNumber ? [{ email: 'maheshkumarsaini8769@gmail.com' }, { id: 'usr_admin_mahesh' }, { id: 'usr-admin-mahesh' }] : [])
+      ]
+    });
+
+    if (existing) {
+      return res.json({
+        success: true,
+        exists: true,
+        hasPassword: !!(existing.passwordHash && existing.passwordHash.length > 0),
+        name: existing.name || 'Student',
+        role: existing.role || 'student',
+        message: 'Yeh mobile number pehle se registered hai. Kripya password se login karein.'
+      });
+    }
+
+    return res.json({
+      success: true,
+      exists: false,
+      hasPassword: false,
+      message: 'Mobile number registered nahi hai. Aap naya account bana sakte hain.'
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
 // POST /api/auth/send-otp - WhatsApp OTP Dispatch
 router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
   try {
-    const { email, phone, mobile, identifier } = req.body;
+    const { email, phone, mobile, identifier, mode } = req.body;
     const targetIdentifier = (mobile || phone || identifier || email || '').trim();
 
     if (!targetIdentifier) {
@@ -468,19 +532,29 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
     }
 
     // Check if mobile number is suspended/blocked by admin
-    const blockedUser = await User.findOne({
+    const phoneRegex = new RegExp(cleanMobile + '$');
+    const existingUser = await User.findOne({
       $or: [
         { mobile: cleanMobile },
         { phone: cleanMobile },
-        { mobile: { $regex: cleanMobile + '$' } },
-        { phone: { $regex: cleanMobile + '$' } },
+        { mobile: phoneRegex },
+        { phone: phoneRegex },
         { email: `phone_${cleanMobile}@prepora.student` }
       ]
     });
-    if (blockedUser && blockedUser.status === 'suspended') {
+    if (existingUser && existingUser.status === 'suspended') {
       return res.status(403).json({
         success: false,
         message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se STUDY UP me login nahi kar sakte.'
+      });
+    }
+
+    // Guard: If student is registering, but this number is ALREADY registered, prevent re-registration
+    if (existingUser && mode === 'register') {
+      return res.status(409).json({
+        success: false,
+        isAlreadyRegistered: true,
+        message: 'Yeh mobile number pehle se registered hai! Aap dobara register nahi kar sakte, kripya seedha Login karein.'
       });
     }
 

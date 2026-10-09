@@ -41,7 +41,7 @@ type FlowStep =
   | 'reset-password';
 
 export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
-  const { sendOtp, verifyOtp, setPassword, login, forgotPassword, resetPassword, isAuthenticated, user } = useAuth();
+  const { sendOtp, checkPhone, verifyOtp, setPassword, login, forgotPassword, resetPassword, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -52,7 +52,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
 
   // Mode: 'register' (4-step onboarding) vs 'login' (mobile + password)
   const [authMode, setAuthMode] = useState<'login' | 'register'>(() => {
-    return defaultTab === 'register' ? 'register' : 'register';
+    return defaultTab === 'login' ? 'login' : 'register';
   });
 
   // Current active step
@@ -82,14 +82,17 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [successMsg, setSuccessMsg] = useState<string | null>(null);
+  const [isAlreadyRegistered, setIsAlreadyRegistered] = useState<boolean>(false);
 
-  // Auto-redirect if already authenticated and setup is done
+  // Auto-redirect ONLY if already authenticated upon page visit (not in the middle of onboarding)
   useEffect(() => {
-    if (isAuthenticated && step !== 'step3-password' && step !== 'step4-goal') {
+    if (isAuthenticated) {
+      // If currently undergoing registration steps, NEVER redirect away
+      if (step === 'step2-otp' || step === 'step3-password' || step === 'step4-goal') {
+        return;
+      }
       const onboardingDone = localStorage.getItem('prepora_onboarding_completed') === 'true';
-      if (!onboardingDone) {
-        setStep('step4-goal');
-      } else {
+      if (onboardingDone) {
         navigate(redirectTo, { replace: true });
       }
     }
@@ -113,6 +116,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
     if (e) e.preventDefault();
     setError(null);
     setSuccessMsg(null);
+    setIsAlreadyRegistered(false);
 
     const clean = cleanMobileDigits(phone);
     if (!clean || clean.length !== 10) {
@@ -128,10 +132,20 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       return;
     }
 
-    // New Registration: Send WhatsApp/SMS OTP
+    // New Registration: Guard against re-registering an existing account
     setIsLoading(true);
     try {
-      const res = await sendOtp(clean);
+      // 1. Check if phone is already registered
+      const checkRes = await checkPhone(clean);
+      if (checkRes.exists) {
+        setIsLoading(false);
+        setError('Yeh mobile number pehle se registered hai! Aap dobara register nahi kar sakte, kripya seedha Login karein.');
+        setIsAlreadyRegistered(true);
+        return;
+      }
+
+      // 2. Dispatch OTP in register mode
+      const res = await sendOtp(clean, 'register');
       setIsLoading(false);
       if (res.success) {
         setStep('step2-otp');
@@ -139,7 +153,12 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
         setCooldown(res.cooldownSeconds || 45);
         setSuccessMsg(`OTP sent to +91 ${clean}`);
       } else {
-        setError(res.message || 'Could not send verification code. Please try again.');
+        if (res.isAlreadyRegistered) {
+          setError('Yeh mobile number pehle se registered hai! Aap dobara register nahi kar sakte, kripya seedha Login karein.');
+          setIsAlreadyRegistered(true);
+        } else {
+          setError(res.message || 'Could not send verification code. Please try again.');
+        }
       }
     } catch {
       setIsLoading(false);
@@ -221,13 +240,9 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
 
       if (res.success) {
         soundFeedback.playSuccess();
-        setSuccessMsg('Mobile verified successfully!');
-        // Proceed to Step 3: Create Account & Password
-        setTimeout(() => {
-          setStep('step3-password');
-          setError(null);
-          setSuccessMsg(null);
-        }, 200);
+        setSuccessMsg('Mobile verified successfully! Ab apna password set karein.');
+        setStep('step3-password');
+        setError(null);
       } else {
         setError(res.message || 'Invalid OTP code. Please enter 9999 for demo.');
       }
@@ -250,6 +265,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
     setError(null);
     setSuccessMsg(null);
 
+    const clean = cleanMobileDigits(phone);
     if (!name.trim()) {
       setError('Please enter your full name.');
       return;
@@ -266,22 +282,19 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
     setIsLoading(true);
     soundFeedback.playClick();
     try {
-      // Save password and update name
-      await setPassword(newPassword);
-      userService.updateProfile({ name: name.trim() });
+      // Save password passing clean mobile number as phoneOverride
+      await setPassword(newPassword, clean);
+      userService.updateProfile({ name: name.trim(), phone: clean, mobile: clean });
       setIsLoading(false);
       soundFeedback.playSuccess();
-      setSuccessMsg('Account details saved!');
+      setSuccessMsg('Password created and account saved successfully!');
 
       // Proceed to Step 4: Academic Goal Selection
-      setTimeout(() => {
-        setStep('step4-goal');
-        setError(null);
-        setSuccessMsg(null);
-      }, 250);
+      setStep('step4-goal');
+      setError(null);
     } catch {
       setIsLoading(false);
-      userService.updateProfile({ name: name.trim() });
+      userService.updateProfile({ name: name.trim(), phone: clean, mobile: clean });
       setStep('step4-goal');
     }
   };
@@ -482,7 +495,25 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
           {error && (
             <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/50 text-rose-700 dark:text-rose-300 text-xs flex items-start gap-2 animate-in fade-in">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-rose-600 dark:text-rose-400" />
-              <span>{error}</span>
+              <div className="space-y-2 flex-1">
+                <span className="block font-medium">{error}</span>
+                {isAlreadyRegistered && (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAuthMode('login');
+                      setStep('login-password');
+                      setError(null);
+                      setIsAlreadyRegistered(false);
+                    }}
+                    className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer text-xs"
+                  >
+                    <Lock className="w-3.5 h-3.5" />
+                    <span>Password se Login karein (+91 {cleanMobileDigits(phone)})</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </button>
+                )}
+              </div>
             </div>
           )}
 

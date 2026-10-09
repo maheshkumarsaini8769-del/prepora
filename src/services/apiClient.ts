@@ -27,17 +27,22 @@ export async function apiRequest<T>(
       if (isAuthError && typeof window !== 'undefined') {
         localStorage.removeItem('prepora_auth_token');
         localStorage.removeItem('prepora_token');
-        try {
-          localStorage.setItem('prepora_logout_signal', String(Date.now()));
-        } catch {}
-        window.dispatchEvent(
-          new CustomEvent('prepora:session_revoked', {
-            detail: {
-              reason: errJson?.code || 'SESSION_REVOKED',
-              message: errJson?.message || 'Your session has ended or was terminated by an administrator. Please log in again.'
-            }
-          })
-        );
+        const errCode = errJson?.code || 'SESSION_REVOKED';
+        const isVoluntaryLogout = typeof sessionStorage !== 'undefined' && sessionStorage.getItem('prepora_is_logging_out') === 'true';
+
+        if (!isVoluntaryLogout && errCode !== 'USER_LOGGED_OUT' && errCode !== 'SESSION_EXPIRED') {
+          try {
+            localStorage.setItem('prepora_logout_signal', String(Date.now()));
+          } catch {}
+          window.dispatchEvent(
+            new CustomEvent('prepora:session_revoked', {
+              detail: {
+                reason: errCode,
+                message: errJson?.message || 'Your session has ended. Please log in again.'
+              }
+            })
+          );
+        }
       }
       return {
         data: null,

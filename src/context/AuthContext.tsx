@@ -27,9 +27,10 @@ export interface AuthContextType {
   login: (identifier: string, password: string) => Promise<{ success: boolean; message?: string }>;
   loginWithZenuxs: (payload: { sub?: string; email?: string; name?: string; picture?: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
   register: (data: { name: string; email: string; password: string; targetExam?: string; classLevel?: string }) => Promise<{ success: boolean; message?: string }>;
-  sendOtp: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number }>;
+  checkPhone: (phone: string) => Promise<{ exists: boolean; hasPassword?: boolean; name?: string; message?: string }>;
+  sendOtp: (identifier: string, mode?: 'register' | 'login' | 'reset') => Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number; isAlreadyRegistered?: boolean }>;
   verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; requiresPasswordCreation?: boolean; generatedPassword?: string }>;
-  setPassword: (password: string) => Promise<{ success: boolean; message?: string }>;
+  setPassword: (password: string, phoneOverride?: string) => Promise<{ success: boolean; message?: string }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
   forgotPassword: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; cooldownSeconds?: number }>;
   resetPassword: (identifier: string, otp: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
@@ -204,24 +205,33 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   // Listen for session revoked event dispatched by apiClient or background checks & cross-tab storage
   useEffect(() => {
     const handleRevoked = (e: any) => {
-      const msg = e?.detail?.message || 'Your session has ended or was terminated by an administrator. Please log in again.';
+      if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('prepora_is_logging_out') === 'true') {
+        return;
+      }
+      const reason = e?.detail?.reason;
+      if (reason === 'USER_LOGGED_OUT' || reason === 'SESSION_EXPIRED') {
+        return;
+      }
+
+      const msg = e?.detail?.message || 'Your session has ended. Please log in again.';
       localStorage.removeItem(TOKEN_KEY);
       localStorage.removeItem('prepora_token');
       setToken(null);
       setUser(userService.getProfile());
-      setSessionRevokedAlert({ open: true, message: msg });
+      if (reason === 'SESSION_REVOKED_ANOTHER_DEVICE') {
+        setSessionRevokedAlert({ open: true, message: msg });
+      }
     };
 
     const handleStorageChange = (e: StorageEvent) => {
+      if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('prepora_is_logging_out') === 'true') {
+        return;
+      }
       if (e.key === 'prepora_logout_signal' || (e.key === TOKEN_KEY && !e.newValue)) {
         localStorage.removeItem(TOKEN_KEY);
         localStorage.removeItem('prepora_token');
         setToken(null);
         setUser(userService.getProfile());
-        setSessionRevokedAlert({
-          open: true,
-          message: 'Your session was logged out. Please log in again.'
-        });
       }
     };
 
@@ -238,6 +248,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!token) return;
 
     const checkActiveSession = async () => {
+      if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('prepora_is_logging_out') === 'true') {
+        return;
+      }
       const currentToken = localStorage.getItem(TOKEN_KEY) || localStorage.getItem('prepora_token');
       if (!currentToken) return;
 
@@ -246,8 +259,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           headers: { Authorization: `Bearer ${currentToken}` }
         });
         if (res.status === 401 || res.status === 403) {
+          if (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('prepora_is_logging_out') === 'true') {
+            return;
+          }
           const errData = await res.json().catch(() => null);
-          const msg = errData?.message || 'Your session has ended or was terminated by an administrator. Please log in again.';
+          const errCode = errData?.code;
+          if (errCode === 'USER_LOGGED_OUT' || errCode === 'SESSION_EXPIRED') {
+            localStorage.removeItem(TOKEN_KEY);
+            localStorage.removeItem('prepora_token');
+            setToken(null);
+            return;
+          }
+
+          const msg = errData?.message || 'Your session has ended. Please log in again.';
           localStorage.removeItem(TOKEN_KEY);
           localStorage.removeItem('prepora_token');
           try {
@@ -255,7 +279,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           } catch {}
           setToken(null);
           setUser(userService.getProfile());
-          setSessionRevokedAlert({ open: true, message: msg });
+          if (errCode === 'SESSION_REVOKED_ANOTHER_DEVICE') {
+            setSessionRevokedAlert({ open: true, message: msg });
+          }
         }
       } catch {
         // Network offline, skip
@@ -547,20 +573,45 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, [fetchSessions]);
 
-  const sendOtp = async (identifier: string): Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number }> => {
+  const checkPhone = async (
+    phone: string
+  ): Promise<{ exists: boolean; hasPassword?: boolean; name?: string; message?: string }> => {
+    try {
+      const res = await fetch('/api/auth/check-phone', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ phone })
+      });
+      const data = await res.json();
+      return {
+        exists: Boolean(data?.exists),
+        hasPassword: Boolean(data?.hasPassword),
+        name: data?.name,
+        message: data?.message
+      };
+    } catch {
+      return { exists: false };
+    }
+  };
+
+  const sendOtp = async (
+    identifier: string,
+    mode?: 'register' | 'login' | 'reset'
+  ): Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number; isAlreadyRegistered?: boolean }> => {
     try {
       const res = await fetch('/api/auth/send-otp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ identifier, phone: identifier, email: identifier })
+        body: JSON.stringify({ identifier, phone: identifier, email: identifier, mode })
       });
       const data = await res.json();
       return {
-        success: res.ok && data.success,
+        success: Boolean(res.ok && data.success),
         message: data.message || 'OTP sent successfully via WhatsApp.',
         debugOtp: data.debugOtp,
         otp: data.otp,
-        cooldownSeconds: data.cooldownSeconds
+        cooldownSeconds: data.cooldownSeconds,
+        isAlreadyRegistered: Boolean(data.isAlreadyRegistered)
       };
     } catch {
       // Offline / immediate fallback for demo testing
@@ -606,13 +657,20 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           localStorage.removeItem('prepora_user_profile');
         }
 
+        const cleanMobile = identifier.replace(/[^0-9]/g, '').slice(-10);
+        if (cleanMobile) {
+          localStorage.setItem('prepora_user_phone', cleanMobile);
+        }
+
         const isUserPasswordSet = Boolean(data.hasPassword ?? data.user?.hasPassword);
         const baseProfile = isNewStudent ? createFreshStudentProfile() : currentProfile;
-        const cleanName = data.user?.name || metadata?.name?.trim() || (data.user?.phone ? `Student` : 'Aspirant');
+        const cleanName = data.user?.name || metadata?.name?.trim() || (cleanMobile ? `Student ${cleanMobile.slice(-4)}` : 'Aspirant');
 
         const updatedUser: UserProfile = {
           ...baseProfile,
           ...data.user,
+          phone: cleanMobile || data.user?.phone || baseProfile.phone,
+          mobile: cleanMobile || data.user?.mobile || baseProfile.mobile,
           name: cleanName,
           hasPassword: isUserPasswordSet,
           streakDays: isNewStudent ? 0 : (data.user?.streakDays ?? baseProfile.streakDays ?? 0),
@@ -665,6 +723,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const fallbackId = `usr-${Date.now()}`;
       const fallbackToken = `prepora_demo_session_${fallbackId}_${Date.now()}`;
 
+      if (cleanPhone) {
+        localStorage.setItem('prepora_user_phone', cleanPhone);
+      }
+
       const canonicalExam = targetExam === 'NEET' ? 'NEET_UG' : targetExam === 'CBSE' ? 'CBSE' : targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
       const activeSubjects = targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'];
 
@@ -675,6 +737,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         id: fallbackId,
         name: metadata?.name || (cleanPhone ? `Student ${cleanPhone.slice(-4)}` : cleanEmail.split('@')[0]),
         email: cleanEmail,
+        phone: cleanPhone,
+        mobile: cleanPhone,
         avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
         targetExam,
         classLevel,
@@ -710,47 +774,51 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return { success: false, message: 'Invalid OTP. Please enter demo OTP: 9999' };
   };
 
-  const setPassword = async (password: string): Promise<{ success: boolean; message?: string }> => {
+  const setPassword = async (password: string, phoneOverride?: string): Promise<{ success: boolean; message?: string }> => {
     const t = localStorage.getItem(TOKEN_KEY);
     const currentUser = userService.getProfile();
+    const cleanPhone = (phoneOverride || currentUser?.phone || currentUser?.mobile || localStorage.getItem('prepora_user_phone') || '').replace(/[^0-9]/g, '').slice(-10);
+
     if (currentUser?.email) {
       localStorage.setItem('prepora_pwd_' + currentUser.email.toLowerCase(), password);
     }
-    if (currentUser?.phone) {
-      localStorage.setItem('prepora_pwd_' + currentUser.phone.replace(/[^0-9]/g, '').slice(-10), password);
-    }
-
-    if (!t) {
-      const updatedUser: UserProfile = {
-        ...userService.getProfile(),
-        hasPassword: true
-      };
-      setUser(updatedUser);
-      userService.updateProfile(updatedUser);
-      return { success: true, message: 'Password saved locally.' };
+    if (cleanPhone) {
+      localStorage.setItem('prepora_pwd_' + cleanPhone, password);
     }
 
     try {
       const res = await fetch('/api/auth/set-password', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${t}` },
-        body: JSON.stringify({ password })
+        headers: { 'Content-Type': 'application/json', ...(t ? { Authorization: `Bearer ${t}` } : {}) },
+        body: JSON.stringify({ password, phone: cleanPhone })
       });
-      const data = await res.json();
-      if (res.ok && data.success) {
+      const data = await res.json().catch(() => null);
+      if (res.ok && data?.success) {
         const updatedUser: UserProfile = {
           ...userService.getProfile(),
           ...(data.user || {}),
+          phone: cleanPhone || currentUser.phone,
+          mobile: cleanPhone || currentUser.mobile,
           hasPassword: true
         };
         setUser(updatedUser);
         userService.updateProfile(updatedUser);
         return { success: true, message: data.message || 'Password created successfully.' };
       }
-      return { success: true, message: 'Password saved successfully.' };
-    } catch (err: any) {
       const updatedUser: UserProfile = {
         ...userService.getProfile(),
+        phone: cleanPhone || currentUser.phone,
+        mobile: cleanPhone || currentUser.mobile,
+        hasPassword: true
+      };
+      setUser(updatedUser);
+      userService.updateProfile(updatedUser);
+      return { success: true, message: 'Password saved successfully.' };
+    } catch {
+      const updatedUser: UserProfile = {
+        ...userService.getProfile(),
+        phone: cleanPhone || currentUser.phone,
+        mobile: cleanPhone || currentUser.mobile,
         hasPassword: true
       };
       setUser(updatedUser);
@@ -827,6 +895,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = useCallback(async (): Promise<void> => {
     try {
+      if (typeof sessionStorage !== 'undefined') {
+        sessionStorage.setItem('prepora_is_logging_out', 'true');
+      }
+      setSessionRevokedAlert({ open: false, message: '' });
       if (token) {
         await fetch('/api/auth/logout', {
           method: 'POST',
@@ -835,6 +907,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     } finally {
       localStorage.removeItem(TOKEN_KEY);
+      localStorage.removeItem('prepora_token');
       localStorage.removeItem('prepora_test_attempts');
       localStorage.removeItem('prepora_bookmarks');
       localStorage.removeItem('prepora_mistakes');
@@ -853,6 +926,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       };
       setUser(emptyUser);
       userService.updateProfile(emptyUser);
+
+      // Reset voluntary logout flag after grace period
+      setTimeout(() => {
+        if (typeof sessionStorage !== 'undefined') {
+          sessionStorage.removeItem('prepora_is_logging_out');
+        }
+      }, 3000);
     }
   }, [token]);
 
@@ -911,6 +991,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         login,
         loginWithZenuxs,
         register,
+        checkPhone,
         sendOtp,
         verifyOtp,
         setPassword,
