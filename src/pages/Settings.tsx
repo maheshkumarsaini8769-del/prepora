@@ -36,14 +36,13 @@ import {
   Layers,
   GraduationCap,
   Sliders,
-  Palette,
   X
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
 import { ExamType, ClassLevel } from '../types';
-import { getColorMode, applyColorMode, ColorMode, getSavedTheme, applyTheme, ThemeKey, THEME_OPTIONS } from '../utils/theme';
+import { getColorMode, applyColorMode, ColorMode } from '../utils/theme';
 import { soundFeedback } from '../utils/audioFeedback';
 
 export const Settings: React.FC = () => {
@@ -74,7 +73,6 @@ export const Settings: React.FC = () => {
 
   // Appearance & Preferences State
   const [currColorMode, setCurrColorMode] = useState<ColorMode>(getColorMode);
-  const [currTheme, setCurrTheme] = useState<ThemeKey>(getSavedTheme);
   const [soundEnabled, setSoundEnabled] = useState<boolean>(() => {
     return localStorage.getItem('prepora_sound_enabled') !== 'false';
   });
@@ -111,18 +109,12 @@ export const Settings: React.FC = () => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    const handleThemeChange = (e: Event) => {
-      const ce = e as CustomEvent<ThemeKey>;
-      if (ce.detail) setCurrTheme(ce.detail);
-    };
     const handleColorModeChange = (e: Event) => {
       const ce = e as CustomEvent<ColorMode>;
       if (ce.detail) setCurrColorMode(ce.detail);
     };
-    window.addEventListener('prepora-theme-change', handleThemeChange);
     window.addEventListener('prepora-colormode-change', handleColorModeChange);
     return () => {
-      window.removeEventListener('prepora-theme-change', handleThemeChange);
       window.removeEventListener('prepora-colormode-change', handleColorModeChange);
     };
   }, []);
@@ -612,81 +604,6 @@ export const Settings: React.FC = () => {
                 </div>
                 {currColorMode === 'dark' && <Check className="w-4 h-4 text-brand-600 dark:text-brand-400 stroke-[3]" />}
               </button>
-            </div>
-          </Card>
-
-          {/* Website Color Accent & Palette (6 Options) */}
-          <Card className="p-5 space-y-4 border-slate-200 dark:border-slate-800">
-            <div className="border-b border-slate-100 dark:border-slate-800 pb-3 flex items-center justify-between">
-              <div>
-                <h3 className="font-bold text-sm text-slate-900 dark:text-white flex items-center gap-2">
-                  <Palette className="w-4 h-4 text-brand-600 dark:text-brand-400" />
-                  <span>Platform Color Palette & Accent</span>
-                </h3>
-                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                  Select your primary accent color. Changes buttons, active tabs, scores, and highlights across the entire website.
-                </p>
-              </div>
-              <span className="text-[10px] font-bold px-2.5 py-0.5 rounded-full bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-300 border border-brand-200/60 dark:border-brand-800/60 shrink-0">
-                Live Theme
-              </span>
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-              {THEME_OPTIONS.map((theme) => {
-                const isSelected = currTheme === theme.key;
-                return (
-                  <button
-                    key={theme.key}
-                    type="button"
-                    onClick={() => {
-                      soundFeedback.playClick();
-                      applyTheme(theme.key);
-                      setCurrTheme(theme.key);
-                    }}
-                    className={`p-3.5 rounded-2xl border text-left transition-all cursor-pointer flex flex-col justify-between relative group ${
-                      isSelected
-                        ? 'bg-brand-50/70 dark:bg-brand-950/40 border-brand-500 ring-2 ring-brand-500/25 shadow-xs'
-                        : 'bg-white dark:bg-[#0c131a] border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-50/70 dark:hover:bg-slate-900/60'
-                    }`}
-                  >
-                    <div className="flex items-start justify-between gap-2 w-full mb-3">
-                      <div className="flex items-center gap-2.5">
-                        <span
-                          className="w-7 h-7 rounded-xl shadow-xs shrink-0 flex items-center justify-center text-white ring-2 ring-black/10 dark:ring-white/10"
-                          style={{ backgroundColor: theme.primaryColor }}
-                        >
-                          {isSelected && <Check className="w-4 h-4 stroke-[3]" />}
-                        </span>
-                        <div>
-                          <div className="text-xs font-bold text-slate-900 dark:text-white leading-tight">
-                            {theme.name}
-                          </div>
-                          <div className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5 leading-snug">
-                            {theme.subtitle}
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-800/80 w-full">
-                      <div
-                        className="h-2 w-16 rounded-full"
-                        style={{ backgroundColor: theme.primaryColor }}
-                      />
-                      {isSelected ? (
-                        <span className="text-[10px] font-extrabold text-brand-600 dark:text-brand-400 flex items-center gap-1">
-                          <Check className="w-3 h-3 stroke-[3]" /> Active
-                        </span>
-                      ) : (
-                        <span className="text-[10px] text-slate-400 font-semibold group-hover:text-slate-600 dark:group-hover:text-slate-300">
-                          Select
-                        </span>
-                      )}
-                    </div>
-                  </button>
-                );
-              })}
             </div>
           </Card>
 

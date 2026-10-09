@@ -36,7 +36,6 @@ import {
 import { useAuth } from '../context/AuthContext';
 import { adminFetch } from '../utils/adminApi';
 import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
-import { ThemeSelector } from '../components/common/ThemeSelector';
 
 export const AdminLayout: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -277,9 +276,6 @@ export const AdminLayout: React.FC = () => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-2.5">
-          {/* Color Palette Theme Selector */}
-          <ThemeSelector compact={true} />
-
           {/* Dark / Light Mode Switcher */}
           <button
             type="button"

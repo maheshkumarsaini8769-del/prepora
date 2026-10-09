@@ -488,18 +488,48 @@ class MockUserService {
 
   // Notifications
   public getNotifications(): NotificationItem[] {
-    const welcomeNotifs: NotificationItem[] = [
+    const profile = this.getProfile();
+    const exam = profile.targetExam || 'JEE';
+    const streak = profile.streakDays || 6;
+    const defaultNotifs: NotificationItem[] = [
+      {
+        id: 'notif-streak-active',
+        title: `🔥 ${streak}-Day Streak Active!`,
+        message: `Outstanding consistency! Solve your daily question goal today to maintain your ${streak}-day streak.`,
+        timestamp: 'Today',
+        isRead: false,
+        type: 'achievement',
+        actionUrl: '/practice'
+      },
       {
         id: 'notif-welcome',
-        title: 'Welcome to STUDY UP!',
-        message: 'Practice verified questions, test yourself with full mocks, and resolve doubts with the AI Quality Engine.',
-        timestamp: 'Just now',
+        title: `🎯 ${exam} Master Prep Synchronized`,
+        message: 'Chapter-wise formulas, verified MCQs, and topic trackers are ready. Start with high-yield concepts today.',
+        timestamp: 'Today',
         isRead: false,
         type: 'practice',
-        actionUrl: '/practice'
+        actionUrl: '/formula-sheet'
+      },
+      {
+        id: 'notif-mock-test',
+        title: '📝 Weekly All-India Mock Test Available',
+        message: 'Real exam simulator with full NTA & NEET pattern question papers and instant analytics in the Test Center.',
+        timestamp: '1d ago',
+        isRead: false,
+        type: 'test',
+        actionUrl: '/tests'
+      },
+      {
+        id: 'notif-mistakes-retry',
+        title: '🧠 Mistake Book Error Log Ready',
+        message: 'Review tricky questions and blind-retry incorrect problems in your Mistake Book to boost exam accuracy.',
+        timestamp: '2d ago',
+        isRead: true,
+        type: 'revision',
+        actionUrl: '/mistakes'
       }
     ];
-    return getStorageItem<NotificationItem[]>(StorageKeys.NOTIFICATIONS, welcomeNotifs);
+    return getStorageItem<NotificationItem[]>(StorageKeys.NOTIFICATIONS, defaultNotifs);
   }
 
   public addNotification(notification: Omit<NotificationItem, 'id'> & { id?: string }): void {
@@ -524,12 +554,25 @@ class MockUserService {
     if (item) {
       item.isRead = true;
       setStorageItem(StorageKeys.NOTIFICATIONS, list);
+      window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
     }
   }
 
   public markAllNotificationsAsRead(): void {
     const list = this.getNotifications().map(n => ({ ...n, isRead: true }));
     setStorageItem(StorageKeys.NOTIFICATIONS, list);
+    window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
+  }
+
+  public deleteNotification(id: string): void {
+    const list = this.getNotifications().filter(n => n.id !== id);
+    setStorageItem(StorageKeys.NOTIFICATIONS, list);
+    window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
+  }
+
+  public clearAllNotifications(): void {
+    setStorageItem(StorageKeys.NOTIFICATIONS, []);
+    window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
   }
 
   public getSubjectSolvedCounts(): Record<string, number> {

@@ -8,7 +8,7 @@ import {
   Repeat,
   Award,
   ChevronRight,
-  ExternalLink,
+  Trash2,
   X
 } from 'lucide-react';
 import { userService } from '../../services/userService';
@@ -43,6 +43,12 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
     }
   }, [isOpen]);
 
+  useEffect(() => {
+    const handleUpdate = () => refreshNotifs();
+    window.addEventListener('prepora:notifications_updated', handleUpdate);
+    return () => window.removeEventListener('prepora:notifications_updated', handleUpdate);
+  }, []);
+
   // Handle clicking outside to close
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -76,18 +82,32 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
     refreshNotifs();
   };
 
+  const handleDeleteItem = (e: React.MouseEvent, id: string) => {
+    e.stopPropagation();
+    soundFeedback.playClick();
+    userService.deleteNotification(id);
+    refreshNotifs();
+  };
+
+  const handleClearAll = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    soundFeedback.playClick();
+    userService.clearAllNotifications();
+    refreshNotifs();
+  };
+
   if (!isOpen) return null;
 
-  const previewList = notifs.slice(0, 4);
+  const previewList = notifs.slice(0, 8);
   const unreadCount = notifs.filter(n => !n.isRead).length;
 
   return (
     <div
       ref={dropdownRef}
-      className="absolute right-0 top-full mt-2 w-80 sm:w-96 bg-white dark:bg-[#0c141d] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150"
+      className="absolute -right-8 sm:right-0 top-full mt-2 w-[calc(100vw-32px)] max-w-sm sm:w-96 bg-white dark:bg-[#0c141d] border border-slate-200/90 dark:border-slate-800 rounded-2xl shadow-2xl z-50 overflow-hidden animate-in fade-in slide-in-from-top-2 duration-150"
     >
       {/* Header */}
-      <div className="p-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/60 dark:bg-slate-900/60">
+      <div className="p-3.5 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-slate-900/80">
         <div className="flex items-center gap-2">
           <div className="w-6 h-6 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
             <Bell className="w-3.5 h-3.5" />
@@ -95,9 +115,13 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
           <span className="font-extrabold text-xs text-slate-900 dark:text-white">
             Notifications
           </span>
-          {unreadCount > 0 && (
+          {unreadCount > 0 ? (
             <span className="px-1.5 py-0.2 bg-emerald-500 text-white font-black text-[10px] rounded-full">
               {unreadCount} new
+            </span>
+          ) : (
+            <span className="text-[10px] text-slate-400 font-semibold">
+              All caught up
             </span>
           )}
         </div>
@@ -107,16 +131,16 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
             <button
               type="button"
               onClick={handleMarkAllRead}
-              className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1"
+              className="text-[11px] font-bold text-emerald-600 dark:text-emerald-400 hover:underline flex items-center gap-1 cursor-pointer"
             >
               <CheckCheck className="w-3 h-3" />
-              <span>Mark read</span>
+              <span>Mark all read</span>
             </button>
           )}
           <button
             type="button"
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white"
+            className="p-1 rounded-lg text-slate-400 hover:text-slate-600 dark:hover:text-white cursor-pointer"
           >
             <X className="w-3.5 h-3.5" />
           </button>
@@ -129,7 +153,7 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
           <div
             key={n.id}
             onClick={() => handleItemClick(n)}
-            className={`p-3 transition-colors cursor-pointer flex items-start gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 ${
+            className={`group p-3 transition-colors cursor-pointer flex items-start gap-3 hover:bg-slate-50 dark:hover:bg-slate-800/50 ${
               !n.isRead ? 'bg-emerald-50/40 dark:bg-emerald-950/20' : ''
             }`}
           >
@@ -155,29 +179,51 @@ export const NotificationDropdown: React.FC<NotificationDropdownProps> = ({
               </p>
             </div>
 
-            {/* Unread indicator */}
-            {!n.isRead && (
-              <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0 mt-1.5" />
-            )}
+            {/* Right actions: Unread dot + Delete button on hover */}
+            <div className="flex items-center gap-1.5 shrink-0 self-center">
+              {!n.isRead && (
+                <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+              )}
+              <button
+                type="button"
+                onClick={(e) => handleDeleteItem(e, n.id)}
+                className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-rose-500 rounded-md transition-opacity cursor-pointer"
+                title="Dismiss"
+              >
+                <X className="w-3 h-3" />
+              </button>
+            </div>
           </div>
         ))}
 
         {previewList.length === 0 && (
-          <div className="p-8 text-center text-slate-400 space-y-1">
-            <Bell className="w-6 h-6 mx-auto text-slate-300 dark:text-slate-600" />
-            <div className="text-xs font-semibold">No notifications yet</div>
+          <div className="p-8 text-center text-slate-400 space-y-1.5">
+            <Bell className="w-7 h-7 mx-auto text-slate-300 dark:text-slate-600" />
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-300">No notifications</div>
+            <p className="text-[11px] text-slate-400">You are completely up to date with your studies.</p>
           </div>
         )}
       </div>
 
       {/* Footer */}
-      <div className="p-2.5 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-100 dark:border-slate-800 text-center">
+      <div className="p-2.5 bg-slate-50/80 dark:bg-slate-900/80 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between px-3">
+        {notifs.length > 0 ? (
+          <button
+            type="button"
+            onClick={handleClearAll}
+            className="text-[11px] font-bold text-slate-400 hover:text-rose-500 transition-colors flex items-center gap-1 cursor-pointer"
+          >
+            <Trash2 className="w-3 h-3" />
+            <span>Clear all</span>
+          </button>
+        ) : <span />}
+
         <Link
           to="/notifications"
           onClick={onClose}
           className="text-xs font-black text-emerald-600 dark:text-emerald-400 hover:underline inline-flex items-center gap-1"
         >
-          <span>View All Notifications</span>
+          <span>View All ({notifs.length})</span>
           <ChevronRight className="w-3.5 h-3.5 stroke-[2.5]" />
         </Link>
       </div>

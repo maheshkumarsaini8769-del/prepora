@@ -30,12 +30,10 @@ import {
   Plus,
   LogIn,
   LogOut,
-  Target,
   ChevronRight,
   Tv,
   Sun,
   Moon,
-  ChevronDown,
   Bot,
   Check,
   BookMarked,
@@ -45,10 +43,8 @@ import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
 import { NotificationDropdown } from '../components/common/NotificationDropdown';
 import { InstallAppBanner } from '../components/common/InstallAppBanner';
-import { ThemeSelector } from '../components/common/ThemeSelector';
 import { soundFeedback } from '../utils/audioFeedback';
 import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
-import { getAllowedSubjectsForExam } from '../utils/examUtils';
 
 // Code-split heavy modals so questions, formulas & syllabus are NOT loaded on initial page load
 const GlobalQuickActionModal = React.lazy(() =>
@@ -69,7 +65,6 @@ export const MainLayout: React.FC = () => {
   const [quickActionOpen, setQuickActionOpen] = useState(false);
   const [studySessionOpen, setStudySessionOpen] = useState(false);
   const [reportTechOpen, setReportTechOpen] = useState(false);
-  const [examSwitcherOpen, setExamSwitcherOpen] = useState(false);
   const [notifDropdownOpen, setNotifDropdownOpen] = useState(false);
   const [guideModalOpen, setGuideModalOpen] = useState(false);
   const [colorMode, setColorMode] = useState<ColorMode>(() => getColorMode());
@@ -99,6 +94,15 @@ export const MainLayout: React.FC = () => {
   const { user: authUser, isAuthenticated, logout, setAuthModalOpen, setAuthModalMode } = useAuth();
   const user = authUser || userService.getProfile();
   const [unreadCount, setUnreadCount] = useState<number>(() => userService.getNotifications().filter(n => !n.isRead).length);
+
+  useEffect(() => {
+    const handleNotifsUpdate = () => {
+      setUnreadCount(userService.getNotifications().filter(n => !n.isRead).length);
+    };
+    window.addEventListener('prepora:notifications_updated', handleNotifsUpdate);
+    return () => window.removeEventListener('prepora:notifications_updated', handleNotifsUpdate);
+  }, []);
+
   const [dailyGoalCelebration, setDailyGoalCelebration] = useState<{ open: boolean; goal: number; exam: string } | null>(null);
   const navigate = useNavigate();
 
@@ -296,16 +300,13 @@ export const MainLayout: React.FC = () => {
               <span className="font-black text-base tracking-tight text-slate-900 dark:text-white">PREPORA</span>
             </Link>
 
-            {/* Exam Switcher Pill in Top Bar */}
-            <button
-              type="button"
-              onClick={() => setExamSwitcherOpen(true)}
-              className="flex items-center gap-1 px-2.5 py-0.5 ml-1 rounded-full border border-emerald-500/50 bg-emerald-50/70 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-xs font-extrabold transition-all cursor-pointer shadow-2xs hover:scale-105 active:scale-95"
-              title="Change Target Exam"
+            {/* Fixed Target Exam Badge (Set at registration / configurable in Settings) */}
+            <span
+              className="inline-flex items-center px-2 py-0.5 ml-1 rounded-full border border-emerald-500/40 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[11px] font-black tracking-tight"
+              title="Target Exam (Change in Settings)"
             >
-              <span>{user.targetExam || 'JEE'}</span>
-              <ChevronDown className="w-3 h-3 text-emerald-600 dark:text-emerald-400 stroke-[2.5]" />
-            </button>
+              {user.targetExam || 'JEE'}
+            </span>
           </div>
 
           {/* Desktop Search / Quick Action Trigger */}
@@ -325,18 +326,13 @@ export const MainLayout: React.FC = () => {
             </button>
           </div>
 
-          {/* Right Controls: Notifications, Profile, Theme */}
+          {/* Right Controls: Dark/Bright Mode, Notifications, Profile */}
           <div className="flex items-center gap-1.5 sm:gap-2.5">
-            {/* Color Palette Theme Selector (Desktop only) */}
-            <div className="hidden sm:block">
-              <ThemeSelector compact={true} />
-            </div>
-
-            {/* Dark / Light Mode Switcher (Moon/Sun) (Desktop only) */}
+            {/* Dark / Light Mode Switcher (Moon/Sun) - Instant 1-click on top bar */}
             <button
               type="button"
               onClick={handleToggleColorMode}
-              className="hidden sm:flex p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+              className="p-2 rounded-xl text-slate-600 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
               title={`Switch to ${colorMode === 'dark' ? 'Light' : 'Dark'} Mode`}
               aria-label="Toggle Dark/Light Mode"
             >
@@ -544,19 +540,6 @@ export const MainLayout: React.FC = () => {
               </button>
             </div>
 
-            {/* Mobile Color Mode Switcher Bar */}
-            <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-              <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Appearance</span>
-              <button
-                type="button"
-                onClick={handleToggleColorMode}
-                className="p-1.5 rounded-lg bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1.5"
-              >
-                {colorMode === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
-                <span>{colorMode === 'dark' ? 'Dark Mode' : 'Light Mode'}</span>
-              </button>
-            </div>
-
             {/* Mobile Nav Links */}
             <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
               {/* Student Guide Mobile Trigger */}
@@ -646,118 +629,6 @@ export const MainLayout: React.FC = () => {
               >
                 <Settings className="w-4 h-4" />
               </Link>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Target Exam Switcher Modal */}
-      {examSwitcherOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-[#0e1620] border border-slate-200 dark:border-slate-800 shadow-2xl p-5 space-y-4">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Target className="w-5 h-5 text-emerald-500" />
-                <h3 className="font-black text-base text-slate-900 dark:text-white">Choose Target Exam</h3>
-              </div>
-              <button
-                onClick={() => setExamSwitcherOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-white"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-            <div className="space-y-2">
-              {[
-                { key: 'JEE', label: 'JEE (Main & Advanced)', desc: 'Engineering Entrance' },
-                { key: 'NEET', label: 'NEET (UG)', desc: 'Medical Entrance' },
-                { key: 'CBSE', label: 'CBSE Board', desc: 'Central Board of Secondary Education' },
-                { key: 'RBSE', label: 'RBSE Board', desc: 'Rajasthan Board of Secondary Education' }
-              ].map(ex => (
-                <button
-                  key={ex.key}
-                  onClick={() => {
-                    const newSubjects = getAllowedSubjectsForExam(ex.key as any);
-                    const effectiveClass = user.classLevel || user.preparationProfile?.classLevel || '11';
-                    userService.updateProfile({
-                      targetExam: ex.key as any,
-                      preparationProfile: {
-                        userId: user.id || 'usr-default',
-                        classLevel: effectiveClass as any,
-                        onboardingCompleted: true,
-                        ...(user.preparationProfile || {}),
-                        preparationType: ex.key as any,
-                        exam: ex.key as any,
-                        subjects: newSubjects
-                      }
-                    });
-                    setExamSwitcherOpen(false);
-                    window.location.reload();
-                  }}
-                  className={`w-full flex items-center justify-between p-3 rounded-2xl border text-left transition-all ${
-                    (user.targetExam || 'JEE') === ex.key
-                      ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-300 font-bold'
-                      : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-800 dark:text-slate-200'
-                  }`}
-                >
-                  <div>
-                    <div className="text-sm font-bold">{ex.label}</div>
-                    <div className="text-[11px] text-slate-400 dark:text-slate-500">{ex.desc}</div>
-                  </div>
-                  {(user.targetExam || 'JEE') === ex.key && (
-                    <Check className="w-4 h-4 text-emerald-500 stroke-[3]" />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Class Level Switcher */}
-            <div className="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="text-xs font-bold text-slate-500 uppercase tracking-wider">
-                  Class Level
-                </span>
-                <span className="text-[11px] font-semibold text-emerald-600">
-                  {user.classLevel === '11' ? 'Class 11' : user.classLevel === '12' ? 'Class 12' : 'Dropper'}
-                </span>
-              </div>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { key: '11', label: 'Class 11' },
-                  { key: '12', label: 'Class 12' },
-                  { key: 'Dropper', label: 'Dropper' },
-                ].map(cls => {
-                  const isSelected = (user.classLevel === cls.key || user.preparationProfile?.classLevel === cls.key);
-                  return (
-                    <button
-                      key={cls.key}
-                      onClick={() => {
-                        const updatedPrep = {
-                          ...(user.preparationProfile || {}),
-                          classLevel: cls.key as any,
-                          targetYear: cls.key === '11' ? 2027 : 2026,
-                          onboardingCompleted: true
-                        };
-                        localStorage.setItem('prepora_preparation_profile', JSON.stringify(updatedPrep));
-                        userService.updateProfile({
-                          classLevel: (cls.key === 'Dropper' ? '12' : cls.key) as any,
-                          targetYear: updatedPrep.targetYear,
-                          preparationProfile: updatedPrep as any
-                        });
-                        setExamSwitcherOpen(false);
-                        window.location.reload();
-                      }}
-                      className={`p-2 rounded-xl border text-center font-bold text-xs transition-all cursor-pointer ${
-                        isSelected
-                          ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm'
-                          : 'border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/50 text-slate-700 dark:text-slate-300'
-                      }`}
-                    >
-                      {cls.label}
-                    </button>
-                  );
-                })}
-              </div>
             </div>
           </div>
         </div>
