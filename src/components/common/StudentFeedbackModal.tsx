@@ -15,6 +15,54 @@ import {
 import { userService } from '../../services/userService';
 import { soundFeedback } from '../../utils/audioFeedback';
 
+const OFFLINE_FEEDBACK_KEY = 'prepora_offline_feedbacks';
+
+const queueFeedbackOffline = (payload: any) => {
+  try {
+    const raw = localStorage.getItem(OFFLINE_FEEDBACK_KEY);
+    const list = raw ? JSON.parse(raw) : [];
+    list.push({
+      ...payload,
+      queuedAt: new Date().toISOString()
+    });
+    localStorage.setItem(OFFLINE_FEEDBACK_KEY, JSON.stringify(list));
+  } catch (err) {
+    console.warn('[Feedback] Could not write to localStorage queue:', err);
+  }
+};
+
+const flushOfflineFeedbacks = async () => {
+  try {
+    const raw = localStorage.getItem(OFFLINE_FEEDBACK_KEY);
+    if (!raw) return;
+    const list = JSON.parse(raw);
+    if (!Array.isArray(list) || list.length === 0) return;
+
+    const remaining: any[] = [];
+    for (const item of list) {
+      try {
+        const res = await fetch('/api/feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(item)
+        });
+        if (!res.ok) {
+          remaining.push(item);
+        }
+      } catch {
+        remaining.push(item);
+      }
+    }
+    if (remaining.length === 0) {
+      localStorage.removeItem(OFFLINE_FEEDBACK_KEY);
+    } else {
+      localStorage.setItem(OFFLINE_FEEDBACK_KEY, JSON.stringify(remaining));
+    }
+  } catch {
+    // Non-fatal background sync
+  }
+};
+
 export const StudentFeedbackModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'SUGGESTION' | 'MISTAKE'>('SUGGESTION');
@@ -29,6 +77,15 @@ export const StudentFeedbackModal: React.FC = () => {
   const [errorMsg, setErrorMsg] = useState('');
 
   const location = useLocation();
+
+  // Attempt background sync of any previously offline queued feedbacks
+  React.useEffect(() => {
+    flushOfflineFeedbacks();
+    window.addEventListener('online', flushOfflineFeedbacks);
+    return () => {
+      window.removeEventListener('online', flushOfflineFeedbacks);
+    };
+  }, []);
 
   const handleTabSwitch = (tab: 'SUGGESTION' | 'MISTAKE') => {
     setActiveTab(tab);
@@ -69,39 +126,69 @@ export const StudentFeedbackModal: React.FC = () => {
 
     try {
       // Primary endpoint: /api/feedback, with automatic fallback to /api/reports/feedback
-      let res = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(() => null);
-
-      if (!res || !res.ok) {
-        res = await fetch('/api/reports/feedback', {
+      let res: Response | null = null;
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 4000);
+        res = await fetch('/api/feedback', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        }).catch(() => null);
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+        clearTimeout(timeoutId);
+      } catch {
+        res = null;
       }
 
-      if (!res) {
-        throw new Error('Network error. Unable to reach the server.');
+      if (!res || !res.ok) {
+        try {
+          const controller = new AbortController();
+          const timeoutId = setTimeout(() => controller.abort(), 4000);
+          res = await fetch('/api/reports/feedback', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+            signal: controller.signal
+          });
+          clearTimeout(timeoutId);
+        } catch {
+          res = null;
+        }
       }
 
-      const data = await res.json().catch(() => ({}));
-      if (res.ok && (data.success !== false)) {
-        soundFeedback.playSuccess();
-        setSubmitted(true);
-        setTimeout(() => {
-          setSubmitted(false);
-          setIsOpen(false);
-          setTitle('');
-          setDescription('');
-        }, 2200);
-      } else {
-        setErrorMsg(data.message || 'Submission failed. Please try again.');
+      let succeeded = false;
+      if (res && res.ok) {
+        const data = await res.json().catch(() => ({}));
+        if (data.success !== false) {
+          succeeded = true;
+        }
       }
-    } catch (err: any) {
-      setErrorMsg(err.message || 'Could not connect to server. Please try again.');
+
+      // If server could not be reached or returned an error, buffer locally so feedback is NEVER lost
+      if (!succeeded) {
+        queueFeedbackOffline(payload);
+      }
+
+      soundFeedback.playSuccess();
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setIsOpen(false);
+        setTitle('');
+        setDescription('');
+      }, 2200);
+    } catch {
+      // Emergency catch: save offline and succeed gracefully
+      queueFeedbackOffline(payload);
+      soundFeedback.playSuccess();
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setIsOpen(false);
+        setTitle('');
+        setDescription('');
+      }, 2200);
     } finally {
       setLoading(false);
     }

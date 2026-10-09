@@ -19,10 +19,12 @@ import {
   Play,
   Tv,
   GitBranch,
-  ListTree
+  ListTree,
+  Box
 } from 'lucide-react';
 import { Button, Modal } from './UIComponents';
 import { MathRenderer } from './MathRenderer';
+import { Visual3DMindMap } from './Visual3DMindMap';
 import { ecosystemService } from '../../services/ecosystemService';
 import { questionService } from '../../services/questionService';
 import { userService } from '../../services/userService';
@@ -63,7 +65,7 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
   const [zoomLevel, setZoomLevel] = useState<number>(1);
   const [selectedNode, setSelectedNode] = useState<MindMapNode | null>(null);
   const [expandedTopics, setExpandedTopics] = useState<Record<string, boolean>>({});
-  const [viewStyle, setViewStyle] = useState<'graph' | 'tree'>('graph');
+  const [viewStyle, setViewStyle] = useState<'graph' | 'tree' | '3d'>('graph');
 
   const masteryData = ecosystemService.getChapterMastery(chapterName);
   const mistakes = userService.getMistakes().filter(
@@ -300,6 +302,18 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
           <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
             <button
               type="button"
+              onClick={() => setViewStyle('3d')}
+              className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1.5 ${
+                viewStyle === '3d'
+                  ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white shadow-xs font-black'
+                  : 'text-purple-700 dark:text-purple-300 hover:text-purple-900 dark:hover:text-white'
+              }`}
+            >
+              <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+              <span>3D Mind Map</span>
+            </button>
+            <button
+              type="button"
               onClick={() => setViewStyle('graph')}
               className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer flex items-center gap-1 ${
                 viewStyle === 'graph'
@@ -377,26 +391,30 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
         </div>
       </div>
 
-      {/* Legend */}
-      <div className="flex flex-wrap items-center gap-3 px-2 text-xs text-slate-600 dark:text-slate-400">
-        <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Legend:</span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
-          <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> &gt;75% Mastered
-        </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 dark:text-blue-300">
-          <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> 50-75% Practicing
-        </span>
-        <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-700 dark:text-rose-300">
-          <span className="w-2.5 h-2.5 rounded-full bg-rose-500" /> &lt;50% Weak Area
-        </span>
-      </div>
+      {viewStyle === '3d' ? (
+        <Visual3DMindMap initialSubject={subject} />
+      ) : (
+        <>
+          {/* Legend */}
+          <div className="flex flex-wrap items-center gap-3 px-2 text-xs text-slate-600 dark:text-slate-400">
+            <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Legend:</span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-emerald-700 dark:text-emerald-300">
+              <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" /> &gt;75% Mastered
+            </span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-blue-700 dark:text-blue-300">
+              <span className="w-2.5 h-2.5 rounded-full bg-blue-500" /> 50-75% Practicing
+            </span>
+            <span className="inline-flex items-center gap-1 text-[11px] font-semibold text-rose-700 dark:text-rose-300">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500" /> &lt;50% Weak Area
+            </span>
+          </div>
 
-      {/* Mind Map Canvas */}
-      <div className="bg-slate-50 dark:bg-[#070c12] rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800/80 overflow-x-auto min-h-[460px]">
-        <div
-          style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'top left' }}
-          className="transition-transform duration-200 py-2 min-w-[340px]"
-        >
+          {/* Mind Map Canvas */}
+          <div className="bg-slate-50 dark:bg-[#070c12] rounded-3xl p-4 sm:p-6 border border-slate-200 dark:border-slate-800/80 overflow-x-auto min-h-[460px]">
+            <div
+              style={{ transform: `scale(${zoomLevel})`, transformOrigin: 'top left' }}
+              className="transition-transform duration-200 py-2 min-w-[340px]"
+            >
           {viewStyle === 'graph' ? (
             /* Layout: Tree with Central Spine and Horizontal Connectors */
             <div className="flex flex-col lg:flex-row items-start gap-6 lg:gap-8">
@@ -625,6 +643,8 @@ export const InteractiveMindMap: React.FC<InteractiveMindMapProps> = ({
           )}
         </div>
       </div>
+    </>
+  )}
 
       {/* Selected Node Inspector Modal */}
       {selectedNode && (
