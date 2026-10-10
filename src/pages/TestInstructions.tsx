@@ -1,20 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import {
-  FileText,
   Clock,
   AlertTriangle,
-  CheckCircle2,
-  HelpCircle,
-  Bookmark,
+  Award,
   ArrowRight,
   ArrowLeft,
-  Zap,
-  ShieldCheck,
   Keyboard,
-  Languages,
-  BookOpen,
-  Award
+  Languages
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { testService } from '../services/testService';
@@ -23,7 +16,6 @@ export const TestInstructions: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [agreed, setAgreed] = useState(false);
-  const [lang, setLang] = useState<'EN' | 'HI'>('HI');
 
   const test = testService.getTestById(id || '');
 
@@ -47,31 +39,10 @@ export const TestInstructions: React.FC = () => {
           <ArrowLeft className="w-4 h-4" /> Back to Test Center
         </Button>
 
-        {/* Language Switcher */}
-        <div className="flex items-center gap-1 bg-slate-100 dark:bg-slate-800 p-1 rounded-xl text-xs font-bold">
-          <Languages className="w-3.5 h-3.5 ml-1.5 text-slate-400" />
-          <button
-            type="button"
-            onClick={() => setLang('EN')}
-            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-              lang === 'EN'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
-            }`}
-          >
-            English
-          </button>
-          <button
-            type="button"
-            onClick={() => setLang('HI')}
-            className={`px-2.5 py-1 rounded-lg transition-all cursor-pointer ${
-              lang === 'HI'
-                ? 'bg-emerald-600 text-white shadow-xs'
-                : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
-            }`}
-          >
-            हिंदी / Hinglish
-          </button>
+        {/* Language Badge */}
+        <div className="flex items-center gap-1.5 px-3 py-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs font-bold text-slate-700 dark:text-slate-300">
+          <Languages className="w-3.5 h-3.5 text-emerald-600" />
+          <span>English</span>
         </div>
       </div>
 
@@ -115,28 +86,18 @@ export const TestInstructions: React.FC = () => {
               📜
             </span>
             <h3 className="font-extrabold text-base text-slate-900 dark:text-white">
-              {lang === 'EN' ? 'Official Examination Guidelines' : 'महत्वपूर्ण परीक्षा दिशा-निर्देश (Exam Guidelines)'}
+              Official Examination Guidelines
             </h3>
           </div>
 
           <div className="space-y-2 text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            {lang === 'EN' ? (
-              <ul className="list-disc list-inside space-y-1.5">
-                <li><strong>Countdown Timer:</strong> The server timer displayed on top indicates your remaining duration. Test will auto-submit when the countdown reaches 00:00:00.</li>
-                <li><strong>Negative Marking:</strong> Each correct response awards <strong>+4 marks</strong>. Each incorrect response deducts <strong>-1 mark</strong>. Unattempted questions award <strong>0 marks</strong>.</li>
-                <li><strong>No Backtracking Lock:</strong> You are free to navigate between questions, sections, and subjects anytime during the active window.</li>
-                <li><strong>Autosave Guarantee:</strong> Every answer selection is saved immediately. If you accidentally reload or close the tab, your answers and remaining time will resume without loss.</li>
-                <li><strong>Solution & Analysis:</strong> Detailed step-by-step solutions, concept tags, and percentile rankings will be released immediately after final submission.</li>
-              </ul>
-            ) : (
-              <ul className="list-disc list-inside space-y-1.5">
-                <li><strong>उल्टी गिनती टाइमर (Countdown Timer):</strong> स्क्रीन के ऊपर दिया गया टाइमर आपका बचा हुआ समय दिखाता है। समय समाप्त होते ही टेस्ट अपने आप सबमिट हो जाएगा।</li>
-                <li><strong>नेगेटिव मार्किंग (Negative Marking):</strong> हर सही उत्तर पर <strong>+4 अंक</strong> मिलेंगे और गलत उत्तर पर <strong>-1 अंक</strong> कटेंगे। बिना हल किए प्रश्नों पर 0 अंक मिलेंगे।</li>
-                <li><strong>प्रश्नों के बीच नेविगेशन:</strong> आप किसी भी समय किसी भी प्रश्न या विषय (Physics, Chemistry, Maths/Biology) पर स्वतंत्र रूप से जा सकते हैं।</li>
-                <li><strong>ऑटो-सेव सुरक्षा (Autosave):</strong> हर विकल्प पर क्लिक करते ही आपका उत्तर तुरंत सेव हो जाता है। अगर पेज रिफ्रेश हो जाए या इंटरनेट कटे, तो टाइमर और उत्तर वहीं से शुरू होंगे।</li>
-                <li><strong>विस्तृत समाधान (Solutions):</strong> टेस्ट सबमिट करने के तुरंत बाद हर प्रश्न का स्टेप-बाय-स्टेप समाधान, फॉर्मूला और रैंक रिपोर्ट मिल जाएगी।</li>
-              </ul>
-            )}
+            <ul className="list-disc list-inside space-y-1.5">
+              <li><strong>Countdown Timer:</strong> The server timer displayed on top indicates your remaining duration. Test will auto-submit when the countdown reaches 00:00:00.</li>
+              <li><strong>Negative Marking:</strong> Each correct response awards <strong>+4 marks</strong>. Each incorrect response deducts <strong>-1 mark</strong>. Unattempted questions award <strong>0 marks</strong>.</li>
+              <li><strong>No Backtracking Lock:</strong> You are free to navigate between questions, sections, and subjects anytime during the active window.</li>
+              <li><strong>Autosave Guarantee:</strong> Every answer selection is saved immediately. If you accidentally reload or close the tab, your answers and remaining time will resume without loss.</li>
+              <li><strong>Solution & Analysis:</strong> Detailed step-by-step solutions, concept tags, and percentile rankings will be released immediately after final submission.</li>
+            </ul>
           </div>
         </div>
 
@@ -147,20 +108,16 @@ export const TestInstructions: React.FC = () => {
               ⚡
             </span>
             <h3 className="font-extrabold text-base text-slate-900 dark:text-white">
-              {lang === 'EN' ? 'Speed Tracking & Fast-Answer Guidelines' : 'स्पीड ट्रैकिंग एवं फास्ट-आंसर गाइडलाइन'}
+              Speed Tracking & Fast-Answer Guidelines
             </h3>
           </div>
 
           <div className="p-4 rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 text-xs text-slate-700 dark:text-slate-300 space-y-2">
             <p className="font-semibold text-amber-900 dark:text-amber-300">
-              {lang === 'EN'
-                ? '🎯 Precision Over Blind Guessing:'
-                : '🎯 अंधाधुंध तुक्का लगाने से बचें — शुद्धता (Accuracy) ही रैंक बनाएगी:'}
+              🎯 Precision Over Blind Guessing:
             </p>
             <p>
-              {lang === 'EN'
-                ? 'Our AI Speed Engine monitors time spent per question. Answering questions in under 15 seconds will trigger a fast-speed flag in your final report to detect rushed guesswork.'
-                : 'हमारा AI स्पीड इंजन हर प्रश्न पर बिताए गए समय को मॉनिटर करता है। 15 सेकंड से कम समय में उत्तर देने पर स्पीड अलर्ट दर्ज होता है, ताकि जल्दबाजी में हुए गलत तुक्कों की पहचान हो सके।'}
+              Our AI Speed Engine monitors time spent per question. Answering questions in under 15 seconds will trigger a fast-speed flag in your final report to detect rushed guesswork.
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 pt-2 border-t border-amber-200/60 dark:border-amber-800/40 text-[11px] font-bold">
               <span className="text-emerald-700 dark:text-emerald-300">🟢 Easy Question: 45s – 60s target</span>
@@ -178,12 +135,10 @@ export const TestInstructions: React.FC = () => {
             </span>
             <div>
               <h3 className="font-extrabold text-base text-slate-900 dark:text-white">
-                {lang === 'EN' ? 'Recommended Subject Time Allocation (Time Coach)' : 'विषय-वार अनुशंसित समय योजना (Time Coach)'}
+                Recommended Subject Time Allocation (Time Coach)
               </h3>
               <p className="text-xs text-slate-500">
-                {lang === 'EN'
-                  ? 'Follow this strategy to ensure you never run out of time on easy scoring questions'
-                  : 'इस टाइम मैनेजमेंट प्लान से किसी भी विषय के आसान प्रश्न नहीं छूटेंगे'}
+                Follow this strategy to ensure you never run out of time on easy scoring questions
               </p>
             </div>
           </div>
@@ -205,7 +160,7 @@ export const TestInstructions: React.FC = () => {
         {/* Section 4: Question Palette Legend */}
         <div className="pt-5 space-y-3">
           <h3 className="font-extrabold text-base text-slate-900 dark:text-white">
-            {lang === 'EN' ? 'Question Palette Symbol Legend' : 'प्रश्नावली सिंबल गाइड (Question Palette Legend)'}
+            Question Palette Symbol Legend
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="flex items-center gap-3 p-2.5 bg-slate-50 dark:bg-slate-800/60 rounded-xl border border-slate-100 dark:border-slate-800">
@@ -213,7 +168,7 @@ export const TestInstructions: React.FC = () => {
                 1
               </span>
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                {lang === 'EN' ? 'Answered (Will be evaluated)' : 'उत्तर दिया (मूल्यांकन होगा)'}
+                Answered (Will be evaluated)
               </span>
             </div>
 
@@ -222,7 +177,7 @@ export const TestInstructions: React.FC = () => {
                 2
               </span>
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                {lang === 'EN' ? 'Not Answered (Evaluated as 0)' : 'उत्तर नहीं दिया (0 अंक)'}
+                Not Answered (Evaluated as 0)
               </span>
             </div>
 
@@ -231,7 +186,7 @@ export const TestInstructions: React.FC = () => {
                 3
               </span>
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                {lang === 'EN' ? 'Not Visited Yet' : 'अभी तक देखा नहीं'}
+                Not Visited Yet
               </span>
             </div>
 
@@ -240,7 +195,7 @@ export const TestInstructions: React.FC = () => {
                 4
               </span>
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                {lang === 'EN' ? 'Marked for Review (Not Answered)' : 'रिव्यू के लिए मार्क किया'}
+                Marked for Review (Not Answered)
               </span>
             </div>
 
@@ -250,9 +205,7 @@ export const TestInstructions: React.FC = () => {
                 <span className="absolute -top-1 -right-1 w-3 h-3 bg-emerald-500 rounded-full ring-2 ring-white"></span>
               </span>
               <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
-                {lang === 'EN'
-                  ? 'Answered & Marked for Review (Will be evaluated for marks)'
-                  : 'उत्तर दिया एवं रिव्यू के लिए मार्क किया (मार्क्स के लिए मूल्यांकन होगा)'}
+                Answered & Marked for Review (Will be evaluated for marks)
               </span>
             </div>
           </div>
@@ -265,7 +218,7 @@ export const TestInstructions: React.FC = () => {
               <Keyboard className="w-4 h-4" />
             </span>
             <h3 className="font-extrabold text-base text-slate-900 dark:text-white">
-              {lang === 'EN' ? 'Keyboard Navigation Shortcuts' : 'कीबोर्ड शॉर्टकट्स गाइड'}
+              Keyboard Navigation Shortcuts
             </h3>
           </div>
 
@@ -299,9 +252,7 @@ export const TestInstructions: React.FC = () => {
               className="mt-0.5 w-4 h-4 text-emerald-600 rounded focus:ring-emerald-500 cursor-pointer"
             />
             <span className="text-xs text-slate-700 dark:text-slate-200 font-semibold leading-relaxed">
-              {lang === 'EN'
-                ? 'I have read and understood all exam guidelines and instructions. I confirm that I will attempt this test with honesty and focus under authentic examination conditions.'
-                : 'मैंने परीक्षा के सभी नियमों और दिशा-निर्देशों को ध्यानपूर्वक पढ़ और समझ लिया है। मैं पुष्टि करता हूँ कि मैं बिना किसी अनुचित साधन के पूर्ण ईमानदारी से यह टेस्ट दूंगा।'}
+              I have read and understood all exam guidelines and instructions. I confirm that I will attempt this test with honesty and focus under authentic examination conditions.
             </span>
           </label>
         </div>
@@ -318,7 +269,7 @@ export const TestInstructions: React.FC = () => {
             onClick={() => navigate(`/tests/${test.id}/start`)}
             className="w-full sm:w-auto font-black px-8 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl shadow-md shadow-emerald-600/20 cursor-pointer"
           >
-            {lang === 'EN' ? 'I AM READY TO BEGIN' : 'शुरू करने के लिए तैयार हूँ (START)'} <ArrowRight className="w-5 h-5 ml-1" />
+            I AM READY TO BEGIN <ArrowRight className="w-5 h-5 ml-1" />
           </Button>
         </div>
       </Card>

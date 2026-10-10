@@ -592,7 +592,7 @@ export const AdminContentHierarchy: React.FC = () => {
                   <Calculator className="w-4 h-4" />
                 </div>
                 <h3 className="font-bold text-base text-slate-900 dark:text-white">
-                  {cardType === 'formula' ? 'Add Master Formula (नया फॉर्मूला जोड़ें)' : 'Create Flashcard'}
+                  {cardType === 'formula' ? 'Add Master Formula' : 'Create Flashcard'}
                 </h3>
               </div>
               <button onClick={() => setCardModalOpen(false)} className="text-slate-400 hover:text-slate-600 dark:hover:text-white">

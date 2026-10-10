@@ -310,13 +310,13 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
     if (user.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh account ADMIN dwara BLOCK kar diya gaya hai. Aap is account se STUDY UP me login nahi kar sakte.'
+        message: 'This account has been BLOCKED by the administrator. You cannot log in.'
       });
     }
 
     if (!user.passwordHash) {
       // OTP-only account: password must be created after an OTP login, never guessed here
-      return res.status(401).json({ success: false, message: 'Is account me password set nahi hai. Pehle OTP se login karein, phir password create karein.' });
+      return res.status(401).json({ success: false, message: 'No password is set for this account. Please log in with OTP first, then create a password.' });
     }
 
     const isMatch = await bcrypt.compare(password, user.passwordHash);
@@ -386,7 +386,7 @@ router.post('/set-password', authenticateUser, async (req: AuthRequest, res: Res
 
     res.json({
       success: true,
-      message: 'Password created successfully. Ab aap is password se seedha login kar sakte hain.',
+      message: 'Password created successfully. You can now log in directly using this password.',
       user: userObj
     });
   } catch (error: any) {
@@ -507,7 +507,7 @@ router.post('/check-phone', async (req: Request, res: Response) => {
         hasPassword: !!(existing.passwordHash && existing.passwordHash.length > 0),
         name: existing.name || 'Student',
         role: existing.role || 'student',
-        message: 'Yeh mobile number pehle se registered hai. Kripya password se login karein.'
+        message: 'This mobile number is already registered. Please log in with your password.'
       });
     }
 
@@ -515,7 +515,7 @@ router.post('/check-phone', async (req: Request, res: Response) => {
       success: true,
       exists: false,
       hasPassword: false,
-      message: 'Mobile number registered nahi hai. Aap naya account bana sakte hain.'
+      message: 'Mobile number is not registered. You can create a new account.'
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -555,7 +555,7 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
     if (existingUser && existingUser.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se PREPORA me login nahi kar sakte.'
+        message: 'This mobile number has been BLOCKED by the administrator. You cannot log in.'
       });
     }
 
@@ -564,7 +564,7 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
       return res.status(409).json({
         success: false,
         isAlreadyRegistered: true,
-        message: 'Yeh mobile number pehle se registered hai! Aap dobara register nahi kar sakte, kripya seedha Login karein.'
+        message: 'This mobile number is already registered. Please log in directly.'
       });
     }
 
@@ -631,7 +631,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
     if (user && user.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se PREPORA me login nahi kar sakte.'
+        message: 'This mobile number has been BLOCKED by the administrator. You cannot log in.'
       });
     }
 
@@ -864,7 +864,7 @@ router.post('/forgot-password/send-otp', otpLimiter, async (req: Request, res: R
     if (existingUser && existingUser.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se password reset nahi kar sakte.'
+        message: 'This mobile number has been BLOCKED by the administrator. Password reset is not permitted.'
       });
     }
 
@@ -911,7 +911,7 @@ router.post('/forgot-password/verify-reset', authLimiter, async (req: Request, r
     if (user.status === 'suspended') {
       return res.status(403).json({
         success: false,
-        message: 'Yeh mobile number ADMIN dwara BLOCK kar diya gaya hai. Aap is number se password reset nahi kar sakte.'
+        message: 'This mobile number has been BLOCKED by the administrator. Password reset is not permitted.'
       });
     }
 

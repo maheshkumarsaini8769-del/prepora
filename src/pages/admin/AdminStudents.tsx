@@ -211,7 +211,7 @@ export const AdminStudents: React.FC = () => {
         if (studentDetail?.student.id === student.id) {
           setStudentDetail((prev) => prev ? { ...prev, student: { ...prev.student, status: newStatus, ...(newStatus === 'suspended' ? { sessionStatus: 'Inactive' } : {}) }, ...(newStatus === 'suspended' ? { currentSession: null } : {}) } : null);
         }
-        setActionSuccess(newStatus === 'suspended' ? `Student ${student.name} (+91 ${student.mobile || student.phone || 'N/A'}) ko BLOCK kar diya gaya hai. Active session terminate ho gaya.` : `Student ${student.name} ko UNBLOCK kar diya gaya hai.`);
+        setActionSuccess(newStatus === 'suspended' ? `Student ${student.name} (+91 ${student.mobile || student.phone || 'N/A'}) has been BLOCKED. Active session terminated.` : `Student ${student.name} has been UNBLOCKED.`);
         setTimeout(() => setActionSuccess(''), 5000);
       } else {
         setActionError(data.message || 'Status update failed');
@@ -224,7 +224,7 @@ export const AdminStudents: React.FC = () => {
   const handleQuickBlockByPhone = async () => {
     const clean = blockPhoneInput.replace(/[^0-9]/g, '').slice(-10);
     if (!clean || clean.length !== 10) {
-      setActionError('Kripya valid 10-digit mobile number enter karein.');
+      setActionError('Please enter a valid 10-digit mobile number.');
       return;
     }
     setBlockingLoading(true);
@@ -255,7 +255,7 @@ export const AdminStudents: React.FC = () => {
   const handleQuickUnblockByPhone = async (mobileToUnblock?: string) => {
     const target = (mobileToUnblock || blockPhoneInput).replace(/[^0-9]/g, '').slice(-10);
     if (!target || target.length !== 10) {
-      setActionError('Kripya valid 10-digit mobile number enter karein.');
+      setActionError('Please enter a valid 10-digit mobile number.');
       return;
     }
     setBlockingLoading(true);
@@ -357,13 +357,13 @@ export const AdminStudents: React.FC = () => {
             </div>
             <div>
               <h2 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <span>Mobile Number Se Student Block / Unblock Karein</span>
+                <span>Block / Unblock Student by Mobile Number</span>
                 <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-rose-100 dark:bg-rose-950/60 text-rose-700 dark:text-rose-300">
                   Instant Suspension
                 </span>
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
-                Kise bhi number ko block karne par vo student Prepora me open ya login nahi kar sakega, WhatsApp OTP band ho jayega, aur active device turant logout ho jayegi.
+                Blocking a phone number will immediately revoke active sessions, prevent future logins, and block OTP verification for that phone.
               </p>
             </div>
           </div>

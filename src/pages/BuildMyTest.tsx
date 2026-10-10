@@ -251,7 +251,7 @@ export const BuildMyTest: React.FC = () => {
 
       for (let i = 0; i < neededCount; i++) {
         const qIndex = underflowInfo.available + i + 1;
-        const targetCorrectIdx = i % 4;
+        const targetCorrectIdx = Math.floor(Math.random() * 4);
         const optLetters = ['A', 'B', 'C', 'D'];
         const validStatement = `The equilibrium condition is maintained dynamically as defined by fundamental conservation laws.`;
         const distractors = [

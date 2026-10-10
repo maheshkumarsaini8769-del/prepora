@@ -230,7 +230,12 @@ export class QuestionRepository {
       const base = this.idMap.get(baseId);
       if (base) {
         const origCa = typeof base.correctAnswer === 'number' ? base.correctAnswer : 0;
-        const targetCa = (origCa + counter) % 4;
+        let idHash = 5381;
+        for (let si = 0; si < id.length; si++) {
+          idHash = ((idHash << 5) + idHash) + id.charCodeAt(si);
+          idHash |= 0;
+        }
+        const targetCa = (origCa + 1 + (Math.abs(idHash) % 3)) % 4;
         let newOpts = Array.isArray(base.options) ? [...base.options] : [];
         let newOptsHi = Array.isArray(base.optionsHi) ? [...base.optionsHi] : undefined;
         if (newOpts.length === 4) {

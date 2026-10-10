@@ -287,7 +287,7 @@ export const StudyPlanner: React.FC = () => {
       });
       setTasks([...generated]);
       setIsGenerating(false);
-      setGenerateMsg('✨ Weekly study plan generated! Sahi chapters, concepts aur practice sequence ready hai.');
+      setGenerateMsg('✨ Weekly study plan generated! All chapters, concepts, and practice sequences are ready.');
       setTimeout(() => setGenerateMsg(null), 5000);
     }, 500);
   };
@@ -607,7 +607,7 @@ export const StudyPlanner: React.FC = () => {
                 title="Select your exam date to rebalance your daily study schedule"
               />
               <span className="text-[11px] text-slate-400 block mt-1">
-                Date change karte hi pura 300-topic calendar automatically sync hoga!
+                Changing the date automatically recalibrates your full 300-topic study calendar!
               </span>
             </div>
 
@@ -1151,7 +1151,7 @@ export const StudyPlanner: React.FC = () => {
                     </span>
                   </h2>
                   <p className="text-xs text-slate-500 dark:text-slate-400">
-                    Rozana study slots add ya modify karein to personalize your routine.
+                    Add or customize daily study slots to tailor your preparation routine.
                   </p>
                 </div>
               </div>
@@ -1183,7 +1183,7 @@ export const StudyPlanner: React.FC = () => {
                     💡
                   </span>
                   <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
-                    Topper Study Blueprint & Guidelines (पढ़ाई के 6 सुनहरे नियम)
+                    Topper Study Blueprint & 6 Core Rules for High Rank
                   </span>
                 </div>
                 <button
@@ -1201,37 +1201,37 @@ export const StudyPlanner: React.FC = () => {
                     <span className="font-bold text-emerald-800 dark:text-emerald-300 block mb-0.5">
                       1. Sequence: Lecture → DPP (15Q) → Formulas
                     </span>
-                    <span>Pehle 45m lecture dekhein, fir 15 topic questions solve karein bina solution dekhe.</span>
+                    <span>Watch a 45-minute lecture first, then solve 15 topic questions without viewing solutions.</span>
                   </div>
                   <div className="p-2.5 rounded-lg bg-blue-50/60 dark:bg-blue-950/20 border border-blue-200/60 dark:border-blue-900/30">
                     <span className="font-bold text-blue-800 dark:text-blue-300 block mb-0.5">
                       2. Daily 3 Subjects Rotation
                     </span>
-                    <span>Physics, Chemistry aur Mathematics/Biology rozana 1-1 topic complete karein.</span>
+                    <span>Complete 1 high-yield topic each in Physics, Chemistry, and Mathematics/Biology daily.</span>
                   </div>
                   <div className="p-2.5 rounded-lg bg-rose-50/60 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/30">
                     <span className="font-bold text-rose-800 dark:text-rose-300 block mb-0.5">
                       3. Mistake Book (1-3-7 Rule)
                     </span>
-                    <span>Galat hue DPP questions ko Mistake Book me star karein aur Day 1, 3, 7 par re-solve karein.</span>
+                    <span>Star incorrect practice questions in your Mistake Book and re-attempt them on Days 1, 3, and 7.</span>
                   </div>
                   <div className="p-2.5 rounded-lg bg-amber-50/60 dark:bg-amber-950/20 border border-amber-200/60 dark:border-amber-900/30">
                     <span className="font-bold text-amber-800 dark:text-amber-300 block mb-0.5">
                       4. 2 Exams Every Month
                     </span>
-                    <span>Day 15 mid-term aur Day 30 cumulative mock test me 100% attendance rakhein.</span>
+                    <span>Maintain 100% attendance on Day 15 mid-term and Day 30 cumulative mock exams.</span>
                   </div>
                   <div className="p-2.5 rounded-lg bg-purple-50/60 dark:bg-purple-950/20 border border-purple-200/60 dark:border-purple-900/30">
                     <span className="font-bold text-purple-800 dark:text-purple-300 block mb-0.5">
                       5. Speed Target (60s – 90s)
                     </span>
-                    <span>MCQ speed build karein timer ke sath taaki exam me negative marking na ho.</span>
+                    <span>Build MCQ solving speed with the countdown timer to eliminate negative marking.</span>
                   </div>
                   <div className="p-2.5 rounded-lg bg-teal-50/60 dark:bg-teal-950/20 border border-teal-200/60 dark:border-teal-900/30">
                     <span className="font-bold text-teal-800 dark:text-teal-300 block mb-0.5">
                       6. AI Doubt Solver Instant Help
                     </span>
-                    <span>Kisi bhi question par atakne par AI Doubt Solver se step-by-step hint lein.</span>
+                    <span>Get instant step-by-step conceptual hints from the AI Doubt Solver whenever you get stuck.</span>
                   </div>
                 </div>
               )}

@@ -155,7 +155,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       const checkRes = await checkPhone(clean);
       if (checkRes.exists) {
         setIsLoading(false);
-        setError('Yeh mobile number pehle se registered hai! Aap dobara register nahi kar sakte, kripya seedha Login karein.');
+        setError('This mobile number is already registered. Please proceed to Login with your password.');
         setIsAlreadyRegistered(true);
         return;
       }
@@ -170,7 +170,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
         setSuccessMsg(`OTP sent to +91 ${clean}`);
       } else {
         if (res.isAlreadyRegistered) {
-          setError('Yeh mobile number pehle se registered hai! Aap dobara register nahi kar sakte, kripya seedha Login karein.');
+          setError('This mobile number is already registered. Please proceed to Login with your password.');
           setIsAlreadyRegistered(true);
         } else {
           setError(res.message || 'Could not send verification code. Please try again.');
@@ -257,7 +257,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
 
       if (res.success) {
         soundFeedback.playSuccess();
-        setSuccessMsg('Mobile verified successfully! Ab apna password set karein.');
+        setSuccessMsg('Mobile verified successfully! Please set your account password.');
         setStep('step3-password');
         setError(null);
       } else {
@@ -534,7 +534,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     className="w-full py-2 px-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg shadow-sm flex items-center justify-center gap-1.5 transition-all cursor-pointer text-xs"
                   >
                     <Lock className="w-3.5 h-3.5" />
-                    <span>Password se Login karein (+91 {cleanMobileDigits(phone)})</span>
+                    <span>Login with Password (+91 {cleanMobileDigits(phone)})</span>
                     <ArrowRight className="w-3.5 h-3.5" />
                   </button>
                 )}

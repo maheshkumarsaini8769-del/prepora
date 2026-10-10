@@ -65,18 +65,18 @@ export const AdminDashboard: React.FC = () => {
   }, []);
 
   const handleForceLogout = async (userId: string, studentName: string) => {
-    if (!window.confirm(`Kya aap sach me ${studentName} ko force logout karna chahte hain? Unka active session turant terminate ho jayega.`)) {
+    if (!window.confirm(`Are you sure you want to force logout ${studentName}? Their active session will be terminated immediately.`)) {
       return;
     }
     try {
       const res = await adminFetch(`/api/admin/students/${userId}/force-logout`, { method: 'POST' });
       const data = await res.json();
       if (data.success) {
-        setActionMessage(`Student ${studentName} ko safaltapoorvak force logout kar diya gaya.`);
+        setActionMessage(`Student ${studentName} was logged out successfully.`);
         fetchStats(true);
         setTimeout(() => setActionMessage(''), 5000);
       } else {
-        alert(data.message || 'Force logout nahi ho paya');
+        alert(data.message || 'Could not force logout');
       }
     } catch (e: any) {
       alert('Error: ' + e.message);
@@ -331,7 +331,7 @@ export const AdminDashboard: React.FC = () => {
                 </span>
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-                Kon sa student ab active hai, kitni der se padh raha hai, device details aur 1-click Force Logout.
+                Real-time active students, study duration, connected devices, and 1-click Force Logout.
               </p>
             </div>
           </div>
@@ -347,9 +347,9 @@ export const AdminDashboard: React.FC = () => {
         {(!stats?.liveTelemetry?.students || stats.liveTelemetry.students.length === 0) ? (
           <div className="p-8 text-center rounded-xl bg-slate-50 dark:bg-slate-850 border border-dashed border-slate-200 dark:border-slate-800">
             <Users className="w-8 h-8 text-slate-300 dark:text-slate-600 mx-auto mb-2" />
-            <div className="text-xs font-bold text-slate-700 dark:text-slate-300">Koi student is samay active nahi hai</div>
+            <div className="text-xs font-bold text-slate-700 dark:text-slate-300">No students currently active</div>
             <div className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5">
-              Jaise hi koi student website ya app open karega ya mock test dega, uski live telemetry yahan turant dikhne lagegi.
+              Live telemetry will appear here as soon as students open the website or take mock tests.
             </div>
           </div>
         ) : (
@@ -391,10 +391,10 @@ export const AdminDashboard: React.FC = () => {
                     <td className="px-3.5 py-3">
                       <div className="font-black text-emerald-600 dark:text-emerald-400 flex items-center gap-1.5">
                         <Clock className="w-3.5 h-3.5" />
-                        <span>{st.sessionDurationMinutes >= 60 ? `${Math.floor(st.sessionDurationMinutes / 60)}h ${st.sessionDurationMinutes % 60}m active` : `${st.sessionDurationMinutes} min se active`}</span>
+                        <span>{st.sessionDurationMinutes >= 60 ? `${Math.floor(st.sessionDurationMinutes / 60)}h ${st.sessionDurationMinutes % 60}m active` : `${st.sessionDurationMinutes} min active`}</span>
                       </div>
                       <div className="text-[10px] text-slate-400 mt-0.5">
-                        Aaj: {st.todayStudyTimeMinutes || 0} mins padhai
+                        Today: {st.todayStudyTimeMinutes || 0} mins studied
                       </div>
                     </td>
                     <td className="px-3.5 py-3 text-slate-500 dark:text-slate-400">
@@ -402,20 +402,20 @@ export const AdminDashboard: React.FC = () => {
                         st.lastActiveAgoSeconds < 30 ? (
                           <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950/50 text-emerald-600 dark:text-emerald-400 font-bold text-[10px]">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                            Active now ({st.lastActiveAgoSeconds}s pehle)
+                            Active now ({st.lastActiveAgoSeconds}s ago)
                           </span>
                         ) : (
-                          <span>{Math.round(st.lastActiveAgoSeconds / 60)} min pehle</span>
+                          <span>{Math.round(st.lastActiveAgoSeconds / 60)} min ago</span>
                         )
                       ) : (
-                        'Abhi active'
+                        'Active now'
                       )}
                     </td>
                     <td className="px-3.5 py-3 text-right">
                       <button
                         onClick={() => handleForceLogout(st.userId || st.studentId || st.sessionId, st.name)}
                         className="px-3 py-1.5 rounded-lg bg-rose-50 hover:bg-rose-100 dark:bg-rose-950/50 dark:hover:bg-rose-900/60 text-rose-600 dark:text-rose-300 font-black text-[10px] transition cursor-pointer border border-rose-200 dark:border-rose-900/60 flex items-center gap-1 ml-auto"
-                        title="Is student ko turant logout karein"
+                        title="Force logout this student immediately"
                       >
                         <LogOut className="w-3 h-3" />
                         <span>Force Logout</span>
@@ -443,7 +443,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <div className="mt-3">
             <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-emerald-600 transition">AI Content Factory</h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">PDF se question generate karein</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Generate questions from PDF</p>
           </div>
         </Link>
 
@@ -459,7 +459,7 @@ export const AdminDashboard: React.FC = () => {
           </div>
           <div className="mt-3">
             <h3 className="font-bold text-sm text-slate-900 dark:text-white group-hover:text-indigo-600 transition">Question Bank</h3>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Questions check & approve karein</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">Review and approve questions</p>
           </div>
         </Link>
 
@@ -733,7 +733,7 @@ export const AdminDashboard: React.FC = () => {
               Website Drop-Off & Where Views Break Tracker
             </h2>
             <p className="text-xs text-slate-500 dark:text-slate-400">
-              Students kahan jakar website ya test chhod rahe hain aur kis page par technical issue aa raha hai.
+              Track where students exit tests or website sessions, and identify pages with technical drop-offs.
             </p>
           </div>
 
@@ -833,7 +833,7 @@ export const AdminDashboard: React.FC = () => {
           {(!stats?.dropoffFunnel?.routeIssues || stats?.dropoffFunnel?.routeIssues.length === 0) ? (
             <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-850/60 border border-slate-200 dark:border-slate-800 text-center text-xs text-slate-500">
               <CheckCircle2 className="w-6 h-6 text-emerald-500 mx-auto mb-1.5" />
-              Koi critical route-break ya error issue reported nahi hai. Platform smoothly operate kar raha hai!
+              No critical errors or route breaks reported. Platform is operating smoothly!
             </div>
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">

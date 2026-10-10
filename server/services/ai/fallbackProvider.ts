@@ -116,7 +116,7 @@ export class FallbackProvider implements IAIProvider {
     const q = req.question.trim();
     const qLower = q.toLowerCase();
     const lang = detectLanguage(q, req.conversationHistory);
-    const isHinglish = lang === 'hinglish';
+    const isHinglish = false; // Always provide pure, authoritative English responses
 
     if (isGreetingMessage(q)) {
       const res = buildGreetingResponse(q, lang);

@@ -116,7 +116,7 @@ export const Practice: React.FC = () => {
       const newQuestions: Omit<Question, 'id'>[] = [];
       for (let i = 0; i < needed; i++) {
         const qIndex = matchingPool.length + i + 1;
-        const targetCorrectIdx = i % 4;
+        const targetCorrectIdx = Math.floor(Math.random() * 4);
         const optLetters = ['A', 'B', 'C', 'D'];
         const validStatement = 'Conservation relation satisfies fundamental thermodynamic and kinematic theorems';
         const distractors = [

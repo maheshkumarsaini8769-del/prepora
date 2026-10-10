@@ -737,7 +737,7 @@ router.post('/students/block-by-phone', async (req: Request, res: Response) => {
     const cleanMobile = String(mobile || '').replace(/[^0-9]/g, '').slice(-10);
 
     if (!cleanMobile || cleanMobile.length !== 10) {
-      return res.status(400).json({ success: false, message: 'Kripya valid 10-digit mobile number enter karein.' });
+      return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit mobile number.' });
     }
 
     const now = new Date();
@@ -811,7 +811,7 @@ router.post('/students/block-by-phone', async (req: Request, res: Response) => {
 
     res.json({
       success: true,
-      message: `Mobile number ${cleanMobile} (${user.name}) ko successfully BLOCK kar diya gaya hai. Ab is number se app/web open ya login nahi hoga.`,
+      message: `Mobile number ${cleanMobile} (${user.name}) has been successfully BLOCKED. All access from this number is suspended.`,
       student: {
         id: user.id,
         studentId: user.studentId || user.id,
@@ -832,7 +832,7 @@ router.post('/students/unblock-by-phone', async (req: Request, res: Response) =>
     const cleanMobile = String(mobile || '').replace(/[^0-9]/g, '').slice(-10);
 
     if (!cleanMobile || cleanMobile.length !== 10) {
-      return res.status(400).json({ success: false, message: 'Kripya valid 10-digit mobile number enter karein.' });
+      return res.status(400).json({ success: false, message: 'Please enter a valid 10-digit mobile number.' });
     }
 
     const user = await User.findOne({
@@ -844,7 +844,7 @@ router.post('/students/unblock-by-phone', async (req: Request, res: Response) =>
     });
 
     if (!user) {
-      return res.status(404).json({ success: false, message: 'Is mobile number se koi account nahi mila.' });
+      return res.status(404).json({ success: false, message: 'No account found with this mobile number.' });
     }
 
     user.status = 'active';
@@ -862,7 +862,7 @@ router.post('/students/unblock-by-phone', async (req: Request, res: Response) =>
 
     res.json({
       success: true,
-      message: `Mobile number ${cleanMobile} (${user.name}) ko UNBLOCK kar diya gaya hai. Ab student login kar sakta hai.`,
+      message: `Mobile number ${cleanMobile} (${user.name}) has been UNBLOCKED. The student can now log in.`,
       student: {
         id: user.id,
         studentId: user.studentId || user.id,

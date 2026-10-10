@@ -198,7 +198,7 @@ export const AdminReports: React.FC = () => {
 
   const handleSendFeedbackReply = async (id: string, reply: string) => {
     if (!reply.trim()) {
-      alert('Kripya reply text likhein.');
+      alert('Please enter reply text.');
       return;
     }
     setFbActionLoading(true);
@@ -218,12 +218,12 @@ export const AdminReports: React.FC = () => {
         setFbReplyText('');
         fetchFeedbacks();
         fetchAuditLogs();
-        alert('Student ko reply safaltapoorvak bhej diya gaya hai!');
+        alert('Reply sent successfully to student!');
       } else {
-        alert(data.message || 'Reply send karne me samasya aayi.');
+        alert(data.message || 'Failed to send reply.');
       }
     } catch {
-      alert('Server se judne me samasya aayi.');
+      alert('Failed to connect to server.');
     } finally {
       setFbActionLoading(false);
     }
@@ -245,12 +245,12 @@ export const AdminReports: React.FC = () => {
         setFbBlockModalOpen(false);
         fetchFeedbacks();
         fetchAuditLogs();
-        alert(`Student ko safaltapoorvak BLOCK kar diya gaya hai! Iska active session turant band ho gaya hai aur is number se ab login nahi ho sakega.`);
+        alert(`Student has been successfully BLOCKED! Their active session has been terminated and they can no longer log in.`);
       } else {
-        alert(data.message || 'Block karne me samasya aayi.');
+        alert(data.message || 'Failed to block student.');
       }
     } catch {
-      alert('Server se judne me samasya aayi.');
+      alert('Failed to connect to server.');
     } finally {
       setFbActionLoading(false);
     }
@@ -539,8 +539,8 @@ export const AdminReports: React.FC = () => {
             {filteredFeedbacks.length === 0 ? (
               <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 space-y-2">
                 <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">Koi Report Ya Suggestion Pending Nahi Hai!</h3>
-                <p className="text-xs text-slate-500">Jab students koi naya feature request karenge ya mistake batayenge, vo yahan turant dikhega.</p>
+                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">No Pending Reports or Suggestions!</h3>
+                <p className="text-xs text-slate-500">When students request features or report errors, they will appear here immediately.</p>
               </div>
             ) : (
               filteredFeedbacks.map(fb => (
@@ -554,12 +554,12 @@ export const AdminReports: React.FC = () => {
                       {fb.type === 'SUGGESTION' ? (
                         <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20 flex items-center gap-1.5">
                           <Lightbulb className="w-3.5 h-3.5" />
-                          <span>Kuch Naya Add Karwana Hai</span>
+                          <span>Feature Suggestion</span>
                         </span>
                       ) : (
                         <span className="px-2.5 py-1 rounded-lg text-xs font-black bg-rose-500/10 text-rose-600 dark:text-rose-400 border border-rose-500/20 flex items-center gap-1.5">
                           <AlertTriangle className="w-3.5 h-3.5" />
-                          <span>Mistake / Galti Mili Hai</span>
+                          <span>Reported Mistake / Error</span>
                         </span>
                       )}
 
@@ -671,7 +671,7 @@ export const AdminReports: React.FC = () => {
                           setFbBlockModalOpen(true);
                         }}
                         className="px-2.5 py-1 rounded-lg text-xs font-bold bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 border border-rose-200 dark:border-rose-900/50 hover:bg-rose-100 flex items-center gap-1 transition-colors"
-                        title="Student ko permanently block karein"
+                        title="Permanently block student"
                       >
                         <Ban className="w-3 h-3" />
                         <span>Block Student</span>
@@ -814,10 +814,10 @@ export const AdminReports: React.FC = () => {
               <label className="text-[11px] font-bold text-slate-500">Quick Templates:</label>
               <div className="flex flex-wrap gap-1.5">
                 {[
-                  'Dhanyawad! Aapki batayi hui mistake ko verify karke update kar diya gaya hai.',
-                  'Aapka suggestion note kar liya gaya hai, agle update me ise platform me add kar diya jayega.',
-                  'Humne issue check kiya aur fix live deploy ho gaya hai. Kripya app refresh karein.',
-                  'Dhanyawad feedback ke liye! Prepora team lagatar platform behtar banane me lagi hai.'
+                  'Thank you! The reported mistake has been verified and updated.',
+                  'Your suggestion has been noted and will be included in the upcoming platform update.',
+                  'We verified the issue and deployed the fix. Please refresh your page.',
+                  'Thank you for your valuable feedback! The Prepora team is continuously working to improve your experience.'
                 ].map((txt, idx) => (
                   <button
                     key={idx}
@@ -833,13 +833,13 @@ export const AdminReports: React.FC = () => {
 
             <div>
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                Aapka Reply (Student ke liye):
+                Your Reply (For Student):
               </label>
               <textarea
                 rows={4}
                 value={fbReplyText}
                 onChange={e => setFbReplyText(e.target.value)}
-                placeholder="Student ko bheja jaane wala reply likhein..."
+                placeholder="Write the reply message to be sent to the student..."
                 className="w-full text-xs p-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
@@ -892,13 +892,13 @@ export const AdminReports: React.FC = () => {
                 Mobile / Phone: <strong className="font-mono text-rose-600">{selectedFeedback.userPhone || 'No Phone (Will block user account)'}</strong>
               </div>
               <p className="text-[11px] leading-relaxed text-rose-800 dark:text-rose-300 bg-rose-100/70 dark:bg-rose-900/40 p-2 rounded-lg">
-                ⚠️ <strong>Kya hoga:</strong> Is student ka account turant <em>suspended</em> ho jayega, active sessions revoke ho jayenge, aur is mobile number se koi naya login ya OTP nahi ho sakega.
+                ⚠️ <strong>Consequences:</strong> This student's account will be immediately <em>suspended</em>, active sessions revoked, and all future login attempts from this number will be blocked.
               </p>
             </div>
 
             <div>
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block mb-1">
-                Block Karne Ka Kaaran (Reason):
+                Suspension Reason:
               </label>
               <input
                 type="text"

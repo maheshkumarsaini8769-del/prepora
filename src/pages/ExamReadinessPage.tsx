@@ -110,12 +110,12 @@ export const ExamReadinessPage: React.FC = () => {
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-              Aapki Taiyari: <span className="text-emerald-600 dark:text-emerald-400">{readinessScore}% Complete</span>
+              Preparation Status: <span className="text-emerald-600 dark:text-emerald-400">{readinessScore}% Complete</span>
             </h2>
             <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
               {readinessScore >= 75
-                ? 'Aap standard mock test aur chapter level par solid command bana rahe hain. Weak topics ka revision continue rakhein.'
-                : 'Aapki progress acchi hai! Daily question practice aur weak areas me regular revision se score aur badhega.'}
+                ? 'You are demonstrating solid command across mock tests and chapter levels. Continue revising weak topics regularly.'
+                : 'Great progress! Daily question practice and regular revision in weaker areas will steadily boost your examination score.'}
             </p>
           </div>
 
@@ -218,7 +218,7 @@ export const ExamReadinessPage: React.FC = () => {
 
                 {/* Focus Chapter */}
                 <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-900/70 border border-slate-200/60 dark:border-slate-800/80 space-y-1">
-                  <div className="text-[10px] font-bold text-slate-400 uppercase">Revise Karein (High Yield)</div>
+                  <div className="text-[10px] font-bold text-slate-400 uppercase">High-Yield Revision Topic</div>
                   <div className="text-xs font-bold text-slate-800 dark:text-slate-200 leading-snug">
                     {sub.weakTopic}
                   </div>
@@ -248,13 +248,13 @@ export const ExamReadinessPage: React.FC = () => {
           </div>
           <div className="space-y-1">
             <span className="text-[10px] font-black uppercase tracking-wider text-amber-700 dark:text-amber-400">
-              ⚡ Recommendation (Abhi Kya Sudharein)
+              ⚡ Recommended Priority Area
             </span>
             <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white">
               {readiness.biggestImprovementArea || 'Speed & Accuracy in Multi-step Questions'}
             </h3>
             <p className="text-xs text-slate-600 dark:text-slate-300 leading-relaxed max-w-xl">
-              {readiness.recommendedAction || 'Chapter-wise DPP solve karein aur mistake book ke galat sawalon ko dobara retry karein.'}
+              {readiness.recommendedAction || 'Solve chapter-wise practice tests and retry questions in your Mistake Book.'}
             </p>
           </div>
         </div>
@@ -274,10 +274,10 @@ export const ExamReadinessPage: React.FC = () => {
         <div className="border-b border-slate-100 dark:border-slate-800 pb-3">
           <h3 className="text-sm sm:text-base font-black text-slate-900 dark:text-white flex items-center gap-2">
             <Target className="w-4 h-4 text-emerald-500" />
-            <span>Score Boost Karne Ke 3 Steps (Action Plan)</span>
+            <span>3 Steps to Boost Your Score (Action Plan)</span>
           </h3>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            In 3 steps ko follow karke aap apna readiness score 85%+ le jaa sakte hain:
+            Follow these 3 steps to boost your readiness score above 85%:
           </p>
         </div>
 
@@ -287,9 +287,9 @@ export const ExamReadinessPage: React.FC = () => {
             className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800 hover:border-emerald-500/40 transition-all cursor-pointer space-y-1.5"
           >
             <div className="text-[11px] font-black text-emerald-600 dark:text-emerald-400">Step 1 • Daily Practice</div>
-            <div className="text-xs font-bold text-slate-900 dark:text-white">Daily 25 DPP Questions Solve Karein</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Daily 25 Practice Questions</div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              Physics, Chemistry, Maths/Bio ke per day questions attempt karein.
+              Attempt questions across Physics, Chemistry, and Mathematics/Biology daily.
             </p>
           </div>
 
@@ -298,9 +298,9 @@ export const ExamReadinessPage: React.FC = () => {
             className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800 hover:border-emerald-500/40 transition-all cursor-pointer space-y-1.5"
           >
             <div className="text-[11px] font-black text-rose-600 dark:text-rose-400">Step 2 • Mistake Book</div>
-            <div className="text-xs font-bold text-slate-900 dark:text-white">Mistakes Ko Blind Retry Karein</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Blind Retry Your Mistakes</div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              Jo sawal galat hue the unhe bina solution dekhe dubara solve karein.
+              Solve previous incorrect questions without checking solutions first.
             </p>
           </div>
 
@@ -309,9 +309,9 @@ export const ExamReadinessPage: React.FC = () => {
             className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-900/60 border border-slate-200/70 dark:border-slate-800 hover:border-emerald-500/40 transition-all cursor-pointer space-y-1.5"
           >
             <div className="text-[11px] font-black text-blue-600 dark:text-blue-400">Step 3 • Mock Exam</div>
-            <div className="text-xs font-bold text-slate-900 dark:text-white">Weekly Full-Length Mock Test Dein</div>
+            <div className="text-xs font-bold text-slate-900 dark:text-white">Weekly Full-Length Mock Test</div>
             <p className="text-[11px] text-slate-500 dark:text-slate-400">
-              Real NTA pattern exam session se time management aur speed sudharein.
+              Simulate the real NTA examination to master speed and time management.
             </p>
           </div>
         </div>

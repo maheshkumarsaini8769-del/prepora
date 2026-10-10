@@ -105,11 +105,8 @@ export function detectLanguage(query: string, history?: Array<any>): 'english' |
   return 'english';
 }
 
-export function buildGreetingResponse(query: string, lang: 'english' | 'hinglish'): IDoubtSolveResult {
-  const isStrictEnglish = lang === 'english' && isLanguageSwitchQuery(query)?.requestedLanguage === 'english';
-  const answer = isStrictEnglish
-    ? `Hey! 👋 I am your AI study assistant. Send me any doubt in Physics, Chemistry, Maths, or Biology. I will explain it in simple language.`
-    : `Hey! 👋 Main tumhara AI study assistant hoon. Physics, Chemistry, Maths ya Biology ka koi doubt bhejo. Main use simple language mein samjhaunga.`;
+export function buildGreetingResponse(_query: string, _lang: 'english' | 'hinglish'): IDoubtSolveResult {
+  const answer = `Hey! 👋 I am your AI study assistant. Send me any question or doubt in Physics, Chemistry, Mathematics, or Biology. I will explain it in clear, step-by-step detail.`;
 
   return {
     answer,
@@ -125,7 +122,7 @@ export function buildGreetingResponse(query: string, lang: 'english' | 'hinglish
     verificationPassed: true,
     groundedInPrepora: true,
     suggestedFollowUps: [
-      'Atom kya hota hai?',
+      'What is an atom?',
       'What is Newton\'s third law?',
       'Explain photosynthesis simply',
       'Solve 2x + 5 = 15'
@@ -143,11 +140,8 @@ export function buildGreetingResponse(query: string, lang: 'english' | 'hinglish
   };
 }
 
-export function buildGratitudeResponse(_query: string, lang: 'english' | 'hinglish'): IDoubtSolveResult {
-  const isStrictEnglish = lang === 'english' && isLanguageSwitchQuery(_query)?.requestedLanguage === 'english';
-  const answer = isStrictEnglish
-    ? `You're welcome! 😊 Feel free to ask if you have any other questions or doubts. Happy learning!`
-    : `You're welcome! 😊 Koi aur doubt ho to pooch lena.`;
+export function buildGratitudeResponse(_query: string, _lang: 'english' | 'hinglish'): IDoubtSolveResult {
+  const answer = `You're welcome! 😊 Feel free to ask if you have any other questions or doubts. Happy learning!`;
 
   return {
     answer,

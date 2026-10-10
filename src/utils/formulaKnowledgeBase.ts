@@ -862,14 +862,10 @@ ${highYieldHeading}
 ${entry.trap}
 
 ${trickHeading}
-${isHinglish
-  ? `Exam Shortcut: Dimensional consistency aur units balance pehle check karo taaki galat options turant eliminate ho sakein!`
-  : `Exam Shortcut: Check dimensional consistency of options to quickly eliminate incorrect MCQ options before detailed calculation.`}
+Exam Shortcut: Check dimensional consistency of options to quickly eliminate incorrect MCQ options before detailed calculation.
 
 ### 📝 Quick Check
-${isHinglish
-  ? `Quick Check: Kya formula me sabhi physical quantities standard SI units me hain? Confirm karein.`
-  : `Quick Check: Are all parameters in the governing relation expressed in consistent SI units?`}`;
+Quick Check: Are all parameters in the governing relation expressed in consistent SI units?`;
   }
 
   if (intent === 'derivation') {
@@ -897,9 +893,7 @@ ${entry.trap}`;
 ${entry.concept}
 
 ### 💡 Easy Explanation
-${isHinglish
-  ? `Simple shabdon me samjhein: **${entry.name}** ka basic matlab hai ki ${entry.concept.toLowerCase().startsWith('louis') ? entry.concept : 'parameters standard syllabus principles ke according behave karte hain.'}\n\n**Core Mechanism:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`
-  : `In simple terms: ${entry.concept}\n\n**Core Physical / Mathematical Principles:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}`}
+In simple terms: ${entry.concept}\n\n**Core Physical / Mathematical Principles:**\n${entry.stepByStep.slice(0, 3).map(s => `• ${s}`).join('\n')}
 
 ### 🧮 Formula
 $$${entry.formula}$$
@@ -915,14 +909,10 @@ ${highYieldHeading}
 ${entry.trap}
 
 ${trickHeading}
-${isHinglish
-  ? `Exam Trick: Direct proportionality ($Y \\propto X$ ya $Y \\propto 1/\\sqrt{X}$) dhyan me rakhein — parameter change hone par pura calculate karne ke bajaye ratio method use karein!`
-  : `Exam Trick: Use ratio and proportionality method rather than computing absolute values whenever evaluating variations.`}
+Exam Trick: Use ratio and proportionality method rather than computing absolute values whenever evaluating variations.
 
 ### 📝 Quick Check
-${isHinglish
-  ? `Quick Check: Agar independent variable ko double kiya jaye, toh output par kya fark padega? (Upar diye formula se verify karein).`
-  : `Quick Check: By what factor does the output change if the primary independent variable is doubled?`}`;
+Quick Check: By what factor does the output change if the primary independent variable is doubled?`;
 }
 
 /**

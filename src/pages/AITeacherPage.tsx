@@ -185,7 +185,7 @@ export const AITeacherPage: React.FC = () => {
     {
       id: 'welcome-1',
       sender: 'tutor',
-      text: `Hello ${user.name ? user.name.split(' ')[0] : 'there'}! I am your **${examLabel} AI Teacher** for **${selectedSubject} — ${selectedChapter}**.\n\nAap mujhse koi bhi concept, formula, numerical problem, assertion-reason ya doubt pooch sakte hain (Hindi/Hinglish ya English me). Har topic ko simple Hinglish me authoritative exam-aligned structured format ke saath samjhaunga!\n\n**Quick actions:**\n• Ask any concept doubt\n• Request a numerical with step-by-step calculation\n• Practice high-yield ${isJee ? 'JEE' : 'NEET'} MCQs`,
+      text: `Hello ${user.name ? user.name.split(' ')[0] : 'there'}! I am your **${examLabel} AI Teacher** for **${selectedSubject} — ${selectedChapter}**.\n\nYou can ask me any concept, formula, numerical problem, assertion-reason question, or doubt. I will guide you with authoritative, exam-aligned, structured step-by-step explanations!\n\n**Quick actions:**\n• Ask any concept doubt\n• Request a numerical with step-by-step solution\n• Practice high-yield ${isJee ? 'JEE' : 'NEET'} MCQs`,
       groundedInPrepora: true,
       timestamp: 'Just now'
     }
@@ -488,7 +488,7 @@ export const AITeacherPage: React.FC = () => {
             </span>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
-            Personalized AI Tutor for concept mastery, step-by-step numericals, and NCERT doubts in Hinglish & English.
+            Personalized AI Tutor for concept mastery, step-by-step numericals, and NCERT doubts in English.
           </p>
         </div>
 
@@ -722,10 +722,10 @@ export const AITeacherPage: React.FC = () => {
         </button>
         <button
           type="button"
-          onClick={() => handleSendMessage(`${selectedChapter} ke high-yield concepts aur examiner traps simple Hinglish me samjhao`, 'Learn')}
+          onClick={() => handleSendMessage(`Explain the high-yield concepts and examiner traps for ${selectedChapter} in simple terms`, 'Learn')}
           className="px-2.5 py-1 rounded-lg border border-emerald-500/30 bg-emerald-50/50 dark:bg-emerald-950/20 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100/50 dark:hover:bg-emerald-900/30 font-medium cursor-pointer transition-colors shadow-2xs"
         >
-          🇮🇳 Hinglish me samjhao
+          💡 Simple Explanation
         </button>
       </div>
 
@@ -757,7 +757,7 @@ export const AITeacherPage: React.FC = () => {
               handleSendMessage();
             }
           }}
-          placeholder={`Ask any ${examLabel} concept, numerical, formula, or doubt in Hinglish / English (Enter to send, Shift+Enter for new line)...`}
+          placeholder={`Ask any ${examLabel} concept, numerical, formula, or doubt in English (Enter to send, Shift+Enter for new line)...`}
           className="flex-1 max-h-32 min-h-[38px] p-2 text-xs sm:text-sm bg-transparent outline-none text-slate-800 dark:text-slate-100 placeholder:text-slate-400 resize-none"
         />
         <Button

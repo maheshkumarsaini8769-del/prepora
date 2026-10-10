@@ -107,7 +107,7 @@ function synthesizePhysicsQuestion(
   jobId: string
 ): IAIStudioGeneratedQuestion {
   const qId = `ai_q_${jobId}_${index}`;
-  const targetIndex = (index + 1) % 4; // Cycles through 1 (B), 2 (C), 3 (D), 0 (A)
+  const targetIndex = Math.floor(Math.random() * 4);
   const seed = index + 1;
 
   const lowerTopic = (topic + ' ' + chapter).toLowerCase();
@@ -247,7 +247,7 @@ function synthesizeChemistryQuestion(
   jobId: string
 ): IAIStudioGeneratedQuestion {
   const qId = `ai_q_${jobId}_${index}`;
-  const targetIndex = (index + 2) % 4; // Cycles through 2 (C), 3 (D), 0 (A), 1 (B)
+  const targetIndex = Math.floor(Math.random() * 4);
   const seed = index + 1;
   const lower = (topic + ' ' + chapter).toLowerCase();
 
@@ -391,7 +391,7 @@ function synthesizeBiologyQuestion(
   jobId: string
 ): IAIStudioGeneratedQuestion {
   const qId = `ai_q_${jobId}_${index}`;
-  const targetIndex = (index + 3) % 4; // Cycles through 3 (D), 0 (A), 1 (B), 2 (C)
+  const targetIndex = Math.floor(Math.random() * 4);
   const lower = (topic + ' ' + chapter).toLowerCase();
 
   if (lower.includes('genetics') || lower.includes('mendel') || lower.includes('heredity')) {
@@ -533,7 +533,7 @@ function synthesizeMathQuestion(
   jobId: string
 ): IAIStudioGeneratedQuestion {
   const qId = `ai_q_${jobId}_${index}`;
-  const targetIndex = index % 4; // Cycles through 0 (A), 1 (B), 2 (C), 3 (D)
+  const targetIndex = Math.floor(Math.random() * 4);
   const seed = index + 1;
   const lower = (topic + ' ' + chapter).toLowerCase();
 
