@@ -334,59 +334,9 @@ export const AITeacherPage: React.FC = () => {
         }
       );
 
-      let replyText = '';
-      if (response.answer) {
-        replyText = response.answer;
-      } else if (response.coreConcept) {
-        replyText = response.coreConcept;
-      } else {
+      let replyText = (response.answer || response.coreConcept || '').trim();
+      if (!replyText) {
         replyText = `Here is the explanation for **${activeChapter}**:`;
-      }
-
-      const isAlreadyStructured =
-        replyText.includes('### 📚 Concept') ||
-        replyText.includes('### Given') ||
-        replyText.includes('### Correct Answer') ||
-        replyText.includes('### 💡 Easy Explanation') ||
-        replyText.includes('### 🧮 Formula') ||
-        replyText.includes('Statement I');
-
-      const isGreetingOrCasual =
-        response.understanding?.intent === 'general_query' ||
-        response.coreConcept === 'AI Study Assistant Greeting' ||
-        response.coreConcept === 'Study Assistant Acknowledgement' ||
-        response.coreConcept === 'Language Preference: English' ||
-        replyText.startsWith('Hey! 👋') ||
-        replyText.startsWith('Hello! 👋') ||
-        replyText.startsWith("You're welcome!");
-
-      if (!isAlreadyStructured && !isGreetingOrCasual) {
-        if (
-          response.coreConcept &&
-          response.coreConcept !== 'Core Academic Principle' &&
-          !replyText.includes(response.coreConcept)
-        ) {
-          replyText = `### ${response.coreConcept}\n\n${replyText}`;
-        }
-
-        if (response.keyFormula && !replyText.includes(response.keyFormula)) {
-          replyText += `\n\n**📌 Governing Formula:**\n$$${response.keyFormula}$$`;
-        }
-        if (response.variables && !replyText.includes(response.variables)) {
-          replyText += `\n\n**📝 Variables Explained:**\n${response.variables}`;
-        }
-        if (response.stepByStepSolution && response.stepByStepSolution.length > 0) {
-          const firstStep = response.stepByStepSolution[0];
-          if (!replyText.includes(firstStep)) {
-            replyText += `\n\n**🔢 Step-by-Step Breakdown:**\n` + response.stepByStepSolution.map((s, i) => `${i + 1}. ${s}`).join('\n');
-          }
-        }
-        if (response.examTip && !replyText.includes(response.examTip)) {
-          replyText += `\n\n💡 **Exam Tip:** ${response.examTip}`;
-        }
-        if (response.examinerTrap && !replyText.includes(response.examinerTrap)) {
-          replyText += `\n\n⚠️ **Common Trap:** ${response.examinerTrap}`;
-        }
       }
 
       const tutorMsg: ChatMessage = {
@@ -394,7 +344,7 @@ export const AITeacherPage: React.FC = () => {
         sender: 'tutor',
         text: replyText,
         mode: currentMode,
-        provider: response.provider,
+        provider: response.provider || 'Google Gemini AI',
         providerError: response.providerError,
         isFallback: response.isFallback,
         groundedInPrepora: response.groundedInPrepora ?? true,
@@ -402,23 +352,12 @@ export const AITeacherPage: React.FC = () => {
       };
       setMessages((prev) => [...prev, tutorMsg]);
     } catch (err: any) {
-      const fallbackFormula = searchFormulaKnowledge(textToSend, activeSubj, activeChapter, user.targetExam);
-      let fallbackText = '';
-      if (fallbackFormula && fallbackFormula.found) {
-        fallbackText = fallbackFormula.formattedAnswer;
-      } else {
-        const fallbackAns = aiDoubtSolver.solveDoubt(textToSend, activeSubj, activeChapter);
-        fallbackText = fallbackAns.answer || fallbackAns.coreConcept || `In **${activeChapter}**, master the foundational definitions, units, and sign conventions carefully.`;
-        if (fallbackAns.keyFormula) {
-          fallbackText += `\n\n**📌 Governing Formula:**\n$$${fallbackAns.keyFormula}$$`;
-        }
-      }
       const tutorMsg: ChatMessage = {
         id: `tutor-${Date.now()}`,
         sender: 'tutor',
-        text: fallbackText,
+        text: `I couldn't process your question right now. Please check your internet connection and ask your doubt or question again!`,
         mode: currentMode,
-        provider: 'Offline Engine',
+        provider: 'Prepora AI',
         providerError: err?.message || 'Error communicating with AI service.',
         isFallback: true,
         groundedInPrepora: true,

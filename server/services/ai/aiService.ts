@@ -33,7 +33,7 @@ class AIService {
     const groqKey = process.env.GROQ_API_KEY || '';
 
     this.openAIProvider = new OpenAIProvider(openaiKey, openaiModel);
-    this.geminiProvider = new GeminiProvider(geminiKey, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
+    this.geminiProvider = new GeminiProvider(geminiKey, process.env.GEMINI_MODEL || 'gemini-3.8-flash');
     this.groqProvider = new GroqProvider(groqKey, process.env.GROQ_MODEL || 'openai/gpt-oss-120b');
     this.fallbackProvider = new FallbackProvider();
   }
@@ -54,10 +54,10 @@ class AIService {
 
         // 1. Initialize Gemini
         if (geminiKey) {
-          const geminiModel = config.geminiModelName || (config.modelName?.includes('gemini') ? config.modelName : '') || process.env.GEMINI_MODEL || 'gemini-3.5-flash';
+          const geminiModel = config.geminiModelName || (config.modelName?.includes('gemini') ? config.modelName : '') || process.env.GEMINI_MODEL || 'gemini-3.8-flash';
           this.geminiProvider.updateConfig(geminiKey, geminiModel);
         } else if (process.env.GEMINI_API_KEY) {
-          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
+          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.8-flash');
         }
 
         // 2. Initialize Groq
@@ -78,7 +78,7 @@ class AIService {
         this.dailyRequestLimit = config.dailyGenerationLimit || 1500;
       } else {
         if (process.env.GEMINI_API_KEY) {
-          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
+          this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.8-flash');
         }
         if (process.env.GROQ_API_KEY) {
           this.groqProvider.updateConfig(process.env.GROQ_API_KEY, process.env.GROQ_MODEL || 'openai/gpt-oss-120b');
@@ -90,7 +90,7 @@ class AIService {
     } catch (e) {
       console.warn('[AIService] DB init skipped, using environment config');
       if (process.env.GEMINI_API_KEY) {
-        this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.5-flash');
+        this.geminiProvider.updateConfig(process.env.GEMINI_API_KEY, process.env.GEMINI_MODEL || 'gemini-3.8-flash');
       }
       if (process.env.GROQ_API_KEY) {
         this.groqProvider.updateConfig(process.env.GROQ_API_KEY, process.env.GROQ_MODEL || 'openai/gpt-oss-120b');
@@ -142,7 +142,7 @@ class AIService {
     // 2. Update in-memory configuration
     this.configuredProviderPreference = detectedProvider;
     if (detectedProvider === 'gemini' && cleanKey.length > 5) {
-      this.geminiProvider.updateConfig(cleanKey, modelName || 'gemini-3.5-flash');
+      this.geminiProvider.updateConfig(cleanKey, modelName || 'gemini-3.8-flash');
     } else if (detectedProvider === 'groq' && cleanKey.length > 5) {
       this.groqProvider.updateConfig(cleanKey, modelName || 'openai/gpt-oss-120b');
     } else if (detectedProvider === 'openai' && cleanKey.length > 5) {

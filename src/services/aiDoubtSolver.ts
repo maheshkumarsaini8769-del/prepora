@@ -17,8 +17,8 @@ export interface SolvedDoubtResponse {
   variables?: string;
   example?: string;
   optionalExample?: string;
-  examinerTrap: string;
-  examTip: string;
+  examinerTrap?: string;
+  examTip?: string;
   timestamp: string;
   understanding?: {
     intent: string;
@@ -128,8 +128,8 @@ export class AIDoubtSolverService {
             variables: d.variables,
             example: d.example,
             optionalExample: d.optionalExample || d.example,
-            examinerTrap: d.examinerTrap || 'Check all unit conversions and sign conventions.',
-            examTip: d.examTip || 'High-yield concept in national entrance examinations.',
+            examinerTrap: (d.examinerTrap && typeof d.examinerTrap === 'string' && d.examinerTrap.trim()) ? d.examinerTrap.trim() : undefined,
+            examTip: (d.examTip && typeof d.examTip === 'string' && d.examTip.trim()) ? d.examTip.trim() : undefined,
             understanding: d.understanding,
             verificationPassed: d.verificationPassed,
             groundedInPrepora: d.groundedInPrepora,
@@ -144,7 +144,15 @@ export class AIDoubtSolverService {
         }
       }
 
-      // Backend returned an error response (e.g. 400, 401, 429, 500)
+      // Try direct client-side Google Gemini AI fallback
+      try {
+        const directAI = await this.solveWithDirectGemini(questionText, subject, chapter, options);
+        if (directAI) return directAI;
+      } catch (geminiErr) {
+        console.warn('[AIDoubtSolver] Direct Gemini fallback failed:', geminiErr);
+      }
+
+      // Backend returned an error response
       let errorMsg = `HTTP Error ${res.status}`;
       try {
         const errJson = await res.json();
@@ -157,12 +165,10 @@ export class AIDoubtSolverService {
         question: questionText,
         subject,
         chapter,
-        answer: `⚠️ **AI Service Notice:** ${errorMsg}\n\nPlease try asking your doubt again in a moment, or contact support if the issue persists.`,
+        answer: `I am currently experiencing higher than usual traffic. Please ask your doubt again in a moment!`,
         coreConcept: 'Service Advisory',
         stepByStepSolution: [],
-        examinerTrap: 'Please check your internet connection and retry.',
-        examTip: 'You can retry once connection is verified.',
-        provider: 'System Error',
+        provider: 'Prepora AI',
         providerError: errorMsg,
         isFallback: true,
         confidence: 0,
@@ -170,23 +176,104 @@ export class AIDoubtSolverService {
       };
     } catch (err: any) {
       console.warn('[AIDoubtSolver] Network call failed:', err);
+
+      // Try direct client-side Google Gemini AI fallback
+      try {
+        const directAI = await this.solveWithDirectGemini(questionText, subject, chapter, options);
+        if (directAI) return directAI;
+      } catch (geminiErr) {
+        console.warn('[AIDoubtSolver] Direct Gemini fallback failed on network error:', geminiErr);
+      }
+
       return {
         id: 'net-err-' + Date.now(),
         question: questionText,
         subject,
         chapter,
-        answer: `⚠️ **Network Failure:** Could not connect to the Prepora AI backend. Please check your internet connection and retry.`,
-        coreConcept: 'Network Connection',
+        answer: `Could not connect to the AI service. Please check your internet connection and try asking again!`,
+        coreConcept: 'Connection Advisory',
         stepByStepSolution: [],
-        examinerTrap: 'Ensure network connection is stable.',
-        examTip: 'Check your internet connection and retry.',
-        provider: 'Network Error',
+        provider: 'Prepora AI',
         providerError: err?.message || 'Network connection failed',
         isFallback: true,
         confidence: 0,
         timestamp: new Date().toISOString()
       };
     }
+  }
+
+  private async solveWithDirectGemini(
+    questionText: string,
+    subject: SubjectName,
+    chapter: string,
+    options?: any
+  ): Promise<SolvedDoubtResponse | null> {
+    const apiKey = ((import.meta as any).env?.VITE_GEMINI_API_KEY as string) || '';
+    if (!apiKey) return null;
+    const cleanQ = questionText.trim();
+    if (!cleanQ) return null;
+
+    const systemPrompt = `You are the empathetic, expert Prepora AI Study Assistant for Indian students preparing for IIT-JEE and NEET (${subject} - ${chapter}).
+- If the student gives a casual greeting or friendly message (like "hi", "hello", "hii", "how are you"), respond warmly, naturally, and politely, offering to help them with any doubts in Physics, Chemistry, Mathematics, or Biology. NEVER dump unrelated formulas or academic lectures for casual greetings.
+- If the student asks an academic doubt or problem, explain it comprehensively step-by-step with formulas in LaTeX ($$...$$), intuitive physical explanations, and exam guidance.
+- Deliver all responses in clear, student-friendly standard English.
+
+Return strictly valid JSON matching this schema:
+{
+  "answer": "Complete, beautifully formatted markdown response.",
+  "coreConcept": "Concept title or greeting topic",
+  "stepByStepSolution": [],
+  "keyFormula": "",
+  "examTip": "",
+  "examinerTrap": ""
+}`;
+
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`;
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents: [{ role: 'user', parts: [{ text: cleanQ }] }],
+        generationConfig: {
+          responseMimeType: 'application/json',
+          temperature: 0.3
+        }
+      })
+    });
+
+    if (!res.ok) return null;
+    const json = await res.json();
+    const rawText = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (!rawText) return null;
+
+    let parsed: any;
+    try {
+      let cleanJson = rawText.trim();
+      if (cleanJson.startsWith('```json')) cleanJson = cleanJson.slice(7);
+      else if (cleanJson.startsWith('```')) cleanJson = cleanJson.slice(3);
+      if (cleanJson.endsWith('```')) cleanJson = cleanJson.slice(0, -3);
+      parsed = JSON.parse(cleanJson.trim());
+    } catch {
+      parsed = { answer: rawText };
+    }
+
+    return {
+      id: 'gemini-direct-' + Date.now(),
+      question: questionText,
+      subject,
+      chapter,
+      answer: parsed.answer || rawText,
+      coreConcept: parsed.coreConcept || cleanQ,
+      stepByStepSolution: Array.isArray(parsed.stepByStepSolution) ? parsed.stepByStepSolution : [],
+      keyFormula: parsed.keyFormula || undefined,
+      examTip: (parsed.examTip && typeof parsed.examTip === 'string' && parsed.examTip.trim()) ? parsed.examTip.trim() : undefined,
+      examinerTrap: (parsed.examinerTrap && typeof parsed.examinerTrap === 'string' && parsed.examinerTrap.trim()) ? parsed.examinerTrap.trim() : undefined,
+      provider: 'Google Gemini AI',
+      confidence: 1.0,
+      groundedInPrepora: true,
+      timestamp: new Date().toISOString()
+    };
   }
 
   public async getProgressiveHintsOnline(

@@ -22,7 +22,7 @@ export class GeminiProvider implements IAIProvider {
   private apiKey: string;
   private modelName: string;
 
-  constructor(apiKey: string, modelName: string = 'gemini-3.5-flash') {
+  constructor(apiKey: string, modelName: string = 'gemini-3.8-flash') {
     this.apiKey = apiKey;
     this.modelName = modelName;
   }
@@ -43,9 +43,9 @@ export class GeminiProvider implements IAIProvider {
   public async executeWithModelFallback(requestBody: any): Promise<any> {
     const candidateModels = [
       this.modelName,
-      'gemini-3.5-flash',
-      'gemini-3.5-flash-lite',
-      'gemini-3.8-flash'
+      'gemini-3.8-flash',
+      'gemini-3.6-flash',
+      'gemini-3.5-flash'
     ];
     // Deduplicate models preserving order
     const uniqueModels = Array.from(new Set(candidateModels));
@@ -115,17 +115,6 @@ export class GeminiProvider implements IAIProvider {
     const startTime = Date.now();
     const cleanQ = req.question.trim();
     const lang = detectLanguage(cleanQ, req.conversationHistory);
-
-    if (isGreetingMessage(cleanQ)) {
-      const res = buildGreetingResponse(cleanQ, lang);
-      res.provider = `Gemini (${this.modelName})`;
-      return res;
-    }
-    if (isGratitudeMessage(cleanQ)) {
-      const res = buildGratitudeResponse(cleanQ, lang);
-      res.provider = `Gemini (${this.modelName})`;
-      return res;
-    }
 
     const systemInstructions = buildSystemInstructions(req, lang, contextSnippet);
 
@@ -243,8 +232,8 @@ export class GeminiProvider implements IAIProvider {
       keyFormula: parsed.keyFormula || undefined,
       numericalBreakdown: parsed.numericalBreakdown?.givenValues?.length ? parsed.numericalBreakdown : undefined,
       example: parsed.example || undefined,
-      examinerTrap: parsed.examinerTrap || 'Verify sign conventions and units before final computation.',
-      examTip: parsed.examTip || 'Focus on fundamental definitions and practice multi-step questions.',
+      examinerTrap: (parsed.examinerTrap && typeof parsed.examinerTrap === 'string' && parsed.examinerTrap.trim()) ? parsed.examinerTrap.trim() : undefined,
+      examTip: (parsed.examTip && typeof parsed.examTip === 'string' && parsed.examTip.trim()) ? parsed.examTip.trim() : undefined,
       understanding,
       verificationPassed: true,
       groundedInPrepora: Boolean(contextSnippet),
