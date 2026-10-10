@@ -158,8 +158,8 @@ router.get('/stats', async (req: Request, res: Response) => {
       const u = onlineUsers.find(user => user.id === s.userId || user.studentId === s.studentId);
       const cleanPhone = (u?.mobile || u?.phone || s.mobile || s.phone || '').replace(/[^0-9]/g, '').slice(-10);
 
-      // Exclude admin accounts and owner phone from student monitoring table
-      if (u?.role === 'admin' || cleanPhone === '7742735762') {
+      // Exclude admin accounts and owner phones from student monitoring table
+      if (u?.role === 'admin' || cleanPhone === '7742735762' || cleanPhone === '9660291825') {
         continue;
       }
 

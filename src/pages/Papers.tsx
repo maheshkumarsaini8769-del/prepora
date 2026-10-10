@@ -129,7 +129,7 @@ export const Papers: React.FC = () => {
   const inventory = useMemo(() => paperService.getInventorySummary(), []);
 
   return (
-    <div className="space-y-6 max-w-6xl mx-auto pb-16 animate-in fade-in duration-200">
+    <div className="space-y-6 max-w-6xl mx-auto pb-28 animate-in fade-in duration-200">
       {/* 1. Header */}
       <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>

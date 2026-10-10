@@ -390,7 +390,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const login = useCallback(async (identifier: string, password: string): Promise<{ success: boolean; message?: string }> => {
     const rawId = identifier.trim().toLowerCase();
     const cleanPhone = rawId.replace(/[^0-9]/g, '').slice(-10);
-    const isSuperAdmin = ((rawId === 'maheshkumarsaini8769@gmail.com' || cleanPhone === '7742735762') && password === 'mahesh99830');
+    const isOwnerPhone = cleanPhone === '7742735762' || cleanPhone === '9660291825';
+    const isSuperAdmin = ((rawId === 'maheshkumarsaini8769@gmail.com' || isOwnerPhone) && password === 'mahesh99830');
 
     try {
       const res = await fetch('/api/auth/login', {
@@ -425,7 +426,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         const baseProfile = isSwitchingUser ? createFreshStudentProfile() : currentProfile;
         const currentSavedStreak = Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), baseProfile.streakDays || 0, data.user?.streakDays || 0);
-        const isOwnerAccount = isSuperAdmin || rawId.replace(/[^0-9]/g, '').slice(-10) === '7742735762' || data.user?.email === 'maheshkumarsaini8769@gmail.com';
+        const isOwnerAccount = isSuperAdmin || isOwnerPhone || data.user?.email === 'maheshkumarsaini8769@gmail.com';
         const effectiveStreak = isOwnerAccount ? Math.max(currentSavedStreak, 6) : currentSavedStreak;
 
         const updatedUser: UserProfile = {
@@ -458,7 +459,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           id: adminId,
           name: 'Mahesh Kumar (System Owner)',
           email: 'maheshkumarsaini8769@gmail.com',
-          phone: '7742735762',
+          phone: cleanPhone || '7742735762',
+          mobile: cleanPhone || '7742735762',
           role: 'admin',
           targetExam: 'JEE',
           classLevel: '12',
@@ -473,7 +475,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
 
       // Check local saved password for offline/instant password login
-      const cleanPhone = rawId.replace(/[^0-9]/g, '').slice(-10);
       const savedPass = localStorage.getItem('prepora_pwd_' + rawId) || (cleanPhone ? localStorage.getItem('prepora_pwd_' + cleanPhone) : null);
       if (savedPass && savedPass === password) {
         const localId = `usr-${Date.now()}`;
@@ -677,7 +678,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           mobile: cleanMobile || data.user?.mobile || baseProfile.mobile,
           name: cleanName,
           hasPassword: isUserPasswordSet,
-          streakDays: (cleanMobile === '7742735762' || data.user?.email === 'maheshkumarsaini8769@gmail.com') ? Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), baseProfile.streakDays || 0, data.user?.streakDays || 0, 6) : (isNewStudent ? 0 : (data.user?.streakDays ?? baseProfile.streakDays ?? 0)),
+          streakDays: (cleanMobile === '7742735762' || cleanMobile === '9660291825' || data.user?.email === 'maheshkumarsaini8769@gmail.com') ? Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), baseProfile.streakDays || 0, data.user?.streakDays || 0, 6) : (isNewStudent ? 0 : (data.user?.streakDays ?? baseProfile.streakDays ?? 0)),
           todayQuestionsCount: isNewStudent ? 0 : (data.user?.todayQuestionsCount ?? baseProfile.todayQuestionsCount ?? 0),
           overallAccuracy: isNewStudent ? 0 : (data.user?.overallAccuracy ?? baseProfile.overallAccuracy ?? 0),
           testsCompletedCount: isNewStudent ? 0 : (data.user?.testsCompletedCount ?? baseProfile.testsCompletedCount ?? 0),
@@ -747,7 +748,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         targetExam,
         classLevel,
         targetYear: metadata?.targetYear || 2026,
-        streakDays: cleanPhone === '7742735762' ? 6 : Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), 1),
+        streakDays: (cleanPhone === '7742735762' || cleanPhone === '9660291825') ? 6 : Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), 1),
         todayQuestionsCount: 0,
         overallAccuracy: 0,
         testsCompletedCount: 0,

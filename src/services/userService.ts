@@ -34,7 +34,9 @@ class MockUserService {
 
     // Daily active check & streak rollover
     const today = new Date().toISOString().split('T')[0];
-    const isOwner = profile.phone === '7742735762' || profile.mobile === '7742735762' || profile.email === 'maheshkumarsaini8769@gmail.com' || (typeof localStorage !== 'undefined' && localStorage.getItem('prepora_user_phone') === '7742735762');
+    const isOwnerPhone = profile.phone === '7742735762' || profile.phone === '9660291825' || profile.mobile === '7742735762' || profile.mobile === '9660291825';
+    const isSavedOwnerPhone = typeof localStorage !== 'undefined' && (localStorage.getItem('prepora_user_phone') === '7742735762' || localStorage.getItem('prepora_user_phone') === '9660291825');
+    const isOwner = isOwnerPhone || profile.email === 'maheshkumarsaini8769@gmail.com' || isSavedOwnerPhone;
     const savedStreak = typeof localStorage !== 'undefined' ? Number(localStorage.getItem('prepora_user_streak') || 0) : 0;
 
     if (isOwner) {
@@ -87,7 +89,10 @@ class MockUserService {
 
   public updateProfile(updates: Partial<UserProfile>): UserProfile {
     const current = this.getProfile();
-    const isOwner = current.phone === '7742735762' || current.mobile === '7742735762' || current.email === 'maheshkumarsaini8769@gmail.com' || (typeof localStorage !== 'undefined' && localStorage.getItem('prepora_user_phone') === '7742735762') || updates.phone === '7742735762';
+    const isOwnerPhone = current.phone === '7742735762' || current.phone === '9660291825' || current.mobile === '7742735762' || current.mobile === '9660291825';
+    const isSavedOwnerPhone = typeof localStorage !== 'undefined' && (localStorage.getItem('prepora_user_phone') === '7742735762' || localStorage.getItem('prepora_user_phone') === '9660291825');
+    const isUpdatingOwnerPhone = updates.phone === '7742735762' || updates.phone === '9660291825' || updates.mobile === '7742735762' || updates.mobile === '9660291825';
+    const isOwner = isOwnerPhone || current.email === 'maheshkumarsaini8769@gmail.com' || isSavedOwnerPhone || isUpdatingOwnerPhone;
 
     if (updates.streakDays !== undefined) {
       if (isOwner && updates.streakDays < 6) {

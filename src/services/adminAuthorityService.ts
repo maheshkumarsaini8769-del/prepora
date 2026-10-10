@@ -120,7 +120,7 @@ class AdminAuthorityService {
     if (!emailOrPhone) return false;
     const clean = emailOrPhone.toLowerCase().trim();
     const phoneDigits = clean.replace(/[^0-9]/g, '').slice(-10);
-    if (phoneDigits === '7742735762') {
+    if (phoneDigits === '7742735762' || phoneDigits === '9660291825') {
       return true;
     }
     

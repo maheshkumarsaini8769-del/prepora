@@ -12,13 +12,17 @@ import {
   Compass,
   X,
   BrainCircuit,
-  Check
+  Check,
+  Zap,
+  Sparkles,
+  BookMarked
 } from 'lucide-react';
 import { soundFeedback } from '../utils/audioFeedback';
 import { userService } from '../services/userService';
 import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
 import { PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
+import { getAllowedSubjectsForExam } from '../utils/examUtils';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -125,10 +129,27 @@ export const Home: React.FC = () => {
   // Modals state
   const [showPrepProfileModal, setShowPrepProfileModal] = useState<boolean>(false);
 
+  const handleStartDailyChallenge = () => {
+    soundFeedback.playSuccess();
+    const allowed = getAllowedSubjectsForExam(prepType);
+    const primarySubject = allowed[0] || 'Physics';
+    const effectiveClass = classLevel === 'Dropper' ? 'All' : classLevel;
+    const params = new URLSearchParams({
+      exam: prepType,
+      class: effectiveClass,
+      subject: primarySubject,
+      chapter: 'All',
+      topic: 'All',
+      difficulty: 'All',
+      count: '5',
+    });
+    navigate(`/practice/session?${params.toString()}`);
+  };
+
   return (
-    <div className="max-w-md sm:max-w-2xl lg:max-w-4xl mx-auto space-y-4 sm:space-y-6 pb-24 px-1 sm:px-4 animate-in fade-in duration-200">
+    <div className="max-w-md sm:max-w-2xl lg:max-w-4xl mx-auto space-y-4 sm:space-y-6 pb-28 px-1 sm:px-4 animate-in fade-in duration-200">
       {/* ========================================================================= */}
-      {/* 1. HERO GREETING & MASCOT (EXACT MATCH TO REFERENCE DESIGN)               */}
+      {/* 1. HERO GREETING & MASCOT                                                 */}
       {/* ========================================================================= */}
       <div className="flex items-center justify-between gap-3 pt-1">
         <div className="space-y-1 min-w-0">
@@ -161,18 +182,109 @@ export const Home: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 2. TARGET EXAM & COUNTDOWN CARD                                           */}
+      {/* 2. HERO CHALLENGE CARD (MINT PASTEL GREEN - INSPIRATION FROM JEE PREP)    */}
+      {/* ========================================================================= */}
+      <div className="relative overflow-hidden p-5 sm:p-6 rounded-3xl bg-gradient-to-br from-[#ebfaf1] via-[#e2f8ec] to-[#d6f5e3] dark:from-[#063f31]/60 dark:via-[#052e24]/70 dark:to-[#021f18]/80 border border-emerald-300/80 dark:border-emerald-500/40 shadow-xs transition-all hover:shadow-md">
+        {/* Decorative soft glow */}
+        <div className="absolute -top-10 -right-10 w-40 h-40 bg-emerald-400/20 dark:bg-emerald-400/10 rounded-full blur-2xl pointer-events-none" />
+
+        <div className="relative z-10 space-y-3">
+          {/* Top Pill Badge */}
+          <div className="flex items-center justify-between">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-600/15 dark:bg-emerald-500/20 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-[10px] sm:text-xs font-black tracking-wide uppercase">
+              <Zap className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400 fill-emerald-600 dark:fill-emerald-400" />
+              <span>Today's {prepType} Challenge</span>
+            </span>
+
+            <div className="flex items-center gap-1.5 text-[11px] font-extrabold text-emerald-800 dark:text-emerald-300">
+              <span className="bg-white/80 dark:bg-emerald-950/80 px-2 py-0.5 rounded-full border border-emerald-300/50 dark:border-emerald-800/60">
+                10 Mins • 5 Qs
+              </span>
+            </div>
+          </div>
+
+          {/* Headline & Subtitle */}
+          <div>
+            <h2 className="text-lg sm:text-2xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
+              Today's {prepType} Rapid Challenge
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+              5 verified exam questions strictly from your syllabus. Takes 10 minutes to sharpen accuracy.
+            </p>
+          </div>
+
+          {/* High-Contrast Primary CTA Button */}
+          <button
+            type="button"
+            onClick={handleStartDailyChallenge}
+            className="w-full sm:w-auto py-3 px-6 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-500 dark:hover:bg-emerald-400 text-white dark:text-slate-950 font-black text-xs sm:text-sm shadow-md shadow-slate-900/15 dark:shadow-emerald-500/20 flex items-center justify-center gap-2 group transition-all active:scale-[0.98] cursor-pointer"
+          >
+            <span>Start My 5 Questions Test</span>
+            <ChevronRight className="w-4 h-4 stroke-[2.5] group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 3. 2 QUICK DISCOVERY SHORTCUTS (PYQs & FORMULAS)                          */}
+      {/* ========================================================================= */}
+      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+        <Link
+          to="/papers"
+          onClick={() => soundFeedback.playClick()}
+          className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs hover:border-blue-500/40 flex items-center justify-between gap-2.5 transition-all active:scale-[0.98] group"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950/60 text-blue-600 dark:text-blue-400 flex items-center justify-center shrink-0 border border-blue-200/60 dark:border-blue-800/60">
+              <FileText className="w-5 h-5 stroke-[2.2]" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">
+                Past PYQs
+              </div>
+              <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                2020 - 2025 Papers
+              </div>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
+        </Link>
+
+        <Link
+          to="/formula-sheet"
+          onClick={() => soundFeedback.playClick()}
+          className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs hover:border-amber-500/40 flex items-center justify-between gap-2.5 transition-all active:scale-[0.98] group"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950/60 text-amber-600 dark:text-amber-400 flex items-center justify-center shrink-0 border border-amber-200/60 dark:border-amber-800/60">
+              <BookMarked className="w-5 h-5 stroke-[2.2]" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">
+                Formulas
+              </div>
+              <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                Quick Revision
+              </div>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
+        </Link>
+      </div>
+
+      {/* ========================================================================= */}
+      {/* 4. TARGET EXAM & COUNTDOWN CARD                                           */}
       {/* ========================================================================= */}
       <div
         onClick={() => {
           soundFeedback.playClick();
           setShowPrepProfileModal(true);
         }}
-        className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-emerald-100/90 via-emerald-50 to-teal-50/80 dark:from-emerald-950/40 dark:via-[#0c141d] dark:to-[#091118] border border-emerald-300/80 dark:border-emerald-500/40 shadow-xs flex items-center justify-between gap-3 cursor-pointer transition-all active:scale-[0.99] group hover:border-emerald-500/60"
+        className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs flex items-center justify-between gap-3 cursor-pointer transition-all active:scale-[0.99] group hover:border-emerald-500/50"
         title="Tap to change exam goal"
       >
         <div className="flex items-center gap-3 min-w-0">
-          <div className="w-10 h-10 rounded-full bg-emerald-600/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-500/20">
+          <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0 border border-emerald-200/60 dark:border-emerald-800/60">
             <Target className="w-5 h-5 stroke-[2.5]" />
           </div>
           <div className="min-w-0">
@@ -185,7 +297,7 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5 shrink-0 pl-3 border-l border-emerald-200/80 dark:border-emerald-900/60">
+        <div className="flex items-center gap-2.5 shrink-0 pl-3 border-l border-slate-100 dark:border-slate-800">
           <div className="text-right">
             <div className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white leading-none">
               {examDaysRemaining}
@@ -199,22 +311,22 @@ export const Home: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. TODAY'S PROGRESS CARD (5 SEGMENTED PILLS)                              */}
+      {/* 5. TODAY'S PROGRESS CARD (5 SEGMENTED PILLS)                              */}
       {/* ========================================================================= */}
       <div
         onClick={() => {
           soundFeedback.playClick();
           navigate('/practice');
         }}
-        className="p-3.5 sm:p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-xs space-y-2.5 cursor-pointer transition-all active:scale-[0.99] hover:border-emerald-500/40 group"
+        className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-2.5 cursor-pointer transition-all active:scale-[0.99] hover:border-emerald-500/40 group"
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <div className="w-7 h-7 rounded-full bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center">
+            <div className="w-7 h-7 rounded-xl bg-blue-500/15 text-blue-600 dark:text-blue-400 flex items-center justify-center">
               <Compass className="w-4 h-4 stroke-[2.5]" />
             </div>
             <span className="text-xs sm:text-sm font-bold text-slate-900 dark:text-white">
-              Today's Progress
+              Today's Mission Progress
             </span>
           </div>
           <div className="flex items-center gap-1.5 text-xs font-bold">
@@ -234,7 +346,7 @@ export const Home: React.FC = () => {
                 key={idx}
                 className={`h-2 flex-1 rounded-full transition-all duration-300 ${
                   isFilled
-                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-xs'
+                    ? 'bg-gradient-to-r from-emerald-500 to-teal-400 shadow-2xs'
                     : 'bg-slate-100 dark:bg-slate-800'
                 }`}
               />

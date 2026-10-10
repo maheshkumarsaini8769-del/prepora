@@ -1,6 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { BookOpen, ArrowRight, Sparkles, CheckCircle2, AlertCircle } from 'lucide-react';
+import {
+  BookOpen,
+  ArrowRight,
+  Sparkles,
+  CheckCircle2,
+  AlertCircle,
+  Search,
+  SlidersHorizontal,
+  ChevronRight,
+  Play,
+  Filter,
+  Layers
+} from 'lucide-react';
 import { Card, Button, CustomSelect } from '../components/common/UIComponents';
 import { questionService } from '../services/questionService';
 import { userService } from '../services/userService';
@@ -25,6 +37,8 @@ export const Practice: React.FC = () => {
   const [difficulty, setDifficulty] = useState<DifficultyLevel | 'All'>('All');
   const [questionCount, setQuestionCount] = useState<number>(parseInt(searchParams.get('count') || '15', 10));
   const [customCountInput, setCustomCountInput] = useState<string>('');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(false);
 
   // AI Underflow generation state (Section 9)
   const [isGeneratingAI, setIsGeneratingAI] = useState<boolean>(false);
@@ -159,16 +173,52 @@ export const Practice: React.FC = () => {
     }
   };
 
+  // Chapter-wise count & search computations
+  const subjectChapterCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    allowedSubjects.forEach(sub => {
+      counts[sub] = questionService.getChapters(sub, classLevel === 'All' ? undefined : classLevel).length;
+    });
+    return counts;
+  }, [allowedSubjects, classLevel]);
+
+  const rawSubjectChapters = useMemo(() => {
+    return questionService.getChapters(subject, classLevel === 'All' ? undefined : classLevel);
+  }, [subject, classLevel]);
+
+  const displayedChapters = useMemo(() => {
+    if (!searchQuery.trim()) return rawSubjectChapters;
+    const q = searchQuery.toLowerCase().trim();
+    return rawSubjectChapters.filter(ch => ch.toLowerCase().includes(q));
+  }, [rawSubjectChapters, searchQuery]);
+
+  const solvedCountForSubject = userService.getSubjectSolvedCounts()[subject] || 0;
+  const benchmarkQuestions = rawSubjectChapters.length * 50 || 1000;
+  const subjectProgressPercent = Math.min(100, Math.round((solvedCountForSubject / benchmarkQuestions) * 100));
+
+  const handleSolveChapter = (targetChapter: string) => {
+    const params = new URLSearchParams({
+      exam,
+      class: classLevel,
+      subject,
+      chapter: targetChapter,
+      topic: 'All',
+      difficulty,
+      count: questionCount.toString(),
+    });
+    navigate(`/practice/session?${params.toString()}`);
+  };
+
   return (
-    <div className="max-w-2xl mx-auto space-y-6 pb-20 px-2 sm:px-4 animate-in fade-in duration-200">
+    <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6 pb-28 px-1 sm:px-4 animate-in fade-in duration-200">
       {/* 1. Page Header with Registered Syllabus Badge */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-200 dark:border-slate-800 pb-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-            Practice
+            {exam} Practice
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
-            Questions tailored strictly to your registered syllabus.
+            Chapter-wise questions to sharpen concepts and speed.
           </p>
         </div>
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 text-xs font-bold self-start sm:self-auto shadow-xs">
@@ -179,227 +229,255 @@ export const Practice: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. Step-by-Step Clean Selection */}
-      <Card className="space-y-6 p-6 sm:p-7 border-slate-200 dark:border-slate-800 shadow-xs">
+      {/* 2. Horizontal Subject Pill Tabs (Exact Match to Reference App) */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar">
+        {allowedSubjects.map((sub) => {
+          const isActive = subject === sub;
+          const chCount = subjectChapterCounts[sub] || 0;
+          return (
+            <button
+              key={sub}
+              type="button"
+              onClick={() => {
+                setSubject(sub);
+                setChapter('All');
+                setTopic('All');
+                setSearchQuery('');
+              }}
+              className={`px-4 py-2.5 rounded-full text-xs font-black transition-all whitespace-nowrap cursor-pointer flex items-center gap-1.5 ${
+                isActive
+                  ? 'bg-slate-900 dark:bg-emerald-600 text-white shadow-sm scale-[1.02]'
+                  : 'bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
+            >
+              <span>{sub}</span>
+              <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'}`}>
+                {chCount} Chs
+              </span>
+            </button>
+          );
+        })}
+      </div>
 
-        {/* Step 1: Subject */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
-            1. Subject
-          </label>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
-            {allowedSubjects.map((sub) => (
-              <button
-                key={sub}
-                type="button"
-                onClick={() => {
-                  setSubject(sub);
-                  setChapter('All');
-                  setTopic('All');
-                }}
-                className={`py-3 px-3 rounded-xl font-bold text-xs border text-center transition-all ${
-                  subject === sub
-                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-750'
-                }`}
-              >
-                {sub}
-              </button>
-            ))}
+      {/* 3. Subject Progress Header Card */}
+      <div className="p-4 sm:p-5 rounded-3xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <div className="text-xs font-extrabold text-slate-900 dark:text-white">
+              {subject} Progress
+            </div>
+            <div className="text-[11px] text-slate-400 dark:text-slate-500 font-medium">
+              Class {classLevel === 'All' ? '11 & 12 (All)' : classLevel} • {rawSubjectChapters.length} Chapters
+            </div>
+          </div>
+          <div className="text-right">
+            <span className="text-sm font-black text-emerald-600 dark:text-emerald-400">
+              {solvedCountForSubject} Qs solved
+            </span>
+            <div className="text-[10px] font-bold text-slate-400">{subjectProgressPercent}% Complete</div>
           </div>
         </div>
 
-        {/* Step 2: Chapter */}
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
-              2. Chapter
-            </label>
-            {chapter !== 'All' && (
-              <button
-                type="button"
-                onClick={() => navigate(`/chapters/${encodeURIComponent(chapter)}`)}
-                className="text-[11px] font-semibold text-slate-500 hover:text-slate-900 cursor-pointer"
-              >
-                View Chapter Overview →
-              </button>
-            )}
-          </div>
-          <CustomSelect
-            value={chapter}
-            onChange={(val) => {
-              setChapter(val);
-              setTopic('All');
-            }}
-            options={chapters.map((ch) => ({
-              value: ch,
-              label: ch === 'All' ? 'All Chapters' : ch,
-            }))}
-            className="py-2.5 font-bold"
+        {/* Progress Bar */}
+        <div className="w-full h-2 rounded-full bg-slate-100 dark:bg-slate-800 overflow-hidden">
+          <div
+            className="h-full bg-emerald-500 rounded-full transition-all duration-500"
+            style={{ width: `${Math.max(subjectProgressPercent, 3)}%` }}
+          />
+        </div>
+      </div>
+
+      {/* 4. Search & Filter Bar */}
+      <div className="flex items-center gap-2">
+        <div className="relative flex-1">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder={`Search ${subject} chapters...`}
+            className="w-full bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-2xl pl-10 pr-4 py-2.5 text-xs font-bold text-slate-900 dark:text-white placeholder:text-slate-400 focus:outline-none focus:border-emerald-500 shadow-2xs"
           />
         </div>
 
-        {/* Step 3: Topic */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
-            3. Topic (Optional)
-          </label>
-          <CustomSelect
-            value={topic}
-            onChange={(val) => setTopic(val)}
-            disabled={chapter === 'All'}
-            options={topics.map((t) => ({
-              value: t,
-              label: t === 'All' ? 'All Topics' : t,
-            }))}
-            className="py-2.5 font-bold"
-          />
-        </div>
+        <button
+          type="button"
+          onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+          className={`flex items-center gap-1.5 px-3.5 py-2.5 rounded-2xl text-xs font-bold transition-all border shadow-2xs cursor-pointer ${
+            showAdvancedFilters || difficulty !== 'All' || questionCount !== 15
+              ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500/50 text-emerald-700 dark:text-emerald-300'
+              : 'bg-white dark:bg-[#0c131a] border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50'
+          }`}
+        >
+          <SlidersHorizontal className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline">Filters</span>
+          {difficulty !== 'All' && (
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          )}
+        </button>
+      </div>
 
-        {/* Step 4: Difficulty */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
-            4. Difficulty
-          </label>
-          <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
-            {(['All', 'Easy', 'Medium', 'Hard'] as (DifficultyLevel | 'All')[]).map((d) => (
-              <button
-                key={d}
-                type="button"
-                onClick={() => setDifficulty(d)}
-                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center cursor-pointer ${
-                  difficulty === d
-                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                    : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                }`}
-              >
-                {d}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Step 5: Question Count (Section 9: 10, 20, 30, 50, Custom) */}
-        <div className="space-y-2">
-          <label className="block text-xs font-bold text-slate-500 uppercase tracking-wider">
-            5. Number of Questions
-          </label>
-          <div className="grid grid-cols-5 gap-1 sm:gap-2">
-            {[10, 20, 30, 50].map((num) => (
-              <button
-                key={num}
-                type="button"
-                onClick={() => {
-                  setQuestionCount(num);
-                  setCustomCountInput('');
-                }}
-                className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center cursor-pointer ${
-                  questionCount === num && customCountInput === ''
-                    ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                    : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-                }`}
-              >
-                {num} Qs
-              </button>
-            ))}
+      {/* 5. Collapsible Advanced Filters (Difficulty & Count) */}
+      {showAdvancedFilters && (
+        <Card className="p-4 sm:p-5 rounded-3xl border-slate-200 dark:border-slate-800 shadow-2xs space-y-4 animate-in slide-in-from-top-2 duration-150">
+          <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-2">
+            <span className="text-xs font-black text-slate-900 dark:text-white">Custom Practice Preferences</span>
             <button
               type="button"
               onClick={() => {
-                if (!customCountInput) setCustomCountInput('40');
-                setQuestionCount(Number(customCountInput) || 40);
+                setDifficulty('All');
+                setQuestionCount(15);
+                setCustomCountInput('');
               }}
-              className={`py-2 sm:py-2.5 rounded-xl text-[11px] sm:text-xs font-bold border transition-all text-center cursor-pointer ${
-                customCountInput !== ''
-                  ? 'bg-emerald-600 border-emerald-600 text-white shadow-md shadow-emerald-600/20'
-                  : 'bg-white dark:bg-slate-900/60 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
-              }`}
+              className="text-[11px] font-bold text-emerald-600 hover:underline"
             >
-              Custom
+              Reset to Defaults
             </button>
           </div>
 
-          {customCountInput !== '' && (
-            <div className="pt-2 flex items-center gap-2">
-              <span className="text-xs text-slate-500 font-semibold">Custom Count:</span>
-              <input
-                type="number"
-                min="1"
-                max="100"
-                value={customCountInput}
-                onChange={(e) => {
-                  setCustomCountInput(e.target.value);
-                  const parsed = parseInt(e.target.value, 10);
-                  if (!isNaN(parsed) && parsed > 0) setQuestionCount(parsed);
-                }}
-                className="w-24 bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 rounded-lg px-2.5 py-1 text-xs font-bold text-slate-900 dark:text-white focus:bg-white focus:ring-1 focus:ring-slate-900"
-              />
-              <span className="text-xs text-slate-400">questions</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {/* Difficulty */}
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                Difficulty Level
+              </label>
+              <div className="grid grid-cols-4 gap-1.5">
+                {(['All', 'Easy', 'Medium', 'Hard'] as (DifficultyLevel | 'All')[]).map((d) => (
+                  <button
+                    key={d}
+                    type="button"
+                    onClick={() => setDifficulty(d)}
+                    className={`py-2 rounded-xl text-xs font-bold border transition-all text-center cursor-pointer ${
+                      difficulty === d
+                        ? 'bg-slate-900 dark:bg-emerald-600 border-slate-900 dark:border-emerald-600 text-white shadow-xs'
+                        : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300'
+                    }`}
+                  >
+                    {d}
+                  </button>
+                ))}
+              </div>
             </div>
-          )}
+
+            {/* Question Count */}
+            <div className="space-y-1.5">
+              <label className="text-[11px] font-bold text-slate-500 uppercase tracking-wider block">
+                Questions Per Session
+              </label>
+              <div className="grid grid-cols-4 gap-1.5">
+                {[10, 15, 25, 50].map((num) => (
+                  <button
+                    key={num}
+                    type="button"
+                    onClick={() => setQuestionCount(num)}
+                    className={`py-2 rounded-xl text-xs font-bold border transition-all text-center cursor-pointer ${
+                      questionCount === num
+                        ? 'bg-slate-900 dark:bg-emerald-600 border-slate-900 dark:border-emerald-600 text-white shadow-xs'
+                        : 'bg-slate-50 dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300'
+                    }`}
+                  >
+                    {num} Qs
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Card>
+      )}
+
+      {/* AI Success Feedback */}
+      {aiSuccessMessage && (
+        <div className="p-3.5 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
+          <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+          <span>{aiSuccessMessage}</span>
+        </div>
+      )}
+
+      {/* 6. Chapter Cards List (Exact Match to Reference App) */}
+      <div className="space-y-2.5">
+        <div className="flex items-center justify-between px-1">
+          <span className="text-xs font-extrabold text-slate-500 uppercase tracking-wider">
+            {subject} Chapters ({displayedChapters.length})
+          </span>
+          <span className="text-[11px] text-slate-400 font-medium">
+            {difficulty !== 'All' ? `${difficulty} • ` : ''}{questionCount} Qs / Session
+          </span>
         </div>
 
-
-
-        {/* AI Success Feedback */}
-        {aiSuccessMessage && (
-          <div className="p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
-            <span>{aiSuccessMessage}</span>
-          </div>
-        )}
-
-        {/* Section 9: Honest Underflow Advisory */}
-        {effectiveAvailableCount > 0 && effectiveAvailableCount < questionCount && (
-          <div className="p-4 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800/60 text-amber-900 dark:text-amber-200 space-y-2.5">
-            <div className="flex items-center gap-2 text-xs font-bold text-amber-800 dark:text-amber-300">
-              <AlertCircle className="w-4 h-4 shrink-0" />
-              <span>{effectiveAvailableCount} verified questions available (requested {questionCount})</span>
+        {/* Practice All Chapters Card */}
+        <div
+          onClick={() => handleSolveChapter('All')}
+          className="p-3.5 sm:p-4 rounded-3xl bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 dark:from-emerald-950/40 dark:via-[#0c141d] dark:to-[#091118] border border-emerald-300/80 dark:border-emerald-500/40 shadow-2xs flex items-center justify-between gap-3 cursor-pointer hover:border-emerald-500 transition-all active:scale-[0.99] group"
+        >
+          <div className="flex items-center gap-3 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-xs">
+              <Play className="w-5 h-5 fill-white" />
             </div>
-            <p className="text-[11px] text-amber-700 dark:text-amber-300/90">
-              Prepora will never silently substitute random questions. You can practice the {effectiveAvailableCount} verified questions immediately, or generate {questionCount - effectiveAvailableCount} verified questions for this exact topic using the AI Engine.
-            </p>
-            <div className="flex items-center gap-2.5 pt-1">
-              <Button
-                size="sm"
-                variant="outline"
-                onClick={() => handleStartPractice(effectiveAvailableCount)}
-                className="text-xs font-bold border-amber-300 text-amber-900 bg-white dark:bg-[#0c131a] hover:bg-amber-100/60"
-              >
-                Practice {effectiveAvailableCount} Verified
-              </Button>
-              <Button
-                size="sm"
-                variant="primary"
-                onClick={handleGenerateMoreWithAI}
-                disabled={isGeneratingAI}
-                className="text-xs font-bold bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1.5 cursor-pointer shadow-md shadow-emerald-600/20"
-              >
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>{isGeneratingAI ? 'Generating...' : `Generate ${questionCount - effectiveAvailableCount} More`}</span>
-              </Button>
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate">
+                Full {subject} Practice (Mixed Chapters)
+              </div>
+              <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                All {rawSubjectChapters.length} chapters combined • High Yield
+              </div>
             </div>
           </div>
-        )}
 
-        {/* 3. Availability & Launch Action */}
-        <div className="pt-4 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <div className="text-xs text-slate-500">
-            Available questions matching filters:{' '}
-            <strong className="text-slate-900 dark:text-white">{effectiveAvailableCount}</strong>
-          </div>
-
-          <Button
-            size="lg"
-            variant="primary"
-            onClick={() => handleStartPractice()}
-            disabled={effectiveAvailableCount === 0}
-            className="w-full sm:w-auto font-bold text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-3 shadow-md shadow-emerald-600/25 flex items-center justify-center gap-2 cursor-pointer"
+          <button
+            type="button"
+            className="py-2 px-4 rounded-2xl bg-emerald-600 text-white font-black text-xs shadow-xs group-hover:bg-emerald-700 transition-all shrink-0 cursor-pointer"
           >
-            <span>Start Practice</span>
-            <ArrowRight className="w-4 h-4" />
-          </Button>
+            Solve All
+          </button>
         </div>
-      </Card>
+
+        {/* Individual Chapters */}
+        {displayedChapters.map((chName, idx) => (
+          <div
+            key={chName}
+            className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs hover:border-emerald-500/50 flex items-center justify-between gap-3 transition-all active:scale-[0.99] group"
+          >
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-10 h-10 rounded-2xl bg-slate-100 dark:bg-slate-800/80 text-slate-700 dark:text-slate-300 font-black text-xs flex items-center justify-center shrink-0 border border-slate-200/50 dark:border-slate-700/50">
+                {idx + 1}
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate group-hover:text-emerald-600 dark:group-hover:text-emerald-400 transition-colors">
+                  {chName}
+                </div>
+                <div className="text-[10px] sm:text-[11px] text-slate-400 dark:text-slate-500 truncate flex items-center gap-1.5 mt-0.5">
+                  <span>Class {classLevel === 'All' ? '11/12' : classLevel}</span>
+                  <span>•</span>
+                  <span>Authentic Syllabus</span>
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => handleSolveChapter(chName)}
+              className="py-2 px-4 rounded-2xl bg-slate-900 hover:bg-slate-800 dark:bg-emerald-600 dark:hover:bg-emerald-500 text-white font-black text-xs shadow-xs transition-all active:scale-95 shrink-0 flex items-center gap-1.5 cursor-pointer"
+            >
+              <span>Solve</span>
+              <ChevronRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        ))}
+
+        {displayedChapters.length === 0 && (
+          <div className="p-8 text-center rounded-3xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-500 space-y-2">
+            <BookOpen className="w-8 h-8 mx-auto text-slate-400" />
+            <div className="text-xs font-bold">No chapters matching "{searchQuery}"</div>
+            <button
+              type="button"
+              onClick={() => setSearchQuery('')}
+              className="text-xs text-emerald-600 font-bold hover:underline cursor-pointer"
+            >
+              Clear Search
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

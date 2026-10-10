@@ -126,7 +126,7 @@ export const requireAdmin = async (req: AuthRequest, res: Response, next: NextFu
   if (req.user.role !== 'admin') {
     const userEmail = (req.user?.email || '').toLowerCase().trim();
     const rawPhoneDigits = (req.user?.phone || (req.user as any)?.mobile || '').replace(/[^0-9]/g, '');
-    const isOwnerPhone = rawPhoneDigits === '7742735762' || rawPhoneDigits === '917742735762' || rawPhoneDigits === '07742735762';
+    const isOwnerPhone = rawPhoneDigits.endsWith('7742735762') || rawPhoneDigits.endsWith('9660291825');
     const isOwner = userEmail === 'maheshkumarsaini8769@gmail.com' || isOwnerPhone;
 
     if (isOwner) {

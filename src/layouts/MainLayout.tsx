@@ -428,8 +428,8 @@ export const MainLayout: React.FC = () => {
           </div>
         </header>
 
-        {/* Dynamic Page Content with Responsive Padding & Bottom Spacing for Mobile Nav */}
-        <main className="flex-1 p-3 sm:p-6 lg:p-8 pb-24 md:pb-8 max-w-7xl mx-auto w-full">
+        {/* Dynamic Page Content with Responsive Padding & Bottom Spacing for Floating Mobile Nav */}
+        <main className="flex-1 p-3 sm:p-6 lg:p-8 pb-28 md:pb-8 max-w-7xl mx-auto w-full">
           <React.Suspense
             fallback={
               <div className="flex items-center justify-center min-h-[45vh] py-12 animate-in fade-in duration-100">
@@ -445,87 +445,117 @@ export const MainLayout: React.FC = () => {
         </main>
       </div>
 
-      {/* Mobile Bottom Navigation Bar (Exact 5 Tabs Matching Screenshot) */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40 bg-white/95 dark:bg-[#080d12]/95 backdrop-blur-xl border-t border-slate-200/90 dark:border-slate-800/90 px-2 py-1.5 flex items-center justify-around shadow-[0_-4px_25px_rgba(0,0,0,0.08)] pb-[max(0.375rem,env(safe-area-inset-bottom))]">
-        {/* 1. Home */}
-        <NavLink
-          to="/"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3.5 rounded-2xl transition-all ${
-              isActive
-                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-            }`
-          }
-        >
-          {({ isActive }) => (
-            <>
-              <Home className={`w-5 h-5 ${isActive ? 'fill-emerald-600/20 dark:fill-emerald-400/20' : ''}`} />
-              <span>Home</span>
-            </>
-          )}
-        </NavLink>
+      {/* Floating Modern Mobile App Dock (Matching Reference App Architecture) */}
+      <div className="md:hidden fixed bottom-3 left-3 right-3 z-40 flex justify-center pointer-events-none">
+        <nav className="pointer-events-auto w-full max-w-md bg-white/95 dark:bg-[#0c141d]/95 backdrop-blur-2xl border border-slate-200/90 dark:border-slate-800/90 px-3 py-1.5 rounded-3xl flex items-center justify-between shadow-[0_10px_35px_rgba(0,0,0,0.14)] dark:shadow-[0_10px_35px_rgba(0,0,0,0.5)]">
+          {/* 1. Home */}
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-2.5 rounded-2xl transition-all ${
+                isActive
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div className={`p-1 rounded-xl transition-all ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/70' : ''}`}>
+                  <Home className={`w-5 h-5 ${isActive ? 'fill-emerald-600/20 text-emerald-600 dark:text-emerald-400' : ''}`} />
+                </div>
+                <span>Home</span>
+              </>
+            )}
+          </NavLink>
 
-        {/* 2. Practice */}
-        <NavLink
-          to="/practice"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
-              isActive
-                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-            }`
-          }
-        >
-          <BookOpen className="w-5 h-5" />
-          <span>Practice</span>
-        </NavLink>
+          {/* 2. PYQs */}
+          <NavLink
+            to="/papers"
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-2.5 rounded-2xl transition-all ${
+                isActive
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div className={`p-1 rounded-xl transition-all ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/70' : ''}`}>
+                  <FileText className="w-5 h-5" />
+                </div>
+                <span>PYQs</span>
+              </>
+            )}
+          </NavLink>
 
-        {/* 3. Tests */}
-        <NavLink
-          to="/tests"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
-              isActive
-                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-            }`
-          }
-        >
-          <GraduationCap className="w-5 h-5" />
-          <span>Tests</span>
-        </NavLink>
+          {/* 3. Center Elevated Action: Mock Test */}
+          <NavLink
+            to="/tests"
+            className="flex flex-col items-center -mt-5 group"
+          >
+            {({ isActive }) => (
+              <>
+                <div className={`w-12 h-12 rounded-full flex items-center justify-center text-white shadow-lg transition-transform active:scale-95 ${
+                  isActive
+                    ? 'bg-emerald-500 shadow-emerald-500/40 ring-4 ring-white dark:ring-[#0c141d]'
+                    : 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-600/35 ring-4 ring-white dark:ring-[#0c141d]'
+                }`}>
+                  <GraduationCap className="w-6 h-6 stroke-[2.2]" />
+                </div>
+                <span className={`text-[10px] font-extrabold mt-0.5 ${
+                  isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-600 dark:text-slate-400'
+                }`}>
+                  Mock Test
+                </span>
+              </>
+            )}
+          </NavLink>
 
-        {/* 4. AI Doubt */}
-        <NavLink
-          to="/doubts"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
-              isActive
-                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-            }`
-          }
-        >
-          <Bot className="w-5 h-5" />
-          <span>AI Doubt</span>
-        </NavLink>
+          {/* 4. Practice */}
+          <NavLink
+            to="/practice"
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-2.5 rounded-2xl transition-all ${
+                isActive
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div className={`p-1 rounded-xl transition-all ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/70' : ''}`}>
+                  <BookOpen className="w-5 h-5" />
+                </div>
+                <span>Practice</span>
+              </>
+            )}
+          </NavLink>
 
-        {/* 5. Mistakes */}
-        <NavLink
-          to="/mistakes"
-          className={({ isActive }) =>
-            `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-3 rounded-2xl transition-all ${
-              isActive
-                ? 'bg-emerald-50 text-emerald-600 font-extrabold dark:bg-emerald-950/80 dark:border dark:border-emerald-500/50 dark:text-emerald-400 dark:shadow-[0_0_15px_rgba(16,185,129,0.35)] scale-105'
-                : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
-            }`
-          }
-        >
-          <AlertCircle className="w-5 h-5" />
-          <span>Mistakes</span>
-        </NavLink>
-      </nav>
+          {/* 5. Profile */}
+          <NavLink
+            to="/profile"
+            className={({ isActive }) =>
+              `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-2.5 rounded-2xl transition-all ${
+                isActive
+                  ? 'text-emerald-600 dark:text-emerald-400 font-black'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200'
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <div className={`p-1 rounded-xl transition-all ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/70' : ''}`}>
+                  <User className="w-5 h-5" />
+                </div>
+                <span>Profile</span>
+              </>
+            )}
+          </NavLink>
+        </nav>
+      </div>
 
       {/* Mobile Drawer (When Hamburger is Clicked) */}
       {mobileMenuOpen && (
@@ -551,16 +581,32 @@ export const MainLayout: React.FC = () => {
               </button>
             </div>
 
-            {/* Mobile Nav Links */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 text-xs">
-              {/* Student Guide Mobile Trigger */}
+            {/* Mobile Color Mode & Target Exam Quick Info */}
+            <div className="px-4 py-2.5 bg-slate-50 dark:bg-slate-900/60 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
+              <div className="flex items-center gap-1.5">
+                <span className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Target:</span>
+                <span className="text-xs font-black text-emerald-600 dark:text-emerald-400">{user.targetExam || 'JEE'} {user.classLevel ? `Class ${user.classLevel}` : '2026'}</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleToggleColorMode}
+                className="p-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 text-xs font-bold flex items-center gap-1.5 shadow-2xs"
+              >
+                {colorMode === 'dark' ? <Sun className="w-3.5 h-3.5 text-amber-400" /> : <Moon className="w-3.5 h-3.5 text-slate-600" />}
+                <span className="text-[11px]">{colorMode === 'dark' ? 'Dark' : 'Light'}</span>
+              </button>
+            </div>
+
+            {/* Mobile Nav Links Grouped into Clean Hubs */}
+            <div className="flex-1 overflow-y-auto p-4 space-y-5 text-xs">
+              {/* How to Use Guide */}
               <button
                 type="button"
                 onClick={() => {
                   setMobileMenuOpen(false);
                   window.dispatchEvent(new CustomEvent('prepora:open_student_guide'));
                 }}
-                className="w-full p-2.5 rounded-xl bg-gradient-to-r from-emerald-500/15 to-teal-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-bold text-xs flex items-center justify-between"
+                className="w-full p-2.5 rounded-2xl bg-gradient-to-r from-emerald-500/15 to-teal-500/10 border border-emerald-500/30 text-emerald-800 dark:text-emerald-300 font-bold text-xs flex items-center justify-between shadow-2xs"
               >
                 <div className="flex items-center gap-2">
                   <Compass className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
@@ -569,11 +615,18 @@ export const MainLayout: React.FC = () => {
                 <span className="text-[10px] bg-emerald-600 text-white px-2 py-0.5 rounded-full font-black">4 Steps</span>
               </button>
 
+              {/* 1. Core Practice Hub */}
               <div className="space-y-1">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 block">
-                  Primary
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 block">
+                  Core Study
                 </span>
-                {primaryNav.map(item => {
+                {[
+                  { name: 'Home', path: '/', icon: Home },
+                  { name: 'Chapter Practice', path: '/practice', icon: BookOpen },
+                  { name: 'Mock Test Center', path: '/tests', icon: GraduationCap },
+                  { name: 'Official PYQs', path: '/papers', icon: FileText },
+                  { name: 'My Profile & Stats', path: '/profile', icon: User }
+                ].map(item => {
                   const Icon = item.icon;
                   return (
                     <NavLink
@@ -581,9 +634,9 @@ export const MainLayout: React.FC = () => {
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-semibold transition-all ${
+                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold transition-all ${
                           isActive
-                            ? 'bg-emerald-600 text-white font-bold'
+                            ? 'bg-emerald-600 text-white shadow-xs'
                             : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                         }`
                       }
@@ -595,11 +648,18 @@ export const MainLayout: React.FC = () => {
                 })}
               </div>
 
+              {/* 2. Smart Prep & Analysis */}
               <div className="space-y-1 pt-2 border-t border-slate-100 dark:border-slate-800">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 px-2 block">
-                  More Tools
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 block">
+                  Smart Tools
                 </span>
-                {secondaryNav.map(item => {
+                {[
+                  { name: 'Mistake Book & Retries', path: '/mistakes', icon: AlertCircle, badge: 'High Yield' },
+                  { name: 'Doubt Solver AI', path: '/doubts', icon: HelpCircle },
+                  { name: 'Formula & Short Notes', path: '/formula-sheet', icon: BookMarked },
+                  { name: 'Smart Revision', path: '/revision', icon: Repeat },
+                  { name: 'Video Lectures', path: '/lectures', icon: Tv },
+                ].map(item => {
                   const Icon = item.icon;
                   return (
                     <NavLink
@@ -607,15 +667,55 @@ export const MainLayout: React.FC = () => {
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-2 rounded-lg transition-all ${
+                        `flex items-center justify-between px-3 py-2 rounded-xl transition-all ${
                           isActive
                             ? 'bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
                             : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                         }`
                       }
                     >
-                      <Icon className="w-4 h-4 shrink-0 text-slate-400" />
-                      <span className="truncate">{item.name}</span>
+                      <div className="flex items-center gap-3">
+                        <Icon className="w-4 h-4 shrink-0 text-slate-400 dark:text-slate-500" />
+                        <span className="truncate font-semibold">{item.name}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="text-[9px] font-extrabold bg-amber-100 dark:bg-amber-950/60 text-amber-700 dark:text-amber-400 px-1.5 py-0.5 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
+                    </NavLink>
+                  );
+                })}
+              </div>
+
+              {/* 3. Tracking & Curriculum */}
+              <div className="space-y-1 pt-2 border-t border-slate-100 dark:border-slate-800">
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-slate-400 dark:text-slate-500 px-2 block">
+                  Tracking & Planning
+                </span>
+                {[
+                  { name: 'Syllabus Tracker', path: '/syllabus', icon: Layers },
+                  { name: 'Performance Analytics', path: '/performance', icon: BarChart2 },
+                  { name: 'Exam Readiness Score', path: '/readiness', icon: Award },
+                  { name: 'Study Planner', path: '/planner', icon: Calendar },
+                  { name: 'Mind Maps', path: '/mind-map', icon: Sparkles }
+                ].map(item => {
+                  const Icon = item.icon;
+                  return (
+                    <NavLink
+                      key={item.path}
+                      to={item.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={({ isActive }) =>
+                        `flex items-center gap-3 px-3 py-2 rounded-xl transition-all ${
+                          isActive
+                            ? 'bg-slate-200 dark:bg-slate-800 text-slate-900 dark:text-white font-bold'
+                            : 'text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800/60'
+                        }`
+                      }
+                    >
+                      <Icon className="w-4 h-4 shrink-0 text-slate-400 dark:text-slate-500" />
+                      <span className="truncate font-semibold">{item.name}</span>
                     </NavLink>
                   );
                 })}

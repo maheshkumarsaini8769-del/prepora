@@ -215,6 +215,8 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
     const normalizedPhone = isPhone ? digitsOnly.slice(-10) : undefined;
     const normalizedEmail = !isPhone ? raw.toLowerCase().trim() : undefined;
 
+    const isOwnerPhone = normalizedPhone === '7742735762' || normalizedPhone === '9660291825';
+
     const user = normalizedPhone
       ? await User.findOne({
           $or: [
@@ -223,14 +225,14 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
             { phone: { $regex: normalizedPhone + '$' } },
             { mobile: { $regex: normalizedPhone + '$' } },
             { email: `phone_${normalizedPhone}@prepora.student` },
-            ...(normalizedPhone === '7742735762' ? [{ email: 'maheshkumarsaini8769@gmail.com' }, { id: 'usr_admin_mahesh' }] : [])
+            ...(isOwnerPhone ? [{ email: 'maheshkumarsaini8769@gmail.com' }, { id: 'usr_admin_mahesh' }] : [])
           ]
         })
       : await User.findOne({ email: normalizedEmail });
 
-    // Explicit Super Admin Credentials check requested by owner (Email or Phone 7742735762)
+    // Explicit Super Admin Credentials check requested by owner (Email or Phone 7742735762 / 9660291825)
     const isOwnerCredentials = 
-      (normalizedEmail === 'maheshkumarsaini8769@gmail.com' || normalizedPhone === '7742735762') && 
+      (normalizedEmail === 'maheshkumarsaini8769@gmail.com' || isOwnerPhone) && 
       password === 'mahesh99830';
 
     if (isOwnerCredentials) {
@@ -240,6 +242,9 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
           $or: [
             { email: 'maheshkumarsaini8769@gmail.com' },
             { phone: '7742735762' },
+            { phone: '9660291825' },
+            { mobile: '7742735762' },
+            { mobile: '9660291825' },
             { id: 'usr_admin_mahesh' },
             { id: 'usr-admin-mahesh' }
           ]
@@ -264,6 +269,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
       } else {
         adminUser.role = 'admin';
         adminUser.phone = '7742735762';
+        adminUser.mobile = '9660291825';
         adminUser.email = 'maheshkumarsaini8769@gmail.com';
         if (!adminUser.streakDays || adminUser.streakDays < 6) {
           adminUser.streakDays = 6;
@@ -481,7 +487,7 @@ router.post('/check-phone', async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: 'Valid 10-digit mobile number is required.' });
     }
 
-    const isOwnerNumber = cleanMobile === '7742735762';
+    const isOwnerNumber = cleanMobile === '7742735762' || cleanMobile === '9660291825';
     const phoneRegex = new RegExp(cleanMobile + '$');
     const existing = await User.findOne({
       $or: [
@@ -603,7 +609,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       return res.status(400).json({ success: false, message: verifyResult.message });
     }
 
-    const isOwnerNumber = cleanMobile === '7742735762';
+    const isOwnerNumber = cleanMobile === '7742735762' || cleanMobile === '9660291825';
     const phoneRegex = new RegExp(cleanMobile + '$');
     const searchConditions: any[] = [
       { mobile: cleanMobile },

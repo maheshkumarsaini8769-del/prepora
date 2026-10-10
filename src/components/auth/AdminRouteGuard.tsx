@@ -17,8 +17,8 @@ export const AdminRouteGuard: React.FC<{ children?: React.ReactNode }> = ({ chil
 
   // 2. Check if user's email/phone has admin authority or user has role admin
   const userEmail = (user?.email || '').toLowerCase().trim();
-  const rawDigits = (user?.phone || '').replace(/[^0-9]/g, '');
-  const isOwnerPhone = rawDigits === '7742735762' || rawDigits === '917742735762' || rawDigits === '07742735762';
+  const rawDigits = (user?.phone || (user as any)?.mobile || '').replace(/[^0-9]/g, '');
+  const isOwnerPhone = rawDigits.endsWith('7742735762') || rawDigits.endsWith('9660291825');
   const isAuthorized = user?.role === 'admin' || 
     adminAuthorityService.isAuthorizedAdmin(userEmail) || 
     adminAuthorityService.isAuthorizedAdmin(rawDigits) ||
