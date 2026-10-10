@@ -331,25 +331,23 @@ export const AuthModal: React.FC = () => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
       <div className="relative w-full max-w-md bg-white dark:bg-[#0e1620] rounded-3xl shadow-2xl border border-slate-200 dark:border-slate-800 animate-in zoom-in-95 duration-200 overflow-hidden">
-        {/* Top 3D Artwork Hero Banner */}
-        <div className="relative h-28 w-full overflow-hidden bg-slate-900 border-b border-slate-200 dark:border-slate-800">
+        {/* Top AI Neural Artwork Banner */}
+        <div className="relative h-24 w-full overflow-hidden bg-slate-950 border-b border-slate-200 dark:border-slate-800">
           <img
-            src="/assets/auth/auth_study_hero.jpg"
-            alt="Prepora Study Hero"
-            className="w-full h-full object-cover"
+            src="/assets/auth/ai_auth_background.jpg"
+            alt="Prepora AI Neural Background"
+            className="w-full h-full object-cover opacity-90"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-black/50 to-transparent flex items-end p-4">
-            <div className="flex items-center gap-3">
-              <img
-                src="/assets/auth/auth_student_badge.jpg"
-                alt="Student Avatar"
-                className="w-11 h-11 rounded-2xl object-cover border-2 border-emerald-400 shadow-lg shadow-emerald-500/30 shrink-0"
-              />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent flex items-end p-4">
+            <div className="flex items-center gap-2.5">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white font-black text-lg shadow-md shadow-emerald-500/30">
+                P
+              </div>
               <div>
                 <div className="flex items-center gap-2">
                   <span className="text-base font-black text-white tracking-tight">PREPORA</span>
                   <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-500/30 text-emerald-300 border border-emerald-400/30">
-                    JEE • NEET
+                    AI JEE • NEET
                   </span>
                 </div>
                 <p className="text-xs font-semibold text-slate-200">

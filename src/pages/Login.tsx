@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import {
   Phone,
@@ -445,98 +445,38 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#080d12] flex flex-col justify-center py-6 sm:py-10 px-3 sm:px-6 lg:px-8 relative overflow-hidden transition-colors">
-      {/* Decorative ambient background glows */}
-      <div className="absolute -top-32 -left-32 w-80 h-80 bg-emerald-500/10 dark:bg-emerald-500/5 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-32 -right-32 w-80 h-80 bg-teal-500/10 dark:bg-teal-500/5 rounded-full blur-3xl pointer-events-none" />
+    <div className="min-h-screen relative flex flex-col justify-center items-center py-8 px-4 sm:px-6 lg:px-8 overflow-hidden select-none">
+      {/* Full-Screen Immersive AI Neural Wallpaper Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none">
+        <img
+          src="/assets/auth/ai_auth_background.jpg"
+          alt="Prepora AI Neural Background"
+          className="w-full h-full object-cover object-center scale-105"
+        />
+        {/* Subtle Dark Vignette & Gradient for optimal contrast and readability */}
+        <div className="absolute inset-0 bg-slate-950/70 dark:bg-slate-950/80 backdrop-blur-[2px]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-transparent to-slate-950/80" />
+      </div>
 
-      {/* Main Container - Split Screen on Desktop, Centered Card on Mobile */}
-      <div className="w-full max-w-5xl mx-auto z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center py-4">
-        {/* Left Side: Rich Hero Presentation Showcase (Visible on lg screens) */}
-        <div className="hidden lg:flex lg:col-span-6 flex-col space-y-6 pr-2">
-          {/* Logo & Tagline */}
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2.5">
-              <div className="w-11 h-11 rounded-2xl bg-emerald-600 flex items-center justify-center text-white font-black text-2xl shadow-lg shadow-emerald-600/30">
-                P
-              </div>
-              <span className="text-3xl font-black text-slate-900 dark:text-white tracking-tight">
-                PREPORA
-              </span>
+      {/* Centered Modern AI Auth Container */}
+      <div className="w-full max-w-md mx-auto z-10 space-y-4">
+        {/* Brand Header */}
+        <div className="text-center space-y-1">
+          <Link to="/" className="inline-flex items-center justify-center gap-2.5 group">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-emerald-600 to-teal-400 flex items-center justify-center text-white font-black text-2xl shadow-xl shadow-emerald-500/30 group-hover:scale-105 transition-transform duration-300">
+              P
             </div>
-            <h2 className="text-2xl xl:text-3xl font-black text-slate-900 dark:text-white tracking-tight leading-snug">
-              India's Smarter JEE & NEET Self-Study Platform
-            </h2>
-            <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-              1 Lakh+ verified questions, real CBT mock tests, interactive 3D formula mindmaps, and instant AI doubt diagnosis designed for top percentile ranks.
-            </p>
-          </div>
-
-          {/* Inspiring 3D Artwork Showcase */}
-          <div className="relative rounded-3xl overflow-hidden border-2 border-emerald-500/20 shadow-2xl group bg-slate-900">
-            <img
-              src="/assets/auth/auth_study_hero.jpg"
-              alt="Prepora Student Study Desk"
-              className="w-full h-72 object-cover object-center group-hover:scale-105 transition-transform duration-700"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/30 to-transparent flex flex-col justify-end p-5">
-              <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-300 text-[11px] font-black w-fit mb-1 backdrop-blur-xs">
-                <Sparkles className="w-3.5 h-3.5" />
-                <span>Conceptual Precision Engine</span>
-              </div>
-              <p className="text-xs font-bold text-white/95 leading-relaxed">
-                "Daily practice, error diagnosis & formula retention crafted for serious aspirants."
-              </p>
-            </div>
-          </div>
-
-          {/* 3 Key Pillars */}
-          <div className="grid grid-cols-3 gap-3">
-            <div className="p-3 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1">
-              <div className="text-emerald-600 dark:text-emerald-400 font-black text-sm">1,00,000+</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Verified Questions</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1">
-              <div className="text-blue-600 dark:text-blue-400 font-black text-sm">Real CBT</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">NTA Pattern Tests</div>
-            </div>
-            <div className="p-3 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200/80 dark:border-slate-800 shadow-2xs space-y-1">
-              <div className="text-purple-600 dark:text-purple-400 font-black text-sm">3D Mindmaps</div>
-              <div className="text-[11px] text-slate-500 dark:text-slate-400 font-medium">Visual Formulas</div>
-            </div>
-          </div>
+            <span className="text-2xl sm:text-3xl font-black text-white tracking-tight drop-shadow-md">
+              PREPORA
+            </span>
+          </Link>
+          <p className="text-[11px] text-emerald-400 font-bold tracking-widest uppercase">
+            AI Self-Study Platform • JEE & NEET
+          </p>
         </div>
 
-        {/* Right Side: Authentication Form Card */}
-        <div className="lg:col-span-6 w-full max-w-md mx-auto">
-          {/* Mobile Header with 3D Study Hero Banner (Hidden on lg screens) */}
-          <div className="text-center mb-4 lg:hidden">
-            <div className="relative rounded-2xl overflow-hidden mb-3 border border-slate-200/90 dark:border-slate-800 shadow-lg">
-              <img
-                src="/assets/auth/auth_study_hero.jpg"
-                alt="Prepora JEE & NEET Study Platform"
-                className="w-full h-36 object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/45 to-transparent flex items-end p-3.5">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white font-black text-xl shadow-lg shadow-emerald-500/40">
-                    P
-                  </div>
-                  <div className="text-left">
-                    <span className="text-base font-black text-white tracking-tight leading-none block">
-                      PREPORA
-                    </span>
-                    <span className="text-[10px] text-emerald-300 font-bold block mt-1">
-                      AI Self Study • JEE & NEET Preparation
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Card Body */}
-          <div className="bg-white dark:bg-[#0c131a] py-6 px-4 sm:px-8 shadow-xl shadow-slate-900/5 dark:shadow-black/40 rounded-3xl border border-slate-200/90 dark:border-slate-800 space-y-5">
+        {/* Floating Glassmorphic Form Card */}
+        <div className="bg-slate-900/85 dark:bg-[#0c131a]/90 backdrop-blur-2xl py-6 px-4 sm:px-8 shadow-2xl shadow-black/80 rounded-3xl border border-white/10 dark:border-emerald-500/20 space-y-5">
             {/* Progress Bar for 4-Step Registration */}
           {authMode === 'register' &&
             (step === 'step1-phone' ||
@@ -623,36 +563,24 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   </div>
                 </div>
               )}
-              {/* Illustration Banner */}
-              <div className="p-3.5 rounded-2xl bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-blue-500/10 border border-emerald-500/20 flex items-center justify-between gap-3">
-                <div className="space-y-0.5">
-                  <div className="text-xs font-bold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-500" />
-                    <span>JEE & NEET 2025/2026</span>
-                  </div>
-                  <h3 className="text-sm font-black text-slate-900 dark:text-white leading-tight">
-                    {authMode === 'register' ? 'Create Student Account' : 'Welcome Back Student'}
-                  </h3>
-                  <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                    {authMode === 'register'
-                      ? 'Fast setup: Real CBT practice & instant mindmaps'
-                      : 'Log in with mobile and password directly'}
-                  </p>
+              {/* Clean AI Mode Header */}
+              <div className="text-center space-y-1 pb-1">
+                <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-400/30 text-emerald-400 text-[11px] font-bold">
+                  <Sparkles className="w-3.5 h-3.5" />
+                  <span>JEE & NEET 2025/2026</span>
                 </div>
-                <div className="relative shrink-0">
-                  <img
-                    src="/assets/auth/auth_student_badge.jpg"
-                    alt="Prepora Student Mascot"
-                    className="w-14 h-14 rounded-2xl object-cover border-2 border-emerald-500/40 shadow-md shadow-emerald-500/20"
-                  />
-                  <span className="absolute -bottom-1 -right-1 px-1.5 py-0.2 rounded-full bg-emerald-600 text-[9px] font-black text-white shadow-xs">
-                    AI
-                  </span>
-                </div>
+                <h3 className="text-base font-black text-white leading-tight">
+                  {authMode === 'register' ? 'Create Student Account' : 'Welcome Back Student'}
+                </h3>
+                <p className="text-xs text-slate-300">
+                  {authMode === 'register'
+                    ? '1-Minute instant setup for self-study mastery'
+                    : 'Log in with your registered mobile and password'}
+                </p>
               </div>
 
               {/* Mode Switcher Tabs: Register vs Login */}
-              <div className="grid grid-cols-2 p-1 rounded-xl bg-slate-100 dark:bg-slate-800/80 text-xs font-bold">
+              <div className="grid grid-cols-2 p-1 rounded-xl bg-slate-800/90 border border-slate-700/80 text-xs font-bold">
                 <button
                   type="button"
                   onClick={() => {
@@ -662,11 +590,11 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   }}
                   className={`py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     authMode === 'register'
-                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                      ? 'bg-emerald-600 text-white shadow-md font-black'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <KeyRound className="w-3.5 h-3.5 text-emerald-600" />
+                  <KeyRound className="w-3.5 h-3.5" />
                   <span>Register</span>
                 </button>
                 <button
@@ -678,11 +606,11 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   }}
                   className={`py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     authMode === 'login'
-                      ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs font-black'
-                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+                      ? 'bg-emerald-600 text-white shadow-md font-black'
+                      : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <Lock className="w-3.5 h-3.5 text-blue-600" />
+                  <Lock className="w-3.5 h-3.5" />
                   <span>Login</span>
                 </button>
               </div>
@@ -1290,7 +1218,6 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
         </div>
       </div>
     </div>
-  </div>
   );
 };
 
