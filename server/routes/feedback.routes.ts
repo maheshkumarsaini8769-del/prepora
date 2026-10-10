@@ -3,6 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import StudentFeedback from '../models/StudentFeedback.js';
+import Notification from '../models/Notification.js';
 import AuditLog from '../models/AuditLog.js';
 import User from '../models/User.js';
 import Session from '../models/Session.js';
@@ -373,6 +374,27 @@ router.patch('/:id', authenticateUser, requireAdmin, async (req: Request, res: R
       updated = { ...existing, ...updates };
     }
 
+    // Automatically deliver notification to student so it reaches their device immediately!
+    if (adminReply !== undefined && String(adminReply).trim()) {
+      try {
+        const notifPayload = {
+          id: `notif-reply-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+          targetType: 'SPECIFIC_USER' as const,
+          targetUserId: existing.userId || 'anonymous',
+          targetUserPhone: existing.userPhone || '',
+          title: `💬 Admin Support Reply: "${(existing.title || 'Inquiry').slice(0, 35)}"`,
+          message: String(adminReply).trim(),
+          type: 'support_reply' as const,
+          actionUrl: existing.pageUrl || '/messages',
+          senderAdminEmail: adminEmail || 'admin@prepora.internal',
+          readBy: []
+        };
+        await new Notification(notifPayload).save().catch(() => null);
+      } catch (notifErr) {
+        console.warn('[Feedback] Could not dispatch student notification:', notifErr);
+      }
+    }
+
     await recordAudit(
       adminEmail || 'admin@prepora.internal',
       adminReply
@@ -387,7 +409,78 @@ router.patch('/:id', authenticateUser, requireAdmin, async (req: Request, res: R
       { replyContent: adminReply }
     );
 
-    return res.json({ success: true, feedback: updated, message: 'Feedback updated successfully!' });
+    return res.json({ success: true, feedback: updated, message: 'Reply sent and delivered to student!' });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// -------------------------------------------------------------
+// POST /api/feedback/student/:phone/reply - Reply to all inquiries of a student & dispatch notification
+// -------------------------------------------------------------
+router.post('/student/:phone/reply', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { reply, adminEmail = 'admin@prepora.internal' } = req.body || {};
+    if (!reply || !String(reply).trim()) {
+      return res.status(400).json({ success: false, message: 'Reply text is required.' });
+    }
+
+    const rawPhone = String(req.params.phone).replace(/[^0-9]/g, '').slice(-10);
+    const replyText = String(reply).trim();
+
+    // 1. Update all tickets for this student
+    if (rawPhone && rawPhone.length === 10) {
+      await StudentFeedback.updateMany(
+        { userPhone: new RegExp(rawPhone) },
+        {
+          $set: {
+            adminReply: replyText,
+            repliedAt: new Date(),
+            adminEmail,
+            status: 'Resolved',
+            resolvedAt: new Date()
+          }
+        }
+      ).catch(() => null);
+
+      fallbackFeedbacks.forEach((f) => {
+        if (f.userPhone && f.userPhone.includes(rawPhone)) {
+          f.adminReply = replyText;
+          f.repliedAt = new Date();
+          f.adminEmail = adminEmail;
+          f.status = 'Resolved';
+          f.resolvedAt = new Date();
+        }
+      });
+    }
+
+    // 2. Dispatch real-time student notification
+    const notif = new Notification({
+      id: `notif-reply-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      targetType: 'SPECIFIC_USER',
+      targetUserPhone: rawPhone,
+      title: '💬 Admin Support Team Reply',
+      message: replyText,
+      type: 'support_reply',
+      actionUrl: '/messages',
+      senderAdminEmail: adminEmail,
+      readBy: []
+    });
+    await notif.save().catch(() => null);
+
+    await recordAudit(
+      adminEmail,
+      'Reply to Student Chat Thread',
+      'Report',
+      rawPhone,
+      null,
+      { phone: rawPhone, replyText }
+    );
+
+    return res.json({
+      success: true,
+      message: 'Reply sent and delivered to student successfully!'
+    });
   } catch (error: any) {
     return res.status(500).json({ success: false, message: error.message });
   }

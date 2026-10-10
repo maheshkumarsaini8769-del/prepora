@@ -563,6 +563,24 @@ class MockUserService {
     if (item) {
       item.isRead = true;
       setStorageItem(StorageKeys.NOTIFICATIONS, list);
+
+      // Save locally in read map
+      const readMap = getStorageItem<Record<string, boolean>>('prepora_server_notif_read_map', {});
+      readMap[id] = true;
+      setStorageItem('prepora_server_notif_read_map', readMap);
+
+      // Sync read status with server
+      try {
+        const profile = this.getProfile();
+        fetch(`/api/notifications/${id}/read`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: profile.id, phone: profile.phone || profile.mobile })
+        }).catch(() => null);
+      } catch {
+        // ignore
+      }
+
       window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
     }
   }
@@ -570,7 +588,63 @@ class MockUserService {
   public markAllNotificationsAsRead(): void {
     const list = this.getNotifications().map(n => ({ ...n, isRead: true }));
     setStorageItem(StorageKeys.NOTIFICATIONS, list);
+    const readMap = getStorageItem<Record<string, boolean>>('prepora_server_notif_read_map', {});
+    list.forEach(n => { readMap[n.id] = true; });
+    setStorageItem('prepora_server_notif_read_map', readMap);
     window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
+  }
+
+  /**
+   * Sync real-time notifications sent by Admin (Broadcasts and Direct Replies) from backend
+   */
+  public async syncServerNotifications(): Promise<void> {
+    try {
+      const profile = this.getProfile();
+      const phone = profile.phone || profile.mobile || (typeof localStorage !== 'undefined' ? localStorage.getItem('prepora_user_phone') : '') || '';
+      const userId = profile.id || 'anonymous';
+
+      const url = `/api/notifications?userId=${encodeURIComponent(userId)}&phone=${encodeURIComponent(phone)}`;
+      const res = await fetch(url);
+      if (!res.ok) return;
+      const data = await res.json();
+      if (!data.success || !Array.isArray(data.notifications)) return;
+
+      const localList = this.getNotifications();
+      const existingIds = new Set(localList.map((n) => n.id));
+      let changed = false;
+
+      const readMap = getStorageItem<Record<string, boolean>>('prepora_server_notif_read_map', {});
+
+      for (const serverNotif of data.notifications) {
+        if (!existingIds.has(serverNotif.id)) {
+          localList.unshift({
+            id: serverNotif.id,
+            title: serverNotif.title,
+            message: serverNotif.message,
+            timestamp: serverNotif.timestamp || 'Recent',
+            isRead: Boolean(serverNotif.isRead || readMap[serverNotif.id]),
+            type: serverNotif.type || 'announcement',
+            actionUrl: serverNotif.actionUrl
+          });
+          changed = true;
+        } else {
+          const localItem = localList.find((n) => n.id === serverNotif.id);
+          if (localItem && !localItem.isRead && (serverNotif.isRead || readMap[serverNotif.id])) {
+            localItem.isRead = true;
+            changed = true;
+          }
+        }
+      }
+
+      if (changed) {
+        setStorageItem(StorageKeys.NOTIFICATIONS, localList);
+        if (typeof window !== 'undefined') {
+          window.dispatchEvent(new CustomEvent('prepora:notifications_updated'));
+        }
+      }
+    } catch {
+      // Non-fatal background sync
+    }
   }
 
   public deleteNotification(id: string): void {

@@ -100,7 +100,17 @@ export const MainLayout: React.FC = () => {
       setUnreadCount(userService.getNotifications().filter(n => !n.isRead).length);
     };
     window.addEventListener('prepora:notifications_updated', handleNotifsUpdate);
-    return () => window.removeEventListener('prepora:notifications_updated', handleNotifsUpdate);
+
+    // Sync real-time notifications sent from Admin
+    userService.syncServerNotifications();
+    const syncTimer = setInterval(() => {
+      userService.syncServerNotifications();
+    }, 25000);
+
+    return () => {
+      window.removeEventListener('prepora:notifications_updated', handleNotifsUpdate);
+      clearInterval(syncTimer);
+    };
   }, []);
 
   const [dailyGoalCelebration, setDailyGoalCelebration] = useState<{ open: boolean; goal: number; exam: string } | null>(null);
