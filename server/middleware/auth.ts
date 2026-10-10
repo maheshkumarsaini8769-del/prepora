@@ -79,14 +79,24 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
     }
 
     if (session.isRevoked || session.status === 'REVOKED') {
-      const isAnotherDevice = session?.revocationReason === 'NEW_LOGIN_ON_OTHER_DEVICE' || session?.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE';
+      const isAnotherDevice = session?.revocationReason === 'NEW_LOGIN_ON_OTHER_DEVICE' || session?.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE' || session?.revocationReason === 'MAX_DEVICES_EXCEEDED';
       const isUserLogout = session?.revocationReason === 'USER_LOGOUT';
       return res.status(401).json({
         success: false,
         code: isAnotherDevice ? 'SESSION_REVOKED_ANOTHER_DEVICE' : isUserLogout ? 'USER_LOGGED_OUT' : 'SESSION_REVOKED',
         message: isAnotherDevice
-          ? 'Your account was signed in on another device.'
+          ? 'Your account was signed in on another device. You have been logged out.'
           : 'Session has ended.'
+      });
+    }
+
+    // Verify student single active session against user.currentSessionId
+    const isOwnerAdmin = user.role === 'admin' || user.email === 'maheshkumarsaini8769@gmail.com' || user.phone === '7742735762';
+    if (!isOwnerAdmin && user.currentSessionId && decoded.sessionId && user.currentSessionId !== decoded.sessionId) {
+      return res.status(401).json({
+        success: false,
+        code: 'SESSION_REVOKED_ANOTHER_DEVICE',
+        message: 'Your account was signed in on another device. You have been logged out.'
       });
     }
 

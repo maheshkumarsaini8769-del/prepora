@@ -67,23 +67,45 @@ async function createSingleActiveSession(user: { id: string; studentId?: string;
     matchOr.push({ mobile: phone });
   }
 
-  // Allow up to 5 concurrent active sessions (phone, laptop, tablet).
-  // If user exceeds 5 devices, gracefully prune only the oldest inactive session.
-  const activeSessions = await Session.find({ $or: matchOr, isRevoked: false }).sort({ lastActive: 1 });
-  if (activeSessions.length >= 5) {
-    const toRevoke = activeSessions.slice(0, activeSessions.length - 4);
-    const revokeIds = toRevoke.map((s) => s._id);
+  // Admin owner bypass (allows simultaneous admin sessions across dev tools)
+  const isOwnerAdmin =
+    user.role === 'admin' ||
+    user.email === 'maheshkumarsaini8769@gmail.com' ||
+    phone === '7742735762';
+
+  if (!isOwnerAdmin) {
+    // For students: Strict Single Active Session Enforcement!
+    // When a student logs in on any new device (mobile or laptop), revoke ALL previous active sessions immediately
+    // so the other device is logged out automatically.
     await Session.updateMany(
-      { _id: { $in: revokeIds } },
+      { $or: matchOr, isRevoked: false },
       {
         $set: {
           isRevoked: true,
           status: 'REVOKED',
           revokedAt: now,
-          revocationReason: 'MAX_DEVICES_EXCEEDED'
+          revocationReason: 'LOGGED_IN_ON_ANOTHER_DEVICE'
         }
       }
     );
+  } else {
+    // For admin owner: allow up to 5 concurrent sessions
+    const activeSessions = await Session.find({ $or: matchOr, isRevoked: false }).sort({ lastActive: 1 });
+    if (activeSessions.length >= 5) {
+      const toRevoke = activeSessions.slice(0, activeSessions.length - 4);
+      const revokeIds = toRevoke.map((s) => s._id);
+      await Session.updateMany(
+        { _id: { $in: revokeIds } },
+        {
+          $set: {
+            isRevoked: true,
+            status: 'REVOKED',
+            revokedAt: now,
+            revocationReason: 'MAX_DEVICES_EXCEEDED'
+          }
+        }
+      );
+    }
   }
 
   const sessionId = `sess-${Date.now()}-${randomBytes(4).toString('hex')}`;
@@ -1072,9 +1094,10 @@ router.post('/revoke-session', authenticateUser, async (req: AuthRequest, res: R
 // POST /api/auth/logout-other-devices - Revoke all other sessions
 router.post('/logout-other-devices', authenticateUser, async (req: AuthRequest, res: Response) => {
   try {
+    const now = new Date();
     await Session.updateMany(
       { userId: req.user!.id, token: { $ne: hashToken(req.token!) }, isRevoked: false },
-      { $set: { isRevoked: true } }
+      { $set: { isRevoked: true, status: 'REVOKED', revokedAt: now, revocationReason: 'LOGGED_IN_ON_ANOTHER_DEVICE' } }
     );
 
     res.json({ success: true, message: 'Logged out from all other devices.' });
