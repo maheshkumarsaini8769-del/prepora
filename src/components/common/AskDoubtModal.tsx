@@ -59,7 +59,8 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
         sub,
         ch,
         { 
-          contextSnippet: questionContext?.question
+          contextSnippet: questionContext?.question,
+          aiMode: 'doubt_solver'
         }
       );
       setAiSolution(solution);
@@ -286,8 +287,11 @@ export const AskDoubtModal: React.FC<AskDoubtModalProps> = ({
                   </div>
                 )}
 
-                {/* Steps with MathRenderer */}
-                {aiSolution.stepByStepSolution && aiSolution.stepByStepSolution.length > 0 && (
+                {/* Steps with MathRenderer (only if distinct from answer) */}
+                {aiSolution.stepByStepSolution && 
+                 aiSolution.stepByStepSolution.length > 0 && 
+                 aiSolution.stepByStepSolution[0] !== aiSolution.answer && 
+                 (!aiSolution.answer || !aiSolution.answer.includes(aiSolution.stepByStepSolution[0])) && (
                   <div className="space-y-1.5">
                     <span className="text-[11px] font-bold text-slate-700 dark:text-slate-200 uppercase tracking-wider block">
                       Derivation & Solution Steps:

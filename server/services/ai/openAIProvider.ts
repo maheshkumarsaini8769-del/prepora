@@ -249,13 +249,14 @@ export class OpenAIProvider implements IAIProvider {
         understanding,
         verificationPassed: true,
         groundedInPrepora: Boolean(contextSnippet),
-        retrievedPreporaContext: contextSnippet ? contextSnippet.slice(0, 300) : undefined,
-        suggestedFollowUps: [
-          'Give step-by-step example',
-          'Explain simpler',
-          'Show governing formulas',
-          'Test me on this'
-        ],
+        suggestedFollowUps: (Array.isArray(parsed.suggestedFollowUps) && parsed.suggestedFollowUps.length > 0)
+          ? parsed.suggestedFollowUps.filter((f: any) => typeof f === 'string' && f.trim().length > 0)
+          : [
+              'Give step-by-step example',
+              'Explain simpler',
+              'Show governing formulas',
+              'Test me on this'
+            ],
         suggestedPractice: {
           subject: understanding.subject,
           chapter: understanding.chapter || req.chapter || 'General',

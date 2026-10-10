@@ -26,7 +26,7 @@ const SUBJECT_KEYWORDS: Record<EducationalSubject, { terms: string[]; chapters: 
       'diffraction', 'electrostatics', 'coulomb', 'electric field', 'potential', 'capacitance',
       'current', 'resistor', 'ohm', 'kirchhoff', 'magnetic field', 'lorentz', 'biot-savart',
       'faraday', 'lenz', 'inductance', 'ac circuit', 'semiconductor', 'diode', 'transistor',
-      'photoelectric', 'bohr model', 'de broglie', 'debrolie', 'debrolige', 'matter wave', 'matter waves',
+      'photoelectric', 'bohr model', 'atom', 'atoms', 'atomic structure', 'de broglie', 'debrolie', 'debrolige', 'matter wave', 'matter waves',
       'wavelength of electron', 'dual nature', 'nuclear physics', 'radioactivity'
     ],
     chapters: {
@@ -37,11 +37,13 @@ const SUBJECT_KEYWORDS: Record<EducationalSubject, { terms: string[]; chapters: 
       'Current Electricity': ['current', 'resistor', 'resistance', 'ohm\'s law', 'kirchhoff', 'wheatstone', 'potentiometer', 'drift velocity'],
       'Ray Optics': ['refraction', 'reflection', 'lens formula', 'mirror formula', 'focal length', 'prism', 'total internal reflection'],
       'Electrostatics': ['electric field', 'coulomb\'s law', 'electrostatic potential', 'capacitance', 'gauss law'],
-      'Dual Nature of Radiation and Matter': ['de broglie', 'debrolie', 'debrolige', 'matter wave', 'matter waves', 'wavelength of electron', 'photoelectric effect', 'work function']
+      'Dual Nature of Radiation and Matter': ['de broglie', 'debrolie', 'debrolige', 'matter wave', 'matter waves', 'wavelength of electron', 'photoelectric effect', 'work function'],
+      'Atoms': ['atom', 'atoms', 'bohr model', 'rutherford', 'hydrogen spectrum', 'energy levels']
     }
   },
   Chemistry: {
     terms: [
+      'atom', 'atoms', 'structure of atom', 'subatomic', 'proton', 'neutron', 'electron',
       'mole', 'molarity', 'molality', 'stoichiometry', 'orbital', 'quantum number', 'hybridization',
       'periodic table', 'electronegativity', 'ionization energy', 'chemical bonding', 'lewis',
       'equilibrium', 'le chatelier', 'ph', 'acid', 'base', 'buffer', 'redox', 'oxidation state',
@@ -53,6 +55,7 @@ const SUBJECT_KEYWORDS: Record<EducationalSubject, { terms: string[]; chapters: 
     ],
     chapters: {
       'Some Basic Concepts of Chemistry': ['mole concept', 'molarity', 'molality', 'empirical formula', 'stoichiometry'],
+      'Structure of Atom': ['atom', 'atoms', 'structure of atom', 'subatomic', 'protons', 'neutrons', 'electrons', 'quantum numbers', 'aufbau'],
       'Chemical Bonding': ['hybridization', 'vsepr', 'lewis structure', 'dipole moment', 'hydrogen bond', 'molecular orbital'],
       'Thermodynamics': ['enthalpy', 'entropy', 'gibbs free energy', 'hess law', 'first law of thermodynamics'],
       'Equilibrium': ['chemical equilibrium', 'le chatelier', 'kc', 'kp', 'ionic equilibrium', 'ph calculation', 'solubility product'],
@@ -179,8 +182,10 @@ export function analyzeQuestionUnderstanding(
     }
   }
 
-  // If ambiguous but selected subject matches one of the candidates with positive score, trust user
-  if (maxScore < 4 && selectedSubject && ['Physics', 'Chemistry', 'Mathematics', 'Biology'].includes(selectedSubject)) {
+  // If ambiguous or tied with selected subject (e.g. Atom/Thermodynamics shared in Physics and Chemistry), trust user's active subject
+  if (selectedSubject && scores[selectedSubject as EducationalSubject] && scores[selectedSubject as EducationalSubject] >= maxScore - 2) {
+    detectedSubject = selectedSubject as EducationalSubject;
+  } else if (maxScore < 4 && selectedSubject && ['Physics', 'Chemistry', 'Mathematics', 'Biology'].includes(selectedSubject)) {
     detectedSubject = selectedSubject as EducationalSubject;
   } else if (maxScore === 0) {
     // Default to selected if valid, otherwise Physics

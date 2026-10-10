@@ -41,6 +41,8 @@ export async function runCentralQualityPipeline(
     output.coreConcept === 'Language Preference: English';
 
   if (isConversational) {
+    output.keyFormula = undefined;
+    output.stepByStepSolution = [];
     return {
       result: output,
       report: {

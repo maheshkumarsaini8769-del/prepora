@@ -214,13 +214,15 @@ export class GroqProvider implements IAIProvider {
       verificationPassed: true,
       groundedInPrepora: Boolean(contextSnippet),
       retrievedPreporaContext: contextSnippet ? contextSnippet.slice(0, 120) + '...' : undefined,
-      suggestedFollowUps: [
-        'Explain simpler',
-        'Give real-life example',
-        'Step-by-step derivation',
-        'Why does this happen?',
-        'Test me on this'
-      ],
+      suggestedFollowUps: (Array.isArray(parsed.suggestedFollowUps) && parsed.suggestedFollowUps.length > 0)
+        ? parsed.suggestedFollowUps.filter((f: any) => typeof f === 'string' && f.trim().length > 0)
+        : [
+            'Explain simpler',
+            'Give real-life example',
+            'Step-by-step derivation',
+            'Why does this happen?',
+            'Test me on this'
+          ],
       suggestedPractice: {
         subject: understanding.subject,
         chapter: understanding.chapter || 'Core Chapter',
