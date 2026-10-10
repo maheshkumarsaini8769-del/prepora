@@ -337,9 +337,9 @@ export const SmartRevision: React.FC = () => {
   // 3. Count missed chapters to show in cross-link
   const missedChaptersCount = useMemo(() => {
     const examPrefix = user.targetExam === 'NEET' ? 'NEET' : user.targetExam === 'CBSE' ? 'CBSE' : user.targetExam === 'RBSE' ? 'RBSE' : 'JEE';
-    const sum = syllabusService.getMasterySummary(examPrefix);
+    const sum = syllabusService.getMasterySummary(examPrefix, user.classLevel === '11' ? '11' : undefined);
     return Math.max(0, sum.totalChapters - sum.practicedChapters);
-  }, [user.targetExam]);
+  }, [user.targetExam, user.classLevel]);
 
   // Filter dynamic items by subject
   const filteredRevisionItems = useMemo(() => {
