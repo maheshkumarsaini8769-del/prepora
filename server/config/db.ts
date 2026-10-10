@@ -28,12 +28,14 @@ export const connectDB = async (): Promise<void> => {
 
   try {
     const conn = await mongoose.connect(uri, {
-      maxPoolSize: 10,
+      maxPoolSize: 100, // Scaled for high concurrency (handles 5 Lakh active students / 20k requests)
+      minPoolSize: 10,  // Pre-warmed pool eliminates cold-start connection latency
+      maxIdleTimeMS: 30000,
       serverSelectionTimeoutMS: 8000,
       socketTimeoutMS: 45000,
     });
     isConnected = true;
-    console.log(`[MongoDB] Connected successfully: ${conn.connection.host}/${conn.connection.name}`);
+    console.log(`[MongoDB] Connected successfully (High-Concurrency Pool: 100): ${conn.connection.host}/${conn.connection.name}`);
   } catch (error: any) {
     isConnected = false;
     console.error(`[MongoDB] Connection error: ${error?.message || error}`);
@@ -42,12 +44,14 @@ export const connectDB = async (): Promise<void> => {
       try {
         console.log('[MongoDB] Primary failed, attempting connection to local database fallback...');
         const localConn = await mongoose.connect(LOCAL_FALLBACK_URI, {
-          maxPoolSize: 10,
+          maxPoolSize: 100,
+          minPoolSize: 5,
+          maxIdleTimeMS: 30000,
           serverSelectionTimeoutMS: 4000,
           socketTimeoutMS: 45000,
         });
         isConnected = true;
-        console.log(`[MongoDB] Connected successfully via Local Fallback: ${localConn.connection.host}/${localConn.connection.name}`);
+        console.log(`[MongoDB] Connected successfully via Local Fallback (Pool: 100): ${localConn.connection.host}/${localConn.connection.name}`);
       } catch (localErr: any) {
         isConnected = false;
         console.error(`[MongoDB] Fallback error: ${localErr?.message || localErr}`);

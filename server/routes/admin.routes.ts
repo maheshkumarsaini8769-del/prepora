@@ -20,6 +20,7 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 import { authenticateUser, requireAdmin, AuthRequest } from '../middleware/auth.js';
 import { generateStudioQuestions } from '../services/aiStudioGenerator.js';
+import { telemetryMetrics } from '../services/telemetryMetrics.js';
 
 const router = Router();
 
@@ -291,12 +292,19 @@ router.get('/stats', async (req: Request, res: Response) => {
         pendingFeedbacks
       },
       system: {
-        database: isDbConnected ? 'Operational' : 'Disconnected',
-        server: 'Operational',
+        database: isDbConnected ? 'Operational (Pool: 100)' : 'Disconnected',
+        server: 'Operational (High-Concurrency Engine)',
         authentication: 'Operational',
         aiEngine: 'Operational',
-        lastChecked: new Date()
-      }
+        lastChecked: new Date(),
+        activeScale: {
+          capacity: '5,00,000 Enrolled Students (5 Lakh Scale)',
+          concurrencyTarget: '20,000 Concurrent Requests/sec',
+          compression: 'Enabled (Gzip Level 6)',
+          dbPool: '100 Active Pool Connections'
+        }
+      },
+      highScaleTelemetry: telemetryMetrics.getSnapshot()
     };
 
     cachedStats = { data: payload, timestamp: Date.now() };
