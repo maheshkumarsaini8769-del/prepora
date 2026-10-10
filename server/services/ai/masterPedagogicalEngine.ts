@@ -56,7 +56,7 @@ export function isGratitudeMessage(query: string): boolean {
 }
 
 export function isLanguageSwitchQuery(query: string): { requestedLanguage: 'english' | 'hinglish' } | null {
-  if (!query) return false;
+  if (!query) return null;
   const q = query.toLowerCase().trim();
   if (/\b(explain in english|in english|only english|speak in english|english please|english me|english mein)\b/i.test(q)) {
     return { requestedLanguage: 'english' };
