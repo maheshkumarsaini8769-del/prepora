@@ -421,7 +421,7 @@ export const StudyPlanner: React.FC = () => {
 
   const getTaskAction = (t: PlannerTask) => {
     if (t.actionUrl) {
-      if (t.taskType === 'Concept') return { url: t.actionUrl, label: 'Read Notes', icon: '📖' };
+      if (t.taskType === 'Concept') return { url: t.actionUrl, label: 'Watch Lecture', icon: '▶' };
       if (t.taskType === 'Formula') return { url: t.actionUrl, label: 'Formula Sheet', icon: '⚡' };
       if (t.taskType === 'Test') return { url: t.actionUrl, label: 'Take Test', icon: '🎯' };
       if (t.taskType === 'Revision') return { url: t.actionUrl, label: 'Revise Doubts', icon: '🔄' };
@@ -429,9 +429,9 @@ export const StudyPlanner: React.FC = () => {
     }
     if (t.taskType === 'Concept') {
       return {
-        url: `/study-hub?subject=${encodeURIComponent(t.subject)}&chapter=${encodeURIComponent(t.chapter)}`,
-        label: 'Read Notes',
-        icon: '📖'
+        url: `/lectures?subject=${encodeURIComponent(t.subject)}&chapter=${encodeURIComponent(t.chapter)}&autoplay=true`,
+        label: 'Watch Lecture',
+        icon: '▶'
       };
     }
     if (t.taskType === 'Formula') {
@@ -444,8 +444,8 @@ export const StudyPlanner: React.FC = () => {
       return { url: '/mistakes', label: 'Revise Mistakes', icon: '🔄' };
     }
     return {
-      url: `/practice?subject=${encodeURIComponent(t.subject)}&chapter=${encodeURIComponent(t.chapter)}`,
-      label: 'Practice Qs',
+      url: `/practice/session?subject=${encodeURIComponent(t.subject)}&chapter=${encodeURIComponent(t.chapter)}&count=15`,
+      label: 'Practice Qs (15Q)',
       icon: '✍️'
     };
   };
@@ -797,10 +797,16 @@ export const StudyPlanner: React.FC = () => {
                         <Button
                           size="sm"
                           variant="outline"
-                          onClick={() => navigate(`/lectures?search=${encodeURIComponent(top.topicName)}`)}
-                          className="text-[10px] py-1 px-2 font-bold text-blue-600 border-blue-200 hover:bg-blue-50 dark:border-blue-900"
+                          onClick={() =>
+                            navigate(
+                              `/lectures?subject=${encodeURIComponent(top.subject)}&chapter=${encodeURIComponent(
+                                top.chapterName
+                              )}&topic=${encodeURIComponent(top.topicName)}&mode=TOPIC_WISE&autoplay=true`
+                            )
+                          }
+                          className="text-[11px] py-1 px-2.5 font-bold text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 rounded-lg flex items-center gap-1 shadow-2xs"
                         >
-                          <Play className="w-3 h-3 mr-1 fill-blue-600 text-blue-600" />
+                          <Play className="w-3 h-3 fill-blue-600 text-blue-600 dark:fill-blue-400 dark:text-blue-400" />
                           <span>Watch</span>
                         </Button>
                       </div>
@@ -831,13 +837,14 @@ export const StudyPlanner: React.FC = () => {
                           variant="outline"
                           onClick={() =>
                             navigate(
-                              `/practice?subject=${encodeURIComponent(top.subject)}&chapter=${encodeURIComponent(
+                              `/practice/session?subject=${encodeURIComponent(top.subject)}&chapter=${encodeURIComponent(
                                 top.chapterName
-                              )}`
+                              )}&topic=${encodeURIComponent(top.topicName)}&count=15`
                             )
                           }
-                          className="text-[10px] py-1 px-2 font-bold text-emerald-600 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-900"
+                          className="text-[11px] py-1 px-2.5 font-bold text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-lg flex items-center gap-1 shadow-2xs"
                         >
+                          <BookOpen className="w-3 h-3" />
                           <span>Solve DPP</span>
                         </Button>
                       </div>
@@ -995,56 +1002,76 @@ export const StudyPlanner: React.FC = () => {
                             </p>
                           </div>
 
-                          <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 flex items-center justify-between gap-1 text-[11px]">
-                            {/* Lecture Check */}
-                            <button
-                              type="button"
-                              onClick={() => handleToggleLecture(day.date, t.subject, t.topicNumber)}
-                              className={`flex items-center gap-1 font-semibold cursor-pointer ${
-                                t.lectureCompleted ? 'text-emerald-600' : 'text-slate-500 hover:text-slate-800'
-                              }`}
-                            >
-                              <div
-                                className={`w-3.5 h-3.5 rounded border flex items-center justify-center ${
-                                  t.lectureCompleted ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 dark:border-slate-600'
+                          <div className="pt-2 border-t border-slate-200/60 dark:border-slate-800 space-y-1.5 text-[11px]">
+                            {/* Lecture Row */}
+                            <div className="flex items-center justify-between gap-1">
+                              <button
+                                type="button"
+                                onClick={() => handleToggleLecture(day.date, t.subject, t.topicNumber)}
+                                className={`flex items-center gap-1 font-semibold cursor-pointer ${
+                                  t.lectureCompleted ? 'text-emerald-600' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                                 }`}
                               >
-                                {t.lectureCompleted && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                              </div>
-                              <span>Lec ({t.lectureDurationMinutes}m)</span>
-                            </button>
+                                <div
+                                  className={`w-3.5 h-3.5 rounded border flex items-center justify-center ${
+                                    t.lectureCompleted ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 dark:border-slate-600'
+                                  }`}
+                                >
+                                  {t.lectureCompleted && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                                </div>
+                                <span>Lec ({t.lectureDurationMinutes}m)</span>
+                              </button>
 
-                            {/* DPP Check */}
-                            <button
-                              type="button"
-                              onClick={() => handleToggleDpp(day.date, t.subject, t.topicNumber)}
-                              className={`flex items-center gap-1 font-semibold cursor-pointer ${
-                                t.dppCompleted ? 'text-emerald-600' : 'text-slate-500 hover:text-slate-800'
-                              }`}
-                            >
-                              <div
-                                className={`w-3.5 h-3.5 rounded border flex items-center justify-center ${
-                                  t.dppCompleted ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 dark:border-slate-600'
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  navigate(
+                                    `/lectures?subject=${encodeURIComponent(t.subject)}&chapter=${encodeURIComponent(
+                                      t.chapterName
+                                    )}&topic=${encodeURIComponent(t.topicName)}&mode=TOPIC_WISE&autoplay=true`
+                                  )
+                                }
+                                className="text-blue-600 dark:text-blue-400 font-bold hover:underline flex items-center gap-0.5 text-[10px]"
+                              >
+                                <Play className="w-2.5 h-2.5 fill-current" />
+                                <span>Watch</span>
+                              </button>
+                            </div>
+
+                            {/* DPP Row */}
+                            <div className="flex items-center justify-between gap-1">
+                              <button
+                                type="button"
+                                onClick={() => handleToggleDpp(day.date, t.subject, t.topicNumber)}
+                                className={`flex items-center gap-1 font-semibold cursor-pointer ${
+                                  t.dppCompleted ? 'text-emerald-600' : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
                                 }`}
                               >
-                                {t.dppCompleted && <Check className="w-2.5 h-2.5 stroke-[3]" />}
-                              </div>
-                              <span>DPP (15Q)</span>
-                            </button>
+                                <div
+                                  className={`w-3.5 h-3.5 rounded border flex items-center justify-center ${
+                                    t.dppCompleted ? 'bg-emerald-600 border-emerald-600 text-white' : 'border-slate-300 dark:border-slate-600'
+                                  }`}
+                                >
+                                  {t.dppCompleted && <Check className="w-2.5 h-2.5 stroke-[3]" />}
+                                </div>
+                                <span>DPP ({t.dppQuestionCount}Q)</span>
+                              </button>
 
-                            <button
-                              type="button"
-                              onClick={() =>
-                                navigate(
-                                  `/practice?subject=${encodeURIComponent(t.subject)}&chapter=${encodeURIComponent(
-                                    t.chapterName
-                                  )}`
-                                )
-                              }
-                              className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline"
-                            >
-                              Solve
-                            </button>
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  navigate(
+                                    `/practice/session?subject=${encodeURIComponent(t.subject)}&chapter=${encodeURIComponent(
+                                      t.chapterName
+                                    )}&topic=${encodeURIComponent(t.topicName)}&count=15`
+                                  )
+                                }
+                                className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-0.5 text-[10px]"
+                              >
+                                <BookOpen className="w-2.5 h-2.5" />
+                                <span>Solve DPP</span>
+                              </button>
+                            </div>
                           </div>
                         </div>
                       ))}

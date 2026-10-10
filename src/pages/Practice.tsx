@@ -21,9 +21,9 @@ export const Practice: React.FC = () => {
   const rawSubject = (searchParams.get('subject') as SubjectName) || allowedSubjects[0];
   const [subject, setSubject] = useState<SubjectName>(sanitizeSubjectForExam(rawSubject, exam));
   const [chapter, setChapter] = useState<string>(searchParams.get('chapter') || 'All');
-  const [topic, setTopic] = useState<string>('All');
+  const [topic, setTopic] = useState<string>(searchParams.get('topic') || 'All');
   const [difficulty, setDifficulty] = useState<DifficultyLevel | 'All'>('All');
-  const [questionCount, setQuestionCount] = useState<number>(10);
+  const [questionCount, setQuestionCount] = useState<number>(parseInt(searchParams.get('count') || '15', 10));
   const [customCountInput, setCustomCountInput] = useState<string>('');
 
   // AI Underflow generation state (Section 9)
@@ -81,6 +81,14 @@ export const Practice: React.FC = () => {
     });
     navigate(`/practice/session?${params.toString()}`);
   };
+
+  // Auto-start if requested in URL
+  React.useEffect(() => {
+    if (searchParams.get('autoStart') === 'true') {
+      const cnt = parseInt(searchParams.get('count') || '15', 10);
+      handleStartPractice(cnt);
+    }
+  }, []);
 
   const handleGenerateMoreWithAI = async () => {
     const needed = Math.max(1, questionCount - matchingPool.length);

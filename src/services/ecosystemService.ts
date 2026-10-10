@@ -75,7 +75,7 @@ class MockEcosystemService {
         durationMinutes: 45,
         status: 'pending',
         type: 'lecture',
-        actionUrl: `/lectures?subject=Physics&chapter=${encodeURIComponent(physWeak.chapter)}`
+        actionUrl: `/lectures?subject=Physics&chapter=${encodeURIComponent(physWeak.chapter)}&autoplay=true`
       },
       {
         id: 'dp-p-dpp',
@@ -86,7 +86,7 @@ class MockEcosystemService {
         durationMinutes: 30,
         status: 'pending',
         type: 'practice',
-        actionUrl: `/practice?subject=Physics&chapter=${encodeURIComponent(physWeak.chapter)}`
+        actionUrl: `/practice/session?subject=Physics&chapter=${encodeURIComponent(physWeak.chapter)}&count=15`
       },
 
       // 2. CHEMISTRY: Topic Lecture + Immediate DPP Practice
@@ -99,7 +99,7 @@ class MockEcosystemService {
         durationMinutes: 45,
         status: 'pending',
         type: 'lecture',
-        actionUrl: `/lectures?subject=Chemistry&chapter=${encodeURIComponent(chemWeak.chapter)}`
+        actionUrl: `/lectures?subject=Chemistry&chapter=${encodeURIComponent(chemWeak.chapter)}&autoplay=true`
       },
       {
         id: 'dp-c-dpp',
@@ -110,7 +110,7 @@ class MockEcosystemService {
         durationMinutes: 30,
         status: 'pending',
         type: 'practice',
-        actionUrl: `/practice?subject=Chemistry&chapter=${encodeURIComponent(chemWeak.chapter)}`
+        actionUrl: `/practice/session?subject=Chemistry&chapter=${encodeURIComponent(chemWeak.chapter)}&count=15`
       },
 
       // 3. MATHS / BIOLOGY: Topic Lecture + Immediate DPP Practice
@@ -123,7 +123,7 @@ class MockEcosystemService {
         durationMinutes: 45,
         status: 'pending',
         type: 'lecture',
-        actionUrl: `/lectures?subject=${encodeURIComponent(thirdSub)}&chapter=${encodeURIComponent(thirdWeak.chapter)}`
+        actionUrl: `/lectures?subject=${encodeURIComponent(thirdSub)}&chapter=${encodeURIComponent(thirdWeak.chapter)}&autoplay=true`
       },
       {
         id: 'dp-m-dpp',
@@ -134,7 +134,7 @@ class MockEcosystemService {
         durationMinutes: 30,
         status: 'pending',
         type: 'practice',
-        actionUrl: `/practice?subject=${encodeURIComponent(thirdSub)}&chapter=${encodeURIComponent(thirdWeak.chapter)}`
+        actionUrl: `/practice/session?subject=${encodeURIComponent(thirdSub)}&chapter=${encodeURIComponent(thirdWeak.chapter)}&count=15`
       }
     ];
 

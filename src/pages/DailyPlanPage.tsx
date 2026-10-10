@@ -198,7 +198,9 @@ export const DailyPlanPage: React.FC = () => {
             ? '/tests'
             : newType === 'revision'
             ? '/revision'
-            : `/practice?subject=${newSubject}&chapter=${encodeURIComponent(newChapter.trim() || 'All')}`
+            : newType === 'lecture'
+            ? `/lectures?subject=${newSubject}&chapter=${encodeURIComponent(newChapter.trim() || 'All')}&autoplay=true`
+            : `/practice/session?subject=${newSubject}&chapter=${encodeURIComponent(newChapter.trim() || 'All')}&count=15`
       };
 
       const updated: DailyPlan = {
@@ -398,10 +400,16 @@ export const DailyPlanPage: React.FC = () => {
                     <Button
                       size="sm"
                       variant="outline"
-                      onClick={() => navigate(`/lectures?search=${encodeURIComponent(top.topicName)}`)}
-                      className="text-[10px] py-1 px-2 font-bold text-blue-600 border-blue-200 hover:bg-blue-50 dark:border-blue-900"
+                      onClick={() =>
+                        navigate(
+                          `/lectures?subject=${encodeURIComponent(top.subject)}&chapter=${encodeURIComponent(
+                            top.chapterName
+                          )}&topic=${encodeURIComponent(top.topicName)}&mode=TOPIC_WISE&autoplay=true`
+                        )
+                      }
+                      className="text-[11px] py-1 px-2.5 font-bold text-blue-600 dark:text-blue-400 border-blue-200 dark:border-blue-800 hover:bg-blue-50 dark:hover:bg-blue-950/40 rounded-lg flex items-center gap-1 shadow-2xs"
                     >
-                      <Play className="w-3 h-3 mr-1 fill-blue-600 text-blue-600" />
+                      <Play className="w-3 h-3 fill-blue-600 text-blue-600 dark:fill-blue-400 dark:text-blue-400" />
                       <span>Watch</span>
                     </Button>
                   </div>
@@ -431,13 +439,14 @@ export const DailyPlanPage: React.FC = () => {
                       variant="outline"
                       onClick={() =>
                         navigate(
-                          `/practice?subject=${encodeURIComponent(top.subject)}&chapter=${encodeURIComponent(
+                          `/practice/session?subject=${encodeURIComponent(top.subject)}&chapter=${encodeURIComponent(
                             top.chapterName
-                          )}`
+                          )}&topic=${encodeURIComponent(top.topicName)}&count=15`
                         )
                       }
-                      className="text-[10px] py-1 px-2 font-bold text-emerald-600 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-900"
+                      className="text-[11px] py-1 px-2.5 font-bold text-emerald-600 dark:text-emerald-400 border-emerald-200 dark:border-emerald-800 hover:bg-emerald-50 dark:hover:bg-emerald-950/40 rounded-lg flex items-center gap-1 shadow-2xs"
                     >
+                      <BookOpen className="w-3 h-3" />
                       <span>Solve DPP</span>
                     </Button>
                   </div>

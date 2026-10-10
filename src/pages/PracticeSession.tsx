@@ -319,7 +319,7 @@ export const PracticeSession: React.FC = () => {
     <div className="max-w-3xl mx-auto space-y-5 animate-in fade-in duration-200">
       {/* Top Header Controls */}
       <div className="flex items-center justify-between">
-        <Button variant="ghost" size="sm" onClick={() => navigate('/practice')}>
+        <Button variant="ghost" size="sm" onClick={() => (window.history.length > 1 ? navigate(-1) : navigate('/practice'))}>
           <ArrowLeft className="w-4 h-4" /> Exit Practice
         </Button>
 

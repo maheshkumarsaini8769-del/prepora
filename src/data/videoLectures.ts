@@ -1,6 +1,7 @@
 import { comprehensiveFormulaNotes } from './comprehensiveFormulaNotes';
 import { COMPREHENSIVE_TOPIC_VIDEOS } from './topicVideosData';
 import { getChapterOrderInfo } from '../utils/chapterOrder';
+import { matchesChapterCanonical } from '../services/questionService';
 
 export interface VideoResource {
   id: string;
@@ -3161,61 +3162,55 @@ export function getVideoForTopic(
   const normTop = normalizeString(topicName);
   const normSub = normalizeString(subjectName);
 
-  // 1. Direct match: Exact or fuzzy match on both chapter and topic
-  const directMatch = TOPIC_VIDEOS.find((tv) => {
+  // 1. Gather all topic videos that belong to the SAME chapter and SAME subject
+  const chapterVideos = TOPIC_VIDEOS.filter((tv) => {
+    if (tv.subject && normalizeString(tv.subject) !== normSub) return false;
     const tvChap = normalizeString(tv.chapter);
-    const tvTop = normalizeString(tv.topic || '');
     return (
-      (tvChap === normChap || tvChap.includes(normChap) || normChap.includes(tvChap)) &&
-      (tvTop === normTop || tvTop.includes(normTop) || normTop.includes(tvTop))
+      tvChap === normChap ||
+      tvChap.includes(normChap) ||
+      normChap.includes(tvChap) ||
+      matchesChapterCanonical(tv.chapter, chapterName, subjectName)
     );
   });
-  if (directMatch) return directMatch;
 
-  // 2. Chapter match: Any topic video in the same chapter if key topic words match
-  const topWords = normTop.split(/[^a-z0-9]+/).filter((w) => w.length >= 4);
-  const chapMatch = TOPIC_VIDEOS.find((tv) => {
-    const tvChap = normalizeString(tv.chapter);
-    const tvTop = normalizeString(tv.topic || '');
-    if (!(tvChap === normChap || tvChap.includes(normChap) || normChap.includes(tvChap))) return false;
-    return topWords.some((w) => tvTop.includes(w));
-  });
-  if (chapMatch) return chapMatch;
-
-  // 3. Subject-wide topic match: Find matching topic anywhere across the same subject
-  const subjectTopicMatch = TOPIC_VIDEOS.find((tv) => {
-    if (normalizeString(tv.subject) !== normSub) return false;
-    const tvTop = normalizeString(tv.topic || '');
-    return tvTop === normTop || tvTop.includes(normTop) || normTop.includes(tvTop);
-  });
-  if (subjectTopicMatch) return subjectTopicMatch;
-
-  // 4. Keyword match across the same subject
-  if (topWords.length > 0) {
-    const keywordMatch = TOPIC_VIDEOS.find((tv) => {
-      if (normalizeString(tv.subject) !== normSub) return false;
+  if (chapterVideos.length > 0) {
+    // 1a. Exact or substring topic match within this specific chapter
+    const directMatch = chapterVideos.find((tv) => {
       const tvTop = normalizeString(tv.topic || '');
-      return topWords.some((w) => tvTop.includes(w));
+      return tvTop === normTop || tvTop.includes(normTop) || normTop.includes(tvTop);
     });
-    if (keywordMatch) return keywordMatch;
-  }
+    if (directMatch) return directMatch;
 
-  // 5. Match any topic video from the same chapter (distinct from whole chapter one-shot)
-  const sameChapterTopic = TOPIC_VIDEOS.find((tv) => {
-    const tvChap = normalizeString(tv.chapter);
-    return tvChap === normChap || tvChap.includes(normChap) || normChap.includes(tvChap);
-  });
-  if (sameChapterTopic) {
+    // 1b. Word overlap match within this specific chapter
+    const topWords = normTop.split(/[^a-z0-9]+/).filter((w) => w.length >= 4);
+    if (topWords.length > 0) {
+      const scored = chapterVideos.map((tv) => {
+        const text = `${normalizeString(tv.topic || '')} ${normalizeString(tv.title || '')}`;
+        let score = 0;
+        for (const w of topWords) {
+          if (text.includes(w)) score += 2;
+        }
+        return { tv, score };
+      });
+      scored.sort((a, b) => b.score - a.score);
+      if (scored[0].score > 0) {
+        return scored[0].tv;
+      }
+    }
+
+    // 1c. If no specific micro-topic matched, pick the primary topic video from this same chapter
+    const primaryChapVid = chapterVideos[0];
     const cleanId = `top-${(subjectName || 'gen').toLowerCase()}-${normChap.slice(0, 15)}-${normTop.slice(0, 15)}`.replace(/\s+/g, '-');
     return {
-      ...sameChapterTopic,
+      ...primaryChapVid,
       id: cleanId,
       topic: topicName,
-      title: `${topicName} — Focused Concept Lecture (${sameChapterTopic.channelName})`
+      title: `${topicName} — Focused Concept Lecture (${primaryChapVid.channelName})`
     };
   }
 
-  // 6. Ultimate fallback if completely unmatched: Return parent video with topic tag and 45m duration
+  // 2. Ultimate fallback: Return parent chapter video tagged with this topic and 45m duration
   const parentVid = getChapterVideo(chapterName, subjectName);
   const cleanId = `top-${(subjectName || 'gen').toLowerCase()}-${normChap.slice(0, 15)}-${normTop.slice(0, 15)}`.replace(/\s+/g, '-');
   return {

@@ -1338,7 +1338,7 @@ export const FormulaNotesHub: React.FC = () => {
                           <button
                             type="button"
                             onClick={() => {
-                              navigate(`/practice?subject=${encodeURIComponent(topicItem.subject)}&chapter=${encodeURIComponent(topicItem.chapter)}`);
+                              navigate(`/practice/session?subject=${encodeURIComponent(topicItem.subject)}&chapter=${encodeURIComponent(topicItem.chapter)}&topic=${encodeURIComponent(topicItem.topic)}&count=15`);
                             }}
                             className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center gap-1.5 transition cursor-pointer text-xs"
                           >
@@ -1779,7 +1779,7 @@ export const FormulaNotesHub: React.FC = () => {
                                   <button
                                     type="button"
                                     onClick={() => {
-                                      navigate(`/practice?subject=${encodeURIComponent(item.subject)}&chapter=${encodeURIComponent(item.chapter)}`);
+                                      navigate(`/practice/session?subject=${encodeURIComponent(item.subject)}&chapter=${encodeURIComponent(item.chapter)}&topic=${encodeURIComponent(item.topic)}&count=15`);
                                     }}
                                     className="px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold flex items-center gap-1.5 transition cursor-pointer text-xs"
                                   >

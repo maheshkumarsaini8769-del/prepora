@@ -107,6 +107,7 @@ export const VideoLecturesPage: React.FC = () => {
 
   // Sync state if URL query param changes
   useEffect(() => {
+    let effectiveSub: SubjectName | 'All' = selectedSubject;
     const sub = searchParams.get('subject') as string | null;
     if (sub) {
       const lower = sub.toLowerCase();
@@ -117,11 +118,25 @@ export const VideoLecturesPage: React.FC = () => {
       else if (lower.includes('bio')) matchedSub = 'Biology';
       if (matchedSub !== 'All') {
         setSelectedSubject(matchedSub);
+        effectiveSub = matchedSub;
       }
     }
     const chap = searchParams.get('chapter');
     if (chap) {
       setSelectedChapter(chap);
+    }
+    const topicParam = searchParams.get('topic');
+    if (topicParam) {
+      setSelectedTopic(topicParam);
+      setLectureMode('TOPIC_WISE');
+    }
+    const modeParam = searchParams.get('mode');
+    if (modeParam === 'TOPIC_WISE' || modeParam === 'FULL_CHAPTER') {
+      setLectureMode(modeParam);
+    }
+    const searchP = searchParams.get('search');
+    if (searchP) {
+      setSearchQuery(searchP);
     }
     const cls = searchParams.get('class');
     if (cls && (cls === '11' || cls === '12' || cls === 'All')) {
@@ -132,6 +147,21 @@ export const VideoLecturesPage: React.FC = () => {
       const normEx = ex === 'NEET_UG' ? 'NEET' : ex.startsWith('JEE') ? 'JEE' : ex === 'CBSE' ? 'CBSE' : ex;
       if (normEx === 'JEE' || normEx === 'NEET' || normEx === 'CBSE' || normEx === 'All') {
         setSelectedExam(normEx as any);
+      }
+    }
+
+    const autoplay = searchParams.get('autoplay') === 'true' || Boolean(topicParam);
+    if (autoplay && (chap || topicParam)) {
+      const targetChap = chap || 'General';
+      const targetSub = effectiveSub !== 'All' ? effectiveSub : (sub ? (sub as any) : 'Physics');
+      let videoToPlay: VideoResource | null = null;
+      if (topicParam) {
+        videoToPlay = getVideoForTopic(targetChap, topicParam, targetSub);
+      } else if (chap) {
+        videoToPlay = getChapterVideo(targetChap, targetSub);
+      }
+      if (videoToPlay) {
+        setActiveVideo(videoToPlay);
       }
     }
   }, [searchParams]);
@@ -177,36 +207,47 @@ export const VideoLecturesPage: React.FC = () => {
 
   // Available topics for currently selected chapter
   const availableTopics = useMemo(() => {
+    let list: string[] = [];
     if (selectedChapter === 'All') {
       // If all chapters are shown and in topic-wise mode, collect distinct topics
       const topicVids = allVideos.filter(v => v.isTopicWise && v.topic);
-      return Array.from(new Set(topicVids.map(v => v.topic!))).slice(0, 15);
+      list = Array.from(new Set(topicVids.map(v => v.topic!))).slice(0, 15);
+    } else {
+      const info = getChapterOrderInfo(
+        selectedChapter,
+        selectedSubject !== 'All' ? selectedSubject : undefined,
+        selectedClass !== 'All' ? selectedClass : undefined
+      );
+      if (info.topics && info.topics.length > 0) {
+        list = [...info.topics].sort((a, b) => a.order - b.order).map(t => t.name);
+      } else {
+        const notes = comprehensiveFormulaNotes.filter(
+          n => n.chapter.toLowerCase() === selectedChapter.toLowerCase()
+        );
+        const topicsFromNotes = Array.from(new Set(notes.map(n => n.topic)));
+        if (topicsFromNotes.length > 0) {
+          list = topicsFromNotes;
+        } else {
+          const vids = allVideos.filter(v => v.chapter.toLowerCase() === selectedChapter.toLowerCase() && v.topic);
+          const topicsFromVids = Array.from(new Set(vids.map(v => v.topic!)));
+          if (topicsFromVids.length > 0) {
+            list = topicsFromVids;
+          } else {
+            list = [
+              'Core Theory & Derivation',
+              'Important Formulas & Identities',
+              'High-Yield Exam Applications',
+              'Advanced Problem Solving'
+            ];
+          }
+        }
+      }
     }
-    const info = getChapterOrderInfo(
-      selectedChapter,
-      selectedSubject !== 'All' ? selectedSubject : undefined,
-      selectedClass !== 'All' ? selectedClass : undefined
-    );
-    if (info.topics && info.topics.length > 0) {
-      return [...info.topics].sort((a, b) => a.order - b.order).map(t => t.name);
+    if (selectedTopic && !list.includes(selectedTopic)) {
+      list = [selectedTopic, ...list];
     }
-    const notes = comprehensiveFormulaNotes.filter(
-      n => n.chapter.toLowerCase() === selectedChapter.toLowerCase()
-    );
-    const topicsFromNotes = Array.from(new Set(notes.map(n => n.topic)));
-    if (topicsFromNotes.length > 0) return topicsFromNotes;
-
-    const vids = allVideos.filter(v => v.chapter.toLowerCase() === selectedChapter.toLowerCase() && v.topic);
-    const topicsFromVids = Array.from(new Set(vids.map(v => v.topic!)));
-    if (topicsFromVids.length > 0) return topicsFromVids;
-
-    return [
-      'Core Theory & Derivation',
-      'Important Formulas & Identities',
-      'High-Yield Exam Applications',
-      'Advanced Problem Solving'
-    ];
-  }, [selectedChapter, allVideos, selectedSubject, selectedClass]);
+    return list;
+  }, [selectedChapter, allVideos, selectedSubject, selectedClass, selectedTopic]);
 
   // Multi-dimensional filtering logic: Exam, Class, Subject, Mode, Chapter, Topic, Search
   const filteredVideos: VideoResource[] = useMemo(() => {
@@ -251,7 +292,9 @@ export const VideoLecturesPage: React.FC = () => {
       if (selectedTopic) {
         const vidTopic = (v.topic || '').toLowerCase().replace(/[^a-z0-9]/g, '');
         const selTopic = selectedTopic.toLowerCase().replace(/[^a-z0-9]/g, '');
-        if (!vidTopic.includes(selTopic) && !selTopic.includes(vidTopic)) {
+        const words = selectedTopic.toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length >= 4);
+        const hasWordMatch = words.length > 0 && words.some(w => (v.topic || '').toLowerCase().includes(w));
+        if (!vidTopic.includes(selTopic) && !selTopic.includes(vidTopic) && !hasWordMatch) {
           return false;
         }
       }
@@ -908,12 +951,16 @@ export const VideoLecturesPage: React.FC = () => {
 
                 <button
                   onClick={() => {
-                    navigate(`/practice/session?chapter=${encodeURIComponent(activeVideo.chapter)}&subject=${encodeURIComponent(activeVideo.subject)}`);
+                    navigate(
+                      `/practice/session?subject=${encodeURIComponent(activeVideo.subject)}&chapter=${encodeURIComponent(
+                        activeVideo.chapter
+                      )}${activeVideo.topic ? `&topic=${encodeURIComponent(activeVideo.topic)}` : ''}&count=15`
+                    );
                   }}
                   className="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-xl flex items-center gap-1.5 transition-colors shadow-sm cursor-pointer"
                 >
                   <BookOpen className="w-3.5 h-3.5" />
-                  <span>Practice Questions</span>
+                  <span>Practice Questions (15Q)</span>
                 </button>
               </div>
             </div>
