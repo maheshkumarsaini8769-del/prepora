@@ -419,10 +419,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           localStorage.removeItem('prepora_user_profile');
         }
 
-        // Admins skip the student onboarding gate
-        if (data.user?.role === 'admin' || isSuperAdmin) {
-          localStorage.setItem('prepora_onboarding_completed', 'true');
-        }
+        // Logged-in users have completed initial onboarding and open Home page
+        localStorage.setItem('prepora_onboarding_completed', 'true');
 
         const baseProfile = isSwitchingUser ? createFreshStudentProfile() : currentProfile;
         const currentSavedStreak = Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), baseProfile.streakDays || 0, data.user?.streakDays || 0);

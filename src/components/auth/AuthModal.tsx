@@ -139,11 +139,14 @@ export const AuthModal: React.FC = () => {
 
       if (res.success) {
         setSuccessMsg('Logged in successfully!');
+        localStorage.setItem('prepora_onboarding_completed', 'true');
         setTimeout(() => {
           setAuthModalOpen(false);
           // Only redirect to /admin if currently on /admin URL
           if (window.location.pathname.startsWith('/admin')) {
             navigate('/admin');
+          } else {
+            navigate('/', { replace: true });
           }
         }, 300);
       } else {

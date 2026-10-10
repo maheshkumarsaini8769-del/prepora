@@ -100,19 +100,14 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       if (step === 'step2-otp' || step === 'step3-password' || step === 'step4-goal') {
         return;
       }
-      const onboardingDone = localStorage.getItem('prepora_onboarding_completed') === 'true';
-      if (onboardingDone) {
-        // If registering or on /signup, ALWAYS navigate to Home ('/') first
-        if (authMode === 'register' || location.pathname === '/signup') {
-          navigate('/', { replace: true });
-        } else if (redirectTo.startsWith('/admin')) {
-          navigate('/admin', { replace: true });
-        } else {
-          navigate(redirectTo, { replace: true });
-        }
+      localStorage.setItem('prepora_onboarding_completed', 'true');
+      if (redirectTo.startsWith('/admin')) {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/', { replace: true });
       }
     }
-  }, [isAuthenticated, navigate, redirectTo, step, authMode, location.pathname]);
+  }, [isAuthenticated, navigate, redirectTo, step]);
 
   // Cooldown countdown
   useEffect(() => {
@@ -213,12 +208,13 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       if (res.success) {
         soundFeedback.playSuccess();
         setSuccessMsg('Logged in successfully! Opening PREPORA...');
+        localStorage.setItem('prepora_onboarding_completed', 'true');
         setTimeout(() => {
           // Admin navigation ONLY occurs when explicitly visiting /admin in the URL
           if (redirectTo.startsWith('/admin')) {
             navigate('/admin', { replace: true });
           } else {
-            navigate(redirectTo, { replace: true });
+            navigate('/', { replace: true });
           }
         }, 350);
       } else {
