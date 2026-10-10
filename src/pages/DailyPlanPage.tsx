@@ -26,6 +26,7 @@ import { ecosystemService } from '../services/ecosystemService';
 import { userService } from '../services/userService';
 import { DailyPlan, DailyPlanItem, SubjectName } from '../types';
 import { getAllowedSubjectsForExam, isSubjectAllowedForExam } from '../utils/examUtils';
+import { masterStudyPlanService, DayPlan } from '../services/masterStudyPlanService';
 
 export const DailyPlanPage: React.FC = () => {
   const navigate = useNavigate();
@@ -58,6 +59,21 @@ export const DailyPlanPage: React.FC = () => {
 
   const [showAddModal, setShowAddModal] = useState<boolean>(false);
   const [editingItemId, setEditingItemId] = useState<string | null>(null);
+
+  // Master 300-Topic Curriculum Today's Prescribed Plan
+  const [masterToday, setMasterToday] = useState<DayPlan | null>(() => masterStudyPlanService.getTodayPlan());
+
+  const handleToggleMasterLecture = (subject: string, topicNum: number) => {
+    if (!masterToday) return;
+    masterStudyPlanService.toggleLecture(masterToday.date, subject, topicNum);
+    setMasterToday({ ...masterStudyPlanService.getTodayPlan() });
+  };
+
+  const handleToggleMasterDpp = (subject: string, topicNum: number) => {
+    if (!masterToday) return;
+    masterStudyPlanService.toggleDpp(masterToday.date, subject, topicNum);
+    setMasterToday({ ...masterStudyPlanService.getTodayPlan() });
+  };
 
   // Form state
   const [newTitle, setNewTitle] = useState('');
@@ -304,6 +320,133 @@ export const DailyPlanPage: React.FC = () => {
           </Button>
         </div>
       </div>
+
+      {/* Master 300-Topic Curriculum Daily Lecture + DPP Card */}
+      {masterToday && (
+        <div className="bg-gradient-to-r from-emerald-500/10 via-teal-500/5 to-cyan-500/10 dark:from-emerald-950/30 dark:via-teal-950/20 dark:to-cyan-950/30 border-2 border-emerald-500/30 dark:border-emerald-500/20 rounded-2xl p-5 space-y-4 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-emerald-500/20 pb-3">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-black text-sm shadow-sm">
+                <BookOpen className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <h2 className="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                  <span>Today's Prescribed Curriculum Mission (Day {masterToday.dayNumber})</span>
+                  <span className="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-emerald-600 text-white shadow-xs">
+                    {masterToday.formattedDate} • {masterToday.dayOfWeek}
+                  </span>
+                </h2>
+                <p className="text-xs text-slate-500 dark:text-slate-400">
+                  Fixed Daily Sequence: 1 Topic per Subject ➔ Watch 45m Lecture ➔ Solve 15 Questions DPP (45 Questions Daily)!
+                </p>
+              </div>
+            </div>
+
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => navigate('/planner')}
+              className="text-xs font-bold py-1.5 px-3 border-emerald-300 text-emerald-700 hover:bg-emerald-50 dark:border-emerald-700 dark:text-emerald-300 dark:hover:bg-emerald-950/40"
+            >
+              <span>View Full Calendar</span>
+              <ArrowRight className="w-3.5 h-3.5 ml-1" />
+            </Button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {masterToday.topics.map((top) => (
+              <div
+                key={`${top.subject}-${top.chapterNumber}-${top.topicNumber}`}
+                className="p-4 rounded-xl border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-3"
+              >
+                <div className="space-y-1.5">
+                  <div className="flex items-center justify-between">
+                    <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-700 border border-emerald-200 dark:bg-emerald-950/40 dark:text-emerald-300">
+                      {top.subject} • Ch {top.chapterNumber}
+                    </span>
+                    <span className="text-[11px] text-slate-400 font-medium">Topic #{top.topicNumber}</span>
+                  </div>
+                  <h4 className="text-xs font-extrabold text-slate-900 dark:text-white line-clamp-1">
+                    {top.chapterName}
+                  </h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 font-medium line-clamp-2">
+                    {top.topicName}
+                  </p>
+                </div>
+
+                <div className="space-y-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-xs">
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleMasterLecture(top.subject, top.topicNumber)}
+                      className={`flex items-center gap-1.5 text-[11px] font-semibold cursor-pointer ${
+                        top.lectureCompleted ? 'text-emerald-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      <div
+                        className={`w-4 h-4 rounded border flex items-center justify-center ${
+                          top.lectureCompleted
+                            ? 'bg-emerald-600 border-emerald-600 text-white'
+                            : 'border-slate-300 dark:border-slate-600'
+                        }`}
+                      >
+                        {top.lectureCompleted && <Check className="w-3 h-3 stroke-[3]" />}
+                      </div>
+                      <span>Lecture ({top.lectureDurationMinutes}m)</span>
+                    </button>
+
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() => navigate(`/lectures?search=${encodeURIComponent(top.topicName)}`)}
+                      className="text-[10px] py-1 px-2 font-bold text-blue-600 border-blue-200 hover:bg-blue-50 dark:border-blue-900"
+                    >
+                      <Play className="w-3 h-3 mr-1 fill-blue-600 text-blue-600" />
+                      <span>Watch</span>
+                    </Button>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-2">
+                    <button
+                      type="button"
+                      onClick={() => handleToggleMasterDpp(top.subject, top.topicNumber)}
+                      className={`flex items-center gap-1.5 text-[11px] font-semibold cursor-pointer ${
+                        top.dppCompleted ? 'text-emerald-600 font-bold' : 'text-slate-500 hover:text-slate-800'
+                      }`}
+                    >
+                      <div
+                        className={`w-4 h-4 rounded border flex items-center justify-center ${
+                          top.dppCompleted
+                            ? 'bg-emerald-600 border-emerald-600 text-white'
+                            : 'border-slate-300 dark:border-slate-600'
+                        }`}
+                      >
+                        {top.dppCompleted && <Check className="w-3 h-3 stroke-[3]" />}
+                      </div>
+                      <span>Topic DPP ({top.dppQuestionCount} Qs)</span>
+                    </button>
+
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      onClick={() =>
+                        navigate(
+                          `/practice?subject=${encodeURIComponent(top.subject)}&chapter=${encodeURIComponent(
+                            top.chapterName
+                          )}`
+                        )
+                      }
+                      className="text-[10px] py-1 px-2 font-bold text-emerald-600 border-emerald-200 hover:bg-emerald-50 dark:border-emerald-900"
+                    >
+                      <span>Solve DPP</span>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Rule-Based Transparency Notice */}
       <div className="p-4 rounded-2xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200/80 dark:border-purple-800 text-purple-950 dark:text-purple-200 text-xs flex items-start gap-3">
