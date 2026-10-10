@@ -76,7 +76,7 @@ export interface MasterRoadmapState {
   days: DayPlan[];
 }
 
-const STORAGE_KEY = 'prepora_master_study_plan_v2';
+const STORAGE_KEY = 'prepora_master_study_plan_v3';
 const CONFIG_KEY = 'prepora_planner_config';
 
 class MasterStudyPlanService {
@@ -165,13 +165,10 @@ class MasterStudyPlanService {
     const totalTopicsCount = 300; // Fixed: 30 chapters * 10 topics
     const days: DayPlan[] = [];
 
-    // Calculate topics per day pace:
-    // If user has >= 300 days: 1 topic/day
-    // If user has < 300 days: 1 topic/day for first days, or 2 topics/day
-    const topicsPerDayRate = totalDaysAvailable < 200 ? 2 : 1;
-    const daysCount = Math.min(totalDaysAvailable, Math.ceil(totalTopicsCount / topicsPerDayRate) + 20);
+    // Daily Pace: Strictly 1 topic per subject per day (Physics, Chemistry, Maths/Biology) = 3 topics daily!
+    const topicsPerDayRate = 1;
+    const daysCount = Math.min(totalDaysAvailable, totalTopicsCount);
 
-    let topicPointer = 0;
     let totalExams = 0;
 
     for (let dayIdx = 0; dayIdx < daysCount; dayIdx++) {
@@ -186,62 +183,57 @@ class MasterStudyPlanService {
       });
       const dayOfWeek = currentCalDate.toLocaleDateString('en-US', { weekday: 'short' });
 
-      // Daily subjects topics
+      // Daily subjects topics - strictly 1 per subject (3 total topics per day)
       const dayTopics: DaySubjectTopic[] = [];
+      const currIdx = dayIdx % totalTopicsCount;
 
-      for (let step = 0; step < topicsPerDayRate && topicPointer + step < totalTopicsCount; step++) {
-        const currIdx = topicPointer + step;
-
-        // Physics
-        const p = pTopics[currIdx];
-        if (p) {
-          dayTopics.push({
-            subject: 'Physics',
-            chapterNumber: p.chapterNumber,
-            chapterName: p.chapterName,
-            topicNumber: p.topic.topicNumber,
-            topicName: p.topic.topicName,
-            lectureDurationMinutes: p.topic.recommendedLectureMinutes,
-            dppQuestionCount: p.topic.dppQuestionCount,
-            lectureCompleted: false,
-            dppCompleted: false
-          });
-        }
-
-        // Chemistry
-        const c = cTopics[currIdx];
-        if (c) {
-          dayTopics.push({
-            subject: 'Chemistry',
-            chapterNumber: c.chapterNumber,
-            chapterName: c.chapterName,
-            topicNumber: c.topic.topicNumber,
-            topicName: c.topic.topicName,
-            lectureDurationMinutes: c.topic.recommendedLectureMinutes,
-            dppQuestionCount: c.topic.dppQuestionCount,
-            lectureCompleted: false,
-            dppCompleted: false
-          });
-        }
-
-        // Maths or Biology
-        const m = mTopics[currIdx];
-        if (m) {
-          dayTopics.push({
-            subject: m.subject,
-            chapterNumber: m.chapterNumber,
-            chapterName: m.chapterName,
-            topicNumber: m.topic.topicNumber,
-            topicName: m.topic.topicName,
-            lectureDurationMinutes: m.topic.recommendedLectureMinutes,
-            dppQuestionCount: m.topic.dppQuestionCount,
-            lectureCompleted: false,
-            dppCompleted: false
-          });
-        }
+      // Physics (1 topic)
+      const p = pTopics[currIdx];
+      if (p) {
+        dayTopics.push({
+          subject: 'Physics',
+          chapterNumber: p.chapterNumber,
+          chapterName: p.chapterName,
+          topicNumber: p.topic.topicNumber,
+          topicName: p.topic.topicName,
+          lectureDurationMinutes: p.topic.recommendedLectureMinutes,
+          dppQuestionCount: p.topic.dppQuestionCount,
+          lectureCompleted: false,
+          dppCompleted: false
+        });
       }
 
-      topicPointer += topicsPerDayRate;
+      // Chemistry (1 topic)
+      const c = cTopics[currIdx];
+      if (c) {
+        dayTopics.push({
+          subject: 'Chemistry',
+          chapterNumber: c.chapterNumber,
+          chapterName: c.chapterName,
+          topicNumber: c.topic.topicNumber,
+          topicName: c.topic.topicName,
+          lectureDurationMinutes: c.topic.recommendedLectureMinutes,
+          dppQuestionCount: c.topic.dppQuestionCount,
+          lectureCompleted: false,
+          dppCompleted: false
+        });
+      }
+
+      // Maths or Biology (1 topic)
+      const m = mTopics[currIdx];
+      if (m) {
+        dayTopics.push({
+          subject: m.subject,
+          chapterNumber: m.chapterNumber,
+          chapterName: m.chapterName,
+          topicNumber: m.topic.topicNumber,
+          topicName: m.topic.topicName,
+          lectureDurationMinutes: m.topic.recommendedLectureMinutes,
+          dppQuestionCount: m.topic.dppQuestionCount,
+          lectureCompleted: false,
+          dppCompleted: false
+        });
+      }
 
       // Bi-Monthly Exam schedule:
       // Day 15 of every 30-day block = Mid-Month Review Exam
@@ -316,7 +308,7 @@ class MasterStudyPlanService {
   }
 
   /**
-   * Get current master roadmap, auto-generating if not yet present
+   * Get current master roadmap, auto-generating if not yet present or if cached plan has > 3 topics
    */
   public getMasterRoadmap(): MasterRoadmapState {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -324,6 +316,11 @@ class MasterStudyPlanService {
       try {
         const parsed = JSON.parse(raw) as MasterRoadmapState;
         if (parsed.days && parsed.days.length > 0) {
+          // If cached plan contains duplicate subjects (> 3 topics per day), immediately regenerate!
+          const hasInvalidDays = parsed.days.some((d) => d.topics.length > 3);
+          if (hasInvalidDays) {
+            return this.generateFullPlan();
+          }
           // Recompute progress metrics dynamically
           this.recalculateMetrics(parsed);
           return parsed;
@@ -332,6 +329,38 @@ class MasterStudyPlanService {
         // regenerate
       }
     }
+
+    // Attempt migration from v2 to preserve existing student completion status
+    const oldRaw = localStorage.getItem('prepora_master_study_plan_v2');
+    if (oldRaw) {
+      try {
+        const oldParsed = JSON.parse(oldRaw) as MasterRoadmapState;
+        const fresh = this.generateFullPlan();
+        if (oldParsed.days && oldParsed.days.length > 0) {
+          const completedLec = new Set<string>();
+          const completedDpp = new Set<string>();
+          oldParsed.days.forEach((d) => {
+            d.topics.forEach((t) => {
+              if (t.lectureCompleted) completedLec.add(`${t.subject}:${t.chapterNumber}:${t.topicNumber}`);
+              if (t.dppCompleted) completedDpp.add(`${t.subject}:${t.chapterNumber}:${t.topicNumber}`);
+            });
+          });
+          fresh.days.forEach((d) => {
+            d.topics.forEach((t) => {
+              if (completedLec.has(`${t.subject}:${t.chapterNumber}:${t.topicNumber}`)) t.lectureCompleted = true;
+              if (completedDpp.has(`${t.subject}:${t.chapterNumber}:${t.topicNumber}`)) t.dppCompleted = true;
+            });
+          });
+          this.recalculateMetrics(fresh);
+          this.saveState(fresh);
+          localStorage.removeItem('prepora_master_study_plan_v2');
+          return fresh;
+        }
+      } catch {
+        // ignore
+      }
+    }
+
     return this.generateFullPlan();
   }
 
@@ -423,15 +452,26 @@ class MasterStudyPlanService {
   }
 
   /**
-   * Get today's plan card
+   * Get today's plan card (strictly 1 topic per subject = 3 topics total)
    */
   public getTodayPlan(): DayPlan {
     const state = this.getMasterRoadmap();
     const todayIso = new Date().toISOString().split('T')[0];
     const match = state.days.find((d) => d.date === todayIso);
-    if (match) return match;
-    // Return first day as active plan
-    return state.days[0] || null;
+    const day = match || state.days[0] || null;
+    if (day && day.topics.length > 3) {
+      const subjectMap = new Map<string, DaySubjectTopic>();
+      for (const t of day.topics) {
+        if (!subjectMap.has(t.subject)) {
+          subjectMap.set(t.subject, t);
+        }
+      }
+      return {
+        ...day,
+        topics: Array.from(subjectMap.values())
+      };
+    }
+    return day;
   }
 
   /**

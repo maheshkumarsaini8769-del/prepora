@@ -493,10 +493,44 @@ export const StudyPlanner: React.FC = () => {
       );
     }
 
-    return list;
+    // Ensure strictly at most 3 topics per day (1 per subject: Physics, Chemistry, Maths/Bio)
+    return list.map((day) => {
+      if (day.topics.length > 3) {
+        const subjectMap = new Map<string, DaySubjectTopic>();
+        for (const t of day.topics) {
+          if (!subjectMap.has(t.subject)) {
+            subjectMap.set(t.subject, t);
+          }
+        }
+        const topics = Array.from(subjectMap.values());
+        return {
+          ...day,
+          topics,
+          dailyTotalLectureMinutes: topics.reduce((acc, t) => acc + t.lectureDurationMinutes, 0),
+          dailyTotalDppQuestions: topics.reduce((acc, t) => acc + t.dppQuestionCount, 0)
+        };
+      }
+      return day;
+    });
   }, [masterRoadmap.days, calendarMonth, calendarFilter, calendarSearch]);
 
-  const todayPlan = useMemo(() => masterStudyPlanService.getTodayPlan(), [masterRoadmap]);
+  const todayPlan = useMemo(() => {
+    const plan = masterStudyPlanService.getTodayPlan();
+    if (!plan) return null;
+    if (plan.topics.length > 3) {
+      const subjectMap = new Map<string, DaySubjectTopic>();
+      for (const t of plan.topics) {
+        if (!subjectMap.has(t.subject)) {
+          subjectMap.set(t.subject, t);
+        }
+      }
+      return {
+        ...plan,
+        topics: Array.from(subjectMap.values())
+      };
+    }
+    return plan;
+  }, [masterRoadmap]);
 
   const totalMonthsCount = useMemo(() => {
     return Math.max(1, Math.ceil(masterRoadmap.days.length / 30));

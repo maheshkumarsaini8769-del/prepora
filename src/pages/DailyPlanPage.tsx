@@ -356,7 +356,7 @@ export const DailyPlanPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-            {masterToday.topics.map((top) => (
+            {Array.from(new Map(masterToday.topics.map((t) => [t.subject, t])).values()).map((top) => (
               <div
                 key={`${top.subject}-${top.chapterNumber}-${top.topicNumber}`}
                 className="p-4 rounded-xl border bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 shadow-xs flex flex-col justify-between gap-3"
