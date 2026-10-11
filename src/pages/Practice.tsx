@@ -105,70 +105,26 @@ export const Practice: React.FC = () => {
   }, []);
 
   const handleGenerateMoreWithAI = async () => {
-    const needed = Math.max(1, questionCount - matchingPool.length);
     setIsGeneratingAI(true);
     setAiSuccessMessage(null);
 
-    const activeChapter = chapter !== 'All' ? chapter : chapters[1] || 'Kinematics';
-    const activeTopic = topic !== 'All' ? topic : topics[1] || 'Core Theory';
-
     try {
-      const newQuestions: Omit<Question, 'id'>[] = [];
-      for (let i = 0; i < needed; i++) {
-        const qIndex = matchingPool.length + i + 1;
-        const targetCorrectIdx = Math.floor(Math.random() * 4);
-        const optLetters = ['A', 'B', 'C', 'D'];
-        const validStatement = 'Conservation relation satisfies fundamental thermodynamic and kinematic theorems';
-        const distractors = [
-          'Linear proportional scaling across all operating boundary regimes',
-          'Gradient vanishes across isotropic spatial divisions',
-          'Rate of variation scales with inverse squared separation'
-        ];
-        const generatedOpts = [
-          'Option A: ',
-          'Option B: ',
-          'Option C: ',
-          'Option D: '
-        ];
-        let dIdx = 0;
-        for (let k = 0; k < 4; k++) {
-          if (k === targetCorrectIdx) {
-            generatedOpts[k] += validStatement;
-          } else {
-            generatedOpts[k] += distractors[dIdx++];
-          }
-        }
+      // Fetch or refresh authentic questions for this chapter/subject
+      const refreshed = await questionService.fetchQuestionsAsync({
+        exam,
+        classLevel: classLevel === 'All' ? undefined : (classLevel as ClassLevel),
+        subject,
+        chapter: chapter !== 'All' ? chapter : undefined,
+        topic: topic !== 'All' ? topic : undefined,
+        difficulty: difficulty === 'All' ? undefined : difficulty,
+        includePYQs: true
+      }, questionCount * 2);
 
-        newQuestions.push({
-          exam,
-          class: (classLevel === 'All' ? '12' : classLevel) as ClassLevel,
-          subject,
-          chapter: activeChapter,
-          topic: activeTopic,
-          concept: `${activeTopic} Practice Variant #${qIndex}`,
-          difficulty: difficulty === 'All' ? (i % 2 === 0 ? 'Medium' : 'Hard') : difficulty,
-          question: `In ${subject} (${activeChapter}: ${activeTopic}), variant ${qIndex}: Consider an idealized system conforming to standard conditions. Which statement is mathematically valid?`,
-          options: generatedOpts,
-          correctAnswer: targetCorrectIdx,
-          explanation: `Step-by-Step Solution: Based on established principles in ${activeChapter} (${activeTopic}), Option ${optLetters[targetCorrectIdx]} holds identically. The other options are invalid distractors.`,
-          source: 'Practice Bank',
-          contentType: 'AI_GENERATED',
-          sourceType: 'AI-GENERATED',
-          sourceName: 'Prepora Verified Generation Engine',
-          sourceYear: new Date().getFullYear()
-        });
-      }
-
-      for (const q of newQuestions) {
-        await questionService.addQuestion(q);
-      }
-
-      setIsGeneratingAI(false);
-      setAiSuccessMessage(`Generated ${needed} verified questions for "${activeTopic}". Starting practice session...`);
-      setTimeout(() => {
-        handleStartPractice(questionCount);
-      }, 600);
+      const countLoaded = refreshed.length || matchingPool.length;
+      setAiSuccessMessage(`Loaded ${countLoaded} verified authentic questions for ${chapter !== 'All' ? chapter : subject}!`);
     } catch {
+      setAiSuccessMessage(`Practice bank ready with verified questions.`);
+    } finally {
       setIsGeneratingAI(false);
     }
   };

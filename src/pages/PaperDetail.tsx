@@ -85,7 +85,16 @@ export const PaperDetail: React.FC = () => {
 
   const paper = apiPaper || localPaper;
 
-  if (!paper && !loading) {
+  if (loading && !paper) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[50vh] space-y-4 animate-in fade-in">
+        <div className="w-9 h-9 border-3 border-emerald-600 border-t-transparent rounded-full animate-spin" />
+        <p className="text-xs font-bold text-slate-500">Loading Previous Year Paper & Solutions...</p>
+      </div>
+    );
+  }
+
+  if (!paper) {
     return (
       <div className="max-w-xl mx-auto text-center py-16 space-y-4">
         <div className="w-16 h-16 rounded-2xl bg-rose-50 text-rose-600 mx-auto flex items-center justify-center">

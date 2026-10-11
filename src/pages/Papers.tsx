@@ -22,9 +22,10 @@ export const Papers: React.FC = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const user = userService.getProfile();
 
-  // Content Type Tab (Default strictly to REAL_PYQ)
-  const initialType = (searchParams.get('type') as CanonicalContentType) || 'REAL_PYQ';
-  const [activeContentType, setActiveContentType] = useState<CanonicalContentType>(initialType);
+  // Content Type Tab (Supports 'ALL' to browse all previous papers at once)
+  type PapersTabType = CanonicalContentType | 'ALL';
+  const initialType = (searchParams.get('type') as PapersTabType) || 'ALL';
+  const [activeContentType, setActiveContentType] = useState<PapersTabType>(initialType);
 
   // Filter States: Initialize category filter from user's active preparation profile
   const defaultCategoryFilter = () => {
@@ -48,11 +49,15 @@ export const Papers: React.FC = () => {
 
   // Strict Dataset Retrieval based on active Content Type
   const papersForCurrentType = useMemo(() => {
-    if (selectedCategory === 'Class 11' && activeContentType === 'REAL_PYQ') {
+    if (selectedCategory === 'Class 11' && (activeContentType === 'REAL_PYQ' || activeContentType === 'ALL')) {
       // Class 11 authentic school examination sets and verified papers
-      return paperService.getSamplePapers().filter(p => p.classLevel === '11' || p.title.includes('11'));
+      const class11Sets = paperService.getSamplePapers().filter(p => p.classLevel === '11' || p.title.includes('11'));
+      if (activeContentType === 'REAL_PYQ') return class11Sets;
+      return [...class11Sets, ...paperService.getAllPapers().filter(p => p.classLevel === '11')];
     }
     switch (activeContentType) {
+      case 'ALL':
+        return paperService.getAllPapers();
       case 'REAL_PYQ':
         return paperService.getRealPYQs();
       case 'MODEL_PAPER':
@@ -62,7 +67,7 @@ export const Papers: React.FC = () => {
       case 'SAMPLE_PAPER':
         return paperService.getSamplePapers();
       default:
-        return paperService.getRealPYQs();
+        return paperService.getAllPapers();
     }
   }, [activeContentType, selectedCategory]);
 
@@ -110,7 +115,7 @@ export const Papers: React.FC = () => {
     });
   }, [papersForCurrentType, selectedCategory, selectedYear, searchQuery, user.preparationProfile, user.targetExam]);
 
-  const handleTabChange = (type: CanonicalContentType) => {
+  const handleTabChange = (type: PapersTabType) => {
     setActiveContentType(type);
     setSearchParams({ type });
   };
@@ -140,12 +145,15 @@ export const Papers: React.FC = () => {
             </span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight">
+            {activeContentType === 'ALL' && 'All Previous Examination Papers (Complete Library)'}
             {activeContentType === 'REAL_PYQ' && 'Official Previous Year Papers (Real PYQs)'}
             {activeContentType === 'MODEL_PAPER' && 'Official Board Model Papers'}
             {activeContentType === 'MOCK_TEST' && 'Simulated Full Mock Tests'}
             {activeContentType === 'SAMPLE_PAPER' && 'Official Sample Papers & School Sets'}
           </h1>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
+            {activeContentType === 'ALL' &&
+              'Complete collection of past examination papers, model question sets, official sample papers, and full CBT mock exams.'}
             {activeContentType === 'REAL_PYQ' &&
               '100% authentic, verified past examination papers actually conducted by official exam authorities (NTA, IITs, CBSE, RBSE).'}
             {activeContentType === 'MODEL_PAPER' &&
@@ -171,6 +179,19 @@ export const Papers: React.FC = () => {
 
       {/* 2. Canonical Content Type Navigation Tabs (Mandatory Strict Isolation) */}
       <div className="flex items-center gap-2 overflow-x-auto pb-1 border-b border-slate-200 dark:border-slate-800">
+        <button
+          type="button"
+          onClick={() => handleTabChange('ALL')}
+          className={`flex items-center gap-2 px-4 py-2.5 rounded-xl font-bold text-xs transition-all whitespace-nowrap cursor-pointer ${
+            activeContentType === 'ALL'
+              ? 'bg-slate-900 text-white shadow-sm dark:bg-emerald-600'
+              : 'bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
+          }`}
+        >
+          <FileText className="w-4 h-4" />
+          <span>All Papers ({inventory.totalPapers})</span>
+        </button>
+
         <button
           type="button"
           onClick={() => handleTabChange('REAL_PYQ')}

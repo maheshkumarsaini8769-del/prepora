@@ -3,6 +3,7 @@ import { mockTests } from '../data/mockData';
 import { questionService, matchesChapterCanonical, matchesTopicCanonical } from './questionService';
 import { userService } from './userService';
 import { getStorageItem, setStorageItem, StorageKeys } from '../utils/storage';
+import { paperService } from './paperService';
 
 import { apiRequest } from './apiClient';
 
@@ -67,7 +68,39 @@ class ApiTestService {
   }
 
   public getTestById(id: string): Test | undefined {
-    return this.getAllTests().find(t => t.id === id);
+    const found = this.getAllTests().find(t => t.id === id);
+    if (found) return found;
+
+    if (id && id.startsWith('test-from-')) {
+      const paperId = id.replace('test-from-', '');
+      const paper = paperService.getPaperById(paperId);
+      if (paper) {
+        const paperTest: Test = {
+          id,
+          title: `${paper.title} (Timed Mode)`,
+          exam: paper.exam,
+          classLevel: paper.classLevel,
+          subjects: paper.subject && paper.subject !== 'Full Syllabus' && paper.subject !== 'All'
+            ? [paper.subject as SubjectName]
+            : (paper.exam === 'NEET' ? ['Physics', 'Chemistry', 'Biology'] : ['Physics', 'Chemistry', 'Mathematics']),
+          totalQuestions: paper.totalQuestions || (paper.exam === 'NEET' ? 180 : paper.exam === 'JEE' ? 75 : 50),
+          durationMinutes: paper.durationMinutes || 180,
+          difficulty: 'Mixed',
+          questionIds: paper.questionIds || [],
+          category: 'PYQ Paper',
+          isAttempted: false,
+          maxScore: (paper.totalQuestions || (paper.exam === 'NEET' ? 180 : paper.exam === 'JEE' ? 75 : 50)) * 4,
+          negativeMarking: true
+        };
+        const custom = this.getCustomTests();
+        if (!custom.some(t => t.id === id)) {
+          custom.unshift(paperTest);
+          setStorageItem('prepora_custom_tests', custom);
+        }
+        return paperTest;
+      }
+    }
+    return undefined;
   }
 
   public async getTestByIdAsync(id: string): Promise<{ test?: Test; questions?: Question[] } | null> {
