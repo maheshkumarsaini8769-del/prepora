@@ -479,9 +479,9 @@ export const MainLayout: React.FC = () => {
             )}
           </NavLink>
 
-          {/* 2. PYQs */}
+          {/* 2. AI Teacher */}
           <NavLink
-            to="/papers"
+            to="/tutor"
             className={({ isActive }) =>
               `flex flex-col items-center gap-0.5 text-[10px] font-bold py-1 px-2.5 rounded-2xl transition-all ${
                 isActive
@@ -493,9 +493,9 @@ export const MainLayout: React.FC = () => {
             {({ isActive }) => (
               <>
                 <div className={`p-1 rounded-xl transition-all ${isActive ? 'bg-emerald-50 dark:bg-emerald-950/70' : ''}`}>
-                  <FileText className="w-5 h-5" />
+                  <Bot className="w-5 h-5" />
                 </div>
-                <span>PYQs</span>
+                <span>AI Teacher</span>
               </>
             )}
           </NavLink>
@@ -632,6 +632,7 @@ export const MainLayout: React.FC = () => {
                 </span>
                 {[
                   { name: 'Home', path: '/', icon: Home },
+                  { name: 'AI Teacher', path: '/tutor', icon: Bot, badge: 'Live 24/7' },
                   { name: 'Chapter Practice', path: '/practice', icon: BookOpen },
                   { name: 'Mock Test Center', path: '/tests', icon: GraduationCap },
                   { name: 'Official PYQs', path: '/papers', icon: FileText },
@@ -644,15 +645,22 @@ export const MainLayout: React.FC = () => {
                       to={item.path}
                       onClick={() => setMobileMenuOpen(false)}
                       className={({ isActive }) =>
-                        `flex items-center gap-3 px-3 py-2.5 rounded-xl font-bold transition-all ${
+                        `flex items-center justify-between px-3 py-2.5 rounded-xl font-bold transition-all ${
                           isActive
                             ? 'bg-emerald-600 text-white shadow-xs'
                             : 'text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800/60'
                         }`
                       }
                     >
-                      <Icon className="w-4 h-4 shrink-0" />
-                      <span className="truncate">{item.name}</span>
+                      <div className="flex items-center gap-3">
+                        <Icon className="w-4 h-4 shrink-0" />
+                        <span className="truncate">{item.name}</span>
+                      </div>
+                      {item.badge && (
+                        <span className="text-[9px] font-extrabold bg-emerald-100 dark:bg-emerald-950/80 text-emerald-800 dark:text-emerald-300 px-1.5 py-0.5 rounded-full">
+                          {item.badge}
+                        </span>
+                      )}
                     </NavLink>
                   );
                 })}
