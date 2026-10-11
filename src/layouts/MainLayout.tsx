@@ -128,12 +128,13 @@ export const MainLayout: React.FC = () => {
     return () => window.removeEventListener('prepora:daily_goal_reached', handleGoalReached);
   }, []);
 
-  // Task 5 Minimal Navigation Hierarchy: 5 Core Primary + Secondary Tools
+  // Primary Navigation Hierarchy: Core Primary + Secondary Tools
   const primaryNav = [
     { name: 'Home', path: '/', icon: Home, subtitle: "Today's priority & plan" },
     { name: 'Practice', path: '/practice', icon: BookOpen, subtitle: 'Topic-wise problem sets' },
     { name: 'Tests', path: '/tests', icon: GraduationCap, subtitle: 'Mocks & previous papers' },
-    { name: 'Doubts', path: '/doubts', icon: HelpCircle, subtitle: 'AI tutor & mentor answers' },
+    { name: 'AI Teacher', path: '/tutor', icon: Bot, subtitle: 'Personal AI master tutor' },
+    { name: 'Doubts', path: '/doubts', icon: HelpCircle, subtitle: 'AI doubt solver & answers' },
     { name: 'Mistakes', path: '/mistakes', icon: AlertCircle, subtitle: 'Error log & blind retries' },
   ];
 
@@ -147,7 +148,6 @@ export const MainLayout: React.FC = () => {
     { name: 'Mind Map', path: '/mind-map', icon: Sparkles },
     { name: 'Previous Papers', path: '/papers', icon: FileText },
     { name: 'Study Planner', path: '/planner', icon: Calendar },
-    { name: 'AI Teacher', path: '/tutor', icon: Sparkles },
     { name: 'Syllabus', path: '/syllabus', icon: Layers },
     { name: 'Readiness', path: '/readiness', icon: Award }
   ];
@@ -664,8 +664,9 @@ export const MainLayout: React.FC = () => {
                   Smart Tools
                 </span>
                 {[
-                  { name: 'Mistake Book & Retries', path: '/mistakes', icon: AlertCircle, badge: 'High Yield' },
+                  { name: 'AI Teacher', path: '/tutor', icon: Bot, badge: 'Live Tutor' },
                   { name: 'Doubt Solver AI', path: '/doubts', icon: HelpCircle },
+                  { name: 'Mistake Book & Retries', path: '/mistakes', icon: AlertCircle, badge: 'High Yield' },
                   { name: 'Formula & Short Notes', path: '/formula-sheet', icon: BookMarked },
                   { name: 'Smart Revision', path: '/revision', icon: Repeat },
                   { name: 'Video Lectures', path: '/lectures', icon: Tv },

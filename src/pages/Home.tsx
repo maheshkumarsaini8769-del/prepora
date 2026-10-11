@@ -226,9 +226,31 @@ export const Home: React.FC = () => {
       </div>
 
       {/* ========================================================================= */}
-      {/* 3. 2 QUICK DISCOVERY SHORTCUTS (PYQs & FORMULAS)                          */}
+      {/* 3. 3 QUICK DISCOVERY SHORTCUTS (AI TEACHER, PYQs & FORMULAS)              */}
       {/* ========================================================================= */}
-      <div className="grid grid-cols-2 gap-2.5 sm:gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3">
+        <Link
+          to="/tutor"
+          onClick={() => soundFeedback.playClick()}
+          className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-[#0c131a] border border-purple-200 dark:border-purple-900/60 shadow-2xs hover:border-purple-500/60 flex items-center justify-between gap-2.5 transition-all active:scale-[0.98] group"
+        >
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950/60 text-purple-600 dark:text-purple-400 flex items-center justify-center shrink-0 border border-purple-200/60 dark:border-purple-800/60">
+              <Bot className="w-5 h-5 stroke-[2.2]" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs sm:text-sm font-black text-slate-900 dark:text-white truncate flex items-center gap-1.5">
+                <span>AI Teacher</span>
+                <span className="px-1.5 py-0.2 rounded-full bg-purple-600 text-white text-[9px] font-black uppercase">Live</span>
+              </div>
+              <div className="text-[10px] sm:text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                Personal AI Master Tutor
+              </div>
+            </div>
+          </div>
+          <ChevronRight className="w-4 h-4 text-slate-400 group-hover:translate-x-0.5 transition-transform shrink-0" />
+        </Link>
+
         <Link
           to="/papers"
           onClick={() => soundFeedback.playClick()}
