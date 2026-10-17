@@ -1,4 +1,4 @@
-// PREPORA Service Worker for Web Push Notifications & Offline Alerts
+// PREPORA Service Worker for High-Priority Web Push Notifications & Background Alerts
 self.addEventListener('install', (event) => {
   self.skipWaiting();
 });
@@ -19,26 +19,46 @@ self.addEventListener('push', (event) => {
   }
 
   const title = data.title || 'PREPORA • Study Alert';
+  const origin = self.location.origin;
+
+  // Use absolute URLs so Android OS can always resolve icons when browser is closed
+  const iconUrl = new URL('/pwa-192.png', origin).href;
+  const badgeUrl = new URL('/badge-96.png', origin).href;
+
   const options = {
     body: data.message || data.body || 'You have an important study update from PREPORA.',
-    icon: '/pwa-192.png',
-    badge: '/badge-96.png',
-    image: data.image || undefined,
-    vibrate: [200, 100, 200, 100, 200],
+    icon: iconUrl,
+    badge: badgeUrl,
+    vibrate: [300, 100, 300, 100, 300],
     data: {
       url: data.actionUrl || data.url || '/',
       timestamp: Date.now()
     },
     actions: [
-      { action: 'open', title: 'Open Prepora 🚀' },
-      { action: 'dismiss', title: 'Dismiss' }
+      { action: 'open', title: 'Open Prepora 🚀' }
     ],
     tag: data.tag || data.id || `prepora-notif-${Date.now()}`,
     renotify: true,
-    requireInteraction: Boolean(data.requireInteraction)
+    requireInteraction: true
   };
 
-  event.waitUntil(self.registration.showNotification(title, options));
+  const showNotificationPromise = (async () => {
+    try {
+      await self.registration.showNotification(title, options);
+    } catch (err) {
+      console.warn('[SW] Primary showNotification failed, using fallback:', err);
+      try {
+        await self.registration.showNotification(title, {
+          body: data.message || data.body || 'Study update from PREPORA',
+          icon: iconUrl
+        });
+      } catch (fallbackErr) {
+        console.error('[SW] All showNotification attempts failed:', fallbackErr);
+      }
+    }
+  })();
+
+  event.waitUntil(showNotificationPromise);
 });
 
 // Notification click event: focus existing tab or open new window

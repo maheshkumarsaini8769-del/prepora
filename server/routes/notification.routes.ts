@@ -163,8 +163,16 @@ async function dispatchWebPush(notification: {
 
     const pushPromises = subscriptions.map(async (subDoc: any) => {
       try {
-        if (!subDoc.subscription || !subDoc.subscription.endpoint) return;
-        await webpush.sendNotification(subDoc.subscription, pushPayload);
+        const pushOptions: webpush.RequestOptions = {
+          TTL: 86400,
+          urgency: 'high',
+          topic: 'prepora-alert',
+          headers: {
+            'Urgency': 'high',
+            'Topic': 'prepora-alert'
+          }
+        };
+        await webpush.sendNotification(subDoc.subscription, pushPayload, pushOptions);
         sentCount++;
       } catch (err: any) {
         failedCount++;
@@ -313,7 +321,17 @@ router.post('/test-push', async (req: Request, res: Response) => {
       type: 'achievement'
     });
 
-    await webpush.sendNotification(subDoc.subscription, testPayload);
+    const pushOptions: webpush.RequestOptions = {
+      TTL: 86400,
+      urgency: 'high',
+      topic: 'prepora-test',
+      headers: {
+        'Urgency': 'high',
+        'Topic': 'prepora-test'
+      }
+    };
+
+    await webpush.sendNotification(subDoc.subscription, testPayload, pushOptions);
 
     return res.json({
       success: true,
