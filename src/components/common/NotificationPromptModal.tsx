@@ -42,19 +42,10 @@ export const NotificationPromptModal: React.FC = () => {
       return () => window.removeEventListener('prepora:open_notification_prompt', handleManualOpen);
     }
 
-    // Check if dismissed recently (wait 18 hours before prompting again)
-    const dismissedTime = localStorage.getItem('prepora_notif_prompt_dismissed');
-    if (dismissedTime) {
-      const elapsed = Date.now() - parseInt(dismissedTime, 10);
-      if (elapsed < 18 * 3600 * 1000) {
-        return () => window.removeEventListener('prepora:open_notification_prompt', handleManualOpen);
-      }
-    }
-
-    // Auto-prompt shortly after landing/login (1.2 seconds delay for smooth page load)
+    // Auto-prompt shortly after landing/login (600ms delay for smooth page load)
     const timer = setTimeout(() => {
       setIsOpen(true);
-    }, 1200);
+    }, 600);
 
     return () => {
       clearTimeout(timer);
