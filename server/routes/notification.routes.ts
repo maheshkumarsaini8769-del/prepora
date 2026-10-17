@@ -122,7 +122,13 @@ async function dispatchWebPush(notification: {
         query.$or = orConditions;
       }
     } else if (notification.targetType === 'EXAM_SPECIFIC' && notification.targetExam && notification.targetExam !== 'ALL') {
-      query.$or = [{ targetExam: notification.targetExam }, { targetExam: 'ALL' }];
+      query.$or = [
+        { targetExam: notification.targetExam },
+        { targetExam: 'ALL' },
+        { targetExam: { $exists: false } },
+        { targetExam: null },
+        { targetExam: '' }
+      ];
     }
 
     let subscriptions: any[] = [];

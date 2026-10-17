@@ -56,28 +56,16 @@ export const NotificationPromptModal: React.FC = () => {
   }, [user]);
 
   useEffect(() => {
-    // 1. Check current permission immediately
+    // Check permission and silently sync in background if granted - NEVER auto-open popup on home page
     if (!isPushNotificationSupported()) return;
 
     const currentPerm = Notification.permission;
     setPermissionState(currentPerm);
 
-    // If notifications are ALREADY ON, do NOT show popup
     if (currentPerm === 'granted') {
       checkAndSyncStatus();
-      return;
     }
-
-    // 2. Notifications are OFF ('default' or 'denied'):
-    // Check if dismissed in THIS session to avoid harassing on every page change
-    const dismissedThisSession = sessionStorage.getItem('prepora_notif_modal_dismissed_session');
-    if (!dismissedThisSession) {
-      // Auto-popup after short delay for smooth page animation
-      const timer = setTimeout(() => {
-        setIsOpen(true);
-      }, 700);
-      return () => clearTimeout(timer);
-    }
+    // No auto-popup: Home page and app load stay 100% clean and uninterrupted
   }, [checkAndSyncStatus]);
 
   // Listen for manual trigger (e.g. from Settings or Header)
