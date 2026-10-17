@@ -37,9 +37,10 @@ self.addEventListener('push', (event) => {
     actions: [
       { action: 'open', title: 'Open Prepora 🚀' }
     ],
-    tag: data.tag || data.id || `prepora-notif-${Date.now()}`,
+    tag: `prepora-alert-${Date.now()}`,
     renotify: true,
-    requireInteraction: true
+    requireInteraction: true,
+    silent: false
   };
 
   const showNotificationPromise = (async () => {
