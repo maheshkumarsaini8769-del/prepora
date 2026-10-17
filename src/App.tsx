@@ -14,7 +14,6 @@ import { AuthProvider } from './context/AuthContext';
 import { ReportChatProvider } from './context/ReportChatContext';
 import { NetworkBanner } from './components/common/NetworkBanner';
 import { AuthModal } from './components/auth/AuthModal';
-import { ReportChatFloatingWidget } from './components/common/ReportChatFloatingWidget';
 
 function lazyPage<T extends React.ComponentType<any>>(
   importer: () => Promise<any>,
@@ -224,7 +223,6 @@ export const App: React.FC = () => {
           <OAuthCallbackWatcher />
           <NotificationPromptModal />
           <RealNamePromptModal />
-          <ReportChatFloatingWidget />
           <ChunkErrorBoundary>
           <Suspense fallback={<PageFallback />}>
           <Routes>

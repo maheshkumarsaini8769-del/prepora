@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Settings as SettingsIcon,
   User,
@@ -36,17 +36,22 @@ import {
   Layers,
   GraduationCap,
   Sliders,
-  X
+  X,
+  Headphones,
+  Send,
+  Phone
 } from 'lucide-react';
 import { Card, Badge, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
 import { useAuth } from '../context/AuthContext';
+import { useReportChat } from '../context/ReportChatContext';
 import { ExamType, ClassLevel } from '../types';
 import { getColorMode, applyColorMode, ColorMode } from '../utils/theme';
 import { soundFeedback } from '../utils/audioFeedback';
 
 export const Settings: React.FC = () => {
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
   const profile = userService.getProfile();
   const {
     user,
@@ -61,8 +66,45 @@ export const Settings: React.FC = () => {
     setAuthModalMode
   } = useAuth();
 
-  // Navigation segment / tab
-  const [activeTab, setActiveTab] = useState<'academic' | 'security' | 'appearance' | 'storage'>('academic');
+  // Navigation segment / tab (Supports ?tab=support from URL)
+  const [activeTab, setActiveTab] = useState<'academic' | 'security' | 'appearance' | 'storage' | 'support'>(() => {
+    const tab = searchParams.get('tab');
+    if (tab === 'support' || tab === 'help') return 'support';
+    if (tab === 'security') return 'security';
+    if (tab === 'appearance') return 'appearance';
+    if (tab === 'storage') return 'storage';
+    return 'academic';
+  });
+
+  // Support Chat Integration directly inside Settings
+  const {
+    messages: chatMessages,
+    sendChatMessage,
+    clearThread: clearChatThread,
+    resolveChat,
+    isResolved: isChatResolved,
+    unreadCount
+  } = useReportChat();
+
+  const [supportInput, setSupportInput] = useState('');
+  const [supportSending, setSupportSending] = useState(false);
+  const supportEndRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (activeTab === 'support') {
+      supportEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [chatMessages, activeTab]);
+
+  const handleSendSupportMessage = async (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
+    if (!supportInput.trim() || supportSending) return;
+    setSupportSending(true);
+    const text = supportInput;
+    setSupportInput('');
+    await sendChatMessage(text);
+    setSupportSending(false);
+  };
 
   // Academic Settings State
   const [name, setName] = useState(user?.name || profile.name || '');
@@ -347,27 +389,36 @@ export const Settings: React.FC = () => {
       </Card>
 
       {/* 2. APP-STYLE SEGMENTED NAVIGATION BAR */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 p-1.5 bg-slate-100 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800/80">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-1.5 p-1.5 bg-slate-100 dark:bg-slate-900/80 rounded-2xl border border-slate-200 dark:border-slate-800/80">
         {[
           { key: 'academic', label: 'Academic Goals', icon: GraduationCap },
           { key: 'security', label: 'Security & Devices', icon: ShieldCheck },
           { key: 'appearance', label: 'Theme & UX', icon: Moon },
-          { key: 'storage', label: 'Storage & Reset', icon: Database }
+          { key: 'storage', label: 'Storage & Reset', icon: Database },
+          { key: 'support', label: 'Help & Support', icon: Headphones, badge: unreadCount > 0 ? String(unreadCount) : undefined }
         ].map((tab) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.key;
           return (
             <button
               key={tab.key}
-              onClick={() => setActiveTab(tab.key as any)}
-              className={`flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+              onClick={() => {
+                setActiveTab(tab.key as any);
+                setSearchParams({ tab: tab.key });
+              }}
+              className={`relative flex items-center justify-center gap-1.5 py-2.5 px-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                 isActive
                   ? 'bg-white dark:bg-[#0c131a] text-slate-900 dark:text-white shadow-xs border border-slate-200/60 dark:border-slate-700'
                   : 'text-slate-500 hover:text-slate-800 dark:hover:text-slate-200'
               }`}
             >
-              <Icon className={`w-4 h-4 ${isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
+              <Icon className={`w-4 h-4 shrink-0 ${isActive ? 'text-emerald-600 dark:text-emerald-400' : 'text-slate-400'}`} />
               <span className="truncate">{tab.label}</span>
+              {tab.badge && (
+                <span className="px-1.5 py-0.2 rounded-full bg-rose-500 text-white text-[9px] font-black shrink-0">
+                  {tab.badge}
+                </span>
+              )}
             </button>
           );
         })}
@@ -768,6 +819,251 @@ export const Settings: React.FC = () => {
               </div>
             </div>
           </Card>
+        </div>
+      )}
+
+      {/* ------------------------------------------------------------- */}
+      {/* TAB 5: HELP & SUPPORT (Direct Chat with Faculty/Admin)         */}
+      {/* ------------------------------------------------------------- */}
+      {activeTab === 'support' && (
+        <div className="space-y-5 animate-in fade-in duration-200">
+          {/* Main Academic & Support Chat Container */}
+          <Card className="p-0 border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
+            {/* Chat Header */}
+            <div className="p-4 sm:p-5 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white flex flex-wrap items-center justify-between gap-3 shrink-0">
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-black">
+                    <Headphones className="w-5 h-5" />
+                  </div>
+                  <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 rounded-full bg-emerald-500 border-2 border-slate-900" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-black flex items-center gap-1.5">
+                    <span>Prepora Faculty & Technical Support</span>
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                  </h3>
+                  <div className="text-xs text-slate-300 font-medium">
+                    Direct live chat thread with our faculty & platform team
+                  </div>
+                </div>
+              </div>
+
+              {/* Chat Actions */}
+              <div className="flex items-center gap-2">
+                {!isChatResolved ? (
+                  <button
+                    type="button"
+                    onClick={resolveChat}
+                    className="px-3 py-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold flex items-center gap-1.5 transition cursor-pointer shadow-xs"
+                    title="Mark your question or report as resolved"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Resolve Chat</span>
+                  </button>
+                ) : (
+                  <span className="px-2.5 py-1 rounded-xl bg-emerald-500/20 text-emerald-300 text-xs font-bold border border-emerald-500/40 flex items-center gap-1">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <span>Resolved</span>
+                  </span>
+                )}
+
+                {chatMessages.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearChatThread}
+                    className="px-2.5 py-1.5 rounded-xl bg-slate-800 hover:bg-rose-950/60 text-slate-300 hover:text-rose-300 text-xs font-bold border border-slate-700/60 transition cursor-pointer flex items-center gap-1"
+                    title="Clear previous messages"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Clear</span>
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Resolved Notice Banner */}
+            {isChatResolved && (
+              <div className="bg-emerald-50 dark:bg-emerald-950/60 border-b border-emerald-200 dark:border-emerald-800 px-4 py-2.5 flex items-center justify-between text-xs text-emerald-900 dark:text-emerald-200">
+                <span className="flex items-center gap-2 font-bold">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0" />
+                  <span>Problem solve ho chuki hai (Chat Resolved). Send a message below anytime to reopen.</span>
+                </span>
+              </div>
+            )}
+
+            {/* Chat Feed Scroll Area */}
+            <div className="h-[360px] overflow-y-auto p-4 space-y-3.5 bg-slate-50/50 dark:bg-[#080d12]">
+              {chatMessages.length === 0 ? (
+                <div className="py-14 text-center space-y-2.5">
+                  <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto">
+                    <MessageSquare className="w-6 h-6" />
+                  </div>
+                  <h4 className="text-sm font-bold text-slate-800 dark:text-slate-200">
+                    No Active Support Messages
+                  </h4>
+                  <p className="text-xs text-slate-500 dark:text-slate-400 max-w-sm mx-auto leading-relaxed">
+                    Have a doubt, question clarification, or technical problem? Type your message below and our faculty will reply directly to your account!
+                  </p>
+                </div>
+              ) : (
+                chatMessages.map((msg) => {
+                  if (msg.sender === 'system') {
+                    return (
+                      <div key={msg.id} className="text-center my-2">
+                        <span className="inline-block px-3 py-1 rounded-full bg-slate-200/80 dark:bg-slate-800 text-[11px] text-slate-600 dark:text-slate-400 font-medium">
+                          {msg.text}
+                        </span>
+                      </div>
+                    );
+                  }
+
+                  const isStudent = msg.sender === 'student';
+
+                  return (
+                    <div
+                      key={msg.id}
+                      className={`flex flex-col ${isStudent ? 'items-end' : 'items-start'} space-y-1`}
+                    >
+                      <span className="text-[10px] font-bold text-slate-400 px-1">
+                        {isStudent ? 'You (Student)' : 'Prepora Academic Team 👨‍🏫'}
+                      </span>
+
+                      <div
+                        className={`max-w-[85%] p-3.5 rounded-2xl text-xs leading-relaxed whitespace-pre-wrap ${
+                          isStudent
+                            ? 'bg-emerald-600 text-white rounded-br-xs shadow-md shadow-emerald-600/20 font-medium'
+                            : 'bg-white dark:bg-slate-800 text-slate-900 dark:text-white rounded-bl-xs shadow-sm border border-slate-200 dark:border-slate-700/80'
+                        }`}
+                      >
+                        {msg.text}
+                      </div>
+
+                      <span className="text-[10px] text-slate-400 font-mono px-1">
+                        {msg.timestamp}
+                      </span>
+                    </div>
+                  );
+                })
+              )}
+              <div ref={supportEndRef} />
+            </div>
+
+            {/* Quick Chips */}
+            <div className="px-4 py-2 border-t border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center gap-1.5 overflow-x-auto text-[11px] no-scrollbar">
+              {[
+                'Thank you! 🙏',
+                'Please check Option C in test',
+                'Typo in question explanation',
+                'Need more solution steps',
+                'Question report status check'
+              ].map((chip) => (
+                <button
+                  key={chip}
+                  type="button"
+                  onClick={() => setSupportInput(chip)}
+                  className="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 font-medium shrink-0 transition cursor-pointer"
+                >
+                  {chip}
+                </button>
+              ))}
+            </div>
+
+            {/* Message Input Footer Form */}
+            <form onSubmit={handleSendSupportMessage} className="p-3.5 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
+              <div className="flex gap-2">
+                <textarea
+                  value={supportInput}
+                  onChange={(e) => setSupportInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey) {
+                      e.preventDefault();
+                      handleSendSupportMessage();
+                    }
+                  }}
+                  placeholder="Type your question, issue, or doubt here... (Press Enter to Send)"
+                  rows={2}
+                  className="flex-1 px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-none"
+                />
+
+                <button
+                  type="submit"
+                  disabled={!supportInput.trim() || supportSending}
+                  className="px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-40 text-white font-bold text-xs flex flex-col items-center justify-center gap-1 shrink-0 transition cursor-pointer shadow-sm shadow-emerald-600/30"
+                >
+                  <Send className="w-4 h-4" />
+                  <span>{supportSending ? 'Sending...' : 'Send'}</span>
+                </button>
+              </div>
+
+              <div className="flex items-center justify-between text-[11px] text-slate-400 mt-2 px-1">
+                <span>💬 Messages are linked directly to your student ID & phone number.</span>
+                {chatMessages.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={clearChatThread}
+                    className="text-slate-400 hover:text-rose-500 flex items-center gap-1 cursor-pointer"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    <span>Clear Thread</span>
+                  </button>
+                )}
+              </div>
+            </form>
+          </Card>
+
+          {/* Official Helpline & Support Channels */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            {/* WhatsApp Helpline */}
+            <a
+              href="https://wa.me/917742735762?text=Hello%20Prepora%20Faculty,%20I%20need%20help%20with%20my%20preparation."
+              target="_blank"
+              rel="noreferrer"
+              className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-emerald-200 dark:border-emerald-900/50 hover:border-emerald-500 transition-all shadow-xs flex items-center justify-between group"
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-black">
+                  <Phone className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white flex items-center gap-1.5">
+                    <span>Direct WhatsApp Helpline</span>
+                    <ExternalLink className="w-3 h-3 text-emerald-500 group-hover:translate-x-0.5 transition-transform" />
+                  </h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
+                    +91 77427 35762 (Academic Support)
+                  </p>
+                </div>
+              </div>
+              <span className="text-2xs font-extrabold px-2 py-1 rounded-lg bg-emerald-100 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300">
+                Live
+              </span>
+            </a>
+
+            {/* Official Email */}
+            <div className="p-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-xs flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-blue-500/10 text-blue-600 dark:text-blue-400 flex items-center justify-center font-black">
+                  <Compass className="w-5 h-5" />
+                </div>
+                <div>
+                  <h4 className="text-xs font-black text-slate-900 dark:text-white">
+                    How to Use Prepora Guide
+                  </h4>
+                  <p className="text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
+                    Interactive 4-step walkthrough for new aspirants
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => window.dispatchEvent(new CustomEvent('prepora:open_student_guide'))}
+                className="text-xs font-bold px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-800 hover:bg-emerald-50 hover:text-emerald-600 transition cursor-pointer"
+              >
+                Open Guide
+              </button>
+            </div>
+          </div>
         </div>
       )}
 
