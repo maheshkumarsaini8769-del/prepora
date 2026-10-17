@@ -1,0 +1,17 @@
+[
+  {
+    "id": "psub-1792249769625-afh8b",
+    "userId": "test-student-device",
+    "phone": "9999999999",
+    "targetExam": "JEE",
+    "subscription": {
+      "endpoint": "https://fcm.googleapis.com/fcm/send/test-endpoint-prepora-verify-1",
+      "keys": {
+        "p256dh": "BIPeA-4S5v_test_key_sample_1234567890",
+        "auth": "auth_secret_sample"
+      }
+    },
+    "userAgent": "Mozilla/5.0 (Linux; Android 14; Pixel 8) PreporaMobile",
+    "updatedAt": "2026-10-17T15:09:29.625Z"
+  }
+]

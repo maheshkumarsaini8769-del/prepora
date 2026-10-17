@@ -13,6 +13,7 @@ const router = express.Router();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const BACKUP_FILE = path.join(__dirname, '../data/notifications_backup.json');
+const PUSH_SUBS_BACKUP_FILE = path.join(__dirname, '../data/push_subscriptions_backup.json');
 
 // Setup VAPID keys for Web Push Notifications
 const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY || 'BPVvS_QyNnkOgsScKTCECOb7vTUxncWsRNXQaDolwupkn4G2Y9WpjdvHSrx7MAWsjtQJwXkvIc7qyQtMxgZ-DYI';
@@ -25,10 +26,11 @@ try {
   console.warn('[WebPush] Error initializing VAPID:', e);
 }
 
-// In-memory fallback in case of MongoDB transient connection delay
+// In-memory fallbacks
 const fallbackNotifications: Array<any> = [];
+const fallbackPushSubscriptions: Array<any> = [];
 
-// Load disk backup if present
+// Load disk backup for notifications if present
 try {
   if (fs.existsSync(BACKUP_FILE)) {
     const raw = fs.readFileSync(BACKUP_FILE, 'utf-8');
@@ -39,6 +41,19 @@ try {
   }
 } catch (e) {
   console.warn('[Notification] Could not load backup notifications:', e);
+}
+
+// Load disk backup for push subscriptions if present
+try {
+  if (fs.existsSync(PUSH_SUBS_BACKUP_FILE)) {
+    const raw = fs.readFileSync(PUSH_SUBS_BACKUP_FILE, 'utf-8');
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed)) {
+      fallbackPushSubscriptions.push(...parsed);
+    }
+  }
+} catch (e) {
+  console.warn('[PushSub] Could not load backup push subscriptions:', e);
 }
 
 function persistToDiskBackup(item: any) {
@@ -52,7 +67,27 @@ function persistToDiskBackup(item: any) {
   }
 }
 
-// Helper to send Web Push Notifications in background
+function persistPushSubBackup(item: any) {
+  try {
+    const idx = fallbackPushSubscriptions.findIndex(
+      (s) => s.subscription?.endpoint === item.subscription?.endpoint
+    );
+    if (idx !== -1) {
+      fallbackPushSubscriptions[idx] = { ...fallbackPushSubscriptions[idx], ...item };
+    } else {
+      fallbackPushSubscriptions.unshift(item);
+    }
+    fs.promises.writeFile(
+      PUSH_SUBS_BACKUP_FILE,
+      JSON.stringify(fallbackPushSubscriptions, null, 2),
+      'utf-8'
+    ).catch(() => null);
+  } catch {
+    // Non-fatal
+  }
+}
+
+// Helper to send Web Push Notifications in background even if app is closed
 async function dispatchWebPush(notification: {
   id?: string;
   title: string;
@@ -90,7 +125,29 @@ async function dispatchWebPush(notification: {
       query.$or = [{ targetExam: notification.targetExam }, { targetExam: 'ALL' }];
     }
 
-    const subscriptions = await PushSubscription.find(query).limit(1000).lean();
+    let subscriptions: any[] = [];
+    try {
+      subscriptions = await PushSubscription.find(query).maxTimeMS(5000).limit(2000).lean();
+    } catch (dbErr) {
+      console.warn('[WebPush] DB query error, falling back to disk cache:', dbErr);
+    }
+
+    if (!subscriptions || subscriptions.length === 0) {
+      // Use memory/disk backup
+      subscriptions = fallbackPushSubscriptions.filter((s) => {
+        if (!s.subscription?.endpoint) return false;
+        if (notification.targetType === 'SPECIFIC_USER') {
+          if (notification.targetUserPhone && s.phone && s.phone.includes(notification.targetUserPhone)) return true;
+          if (notification.targetUserId && (s.userId === notification.targetUserId || s.studentId === notification.targetUserId)) return true;
+          return false;
+        }
+        if (notification.targetType === 'EXAM_SPECIFIC' && notification.targetExam && notification.targetExam !== 'ALL') {
+          return s.targetExam === notification.targetExam || s.targetExam === 'ALL';
+        }
+        return true;
+      });
+    }
+
     if (!subscriptions || subscriptions.length === 0) {
       return { sent: 0, failed: 0 };
     }
@@ -107,7 +164,14 @@ async function dispatchWebPush(notification: {
         failedCount++;
         // If subscription is expired or unsubscribed (HTTP 404 or 410), delete it
         if (err.statusCode === 404 || err.statusCode === 410) {
-          await PushSubscription.deleteOne({ _id: subDoc._id }).catch(() => null);
+          await PushSubscription.deleteOne({ 'subscription.endpoint': subDoc.subscription?.endpoint }).catch(() => null);
+          const fIdx = fallbackPushSubscriptions.findIndex(
+            (s) => s.subscription?.endpoint === subDoc.subscription?.endpoint
+          );
+          if (fIdx !== -1) {
+            fallbackPushSubscriptions.splice(fIdx, 1);
+            fs.promises.writeFile(PUSH_SUBS_BACKUP_FILE, JSON.stringify(fallbackPushSubscriptions, null, 2), 'utf-8').catch(() => null);
+          }
         }
       }
     });
@@ -142,34 +206,115 @@ router.post('/subscribe-push', async (req: Request, res: Response) => {
     }
 
     const cleanPhone = phone ? String(phone).replace(/[^0-9]/g, '').slice(-10) : '';
-
     const id = `psub-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`;
 
-    await PushSubscription.findOneAndUpdate(
-      { 'subscription.endpoint': subscription.endpoint },
-      {
-        $set: {
-          id,
-          userId: userId ? String(userId) : undefined,
-          phone: cleanPhone || undefined,
-          targetExam: targetExam || 'ALL',
-          subscription,
-          userAgent: userAgent || '',
-          updatedAt: new Date()
+    const subItem = {
+      id,
+      userId: userId ? String(userId) : undefined,
+      phone: cleanPhone || undefined,
+      targetExam: targetExam || 'ALL',
+      subscription,
+      userAgent: userAgent || '',
+      updatedAt: new Date()
+    };
+
+    // Save to disk backup immediately
+    persistPushSubBackup(subItem);
+
+    // Save/Upsert in MongoDB
+    try {
+      await PushSubscription.findOneAndUpdate(
+        { 'subscription.endpoint': subscription.endpoint },
+        {
+          $set: subItem,
+          $setOnInsert: {
+            createdAt: new Date()
+          }
         },
-        $setOnInsert: {
-          createdAt: new Date()
-        }
-      },
-      { upsert: true, new: true }
-    );
+        { upsert: true, new: true, maxTimeMS: 5000 }
+      );
+    } catch (dbErr) {
+      console.warn('[WebPush] Warning: Push subscription saved to disk backup (DB transient delay):', dbErr);
+    }
 
     return res.json({
       success: true,
-      message: 'Browser push notifications successfully subscribed!'
+      message: 'Mobile browser push notifications registered successfully! You will now receive background alerts.'
     });
   } catch (error: any) {
     console.error('[WebPush] Error saving push subscription:', error);
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// -------------------------------------------------------------
+// POST /api/notifications/test-push - Send instant test push to user's device
+// -------------------------------------------------------------
+router.post('/test-push', async (req: Request, res: Response) => {
+  try {
+    const { endpoint, phone, userId } = req.body || {};
+    let subDoc: any = null;
+
+    if (endpoint) {
+      try {
+        subDoc = await PushSubscription.findOne({ 'subscription.endpoint': endpoint }).maxTimeMS(4000).lean();
+      } catch {
+        subDoc = fallbackPushSubscriptions.find((s) => s.subscription?.endpoint === endpoint);
+      }
+    }
+
+    if (!subDoc && phone) {
+      const cleanPhone = String(phone).replace(/[^0-9]/g, '').slice(-10);
+      try {
+        subDoc = await PushSubscription.findOne({ phone: new RegExp(cleanPhone) }).sort({ updatedAt: -1 }).maxTimeMS(4000).lean();
+      } catch {
+        subDoc = fallbackPushSubscriptions.find((s) => s.phone && s.phone.includes(cleanPhone));
+      }
+    }
+
+    if (!subDoc && userId) {
+      try {
+        subDoc = await PushSubscription.findOne({ userId: String(userId) }).sort({ updatedAt: -1 }).maxTimeMS(4000).lean();
+      } catch {
+        subDoc = fallbackPushSubscriptions.find((s) => s.userId === String(userId));
+      }
+    }
+
+    if (!subDoc) {
+      // Fallback: pick the latest registered device
+      subDoc = fallbackPushSubscriptions[0];
+      if (!subDoc) {
+        try {
+          subDoc = await PushSubscription.findOne().sort({ updatedAt: -1 }).maxTimeMS(4000).lean();
+        } catch {
+          // ignore
+        }
+      }
+    }
+
+    if (!subDoc || !subDoc.subscription || !subDoc.subscription.endpoint) {
+      return res.status(404).json({
+        success: false,
+        message: 'No push subscription found on device. Please click "Allow Notifications" first!'
+      });
+    }
+
+    const testPayload = JSON.stringify({
+      id: `test-${Date.now()}`,
+      title: 'PREPORA • Background Alert Active! 🚀',
+      message: 'Background notifications are working smoothly even when Prepora is closed.',
+      actionUrl: '/practice',
+      type: 'achievement'
+    });
+
+    await webpush.sendNotification(subDoc.subscription, testPayload);
+
+    return res.json({
+      success: true,
+      message: 'Test notification sent directly to your device via Web Push!'
+    });
+  } catch (error: any) {
+    console.error('[WebPush] Error sending test push:', error);
     return res.status(500).json({ success: false, message: error.message });
   }
 });
@@ -198,7 +343,8 @@ router.get('/', async (req: Request, res: Response) => {
     try {
       docs = await Notification.find({ $or: conditions })
         .sort({ createdAt: -1 })
-        .limit(50);
+        .limit(50)
+        .maxTimeMS(5000);
     } catch {
       // Fallback in-memory
       docs = fallbackNotifications.filter((n) => {
@@ -388,10 +534,10 @@ const handleSendNotification = async (req: Request, res: Response) => {
       notification: savedDoc,
       webPush: pushResult,
       message: targetType === 'BROADCAST'
-        ? `Broadcast notification sent to all students! (Pushed to ${pushResult.sent} offline browsers)`
+        ? `Broadcast notification sent to all students! (Delivered to ${pushResult.sent} background devices)`
         : targetType === 'EXAM_SPECIFIC'
-        ? `Notification sent to all ${targetExam} students! (Pushed to ${pushResult.sent} offline browsers)`
-        : `Notification sent successfully to ${cleanPhone || targetUserId}! (Pushed to ${pushResult.sent} offline browsers)`
+        ? `Notification sent to all ${targetExam} students! (Delivered to ${pushResult.sent} background devices)`
+        : `Notification sent successfully to ${cleanPhone || targetUserId}! (Delivered to ${pushResult.sent} background devices)`
     });
   } catch (error: any) {
     return res.status(500).json({ success: false, message: error.message });
@@ -408,7 +554,7 @@ router.get('/admin', authenticateUser, requireAdmin, async (req: Request, res: R
   try {
     let list: any[] = [];
     try {
-      list = await Notification.find().sort({ createdAt: -1 }).limit(100);
+      list = await Notification.find().sort({ createdAt: -1 }).limit(100).maxTimeMS(4000);
     } catch {
       list = fallbackNotifications;
     }
@@ -420,8 +566,9 @@ router.get('/admin', authenticateUser, requireAdmin, async (req: Request, res: R
       }
     }
 
-    // Count push subscribers
-    const totalSubscribers = await PushSubscription.countDocuments().catch(() => 0);
+    // Count push subscribers (max of DB count or fallback backup count)
+    const dbSubscribers = await PushSubscription.countDocuments().maxTimeMS(4000).catch(() => 0);
+    const totalSubscribers = Math.max(dbSubscribers, fallbackPushSubscriptions.length);
 
     return res.json({
       success: true,

@@ -18,20 +18,24 @@ self.addEventListener('push', (event) => {
     }
   }
 
-  const title = data.title || 'PREPORA Notification';
+  const title = data.title || 'PREPORA • Study Alert';
   const options = {
     body: data.message || data.body || 'You have an important study update from PREPORA.',
-    icon: '/pwa-icon.svg',
-    badge: '/pwa-icon.svg',
-    vibrate: [200, 100, 200],
+    icon: '/pwa-192.png',
+    badge: '/badge-96.png',
+    image: data.image || undefined,
+    vibrate: [200, 100, 200, 100, 200],
     data: {
-      url: data.actionUrl || data.url || '/'
+      url: data.actionUrl || data.url || '/',
+      timestamp: Date.now()
     },
     actions: [
-      { action: 'open', title: 'Open PREPORA' }
+      { action: 'open', title: 'Open Prepora 🚀' },
+      { action: 'dismiss', title: 'Dismiss' }
     ],
-    tag: data.id || `prepora-notif-${Date.now()}`,
-    renotify: true
+    tag: data.tag || data.id || `prepora-notif-${Date.now()}`,
+    renotify: true,
+    requireInteraction: Boolean(data.requireInteraction)
   };
 
   event.waitUntil(self.registration.showNotification(title, options));
@@ -40,15 +44,21 @@ self.addEventListener('push', (event) => {
 // Notification click event: focus existing tab or open new window
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
-  const targetUrl = event.notification.data?.url || '/';
+
+  if (event.action === 'dismiss') {
+    return;
+  }
+
+  const rawUrl = event.notification.data?.url || '/';
+  const targetUrl = new URL(rawUrl, self.location.origin).href;
 
   event.waitUntil(
     self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
       // If a window is already open, focus it and navigate
       for (const client of clientList) {
-        if (client.url && 'focus' in client) {
+        if ('focus' in client) {
           client.focus();
-          if ('navigate' in client && targetUrl !== '/') {
+          if ('navigate' in client && targetUrl !== client.url) {
             client.navigate(targetUrl);
           }
           return;

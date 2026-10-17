@@ -37,6 +37,25 @@ if (typeof window !== 'undefined') {
       }
     }
   });
+
+  // Register Service Worker for PWA & Background Push Notifications
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker
+        .register('/sw.js', { scope: '/' })
+        .then(() => {
+          // If already granted, silently sync subscription
+          if (typeof Notification !== 'undefined' && Notification.permission === 'granted') {
+            import('./utils/pushNotification').then((module) => {
+              module.syncExistingPushSubscription().catch(() => null);
+            });
+          }
+        })
+        .catch((err) => {
+          console.warn('[Prepora] Service worker registration error:', err);
+        });
+    });
+  }
 }
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

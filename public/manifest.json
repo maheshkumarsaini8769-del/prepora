@@ -1,16 +1,28 @@
 {
-  "name": "STUDY UP • Academic Command Center",
-  "short_name": "STUDY UP",
-  "description": "JEE, NEET & CBSE smart preparation portal with AI Doubt Solver, Real PYQs and CBT Mocks",
+  "name": "PREPORA • Exam Preparation Platform",
+  "short_name": "PREPORA",
+  "description": "Comprehensive JEE & NEET Preparation Platform with 1 Lakh+ Questions, Real CBT Mock Tests & AI Doubt Solver",
   "start_url": "/",
   "display": "standalone",
   "orientation": "portrait",
   "background_color": "#080d12",
-  "theme_color": "#080d12",
+  "theme_color": "#10b981",
   "icons": [
     {
+      "src": "/pwa-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/pwa-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/pwa-icon.svg",
-      "sizes": "192x192 512x512",
+      "sizes": "any",
       "type": "image/svg+xml",
       "purpose": "any maskable"
     }

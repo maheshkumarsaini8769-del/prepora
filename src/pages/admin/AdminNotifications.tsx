@@ -18,6 +18,11 @@ import {
 import { useSearchParams } from 'react-router-dom';
 import { adminFetch } from '../../utils/adminApi';
 import { soundFeedback } from '../../utils/audioFeedback';
+import {
+  sendTestPushNotification,
+  registerPushNotifications,
+  getPushPermissionStatus
+} from '../../utils/pushNotification';
 
 interface SentNotification {
   id: string;
@@ -77,6 +82,48 @@ export const AdminNotifications: React.FC = () => {
       setLoadingHistory(false);
     }
   }, []);
+
+  const [testPushing, setTestPushing] = useState(false);
+
+  const handleAdminTestPush = async () => {
+    setTestPushing(true);
+    soundFeedback.playClick();
+    setFeedbackMsg(null);
+
+    try {
+      if (getPushPermissionStatus() !== 'granted') {
+        const regRes = await registerPushNotifications();
+        if (!regRes.success) {
+          setFeedbackMsg({
+            text: regRes.message || 'Please grant notification permission in your browser first.',
+            success: false
+          });
+          setTestPushing(false);
+          return;
+        }
+      }
+
+      const res = await sendTestPushNotification();
+      setTestPushing(false);
+
+      if (res.success) {
+        soundFeedback.playSuccess();
+        setFeedbackMsg({
+          text: '🚀 Background Test Notification delivered to your device via Web Push! Check your status bar/lock screen.',
+          success: true
+        });
+        fetchHistory();
+      } else {
+        setFeedbackMsg({
+          text: res.message || 'Failed to dispatch test push.',
+          success: false
+        });
+      }
+    } catch (err: any) {
+      setTestPushing(false);
+      setFeedbackMsg({ text: err.message || 'Error sending test push.', success: false });
+    }
+  };
 
   useEffect(() => {
     fetchHistory();
@@ -168,15 +215,27 @@ export const AdminNotifications: React.FC = () => {
           </p>
         </div>
 
-        <button
-          type="button"
-          onClick={fetchHistory}
-          disabled={loadingHistory}
-          className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer self-start sm:self-auto"
-        >
-          <RefreshCw className={`w-3.5 h-3.5 ${loadingHistory ? 'animate-spin' : ''}`} />
-          <span>Refresh History</span>
-        </button>
+        <div className="flex items-center gap-2.5 flex-wrap self-start sm:self-auto">
+          <button
+            type="button"
+            onClick={handleAdminTestPush}
+            disabled={testPushing}
+            className="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white text-xs font-black flex items-center gap-1.5 transition cursor-pointer shadow-sm shadow-emerald-600/30"
+          >
+            <Send className="w-3.5 h-3.5" />
+            <span>{testPushing ? 'Dispatching...' : 'Test Push on My Device'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={fetchHistory}
+            disabled={loadingHistory}
+            className="px-3.5 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold flex items-center gap-1.5 transition cursor-pointer"
+          >
+            <RefreshCw className={`w-3.5 h-3.5 ${loadingHistory ? 'animate-spin' : ''}`} />
+            <span>Refresh History</span>
+          </button>
+        </div>
       </div>
 
       {/* Top Telemetry Cards */}
