@@ -16,10 +16,7 @@ import {
   Zap,
   Sparkles,
   BookMarked,
-  Edit2,
-  BellRing,
-  Send,
-  Smartphone
+  Edit2
 } from 'lucide-react';
 import { soundFeedback } from '../utils/audioFeedback';
 import { userService } from '../services/userService';
@@ -28,12 +25,6 @@ import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
 import { PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
 import { getAllowedSubjectsForExam } from '../utils/examUtils';
-import {
-  isPushNotificationSupported,
-  getPushPermissionStatus,
-  registerPushNotifications,
-  sendTestPushNotification
-} from '../utils/pushNotification';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
@@ -89,46 +80,6 @@ export const Home: React.FC = () => {
     window.addEventListener('prepora-colormode-change', handleColorChange);
     return () => window.removeEventListener('prepora-colormode-change', handleColorChange);
   }, []);
-
-  // Home Push Notification Quick Action State
-  const [homePushPermission, setHomePushPermission] = useState<NotificationPermission | 'unsupported'>('default');
-  const [homePushTesting, setHomePushTesting] = useState(false);
-  const [homePushToast, setHomePushToast] = useState<string | null>(null);
-
-  useEffect(() => {
-    setHomePushPermission(getPushPermissionStatus());
-  }, []);
-
-  const handleEnableHomePush = async () => {
-    soundFeedback.playClick();
-    const res = await registerPushNotifications({
-      id: user?.id,
-      phone: (user as any)?.phone || (user as any)?.mobile,
-      targetExam: user?.targetExam
-    });
-    setHomePushPermission(getPushPermissionStatus());
-    if (res.success && res.permission === 'granted') {
-      soundFeedback.playSuccess();
-      setHomePushToast('🎉 Notifications Active! Welcome alert dispatched to your device.');
-    } else {
-      setHomePushToast(res.message || 'Permission was not granted.');
-    }
-    setTimeout(() => setHomePushToast(null), 5000);
-  };
-
-  const handleTestHomePush = async () => {
-    setHomePushTesting(true);
-    soundFeedback.playClick();
-    const res = await sendTestPushNotification((user as any)?.phone, user?.id);
-    setHomePushTesting(false);
-    if (res.success) {
-      soundFeedback.playSuccess();
-      setHomePushToast('🚀 Push Sent! Minimize or close the app to see it on your lock screen/notification bar.');
-    } else {
-      setHomePushToast(res.message || 'Could not send test push.');
-    }
-    setTimeout(() => setHomePushToast(null), 5000);
-  };
 
   const prepProfile = user.preparationProfile || {
     preparationType: (user.targetExam || 'JEE') as PreparationType,
@@ -308,73 +259,6 @@ export const Home: React.FC = () => {
           />
         </div>
       </div>
-
-      {/* ========================================================================= */}
-      {/* 1.5 MOBILE WEB PUSH & LOCK SCREEN ALERTS QUICK ACTION BAR                 */}
-      {/* ========================================================================= */}
-      {homePushPermission === 'granted' ? (
-        <div className="p-3 px-4 rounded-2xl bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 shadow-2xs flex flex-wrap items-center justify-between gap-3 animate-in fade-in">
-          <div className="flex items-center gap-2.5">
-            <span className="relative flex h-2.5 w-2.5">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500" />
-            </span>
-            <div className="text-xs">
-              <span className="font-black text-slate-900 dark:text-white">Mobile Push Notifications Active</span>
-              <span className="text-[11px] text-slate-500 dark:text-slate-400 ml-1.5 hidden sm:inline">• Test alerts will pop up on your lock screen</span>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleTestHomePush}
-              disabled={homePushTesting}
-              className="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-600 text-emerald-700 dark:text-emerald-300 hover:text-white text-xs font-black transition flex items-center gap-1.5 cursor-pointer disabled:opacity-50"
-            >
-              <Send className="w-3.5 h-3.5" />
-              <span>{homePushTesting ? 'Dispatching...' : '🚀 Test My Phone'}</span>
-            </button>
-          </div>
-        </div>
-      ) : (
-        <div className="p-3.5 sm:p-4 rounded-2xl bg-gradient-to-r from-emerald-500/15 via-teal-500/10 to-indigo-500/10 border border-emerald-500/30 flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs animate-in fade-in">
-          <div className="flex items-start sm:items-center gap-3">
-            <div className="w-10 h-10 rounded-2xl bg-emerald-600 text-white flex items-center justify-center shrink-0 shadow-md shadow-emerald-600/30">
-              <BellRing className="w-5 h-5 animate-pulse" />
-            </div>
-            <div>
-              <h4 className="text-xs sm:text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
-                <span>Turn On Mobile Notifications</span>
-                <span className="text-2xs font-extrabold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300">
-                  Recommended
-                </span>
-              </h4>
-              <p className="text-[11px] text-slate-600 dark:text-slate-400 mt-0.5">
-                Receive mock test countdowns and study streak reminders <strong className="text-emerald-600 dark:text-emerald-400">even when Prepora is closed or minimized</strong>.
-              </p>
-            </div>
-          </div>
-
-          <button
-            type="button"
-            onClick={handleEnableHomePush}
-            className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shrink-0 shadow-sm shadow-emerald-600/30 transition flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
-          >
-            <BellRing className="w-4 h-4" />
-            <span>Turn On Now</span>
-          </button>
-        </div>
-      )}
-
-      {homePushToast && (
-        <div className="p-3 rounded-xl bg-slate-900 text-white text-xs font-bold shadow-lg animate-in fade-in flex items-center justify-between gap-2 border border-slate-700">
-          <span>{homePushToast}</span>
-          <button type="button" onClick={() => setHomePushToast(null)} className="text-slate-400 hover:text-white">
-            <X className="w-4 h-4" />
-          </button>
-        </div>
-      )}
 
       {/* ========================================================================= */}
       {/* 2. HERO CHALLENGE CARD (MINT PASTEL GREEN - INSPIRATION FROM JEE PREP)    */}
