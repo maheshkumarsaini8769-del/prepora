@@ -1,5 +1,20 @@
 [
   {
+    "id": "notif-1792248614720-rkvm",
+    "targetType": "BROADCAST",
+    "targetUserId": "",
+    "targetUserPhone": "",
+    "targetExam": "ALL",
+    "title": "Test Alert Verification",
+    "message": "Verifying notification delivery without any timeout buffering",
+    "type": "announcement",
+    "actionUrl": "/practice",
+    "senderAdminEmail": "admin@prepora.internal",
+    "readBy": [],
+    "createdAt": "2026-10-17T14:50:14.721Z",
+    "updatedAt": "2026-10-17T14:50:14.721Z"
+  },
+  {
     "id": "notif-1792072995222-7dcz",
     "targetType": "BROADCAST",
     "targetUserId": "",

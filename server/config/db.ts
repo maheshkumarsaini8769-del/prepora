@@ -10,53 +10,90 @@ try {
 
 dotenv.config();
 
-let isConnected = false;
-
 const ATLAS_FALLBACK_URI = 'mongodb+srv://maheshkumarsaini8769_db_user:ZsucNN15OKdnprGO@cluster0.1khkuyi.mongodb.net/prepora_students_db?retryWrites=true&w=majority&appName=Cluster0';
 const LOCAL_FALLBACK_URI = 'mongodb://127.0.0.1:27017/prepora_db';
 
-export const connectDB = async (): Promise<void> => {
+let isConnected = false;
+let connectionPromise: Promise<void> | null = null;
+
+// Fail fast on buffering queries instead of locking requests for 10+ seconds
+mongoose.set('bufferTimeoutMS', 5000);
+
+const getTargetUri = (): string => {
   let uri = process.env.MONGODB_URI;
   const isLocalHost = uri && (uri.includes('localhost') || uri.includes('127.0.0.1'));
   if (!uri || (process.env.NODE_ENV === 'production' && isLocalHost) || (process.env.VERCEL && isLocalHost)) {
     uri = ATLAS_FALLBACK_URI;
   }
+  return uri;
+};
 
+const mongooseOptions: mongoose.ConnectOptions = {
+  maxPoolSize: 30, // Optimized for MongoDB Atlas connection limits
+  minPoolSize: 2,
+  maxIdleTimeMS: 30000,
+  serverSelectionTimeoutMS: 6000,
+  socketTimeoutMS: 30000,
+  heartbeatFrequencyMS: 10000,
+  family: 4 // IPv4 first to prevent DNS resolution delays
+};
+
+export const connectDB = async (): Promise<void> => {
   if (mongoose.connection.readyState === 1) {
+    isConnected = true;
     return;
   }
 
-  try {
-    const conn = await mongoose.connect(uri, {
-      maxPoolSize: 100, // Scaled for high concurrency (handles 5 Lakh active students / 20k requests)
-      minPoolSize: 10,  // Pre-warmed pool eliminates cold-start connection latency
-      maxIdleTimeMS: 30000,
-      serverSelectionTimeoutMS: 8000,
-      socketTimeoutMS: 45000,
-    });
-    isConnected = true;
-    console.log(`[MongoDB] Connected successfully (High-Concurrency Pool: 100): ${conn.connection.host}/${conn.connection.name}`);
-  } catch (error: any) {
-    isConnected = false;
-    console.error(`[MongoDB] Connection error: ${error?.message || error}`);
-    // If primary failed, try local fallback so platform never goes down
-    if ((mongoose.connection.readyState as number) !== 1) {
-      try {
-        console.log('[MongoDB] Primary failed, attempting connection to local database fallback...');
-        const localConn = await mongoose.connect(LOCAL_FALLBACK_URI, {
-          maxPoolSize: 100,
-          minPoolSize: 5,
-          maxIdleTimeMS: 30000,
-          serverSelectionTimeoutMS: 4000,
-          socketTimeoutMS: 45000,
-        });
-        isConnected = true;
-        console.log(`[MongoDB] Connected successfully via Local Fallback (Pool: 100): ${localConn.connection.host}/${localConn.connection.name}`);
-      } catch (localErr: any) {
-        isConnected = false;
-        console.error(`[MongoDB] Fallback error: ${localErr?.message || localErr}`);
+  // If a connection attempt is already in flight, reuse the promise instead of spawning duplicate attempts
+  if (mongoose.connection.readyState === 2 && connectionPromise) {
+    return connectionPromise;
+  }
+
+  connectionPromise = (async () => {
+    const primaryUri = getTargetUri();
+
+    try {
+      const conn = await mongoose.connect(primaryUri, mongooseOptions);
+      isConnected = true;
+      console.log(`[MongoDB] Connected successfully (Active Pool): ${conn.connection.host}/${conn.connection.name}`);
+    } catch (error: any) {
+      isConnected = false;
+      console.error(`[MongoDB] Primary connection error: ${error?.message || error}`);
+
+      // Attempt fallback connection if primary Atlas fails
+      if ((mongoose.connection.readyState as number) !== 1) {
+        try {
+          console.log('[MongoDB] Attempting connection to local database fallback...');
+          await mongoose.disconnect().catch(() => {});
+          const localConn = await mongoose.connect(LOCAL_FALLBACK_URI, {
+            ...mongooseOptions,
+            serverSelectionTimeoutMS: 3000
+          });
+          isConnected = true;
+          console.log(`[MongoDB] Connected successfully via Local Fallback: ${localConn.connection.host}/${localConn.connection.name}`);
+        } catch (localErr: any) {
+          isConnected = false;
+          console.error(`[MongoDB] Local Fallback error: ${localErr?.message || localErr}`);
+        }
       }
+    } finally {
+      connectionPromise = null;
     }
+  })();
+
+  return connectionPromise;
+};
+
+export const ensureDBConnected = async (timeoutMs = 4000): Promise<boolean> => {
+  if (mongoose.connection.readyState === 1) return true;
+  try {
+    await Promise.race([
+      connectDB(),
+      new Promise<void>((_, reject) => setTimeout(() => reject(new Error('DB connection wait timeout')), timeoutMs))
+    ]);
+    return mongoose.connection.readyState === 1;
+  } catch {
+    return mongoose.connection.readyState === 1;
   }
 };
 
@@ -64,7 +101,7 @@ mongoose.connection.on('disconnected', () => {
   isConnected = false;
   console.warn('[MongoDB] Connection lost. Attempting auto-reconnect...');
   setTimeout(() => {
-    if (mongoose.connection.readyState !== 1) {
+    if (mongoose.connection.readyState !== 1 && mongoose.connection.readyState !== 2) {
       connectDB().catch(() => {});
     }
   }, 2000);

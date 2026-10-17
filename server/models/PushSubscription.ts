@@ -39,8 +39,6 @@ const PushSubscriptionSchema: Schema = new Schema(
   { timestamps: true }
 );
 
-PushSubscriptionSchema.index({ phone: 1 });
-PushSubscriptionSchema.index({ userId: 1 });
 PushSubscriptionSchema.index({ targetExam: 1 });
 
 export default mongoose.model<IPushSubscription>('PushSubscription', PushSubscriptionSchema);
