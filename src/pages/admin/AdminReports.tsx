@@ -1749,35 +1749,37 @@ export const AdminReports: React.FC = () => {
 
             {/* Modal Footer: Live Reply Box */}
             <div className="p-3 sm:p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-[#0c141e] space-y-2">
-              <div className="flex gap-2">
+              <div className="flex flex-col sm:flex-row gap-2">
                 <textarea
                   rows={2}
                   value={chatReplyInput}
                   onChange={e => setChatReplyInput(e.target.value)}
                   placeholder={`Reply to ${activeChatThread.studentName || 'student'} (Notification will be sent instantly)...`}
-                  className="flex-1 p-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none"
+                  className="flex-1 p-2.5 sm:p-3 text-xs rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-900 focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none min-h-[50px]"
                 />
-                <Button
-                  type="button"
-                  onClick={handleSendChatReply}
-                  disabled={chatSending || !chatReplyInput.trim()}
-                  className="px-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white font-bold text-xs flex flex-col items-center justify-center gap-1 rounded-xl shrink-0 cursor-pointer shadow-xs"
-                >
-                  <Send className="w-4 h-4" />
-                  <span className="text-[10px]">{chatSending ? 'Sending...' : 'Send'}</span>
-                </Button>
-
-                {activeChatThread.hasPending && (
+                <div className="flex items-center gap-2 shrink-0">
                   <Button
                     type="button"
-                    onClick={() => handleResolveThreadAndMoveToHistory(activeChatThread, chatReplyInput.trim() || undefined)}
-                    className="px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex flex-col items-center justify-center gap-1 rounded-xl shrink-0 cursor-pointer shadow-xs"
-                    title="Resolve this chat thread immediately and move to History"
+                    onClick={handleSendChatReply}
+                    disabled={chatSending || !chatReplyInput.trim()}
+                    className="flex-1 sm:flex-initial px-4 py-2 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white font-bold text-xs flex items-center justify-center gap-1.5 rounded-xl cursor-pointer shadow-xs"
                   >
-                    <CheckCircle2 className="w-4 h-4" />
-                    <span className="text-[10px]">Resolve Chat</span>
+                    <Send className="w-3.5 h-3.5" />
+                    <span>{chatSending ? 'Sending...' : 'Send'}</span>
                   </Button>
-                )}
+
+                  {activeChatThread.hasPending && (
+                    <Button
+                      type="button"
+                      onClick={() => handleResolveThreadAndMoveToHistory(activeChatThread, chatReplyInput.trim() || undefined)}
+                      className="flex-1 sm:flex-initial px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex items-center justify-center gap-1.5 rounded-xl cursor-pointer shadow-xs"
+                      title="Resolve this chat thread immediately and move to History"
+                    >
+                      <CheckCircle2 className="w-3.5 h-3.5" />
+                      <span>Resolve Chat</span>
+                    </Button>
+                  )}
+                </div>
               </div>
               <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400">
                 <span>

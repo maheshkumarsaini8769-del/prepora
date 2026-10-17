@@ -178,7 +178,7 @@ export const Home: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md sm:max-w-2xl lg:max-w-4xl mx-auto space-y-4 sm:space-y-6 pb-28 px-1 sm:px-4 animate-in fade-in duration-200">
+    <div className="max-w-md sm:max-w-2xl lg:max-w-4xl mx-auto space-y-4 sm:space-y-6 pb-28 px-2.5 sm:px-4 animate-in fade-in duration-200">
       {/* ========================================================================= */}
       {/* 1. HERO GREETING & MASCOT                                                 */}
       {/* ========================================================================= */}
@@ -782,7 +782,7 @@ export const Home: React.FC = () => {
         </div>
 
         {/* 7 Days of Week (M T W T F S S) with Green Checkmark Circles */}
-        <div className="flex items-center gap-1.5 sm:gap-2">
+        <div className="flex items-center gap-1 sm:gap-1.5 shrink-0">
           {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => {
             const streakVal = user.streakDays || 0;
             const isChecked = streakVal > 0 && i < Math.min(streakVal, 7);

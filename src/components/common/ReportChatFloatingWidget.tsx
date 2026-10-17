@@ -70,7 +70,7 @@ export const ReportChatFloatingWidget: React.FC = () => {
       {/* 1. POPUP REPLY ALERT TOAST (Appears immediately when Admin replies)       */}
       {/* ========================================================================= */}
       {popupAlert && !isChatOpen && (
-        <div className="fixed top-5 right-5 z-[9999] max-w-sm w-full animate-in slide-in-from-top-4 duration-300">
+        <div className="fixed top-4 sm:top-5 right-4 sm:right-5 left-4 sm:left-auto z-[9999] max-w-sm sm:w-full animate-in slide-in-from-top-4 duration-300">
           <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border-2 border-emerald-500 shadow-2xl shadow-emerald-500/20 text-slate-900 dark:text-white space-y-2 relative overflow-hidden">
             <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-teal-400 to-indigo-500" />
             
@@ -128,7 +128,7 @@ export const ReportChatFloatingWidget: React.FC = () => {
       {/* 2. FLOATING BOTTOM-RIGHT CORNER BUBBLE WIDGET                             */}
       {/* ========================================================================= */}
       {isWidgetVisible && !isChatOpen && (
-        <div className="fixed bottom-6 right-6 z-[990] flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-[990] flex items-center gap-2 animate-in fade-in zoom-in-95 duration-200">
           {/* Unread speech pill */}
           {unreadCount > 0 && (
             <button
@@ -146,9 +146,9 @@ export const ReportChatFloatingWidget: React.FC = () => {
             type="button"
             onClick={() => openReportChat()}
             title="Open Report & Support Chat"
-            className="relative w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-indigo-600 hover:scale-105 active:scale-95 text-white shadow-2xl shadow-emerald-600/40 flex items-center justify-center transition cursor-pointer group"
+            className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-indigo-600 hover:scale-105 active:scale-95 text-white shadow-2xl shadow-emerald-600/40 flex items-center justify-center transition cursor-pointer group"
           >
-            <MessageSquare className="w-6 h-6 transition-transform group-hover:scale-110" />
+            <MessageSquare className="w-5 h-5 sm:w-6 sm:h-6 transition-transform group-hover:scale-110" />
 
             {/* Red Unread Notification Badge */}
             {unreadCount > 0 && (
@@ -170,7 +170,12 @@ export const ReportChatFloatingWidget: React.FC = () => {
       {/* ========================================================================= */}
       {isChatOpen && (
         <div className="fixed inset-0 sm:inset-auto sm:bottom-6 sm:right-6 z-[995] flex items-end sm:items-center justify-center sm:justify-end p-0 sm:p-0 animate-in fade-in zoom-in-95 duration-200">
-          <div className="w-full sm:w-[420px] h-[85vh] sm:h-[580px] max-h-[92vh] bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+          {/* Backdrop on mobile */}
+          <div 
+            className="sm:hidden fixed inset-0 bg-black/50 backdrop-blur-xs transition-opacity" 
+            onClick={minimizeChat} 
+          />
+          <div className="relative w-full sm:w-[420px] h-[88vh] sm:h-[580px] max-h-[92vh] bg-white dark:bg-[#0c131a] border border-slate-200 dark:border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl flex flex-col overflow-hidden">
             
             {/* Chat Window Header */}
             <div className="px-4 py-3.5 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white flex items-center justify-between shrink-0 shadow-sm">

@@ -40,7 +40,7 @@ export const HeroStudentIllustration: React.FC<HeroStudentIllustrationProps> = (
       <img
         src={imageSrc}
         alt={`Study Up ${examLabel} Student Mascot`}
-        className="w-32 sm:w-40 md:w-48 h-auto object-contain select-none pointer-events-none transition-all duration-300"
+        className="w-28 sm:w-40 md:w-48 h-auto object-contain select-none pointer-events-none transition-all duration-300"
         loading="eager"
       />
     </div>
