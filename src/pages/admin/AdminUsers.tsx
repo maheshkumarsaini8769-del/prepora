@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { Users, KeyRound, UserCheck, UserX, RefreshCw, Search } from 'lucide-react';
+import { Users, KeyRound, UserCheck, UserX, RefreshCw, Search, Edit2, Check, X } from 'lucide-react';
 import { adminFetch, getAdminCachedData, setAdminCachedData } from '../../utils/adminApi';
 
 interface U {
@@ -37,6 +37,32 @@ const AdminUsers: React.FC = () => {
     } catch { /* keep old data */ }
     setLoading(false);
   }, []);
+
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editNameValue, setEditNameValue] = useState<string>('');
+  const [savingId, setSavingId] = useState<string | null>(null);
+
+  const handleSaveName = async (userItem: U) => {
+    if (!editNameValue.trim()) return;
+    setSavingId(userItem.id);
+    try {
+      const targetIdentifier = userItem.id || userItem.phone;
+      const res = await adminFetch(`/api/admin/students/${encodeURIComponent(targetIdentifier)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editNameValue.trim() })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setUsers(prev => prev.map(u => u.id === userItem.id ? { ...u, name: editNameValue.trim() } : u));
+        setEditingId(null);
+      }
+    } catch (e) {
+      console.error(e);
+    } finally {
+      setSavingId(null);
+    }
+  };
 
   useEffect(() => { load(); }, [load]);
 
@@ -103,7 +129,57 @@ const AdminUsers: React.FC = () => {
               {!loading && users.map((u) => (
                 <tr key={u.id} className="border-t border-slate-100 dark:border-slate-800">
                   <td className="px-3 py-2.5 text-slate-400 font-bold">{u.sno}</td>
-                  <td className="px-3 py-2.5 font-bold text-slate-900 dark:text-white">{u.name}</td>
+                  <td className="px-3 py-2.5 font-bold text-slate-900 dark:text-white">
+                    {editingId === u.id ? (
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="text"
+                          value={editNameValue}
+                          onChange={(e) => setEditNameValue(e.target.value)}
+                          placeholder="Real student name"
+                          autoFocus
+                          className="px-2 py-1 text-xs font-bold rounded-lg border border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => handleSaveName(u)}
+                          disabled={savingId === u.id || !editNameValue.trim()}
+                          className="p-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition disabled:opacity-50"
+                          title="Save Name"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setEditingId(null)}
+                          className="p-1 rounded bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 cursor-pointer transition"
+                          title="Cancel"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <div className="flex items-center gap-1.5 group">
+                        <span>{u.name}</span>
+                        {(u.name.startsWith('Student ') || /^Student \d+/i.test(u.name) || u.name === 'Aspirant') && (
+                          <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                            Set Name
+                          </span>
+                        )}
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditingId(u.id);
+                            setEditNameValue(u.name.startsWith('Student ') ? '' : u.name);
+                          }}
+                          className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-emerald-500 rounded transition cursor-pointer"
+                          title="Edit Student Real Name"
+                        >
+                          <Edit2 className="w-3 h-3" />
+                        </button>
+                      </div>
+                    )}
+                  </td>
                   <td className="px-3 py-2.5 font-mono font-bold text-slate-700 dark:text-slate-200">{u.phone || '—'}</td>
                   <td className="px-3 py-2.5 text-center">
                     {u.hasPassword

@@ -487,6 +487,102 @@ router.post('/student/:phone/reply', authenticateUser, requireAdmin, async (req:
 });
 
 // -------------------------------------------------------------
+// POST /api/feedback/resolve-thread - Resolve entire thread or list of feedbacks & move to history
+// -------------------------------------------------------------
+router.post('/resolve-thread', authenticateUser, requireAdmin, async (req: Request, res: Response) => {
+  try {
+    const { ids = [], phone, note = 'Resolved and archived by admin', reply, adminEmail = 'admin@prepora.internal' } = req.body;
+
+    const now = new Date();
+    const updateQuery: any = {
+      $set: {
+        status: 'Resolved',
+        resolvedAt: now,
+        adminNotes: note,
+        adminEmail
+      }
+    };
+
+    if (reply && String(reply).trim()) {
+      updateQuery.$set.adminReply = String(reply).trim();
+      updateQuery.$set.repliedAt = now;
+    }
+
+    const conditions: any[] = [];
+    if (Array.isArray(ids) && ids.length > 0) {
+      conditions.push({ id: { $in: ids } });
+    }
+    if (phone) {
+      const clean = String(phone).replace(/[^0-9]/g, '').slice(-10);
+      if (clean.length === 10) {
+        conditions.push({ userPhone: new RegExp(clean) });
+      }
+    }
+
+    if (conditions.length === 0) {
+      return res.status(400).json({ success: false, message: 'Please provide IDs or phone number to resolve.' });
+    }
+
+    const filter = { $or: conditions };
+
+    await StudentFeedback.updateMany(filter, updateQuery).catch(() => null);
+
+    // Also update in-memory fallback
+    fallbackFeedbacks.forEach((f) => {
+      const idMatch = ids.includes(f.id);
+      const phoneMatch = phone && f.userPhone && f.userPhone.includes(String(phone).replace(/[^0-9]/g, '').slice(-10));
+      if (idMatch || phoneMatch) {
+        f.status = 'Resolved';
+        f.adminNotes = note;
+        f.adminEmail = adminEmail;
+        f.resolvedAt = now;
+        if (reply && String(reply).trim()) {
+          f.adminReply = String(reply).trim();
+          f.repliedAt = now;
+        }
+      }
+    });
+
+    // Record audit
+    await recordAudit(
+      adminEmail,
+      'Resolve & Move to History',
+      'Report',
+      phone || (ids[0] ?? 'thread'),
+      null,
+      { resolvedCount: ids.length, phone, note, reply }
+    );
+
+    // If reply or resolution note was provided and phone exists, notify student
+    const targetPhone = phone ? String(phone).replace(/[^0-9]/g, '').slice(-10) : '';
+    if (targetPhone && targetPhone.length === 10) {
+      const notifMsg = (reply && String(reply).trim())
+        ? String(reply).trim()
+        : 'Aapki reported problem / feedback ko solve karke resolve kar diya gaya hai. Dhanyawad!';
+      const notif = new Notification({
+        id: `notif-res-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+        targetType: 'SPECIFIC_USER',
+        targetUserPhone: targetPhone,
+        title: '✅ Problem Resolved / Issue Solved',
+        message: notifMsg,
+        type: 'support_reply',
+        actionUrl: '/messages',
+        senderAdminEmail: adminEmail,
+        readBy: []
+      });
+      await notif.save().catch(() => null);
+    }
+
+    return res.json({
+      success: true,
+      message: 'Problem resolved and moved to History successfully!'
+    });
+  } catch (error: any) {
+    return res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// -------------------------------------------------------------
 // POST /api/feedback/:id/block-student - 1-Click block student
 // -------------------------------------------------------------
 router.post('/:id/block-student', authenticateUser, requireAdmin, async (req: Request, res: Response) => {

@@ -253,21 +253,17 @@ export const AITeacherPage: React.FC = () => {
     let activeSubj = selectedSubject;
     let activeChapter = selectedChapter;
 
-    if (classification.autoSubjectConverted) {
+    const isCasualChat = /^(hello|hi|hey|heyy|namaste|kaise ho|kuch bhi|kya hal|sup|yo|joke|motivate)\b/i.test(textToSend.trim().toLowerCase()) || textToSend.trim().split(/\s+/).length <= 2;
+
+    if (!isCasualChat && classification.autoSubjectConverted) {
       activeSubj = classification.detectedSubject;
       setSelectedSubject(classification.detectedSubject);
       if (classification.hasChapterMatch && classification.detectedChapter) {
         activeChapter = classification.detectedChapter;
         setSelectedChapter(classification.detectedChapter);
       }
-      setMismatchWarning(`Question belongs to ${classification.detectedSubject}! Switched to ${classification.detectedSubject}.`);
-    } else {
-      setMismatchWarning(null);
     }
-
-    if (classification.blockedPolicyMessage) {
-      setMismatchWarning(classification.blockedPolicyMessage);
-    }
+    setMismatchWarning(null);
 
     setMessages((prev) => [...prev, studentMsg]);
     setInputText('');

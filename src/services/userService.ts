@@ -34,16 +34,8 @@ class MockUserService {
 
     // Daily active check & streak rollover
     const today = new Date().toISOString().split('T')[0];
-    const isOwnerPhone = profile.phone === '7742735762' || profile.phone === '9660291825' || profile.mobile === '7742735762' || profile.mobile === '9660291825';
-    const isSavedOwnerPhone = typeof localStorage !== 'undefined' && (localStorage.getItem('prepora_user_phone') === '7742735762' || localStorage.getItem('prepora_user_phone') === '9660291825');
-    const isOwner = isOwnerPhone || profile.email === 'maheshkumarsaini8769@gmail.com' || isSavedOwnerPhone;
-    const savedStreak = typeof localStorage !== 'undefined' ? Number(localStorage.getItem('prepora_user_streak') || 0) : 0;
-
-    if (isOwner) {
-      profile.streakDays = Math.max(profile.streakDays || 0, savedStreak, 6);
-      if (typeof localStorage !== 'undefined') localStorage.setItem('prepora_user_streak', String(profile.streakDays));
-    } else if (savedStreak > (profile.streakDays || 0)) {
-      profile.streakDays = savedStreak;
+    if (profile.streakDays === undefined || profile.streakDays === null || isNaN(profile.streakDays)) {
+      profile.streakDays = 0;
     }
 
     if (profile.lastActiveDate && profile.lastActiveDate !== today) {
@@ -56,8 +48,8 @@ class MockUserService {
         const lastStudied = new Date(profile.lastStudiedDate).getTime();
         const curr = new Date(today).getTime();
         const diffDays = Math.floor((curr - lastStudied) / (1000 * 60 * 60 * 24));
-        if (diffDays > 2 && !isOwner) {
-          profile.streakDays = 1;
+        if (diffDays > 2) {
+          profile.streakDays = 0;
         }
       }
       setStorageItem(StorageKeys.USER_PROFILE, profile);
@@ -89,19 +81,9 @@ class MockUserService {
 
   public updateProfile(updates: Partial<UserProfile>): UserProfile {
     const current = this.getProfile();
-    const isOwnerPhone = current.phone === '7742735762' || current.phone === '9660291825' || current.mobile === '7742735762' || current.mobile === '9660291825';
-    const isSavedOwnerPhone = typeof localStorage !== 'undefined' && (localStorage.getItem('prepora_user_phone') === '7742735762' || localStorage.getItem('prepora_user_phone') === '9660291825');
-    const isUpdatingOwnerPhone = updates.phone === '7742735762' || updates.phone === '9660291825' || updates.mobile === '7742735762' || updates.mobile === '9660291825';
-    const isOwner = isOwnerPhone || current.email === 'maheshkumarsaini8769@gmail.com' || isSavedOwnerPhone || isUpdatingOwnerPhone;
 
     if (updates.streakDays !== undefined) {
-      if (isOwner && updates.streakDays < 6) {
-        updates.streakDays = 6;
-      }
       if (typeof localStorage !== 'undefined') localStorage.setItem('prepora_user_streak', String(updates.streakDays));
-    } else if (isOwner && (!current.streakDays || current.streakDays < 6)) {
-      updates.streakDays = 6;
-      if (typeof localStorage !== 'undefined') localStorage.setItem('prepora_user_streak', '6');
     }
 
     const updated = { ...current, ...updates };
@@ -499,17 +481,21 @@ class MockUserService {
   public getNotifications(): NotificationItem[] {
     const profile = this.getProfile();
     const exam = profile.targetExam || 'JEE';
-    const streak = profile.streakDays || 6;
+    const streak = profile.streakDays || 0;
     const defaultNotifs: NotificationItem[] = [
-      {
-        id: 'notif-streak-active',
-        title: `🔥 ${streak}-Day Streak Active!`,
-        message: `Outstanding consistency! Solve your daily question goal today to maintain your ${streak}-day streak.`,
-        timestamp: 'Today',
-        isRead: false,
-        type: 'achievement',
-        actionUrl: '/practice'
-      },
+      ...(streak > 0
+        ? [
+            {
+              id: 'notif-streak-active',
+              title: `🔥 ${streak}-Day Streak Active!`,
+              message: `Outstanding consistency! Solve your daily question goal today to maintain your ${streak}-day streak.`,
+              timestamp: 'Today',
+              isRead: false,
+              type: 'achievement' as const,
+              actionUrl: '/practice'
+            }
+          ]
+        : []),
       {
         id: 'notif-welcome',
         title: `🎯 ${exam} Master Prep Synchronized`,

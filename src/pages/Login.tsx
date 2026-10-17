@@ -41,7 +41,7 @@ type FlowStep =
   | 'reset-password';
 
 export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
-  const { sendOtp, checkPhone, verifyOtp, setPassword, login, forgotPassword, resetPassword, isAuthenticated, user } = useAuth();
+  const { sendOtp, checkPhone, verifyOtp, setPassword, login, forgotPassword, resetPassword, updateUser, isAuthenticated, user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -143,6 +143,11 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       return;
     }
 
+    if (authMode === 'register' && !name.trim()) {
+      setError('Please enter your full name to create your student account.');
+      return;
+    }
+
     // New Registration: Guard against re-registering an existing account
     setIsLoading(true);
     try {
@@ -171,9 +176,8 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
           setError(res.message || 'Could not send verification code. Please try again.');
         }
       }
-    } catch {
+    } catch (err: any) {
       setIsLoading(false);
-      // Demo fallback so student is never blocked
       setStep('step2-otp');
       setOtp('9999');
       setCooldown(30);
@@ -257,16 +261,11 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
         setStep('step3-password');
         setError(null);
       } else {
-        setError(res.message || 'Invalid OTP code. Please enter 9999 for demo.');
+        setError(res.message || 'Invalid verification code. Please check your WhatsApp.');
       }
-    } catch {
+    } catch (err: any) {
       setIsLoading(false);
-      // Demo fallback
-      if (otp.trim() === '9999' || otp.trim().length === 4) {
-        setStep('step3-password');
-      } else {
-        setError('Invalid OTP code. Enter 9999.');
-      }
+      setError(err?.message || 'Verification error. Please check your connection and try again.');
     }
   };
 
@@ -295,8 +294,9 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
     setIsLoading(true);
     soundFeedback.playClick();
     try {
-      // Save password passing clean mobile number as phoneOverride
-      await setPassword(newPassword, clean);
+      // Save password passing clean mobile number as phoneOverride AND real name
+      await setPassword(newPassword, clean, name.trim());
+      await updateUser({ name: name.trim(), phone: clean, mobile: clean });
       userService.updateProfile({ name: name.trim(), phone: clean, mobile: clean });
       setIsLoading(false);
       soundFeedback.playSuccess();
@@ -307,6 +307,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       setError(null);
     } catch {
       setIsLoading(false);
+      await updateUser({ name: name.trim(), phone: clean, mobile: clean });
       userService.updateProfile({ name: name.trim(), phone: clean, mobile: clean });
       setStep('step4-goal');
     }
@@ -339,8 +340,18 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
     localStorage.setItem('prepora_preparation_profile', JSON.stringify(prepProfile));
     localStorage.setItem('prepora_onboarding_completed', 'true');
 
+    const cleanName = name.trim() || user.name || 'Aspirant';
+
+    updateUser({
+      name: cleanName,
+      targetExam: targetExam as any,
+      classLevel: classLevel === 'Dropper' ? '12' : classLevel,
+      targetYear,
+      preparationProfile: prepProfile as any
+    });
+
     userService.updateProfile({
-      name: name.trim() || user.name || 'Mahesh',
+      name: cleanName,
       targetExam: targetExam as any,
       classLevel: classLevel === 'Dropper' ? '12' : classLevel,
       targetYear,
@@ -380,7 +391,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
       } else {
         setError(res.message || 'Could not send recovery code.');
       }
-    } catch {
+    } catch (err: any) {
       setIsLoading(false);
       setStep('reset-password');
       setOtp('9999');
@@ -583,6 +594,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     setAuthMode('register');
                     setError(null);
                     setSuccessMsg(null);
+                    setIsAlreadyRegistered(false);
                   }}
                   className={`py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     authMode === 'register'
@@ -599,6 +611,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     setAuthMode('login');
                     setError(null);
                     setSuccessMsg(null);
+                    setIsAlreadyRegistered(false);
                   }}
                   className={`py-2 rounded-lg flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                     authMode === 'login'
@@ -611,8 +624,32 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                 </button>
               </div>
 
-              {/* Mobile Number Input Form */}
+              {/* Mobile Number & Registration Form */}
               <form onSubmit={handleProceedFromStep1} className="space-y-4">
+                {/* Full Name (For New Student Registration) */}
+                {authMode === 'register' && (
+                  <div className="space-y-1.5 animate-in fade-in duration-150">
+                    <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                      Student Full Name
+                    </label>
+                    <div className="relative flex items-center">
+                      <User className="absolute left-3 w-4 h-4 text-slate-400" />
+                      <input
+                        type="text"
+                        value={name}
+                        onChange={(e) => {
+                          setName(e.target.value);
+                          if (error) setError(null);
+                        }}
+                        placeholder="Enter student real name (e.g. Rahul Sharma)"
+                        autoFocus
+                        required={authMode === 'register'}
+                        className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                      />
+                    </div>
+                  </div>
+                )}
+
                 <div className="space-y-1.5">
                   <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
                     Mobile Number
@@ -624,10 +661,15 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     <input
                       type="tel"
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                        if (error) setError(null);
+                        if (isAlreadyRegistered) setIsAlreadyRegistered(false);
+                        if (successMsg) setSuccessMsg(null);
+                      }}
                       placeholder="Enter 10-digit number"
                       maxLength={10}
-                      autoFocus
+                      autoFocus={authMode === 'login'}
                       required
                       className="w-full pl-20 pr-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold tracking-wide focus:outline-none focus:ring-2 focus:ring-emerald-500"
                     />
@@ -636,7 +678,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
 
                 <button
                   type="submit"
-                  disabled={isLoading || cleanMobileDigits(phone).length !== 10}
+                  disabled={isLoading || cleanMobileDigits(phone).length !== 10 || (authMode === 'register' && !name.trim())}
                   className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/20 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
                   {isLoading ? (
@@ -674,6 +716,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     setStep('step1-phone');
                     setError(null);
                     setSuccessMsg(null);
+                    setIsAlreadyRegistered(false);
                   }}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-1 cursor-pointer"
                 >
@@ -766,6 +809,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     setStep('step1-phone');
                     setError(null);
                     setSuccessMsg(null);
+                    setIsAlreadyRegistered(false);
                   }}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-1 cursor-pointer"
                 >
@@ -785,7 +829,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   Verify Mobile Number
                 </h3>
                 <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Enter the 4-digit code sent to +91 {cleanMobileDigits(phone)}
+                  Enter the 6-digit WhatsApp code sent to +91 {cleanMobileDigits(phone)}
                 </p>
               </div>
 
@@ -795,12 +839,12 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     <input
                       type="text"
                       value={otp}
-                      onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                      placeholder="• • • •"
-                      maxLength={4}
+                      onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                      placeholder="• • • • • •"
+                      maxLength={6}
                       autoFocus
                       required
-                      className="w-full text-center tracking-[1em] text-2xl font-black py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono shadow-inner"
+                      className="w-full text-center tracking-[0.5em] text-2xl font-black py-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 font-mono shadow-inner"
                     />
                   </div>
 
@@ -819,7 +863,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   </div>
                 </div>
 
-                {/* Helpful demo test badge */}
+                {/* Dual Mode: Testing Demo OTP Badge */}
                 <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-800 text-[11px] text-slate-600 dark:text-slate-300 flex items-center justify-between">
                   <span>💡 Testing? Use Demo OTP:</span>
                   <button
@@ -833,7 +877,7 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
 
                 <button
                   type="submit"
-                  disabled={isLoading || otp.trim().length !== 4}
+                  disabled={isLoading || (otp.trim().length !== 4 && otp.trim().length !== 6)}
                   className="w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-bold text-xs sm:text-sm shadow-md shadow-emerald-600/20 flex items-center justify-center gap-1.5 transition-all cursor-pointer"
                 >
                   {isLoading ? (
@@ -1096,7 +1140,12 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
               <div className="flex items-center justify-between pb-1 border-b border-slate-100 dark:border-slate-800">
                 <button
                   type="button"
-                  onClick={() => setStep('login-password')}
+                  onClick={() => {
+                    setStep('login-password');
+                    setError(null);
+                    setSuccessMsg(null);
+                    setIsAlreadyRegistered(false);
+                  }}
                   className="text-xs font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-1 cursor-pointer"
                 >
                   <ArrowLeft className="w-3.5 h-3.5" />
@@ -1125,7 +1174,12 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                     <input
                       type="tel"
                       value={phone}
-                      onChange={(e) => setPhone(e.target.value)}
+                      onChange={(e) => {
+                        setPhone(e.target.value);
+                        if (error) setError(null);
+                        if (isAlreadyRegistered) setIsAlreadyRegistered(false);
+                        if (successMsg) setSuccessMsg(null);
+                      }}
                       placeholder="98XXXXXXXX"
                       maxLength={10}
                       autoFocus
@@ -1165,11 +1219,11 @@ export const Login: React.FC<LoginProps> = ({ defaultTab }) => {
                   <input
                     type="text"
                     value={otp}
-                    onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                    placeholder="Enter 4-digit OTP"
-                    maxLength={4}
+                    onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                    placeholder="Enter 6-digit WhatsApp OTP"
+                    maxLength={6}
                     required
-                    className="w-full text-center py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-base font-bold font-mono"
+                    className="w-full text-center py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-base font-bold font-mono tracking-widest"
                   />
                 </div>
 

@@ -31,11 +31,13 @@ import {
   Tv,
   Sun,
   Moon,
-  MessageSquarePlus
+  MessageSquarePlus,
+  Radio
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { adminFetch } from '../utils/adminApi';
 import { getColorMode, toggleColorMode, ColorMode } from '../utils/theme';
+import { ThemeSelector } from '../components/common/ThemeSelector';
 
 export const AdminLayout: React.FC = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -80,6 +82,8 @@ export const AdminLayout: React.FC = () => {
   useEffect(() => {
     const preloadAdminPages = () => {
       import('../pages/admin/AdminDashboard');
+      import('../pages/admin/AdminActiveUsers');
+      import('../pages/admin/AdminNotifications');
       import('../pages/admin/AdminStudents');
       import('../pages/admin/AdminUsers');
       import('../pages/admin/AdminQuestions');
@@ -150,6 +154,8 @@ export const AdminLayout: React.FC = () => {
       title: 'STUDENTS & QUALITY',
       subtitle: 'Students & Quality Assurance',
       items: [
+        { name: 'Live Active Users', path: '/admin/active-users', icon: Radio, badge: 'LIVE', badgeColor: 'bg-emerald-500', desc: 'Real-time online students & activity' },
+        { name: 'Send Notifications', path: '/admin/notifications', icon: Bell, desc: 'Push alerts & student broadcasts' },
         { name: 'Users & Logins', path: '/admin/users', icon: UserCheck, desc: 'Users, numbers & login activity' },
         { name: 'Students Directory', path: '/admin/students', icon: Users, desc: 'Student profiles & progress' },
         { name: 'Student Feedback & Issues', path: '/admin/feedback', icon: MessageSquarePlus, badge: stats.pendingFeedbacks > 0 ? `${stats.pendingFeedbacks}` : undefined, badgeColor: 'bg-emerald-500', desc: 'Direct student feedback & reported issues' },
@@ -276,6 +282,9 @@ export const AdminLayout: React.FC = () => {
 
         {/* Right Actions */}
         <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Color Palette Theme Switcher */}
+          <ThemeSelector compact />
+
           {/* Dark / Light Mode Switcher */}
           <button
             type="button"

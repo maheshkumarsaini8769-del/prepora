@@ -9,9 +9,10 @@ import Session from '../models/Session.js';
 import StudentActivity from '../models/StudentActivity.js';
 import LoginHistory from '../models/LoginHistory.js';
 import { AuthorizedAdmin } from '../models/Admin.js';
-import { JWT_SECRET, authenticateUser, AuthRequest, hashToken } from '../middleware/auth.js';
+import { JWT_SECRET, authenticateUser, AuthRequest, hashToken, invalidateAuthCache } from '../middleware/auth.js';
 import { whatsappOTPService } from '../services/whatsappOTPService.js';
 import { generateSecurePassword } from '../utils/passwordGenerator.js';
+import { invalidateAdminStatsCache } from './admin.routes.js';
 
 const router = express.Router();
 
@@ -282,7 +283,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
           targetExam: 'JEE',
           classLevel: '12',
           targetYear: 2026,
-          streakDays: 6,
+          streakDays: 0,
           totalQuestionsSolved: 0,
           overallAccuracy: 0,
           testsCompleted: 0,
@@ -293,9 +294,6 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
         adminUser.phone = '7742735762';
         adminUser.mobile = '9660291825';
         adminUser.email = 'maheshkumarsaini8769@gmail.com';
-        if (!adminUser.streakDays || adminUser.streakDays < 6) {
-          adminUser.streakDays = 6;
-        }
       }
 
       if (mongoose.connection.readyState === 1) {
@@ -314,7 +312,7 @@ router.post('/login', authLimiter, async (req: Request, res: Response) => {
       delete (userObj as any).otpCode;
       (userObj as any).role = 'admin';
       (userObj as any).hasPassword = true;
-      (userObj as any).streakDays = Math.max(adminUser.streakDays || 0, 6);
+      (userObj as any).streakDays = adminUser.streakDays || 0;
 
       return res.json({
         success: true,
@@ -378,7 +376,9 @@ router.post('/set-password', authenticateUser, async (req: AuthRequest, res: Res
     const passwordHash = await bcrypt.hash(rawPassword, salt);
 
     const phone = req.body.phone;
+    const name = req.body.name;
     const cleanPhone = phone ? String(phone).replace(/[^0-9]/g, '').slice(-10) : undefined;
+    const cleanName = (name && typeof name === 'string' && name.trim() && name.trim() !== 'Aspirant') ? name.trim() : undefined;
 
     const searchCriteria: any[] = [];
     if (req.user?._id) searchCriteria.push({ _id: req.user._id });
@@ -395,9 +395,18 @@ router.post('/set-password', authenticateUser, async (req: AuthRequest, res: Res
       );
     }
 
+    const updateSet: any = { passwordHash };
+    if (cleanPhone) {
+      updateSet.phone = cleanPhone;
+      updateSet.mobile = cleanPhone;
+    }
+    if (cleanName) {
+      updateSet.name = cleanName;
+    }
+
     const updatedUser = await User.findOneAndUpdate(
       searchCriteria.length > 0 ? { $or: searchCriteria } : { id: req.user?.id },
-      { $set: { passwordHash, ...(cleanPhone ? { phone: cleanPhone, mobile: cleanPhone } : {}) } },
+      { $set: updateSet },
       { new: true }
     );
 
@@ -510,11 +519,13 @@ router.post('/check-phone', async (req: Request, res: Response) => {
     }
 
     const isOwnerNumber = cleanMobile === '7742735762' || cleanMobile === '9660291825';
-    const phoneRegex = new RegExp(cleanMobile + '$');
+    const phoneRegex = new RegExp('^(\\+91|91)?' + cleanMobile + '$');
     const existing = await User.findOne({
       $or: [
         { mobile: cleanMobile },
         { phone: cleanMobile },
+        { mobile: '+91' + cleanMobile },
+        { phone: '+91' + cleanMobile },
         { mobile: phoneRegex },
         { phone: phoneRegex },
         { email: `phone_${cleanMobile}@prepora.student` },
@@ -564,11 +575,13 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
     }
 
     // Check if mobile number is suspended/blocked by admin
-    const phoneRegex = new RegExp(cleanMobile + '$');
+    const phoneRegex = new RegExp('^(\\+91|91)?' + cleanMobile + '$');
     const existingUser = await User.findOne({
       $or: [
         { mobile: cleanMobile },
         { phone: cleanMobile },
+        { mobile: '+91' + cleanMobile },
+        { phone: '+91' + cleanMobile },
         { mobile: phoneRegex },
         { phone: phoneRegex },
         { email: `phone_${cleanMobile}@prepora.student` }
@@ -599,8 +612,7 @@ router.post('/send-otp', otpLimiter, async (req: Request, res: Response) => {
       success: true,
       message: result.message,
       cooldownSeconds: result.cooldownSeconds,
-      debugOtp: result.debugOtp || '9999',
-      otp: result.otp || '9999'
+      ...(result.debugOtp ? { debugOtp: result.debugOtp, otp: result.otp } : {})
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -688,7 +700,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
         targetExam,
         classLevel,
         targetYear: Number(targetYear) || 2026,
-        streakDays: isOwnerNumber ? 6 : 0,
+        streakDays: 0,
         totalQuestionsSolved: 0,
         overallAccuracy: 0,
         testsCompleted: 0,
@@ -711,15 +723,12 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
       if (isOwnerNumber) {
         user.role = 'admin';
         user.email = 'maheshkumarsaini8769@gmail.com';
-        if (!user.streakDays || user.streakDays < 6) {
-          user.streakDays = 6;
-        }
         if (!user.passwordHash) {
           const salt = await bcrypt.genSalt(10);
           user.passwordHash = await bcrypt.hash('mahesh99830', salt);
         }
       }
-      if (name && (!user.name || user.name.startsWith('Student ') || user.name.startsWith('usr-'))) {
+      if (name && typeof name === 'string' && name.trim() && name.trim() !== 'Aspirant') {
         user.name = name.trim();
       }
       if (targetExam) {
@@ -746,9 +755,7 @@ router.post('/verify-otp', otpLimiter, async (req: Request, res: Response) => {
     delete userObj.otpCode;
     (userObj as any).hasPassword = hasRealPassword;
     (userObj as any).requiresPasswordCreation = !hasRealPassword;
-    if (isOwnerNumber) {
-      (userObj as any).streakDays = Math.max(user.streakDays || 0, 6);
-    }
+    (userObj as any).streakDays = user.streakDays || 0;
 
     res.json({
       success: true,
@@ -895,8 +902,7 @@ router.post('/forgot-password/send-otp', otpLimiter, async (req: Request, res: R
       success: result.success,
       message: result.message || 'If this mobile is registered, a WhatsApp OTP has been sent.',
       cooldownSeconds: result.cooldownSeconds || 60,
-      debugOtp: result.debugOtp || '9999',
-      otp: result.otp || '9999'
+      ...(result.debugOtp ? { debugOtp: result.debugOtp, otp: result.otp } : {})
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -1034,15 +1040,32 @@ router.put('/me', authenticateUser, async (req: AuthRequest, res: Response) => {
       }
     }
 
+    const userMatch: any[] = [];
+    if (req.user?._id) userMatch.push({ _id: req.user._id });
+    if (req.user?.id) userMatch.push({ id: req.user.id });
+    if (req.user?.studentId) userMatch.push({ studentId: req.user.studentId });
+    if (req.userId) userMatch.push({ id: req.userId });
+    if (req.studentId) userMatch.push({ studentId: req.studentId });
+    if (req.user?.email) userMatch.push({ email: req.user.email });
+    if (req.user?.phone) userMatch.push({ phone: req.user.phone }, { mobile: req.user.phone });
+    if (req.user?.mobile) userMatch.push({ mobile: req.user.mobile }, { phone: req.user.mobile });
+
     const updatedUser = await User.findOneAndUpdate(
-      { id: req.user!.id },
+      userMatch.length > 0 ? { $or: userMatch } : { id: req.user!.id },
       { $set: updates },
       { new: true }
     );
 
-    const userObj = updatedUser!.toObject();
-    delete userObj.passwordHash;
-    delete userObj.otpCode;
+    if (!updatedUser) {
+      return res.status(404).json({ success: false, message: 'User not found in database.' });
+    }
+
+    const userObj = updatedUser.toObject();
+    delete (userObj as any).passwordHash;
+    delete (userObj as any).otpCode;
+
+    invalidateAuthCache();
+    invalidateAdminStatsCache();
 
     res.json({ success: true, user: userObj, message: 'Profile updated successfully.' });
   } catch (error: any) {

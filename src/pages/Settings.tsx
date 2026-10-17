@@ -56,6 +56,7 @@ export const Settings: React.FC = () => {
     logoutOtherDevices,
     fetchSessions,
     changePassword,
+    updateUser,
     setAuthModalOpen,
     setAuthModalMode
   } = useAuth();
@@ -64,12 +65,18 @@ export const Settings: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'academic' | 'security' | 'appearance' | 'storage'>('academic');
 
   // Academic Settings State
-  const [name, setName] = useState(profile.name || 'Aspirant');
+  const [name, setName] = useState(user?.name || profile.name || '');
   const [exam, setExam] = useState<ExamType>(profile.targetExam || 'JEE');
   const [classLevel, setClassLevel] = useState<ClassLevel | 'Dropper'>((profile.classLevel as ClassLevel | 'Dropper') || '12');
   const [targetYear, setTargetYear] = useState<number>(profile.targetYear || 2026);
   const [dailyGoal, setDailyGoal] = useState<number>(profile.dailyGoalQuestions || 25);
   const [savedSuccess, setSavedSuccess] = useState(false);
+
+  useEffect(() => {
+    if (user?.name) {
+      setName(user.name);
+    }
+  }, [user?.name]);
 
   // Appearance & Preferences State
   const [currColorMode, setCurrColorMode] = useState<ColorMode>(getColorMode);
@@ -134,8 +141,19 @@ export const Settings: React.FC = () => {
       targetYear: targetYear
     };
 
+    const cleanName = name.trim() || profile.name;
+
+    updateUser({
+      name: cleanName,
+      targetExam: exam,
+      classLevel: classLevel,
+      targetYear: targetYear,
+      dailyGoalQuestions: dailyGoal,
+      preparationProfile: updatedPrep
+    });
+
     userService.updateProfile({
-      name: name.trim() || profile.name,
+      name: cleanName,
       targetExam: exam,
       classLevel: classLevel,
       targetYear: targetYear,
@@ -366,12 +384,32 @@ export const Settings: React.FC = () => {
               <div>
                 <h3 className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                   <GraduationCap className="w-4 h-4 text-emerald-600" />
-                  <span>Target Exam & Syllabus Stream</span>
+                  <span>Student Profile & Target Stream</span>
                 </h3>
                 <p className="text-xs text-slate-500 mt-0.5">
-                  Select your primary competitive examination for customized questions and curriculum
+                  Set your real name and primary competitive examination for customized questions and curriculum
                 </p>
               </div>
+            </div>
+
+            {/* Student Real Name Input */}
+            <div className="space-y-1.5 pb-2">
+              <label className="block text-xs font-bold text-slate-700 dark:text-slate-300">
+                Student Full Name (Real Name)
+              </label>
+              <div className="relative flex items-center">
+                <User className="absolute left-3 w-4 h-4 text-slate-400" />
+                <input
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Apna Real Name Darj Karein (e.g. Rahul Sharma)"
+                  className="w-full pl-10 pr-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-sm font-semibold focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                />
+              </div>
+              <p className="text-[11px] text-slate-500 dark:text-slate-400">
+                Yeh real name aapke scorecards, leaderboards, daily plan aur admin verification me show hoga.
+              </p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

@@ -49,7 +49,7 @@ async function recordAudit(
 // POST /api/reports/question - Student reports a question
 router.post('/question', async (req: Request, res: Response) => {
   try {
-    const { questionId, reason, message, userId = 'anonymous', userEmail } = req.body;
+    const { questionId, reason, message, userId = 'anonymous', userEmail, userName, userPhone } = req.body;
 
     if (!questionId || !reason) {
       return res.status(400).json({ success: false, message: 'Question ID and Reason are required.' });
@@ -67,10 +67,25 @@ router.post('/question', async (req: Request, res: Response) => {
 
     await report.save();
 
+    // Also mirror to StudentFeedback so admin and student can communicate via live chat thread
+    const cleanPhone = userPhone ? String(userPhone).replace(/[^0-9]/g, '').slice(-10) : '';
+    await new StudentFeedback({
+      id: `fb-qr-${Date.now()}-${Math.random().toString(36).substring(2, 6)}`,
+      userId: userId || 'anonymous',
+      userName: userName || 'Student',
+      userPhone: cleanPhone || '',
+      userEmail: userEmail || '',
+      type: 'MISTAKE',
+      category: 'Question Report',
+      title: `[Question #${String(questionId).slice(-6)}] ${reason}`,
+      description: message || `Reported ${reason} on Question ${questionId}`,
+      status: 'Pending'
+    }).save().catch(() => null);
+
     res.status(201).json({
       success: true,
       report,
-      message: 'Question report submitted successfully. Our academic team will review it.'
+      message: 'Question report submitted successfully. Live support chat opened.'
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });

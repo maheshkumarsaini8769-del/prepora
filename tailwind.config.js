@@ -26,6 +26,12 @@ export default {
       colors: {
         brand: themePalette,
         purple: themePalette,
+        'slate-750': '#273549',
+        'slate-850': '#131c2e',
+        slate: {
+          750: '#273549',
+          850: '#131c2e',
+        }
       },
       borderRadius: {
         'xl': '1rem',

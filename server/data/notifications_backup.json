@@ -1,0 +1,17 @@
+[
+  {
+    "id": "notif-1792072995222-7dcz",
+    "targetType": "BROADCAST",
+    "targetUserId": "",
+    "targetUserPhone": "",
+    "targetExam": "ALL",
+    "title": "🎯 JEE & NEET 2026 Test Series Live",
+    "message": "New high-yield chapter tests and formula cards are now available in your study dashboard.",
+    "type": "test",
+    "actionUrl": "/tests",
+    "senderAdminEmail": "admin@prepora.internal",
+    "readBy": [],
+    "createdAt": "2026-10-15T14:03:15.222Z",
+    "updatedAt": "2026-10-15T14:03:15.222Z"
+  }
+]

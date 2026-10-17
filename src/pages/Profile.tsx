@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
   Mail,
@@ -6,16 +6,41 @@ import {
   Flame,
   CheckCircle2,
   Award,
-  BookOpen
+  BookOpen,
+  Edit2,
+  Check,
+  X
 } from 'lucide-react';
 import { Card, Button } from '../components/common/UIComponents';
 import { userService } from '../services/userService';
+import { useAuth } from '../context/AuthContext';
 
 export const Profile: React.FC = () => {
   const navigate = useNavigate();
+  const { user, updateUser } = useAuth();
   const profile = userService.getProfile();
   const solvedCounts = userService.getSubjectSolvedCounts();
   const totalSolved = Object.values(solvedCounts).reduce((a, b) => a + b, 0);
+
+  const [isEditingName, setIsEditingName] = useState(false);
+  const [nameInput, setNameInput] = useState(user.name || profile.name || '');
+  const [savingName, setSavingName] = useState(false);
+
+  const handleSaveName = async () => {
+    const clean = nameInput.trim();
+    if (!clean || clean.length < 2) return;
+    setSavingName(true);
+    try {
+      await updateUser({ name: clean });
+      setIsEditingName(false);
+    } catch {
+      // ignore
+    } finally {
+      setSavingName(false);
+    }
+  };
+
+  const displayName = user.name || profile.name || 'Aspirant';
 
   return (
     <div className="max-w-3xl mx-auto space-y-4 sm:space-y-6 animate-in fade-in duration-200 pb-28 px-1 sm:px-4">
@@ -24,13 +49,65 @@ export const Profile: React.FC = () => {
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 text-center sm:text-left">
           <img
             src={profile.avatarUrl}
-            alt={profile.name}
+            alt={displayName}
             className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl object-cover border border-slate-200 dark:border-slate-800 shadow-xs"
           />
 
           <div className="space-y-1.5 flex-1 min-w-0">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-              <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white truncate">{profile.name}</h1>
+              {isEditingName ? (
+                <div className="flex items-center gap-1.5">
+                  <input
+                    type="text"
+                    value={nameInput}
+                    onChange={(e) => setNameInput(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') handleSaveName();
+                      if (e.key === 'Escape') setIsEditingName(false);
+                    }}
+                    placeholder="Apna Real Name Daalein"
+                    autoFocus
+                    className="px-2.5 py-1 text-sm font-bold rounded-xl border border-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                  />
+                  <button
+                    type="button"
+                    onClick={handleSaveName}
+                    disabled={savingName || !nameInput.trim()}
+                    className="p-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition disabled:opacity-50"
+                    title="Save Real Name"
+                  >
+                    <Check className="w-4 h-4" />
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setIsEditingName(false);
+                      setNameInput(displayName);
+                    }}
+                    className="p-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-300 cursor-pointer transition"
+                    title="Cancel"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <h1 className="text-xl sm:text-2xl font-black text-slate-900 dark:text-white truncate">
+                    {displayName}
+                  </h1>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNameInput(displayName.startsWith('Student ') ? '' : displayName);
+                      setIsEditingName(true);
+                    }}
+                    className="p-1 rounded-lg text-slate-400 hover:text-emerald-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                    title="Edit Real Name"
+                  >
+                    <Edit2 className="w-4 h-4" />
+                  </button>
+                </div>
+              )}
               <span className="text-[11px] font-black bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 px-2 py-0.5 rounded-full border border-emerald-200/60 dark:border-emerald-800">
                 Aspirant
               </span>

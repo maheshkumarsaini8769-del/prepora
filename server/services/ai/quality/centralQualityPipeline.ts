@@ -114,8 +114,8 @@ export async function runCentralQualityPipeline(
     output.retrievedPreporaContext = undefined;
   }
 
-  // 5. ATTACH CONTEXT MISMATCH WARNING IF PRESENT (Section 3)
-  if (understanding.contextMismatch && understanding.contextMismatch.hasMismatch) {
+  // 5. ATTACH CONTEXT MISMATCH WARNING IF PRESENT (Section 3 - Doubt Solver only)
+  if (req.aiMode !== 'teacher' && !Boolean(req.tutorMode) && understanding.contextMismatch && understanding.contextMismatch.hasMismatch) {
     const warning = understanding.contextMismatch.warningMessage || '';
     if (!output.answer.includes('Context Mismatch:')) {
       output.answer = `⚠️ **${warning}**\n\n${output.answer}`;

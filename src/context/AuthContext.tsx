@@ -29,7 +29,7 @@ export interface AuthContextType {
   checkPhone: (phone: string) => Promise<{ exists: boolean; hasPassword?: boolean; name?: string; message?: string }>;
   sendOtp: (identifier: string, mode?: 'register' | 'login' | 'reset') => Promise<{ success: boolean; message?: string; debugOtp?: string; otp?: string; cooldownSeconds?: number; isAlreadyRegistered?: boolean }>;
   verifyOtp: (identifier: string, otp: string, metadata?: { name?: string; targetExam?: string; classLevel?: string; targetYear?: number }) => Promise<{ success: boolean; message?: string; hasPassword?: boolean; isNewUser?: boolean; requiresPasswordCreation?: boolean; generatedPassword?: string }>;
-  setPassword: (password: string, phoneOverride?: string) => Promise<{ success: boolean; message?: string }>;
+  setPassword: (password: string, phoneOverride?: string, nameOverride?: string) => Promise<{ success: boolean; message?: string }>;
   changePassword: (currentPassword: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
   forgotPassword: (identifier: string) => Promise<{ success: boolean; message?: string; debugOtp?: string; cooldownSeconds?: number }>;
   resetPassword: (identifier: string, otp: string, newPassword: string) => Promise<{ success: boolean; message?: string }>;
@@ -173,13 +173,37 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         if (res.ok) {
           const data = await res.json();
           if (data.user) {
+            const localProfile = userService.getProfile();
+            const hasLocalRealName = Boolean(localProfile.name && !localProfile.name.startsWith('Student ') && localProfile.name !== 'Aspirant');
+            const serverHasPlaceholder = Boolean(!data.user.name || data.user.name.startsWith('Student ') || data.user.name === 'Aspirant');
+
+            let resolvedName = data.user.name;
+            if (hasLocalRealName && serverHasPlaceholder) {
+              resolvedName = localProfile.name;
+              // Push local real name to server asynchronously so MongoDB gets updated permanently
+              fetch('/api/auth/me', {
+                method: 'PUT',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${storedToken}`
+                },
+                body: JSON.stringify({ name: localProfile.name })
+              }).catch(() => null);
+            }
+
+            const serverStreak = typeof data.user.streakDays === 'number' ? data.user.streakDays : (localProfile.streakDays || 0);
             const merged: UserProfile = {
-              ...userService.getProfile(),
+              ...localProfile,
               ...data.user,
-              avatarUrl: data.user.avatar || userService.getProfile().avatarUrl
+              streakDays: serverStreak,
+              name: resolvedName || localProfile.name || 'Aspirant',
+              avatarUrl: data.user.avatar || localProfile.avatarUrl
             };
             setUser(merged);
             userService.updateProfile(merged);
+            if (typeof localStorage !== 'undefined') {
+              localStorage.setItem('prepora_user_streak', String(serverStreak));
+            }
             fetchSessions(storedToken);
             syncStudentUserData(data.user.id, storedToken);
           }
@@ -417,26 +441,30 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           localStorage.removeItem('prepora_recent_activity');
           localStorage.removeItem('prepora_continue_learning_activity');
           localStorage.removeItem('prepora_user_profile');
+          localStorage.removeItem('prepora_user_streak');
         }
 
         // Logged-in users have completed initial onboarding and open Home page
         localStorage.setItem('prepora_onboarding_completed', 'true');
 
         const baseProfile = isSwitchingUser ? createFreshStudentProfile() : currentProfile;
-        const currentSavedStreak = Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), baseProfile.streakDays || 0, data.user?.streakDays || 0);
-        const isOwnerAccount = isSuperAdmin || isOwnerPhone || data.user?.email === 'maheshkumarsaini8769@gmail.com';
-        const effectiveStreak = isOwnerAccount ? Math.max(currentSavedStreak, 6) : currentSavedStreak;
+        const serverStreak = typeof data.user?.streakDays === 'number'
+          ? data.user.streakDays
+          : (isSwitchingUser ? 0 : (baseProfile.streakDays || 0));
 
         const updatedUser: UserProfile = {
           ...baseProfile,
           ...data.user,
-          streakDays: effectiveStreak,
+          streakDays: serverStreak,
           name: data.user?.name || (isSuperAdmin ? 'Mahesh Kumar (System Owner)' : baseProfile.name),
           role: isSuperAdmin ? 'admin' : (data.user?.role || 'student'),
           avatarUrl: data.user.avatar || baseProfile.avatarUrl
         };
         setUser(updatedUser);
         userService.updateProfile(updatedUser);
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('prepora_user_streak', String(serverStreak));
+        }
         await syncStudentUserData(data.user.id, data.token);
         fetchSessions(data.token);
         setAuthModalOpen(false);
@@ -463,7 +491,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           targetExam: 'JEE',
           classLevel: '12',
           targetYear: 2026,
-          streakDays: Math.max(userService.getProfile().streakDays || 0, Number(localStorage.getItem('prepora_user_streak') || 0), 6),
+          streakDays: Number(localStorage.getItem('prepora_user_streak') || 0) || userService.getProfile().streakDays || 0,
           todayQuestionsCount: 0
         };
         setUser(adminUser);
@@ -502,7 +530,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           targetExam: 'JEE',
           classLevel: '12',
           targetYear: 2026,
-          streakDays: Math.max(userService.getProfile().streakDays || 0, Number(localStorage.getItem('prepora_user_streak') || 0), 6),
+          streakDays: Number(localStorage.getItem('prepora_user_streak') || 0) || userService.getProfile().streakDays || 0,
           todayQuestionsCount: 0
         };
         setUser(adminUser);
@@ -610,7 +638,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const data = await res.json();
       return {
         success: Boolean(res.ok && data.success),
-        message: data.message || 'OTP sent successfully via WhatsApp.',
+        message: data.message || (res.ok ? 'Verification code sent successfully via WhatsApp.' : 'Could not send WhatsApp OTP.'),
         debugOtp: data.debugOtp,
         otp: data.otp,
         cooldownSeconds: data.cooldownSeconds,
@@ -622,7 +650,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         success: true,
         message: 'WhatsApp OTP service offline. Demo OTP: 9999',
         debugOtp: '9999',
-        otp: '9999'
+        otp: '9999',
+        cooldownSeconds: 60
       };
     }
   };
@@ -667,8 +696,13 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         const isUserPasswordSet = Boolean(data.hasPassword ?? data.user?.hasPassword);
         const baseProfile = isNewStudent ? createFreshStudentProfile() : currentProfile;
-        const cleanName = data.user?.name || metadata?.name?.trim() || (cleanMobile ? `Student ${cleanMobile.slice(-4)}` : 'Aspirant');
+        const cleanName = (metadata?.name?.trim() && metadata.name.trim() !== 'Aspirant')
+          ? metadata.name.trim()
+          : (data.user?.name && !data.user.name.startsWith('Student '))
+            ? data.user.name
+            : metadata?.name?.trim() || data.user?.name || (cleanMobile ? `Student ${cleanMobile.slice(-4)}` : 'Aspirant');
 
+        const studentStreak = isNewStudent ? 0 : (typeof data.user?.streakDays === 'number' ? data.user.streakDays : 0);
         const updatedUser: UserProfile = {
           ...baseProfile,
           ...data.user,
@@ -676,7 +710,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           mobile: cleanMobile || data.user?.mobile || baseProfile.mobile,
           name: cleanName,
           hasPassword: isUserPasswordSet,
-          streakDays: (cleanMobile === '7742735762' || cleanMobile === '9660291825' || data.user?.email === 'maheshkumarsaini8769@gmail.com') ? Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), baseProfile.streakDays || 0, data.user?.streakDays || 0, 6) : (isNewStudent ? 0 : (data.user?.streakDays ?? baseProfile.streakDays ?? 0)),
+          streakDays: studentStreak,
           todayQuestionsCount: isNewStudent ? 0 : (data.user?.todayQuestionsCount ?? baseProfile.todayQuestionsCount ?? 0),
           overallAccuracy: isNewStudent ? 0 : (data.user?.overallAccuracy ?? baseProfile.overallAccuracy ?? 0),
           testsCompletedCount: isNewStudent ? 0 : (data.user?.testsCompletedCount ?? baseProfile.testsCompletedCount ?? 0),
@@ -684,6 +718,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
         setUser(updatedUser);
         userService.updateProfile(updatedUser);
+        if (typeof localStorage !== 'undefined') {
+          localStorage.setItem('prepora_user_streak', String(studentStreak));
+        }
 
         // Synchronize preparation profile immediately with registration stream
         const prepProfile = {
@@ -710,77 +747,71 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         };
       }
       if (!res.ok) {
-        return { success: false, message: data?.message || 'Invalid OTP code.' };
+        return { success: false, message: data?.message || 'Invalid verification code.' };
       }
-    } catch (err) {
-      console.warn('Network call failed, using verified local session for demo OTP:', err);
-    }
+      return { success: false, message: data?.message || 'Verification failed.' };
+    } catch (err: any) {
+      if (otp.trim() === '9999' || otp.trim() === '999999') {
+        const isPhone = /^\+?[0-9\s-]{8,15}$/.test(identifier) || (!identifier.includes('@') && /^\d+$/.test(identifier));
+        const targetExam = (metadata?.targetExam || 'JEE') as any;
+        const classLevel = (metadata?.classLevel || '12') as any;
+        const cleanPhone = isPhone ? identifier.replace(/[^0-9]/g, '').slice(-10) : undefined;
+        const cleanEmail = !isPhone ? identifier.toLowerCase().trim() : `phone_${cleanPhone}@prepora.student`;
+        const fallbackId = `usr-${Date.now()}`;
+        const fallbackToken = `prepora_demo_session_${fallbackId}_${Date.now()}`;
 
-    // Local verified session fallback if demo OTP 9999 is entered
-    if (otp.trim() === '9999') {
-      const isPhone = /^\+?[0-9\s-]{8,15}$/.test(identifier) || (!identifier.includes('@') && /^\d+$/.test(identifier));
-      const targetExam = (metadata?.targetExam || 'JEE') as any;
-      const classLevel = (metadata?.classLevel || '12') as any;
-      const cleanPhone = isPhone ? identifier.replace(/[^0-9]/g, '').slice(-10) : undefined;
-      const cleanEmail = !isPhone ? identifier.toLowerCase().trim() : `phone_${cleanPhone}@prepora.student`;
-      const fallbackId = `usr-${Date.now()}`;
-      const fallbackToken = `prepora_demo_session_${fallbackId}_${Date.now()}`;
-
-      if (cleanPhone) {
-        localStorage.setItem('prepora_user_phone', cleanPhone);
-      }
-
-      const canonicalExam = targetExam === 'NEET' ? 'NEET_UG' : targetExam === 'CBSE' ? 'CBSE' : targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
-      const activeSubjects = targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'];
-
-      localStorage.removeItem('prepora_test_attempts');
-      localStorage.removeItem('prepora_mistakes');
-
-      const authenticatedUser: UserProfile = {
-        id: fallbackId,
-        name: metadata?.name || (cleanPhone ? `Student ${cleanPhone.slice(-4)}` : cleanEmail.split('@')[0]),
-        email: cleanEmail,
-        phone: cleanPhone,
-        mobile: cleanPhone,
-        avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
-        targetExam,
-        classLevel,
-        targetYear: metadata?.targetYear || 2026,
-        streakDays: (cleanPhone === '7742735762' || cleanPhone === '9660291825') ? 6 : Math.max(Number(localStorage.getItem('prepora_user_streak') || 0), 1),
-        todayQuestionsCount: 0,
-        overallAccuracy: 0,
-        testsCompletedCount: 0,
-        dailyGoalQuestions: (metadata as any)?.dailyGoalQuestions || 25,
-        lastActiveDate: new Date().toISOString().split('T')[0],
-        hasPassword: false,
-        preparationProfile: {
-          userId: fallbackId,
-          preparationType: targetExam,
-          exam: canonicalExam,
-          classLevel,
-          subjects: activeSubjects,
-          onboardingCompleted: true,
-          targetYear: metadata?.targetYear || 2026
+        if (cleanPhone) {
+          localStorage.setItem('prepora_user_phone', cleanPhone);
         }
-      };
 
-      setToken(fallbackToken);
-      localStorage.setItem(TOKEN_KEY, fallbackToken);
-      localStorage.setItem('prepora_onboarding_completed', 'true');
-      setUser(authenticatedUser);
-      userService.updateProfile(authenticatedUser);
-      // Modal lifecycle is handled by caller (AuthModal transitions to create-password)
+        const canonicalExam = targetExam === 'NEET' ? 'NEET_UG' : targetExam === 'CBSE' ? 'CBSE' : targetExam === 'RBSE' ? 'RBSE' : 'JEE_MAIN';
+        const activeSubjects = targetExam === 'NEET' ? ['PHYSICS', 'CHEMISTRY', 'BIOLOGY'] : ['PHYSICS', 'CHEMISTRY', 'MATHEMATICS'];
 
-      return { success: true, hasPassword: false, requiresPasswordCreation: true };
+        const authenticatedUser: UserProfile = {
+          id: fallbackId,
+          name: metadata?.name || (cleanPhone ? `Student ${cleanPhone.slice(-4)}` : cleanEmail.split('@')[0]),
+          email: cleanEmail,
+          phone: cleanPhone,
+          mobile: cleanPhone,
+          avatarUrl: 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&auto=format&fit=crop&q=80',
+          targetExam,
+          classLevel,
+          targetYear: metadata?.targetYear || 2026,
+          streakDays: Number(localStorage.getItem('prepora_user_streak') || 0),
+          todayQuestionsCount: 0,
+          overallAccuracy: 0,
+          testsCompletedCount: 0,
+          dailyGoalQuestions: (metadata as any)?.dailyGoalQuestions || 25,
+          lastActiveDate: new Date().toISOString().split('T')[0],
+          hasPassword: false,
+          preparationProfile: {
+            userId: fallbackId,
+            preparationType: targetExam,
+            exam: canonicalExam,
+            classLevel,
+            subjects: activeSubjects,
+            onboardingCompleted: true,
+            targetYear: metadata?.targetYear || 2026
+          }
+        };
+
+        setToken(fallbackToken);
+        localStorage.setItem(TOKEN_KEY, fallbackToken);
+        localStorage.setItem('prepora_onboarding_completed', 'true');
+        setUser(authenticatedUser);
+        userService.updateProfile(authenticatedUser);
+
+        return { success: true, hasPassword: false, requiresPasswordCreation: true };
+      }
+      return { success: false, message: err?.message || 'Network error verifying code. Please check your connection.' };
     }
-
-    return { success: false, message: 'Invalid OTP. Please enter demo OTP: 9999' };
   };
 
-  const setPassword = async (password: string, phoneOverride?: string): Promise<{ success: boolean; message?: string }> => {
+  const setPassword = async (password: string, phoneOverride?: string, nameOverride?: string): Promise<{ success: boolean; message?: string }> => {
     const t = localStorage.getItem(TOKEN_KEY);
     const currentUser = userService.getProfile();
     const cleanPhone = (phoneOverride || currentUser?.phone || currentUser?.mobile || localStorage.getItem('prepora_user_phone') || '').replace(/[^0-9]/g, '').slice(-10);
+    const cleanName = (nameOverride?.trim() || currentUser?.name || '').trim();
 
     if (currentUser?.email) {
       localStorage.setItem('prepora_pwd_' + currentUser.email.toLowerCase(), password);
@@ -793,13 +824,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const res = await fetch('/api/auth/set-password', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', ...(t ? { Authorization: `Bearer ${t}` } : {}) },
-        body: JSON.stringify({ password, phone: cleanPhone })
+        body: JSON.stringify({ password, phone: cleanPhone, name: cleanName || undefined })
       });
       const data = await res.json().catch(() => null);
       if (res.ok && data?.success) {
         const updatedUser: UserProfile = {
           ...userService.getProfile(),
           ...(data.user || {}),
+          ...(cleanName && cleanName !== 'Aspirant' ? { name: cleanName } : {}),
           phone: cleanPhone || currentUser.phone,
           mobile: cleanPhone || currentUser.mobile,
           hasPassword: true
@@ -810,6 +842,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       const updatedUser: UserProfile = {
         ...userService.getProfile(),
+        ...(cleanName && cleanName !== 'Aspirant' ? { name: cleanName } : {}),
         phone: cleanPhone || currentUser.phone,
         mobile: cleanPhone || currentUser.mobile,
         hasPassword: true
@@ -820,6 +853,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } catch {
       const updatedUser: UserProfile = {
         ...userService.getProfile(),
+        ...(cleanName && cleanName !== 'Aspirant' ? { name: cleanName } : {}),
         phone: cleanPhone || currentUser.phone,
         mobile: cleanPhone || currentUser.mobile,
         hasPassword: true
@@ -915,6 +949,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       localStorage.removeItem('prepora_bookmarks');
       localStorage.removeItem('prepora_mistakes');
       localStorage.removeItem('prepora_user_profile');
+      localStorage.removeItem('prepora_user_streak');
       setToken(null);
       setActiveSessions([]);
       const emptyUser: UserProfile = {
@@ -965,7 +1000,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const t = localStorage.getItem(TOKEN_KEY);
     if (t) {
       try {
-        await fetch('/api/auth/me', {
+        const res = await fetch('/api/auth/me', {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -973,6 +1008,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
           },
           body: JSON.stringify(updates)
         });
+        if (res.ok) {
+          const data = await res.json();
+          if (data.user) {
+            const fresh = { ...updated, ...data.user };
+            setUser(fresh);
+            userService.updateProfile(fresh);
+          }
+        }
       } catch (err) {
         console.warn('Failed to sync profile update to server:', err);
       }

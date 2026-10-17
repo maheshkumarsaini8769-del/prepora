@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 import { userService } from '../../services/userService';
 import { soundFeedback } from '../../utils/audioFeedback';
+import { useReportChat } from '../../context/ReportChatContext';
 
 const OFFLINE_FEEDBACK_KEY = 'prepora_offline_feedbacks';
 
@@ -64,6 +65,7 @@ const flushOfflineFeedbacks = async () => {
 };
 
 export const StudentFeedbackModal: React.FC = () => {
+  const { openReportChat } = useReportChat();
   const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState<'SUGGESTION' | 'MISTAKE'>('SUGGESTION');
   const [title, setTitle] = useState('');
@@ -175,9 +177,14 @@ export const StudentFeedbackModal: React.FC = () => {
       setTimeout(() => {
         setSubmitted(false);
         setIsOpen(false);
+        openReportChat({
+          title: title.trim(),
+          reason: category || activeTab,
+          message: description.trim()
+        });
         setTitle('');
         setDescription('');
-      }, 2200);
+      }, 500);
     } catch {
       // Emergency catch: save offline and succeed gracefully
       queueFeedbackOffline(payload);
@@ -186,9 +193,14 @@ export const StudentFeedbackModal: React.FC = () => {
       setTimeout(() => {
         setSubmitted(false);
         setIsOpen(false);
+        openReportChat({
+          title: title.trim(),
+          reason: category || activeTab,
+          message: description.trim()
+        });
         setTitle('');
         setDescription('');
-      }, 2200);
+      }, 500);
     } finally {
       setLoading(false);
     }

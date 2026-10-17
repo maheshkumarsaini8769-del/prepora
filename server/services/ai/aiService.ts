@@ -249,9 +249,13 @@ class AIService {
     // Step 1: Deep Educational Understanding & Context Mismatch Check
     const understanding = analyzeQuestionUnderstanding(req.question, req.subject, req.chapter);
 
-    // Step 2: Database-First Search (Prioritize verified DB question)
-    const dbMatch = await searchDatabaseFirst(req.question);
-    const effectiveContext = dbMatch.contextForAI || contextSnippet;
+    // Step 2: Database-First Search
+    // For AI Teacher Mode, student wants direct generative intelligence (ChatGPT-like), not static DB questions.
+    const isTeacher = req.aiMode === 'teacher' || Boolean(req.tutorMode);
+    const dbMatch = isTeacher 
+      ? { foundInDatabase: false, isAuthoritative: false } 
+      : await searchDatabaseFirst(req.question);
+    const effectiveContext = isTeacher ? undefined : (dbMatch.contextForAI || contextSnippet);
 
     let rawResult: IDoubtSolveResult | null = null;
     const failoverTrace: string[] = [];

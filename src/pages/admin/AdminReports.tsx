@@ -31,7 +31,7 @@ import {
 } from 'lucide-react';
 import { Card, Badge, Button, Modal } from '../../components/common/UIComponents';
 import { Link, useLocation, useSearchParams } from 'react-router-dom';
-import { adminFetch } from '../../utils/adminApi';
+import { adminFetch, getAdminCachedData, setAdminCachedData } from '../../utils/adminApi';
 
 export const AdminReports: React.FC = () => {
   const location = useLocation();
@@ -54,8 +54,8 @@ export const AdminReports: React.FC = () => {
   }, [location.pathname, searchParams]);
 
   // Question Reports State
-  const [qReports, setQReports] = useState<any[]>([]);
-  const [qStatusFilter, setQStatusFilter] = useState<string>('All');
+  const [qReports, setQReports] = useState<any[]>(() => getAdminCachedData<any[]>('admin_q_reports') || []);
+  const [qStatusFilter, setQStatusFilter] = useState<string>('Pending');
   const [qSearch, setQSearch] = useState<string>('');
   const [selectedQReport, setSelectedQReport] = useState<any | null>(null);
   const [reviewModalOpen, setReviewModalOpen] = useState(false);
@@ -64,8 +64,8 @@ export const AdminReports: React.FC = () => {
   const [correctedExplanation, setCorrectedExplanation] = useState<string>('');
 
   // Student Feedback & Suggestions State
-  const [feedbacks, setFeedbacks] = useState<any[]>([]);
-  const [fbStatusFilter, setFbStatusFilter] = useState<string>('All');
+  const [feedbacks, setFeedbacks] = useState<any[]>(() => getAdminCachedData<any[]>('admin_feedbacks') || []);
+  const [fbStatusFilter, setFbStatusFilter] = useState<string>('Pending');
   const [fbTypeFilter, setFbTypeFilter] = useState<string>('All');
   const [fbSearch, setFbSearch] = useState<string>('');
   const [selectedFeedback, setSelectedFeedback] = useState<any | null>(null);
@@ -91,16 +91,16 @@ export const AdminReports: React.FC = () => {
   const [adminNotifPhone, setAdminNotifPhone] = useState('');
   const [adminNotifUrl, setAdminNotifUrl] = useState('');
   const [adminNotifSending, setAdminNotifSending] = useState(false);
-  const [adminSentNotifs, setAdminSentNotifs] = useState<any[]>([]);
-  const [adminNotifStats, setAdminNotifStats] = useState({ total: 0, broadcastCount: 0, targetedCount: 0 });
+  const [adminSentNotifs, setAdminSentNotifs] = useState<any[]>(() => getAdminCachedData<any[]>('admin_notifications') || []);
+  const [adminNotifStats, setAdminNotifStats] = useState(() => getAdminCachedData<any>('admin_notif_stats') || { total: 0, broadcastCount: 0, targetedCount: 0 });
 
   // Technical Reports State
-  const [techReports, setTechReports] = useState<any[]>([]);
+  const [techReports, setTechReports] = useState<any[]>(() => getAdminCachedData<any[]>('admin_tech_reports') || []);
   const [techStatusFilter, setTechStatusFilter] = useState<string>('All');
   const [techSeverityFilter, setTechSeverityFilter] = useState<string>('All');
 
   // Audit Logs State
-  const [auditLogs, setAuditLogs] = useState<any[]>([]);
+  const [auditLogs, setAuditLogs] = useState<any[]>(() => getAdminCachedData<any[]>('admin_audit_logs') || []);
   const [auditSearch, setAuditSearch] = useState<string>('');
   const [auditActionFilter, setAuditActionFilter] = useState<string>('All');
 
@@ -149,26 +149,40 @@ export const AdminReports: React.FC = () => {
       });
   }, [feedbacks]);
 
-  // Load Data
+  // Priority load active tab, then lazy-load remaining in idle background
   useEffect(() => {
-    fetchQuestionReports();
-    fetchFeedbacks();
-    fetchTechnicalReports();
-    fetchAuditLogs();
-    fetchAdminNotifications();
-  }, []);
+    if (activeTab === 'questions') fetchQuestionReports();
+    else if (activeTab === 'feedback') fetchFeedbacks();
+    else if (activeTab === 'technical') fetchTechnicalReports();
+    else if (activeTab === 'audit') fetchAuditLogs();
+    else if (activeTab === 'notifications') fetchAdminNotifications();
+
+    const t = setTimeout(() => {
+      if (activeTab !== 'questions') fetchQuestionReports();
+      if (activeTab !== 'feedback') fetchFeedbacks();
+      if (activeTab !== 'technical') fetchTechnicalReports();
+      if (activeTab !== 'audit') fetchAuditLogs();
+      if (activeTab !== 'notifications') fetchAdminNotifications();
+    }, 250);
+
+    return () => clearTimeout(t);
+  }, [activeTab]);
 
   const fetchAdminNotifications = async () => {
     try {
       const res = await adminFetch('/api/notifications/admin');
       const data = await res.json();
       if (data.success) {
-        setAdminSentNotifs(data.notifications || []);
-        setAdminNotifStats({
+        const notifs = data.notifications || [];
+        setAdminSentNotifs(notifs);
+        setAdminCachedData('admin_notifications', notifs);
+        const stats = {
           total: data.total || 0,
           broadcastCount: data.broadcastCount || 0,
           targetedCount: data.targetedCount || 0
-        });
+        };
+        setAdminNotifStats(stats);
+        setAdminCachedData('admin_notif_stats', stats);
       }
     } catch {}
   };
@@ -277,12 +291,47 @@ export const AdminReports: React.FC = () => {
     }
   };
 
+  const handleResolveThreadAndMoveToHistory = async (thread: any, replyText?: string) => {
+    if (!thread) return;
+    const ids = thread.messages ? thread.messages.map((m: any) => m.id) : [thread.id];
+    const cleanPhone = thread.studentPhone ? thread.studentPhone.replace(/\D/g, '').slice(-10) : '';
+
+    try {
+      const res = await adminFetch('/api/feedback/resolve-thread', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ids,
+          phone: cleanPhone,
+          reply: replyText || undefined,
+          note: 'Problem solved and moved to History by admin',
+          adminEmail: 'admin@prepora.internal'
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        if (activeChatThread && (activeChatThread.studentKey === thread.studentKey || activeChatThread.studentPhone === thread.studentPhone)) {
+          setActiveChatThread(null);
+        }
+        fetchFeedbacks();
+        fetchAuditLogs();
+        alert('✅ Problem solve ho gaya aur History me bhej diya gaya hai!');
+      } else {
+        alert(data.message || 'Failed to resolve problem.');
+      }
+    } catch {
+      alert('Failed to connect to server.');
+    }
+  };
+
   const fetchFeedbacks = async () => {
     try {
       const res = await adminFetch('/api/reports/feedback?limit=100');
       const data = await res.json();
       if (data.success) {
-        setFeedbacks(data.feedbacks || []);
+        const list = data.feedbacks || [];
+        setFeedbacks(list);
+        setAdminCachedData('admin_feedbacks', list);
       }
     } catch {}
   };
@@ -292,7 +341,9 @@ export const AdminReports: React.FC = () => {
       const res = await adminFetch('/api/reports/question?limit=100');
       const data = await res.json();
       if (data.success) {
-        setQReports(data.reports || []);
+        const list = data.reports || [];
+        setQReports(list);
+        setAdminCachedData('admin_q_reports', list);
       }
     } catch {
       // Fallback
@@ -304,7 +355,9 @@ export const AdminReports: React.FC = () => {
       const res = await adminFetch('/api/reports/technical?limit=100');
       const data = await res.json();
       if (data.success) {
-        setTechReports(data.reports || []);
+        const list = data.reports || [];
+        setTechReports(list);
+        setAdminCachedData('admin_tech_reports', list);
       }
     } catch {}
   };
@@ -314,7 +367,9 @@ export const AdminReports: React.FC = () => {
       const res = await adminFetch('/api/audit?limit=100');
       const data = await res.json();
       if (data.success) {
-        setAuditLogs(data.logs || []);
+        const list = data.logs || [];
+        setAuditLogs(list);
+        setAdminCachedData('admin_audit_logs', list);
       }
     } catch {}
   };
@@ -599,11 +654,35 @@ export const AdminReports: React.FC = () => {
         <div className="space-y-4">
           <div className="bg-white dark:bg-[#0c131a] rounded-2xl p-4 border border-slate-200 dark:border-slate-800 shadow-xs flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-1.5 flex-wrap">
-              {(['All', 'Pending', 'Under Review', 'Resolved', 'Rejected'] as const).map(st => (
+              <button
+                type="button"
+                onClick={() => setQStatusFilter('Pending')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                  qStatusFilter === 'Pending'
+                    ? 'bg-rose-600 text-white shadow-xs'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                }`}
+              >
+                <AlertTriangle className="w-3.5 h-3.5" />
+                <span>Active Problems ({qReports.filter(r => r.status === 'Pending').length})</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setQStatusFilter('Resolved')}
+                className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                  qStatusFilter === 'Resolved'
+                    ? 'bg-emerald-600 text-white shadow-xs'
+                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                }`}
+              >
+                <CheckCircle2 className="w-3.5 h-3.5" />
+                <span>History / Resolved ({qReports.filter(r => r.status === 'Resolved').length})</span>
+              </button>
+              {(['All', 'Under Review', 'Rejected'] as const).map(st => (
                 <button
                   key={st}
                   onClick={() => setQStatusFilter(st)}
-                  className={`px-3 py-1 rounded-xl text-xs font-bold transition-all ${
+                  className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
                     qStatusFilter === st
                       ? 'bg-brand-600 text-white shadow-xs'
                       : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
@@ -630,8 +709,14 @@ export const AdminReports: React.FC = () => {
             {filteredQReports.length === 0 ? (
               <div className="bg-white dark:bg-[#0c131a] rounded-3xl p-12 text-center border border-slate-200 dark:border-slate-800 space-y-2">
                 <CheckCircle2 className="w-10 h-10 text-emerald-500 mx-auto" />
-                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">All Clean!</h3>
-                <p className="text-xs text-slate-500">No question issues found matching this filter.</p>
+                <h3 className="font-bold text-slate-800 dark:text-slate-100 text-sm">
+                  {qStatusFilter === 'Pending' ? 'No Active Question Problems!' : 'No Reports Found!'}
+                </h3>
+                <p className="text-xs text-slate-500">
+                  {qStatusFilter === 'Pending'
+                    ? 'Sabhi reported questions solve ho chuke hain aur History me move ho gaye hain.'
+                    : 'No question issues found matching this filter.'}
+                </p>
               </div>
             ) : (
               filteredQReports.map(r => (
@@ -663,7 +748,7 @@ export const AdminReports: React.FC = () => {
                     )}
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 border-slate-100">
+                  <div className="flex items-center gap-2 shrink-0 border-t md:border-t-0 pt-3 md:pt-0 border-slate-100 flex-wrap">
                     <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full ${
                       r.status === 'Resolved'
                         ? 'bg-emerald-100 text-emerald-800'
@@ -676,11 +761,23 @@ export const AdminReports: React.FC = () => {
                       {r.status}
                     </span>
 
+                    {r.status !== 'Resolved' && (
+                      <Button
+                        size="sm"
+                        onClick={() => handleUpdateQReportStatus(r.id, 'Resolved')}
+                        className="text-xs font-bold py-1.5 px-3 bg-emerald-600 hover:bg-emerald-700 text-white flex items-center gap-1 cursor-pointer"
+                        title="Problem solve karein aur History me move karein"
+                      >
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <span>Resolve & Move to History</span>
+                      </Button>
+                    )}
+
                     <Button
                       size="sm"
                       variant="outline"
                       onClick={() => handleOpenReview(r)}
-                      className="text-xs font-bold py-1.5 px-3 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50"
+                      className="text-xs font-bold py-1.5 px-3 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 cursor-pointer"
                     >
                       <Edit2 className="w-3.5 h-3.5 mr-1" /> Review & Edit
                     </Button>
@@ -764,17 +861,41 @@ export const AdminReports: React.FC = () => {
                 </button>
               </div>
 
-              {/* Status Filter */}
-              <div className="flex items-center gap-1">
-                {(['All', 'Pending', 'In Review', 'Resolved'] as const).map(st => (
+              {/* Status View: Active Problems vs History */}
+              <div className="flex items-center gap-1 p-1 bg-slate-100 dark:bg-slate-800 rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => setFbStatusFilter('Pending')}
+                  className={`px-3 py-1 rounded-lg font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                    fbStatusFilter === 'Pending'
+                      ? 'bg-rose-600 text-white shadow-xs'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
+                  }`}
+                >
+                  <AlertTriangle className="w-3.5 h-3.5" />
+                  <span>Active Problems ({feedbacks.filter(f => f.status === 'Pending').length})</span>
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setFbStatusFilter('Resolved')}
+                  className={`px-3 py-1 rounded-lg font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+                    fbStatusFilter === 'Resolved'
+                      ? 'bg-emerald-600 text-white shadow-xs'
+                      : 'text-slate-600 dark:text-slate-300 hover:text-slate-900'
+                  }`}
+                >
+                  <CheckCircle2 className="w-3.5 h-3.5" />
+                  <span>History / Resolved ({feedbacks.filter(f => f.status === 'Resolved').length})</span>
+                </button>
+                {(['All', 'In Review'] as const).map(st => (
                   <button
                     key={st}
                     type="button"
                     onClick={() => setFbStatusFilter(st)}
-                    className={`px-2.5 py-1 rounded-lg font-bold transition-all ${
+                    className={`px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
                       fbStatusFilter === st
-                        ? 'bg-brand-600 text-white shadow-xs'
-                        : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                        ? 'bg-white dark:bg-slate-700 text-slate-900 dark:text-white shadow-xs'
+                        : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
                     }`}
                   >
                     {st}
@@ -929,7 +1050,24 @@ export const AdminReports: React.FC = () => {
                         Thread ID: <code className="font-mono">{thread.studentKey}</code>
                       </span>
 
-                      <div className="flex items-center gap-2">
+                      <div className="flex items-center gap-2 flex-wrap">
+                        {thread.hasPending ? (
+                          <button
+                            type="button"
+                            onClick={() => handleResolveThreadAndMoveToHistory(thread)}
+                            className="px-3 py-1.5 rounded-xl text-xs font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/60 transition-colors flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                            title="Mark problem resolved and move to History so it won't clutter active screen"
+                          >
+                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                            <span>Resolve Chat (Move to History)</span>
+                          </button>
+                        ) : (
+                          <span className="px-2.5 py-1 rounded-xl text-2xs font-extrabold text-slate-500 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 flex items-center gap-1">
+                            <Check className="w-3 h-3 text-emerald-500" />
+                            <span>Archived in History</span>
+                          </span>
+                        )}
+
                         <button
                           type="button"
                           onClick={() => {
@@ -1089,14 +1227,20 @@ export const AdminReports: React.FC = () => {
                           <span>Block</span>
                         </button>
 
-                        {fb.status !== 'Resolved' && (
+                        {fb.status !== 'Resolved' ? (
                           <button
                             type="button"
                             onClick={() => handleUpdateFeedbackStatus(fb.id, 'Resolved')}
-                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100 transition-colors"
+                            className="px-2.5 py-1 rounded-lg text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-300 hover:bg-emerald-100 flex items-center gap-1 transition-colors cursor-pointer"
+                            title="Problem solve karein aur History me move karein"
                           >
-                            Mark Resolved
+                            <CheckCircle2 className="w-3 h-3 text-emerald-600" />
+                            <span>Resolve & Move to History</span>
                           </button>
+                        ) : (
+                          <span className="text-2xs font-extrabold text-slate-500 bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 px-2 py-0.5 rounded">
+                            Archived in History
+                          </span>
                         )}
 
                         <button
@@ -1473,13 +1617,32 @@ export const AdminReports: React.FC = () => {
                 </div>
               </div>
 
-              <button
-                type="button"
-                onClick={() => setActiveChatThread(null)}
-                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
-              >
-                <XCircle className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                {activeChatThread.hasPending ? (
+                  <button
+                    type="button"
+                    onClick={() => handleResolveThreadAndMoveToHistory(activeChatThread, chatReplyInput.trim() || undefined)}
+                    className="px-3 py-1.5 rounded-xl text-xs font-black text-white bg-emerald-600 hover:bg-emerald-700 transition-colors flex items-center gap-1.5 shadow-xs cursor-pointer"
+                    title="Mark thread resolved and archive to History"
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span>Resolve Chat (Move to History)</span>
+                  </button>
+                ) : (
+                  <span className="text-2xs font-extrabold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-300 dark:border-emerald-800 px-2.5 py-1 rounded-xl flex items-center gap-1">
+                    <Check className="w-3.5 h-3.5 text-emerald-500" />
+                    <span>Archived in History</span>
+                  </span>
+                )}
+
+                <button
+                  type="button"
+                  onClick={() => setActiveChatThread(null)}
+                  className="p-1.5 rounded-xl text-slate-400 hover:text-slate-600 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                >
+                  <XCircle className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Modal Body: Scrollable Chat Feed */}
@@ -1598,15 +1761,39 @@ export const AdminReports: React.FC = () => {
                   type="button"
                   onClick={handleSendChatReply}
                   disabled={chatSending || !chatReplyInput.trim()}
-                  className="px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex flex-col items-center justify-center gap-1 rounded-xl shrink-0 cursor-pointer"
+                  className="px-4 bg-indigo-600 hover:bg-indigo-700 disabled:opacity-40 text-white font-bold text-xs flex flex-col items-center justify-center gap-1 rounded-xl shrink-0 cursor-pointer shadow-xs"
                 >
                   <Send className="w-4 h-4" />
                   <span className="text-[10px]">{chatSending ? 'Sending...' : 'Send'}</span>
                 </Button>
+
+                {activeChatThread.hasPending && (
+                  <Button
+                    type="button"
+                    onClick={() => handleResolveThreadAndMoveToHistory(activeChatThread, chatReplyInput.trim() || undefined)}
+                    className="px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs flex flex-col items-center justify-center gap-1 rounded-xl shrink-0 cursor-pointer shadow-xs"
+                    title="Resolve this chat thread immediately and move to History"
+                  >
+                    <CheckCircle2 className="w-4 h-4" />
+                    <span className="text-[10px]">Resolve Chat</span>
+                  </Button>
+                )}
               </div>
-              <p className="text-[10px] text-slate-400">
-                ⚡ Sending this reply automatically marks all pending feedback in this thread as Resolved and delivers a live notification to the student's notification bell.
-              </p>
+              <div className="flex flex-wrap items-center justify-between gap-2 pt-1 border-t border-slate-100 dark:border-slate-800 text-[10px] text-slate-400">
+                <span>
+                  ⚡ Reply bhejne par ya "Resolve Chat" dabane par problem turant History me chali jayegi aur student ko notification mil jayega.
+                </span>
+                {activeChatThread.hasPending && (
+                  <button
+                    type="button"
+                    onClick={() => handleResolveThreadAndMoveToHistory(activeChatThread, chatReplyInput.trim() || undefined)}
+                    className="font-bold text-emerald-600 dark:text-emerald-400 hover:underline shrink-0 flex items-center gap-1 cursor-pointer"
+                  >
+                    <CheckCircle2 className="w-3.5 h-3.5" />
+                    <span>Direct Resolve Chat</span>
+                  </button>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -2036,9 +2223,10 @@ export const AdminReports: React.FC = () => {
                 variant="primary"
                 size="sm"
                 onClick={() => handleUpdateQReportStatus(selectedQReport?.id, 'Resolved')}
-                className="font-bold bg-emerald-600 hover:bg-emerald-700"
+                className="font-bold bg-emerald-600 hover:bg-emerald-700 flex items-center gap-1.5 cursor-pointer text-white"
               >
-                Apply Correction & Resolve
+                <CheckCircle2 className="w-4 h-4" />
+                <span>Resolve & Move to History</span>
               </Button>
             </div>
           </div>

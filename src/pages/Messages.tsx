@@ -141,10 +141,22 @@ export const Messages: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setReportSuccess('✅ Chat thread has been marked as Resolved.');
+                      setTimeout(() => setReportSuccess(null), 3500);
+                    }}
+                    className="px-2.5 py-1 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-300 border border-emerald-300 dark:border-emerald-800 hover:bg-emerald-100 dark:hover:bg-emerald-900/40 text-xs font-bold transition-colors flex items-center gap-1 cursor-pointer"
+                    title="Mark this chat as resolved"
+                  >
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Resolve Chat</span>
+                  </button>
+
                   <button
                     onClick={() => handleBlock(activeThread.id)}
-                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 text-xs font-semibold transition-colors flex items-center gap-1"
+                    className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 text-xs font-semibold transition-colors flex items-center gap-1 cursor-pointer"
                     title="Block Conversation"
                   >
                     <UserX className="w-4 h-4" />

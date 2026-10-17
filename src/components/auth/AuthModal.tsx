@@ -215,7 +215,7 @@ export const AuthModal: React.FC = () => {
         setStep('create-password');
         setSuccessMsg('WhatsApp OTP verified successfully! Create your password below.');
       } else {
-        setError(res.message || 'Incorrect OTP code. Please enter 9999.');
+        setError(res.message || 'Incorrect verification code. Please check your WhatsApp.');
       }
     } catch (err: any) {
       setIsLoading(false);
@@ -650,14 +650,14 @@ export const AuthModal: React.FC = () => {
           <form onSubmit={handleVerifyOtp} className="space-y-3.5 animate-in fade-in duration-150">
             <div className="space-y-1 text-center">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
-                Enter 4-Digit Code (+91 {cleanMobileDigits(phone)})
+                Enter WhatsApp OTP or Demo 9999 (+91 {cleanMobileDigits(phone)})
               </label>
               <input
                 type="text"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                placeholder="9999"
-                maxLength={4}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                placeholder="• • • • • •"
+                maxLength={6}
                 required
                 autoFocus
                 className="w-full py-2.5 text-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-xl font-mono font-black tracking-widest"
@@ -892,14 +892,14 @@ export const AuthModal: React.FC = () => {
           <form onSubmit={handleResetPasswordSubmit} className="space-y-3.5 animate-in fade-in duration-150">
             <div className="space-y-1 text-center">
               <label className="text-xs font-bold text-slate-700 dark:text-slate-300 block">
-                Enter WhatsApp OTP (+91 {cleanMobileDigits(phone)})
+                Enter WhatsApp OTP or Demo 9999 (+91 {cleanMobileDigits(phone)})
               </label>
               <input
                 type="text"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 4))}
-                placeholder="9999"
-                maxLength={4}
+                onChange={(e) => setOtp(e.target.value.replace(/[^0-9]/g, '').slice(0, 6))}
+                placeholder="• • • • • •"
+                maxLength={6}
                 required
                 autoFocus
                 className="w-full py-2 text-center rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-white text-lg font-mono font-black tracking-widest"

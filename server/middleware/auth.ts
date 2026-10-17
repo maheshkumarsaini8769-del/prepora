@@ -22,6 +22,27 @@ export interface AuthRequest extends Request {
   token?: string;
 }
 
+interface AuthCacheEntry {
+  user: any;
+  session: any;
+  timestamp: number;
+  lastActiveSaved: number;
+}
+const authCache = new Map<string, AuthCacheEntry>();
+const AUTH_CACHE_TTL_MS = 20000; // 20s cache to eliminate DB roundtrip on every page click
+
+export const invalidateAuthCache = (userId?: string) => {
+  if (!userId) {
+    authCache.clear();
+    return;
+  }
+  for (const [key, val] of authCache.entries()) {
+    if (val.user?.id === userId || val.user?.studentId === userId) {
+      authCache.delete(key);
+    }
+  }
+};
+
 export const authenticateUser = async (req: AuthRequest, res: Response, next: NextFunction) => {
   try {
     const authHeader = req.headers.authorization || (req.headers['x-auth-token'] as string);
@@ -43,6 +64,30 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       return res.status(401).json({ success: false, message: 'Invalid or expired token. Please log in again.' });
     }
 
+    const tokenHash = hashToken(token);
+    const cached = authCache.get(tokenHash);
+
+    // Fast-path: Return cached auth data if within TTL
+    if (cached && (Date.now() - cached.timestamp < AUTH_CACHE_TTL_MS)) {
+      if (cached.user.status === 'suspended') {
+        authCache.delete(tokenHash);
+        return res.status(403).json({ success: false, message: 'Account has been suspended. Please contact support.' });
+      }
+
+      // Throttled session lastActive update (at most once every 60 seconds)
+      if (Date.now() - cached.lastActiveSaved > 60000) {
+        cached.lastActiveSaved = Date.now();
+        Session.updateOne({ id: cached.session.id }, { $set: { lastActive: new Date(), lastActiveAt: new Date() } }).catch(() => null);
+      }
+
+      req.user = cached.user;
+      req.userId = cached.user.id;
+      req.studentId = cached.user.studentId || cached.user.id;
+      req.token = token;
+      req.sessionId = cached.session.id;
+      return next();
+    }
+
     // Retrieve user directly from database safely
     const userOrCriteria: any[] = [];
     if (decoded.id) userOrCriteria.push({ id: decoded.id }, { studentId: decoded.id });
@@ -60,7 +105,6 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
     }
 
     // Check if session is valid and active in database (server-side source of truth)
-    const tokenHash = hashToken(token);
     const session = await Session.findOne({
       $or: [
         { token: tokenHash },
@@ -70,7 +114,6 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
     });
 
     if (!session) {
-      // If session record is not found (e.g. cold start or expired), expire normally without false "another device" alert
       return res.status(401).json({
         success: false,
         code: 'SESSION_EXPIRED',
@@ -79,6 +122,7 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
     }
 
     if (session.isRevoked || session.status === 'REVOKED') {
+      authCache.delete(tokenHash);
       const isAnotherDevice = session?.revocationReason === 'NEW_LOGIN_ON_OTHER_DEVICE' || session?.revocationReason === 'LOGGED_IN_ON_ANOTHER_DEVICE' || session?.revocationReason === 'MAX_DEVICES_EXCEEDED';
       const isUserLogout = session?.revocationReason === 'USER_LOGOUT';
       return res.status(401).json({
@@ -93,6 +137,7 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
     // Verify student single active session against user.currentSessionId
     const isOwnerAdmin = user.role === 'admin' || user.email === 'maheshkumarsaini8769@gmail.com' || user.phone === '7742735762';
     if (!isOwnerAdmin && user.currentSessionId && decoded.sessionId && user.currentSessionId !== decoded.sessionId) {
+      authCache.delete(tokenHash);
       return res.status(401).json({
         success: false,
         code: 'SESSION_REVOKED_ANOTHER_DEVICE',
@@ -100,8 +145,15 @@ export const authenticateUser = async (req: AuthRequest, res: Response, next: Ne
       });
     }
 
+    // Cache the verified auth result
+    authCache.set(tokenHash, {
+      user,
+      session,
+      timestamp: Date.now(),
+      lastActiveSaved: Date.now()
+    });
 
-    // Update session last active time
+    // Throttled update session last active time
     session.lastActive = new Date();
     session.lastActiveAt = new Date();
     session.save().catch(() => null);

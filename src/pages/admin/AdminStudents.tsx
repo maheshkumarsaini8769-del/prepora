@@ -23,7 +23,8 @@ import {
   History,
   AlertTriangle,
   Flame,
-  Check
+  Check,
+  Edit2
 } from 'lucide-react';
 
 interface StudentListItem {
@@ -146,6 +147,79 @@ export const AdminStudents: React.FC = () => {
   const [blockReasonInput, setBlockReasonInput] = useState<string>('');
   const [blockingLoading, setBlockingLoading] = useState<boolean>(false);
 
+  // Edit Student Real Name State (Modal)
+  const [isEditingName, setIsEditingName] = useState<boolean>(false);
+  const [editedName, setEditedName] = useState<string>('');
+  const [savingName, setSavingName] = useState<boolean>(false);
+
+  // Quick Inline Name Edit State (Table Row)
+  const [inlineEditingStudentId, setInlineEditingStudentId] = useState<string | null>(null);
+  const [inlineEditName, setInlineEditName] = useState<string>('');
+  const [savingInlineName, setSavingInlineName] = useState<boolean>(false);
+
+  const handleSaveInlineName = async (st: StudentListItem) => {
+    if (!inlineEditName.trim()) return;
+    setSavingInlineName(true);
+    try {
+      const targetId = st.id || st.studentId;
+      const res = await adminFetch(`/api/admin/students/${encodeURIComponent(targetId)}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: inlineEditName.trim() })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStudents((prev) =>
+          prev.map((s) =>
+            s.id === targetId || s.studentId === targetId ? { ...s, name: inlineEditName.trim() } : s
+          )
+        );
+        setInlineEditingStudentId(null);
+        setActionSuccess(`Student name successfully updated to "${inlineEditName.trim()}".`);
+        setTimeout(() => setActionSuccess(''), 4000);
+      } else {
+        setActionError(data.message || 'Failed to update student name.');
+      }
+    } catch (err: any) {
+      setActionError(err.message || 'Network error updating student name.');
+    } finally {
+      setSavingInlineName(false);
+    }
+  };
+
+  const handleSaveStudentName = async () => {
+    if (!editedName.trim() || !studentDetail?.student) return;
+    setSavingName(true);
+    try {
+      const targetId = studentDetail.student.id || studentDetail.student.studentId;
+      const res = await adminFetch(`/api/admin/students/${targetId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: editedName.trim() })
+      });
+      const data = await res.json();
+      if (data.success) {
+        setStudentDetail((prev) =>
+          prev ? { ...prev, student: { ...prev.student, name: editedName.trim() } } : null
+        );
+        setStudents((prev) =>
+          prev.map((s) =>
+            s.id === targetId || s.studentId === targetId ? { ...s, name: editedName.trim() } : s
+          )
+        );
+        setIsEditingName(false);
+        setActionSuccess(`Student name successfully updated to "${editedName.trim()}".`);
+        setTimeout(() => setActionSuccess(''), 5000);
+      } else {
+        setActionError(data.message || 'Failed to update student name.');
+      }
+    } catch (err: any) {
+      setActionError(err.message || 'Network error updating student name.');
+    } finally {
+      setSavingName(false);
+    }
+  };
+
   const fetchStudents = async (forceShowLoading = false) => {
     const cacheKey = `admin_students_list_${examFilter}_${statusFilter}_${search.trim()}`;
     const cached = getAdminCachedData<StudentListItem[]>(cacheKey);
@@ -187,6 +261,8 @@ export const AdminStudents: React.FC = () => {
       const data = await res.json();
       if (data.success) {
         setStudentDetail(data.data);
+        setEditedName(data.data?.student?.name || '');
+        setIsEditingName(false);
       }
     } catch (e) {
       console.error(e);
@@ -496,17 +572,69 @@ export const AdminStudents: React.FC = () => {
                 students.map((st) => (
                   <tr key={st.id} className="hover:bg-slate-50 dark:hover:bg-slate-800/40 transition">
                     <td className="py-3.5 px-4">
-                      <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
-                        {st.isOnlineNow && (
-                          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0" title="Online right now" />
-                        )}
-                        <span>{st.name}</span>
-                        {st.streakDays > 1 && (
-                          <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-black">
-                            🔥 {st.streakDays}d
-                          </span>
-                        )}
-                      </div>
+                      {inlineEditingStudentId === st.id ? (
+                        <div className="flex items-center gap-1.5" onClick={(e) => e.stopPropagation()}>
+                          <input
+                            type="text"
+                            value={inlineEditName}
+                            onChange={(e) => setInlineEditName(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter') handleSaveInlineName(st);
+                              if (e.key === 'Escape') setInlineEditingStudentId(null);
+                            }}
+                            placeholder="Real student name"
+                            autoFocus
+                            className="px-2 py-1 text-xs font-bold rounded-lg border border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                          />
+                          <button
+                            type="button"
+                            onClick={() => handleSaveInlineName(st)}
+                            disabled={savingInlineName || !inlineEditName.trim()}
+                            className="p-1 rounded bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition disabled:opacity-50"
+                            title="Save Real Name"
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setInlineEditingStudentId(null)}
+                            className="p-1 rounded bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 cursor-pointer transition"
+                            title="Cancel"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <div className="group flex items-center gap-1.5">
+                          <div className="font-bold text-slate-900 dark:text-white flex items-center gap-1.5 flex-wrap">
+                            {st.isOnlineNow && (
+                              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping shrink-0" title="Online right now" />
+                            )}
+                            <span>{st.name}</span>
+                            {(st.name.startsWith('Student ') || /^Student \d+/i.test(st.name) || st.name === 'Aspirant') && (
+                              <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/30">
+                                Set Name
+                              </span>
+                            )}
+                            {st.streakDays > 1 && (
+                              <span className="text-[10px] px-1.5 py-0.2 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-400 font-black">
+                                🔥 {st.streakDays}d
+                              </span>
+                            )}
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setInlineEditingStudentId(st.id);
+                              setInlineEditName(st.name.startsWith('Student ') ? '' : st.name);
+                            }}
+                            className="opacity-0 group-hover:opacity-100 p-1 text-slate-400 hover:text-emerald-500 rounded transition cursor-pointer"
+                            title="Edit Real Name"
+                          >
+                            <Edit2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      )}
                       <div className="text-[11px] text-slate-500 dark:text-slate-400 font-mono mt-0.5">
                         {st.studentId || st.id}
                       </div>
@@ -664,7 +792,53 @@ export const AdminStudents: React.FC = () => {
                 </div>
                 <div>
                   <h3 className="font-black text-base text-slate-900 dark:text-white flex items-center gap-2">
-                    <span>{studentDetail?.student.name || 'Loading...'}</span>
+                    {isEditingName ? (
+                      <div className="flex items-center gap-1.5">
+                        <input
+                          type="text"
+                          value={editedName}
+                          onChange={(e) => setEditedName(e.target.value)}
+                          placeholder="Real student name"
+                          autoFocus
+                          className="px-2.5 py-1 text-xs font-bold rounded-lg border border-emerald-500 bg-white dark:bg-slate-800 text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+                        />
+                        <button
+                          type="button"
+                          onClick={handleSaveStudentName}
+                          disabled={savingName || !editedName.trim()}
+                          className="p-1 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition disabled:opacity-50"
+                          title="Save Name"
+                        >
+                          <Check className="w-3.5 h-3.5" />
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setIsEditingName(false);
+                            setEditedName(studentDetail?.student.name || '');
+                          }}
+                          className="p-1 rounded-lg bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-300 cursor-pointer transition"
+                          title="Cancel"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ) : (
+                      <>
+                        <span>{studentDetail?.student.name || 'Loading...'}</span>
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setEditedName(studentDetail?.student.name || '');
+                            setIsEditingName(true);
+                          }}
+                          className="p-1 rounded-lg text-slate-400 hover:text-emerald-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition cursor-pointer"
+                          title="Edit Student Real Name"
+                        >
+                          <Edit2 className="w-3.5 h-3.5" />
+                        </button>
+                      </>
+                    )}
                     <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                       {studentDetail?.student.studentId || selectedStudentId}
                     </span>
@@ -784,26 +958,26 @@ export const AdminStudents: React.FC = () => {
                     <div className="space-y-4">
                       {/* Metric Stat Cards */}
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
-                        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <div className="p-3.5 rounded-2xl bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
                           <div className="text-[10px] uppercase font-extrabold text-slate-500 dark:text-slate-400">Streak</div>
                           <div className="text-xl font-black text-amber-500 mt-0.5">🔥 {studentDetail.student.streakDays}d</div>
                         </div>
-                        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <div className="p-3.5 rounded-2xl bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
                           <div className="text-[10px] uppercase font-extrabold text-slate-500 dark:text-slate-400">Questions</div>
                           <div className="text-xl font-black text-slate-900 dark:text-white mt-0.5">{studentDetail.student.totalQuestionsSolved}</div>
                         </div>
-                        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <div className="p-3.5 rounded-2xl bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
                           <div className="text-[10px] uppercase font-extrabold text-slate-500 dark:text-slate-400">Accuracy</div>
                           <div className="text-xl font-black text-emerald-600 dark:text-emerald-400 mt-0.5">{studentDetail.student.overallAccuracy}%</div>
                         </div>
-                        <div className="p-3.5 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800">
+                        <div className="p-3.5 rounded-2xl bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800">
                           <div className="text-[10px] uppercase font-extrabold text-slate-500 dark:text-slate-400">Study Time</div>
                           <div className="text-xl font-black text-teal-600 dark:text-teal-400 mt-0.5">{Math.round(studentDetail.student.studyTimeMinutes)}m</div>
                         </div>
                       </div>
 
                       {/* Active Session Telemetry Card */}
-                      <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 space-y-2">
+                      <div className="p-4 rounded-2xl bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 space-y-2">
                         <div className="flex items-center justify-between">
                           <h4 className="font-extrabold text-xs text-slate-900 dark:text-white uppercase tracking-wider flex items-center gap-1.5">
                             <Smartphone className="w-4 h-4 text-emerald-500" />
@@ -812,7 +986,7 @@ export const AdminStudents: React.FC = () => {
                           <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
                             studentDetail.currentSession
                               ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30'
-                              : 'bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
+                              : 'bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-400'
                           }`}>
                             {studentDetail.currentSession ? 'ACTIVE SESSION' : 'OFFLINE / NO ACTIVE SESSION'}
                           </span>
@@ -820,27 +994,27 @@ export const AdminStudents: React.FC = () => {
 
                         {studentDetail.currentSession ? (
                           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-xs">
-                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-                              <span className="text-[10px] text-slate-400 block">Device / OS</span>
-                              <span className="font-bold text-slate-800 dark:text-slate-200">
+                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
+                              <span className="text-[10px] text-slate-500 dark:text-slate-400 block font-medium">Device / OS</span>
+                              <span className="font-bold text-slate-800 dark:text-slate-200 truncate block">
                                 {studentDetail.currentSession.deviceInfo?.device || 'Desktop'} ({studentDetail.currentSession.deviceInfo?.os || 'OS'})
                               </span>
                             </div>
-                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-                              <span className="text-[10px] text-slate-400 block">Browser</span>
-                              <span className="font-bold text-slate-800 dark:text-slate-200">
+                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
+                              <span className="text-[10px] text-slate-500 dark:text-slate-400 block font-medium">Browser</span>
+                              <span className="font-bold text-slate-800 dark:text-slate-200 truncate block">
                                 {studentDetail.currentSession.deviceInfo?.browser || 'Chrome'}
                               </span>
                             </div>
-                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-                              <span className="text-[10px] text-slate-400 block">IP Address</span>
-                              <span className="font-mono font-bold text-slate-800 dark:text-slate-200">
+                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
+                              <span className="text-[10px] text-slate-500 dark:text-slate-400 block font-medium">IP Address</span>
+                              <span className="font-mono font-bold text-slate-800 dark:text-slate-200 truncate block">
                                 {studentDetail.currentSession.ipAddress || '127.0.0.1'}
                               </span>
                             </div>
-                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800">
-                              <span className="text-[10px] text-slate-400 block">Logged In At</span>
-                              <span className="font-bold text-slate-800 dark:text-slate-200">
+                            <div className="p-2.5 rounded-xl bg-white dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800">
+                              <span className="text-[10px] text-slate-500 dark:text-slate-400 block font-medium">Logged In At</span>
+                              <span className="font-bold text-slate-800 dark:text-slate-200 truncate block">
                                 {new Date(studentDetail.currentSession.loginTime || Date.now()).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                               </span>
                             </div>
@@ -853,27 +1027,27 @@ export const AdminStudents: React.FC = () => {
                       </div>
 
                       {/* Account Properties */}
-                      <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-850 border border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800 text-xs">
+                      <div className="p-4 rounded-2xl bg-slate-100/80 dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 divide-y divide-slate-200 dark:divide-slate-800/80 text-xs">
                         <div className="flex justify-between py-2 text-slate-700 dark:text-slate-300">
-                          <span className="text-slate-500">Student ID:</span>
-                          <span className="font-mono font-bold">{studentDetail.student.studentId}</span>
+                          <span className="text-slate-500 dark:text-slate-400 font-medium">Student ID:</span>
+                          <span className="font-mono font-bold text-slate-900 dark:text-slate-100">{studentDetail.student.studentId}</span>
                         </div>
                         <div className="flex justify-between py-2 text-slate-700 dark:text-slate-300">
-                          <span className="text-slate-500">Mobile Number:</span>
-                          <span className="font-mono font-bold">+91 {studentDetail.student.mobile || studentDetail.student.phone || 'N/A'}</span>
+                          <span className="text-slate-500 dark:text-slate-400 font-medium">Mobile Number:</span>
+                          <span className="font-mono font-bold text-slate-900 dark:text-slate-100">+91 {studentDetail.student.mobile || studentDetail.student.phone || 'N/A'}</span>
                         </div>
                         <div className="flex justify-between py-2 text-slate-700 dark:text-slate-300">
-                          <span className="text-slate-500">Registered Date:</span>
-                          <span className="font-bold">{new Date(studentDetail.student.createdAt).toLocaleDateString()}</span>
+                          <span className="text-slate-500 dark:text-slate-400 font-medium">Registered Date:</span>
+                          <span className="font-bold text-slate-900 dark:text-slate-100">{new Date(studentDetail.student.createdAt).toLocaleDateString()}</span>
                         </div>
                         <div className="flex justify-between py-2 text-slate-700 dark:text-slate-300">
-                          <span className="text-slate-500">Last Login:</span>
-                          <span className="font-bold">
+                          <span className="text-slate-500 dark:text-slate-400 font-medium">Last Login:</span>
+                          <span className="font-bold text-slate-900 dark:text-slate-100">
                             {studentDetail.student.lastLoginAt ? new Date(studentDetail.student.lastLoginAt).toLocaleString() : 'Never'}
                           </span>
                         </div>
                         <div className="flex justify-between py-2 text-slate-700 dark:text-slate-300">
-                          <span className="text-slate-500">Account Status:</span>
+                          <span className="text-slate-500 dark:text-slate-400 font-medium">Account Status:</span>
                           <span className={`font-bold ${studentDetail.student.status === 'active' ? 'text-emerald-600 dark:text-emerald-400' : 'text-rose-600 dark:text-rose-400'}`}>
                             {studentDetail.student.status === 'active' ? 'ACTIVE' : 'BLOCKED'}
                           </span>

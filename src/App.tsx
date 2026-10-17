@@ -11,8 +11,10 @@ import { AdminRouteGuard } from './components/auth/AdminRouteGuard';
 import { OAuthCallbackWatcher } from './components/auth/OAuthCallbackWatcher';
 
 import { AuthProvider } from './context/AuthContext';
+import { ReportChatProvider } from './context/ReportChatContext';
 import { NetworkBanner } from './components/common/NetworkBanner';
 import { AuthModal } from './components/auth/AuthModal';
+import { ReportChatFloatingWidget } from './components/common/ReportChatFloatingWidget';
 
 function lazyPage<T extends React.ComponentType<any>>(
   importer: () => Promise<any>,
@@ -103,6 +105,10 @@ const AdminSystemSecurity = lazyPage(() => import('./pages/admin/AdminSystemSecu
 const AdminSettingsPage = lazyPage(() => import('./pages/admin/AdminSettingsPage'), 'AdminSettingsPage');
 const AdminAuthorityPage = lazyPage(() => import('./pages/admin/AdminAuthorityPage'), 'AdminAuthorityPage');
 const AdminLectureDiscovery = lazyPage(() => import('./pages/admin/AdminLectureDiscovery'), 'AdminLectureDiscovery');
+const AdminActiveUsers = lazyPage(() => import('./pages/admin/AdminActiveUsers'), 'AdminActiveUsers');
+const AdminNotifications = lazyPage(() => import('./pages/admin/AdminNotifications'), 'AdminNotifications');
+import { NotificationPromptModal } from './components/common/NotificationPromptModal';
+import { RealNamePromptModal } from './components/common/RealNamePromptModal';
 
 interface ErrorBoundaryState {
   hasError: boolean;
@@ -211,11 +217,15 @@ export const App: React.FC = () => {
 
   return (
     <AuthProvider>
-      <NetworkBanner />
-      <BrowserRouter>
-        <AuthModal />
-        <OAuthCallbackWatcher />
-        <ChunkErrorBoundary>
+      <ReportChatProvider>
+        <NetworkBanner />
+        <BrowserRouter>
+          <AuthModal />
+          <OAuthCallbackWatcher />
+          <NotificationPromptModal />
+          <RealNamePromptModal />
+          <ReportChatFloatingWidget />
+          <ChunkErrorBoundary>
           <Suspense fallback={<PageFallback />}>
           <Routes>
             {/* Public Authentication Routes */}
@@ -306,6 +316,8 @@ export const App: React.FC = () => {
             {/* Dedicated Admin Control Center Layout (Strict Super Admin Whitelist Guard) */}
             <Route element={<AdminRouteGuard><AdminLayout /></AdminRouteGuard>}>
               <Route path="/admin" element={<AdminDashboard />} />
+              <Route path="/admin/active-users" element={<AdminActiveUsers />} />
+              <Route path="/admin/notifications" element={<AdminNotifications />} />
               <Route path="/admin/authority" element={<AdminAuthorityPage />} />
               <Route path="/admin/students" element={<AdminStudents />} />
               <Route path="/admin/users" element={<AdminUsers />} />
@@ -328,6 +340,7 @@ export const App: React.FC = () => {
         </Suspense>
         </ChunkErrorBoundary>
       </BrowserRouter>
+      </ReportChatProvider>
     </AuthProvider>
   );
 };

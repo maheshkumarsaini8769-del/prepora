@@ -47,6 +47,9 @@ export const clearAdminCache = (keyPrefix?: string) => {
   }
 };
 
+// Request deduplication map to prevent parallel duplicate GET requests across components/tabs
+const inFlightRequests = new Map<string, Promise<Response>>();
+
 export const adminFetch = async (input: RequestInfo | URL, init?: RequestInit): Promise<Response> => {
   const token = getAuthToken();
   const headers = new Headers(init?.headers || {});
@@ -54,14 +57,32 @@ export const adminFetch = async (input: RequestInfo | URL, init?: RequestInit): 
     headers.set('Authorization', `Bearer ${token}`);
   }
 
-  // Clear cache on mutations (POST, PUT, DELETE)
   const method = (init?.method || 'GET').toUpperCase();
   if (method !== 'GET') {
     clearAdminCache();
+    return fetch(input, { ...init, headers });
   }
 
-  return fetch(input, {
-    ...init,
-    headers
-  });
+  // Deduplicate identical GET requests in flight
+  const urlKey = typeof input === 'string' ? input : (input as any)?.url || String(input);
+  if (inFlightRequests.has(urlKey)) {
+    try {
+      const existing = await inFlightRequests.get(urlKey)!;
+      return existing.clone();
+    } catch {
+      inFlightRequests.delete(urlKey);
+    }
+  }
+
+  const requestPromise = fetch(input, { ...init, headers });
+  inFlightRequests.set(urlKey, requestPromise);
+
+  try {
+    const res = await requestPromise;
+    inFlightRequests.delete(urlKey);
+    return res.clone();
+  } catch (err) {
+    inFlightRequests.delete(urlKey);
+    throw err;
+  }
 };

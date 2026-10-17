@@ -15,10 +15,12 @@ import {
   Check,
   Zap,
   Sparkles,
-  BookMarked
+  BookMarked,
+  Edit2
 } from 'lucide-react';
 import { soundFeedback } from '../utils/audioFeedback';
 import { userService } from '../services/userService';
+import { useAuth } from '../context/AuthContext';
 import { getColorMode, ColorMode } from '../utils/theme';
 import { HeroStudentIllustration, ScenicMountainBanner } from '../components/home/HomeVisualAssets';
 import { PreparationType, CanonicalExam, ClassLevel, UserProfile } from '../types';
@@ -26,14 +28,18 @@ import { getAllowedSubjectsForExam } from '../utils/examUtils';
 
 export const Home: React.FC = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState<UserProfile>(() => userService.getProfile());
+  const { user: authUser, updateUser } = useAuth();
+  const [localProfile, setLocalProfile] = useState<UserProfile>(() => userService.getProfile());
   const [isDark, setIsDark] = useState<boolean>(() => getColorMode() === 'dark');
+
+  // Unified user: prioritize authenticated live user from AuthContext/MongoDB
+  const user = authUser || localProfile;
 
   useEffect(() => {
     userService.checkAndTriggerStreakWarning();
 
     const handleProfileUpdate = () => {
-      setUser(userService.getProfile());
+      setLocalProfile(userService.getProfile());
     };
     window.addEventListener('prepora:profile_updated', handleProfileUpdate);
     window.addEventListener('prepora:daily_goal_reached', handleProfileUpdate);
@@ -42,6 +48,27 @@ export const Home: React.FC = () => {
       window.removeEventListener('prepora:daily_goal_reached', handleProfileUpdate);
     };
   }, []);
+
+  // Inline Name Editor on Home Page
+  const [isEditingHomeName, setIsEditingHomeName] = useState<boolean>(false);
+  const [homeNameInput, setHomeNameInput] = useState<string>('');
+  const [savingHomeName, setSavingHomeName] = useState<boolean>(false);
+
+  const handleSaveHomeName = async () => {
+    const clean = homeNameInput.trim();
+    if (!clean || clean.length < 2) return;
+    setSavingHomeName(true);
+    soundFeedback.playClick();
+    try {
+      await updateUser({ name: clean });
+      soundFeedback.playSuccess();
+      setIsEditingHomeName(false);
+    } catch {
+      // ignore
+    } finally {
+      setSavingHomeName(false);
+    }
+  };
 
   useEffect(() => {
     const handleColorChange = (e: Event) => {
@@ -74,11 +101,15 @@ export const Home: React.FC = () => {
     return 'Good evening';
   };
 
-  // Student name (defaults gracefully to user's name or 'Mahesh')
-  const studentName =
-    user.name && user.name.trim() !== '' && user.name !== 'System Owner'
-      ? user.name.split(' ')[0]
-      : 'Mahesh';
+  // Student name (defaults gracefully to user's real first name)
+  const studentName = (() => {
+    const raw = (user.name || '').trim();
+    if (!raw || raw === 'System Owner') return 'Aspirant';
+    if (/^(Student|User)\s*\d+$/i.test(raw) || raw === 'Student') {
+      return 'Future Topper';
+    }
+    return raw.split(' ')[0];
+  })();
 
   // Days remaining for target competitive exam
   const examDaysRemaining = prepType === 'NEET' ? 127 : prepType === 'JEE' ? 94 : 61;
@@ -156,10 +187,58 @@ export const Home: React.FC = () => {
           <div className="text-xs sm:text-sm font-semibold text-slate-600 dark:text-slate-300">
             {getGreeting()},
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5 truncate">
-            <span>{studentName}</span>
-            <span className="inline-block text-xl sm:text-2xl animate-bounce">👋</span>
-          </h1>
+          {isEditingHomeName ? (
+            <div className="flex items-center gap-1.5 pt-1">
+              <input
+                type="text"
+                value={homeNameInput}
+                onChange={(e) => setHomeNameInput(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') handleSaveHomeName();
+                  if (e.key === 'Escape') setIsEditingHomeName(false);
+                }}
+                placeholder="Apna Real Name Daalein"
+                autoFocus
+                className="px-3 py-1 text-base sm:text-lg font-bold rounded-xl border border-emerald-500 bg-white dark:bg-slate-900 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-emerald-500 w-48 sm:w-64"
+              />
+              <button
+                type="button"
+                onClick={handleSaveHomeName}
+                disabled={savingHomeName || !homeNameInput.trim()}
+                className="p-1.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white cursor-pointer transition disabled:opacity-50"
+                title="Save Real Name"
+              >
+                <Check className="w-4 h-4" />
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsEditingHomeName(false)}
+                className="p-1.5 rounded-xl bg-slate-200 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-300 cursor-pointer transition"
+                title="Cancel"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2 flex-wrap">
+              <h1 className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-1.5 truncate">
+                <span>{studentName}</span>
+                <span className="inline-block text-xl sm:text-2xl animate-bounce">👋</span>
+              </h1>
+              <button
+                type="button"
+                onClick={() => {
+                  setHomeNameInput(user.name && !user.name.startsWith('Student ') ? user.name : '');
+                  setIsEditingHomeName(true);
+                }}
+                className="inline-flex items-center gap-1 px-2 py-0.5 rounded-lg text-slate-400 hover:text-emerald-500 hover:bg-emerald-500/10 transition text-xs font-bold cursor-pointer"
+                title="Edit Student Name"
+              >
+                <Edit2 className="w-3.5 h-3.5" />
+                <span className="text-[11px] hidden sm:inline">Edit Name</span>
+              </button>
+            </div>
+          )}
           <p className="text-xs text-slate-500 dark:text-slate-400 italic font-medium pt-0.5 leading-snug">
             {isDark
               ? '"Consistent effort today builds the rank tomorrow."'
@@ -694,10 +773,10 @@ export const Home: React.FC = () => {
           <div>
             <div className="text-xs font-bold text-slate-500 dark:text-slate-400">Study Streak</div>
             <div className="text-base sm:text-lg font-black text-amber-500 leading-tight">
-              {user.streakDays || 6} {user.streakDays === 1 ? 'day' : 'days'}
+              {user.streakDays || 0} {(user.streakDays || 0) === 1 ? 'day' : 'days'}
             </div>
             <div className="text-[10px] sm:text-[11px] text-amber-600/90 dark:text-amber-400/90 font-semibold">
-              Keep it going! 🔥
+              {(user.streakDays || 0) > 0 ? 'Keep it going! 🔥' : 'Start your streak today! 🚀'}
             </div>
           </div>
         </div>
@@ -705,8 +784,8 @@ export const Home: React.FC = () => {
         {/* 7 Days of Week (M T W T F S S) with Green Checkmark Circles */}
         <div className="flex items-center gap-1.5 sm:gap-2">
           {['M', 'T', 'W', 'T', 'F', 'S', 'S'].map((day, i) => {
-            const streakVal = user.streakDays || 6;
-            const isChecked = i < Math.min(streakVal, 7);
+            const streakVal = user.streakDays || 0;
+            const isChecked = streakVal > 0 && i < Math.min(streakVal, 7);
             return (
               <div key={i} className="flex flex-col items-center gap-1">
                 <span className="text-[9px] sm:text-[10px] font-bold text-slate-400">{day}</span>
@@ -768,7 +847,8 @@ export const Home: React.FC = () => {
                         subjects: ex === 'NEET' ? ['Physics', 'Chemistry', 'Biology'] : ['Physics', 'Chemistry', 'Mathematics']
                       };
                       localStorage.setItem('prepora_preparation_profile', JSON.stringify(updatedPrep));
-                      setUser(userService.getProfile());
+                      updateUser({ targetExam: ex, preparationProfile: updatedPrep });
+                      setLocalProfile(userService.getProfile());
                     }}
                     className={`py-2 px-3 rounded-xl text-xs font-bold border transition cursor-pointer ${
                       prepType === ex
@@ -793,11 +873,13 @@ export const Home: React.FC = () => {
                     key={cls}
                     type="button"
                     onClick={() => {
-                      userService.updateProfile({ classLevel: cls === 'Dropper' ? '12' : cls });
+                      const newCls = cls === 'Dropper' ? '12' : cls;
+                      userService.updateProfile({ classLevel: newCls });
                       const currentPrep = user.preparationProfile || ({} as any);
                       const updatedPrep = { ...currentPrep, classLevel: cls };
                       localStorage.setItem('prepora_preparation_profile', JSON.stringify(updatedPrep));
-                      setUser(userService.getProfile());
+                      updateUser({ classLevel: newCls });
+                      setLocalProfile(userService.getProfile());
                     }}
                     className={`py-2 px-2.5 rounded-xl text-xs font-bold border transition cursor-pointer ${
                       classLevel === cls

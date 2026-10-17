@@ -28,8 +28,16 @@ const router = Router();
 let cachedStats: { data: any; timestamp: number } | null = null;
 const STATS_CACHE_TTL_MS = 15000; // 15 seconds
 
+let cachedBadgeCounts: { data: any; timestamp: number } | null = null;
+const BADGE_CACHE_TTL_MS = 20000; // 20 seconds
+
+let cachedUsersOverview: { data: any; timestamp: number } | null = null;
+const USERS_OVERVIEW_TTL_MS = 15000; // 15 seconds
+
 export const invalidateAdminStatsCache = () => {
   cachedStats = null;
+  cachedBadgeCounts = null;
+  cachedUsersOverview = null;
 };
 
 // CRITICAL: All admin routes require authentication + admin role
@@ -322,6 +330,11 @@ router.get('/stats', async (req: Request, res: Response) => {
 // GET /api/admin/badge-counts - Fast 2ms query for layout badges (prevents heavy queries on every tab click)
 router.get('/badge-counts', async (req: Request, res: Response) => {
   try {
+    const forceRefresh = req.query.refresh === 'true' || req.query.refresh === '1';
+    if (!forceRefresh && cachedBadgeCounts && (Date.now() - cachedBadgeCounts.timestamp < BADGE_CACHE_TTL_MS)) {
+      return res.json({ success: true, ...cachedBadgeCounts.data, cached: true });
+    }
+
     const [pendingQuestions, questionReports, technicalReports, feedbacks] = await Promise.all([
       Question.countDocuments({ status: 'Pending' }).catch(() => 0),
       QuestionReport.countDocuments({ status: { $in: ['Pending', 'Under Review'] } }).catch(() => 0),
@@ -329,11 +342,16 @@ router.get('/badge-counts', async (req: Request, res: Response) => {
       StudentFeedback.countDocuments({ status: { $in: ['Pending', 'In Review'] } }).catch(() => 0)
     ]);
 
-    res.json({
-      success: true,
+    const result = {
       pendingReviews: pendingQuestions,
       pendingReports: questionReports + technicalReports,
       pendingFeedbacks: feedbacks
+    };
+    cachedBadgeCounts = { data: result, timestamp: Date.now() };
+
+    res.json({
+      success: true,
+      ...result
     });
   } catch (err: any) {
     res.status(500).json({ success: false, error: err.message });
@@ -727,6 +745,60 @@ router.put('/students/:id/status', async (req: Request, res: Response) => {
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: 'Failed to update student status', error: error.message });
+  }
+});
+
+// PUT /api/admin/students/:id - Update student details (Name, Exam, Class, Target Year)
+router.put('/students/:id', async (req: Request, res: Response) => {
+  try {
+    const { id } = req.params;
+    const { name, targetExam, classLevel, targetYear, dreamScore, mobile, phone } = req.body;
+    const cleanPhoneDigits = String(id).replace(/[^0-9]/g, '').slice(-10);
+
+    const user = await User.findOne({
+      $or: [
+        { id },
+        { studentId: id },
+        { mobile: id },
+        { phone: id },
+        ...(cleanPhoneDigits.length === 10 ? [{ mobile: cleanPhoneDigits }, { phone: cleanPhoneDigits }, { email: `phone_${cleanPhoneDigits}@prepora.student` }] : []),
+        ...(mongoose.Types.ObjectId.isValid(id) ? [{ _id: id }] : [])
+      ]
+    });
+
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'Student not found.' });
+    }
+
+    if (name && typeof name === 'string' && name.trim()) {
+      user.name = name.trim();
+    }
+    if (targetExam) user.targetExam = targetExam;
+    if (classLevel) user.classLevel = classLevel;
+    if (targetYear) user.targetYear = Number(targetYear);
+    if (dreamScore) user.dreamScore = Number(dreamScore);
+    if (mobile || phone) {
+      const clean = String(mobile || phone).replace(/[^0-9]/g, '').slice(-10);
+      if (clean.length === 10) {
+        user.mobile = clean;
+        user.phone = clean;
+      }
+    }
+
+    await user.save();
+    invalidateAdminStatsCache();
+
+    const userObj = user.toObject();
+    delete (userObj as any).passwordHash;
+    delete (userObj as any).otpCode;
+
+    res.json({
+      success: true,
+      message: `Student details updated successfully for ${user.name}.`,
+      data: userObj
+    });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: 'Failed to update student details', error: error.message });
   }
 });
 
@@ -2235,6 +2307,12 @@ router.delete('/papers/:id', async (req: AuthRequest, res: Response) => {
 router.get('/users-overview', async (req: AuthRequest, res: Response) => {
   try {
     const { search } = req.query;
+    const forceRefresh = req.query.refresh === 'true' || req.query.refresh === '1';
+
+    if (!search && !forceRefresh && cachedUsersOverview && (Date.now() - cachedUsersOverview.timestamp < USERS_OVERVIEW_TTL_MS)) {
+      return res.json({ success: true, ...cachedUsersOverview.data, cached: true });
+    }
+
     const query: any = {};
     if (search) {
       const clean = String(search).trim();
@@ -2257,14 +2335,14 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
       User.find(query)
         .select('id studentId name phone mobile email role status passwordHash createdAt targetExam classLevel')
         .sort({ createdAt: -1 })
-        .limit(500)
+        .limit(300)
         .lean(),
       User.countDocuments(query),
       User.countDocuments({ ...query, passwordHash: { $exists: true, $nin: [null, ''] } }),
       Session.find({ isRevoked: { $ne: true } })
         .select('userId studentId lastActive createdAt deviceInfo ipAddress')
         .sort({ lastActive: -1, createdAt: -1 })
-        .limit(5000)
+        .limit(300)
         .lean()
     ]);
 
@@ -2351,8 +2429,7 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
       if (recentLogins.length >= 12) break;
     }
 
-    res.json({
-      success: true,
+    const responsePayload = {
       stats: {
         totalUsers,
         withPassword,
@@ -2362,6 +2439,15 @@ router.get('/users-overview', async (req: AuthRequest, res: Response) => {
       },
       users: list,
       recentLogins
+    };
+
+    if (!search) {
+      cachedUsersOverview = { data: responsePayload, timestamp: Date.now() };
+    }
+
+    res.json({
+      success: true,
+      ...responsePayload
     });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
@@ -2396,6 +2482,127 @@ router.post('/users/:id/set-password', async (req: AuthRequest, res: Response) =
       metadata: { by: req.user?.email }
     }).catch(() => null);
     res.json({ success: true, message: 'Password set successfully.', user });
+  } catch (error: any) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+});
+
+// ==========================================
+// ACTIVE USERS ONLY — Live monitor for real-time online students
+// ==========================================
+router.get('/active-users', async (req: AuthRequest, res: Response) => {
+  try {
+    const { window = '15', search = '', exam = 'ALL' } = req.query;
+    const windowMinutes = Math.max(1, parseInt(String(window), 10) || 15);
+    const windowDate = new Date(Date.now() - windowMinutes * 60 * 1000);
+    const fiveMinutesAgo = new Date(Date.now() - 5 * 60 * 1000);
+    const startOfToday = new Date();
+    startOfToday.setHours(0, 0, 0, 0);
+
+    // Fetch active sessions within requested window
+    const [activeSessions, totalOnlineNow, totalActiveToday] = await Promise.all([
+      Session.find({ isRevoked: false, lastActive: { $gte: windowDate } })
+        .sort({ lastActive: -1 })
+        .limit(200)
+        .lean(),
+      Session.countDocuments({ isRevoked: false, lastActive: { $gte: fiveMinutesAgo } }),
+      Session.countDocuments({ isRevoked: false, lastActive: { $gte: startOfToday } })
+    ]);
+
+    const userIds = activeSessions.map(s => String(s.userId || s.studentId || '')).filter(Boolean);
+    const validObjectIds = userIds.filter(id => mongoose.Types.ObjectId.isValid(id));
+    const orConditions: any[] = [
+      { id: { $in: userIds } },
+      { studentId: { $in: userIds } }
+    ];
+    if (validObjectIds.length > 0) {
+      orConditions.push({ _id: { $in: validObjectIds } });
+    }
+
+    const users = userIds.length > 0
+      ? await User.find({ $or: orConditions })
+          .select('_id id studentId name phone mobile email role targetExam classLevel avatar studyTimeMinutes overallAccuracy testsCompleted').lean()
+      : [];
+
+    const userMap = new Map<string, any>();
+    users.forEach(u => {
+      if (u.id) userMap.set(String(u.id), u);
+      if (u.studentId) userMap.set(String(u.studentId), u);
+      if (u._id) userMap.set(String(u._id), u);
+    });
+
+    const seenPhones = new Set<string>();
+    const seenUserIds = new Set<string>();
+    const activeList: any[] = [];
+
+    for (const s of activeSessions) {
+      const u = userMap.get(String(s.userId)) || userMap.get(String(s.studentId));
+      const cleanPhone = (u?.mobile || u?.phone || s.mobile || s.phone || '').replace(/[^0-9]/g, '').slice(-10);
+      const uid = String(u?.id || s.userId || '');
+
+      // Exclude admin accounts
+      if (u?.role === 'admin' || cleanPhone === '7742735762' || cleanPhone === '9660291825') {
+        continue;
+      }
+
+      // Deduplicate by clean mobile or user ID
+      if (cleanPhone.length === 10) {
+        if (seenPhones.has(cleanPhone)) continue;
+        seenPhones.add(cleanPhone);
+      } else if (uid) {
+        if (seenUserIds.has(uid)) continue;
+        seenUserIds.add(uid);
+      }
+
+      const lastActiveTime = new Date(s.lastActive || s.updatedAt || s.createdAt).getTime();
+      const isOnlineNow = (Date.now() - lastActiveTime) <= 5 * 60 * 1000;
+      const lastActiveAgoSec = Math.max(0, Math.round((Date.now() - lastActiveTime) / 1000));
+      const durationMin = Math.max(1, Math.round((lastActiveTime - new Date(s.createdAt).getTime()) / 60000));
+
+      const studentExam = u?.targetExam || 'JEE';
+      if (exam !== 'ALL' && studentExam.toUpperCase() !== String(exam).toUpperCase()) {
+        continue;
+      }
+
+      if (search) {
+        const q = String(search).toLowerCase();
+        const matchesName = (u?.name || '').toLowerCase().includes(q);
+        const matchesPhone = cleanPhone.includes(q);
+        const matchesEmail = (u?.email || '').toLowerCase().includes(q);
+        if (!matchesName && !matchesPhone && !matchesEmail) continue;
+      }
+
+      activeList.push({
+        id: uid || s.id,
+        sessionId: s.id,
+        name: u?.name || (cleanPhone ? `Student ${cleanPhone.slice(-4)}` : 'Aspirant'),
+        phone: cleanPhone || '—',
+        email: u?.email || '—',
+        targetExam: studentExam,
+        classLevel: u?.classLevel || '12',
+        device: s.deviceInfo?.device || s.deviceInfo?.browser || 'Mobile',
+        browser: s.deviceInfo?.browser || 'Web Browser',
+        ipAddress: s.ipAddress || '',
+        isOnlineNow,
+        lastActiveAgoSec,
+        lastActive: s.lastActive || s.createdAt,
+        sessionDurationMinutes: durationMin,
+        studyTimeMinutes: u?.studyTimeMinutes || 0
+      });
+    }
+
+    const onlineNowStudents = activeList.filter(u => u.isOnlineNow).length;
+
+    res.json({
+      success: true,
+      stats: {
+        onlineNow: onlineNowStudents,
+        activeInWindow: activeList.length,
+        activeToday: totalActiveToday,
+        windowMinutes
+      },
+      users: activeList
+    });
   } catch (error: any) {
     res.status(500).json({ success: false, message: error.message });
   }

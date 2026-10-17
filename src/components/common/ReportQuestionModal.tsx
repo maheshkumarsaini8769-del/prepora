@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { X, AlertTriangle, CheckCircle2, MessageSquare } from 'lucide-react';
 import { Button } from './UIComponents';
 import { useAuth } from '../../context/AuthContext';
+import { useReportChat } from '../../context/ReportChatContext';
 
 export interface ReportQuestionModalProps {
   isOpen: boolean;
@@ -28,6 +29,7 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
   questionSnippet
 }) => {
   const { user } = useAuth();
+  const { openReportChat } = useReportChat();
   const [selectedReason, setSelectedReason] = useState<string>(REPORT_REASONS[0]);
   const [comment, setComment] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
@@ -41,6 +43,9 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
     setLoading(true);
     setError(null);
 
+    const reportMsg = comment.trim() || selectedReason;
+    const phone = user.phone || user.mobile || localStorage.getItem('prepora_user_phone') || '';
+
     try {
       const res = await fetch('/api/reports/question', {
         method: 'POST',
@@ -48,8 +53,10 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
         body: JSON.stringify({
           questionId,
           reason: selectedReason,
-          message: comment,
+          message: reportMsg,
           userId: user.id || 'anonymous',
+          userName: user.name || 'Student',
+          userPhone: phone,
           userEmail: user.email || ''
         })
       });
@@ -57,16 +64,28 @@ export const ReportQuestionModal: React.FC<ReportQuestionModalProps> = ({
       const data = await res.json();
       if (res.ok && data.success) {
         setSubmitted(true);
+        // Immediately transition into interactive live report chat
         setTimeout(() => {
           setSubmitted(false);
           setComment('');
           onClose();
-        }, 1800);
+          openReportChat({
+            questionId,
+            reason: selectedReason,
+            message: reportMsg
+          });
+        }, 500);
       } else {
         setError(data.message || 'Failed to submit report. Please try again.');
       }
     } catch {
-      setError('Network error. Your report could not be submitted right now.');
+      // Fallback: still open chat so student's report is saved locally and in thread
+      onClose();
+      openReportChat({
+        questionId,
+        reason: selectedReason,
+        message: reportMsg
+      });
     } finally {
       setLoading(false);
     }
